@@ -1,6 +1,6 @@
 <!-- 系统公告 -->
 <template>
-    <div class="notice_dialog">
+    <div class="notice_dialog" :class="['notice_dialog_' + noticeList[currentIndex].type]">
         <img class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X">
 
         <!-- 头部装饰 -->
@@ -90,7 +90,7 @@ const closeDialog = () => { // 关闭弹窗
 .notice_dialog {
     position: relative;
     border-radius: 16px;
-    background-image: url('/img/home/notice_bg.png');
+    background-image: url('/img/home/notice_bg_0.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 400px;
@@ -192,5 +192,13 @@ const closeDialog = () => { // 关闭弹窗
     .custom-dots li.is-active {
         width: 40px;
     }
+}
+
+.notice_dialog_1 {
+    background-image: url('/img/home/notice_bg_1.png');
+}
+
+.notice_dialog_2 {
+    background-image: url('/img/home/notice_bg_2.png');
 }
 </style>

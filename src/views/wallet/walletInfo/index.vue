@@ -5,6 +5,11 @@
   <!--<Transfer v-if="showTransfer" />-->
   <RedeemCode v-if="showRedeemCode" />
   <!--   <levelRule ref="levelModal" />-->
+  <!--  提款校验-->
+  <Calibration  ref="calibrationRef" :myBankList="myBankList"/>
+
+  <!-- 提款 -->
+  <WithdrawMoney ref="withdrawMoneyRef" :myBankList="myBankList"/>
 
   <n-spin :show="loading">
     <n-flex vertical>
@@ -39,9 +44,13 @@
             <div class="button" block @click="openDepositFir">
               <p class="size2"> {{ t('deposit_page_deposit') }} </p>
             </div>
-            <div class="button" block @click="goToWithdraw">
+<!--            <div class="button" block @click="goToWithdraw">-->
+<!--              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>-->
+<!--            </div>-->
+            <div class="button" block @click="goCalibration">
               <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>
             </div>
+
             <div class="button" block @click="() => showRedeemCodeModal(true)">
               <p class="size2"> {{ t('walletInfo_page_code') }} </p>
             </div>
@@ -184,13 +193,15 @@
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
 // import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 // import { EAllWallets, EWallets } from '@/enums/walletEnum';
 import useWalletInfo from './useWalletInfo';
 import Withdraw from '@/views/wallet/components/Withdraw.vue';
 import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 // import Deposit from '@/views/wallet/deposit/Deposit.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
+import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
+import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
@@ -206,6 +217,20 @@ const depositFirModal = ref();
 const openDepositFir = () => {
   depositFirModal.value.openModal();
 }
+
+
+const withdrawMoneyShow = ref(false)
+
+const goCalibration = () => {
+
+  withdrawMoneyShow.value = true
+  nextTick(() => {
+    goToWithdraw()
+  })
+}
+
+
+
 
 const {
   loading,
@@ -245,6 +270,8 @@ const {
   handleSubmit,
   slideStr,
   chooseFastMon,
+  calibrationRef,
+  withdrawMoneyRef
 } = useWalletInfo()
 
 
