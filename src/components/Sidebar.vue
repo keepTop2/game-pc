@@ -1,0 +1,403 @@
+<template>
+    <div class="sidebar">
+        <div class="game_records">
+            <div
+                @click="router.push({ path: '/gameMain/gameRecords', query: { name: 'home_page_recentGameHistory' } })">
+                <iconpark-icon icon-id="Group39319" color="#fff" size="1.5em"></iconpark-icon>
+                <span>{{ t('home_page_recentGameHistory') }}</span>
+            </div>
+
+            <span class=""> 0</span>
+        </div>
+        <!-- <div class="sidebar_public" v-for="(item, i) in state.clubList" :key="i">
+            <p> {{ t(item.title) }} </p>
+            <div :class="`club_box${g}`" v-for="(game, g) in item.list" :key="g" @click="itemClick(game)">
+                <p>
+                    <img :src="game.icon" alt="" class="float_img" />
+                    <span>{{ t(game.name) }}</span>
+                </p>
+            </div>
+        </div> -->
+        <div class="sidebar_public" v-for="(item, i) in state.sideList" :key="i">
+            <p> {{ t(item.title) }} </p>
+            <div>
+                <p :class="state.active == game.name ? 'hover' : ''" v-for="(game, g) in item.list" :key="g"
+                    @click="itemClick(game)">
+                    <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
+                    <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon>
+                    <span>{{ t(game.name) }}</span>
+                </p>
+            </div>
+
+        </div>
+
+        <!-- 俱乐部 -->
+        <club ref="clubModal" :openType="openType" />
+    </div>
+</template>
+<script lang="ts" setup name="sider">
+import { defineAsyncComponent, onMounted, reactive, ref, watch } from "vue";
+import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import pinia from '@/store/index';
+import { User } from '@/store/user';
+const { t } = useI18n();
+
+const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
+const router = useRouter();
+const route = useRoute();
+
+const userinfo = User(pinia);
+const { hasLogin } = storeToRefs(userinfo);
+
+// const route = useRoute();
+
+const clubModal = ref()
+const openType = ref('club')
+
+const state: any = reactive({
+    active: '',
+    clubList: [
+        {
+            title: 'home_page_club',
+            list: [
+                {
+                    icon: '/img/home/club1.webp',
+
+                    name: 'home_page_club',
+                    url: '',
+                    color: '',
+                    value: 'club',
+                },
+                {
+                    icon: '/img/home/club2.webp',
+
+                    name: 'home_page_clubCreated',
+                    url: '',
+                    color: '',
+                    value: 'clubJoin',
+                },
+            ]
+        },
+    ],
+    sideList: [
+
+        {
+            title: 'home_page_game',
+            list: [
+                {
+                    icon: 'Group39096',
+                    name: 'home_page_slot',
+                    url: '/gameMain/gamingPlatform',
+                    color: '',
+                    value: '',
+                },
+                {
+                    icon: 'Group39095',
+                    name: 'home_page_live',
+                    url: '/gameMain/gamingPlatform',
+                    color: '',
+                    value: '',
+                },
+                {
+                    icon: 'Group39098',
+                    name: 'home_page_fishing',
+                    url: '/gameMain/gamingPlatform',
+                    color: '',
+                    value: '',
+                },
+
+                {
+                    icon: 'Group39099',
+                    name: 'home_page_sportsGame',
+                    url: '/gameMain/gamingPlatform',
+                    color: '',
+                    value: '',
+                },
+                {
+                    icon: 'Group1556235261',
+                    name: 'home_page_pokerGame',
+                    url: '/gameMain/gamingPlatform',
+                    color: '',
+                    value: '',
+                },
+                {
+                    icon: 'Group1556235309',
+                    name: 'home_page_lotteryGame',
+                    url: '/gameMain/gamingPlatform',
+                    color: '',
+                    value: '',
+                },
+            ],
+        },
+        {
+            title: 'home_page_activity',
+            list: [
+                {
+                    icon: 'Group39311',
+                    name: 'home_page_clubExclusive',
+                    url: '/gameMain/activity',
+                    color: '',
+                    value: '5',
+                },
+                {
+                    icon: 'Group39310',
+                    name: 'home_page_BYExclusive',
+                    url: '/gameMain/activity',
+                    color: '',
+                    value: '1',
+                },
+                {
+                    icon: 'Group39312',
+                    name: 'home_page_sportsActivities',
+                    url: '/gameMain/activity',
+                    color: '',
+                    value: '2',
+                },
+                {
+                    icon: 'Group39318',
+                    name: 'home_page_liveActivities',
+                    url: '/gameMain/activity',
+                    color: '',
+                    value: '3',
+                },
+                {
+                    icon: 'Group39322',
+                    name: 'home_page_slotActivity',
+                    url: '/gameMain/activity',
+                    color: '',
+                    value: '4',
+                },
+                // {
+                //     icon: 'Group39324',
+                //     name: 'home_page_leagueActivities',
+                //     url: '/gameMain/activity',
+                //     color: '',
+                //     value: '1',
+                // },
+
+                // {
+                //     icon: 'Group39326',
+                //     name: 'home_page_events',
+                //     url: '/gameMain/activity',
+                //     color: '',
+                //     value: '1',
+                // },
+                // {
+                //     icon: 'Group39325',
+                //     name: 'home_page_europeanCupActivities',
+                //     url: '/gameMain/activity',
+                //     color: '',
+                //     value: '1',
+                // },
+            ]
+        },
+        {
+            title: 'home_page_agencyCenter',
+            list: [
+                {
+                    icon: 'Group39329',
+                    name: 'home_page_agencyCooperation',
+                    url: '',
+                    color: '',
+                    value: 'proxy_coop',
+                },
+                {
+                    icon: 'Group39328',
+                    name: 'home_page_agentIntroduction',
+                    url: '/gameMain/proxyIntroduction',
+                    color: '',
+                    value: '',
+                },
+            ]
+        },
+        {
+            title: 'home_page_vipLevel',
+            list: [
+                {
+                    icon: 'Group39330',
+                    name: 'home_page_vipLevel',
+                    url: '/gameMain/levelInfo',
+                    color: '',
+                    value: 'level',
+                },
+                {
+                    icon: 'huiyuandengji',
+                    name: 'level_page_rule',
+                    url: '/gameMain/levelRule',
+                    color: '',
+                    value: 'level',
+                },
+            ]
+        },
+
+    ],
+})
+
+const itemClick = (item: any) => {
+    if (item.url) {
+        router.push(
+            {
+                path: item.url,
+                query: {
+                    name: item.name
+                }
+            }
+        )
+    }
+    // 俱乐
+    if (['club', 'clubJoin'].includes(item.value)) {
+        openType.value = item.value
+        clubModal.value.openModal()
+    }
+    // 代理合作
+    if (item.value === 'proxy_coop') {
+        if (!hasLogin.value) {// 未登录
+            userinfo.setLogin(true)
+            return
+        }
+        router.push({ name: 'proxyCooperation' })
+    }
+    state.active = item.name
+}
+onMounted(async () => {
+    if (route.query.name) {
+        state.active = route.query.name
+    }
+});
+watch(
+    () => route.query.name,
+    async (n: any) => {
+        if (n) {
+            state.active = route.query.name
+        }
+    }
+)
+</script>
+<style lang='less' scoped>
+.sidebar {
+    width: 270px;
+    box-sizing: border-box;
+    box-shadow: 0 -1px 10px 0 rgba(0, 0, 0, 0.4);
+    background-color: #2d1769;
+    padding: 33px 10px 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    color: #8e82c2;
+
+    >.sidebar_public {
+        >p {
+            margin: 34px 0 6px;
+        }
+
+        .club_box0 {
+            background: url('/img/home/club1Bg.webp') no-repeat;
+            background-size: contain;
+            padding: 0;
+            margin: 20px 0 10px;
+
+            >p>span {
+                padding-left: 64px;
+                color: #fff;
+            }
+        }
+
+        .club_box1 {
+            background: url('/img/home/club2Bg.webp') no-repeat;
+            background-size: contain;
+            padding: 0;
+
+            >p>span {
+                padding-left: 64px;
+                color: #fff;
+            }
+        }
+
+        .float_img {
+            position: absolute;
+            width: 58px;
+            height: 58px;
+            bottom: 5px;
+            left: 5px;
+
+        }
+
+        >div {
+            padding-left: 26px;
+
+            >p {
+                display: flex;
+                position: relative;
+                align-items: center;
+                transform-style: preserve-3d;
+                margin: 0;
+                padding: 14px 0;
+                cursor: pointer;
+
+                >span {
+                    margin-left: 5px;
+                }
+
+
+            }
+
+            .hover {
+                color: #fff;
+            }
+
+            .hover::after {
+                display: block;
+                content: '';
+                position: absolute;
+                width: 6px;
+                height: 100%;
+                right: -17px;
+                background: linear-gradient(to bottom, #fbd03b, #fa7800 67%), no-repeat;
+            }
+
+            .hover::before {
+                display: block;
+                content: '';
+                position: absolute;
+                width: 270px;
+                height: 100%;
+                left: -35px;
+                transform: translateZ(-10px);
+                background: linear-gradient(to right, #1154ff 0%, #2a7cff 100%) no-repeat;
+            }
+
+
+        }
+    }
+
+    >.game_records {
+        width: 250px;
+        height: 50px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 14px;
+        box-shadow: inset 0 0 6px 0 #1d92fa;
+        background-color: #402c95;
+        color: #fff;
+        cursor: pointer;
+
+        >div {
+            display: flex;
+            align-items: center;
+
+            >span {
+                margin-left: 5px;
+
+            }
+        }
+
+        >span {
+            color: #1dd2fa;
+            font-size: 18px;
+        }
+    }
+}
+</style>

@@ -1,0 +1,461 @@
+@import './global.less';
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+input {
+
+  &:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: #fff !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1d0e4a inset !important;
+    background-color: #1d0e4a;
+    background-image: none;
+    transition: background-color 50000s ease-in-out 0s;
+  }
+}
+
+
+.n-button--primary-type {
+  box-shadow: 0 2px 4px 0 #220e55;
+  background: #372771;
+}
+
+.n-modal-mask {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+.n-base-select-menu {
+  background-color: #3a2597;
+
+  .n-base-select-option.n-base-select-option--selected.n-base-select-option--pending::before {
+    background-color: #3a2597;
+  }
+
+  .n-base-select-option.n-base-select-option--pending::before {
+    background-color: #3a2597;
+  }
+
+  .n-base-select-option.n-base-select-option--selected {
+    color: #fff;
+  }
+
+  .n-base-select-option .n-base-select-option__check {
+    color: #ccc;
+  }
+
+  .n-base-select-option {
+    color: #c3c3c3;
+    font-size: 14px;
+  }
+
+
+}
+
+.n-input {
+  .n-input__input-el {
+    font-size: 16px;
+  }
+
+  .n-input__suffix {
+    .n-base-icon {
+      font-size: 1rem;
+    }
+  }
+
+}
+
+
+.n-popover:not(.n-popover--raw) {
+
+  background: rgba(17, 13, 78, .9)
+}
+
+.n-base-selection {
+  min-height: auto;
+  font-size: 15px;
+
+  .n-base-selection-label {
+    background: var(--c-bg-7);
+    // height: 36px;
+
+    .n-base-selection-input {
+      color: var(--c-white);
+      font-size: 14px;
+    }
+
+    .n-base-selection-label__render-label {
+      color: var(--c-white);
+    }
+  }
+
+  .n-base-selection--active {
+    background: #372771;
+  }
+
+  .n-base-selection__border {
+    border: solid 1.4px #5a47b2;
+    // height: 36px;
+  }
+}
+
+.n-base-selection:not(.n-base-selection--disabled).n-base-selection--active .n-base-selection-label {
+  background: #372771;
+}
+
+.n-card.n-modal {
+  background: #231353;
+}
+
+
+
+.login_from_box {
+  display: flex;
+  position: relative;
+
+  .n-form-item {
+    .n-form-item-feedback-wrapper {
+      font-size: 14px;
+      min-height: 2.1em;
+      padding-top: 0;
+      display: flex;
+      align-items: center;
+      // line-height: 1.5;
+    }
+
+    .n-form-item-feedback__line {
+      font-size: 14px;
+    }
+
+    .n-form-item-label {
+      color: var(--c-white);
+      font-size: 16px;
+      min-height: 16px;
+      align-items: center;
+    }
+  }
+
+  .n-input {
+    height: 40px;
+
+    .n-input__input-el {
+      height: 100%;
+      line-height: 1;
+      font-size: 16px;
+    }
+
+    .n-input__border {
+      border: 1px solid #322c59;
+    }
+  }
+
+  .n-input__placeholder {
+    font-size: 16px;
+  }
+
+  .n-form-item.n-form-item--top-labelled {
+    height: auto;
+  }
+
+
+
+
+
+  .code_box {
+    width: 94px;
+    height: 40px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #322c59;
+    background-color: #131421;
+    display: flex;
+    color: #fff;
+    font-size: 16px;
+    margin-right: 9px;
+    padding: 0 3px;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .set_password {
+    font-size: 14px;
+    margin: 0px 0 52px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+
+    .checkbox {
+      vertical-align: middle;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      >b {
+        display: inline-block;
+        vertical-align: middle;
+        width: 13px;
+        height: 13px;
+        background-color: #fff;
+        border: 1px solid #3d3d3d;
+        margin-right: 2px
+      }
+
+      .checkbox_click {
+        background: url(/img/login/checkbox.webp) no-repeat;
+        background-size: cover;
+      }
+    }
+
+
+    .forgot {
+
+      display: flex;
+      justify-content: space-between;
+    }
+
+    i {
+      color: #17a1fb;
+      font-style: normal;
+      cursor: pointer;
+    }
+  }
+
+  .close {
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    border: solid 1px #5a47b2;
+    background-color: #402c95;
+    background-image: url(/img/login/close.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+  }
+
+  .login_btn {
+    height: 52px;
+
+    font-size: 18px;
+    color: #fff;
+
+    background-image: url(/img/login/login.webp);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    cursor: pointer;
+  }
+
+  >img {
+    width: 356px;
+    height: 536px;
+  }
+
+  >span {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-image-source: linear-gradient(to top, #fff, #8cacff);
+    border-image-slice: 1;
+    background-image: radial-gradient(circle at 50% 100%, #1154ff, #1154ff 43%, #1170ff 76%), linear-gradient(to top, #fff, #8cacff);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
+
+  .login_form {
+    padding: 72px 60px 0;
+    flex: 1;
+  }
+
+  .tab {
+    display: inline-block;
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 20px;
+    background-color: #372771;
+    font-size: 16px;
+
+    >span {
+      display: inline-block;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      padding: 0 28px;
+      cursor: pointer;
+    }
+
+    .active {
+      border-radius: 12px;
+      box-shadow: inset 0 0 2px 0 #1e153e;
+      border: 1px solid #1170ff;
+      background-color: #453289;
+    }
+  }
+}
+
+.btn {
+  width: 130px;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid #322c59;
+  background-color: #131421;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 9px;
+
+  img {
+    width: 55px;
+    height: 22px;
+    vertical-align: middle;
+  }
+}
+
+.n-dialog {
+  background: #231353;
+  border-radius: 14px;
+  border: solid 1.4px #322c59;
+  width: 494px;
+  // height: 288px;
+  padding: 0;
+
+  .n-dialog__title {
+
+    // height: 50px;
+    color: #ebefff;
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    padding: 0;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+
+  }
+
+  .n-dialog__close {
+    margin: 0;
+    top: 10px;
+    right: 10px;
+  }
+
+  .n-base-close {
+    color: #fff;
+    font-size: 18px;
+  }
+
+  .n-dialog__content {
+    text-align: center;
+    font-size: 16px;
+    margin: 65px 0;
+    padding: 0 10px;
+  }
+
+  .n-dialog__action {
+    justify-content: center;
+    padding-bottom: 20px;
+
+
+    .n-button {
+      color: #fff;
+      font-size: 18px;
+      width: 165px;
+      height: 45px;
+      border-radius: 12px;
+
+      background: url(/img/dialog/click.webp) no-repeat;
+      background-size: contain;
+
+      .n-button__border {
+        border: none;
+      }
+    }
+
+    .n-button--default-type {
+
+      background: url(/img/dialog/unclick.webp) no-repeat;
+      background-size: cover;
+    }
+
+    .n-button:not(.n-button--disabled):hover .n-button__state-border {
+      border: none;
+    }
+  }
+}
+
+.n-dialog.n-modal {
+  width: 494px;
+  min-height: 288px;
+
+}
+
+.n-dialog.n-dialog--icon-left.n-dialog--closable .n-dialog__title {
+  padding: 14px 0;
+}
+
+.n-modal {
+  color: #fff;
+  width: auto;
+}
+
+// 会员等级规则
+.level_modal {
+  width: 1200px;
+  border-radius: 14px;
+  border: solid 1.4px #322c59;
+
+  .n-base-close {
+    width: 32px;
+    height: 32px;
+    background: url(/img/close.webp) no-repeat;
+    background-size: contain;
+
+    &:active {
+      transform: scale(.95);
+    }
+
+    i {
+      display: none;
+    }
+
+  }
+
+  .level_title {
+    width: 384px;
+    height: 48px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: PingFangSC;
+    font-size: 24px;
+    font-weight: 900;
+    font-stretch: normal;
+    font-style: normal;
+    color: #fff;
+    background: url(/img/level/levelTopBg.webp) center no-repeat;
+    background-size: contain;
+
+    &.level_title_sec {
+      background-image: url(/img/level/level_t_bg.webp);
+    }
+  }
+}
+
+.n-modal-scroll-content {
+  box-sizing: border-box;
+  padding: 20px;
+}

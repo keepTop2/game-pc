@@ -1,0 +1,62 @@
+// 模态框公共样式
+.model_box {
+    border: 1.4px solid #322C59;
+    background-color: #231353;
+    border-radius: 14px;
+
+    .model_box_header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+
+        .title_bg {
+            width: 379px;
+            height: 48px;
+        }
+
+        .title {
+            color: #fff;
+            font-size: 24px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .close {
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+    }
+
+    .model_box_title {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #4C36B3 0%, #3A2786 71.67%, #3C279A 100%);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.4);
+        position: relative;
+        font-size: 16px;
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+
+        .box_title_close {
+            position: absolute;
+            right: 25px;
+        }
+    }
+
+    .model_box_content {
+        border-radius: 12px;
+        background-color: #1D0E4A;
+        border: 1px solid #322C59;
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.4) inset;
+        padding: 25px 30px;
+    }
+}
