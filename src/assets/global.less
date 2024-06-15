@@ -1,0 +1,201 @@
+body {
+  overflow-x: hidden;
+}
+body, div, span, a {
+  box-sizing: border-box;
+}
+a, button, .button {
+  cursor: pointer;
+  &:active {
+    transform: scale(.95);
+  }
+}
+.pointer {
+    cursor: pointer;
+}
+
+.t-sm {
+    font-size: var(--t-sm);
+    line-height: var(--t-sm);
+}
+
+.t-md {
+    font-size: var(--t-md);
+    line-height: var(--t-md);
+}
+
+.t-lg {
+    font-size: var(--t-lg);
+    line-height: var(--t-lg);
+}
+
+.t-xl {
+    font-size: var(--t-xl);
+    line-height: var(--t-xl);
+}
+
+.t-xxl {
+    font-size: var(--t-xxl);
+    line-height: var(--t-xxl);
+}
+
+.weight-5 {
+    font-weight: 500;
+}
+
+.weight-6 {
+    font-weight: 600;
+}
+
+.weight-7 {
+    font-weight: 700;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+/*
+* flex: justify: center
+*/
+.flex {
+    display: flex;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center_start {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.center_end {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/*
+* flex: justify: space-between
+*/
+.between_center {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.between_start {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.between_end {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+/*
+* flex: justify: space-around
+*/
+.around_center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.around_start {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.around_end {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+/*
+* flex: justify: flex-start
+*/
+.start_center {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.start_start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.start_end {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+/*
+* flex: justify: flex-end
+*/
+.end_center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.end_start {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.end_end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+
+.rel {
+    position: relative;
+}
+
+.abs {
+    position: absolute;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.form_card {
+    width: 494px !important;
+    padding: 0;
+    border-radius: 14px;
+    border: solid 1.4px var(--c-border-1);
+    background: var(--c-bg-2);
+}
+// 无数据
+.nodata {
+  text-align: center;
+  padding: 60px 0 10px 0;
+
+  img {
+    width: 200px;
+  }
+
+  div {
+    opacity: 0.6;
+    margin-top: 12px;
+  }
+}

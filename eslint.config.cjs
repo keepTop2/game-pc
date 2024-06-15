@@ -1,0 +1,38 @@
+module.exports = {
+  plugins: {
+    vue: require('eslint-plugin-vue'),
+    '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
+  },
+  rules: {
+    indent: [ 'error', 2 ],
+    semi: [ 'error', 'always' ],
+    quotes: [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: false },
+    ],
+    'one-var': [ 'error', 'never' ],
+    'no-unused-vars': 'error',
+    'arrow-body-style': [ 'error', 'as-needed' ],
+    'space-before-function-paren': [ 'error', 'always' ],
+    'object-curly-spacing': [ 'error', 'always' ],
+    'array-bracket-spacing': [ 'error', 'always' ],
+  },
+  ignores: [
+    '*.sh',
+    'node_modules/**',
+    '*.md',
+    '*.woff',
+    '*.ttf',
+    '.vscode/**',
+    '.idea/**',
+    'dist/**',
+    'public/**',
+    'docs/**',
+    '.husky/**',
+    '.local/**',
+    'bin/**',
+    'Dockerfile',
+    'package.json',
+  ],
+};

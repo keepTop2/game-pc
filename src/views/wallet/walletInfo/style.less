@@ -1,0 +1,518 @@
+.process {
+  padding-left: 20px;
+  padding-right: 19px;
+  padding-top: 17px;
+  border-radius: 15px;
+  background: url(/img/payment/processBG.webp) center center no-repeat;
+  background-size: cover;
+}
+
+.userInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction {
+  gap: 20px !important;
+}
+
+.usrProfile {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.userName {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mount {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+
+  >div:first-child {
+    align-items: center;
+    gap: 2px;
+
+    .size2 {
+      margin-right: 10px;
+      color: #F1C232;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+
+      &.active {
+        transition: all 1s ease-in-out;
+        transform: rotate(720deg);
+      }
+    }
+  }
+
+  .usdBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    // height: 24px;
+    border-radius: 10px;
+    background: url(/img/payment/usdBtn.webp) no-repeat;
+    background-size: 89px 24px;
+    cursor: pointer;
+  }
+}
+
+.T {
+  width: 15px;
+  height: 15px;
+  padding-right: 4px;
+}
+
+.down {
+  width: 24px;
+  height: 24px;
+}
+
+
+
+.vip {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 11px;
+}
+
+.vip1 {
+  display: flex;
+  align-items: start;
+  gap: 4px;
+}
+
+.king {
+  width: 13px;
+  height: 13px;
+}
+
+.processBar {
+  padding-top: 8.4px;
+
+  ::v-deep(.n-progress-graph) {
+    color: #000;
+
+    .n-progress-graph-line {
+      .n-progress-graph-line-rail {
+        box-shadow: inset 0 0 4px 0 #000;
+        background-blend-mode: color-burn, overlay, normal;
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), radial-gradient(circle at 50% 50%, #7e7e7e, #151515 100%), linear-gradient(to bottom, #27155c, #27155c);
+      }
+
+      .n-progress-graph-line-fill {
+        background-image: linear-gradient(to right, #fa7800, #fbcb38 100%);
+      }
+
+    }
+
+  }
+}
+
+.processFooter {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+
+.info_data {
+  border-radius: 15px;
+  box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  padding: 20px 144px 20px 36px;
+  border-radius: 15px;
+  background: url(/img/payment/blackDvBG.webp) center center no-repeat;
+  background-size: cover;
+
+  .total_account {
+    display: flex;
+    gap: 17px;
+  }
+
+  .central_wallet {
+    display: flex;
+    gap: 17px;
+  }
+
+}
+
+
+.button_icon {
+  width: 16px;
+  height: 16px;
+  padding-right: 5px;
+}
+
+.game_wallet {
+  font-size: 16px;
+  margin-top: 20px;
+  padding-left: 21px;
+  padding-right: 20px;
+  padding-top: 22px;
+  padding-bottom: 20px;
+  border-radius: 15px;
+  //background: url(/img/payment/blackBG.webp) no-repeat;
+  //background-size: 1200px 493px;
+  box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-blend-mode: color-burn, overlay, normal;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), radial-gradient(circle at 50% 50%, #7e7e7e, #151515 92%), linear-gradient(to bottom, #27155c, #27155c);
+
+  .game_wallet_top {
+
+    .title {
+      font-size: 20px;
+    }
+
+    .top_mon_box {
+      padding: 30px 20px 20px;
+      margin-top: 15px;
+      width: 486px;
+      height: 110px;
+      background: url(/img/payment/blackDvBG.webp) center no-repeat;
+      background-size: 100%;
+
+      .icon {
+        width: 30px;
+        height: 30px;
+        background: url(/img/payment/icon_qb.webp) center no-repeat;
+        background-size: 100%;
+
+        &.icon_bxg {
+          background-image: url(/img/payment/icon_lock.webp);
+        }
+      }
+
+      .m-txt {
+        font-size: 24px;
+        color: #FABB2D;
+      }
+
+      .automatic {
+        >span {
+          color: #8E82C2;
+          margin-right: 14px;
+        }
+
+        ::v-deep(.n-switch) {
+          width: 50px;
+          height: 20px;
+
+          .n-switch__rail {
+            width: 100%;
+            height: 100%;
+
+            .n-switch__button {
+              width: 16px;
+              height: 16px;
+              max-width: inherit;
+            }
+          }
+
+          &.n-switch--active {
+            .n-switch__rail {
+              box-shadow: inset 0 4px 4px 0 #0c8518;
+              background-color: #0cc51e;
+
+              .n-switch__button {
+                left: 35px;
+              }
+            }
+          }
+
+        }
+      }
+    }
+
+    .top_center {
+      margin-top: 5px;
+
+      .zz-btn {
+        gap: 5px !important;
+        margin-top: 20px;
+        filter: grayscale(100%);
+
+        &.active {
+          filter: none;
+        }
+
+        .icon {
+          width: 16px;
+          height: 16px;
+          background: url(/img/payment/icon_l.webp) center no-repeat;
+          background-size: 100%;
+
+          &.icon-1 {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+    }
+  }
+
+  .money-all-div {
+    .money-input {
+      margin: 20px 0 40px;
+
+      ::v-deep(.n-input) {
+        width: 1036px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 12px;
+
+        .n-input__input-el {
+          height: 100%;
+        }
+
+        .n-input__suffix {
+          button {
+            display: none;
+          }
+        }
+      }
+
+      .btn-ch {
+        width: 102px;
+        height: 48px;
+        line-height: 48px;
+        text-align: center;
+        background: url(/img/payment/btn_all.webp) center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .kjje-div {
+      margin: 40px 0 20px;
+      .kj-item {
+        width: 110px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: url(/img/payment/monBg.webp) center no-repeat;
+        background-size: 100%;
+        &.active {
+          background-image: url(/img/payment/monBgActive.webp);
+        }
+      }
+    }
+    .bot-tips {
+      color: #d16363;
+      font-size: 14px;
+      gap: 5px !important;
+      .icon-tip {
+        width: 20px;
+        height: 20px;
+        background: url(/img/payment/error_icon.webp) center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    .slider-div {
+      margin-top: 35px;
+
+      ::v-deep(.n-slider) {
+        .n-slider-rail {
+          height: 12px;
+          border-radius: 10px;
+          border: solid 1.4px #5a47b2;
+          background-color: #372771;
+
+          .n-slider-handle {
+            width: 36px !important;
+            height: 18px !important;
+            border-radius: 7px !important;
+            border-image-source: linear-gradient(to top, #fff, #fff);
+            border-image-slice: 1;
+            background-image: radial-gradient(circle at 50% 0%, #d7e2ff, #a8bfff 57%, #d7e2ff 75%), linear-gradient(to top, #fff, #fff);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            color: #241355;
+            font-size: 12px;
+          }
+          .n-slider-rail__fill {
+            border-radius: 7px;
+            background-image: linear-gradient(to right, #fa7800, #fbcb38);
+          }
+
+        }
+      }
+
+    }
+
+    .sub-btn {
+      font-size: 18px;
+      display: block;
+      width: 382px;
+      height: 54px;
+      line-height: 52px;
+      text-align: center;
+      margin: 40px auto 20px;
+      background: url(/img/payment/sub_btn.webp) center no-repeat;
+      background-size: 100%;
+    }
+  }
+}
+
+.game {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.venue_wallet {
+  padding-bottom: 75px;
+}
+
+.wallet_tabs {
+  padding-top: 22px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  padding-top: 25px;
+  padding-left: 43px;
+  border-radius: 15px;
+  background: url(/img/payment/blackBG2.webp) no-repeat;
+  background-size: 373px 177px;
+}
+
+.item_mount {
+  padding-top: 13px;
+}
+
+.item_buttons {
+  display: flex;
+  gap: 40px;
+  padding-top: 23px;
+  padding-bottom: 25px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 35px;
+  border-radius: 0px;
+  background: url(/img/payment/button.webp) no-repeat;
+  background-size: 120px 35px;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(.95);
+  }
+}
+
+.middleBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 35px;
+  border-radius: 0px;
+  background: url(/img/payment/middleBtn.webp) no-repeat;
+  background-size: 180px 35px;
+  cursor: pointer;
+  font-size: var(--t-cen);
+}
+
+p {
+  margin: 0;
+  font-family: PingFangSC;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ebefff;
+}
+
+span {
+  color: #ebefff;
+}
+
+.size0 {
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.size1 {
+  font-size: 20px;
+  line-height: 20px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.size2 {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.size3 {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.size4 {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.gray {
+  color: #8e82c2;
+}
+
+.n-button {
+  padding: 0;
+  height: auto;
+  --n-bezier: none !important;
+  --n-bezier-ease-out: none !important;
+  --n-ripple-duration: none !important;
+  --n-opacity-disabled: none !important;
+  --n-wave-opacity: none !important;
+  font-weight: none !important;
+  --n-color: none !important;
+  --n-color-hover: none !important;
+  --n-color-pressed: none !important;
+  --n-color-focus: none !important;
+  --n-color-disabled: none !important;
+  --n-ripple-color: none !important;
+  --n-text-color: none !important;
+  --n-text-color-hover: none !important;
+  --n-text-color-pressed: none !important;
+  --n-text-color-focus: none !important;
+  --n-text-color-disabled: none !important;
+  --n-border: none !important;
+  --n-font-size: none !important;
+  --n-padding: none !important;
+  --n-icon-size: none !important;
+  --n-icon-margin: none !important;
+  --n-border-hover: none !important;
+  --n-border-pressed: none !important;
+  --n-border-focus: none !important;
+  --n-border-disabled: none !important;
+  --n-width: none !important;
+  --n-height: none !important;
+  --n-border-radius: none !important;
+  --n-border: none !important;
+}

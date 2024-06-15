@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", // 基础路径，默认为当前目录
+    "declaration": false,
+    "types": ["vite/client", "node"],
+    "paths": {
+      "@/*": ["src/*"], // 将 @/* 映射到 src/* 下的所有文件
+      "@enums/*": ["src/enums/*"], // 将 @enums/* 映射到 src/enums/* 下的所有文件
+      "#/*": ["types/*"]
+    },
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

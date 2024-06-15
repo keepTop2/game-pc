@@ -1,0 +1,149 @@
+// 表格页公共样式
+.record_page {
+
+    // 搜索区域
+    .search_box {
+        font-size: 16px;
+        color: #8E82C2;
+        white-space: nowrap;
+
+        .search_row {
+            margin-bottom: 20px;
+
+            .search_btn {
+                background: url(/img/home/btnBG3.webp) no-repeat;
+                background-size: 100% 112%;
+                color: #fff;
+                cursor: pointer;
+            }
+        }
+
+        .search_select {
+            height: 36px;
+            min-width: 150px;
+
+
+
+            :deep(.n-base-selection) {
+                border-radius: 10px;
+            }
+
+            :deep(.n-base-selection-label) {
+                box-shadow: 0px 5px 3px 0px rgba(0, 0, 0, 0.6);
+                height: 38px;
+
+                .n-base-selection-input {
+                    color: #fff;
+                    font-size: 16px;
+
+                }
+
+                .n-base-icon {
+                    font-size: 18px;
+                }
+            }
+
+        }
+    }
+
+    // 表格区域
+    .table {
+        border-radius: 14px;
+        overflow: hidden;
+        font-weight: 400;
+
+        .tr {
+            min-height: 40px;
+        }
+
+        .tr:nth-child(odd) {
+            background-color: #2F1D7D;
+        }
+
+        .tr:nth-child(even) {
+            background-color: #1E1046;
+            color: #8D84C5;
+        }
+
+        .th {
+            height: 50px;
+            background: radial-gradient(87.04% 93.77% at 50% 13.97%, #4C36B3 0.17%, #3A2786 74.42%, #3C279A 100%);
+        }
+
+        .tt {
+            height: 50px;
+            background: radial-gradient(87.04% 93.77% at 50% 13.97%, #4C36B3 0.17%, #3A2786 74.42%, #3C279A 100%);
+        }
+
+        .td {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: all;
+            padding: 10px;
+        }
+
+        .td_25 {
+            flex: 2.5;
+        }
+
+        .td_money {
+            color: #FABB2D;
+        }
+
+        .t_loading {
+            padding-top: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    }
+
+    .white_table {
+        .th {
+            .td {
+                color: #fff;
+            }
+        }
+
+        .tr {
+            color: #8E82C2;
+        }
+
+        .tr:nth-child(even) {
+            color: #fff;
+        }
+
+        .nodata {
+            color: #8E82C2;
+        }
+    }
+
+    .shadow_table {
+        box-shadow: 0px 6px 3px 0px rgba(0, 0, 0, 0.4);
+    }
+
+    // 分页区域
+    .pagination {
+        margin: 30px 0 40px 0;
+        justify-content: flex-end;
+
+        :deep(.n-pagination-item) {
+            font-size: 16px;
+            background: #372771;
+            border: 1.4px solid #5A47B2;
+            color: #8D81C1;
+            border-radius: 10px;
+        }
+
+        :deep(.n-pagination-item--active) {
+            background: url(/img/home/sbtnBG.webp) no-repeat;
+            background-size: 100% 100%;
+            color: #fff;
+        }
+    }
+
+
+}

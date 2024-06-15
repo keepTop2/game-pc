@@ -1,0 +1,98 @@
+.form_card {
+    :deep(.n-card__content) {
+        padding: 0;
+    }
+
+    .form_container {
+        .header {
+            height: 50px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            border-radius: 14px 14px 0 0;
+            background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+            color: var(--c-white);
+
+            .close {
+                top: 16px;
+                right: 25px;
+                flex-grow: 0;
+            }
+        }
+
+        .body {
+            gap: 20px;
+            padding: 40px 60px;
+
+            .amount_info {
+                width: 100%;
+                height: 140px;
+                font-size: var(--t-md);
+                margin: 20px 0 0;
+                border-radius: 12px;
+                box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+                border: solid 1px #322c59;
+                background-color: #1d0e4a;
+
+                .tab {
+                    width: 78px;
+                    flex-shrink: 0;
+                    padding: 27px 0;
+                }
+
+                .info {
+                    height: 100%;
+                    margin-right: 89px;
+                    flex: 1;
+
+                    >div {
+                        padding-top: 15px;
+                        padding-bottom: 11px;
+                        gap: 2px;
+
+                        &:first-child {
+                            border-bottom: 1px solid var(--c-border-1);
+                        }
+
+                        .wallet {
+                            line-height: 22px;
+                        }
+
+                        .amount {
+                            font-size: var(--t-cen);
+                            color: var(--c-inactive);
+                            line-height: 20px;
+                        }
+                    }
+
+                }
+
+                .change_method {
+                    width: 70px;
+                    height: 140px;
+                    top: -1px;
+                    right: -1px;
+                    border-radius: 12px;
+                    box-shadow: inset 0 0 2px 0 #1e153e;
+                    background-color: #372771;
+                }
+            }
+
+            .select_total {
+                top: 14px;
+                right: 16px;
+                font-size: var(--t-md);
+                color: var(--c-text-1);
+            }
+
+            .submit_btn {
+                height: 45px;
+                width: 100%;
+                color: var(--c-bg-6);
+                border: 1px solid linear-gradient(to bottom, #82caff -100%, #1d2280, #9266ff);
+                border-image-slice: 1;
+                border-radius: 16px;
+                background-image: url(/img/login/login.webp);
+                background-size: cover;
+            }
+        }
+    }
+}
