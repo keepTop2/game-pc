@@ -131,7 +131,7 @@
 
 <script setup lang="ts">
 
-import { onMounted, onUnmounted, ref } from 'vue';
+import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue';
 import { NetPacket } from '@/utils/netBase/NetPacket.ts';
 import { Net } from '@/utils/net/Net.ts';
 import { TTabList } from '@/utils/types';
@@ -139,7 +139,7 @@ import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
 import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { Message } from "@/utils/discreteApi.ts";
-import ChooseBankDialog from '@/views/wallet/components/chooseBankDialog.vue';
+const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 import { MessageMap } from '@/utils/net/MessageMap.ts';
 
 const emit = defineEmits(["bindBankCheck"]);
@@ -312,10 +312,6 @@ const selectBank = (e: any) => {
   form.value.bankName = e.label;
 }
 
-const getMyBankList = () => {
-  const req = NetPacket.req_bank_card_info_list();
-  Net.instance.sendRequest(req);
-}
 
 
 onMounted(() => {

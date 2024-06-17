@@ -219,11 +219,11 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { TShopInfo, TTabList } from '@/utils/types';
+import { TTabList } from '@/utils/types';
 import { NetPacket } from '@/utils/netBase/NetPacket';
 import { Net } from '@/utils/net/Net';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
@@ -362,7 +362,7 @@ const bankError = ref(false);
 const formBankRef = ref();
 const submitBank = () => {
   if  (!formBank.value.bank) return Message.error('请选择银行')
-  formBankRef.value?.validate((errors) => {
+  formBankRef.value?.validate((errors: any) => {
     if (!errors) {
       const req = NetPacket.req_new_bank_card_info();
       req.bank_id = formBank.value.bank;
@@ -429,7 +429,7 @@ const phoneError = ref(false);
 const formInfoRef = ref();
 const submitPhone = () => {
   // phoneError.value = true;
-  formInfoRef.value?.validate(async (errors) => {
+  formInfoRef.value?.validate(async (errors: any) => {
     if (!errors) {
       let req = NetPacket.req_bind_modify_email();
       req.email = formInfo.value.phoneCode + formInfo.value.phone;
@@ -490,7 +490,7 @@ const capitalError = ref(false);
 const formCapitalRef = ref();
 //  绑定资金Form
 const submitCapital = () => {
-  formCapitalRef.value?.validate( async(errors) => {
+  formCapitalRef.value?.validate( async(errors: any) => {
     if (!errors) {
 
       bindMoneyPassword()

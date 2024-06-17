@@ -110,17 +110,17 @@
 </template>
 
 <script setup lang="ts">
-import { CSSProperties, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { CSSProperties, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import {useI18n} from "vue-i18n";
 import {MessageEvent2} from "@/utils/net/MessageEvent2";
 import {NetMsgType} from "@/utils/netBase/NetMsgType";
-import {TShopInfo, TTabList} from "@/utils/types";
+import {TTabList} from "@/utils/types";
 import {NetPacket} from "@/utils/netBase/NetPacket";
 import {Net} from "@/utils/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import {Message} from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
-import AddBankCard from '@/views/wallet/withdrawFunds/addBankCard.vue';
+// import AddBankCard from '@/views/wallet/withdrawFunds/addBankCard.vue';
 import pinia, { User } from '@/store';
 import { storeToRefs } from 'pinia';
 import AddBank from '@/views/wallet/components/AddBank.vue';
@@ -129,7 +129,7 @@ const { showAddBankModal } = usePaymentManagement();
 
 
 const UserStore = User(pinia);
-const { info: userInfo, roleInfo } = storeToRefs(UserStore);
+const { roleInfo } = storeToRefs(UserStore);
 
 const props = defineProps({
   myBankList: {
@@ -253,7 +253,7 @@ const newBankCard = () => {
 const formRef = ref()
 
 const onSubmit = () => {
-  formRef.value?.validate((errors) => {
+  formRef.value?.validate((errors: any) => {
     if (!errors) {
 
       if (!form.value.bank) {
@@ -376,16 +376,17 @@ const checkBankInfo = (item: any) => {
 
 
 
-const myBankNameList = ref()
-const handleMyBankList = (res: any) => {
-  myBankNameList.value = res.cardholder_name || '';
-  myBankNameList.value = res.bank_card_info_list.map((item: any) => (
-    {
-      ...item,
-      bankImgURL: '/img/payment/mockBank.webp',
-    }
-  ))
-}
+// const myBankNameList = ref()
+
+// const handleMyBankList = (res: any) => {
+//   myBankNameList.value = res.cardholder_name || '';
+//   myBankNameList.value = res.bank_card_info_list.map((item: any) => (
+//     {
+//       ...item,
+//       bankImgURL: '/img/payment/mockBank.webp',
+//     }
+//   ))
+// }
 
 const getMyBankList = () => {
   // const req = NetPacket.req_bank_card_info_list();
