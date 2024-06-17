@@ -42,6 +42,9 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
+
+import { Page } from '@/store/page';
+const { activityList } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 
 const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
@@ -265,6 +268,7 @@ onMounted(async () => {
     if (route.query.name) {
         state.active = route.query.name
     }
+    state.sideList[1].list = activityList
 });
 watch(
     () => route.query.name,

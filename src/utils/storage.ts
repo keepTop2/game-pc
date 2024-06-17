@@ -84,3 +84,9 @@ export const needLoginApi = async () => {
 	}
 
 }
+export const noNeedLoginApi = async () => {
+	// 获取所有活动
+	const req = NetPacket.req_activites();
+	req.show = 0
+	Net.instance.sendRequest(req);
+}

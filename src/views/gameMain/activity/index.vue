@@ -13,11 +13,8 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, watch } from 'vue';
-import { Net } from '@/utils/net/Net';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { onMounted, reactive, watch } from 'vue';
+
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -36,26 +33,14 @@ const popDetail = (item: any) => {
     state.detailImg = item.content
     state.showModal = true
 }
-const handleActivetys = (res: any) => {
-    state.activitys = res.promo
-}
-// 请求获取所有活动
-const getActivetys = () => {
-    const req = NetPacket.req_activites();
-    req.shoe = 0
-    Net.instance.sendRequest(req);
-};
+
+
 onMounted(() => {
     state.name = route.query.name
-    getActivetys()
-    MessageEvent2.addMsgEvent(
-        NetMsgType.msgType.msg_notify_activites,
-        handleActivetys
-    );
+
+
 });
-onUnmounted(() => {
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
-});
+
 watch(
     () => route.query.name,
     (n) => {

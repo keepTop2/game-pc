@@ -100,10 +100,9 @@
 import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, } from 'vue';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { Local, needLoginApi } from '@/utils/storage';
+import { Local, needLoginApi, noNeedLoginApi } from '@/utils/storage';
 import { useRoute, useRouter } from 'vue-router';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+
 import { Dialog } from '@/utils/discreteApi';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -309,6 +308,9 @@ const onRegisterOpen = async () => {
   await User(pinia).setReg(true)
 
 };
+const handleActivetys = async (res: any) => {
+  await Page(pinia).setActivityList(res.promo)
+}
 const onHander_check_version = async (message: any) => {
   if (message.result != NetEnumDef.check_version_result.cvr_yes) {
     console.log("check version failed");
@@ -397,10 +399,14 @@ MessageEvent2.addMsgEvent(
 );
 
 onMounted(async () => {
-
+  noNeedLoginApi()
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_check_version,
     onHander_check_version
+  );
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_activites,
+    handleActivetys
   );
   if (Local.get('lang')) {
     state.countryValue = Local.get('lang')
@@ -411,9 +417,9 @@ onMounted(async () => {
     await page.setMenuActive(Local.get('menuActive'), Local.get('menuName'))
   }
 
-  let req_check_version_req = NetPacket.req_check_version();
-  req_check_version_req.version = 1;
-  Net.instance.sendRequest(req_check_version_req);
+  // let req_check_version_req = NetPacket.req_check_version();
+  // req_check_version_req.version = 1;
+  // Net.instance.sendRequest(req_check_version_req);
 
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_send_system_notice,
