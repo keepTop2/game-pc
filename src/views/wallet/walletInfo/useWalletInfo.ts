@@ -14,12 +14,18 @@ import { Local } from '@/utils/storage';
 import { getCurrencyValue } from '@/utils/others';
 import {Message} from "@/utils/discreteApi";
 import {useI18n} from "vue-i18n";
-import {useRoute, useRouter} from "vue-router";
+import { useRoute } from 'vue-router';
+// import { useRoute, useRouter } from 'vue-router';
+// import { useRoute } from 'vue-router';
 // import { ReadableStreamBYOBRequest } from 'node:stream/web';
 
 const useWalletInfo = () => {
+
+  const calibrationRef = ref() // 提款校验-
+  const withdrawMoneyRef = ref() // 提款
+
     const { t } = useI18n();
-    const router = useRouter();
+    // const router = useRouter();
     const route = useRoute();
     const themeVars = useThemeVars();
     const wallet = Wallet(pinia);
@@ -59,35 +65,45 @@ const useWalletInfo = () => {
     const req = NetPacket.req_bank_card_info_list();
     Net.instance.sendRequest(req);
   }
+
+
   const handleMyBankList = (res: any) => {
     console.log(userInfo.value, '--------', res)
     myBankList.value = res;
     console.log('=====', roleInfo.value)
+
+
     // 未绑定银行卡跳转到绑定银行卡
     if (!myBankList.value.bank_card_info_list || myBankList.value.bank_card_info_list.length == 0) {
       Message.error(t('withdraw_page_notBankCard'))
-      router.push('/wallet/paymentManagement')
+      // router.push('/wallet/paymentManagement')
+      calibrationRef.value.openModal();
       return
     }
     // 未绑定手机号码
     if (!userInfo.value.mobile) {
       Message.error(t('withdraw_page_notPhone'))
-      router.push('/wallet/securitySettings?openDialogType=bindPhone')
+      // router.push('/wallet/securitySettings?openDialogType=bindPhone')
+      calibrationRef.value.openModal();
       return
     }
     // 未绑定资金密码
     if(!roleInfo.value.withdraw_pwd) {
       Message.error(t('withdraw_page_notPayPwd'))
-      router.push('/wallet/securitySettings?openDialogType=bindPayPwd')
+      // router.push('/wallet/securitySettings?openDialogType=bindPayPwd')
+      calibrationRef.value.openModal();
       return
     }
-    showWithdrawModal(true)
+    withdrawMoneyRef.value.openModal();
+    // showWithdrawModal(true)
 
   }
+
   // 取款需要判断是否绑定银行卡，绑定手机号码，提现密码
   const goToWithdraw = () => {
     getMyBankList();
   }
+
   const handleSubmit = () => {
     if (!tranMoney.value) {
       return Message.error(t('transfer_page_inputAmount'))
@@ -175,7 +191,8 @@ const useWalletInfo = () => {
 
   // vip 信息设置
   const setVipInfo = () => {
-    if (VIPinfo.value?.vip_level_reward_config.length) {
+
+    if (VIPinfo.value?.vip_level_reward_config && VIPinfo.value?.vip_level_reward_config.length) {
       // const targetLevel: TVIPLevelReward = VIPinfo.value.vip_level_reward_config?.filter((item: TVIPLevelReward) => item.level == (Number(VIPinfo.value.current_vip_level) + 1))[0]
 
       const targetLevel: TVIPLevelReward = VIPinfo.value?.vip_level_reward_config[Number(VIPinfo.value.current_vip_level) + 1]
@@ -368,6 +385,8 @@ const useWalletInfo = () => {
       handleSubmit,
       slideStr,
       chooseFastMon,
+      calibrationRef,
+      withdrawMoneyRef
     };
 }
 
