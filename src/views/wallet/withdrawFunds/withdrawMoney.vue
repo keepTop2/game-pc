@@ -91,7 +91,6 @@ import {Net} from "@/utils/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import {Message} from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
-// import AddBankCard from '@/views/wallet/withdrawFunds/addBankCard.vue';
 import pinia, { User } from '@/store';
 import { storeToRefs } from 'pinia';
 
