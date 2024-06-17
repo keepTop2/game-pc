@@ -5,11 +5,12 @@
   <!--<Transfer v-if="showTransfer" />-->
   <RedeemCode v-if="showRedeemCode" />
   <!--   <levelRule ref="levelModal" />-->
+
   <!--  提款校验-->
-  <Calibration  ref="calibrationRef" :myBankList="myBankList"/>
+  <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList"/>
 
   <!-- 提款 -->
-  <WithdrawMoney ref="withdrawMoneyRef" :myBankList="myBankList"/>
+  <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList"/>
 
   <n-spin :show="loading">
     <n-flex vertical>
@@ -193,7 +194,7 @@
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
 // import { useRouter } from 'vue-router';
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 // import { EAllWallets, EWallets } from '@/enums/walletEnum';
 import useWalletInfo from './useWalletInfo';
 import Withdraw from '@/views/wallet/components/Withdraw.vue';
@@ -202,6 +203,12 @@ import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
+import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
+import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
+import { NetPacket } from '@/utils/netBase/NetPacket.ts';
+import { Net } from '@/utils/net/Net.ts';
+import pinia, { BankListInfo } from '@/store';
+const bankListInfo = BankListInfo(pinia);
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
@@ -228,6 +235,20 @@ const goCalibration = () => {
     goToWithdraw()
   })
 }
+
+const getBankList = () => {
+  const req = NetPacket.req_bank_name_list();
+  Net.instance.sendRequest(req);
+};
+
+const handleBankList = (res: any) => {
+  bankListInfo.setBankListInfo(res.bank_name_list)
+};
+
+onMounted(() => {
+  getBankList()
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
+})
 
 
 

@@ -9,3 +9,4 @@ export default store;
 
 export { User } from './user';
 export { Wallet } from './wallet';
+export { BankListInfo } from './bankListInfo';
