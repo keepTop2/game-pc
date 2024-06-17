@@ -140,7 +140,7 @@ import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { Message } from "@/utils/discreteApi.ts";
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
-import { MessageMap } from '@/utils/net/MessageMap.ts';
+// import { MessageMap } from '@/utils/net/MessageMap.ts';
 
 const emit = defineEmits(["bindBankCheck"]);
 
@@ -333,7 +333,7 @@ onUnmounted(() => {
 
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
 
-  MessageMap.addMsgMap(NetMsgType.msgType.msg_req_set_default_bankcard, null)
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
 
 
 })
