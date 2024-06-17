@@ -137,6 +137,7 @@ import { Net } from "@/utils/net/Net";
 import { Message } from "@/utils/discreteApi";
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
+const emit = defineEmits(["haveBankList"]);
 const chooseBankModal = ref();
 const { t } = useI18n();
 const showModal = ref(false);
@@ -229,12 +230,13 @@ const handleShopInfoRes = (rs: TShopInfo) => {
       }
     );
   })
+  emit('haveBankList', usdtRecharge.value.length > 0)
   // console.log('======', usdtRecharge.value)
 };
 
 const openModal = () => {
   showModal.value = !showModal.value;
-  getShopInfo();
+  // getShopInfo();
 }
 const onClose = () => {
   showModal.value = false
@@ -329,6 +331,9 @@ watch(
 )
 
 onMounted(() => {
+  setTimeout(() => {
+    getShopInfo();
+  }, 600)
   // 获取银行信息
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, handleShopInfoRes);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, handleDepositSubmit);

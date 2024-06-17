@@ -1,5 +1,5 @@
 <template>
-  <depositFirst ref="depositFirModal" />
+  <depositFirst ref="depositFirModal" @haveBankList="haveBankList"/>
   <!--  <Deposit v-if="showDeposit" />-->
   <Withdraw v-if="showWithdraw" :myBankList="myBankList" />
   <!--<Transfer v-if="showTransfer" />-->
@@ -202,12 +202,14 @@ import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
+import {Message} from "@/utils/discreteApi.ts";
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
 // const levelRule = defineAsyncComponent(() => import('@/views/level/rules.vue'));
 // const levelModal = ref();
 const depositFirModal = ref();
+const haveBank = ref(false);
 
 // 打开等级规则弹窗
 // const openLevelRule = () => {
@@ -215,7 +217,13 @@ const depositFirModal = ref();
 // }
 // 打开充值第一个弹窗
 const openDepositFir = () => {
+  if (!haveBank.value) {
+   return Message.error(t('deposit_page_notPayWay'))
+  }
   depositFirModal.value.openModal();
+}
+const haveBankList = (e: any) => {
+  haveBank.value = e
 }
 
 
