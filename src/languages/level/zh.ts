@@ -43,6 +43,7 @@ export default {
   level_page_slot_bet: '电游投注',
   level_page_sport_bet: '体育投注',
   level_page_zm_bet: '桌面投注',
+  level_page_esport: '电竞返点',
   level_page_privileges: '尊享特权',
   level_page_domain: '专属域名',
   level_page_manager: 'VIP经理',
