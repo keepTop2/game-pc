@@ -244,7 +244,9 @@ const itemClick = (item: any) => {
             {
                 path: item.url,
                 query: {
-                    name: item.name
+                    name: item.name,
+                    link: item.pic_link,
+                    detail: item.content
                 }
             }
         )

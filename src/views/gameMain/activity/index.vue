@@ -2,7 +2,7 @@
     <div class="activity">
 
         <div class="activity_img">
-            <img @click="popDetail(item)" :src="t(item.pic_link)" alt="" v-for="(item, i) in state.activitys" :key="i">
+            <img @click="popDetail" :src="t(state.link)" alt="">
         </div>
         <n-modal v-model:show="state.showModal">
             <n-card style="width: 600px" title="活动详情" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -25,26 +25,27 @@ const route = useRoute();
 
 const state: any = reactive({
     name: '',
-    activitys: null,
+    link: '',
     showModal: false,
     detailImg: null,
 })
-const popDetail = (item: any) => {
-    state.detailImg = item.content
+const popDetail = () => {
     state.showModal = true
 }
 
-
 onMounted(() => {
+    state.link = route.query.link
     state.name = route.query.name
-
+    state.detailImg = route.query.content
 
 });
 
 watch(
-    () => route.query.name,
+    () => route.query,
     (n) => {
-        state.name = n
+        state.link = n.link
+        state.detailImg = n.content
+        state.name = n.name
     }
 )
 </script>
