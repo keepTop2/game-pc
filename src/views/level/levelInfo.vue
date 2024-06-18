@@ -150,6 +150,7 @@ const levelDyData = ref(
         { name: t('level_page_slot_bet'), icon: 'level_game', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
         { name: t('level_page_sport_bet'), icon: 'level_sport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
         { name: t('level_page_zm_bet'), icon: 'level_zm', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: t('level_page_esport'), icon: 'level_esport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
       ]
     },
     {
