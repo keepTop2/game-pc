@@ -30,16 +30,16 @@
 </template>
 
 <script setup lang="ts">
-  import {onMounted, onUnmounted, ref} from 'vue';
+import {onMounted, ref, watch} from 'vue';
   import {useI18n} from "vue-i18n";
-  import {MessageEvent2} from "@/utils/net/MessageEvent2";
-  import {NetMsgType} from "@/utils/netBase/NetMsgType";
   import {TTabList} from "@/utils/types";
-  import {NetPacket} from "@/utils/netBase/NetPacket";
-  import {Net} from "@/utils/net/Net";
+  import {storeToRefs} from "pinia";
+  import pinia, {BankListInfo} from "@/store";
 
   const emit = defineEmits(['selectBank']);
   const { t } = useI18n();
+  const BankListInfoStore = BankListInfo(pinia);
+  const { bankList } = storeToRefs(BankListInfoStore);
   const showBankModal = ref(false);
   // 银行列表
   const bkList = ref<TTabList>([]);
@@ -49,13 +49,8 @@
     showBankModal.value = !showBankModal.value
   }
 
-  const getBankList = () => {
-    const req = NetPacket.req_bank_name_list();
-    Net.instance.sendRequest(req);
-  }
-  const handleBankList = (res: any) => {
-    const resData = res.bank_name_list
-    bkList.value = resData.map((bank: any) => ({ label: bank.bank_name, value: bank.bank_id }));
+  const handleBankList = () => {
+    bkList.value = [...bankList.value];
     originBkList.value = [...bkList.value];
   }
   // 输入字符串匹配银行
@@ -81,13 +76,19 @@
     emit('selectBank', e)
   }
 
+  watch(
+    () => bankList.value,
+    (n) => {
+      console.log('999999', n)
+      handleBankList();
+    },
+    {
+      deep: true,
+    }
+  )
+
   onMounted(() => {
-    getBankList();
-    // 银行列表
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
-  })
-  onUnmounted(() => {
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
+    handleBankList();
   })
 
   defineExpose({

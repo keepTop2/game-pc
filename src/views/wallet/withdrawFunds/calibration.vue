@@ -190,39 +190,12 @@
 
 
   <!-- 选择银行弹窗 -->
-  <n-modal class="deposit_sm_modal" :show="showBankModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight-5 t-md">{{ '请选择银行' }}</span>
-          <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
-        </div>
-        <div class="body vertical center t-md body-sec">
-          <n-input size="large" @input="handleInput" :placeholder="'输入银行名称查找'">
-            <template #suffix>
-              <a class="refresh-icon search-icon"></a>
-            </template>
-          </n-input>
-          <n-flex class="bank-list">
-            <n-flex align="center" class="bank-item" v-for="(item, index) in bkList"
-                    @click="selectBank(item)" :key="index">
-              <span class="bank-l-icon">
-                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label"/>
-              </span>
-              <span class="bank-l-name"> {{ item.label }} </span>
-            </n-flex>
-          </n-flex>
-        </div>
-      </div>
-    </n-card>
-  </n-modal>
+  <chooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
 
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import {defineAsyncComponent, nextTick, onMounted, onUnmounted, ref} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
@@ -239,11 +212,13 @@ import pinia, { User, BankListInfo } from '@/store';
 import { aaa, bbb, getDeviceId, getRandomSign} from '@/utils/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
+const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
 const UserStore = User(pinia);
 const BankListInfoStore = BankListInfo(pinia);
 const { info: userInfo, roleInfo } = storeToRefs(UserStore);
 const { bankList } = storeToRefs(BankListInfoStore);
+const chooseBankModal = ref();
 
 const props = defineProps({
   myBankList: {
@@ -255,18 +230,9 @@ const props = defineProps({
 const { t } = useI18n();
 const showModal = ref(false);
 
-const showBankModal = ref(false);
-
 
 // 银行列表
 const bkList = ref<TTabList>([...bankList.value]);
-const originBkList = ref<TTabList>([...bankList.value]);
-
-
-const onCloseBank = () => {
-  showBankModal.value = !showBankModal.value;
-};
-
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 
 
@@ -355,10 +321,6 @@ const handleSMSback = (res: any) => {
     phoneCodeDisabled.value = false
   }
 }
-
-
-
-
 
 const bankError = ref(false);
 
@@ -621,35 +583,11 @@ const rules = {
 
 // 更换银行弹窗
 const showChangeBank = () => {
-  showBankModal.value = true;
-  getBankList();
-};
-const getBankList = () => {
-  const req = NetPacket.req_bank_name_list();
-  Net.instance.sendRequest(req);
+  chooseBankModal.value.onCloseBank();
 };
 
-// 输入字符串匹配银行
-const handleInput = (v: string) => {
-  if (v) {
-    const newArr: any = [];
-    originBkList.value.map((item: any) => {
-      const str = item.label;
-      const reg = new RegExp(v, 'i');
-      const isHas = str.match(reg);
-      if (isHas) {
-        newArr.push(item);
-      }
-    });
-    bkList.value = [...newArr];
-  } else {
-    bkList.value = [...originBkList.value];
-  }
-};
 // 选择银行
 const selectBank = (e: any) => {
-  onCloseBank();
-
   formBank.value.bank = e.value;
   formBank.value.bankName = e.label;
   // formBank.accountName
@@ -685,10 +623,6 @@ const getInfo = () => {
   capitalError.value = Boolean(roleInfo.value.withdraw_pwd);
 
 }
-
-
-
-
 
 
 onMounted(() => {

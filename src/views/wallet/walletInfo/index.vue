@@ -195,7 +195,7 @@
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
 // import { useRouter } from 'vue-router';
-import { ref, nextTick, onMounted } from 'vue';
+import {ref, nextTick, onMounted, onUnmounted} from 'vue';
 // import { EAllWallets, EWallets } from '@/enums/walletEnum';
 import useWalletInfo from './useWalletInfo';
 import Withdraw from '@/views/wallet/components/Withdraw.vue';
@@ -251,6 +251,7 @@ const getBankList = () => {
 };
 
 const handleBankList = (res: any) => {
+  console.log('bankList-------', res)
   bankListInfo.setBankListInfo(res.bank_name_list)
 };
 
@@ -258,7 +259,10 @@ onMounted(() => {
   getBankList()
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
 })
-
+onUnmounted(() => {
+  // 取消监听
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
+});
 
 
 

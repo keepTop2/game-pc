@@ -234,7 +234,6 @@ watch(
 
 onMounted(() => {
   setBaseData();
-  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
   // 绑定银行卡
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
   // 监听手机号验证码返回
@@ -245,7 +244,6 @@ onMounted(() => {
 });
 onUnmounted(() => {
   // 取消监听
-  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
 });
