@@ -75,21 +75,18 @@ const useWalletInfo = () => {
 
     // 未绑定银行卡跳转到绑定银行卡
     if (!myBankList.value.bank_card_info_list || myBankList.value.bank_card_info_list.length == 0) {
-      Message.error(t('withdraw_page_notBankCard'))
       // router.push('/wallet/paymentManagement')
       calibrationRef.value.openModal();
       return
     }
     // 未绑定手机号码
     if (!userInfo.value.mobile) {
-      Message.error(t('withdraw_page_notPhone'))
       // router.push('/wallet/securitySettings?openDialogType=bindPhone')
       calibrationRef.value.openModal();
       return
     }
     // 未绑定资金密码
     if(!roleInfo.value.withdraw_pwd) {
-      Message.error(t('withdraw_page_notPayPwd'))
       // router.push('/wallet/securitySettings?openDialogType=bindPayPwd')
       calibrationRef.value.openModal();
       return

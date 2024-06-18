@@ -1,15 +1,16 @@
 <template>
-  <depositFirst ref="depositFirModal" @haveBankList="haveBankList"/>
+  <depositFirst ref="depositFirModal" @haveBankList="haveBankList" />
   <!--  <Deposit v-if="showDeposit" />-->
   <Withdraw v-if="showWithdraw" :myBankList="myBankList" />
   <!--<Transfer v-if="showTransfer" />-->
   <RedeemCode v-if="showRedeemCode" />
   <!--   <levelRule ref="levelModal" />-->
+
   <!--  提款校验-->
-  <Calibration  ref="calibrationRef" :myBankList="myBankList"/>
+  <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList" />
 
   <!-- 提款 -->
-  <WithdrawMoney ref="withdrawMoneyRef" :myBankList="myBankList"/>
+  <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />
 
   <n-spin :show="loading">
     <n-flex vertical>
@@ -44,9 +45,9 @@
             <div class="button" block @click="openDepositFir">
               <p class="size2"> {{ t('deposit_page_deposit') }} </p>
             </div>
-<!--            <div class="button" block @click="goToWithdraw">-->
-<!--              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>-->
-<!--            </div>-->
+            <!--            <div class="button" block @click="goToWithdraw">-->
+            <!--              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>-->
+            <!--            </div>-->
             <div class="button" block @click="goCalibration">
               <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>
             </div>
@@ -147,13 +148,14 @@
             </n-slider>
           </div>
           <n-flex class="kjje-div">
-            <a :class="`kj-item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)" :key="index">
+            <a :class="`kj-item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr"
+              @click="chooseFastMon(item.value)" :key="index">
               {{ item.label }}
             </a>
           </n-flex>
           <n-flex class="bot-tips">
             <span class="icon-tip"></span>
-            {{t('walletInfo_page_tranferTips')}}
+            {{ t('walletInfo_page_tranferTips') }}
           </n-flex>
           <a class="sub-btn" @click="handleSubmit"> {{ t('home_page_confirm') }} </a>
         </div>
@@ -193,7 +195,7 @@
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
 // import { useRouter } from 'vue-router';
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 // import { EAllWallets, EWallets } from '@/enums/walletEnum';
 import useWalletInfo from './useWalletInfo';
 import Withdraw from '@/views/wallet/components/Withdraw.vue';
@@ -202,7 +204,13 @@ import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
-import {Message} from "@/utils/discreteApi.ts";
+import { Message } from "@/utils/discreteApi.ts";
+import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
+import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
+import { NetPacket } from '@/utils/netBase/NetPacket.ts';
+import { Net } from '@/utils/net/Net.ts';
+import pinia, { BankListInfo } from '@/store';
+const bankListInfo = BankListInfo(pinia);
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
@@ -218,7 +226,7 @@ const haveBank = ref(false);
 // 打开充值第一个弹窗
 const openDepositFir = () => {
   if (!haveBank.value) {
-   return Message.error(t('deposit_page_notPayWay'))
+    return Message.error(t('deposit_page_notPayWay'))
   }
   depositFirModal.value.openModal();
 }
@@ -236,6 +244,20 @@ const goCalibration = () => {
     goToWithdraw()
   })
 }
+
+const getBankList = () => {
+  const req = NetPacket.req_bank_name_list();
+  Net.instance.sendRequest(req);
+};
+
+const handleBankList = (res: any) => {
+  bankListInfo.setBankListInfo(res.bank_name_list)
+};
+
+onMounted(() => {
+  getBankList()
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
+})
 
 
 

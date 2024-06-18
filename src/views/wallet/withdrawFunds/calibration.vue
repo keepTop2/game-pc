@@ -27,7 +27,9 @@
                   <n-form-item :label="'选择银行'">
                     <n-flex class="choose-bank">
                       <n-flex align="center" class="choose-bank-l">
-                        <span class="bank-cicon"></span>
+                        <span class="bank-cicon">
+                          <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label"/>
+                        </span>
                         <span class="bank-cname"> {{ chooseBank.label }} </span>
                       </n-flex>
                       <a class="change-btn" @click="showChangeBank"> 更换 </a>
@@ -43,7 +45,7 @@
                     </n-input>
                   </n-form-item>
                   <n-form-item :label="'银行账户名'" path="accountName">
-                    <n-input size="large" disabled v-model:value="formBank.accountName"
+                    <n-input size="large" :disabled="props.myBankList.cardholder_name" v-model:value="formBank.accountName"
                              :placeholder="'请输入银行账户名'">
                       <template #suffix>
                         <a class="refresh-icon"></a>
@@ -194,8 +196,7 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ '请选择银行' }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff"
-                             size="1.5em"></iconpark-icon>
+              <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t-md body-sec">
@@ -207,7 +208,9 @@
           <n-flex class="bank-list">
             <n-flex align="center" class="bank-item" v-for="(item, index) in bkList"
                     @click="selectBank(item)" :key="index">
-              <span class="bank-l-icon"></span>
+              <span class="bank-l-icon">
+                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label"/>
+              </span>
               <span class="bank-l-name"> {{ item.label }} </span>
             </n-flex>
           </n-flex>
@@ -232,13 +235,15 @@ import { verifyMobile, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is.
 import { Message } from '@/utils/discreteApi.ts';
 // import { i18n } from '@/languages';
 import { storeToRefs } from 'pinia';
-import pinia, { User } from '@/store';
+import pinia, { User, BankListInfo } from '@/store';
 import { aaa, bbb, getDeviceId, getRandomSign} from '@/utils/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
 
 const UserStore = User(pinia);
+const BankListInfoStore = BankListInfo(pinia);
 const { info: userInfo, roleInfo } = storeToRefs(UserStore);
+const { bankList } = storeToRefs(BankListInfoStore);
 
 const props = defineProps({
   myBankList: {
@@ -254,8 +259,8 @@ const showBankModal = ref(false);
 
 
 // 银行列表
-const bkList = ref<TTabList>([]);
-const originBkList = ref<TTabList>([]);
+const bkList = ref<TTabList>([...bankList.value]);
+const originBkList = ref<TTabList>([...bankList.value]);
 
 
 const onCloseBank = () => {
@@ -494,10 +499,6 @@ const submitCapital = () => {
     if (!errors) {
 
       bindMoneyPassword()
-
-
-      // capitalError.value = true;
-
     } else {
       console.log(errors);
     }
@@ -627,11 +628,7 @@ const getBankList = () => {
   const req = NetPacket.req_bank_name_list();
   Net.instance.sendRequest(req);
 };
-const handleBankList = (res: any) => {
-  const resData = res.bank_name_list;
-  bkList.value = resData.map((bank: any) => ({ label: bank.bank_name, value: bank.bank_id }));
-  originBkList.value = [...bkList.value];
-};
+
 // 输入字符串匹配银行
 const handleInput = (v: string) => {
   if (v) {
@@ -644,7 +641,7 @@ const handleInput = (v: string) => {
         newArr.push(item);
       }
     });
-    bkList.value = newArr;
+    bkList.value = [...newArr];
   } else {
     bkList.value = [...originBkList.value];
   }
@@ -696,9 +693,6 @@ const getInfo = () => {
 
 onMounted(() => {
 
-  getBankList();
-  // 银行列表
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
 
   // 绑定手机号
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_modify_email, handleChangeEmail);
@@ -720,7 +714,6 @@ onUnmounted(() => {
 
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
 
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_modify_email, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_or_modify_withdraw_password, null);
 

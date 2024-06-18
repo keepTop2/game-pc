@@ -5,8 +5,7 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ '选择银行卡' }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
-                             size="1.5em"></iconpark-icon>
+              <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
 
@@ -15,7 +14,9 @@
           <n-flex justify="space-between" align="center" class="w-full" vertical>
             <div class="bank-list" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank-item">
-                <div class="bank-l-icon"></div>
+                <div class="bank-l-icon">
+                  <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName"/>
+                </div>
                 <div class="bank-l-name">
                   <div class="info-text">
                     <p>
@@ -38,11 +39,12 @@
               </n-flex>
             </div>
 
-
-            <div class="bank-list-add" v-show="!addBankFlag">
-              <div class="center" @click="flagBank(true)">
-                <img src="/img/wallet/bankAdd.webp" alt="nodata">
-                <span>添加新银行卡</span>
+            <div v-if="!(bankList.length >= 6)">
+              <div class="bank-list-add" v-show="!addBankFlag">
+                <div class="center" @click="flagBank(true)">
+                  <img src="/img/wallet/bankAdd.webp" alt="nodata">
+                  <span>添加新银行卡</span>
+                </div>
               </div>
             </div>
 
@@ -57,7 +59,9 @@
               <n-form-item :label="'选择银行'" >
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
-                    <span class="bank-cicon"></span>
+                    <span class="bank-cicon">
+                       <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label"/>
+                    </span>
                     <span class="bank-cname"> {{chooseBank.label}} </span>
                   </n-flex>
                   <a class="change-btn" @click="showChangeBank"> 更换 </a>
@@ -74,7 +78,7 @@
 
 
               <n-form-item :label="'银行账户名'" path="accountName">
-                <n-input size="large" disabled v-model:value="form.accountName" :placeholder="'请输入银行账户名'" >
+                <n-input size="large" :disabled="props.myBankName" v-model:value="form.accountName" :placeholder="'请输入银行账户名'" >
                   <template #suffix>
                     <a class="refresh-icon"></a>
                   </template>
@@ -124,23 +128,54 @@
     </n-card>
   </n-modal>
 
-  <chooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
+  <!-- 选择银行弹窗 -->
+  <n-modal class="deposit_sm_modal" :show="showBankModal" :mask-closable="false">
+    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <div class="form_container vertical">
+        <div class="header rel center">
+          <span class="weight-5 t-md">{{ '请选择银行' }}</span>
+          <span class="close abs center pointer t-sm">
+              <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+          </span>
+        </div>
+        <div class="body vertical center t-md body-sec">
+          <n-input size="large"  @input="handleInput" :placeholder="'输入银行名称查找'" >
+            <template #suffix>
+              <a class="refresh-icon search-icon"></a>
+            </template>
+          </n-input>
+          <n-flex class="bank-list">
+            <n-flex align="center" class="bank-item" v-for="(item, index) in bkList" @click="selectBank(item)" :key="index">
+              <span class="bank-l-icon">
+                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label"/>
+              </span>
+              <span class="bank-l-name"> {{item.label}} </span>
+            </n-flex>
+          </n-flex>
+        </div>
+      </div>
+    </n-card>
+  </n-modal>
 
 </template>
 
 
 <script setup lang="ts">
 
-import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { NetPacket } from '@/utils/netBase/NetPacket.ts';
 import { Net } from '@/utils/net/Net.ts';
-import { TTabList } from '@/utils/types';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
 import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
+import {TTabList} from "@/utils/types";
 import { Message } from "@/utils/discreteApi.ts";
-const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
+import pinia, { BankListInfo } from '@/store';
+import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/utils/net/MessageMap.ts';
+
+const BankListInfoStore = BankListInfo(pinia);
+const bankListData = storeToRefs(BankListInfoStore);
 
 const emit = defineEmits(["bindBankCheck"]);
 
@@ -157,7 +192,6 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const chooseBankModal = ref();
 
 const form = ref({
   bank: '',
@@ -187,6 +221,8 @@ const submit = () => {
   req.account_number = form.value.bankCode;
   req.cardholder_name = form.value.accountName;
   Net.instance.sendRequest(req);
+  openModal()
+  flagBank(false)
 }
 
 // result: 2 // 1 成功，2 失败
@@ -280,36 +316,48 @@ const flagBank = (flag: Boolean) => {
 
 const showBankModal = ref(false);
 
+// 银行列表
+const bkList = ref<TTabList>([...bankListData.bankList.value]);
+const originBkList = ref<TTabList>([...bankListData.bankList.value]);
+
 const onCloseBank = () => {
-  showBankModal.value = !showBankModal.value
-}
+  showBankModal.value = !showBankModal.value;
+};
+
+// 输入字符串匹配银行
+const handleInput = (v: string) => {
+  if (v) {
+    const newArr: any = [];
+    originBkList.value.map((item: any) => {
+      const str = item.label;
+      const reg = new RegExp(v, 'i');
+      const isHas = str.match(reg);
+      if (isHas) {
+        newArr.push(item);
+      }
+    });
+    bkList.value = [...newArr];
+  } else {
+    bkList.value = [...originBkList.value];
+  }
+};
 
 // 更换银行弹窗
 const showChangeBank = () => {
-  chooseBankModal.value.onCloseBank();
+  onCloseBank()
 }
 
 
-
-// 银行列表
-const bkList = ref<TTabList>([]);
-const originBkList = ref<TTabList>([]);
-
-const handleBankList = (res: any) => {
-  const resData = res.bank_name_list
-  bkList.value = resData.map((bank: any) => ({ label: bank.bank_name, value: bank.bank_id }));
-  originBkList.value = [...bkList.value];
-}
 
 
 
 const chooseBank = ref({label: '', value: ''}); // 选择的银行卡
 // 选择银行
 const selectBank = (e: any) => {
-  onCloseBank();
   form.value.bank = e.value;
   chooseBank.value = e;
   form.value.bankName = e.label;
+  onCloseBank()
 }
 
 
@@ -318,8 +366,6 @@ onMounted(() => {
 
   setBankList(props.myBankList)
 
-  // 银行列表
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
 
   // 绑定银行卡
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
@@ -329,7 +375,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
 
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
 
@@ -370,6 +415,10 @@ defineExpose({
         .bank-l-icon {
           width: 54px;
           height: 54px;
+          img {
+            width: 54px;
+            height: 54px;
+          }
           //background-color: #ef1111;
           //margin-left: 18px;
         }
@@ -575,5 +624,139 @@ defineExpose({
     }
 
   }
+}
+
+
+.deposit_sm_modal {
+
+  .body {
+    .sm-txt {
+      font-size: 24px;
+      width: 375px;
+      height: 250px;
+      margin: 0 auto;
+      background: #17a1fb;
+    }
+    .bank-list-item {
+      width: 100%;
+      a {
+        img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+  }
+  .body-sec {
+    .refresh-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url(/img/payment/Vector.webp) center no-repeat;
+      background-size: 100%;
+
+      &.search-icon {
+        background-image: url(/img/payment/search_icon.webp);
+      }
+    }
+    .kjje-div {
+      gap: 20px !important;
+
+      .kj-item {
+        width: 110px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: url(/img/payment/monBg.webp) center no-repeat;
+        background-size: 100%;
+      }
+    }
+    .btn_zone {
+      margin: 10px auto;
+    }
+    .cz-tips {
+      font-size: 12px;
+      text-align: center;
+      color: #D16363;
+      .txt {
+        color: #60D580;
+        margin-bottom: 10px;
+      }
+      .tip {
+        gap: 4px !important;
+
+        .icon {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          background: url(/img/payment/error_icon.webp) center no-repeat;
+          background-size: 100%;
+        }
+      }
+    }
+
+    .choose-bank {
+      gap: 10px !important;
+      .choose-bank-l {
+        width: 270px;
+        height: 38px;
+        background: url(/img/payment/inputBg.webp) center no-repeat;
+        background-size: 100%;
+
+        .bank-cicon {
+          width: 24px;
+          height: 24px;
+        }
+        .bank-cname {
+          width: 220px;
+          line-height: 16px;
+        }
+      }
+      .change-btn {
+        display: inline-block;
+        text-align: center;
+        width: 90px;
+        height: 36px;
+        line-height: 36px;
+        background: url(/img/payment/go-btn.webp) center no-repeat;
+        background-size: 100%;
+      }
+    }
+
+    // 选择银行
+    .bank-list {
+      width: 100%;
+      gap: 20px 18px !important;
+      max-height: 310px;
+      overflow-y: auto;
+
+      .bank-item {
+        cursor: pointer;
+        font-size: 14px;
+        width: 177px;
+        height: 46px;
+        background: url(/img/payment/bankBg.webp) center no-repeat;
+        background-size: 100%;
+
+        &:active {
+          transform: scale(.95);
+        }
+        .bank-l-icon {
+          width: 28px;
+          height: 28px;
+          margin-left: 8px;
+          img {
+            width: 28px;
+            height: 28px;
+          }
+        }
+        .bank-l-name {
+          //max-width: 120px;
+        }
+      }
+    }
+
+  }
+
 }
 </style>
