@@ -49,7 +49,7 @@ import { Net } from "@/utils/net/Net";
 import { NetEnumDef } from "@/utils/netBase/NetEnumDef";
 import { MessageEvent2 } from "@/utils/net/MessageEvent2";
 import { NetMsgType } from "@/utils/netBase/NetMsgType";
-import { getRandomSign, getDeviceId, aaa, bbb } from "@/utils/net/Utils";
+import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/utils/net/Utils";
 
 import pinia from '@/store/index';
 import { User } from '@/store/user';
@@ -58,11 +58,13 @@ import { verifyCaptcha, verifyEmail, verifyPassword } from "@/utils/is";
 import { useI18n } from "vue-i18n";
 import { Message } from '@/utils/discreteApi'
 import { IP } from "@/utils/others";
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 const { t } = useI18n();
 const registerFormRef = ref();
 const captchaURL = ref("");
 const req_register = NetPacket.req_register_account();
+
 const verifyConfirmPassword = (): boolean => {
   if (state.register.password !== state.register.confirm)
     return false;
@@ -148,8 +150,8 @@ const handleSubmit = async () => {
   req_register.sign = getRandomSign(id);
   req_register.ip = await IP();
   req_register.ip_error = "0";
-  req_register.device_model = "apple";
-  req_register.channel_id = 1;
+  req_register.device_model = device_model;
+  req_register.channel_id = route.query.channel_id || 123;
   req_register.device_id = await getDeviceId();
   req_register.aaa = aaa;
   req_register.bbb = bbb;
@@ -311,7 +313,7 @@ const registerSuccess = async (message: any) => {
     req_login.password = req_register.password;
     req_login.device_id = await getDeviceId();
     req_login.device_model = "apple";
-    req_login.channel_id = 1;
+    req_login.channel_id = route.query.channel_id || 123;
     req_login.aaa = aaa;
     req_login.bbb = bbb;
     req_login.ip = await IP();
