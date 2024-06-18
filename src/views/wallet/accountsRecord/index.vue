@@ -67,16 +67,16 @@ const optionsStatus = computed(() => { // 类型
     const options = Object.keys(AccountTypeMap).map((key: string) => {
         return {
             label: AccountTypeMap[key],
-            value: key
+            value: Number(key)
         }
     })
-    options.unshift({ value: '0', label: t('accountsRecord_page_allType') })
+    options.unshift({ value: 0, label: t('accountsRecord_page_allType') })
     return options
 })
 
 const params: any = reactive({ // 参数
     page: 1,
-    type: '0',
+    type: 0,
 })
 const result: any = reactive({ // 结果
     total_page: 0,
@@ -96,7 +96,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let val = row[key]
     switch (key) {
         case "type":
-            rs = AccountTypeMap[val]
+            rs = t(val)
             break
         case "item":
             rs = WalletTypeMap[val]
@@ -123,7 +123,9 @@ const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
     loading.value = true
-    pageChange(1)
+    setTimeout(() => {
+        pageChange(1)
+    }, 500)
 }
 const pageChange = (page: number) => { // 切换页码
     params.page = page

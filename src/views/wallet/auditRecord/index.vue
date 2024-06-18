@@ -97,7 +97,9 @@ const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
     loading.value = true
-    pageChange(1)
+    setTimeout(() => {
+        pageChange(1)
+    }, 500)
 }
 const pageChange = (page: number) => { // 切换页码
     params.page = page

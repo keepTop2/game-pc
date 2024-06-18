@@ -72,27 +72,27 @@ const optionsStatus = computed(() => { // 状态
     const options = Object.keys(RechagreStatusMap).map((key: string) => {
         return {
             label: RechagreStatusMap[key],
-            value: key
+            value: Number(key)
         }
     })
-    options.unshift({ value: '9', label: t('rechargeRecord_page_allState') })
+    options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
     return options
 })
 const optionsCurrency = computed(() => { // 法币
     const options = Object.keys(CurrencyMap).map((key: string) => {
         return {
             label: CurrencyMap[key],
-            value: key
+            value: Number(key)
         }
     })
-    options.unshift({ value: '0', label: t('rechargeRecord_page_allHb') })
+    options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
     return options
 })
 
 const params: any = reactive({ // 参数
     page: 1,
-    status: '9',
-    currency: '0',
+    status: 9,
+    currency: 0,
 })
 const result: any = reactive({ // 结果
     total_page: 0,

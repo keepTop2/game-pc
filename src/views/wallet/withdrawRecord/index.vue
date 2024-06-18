@@ -72,27 +72,27 @@ const optionsStatus = computed(() => { // 状态
     const options = Object.keys(WithdrawStatusMap).map((key: string) => {
         return {
             label: WithdrawStatusMap[key],
-            value: key
+            value: Number(key)
         }
     })
-    options.unshift({ value: '9', label: t('rechargeRecord_page_allState') })
+    options.unshift({ value: 0, label: t('rechargeRecord_page_allState') })
     return options
 })
 const optionsCurrency = computed(() => { // 法币
     const options = Object.keys(CurrencyMap).map((key: string) => {
         return {
             label: CurrencyMap[key],
-            value: key
+            value: Number(key)
         }
     })
-    options.unshift({ value: '0', label: t('rechargeRecord_page_allHb') })
+    options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
     return options
 })
 
 const params: any = reactive({ // 参数
     page: 1,
-    status: '9',
-    currency: '0',
+    status: 0,
+    currency: 0,
 })
 const result: any = reactive({ // 结果
     total_page: 0,
@@ -140,7 +140,9 @@ const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
     loading.value = true
-    pageChange(1)
+    setTimeout(() => {
+        pageChange(1)
+    }, 500)
 }
 const pageChange = (page: number) => { // 切换页码
     params.page = page
