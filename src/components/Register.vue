@@ -25,7 +25,7 @@
             </template>
           </n-input>
           <template v-if="item.name === 'captcha'">
-            <span v-if="activeTab === 1" @click="refresh_captcha()" class="btn pointer">
+            <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
               <img :src="captchaURL" alt="captchaURL">
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
             </span>
@@ -37,7 +37,9 @@
         </n-form-item>
       </template>
     </n-form>
-    <div class="submit_btn pointer" block @click="onSubmit">{{ t('home_page_reg') }}</div>
+    <n-button :bordered="false" class="submit_btn pointer" :loading="loading" block @click="onSubmit">{{
+      t('home_page_reg')
+      }}</n-button>
   </div>
 </template>
 
@@ -156,10 +158,11 @@ const handleSubmit = async () => {
   req_register.aaa = aaa;
   req_register.bbb = bbb;
   req_register.captcha = state.register.captcha;
-  req_register.currency = state.register.currency || 1; // 默认越南盾
-  req_register.inviteCode = state.register.inviteCode;
-  req_register.name = state.register.name;
-  req_register.phone = state.register.phone;
+  req_register.currency = state.register.currency || 0;
+  req_register.agent_id = state.register.inviteCode;
+  req_register.form_url = ""
+  // req_register.name = state.register.name;
+  // req_register.phone = state.register.phone;
   Net.instance.sendRequest(req_register);
 };
 
@@ -195,14 +198,7 @@ const state: any = reactive({
     //   placeholder: t('home_page_chooseHb'),
     //   hasPop: true
     // },
-    inviteCode: {
-      name: 'inviteCode',
-      type: 'text',
-      placeholder: t('home_page_inviteCode'),
-      required: !0,
-      message: t('home_page_notCode'),
-      view: 1,
-    },
+
     account: {
       name: 'account',
       type: 'text',
@@ -221,23 +217,30 @@ const state: any = reactive({
       placeholder: t('home_page_secPwd'),
       changeRightIcon: "Group39364",
     },
-    phone: {
-      name: 'phone',
-      type: 'text',
-      placeholder: t('home_page_inputPhone'),
-      view: 1,
-    },
-    name: {
-      name: 'name',
-      type: 'text',
-      placeholder: t('home_page_inputName'),
-      view: 1,
-    },
+    // phone: {
+    //   name: 'phone',
+    //   type: 'text',
+    //   placeholder: t('home_page_inputPhone'),
+    //   view: 1,
+    // },
+    // name: {
+    //   name: 'name',
+    //   type: 'text',
+    //   placeholder: t('home_page_inputName'),
+    //   view: 1,
+    // },
     captcha: {
       name: 'captcha',
       type: 'text',
       placeholder: t('home_page_enterVerificationCode'),
       message: t('home_page_verificationCodeFormatIncorrect'),
+    },
+    inviteCode: {
+      name: 'inviteCode',
+      type: 'text',
+      placeholder: t('home_page_inviteCode'),
+      required: !0,
+      message: t('home_page_notCode'),
     },
   },
   register: {

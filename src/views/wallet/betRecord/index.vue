@@ -59,7 +59,7 @@ import { NetMsgType } from '@/utils/netBase/NetMsgType';
 import DateSelect from "@/components/DateSelect.vue"
 import { Net } from "@/utils/net/Net";
 import { NetPacket } from "@/utils/netBase/NetPacket";
-import { PlatformMap } from "@/enums/walletEnum"
+import { PlatformValueMap } from "@/enums/walletEnum"
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 
@@ -74,25 +74,25 @@ const tableHeader = computed(() => {
     ]
 })
 
-type OptionListType = { value: string, label: string }[];
+type OptionListType = { value: number, label: string }[];
 const platformList = ref<OptionListType>([]);
 const optionsPlat = computed(() => { // 平台
     const options = platformList.value
-    options.unshift({ value: '0', label: t('promo_page_all') })
+    options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
 const gameList = ref<OptionListType>([]);
 const optionsGame = computed(() => { // 游戏
     const options = gameList.value
-    options.unshift({ value: '0', label: t('promo_page_all') })
+    options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
 
 const params: any = reactive({ // 参数
     page: 1,
-    platform_id: '0',
-    game_type: '0',
-    play_type: '0',
+    platform_id: 0,
+    game_type: 0,
+    play_type: 0,
 })
 const result: any = reactive({ // 结果
     total_page: 0,
@@ -109,10 +109,16 @@ const resultHandle = (rs: any) => { // 数据处理
 }
 const platformHandle = (rs: any) => { // 平台数据处理
     platformList.value = rs.plat_rec_list.map((item: any) => {
-        return { value: item.id, label: PlatformMap[item.platform] }
+        return { value: Number(item), label: PlatformValueMap[item] }
     })
     gameList.value = rs.gtype_rec_list.map((item: string) => {
-        return { value: item, label: item }
+        let key = item
+        try {
+            key = PlatformValueMap[item.split('_')[0]] + '_' + item.split('_')[1]
+        } catch {
+
+        }
+        return { value: item, label: t(key) }
     })
 }
 const rowHandle = (row: any, key: string) => { // 格子数据处理
@@ -146,7 +152,9 @@ const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
     loading.value = true
-    pageChange(1)
+    setTimeout(() => {
+        pageChange(1)
+    }, 500)
 }
 const pageChange = (page: number) => { // 切换页码
     params.page = page
@@ -168,7 +176,7 @@ const queryData = () => { // 查询
     Object.assign(query.end_time, params.end_time)
     query.page_num = params.page
     query.platform_id = params.platform_id
-    query.game_type = params.game_type
+    query.game_type = params.game_type.toString()
     query.play_type = params.play_type
     loading.value = true
     Net.instance.sendRequest(query);
@@ -177,7 +185,9 @@ const getPlatformData = () => { // 获取平台数据
     const query = NetPacket.req_platform_gametype_list()
     Net.instance.sendRequest(query);
 }
-getPlatformData()
+setTimeout(() => {
+    getPlatformData()
+}, 1200)
 
 // 回执监听
 MessageEvent2.addMsgEvent(
