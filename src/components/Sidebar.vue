@@ -18,6 +18,34 @@
                 </p>
             </div>
         </div> -->
+        <!-- 游戏 -->
+        <div class="sidebar_public">
+            <p> {{ t(state.gameList.title) }} </p>
+            <div>
+                <p :class="state.active == game.name ? 'hover' : ''" v-for="(game, g) in state.gameList.list" :key="g"
+                    @click="itemClick(game)">
+                    <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
+                    <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon>
+                    <span>{{ t(game.name) }}</span>
+                </p>
+            </div>
+        </div>
+        <!-- 活动 -->
+        <div class="sidebar_public">
+            <p> {{ t(state.activityList.title) }} </p>
+
+            <div>
+
+                <p :class="state.active == g ? 'hover' : ''" v-for="(game, g) in activityTitleList" :key="g"
+                    @click="itemClick(game)">
+                    <!-- {{ game }}
+                    {{ g }} -->
+                    <!-- <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
+                    <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon> -->
+                    <span>{{ t(g) }}</span>
+                </p>
+            </div>
+        </div>
         <div class="sidebar_public" v-for="(item, i) in state.sideList" :key="i">
             <p> {{ t(item.title) }} </p>
             <div>
@@ -28,7 +56,6 @@
                     <span>{{ t(game.name) }}</span>
                 </p>
             </div>
-
         </div>
 
         <!-- 俱乐部 -->
@@ -44,7 +71,7 @@ import pinia from '@/store/index';
 import { User } from '@/store/user';
 
 import { Page } from '@/store/page';
-const { activityList } = storeToRefs(Page(pinia));
+const { activityTitleList } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 
 const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
@@ -84,118 +111,170 @@ const state: any = reactive({
             ]
         },
     ],
+    gameList: {
+        title: 'home_page_game',
+        list: [
+            {
+                icon: 'Group39096',
+                name: 'home_page_slot',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+            {
+                icon: 'Group39095',
+                name: 'home_page_live',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+            {
+                icon: 'Group39098',
+                name: 'home_page_fishing',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+
+            {
+                icon: 'Group39099',
+                name: 'home_page_sportsGame',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+            {
+                icon: 'Group1556235261',
+                name: 'home_page_pokerGame',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+            {
+                icon: 'Group1556235309',
+                name: 'home_page_lotteryGame',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+        ],
+    },
+    activityList: {
+        title: 'home_page_activity',
+        list: null
+    },
     sideList: [
 
-        {
-            title: 'home_page_game',
-            list: [
-                {
-                    icon: 'Group39096',
-                    name: 'home_page_slot',
-                    url: '/gameMain/gamingPlatform',
-                    color: '',
-                    value: '',
-                },
-                {
-                    icon: 'Group39095',
-                    name: 'home_page_live',
-                    url: '/gameMain/gamingPlatform',
-                    color: '',
-                    value: '',
-                },
-                {
-                    icon: 'Group39098',
-                    name: 'home_page_fishing',
-                    url: '/gameMain/gamingPlatform',
-                    color: '',
-                    value: '',
-                },
+        // {
+        //     title: 'home_page_game',
+        //     list: [
+        //         {
+        //             icon: 'Group39096',
+        //             name: 'home_page_slot',
+        //             url: '/gameMain/gamingPlatform',
+        //             color: '',
+        //             value: '',
+        //         },
+        //         {
+        //             icon: 'Group39095',
+        //             name: 'home_page_live',
+        //             url: '/gameMain/gamingPlatform',
+        //             color: '',
+        //             value: '',
+        //         },
+        //         {
+        //             icon: 'Group39098',
+        //             name: 'home_page_fishing',
+        //             url: '/gameMain/gamingPlatform',
+        //             color: '',
+        //             value: '',
+        //         },
 
-                {
-                    icon: 'Group39099',
-                    name: 'home_page_sportsGame',
-                    url: '/gameMain/gamingPlatform',
-                    color: '',
-                    value: '',
-                },
-                {
-                    icon: 'Group1556235261',
-                    name: 'home_page_pokerGame',
-                    url: '/gameMain/gamingPlatform',
-                    color: '',
-                    value: '',
-                },
-                {
-                    icon: 'Group1556235309',
-                    name: 'home_page_lotteryGame',
-                    url: '/gameMain/gamingPlatform',
-                    color: '',
-                    value: '',
-                },
-            ],
-        },
-        {
-            title: 'home_page_activity',
-            list: [
-                {
-                    icon: 'Group39311',
-                    name: 'home_page_clubExclusive',
-                    url: '/gameMain/activity',
-                    color: '',
-                    value: '5',
-                },
-                {
-                    icon: 'Group39310',
-                    name: 'home_page_BYExclusive',
-                    url: '/gameMain/activity',
-                    color: '',
-                    value: '1',
-                },
-                {
-                    icon: 'Group39312',
-                    name: 'home_page_sportsActivities',
-                    url: '/gameMain/activity',
-                    color: '',
-                    value: '2',
-                },
-                {
-                    icon: 'Group39318',
-                    name: 'home_page_liveActivities',
-                    url: '/gameMain/activity',
-                    color: '',
-                    value: '3',
-                },
-                {
-                    icon: 'Group39322',
-                    name: 'home_page_slotActivity',
-                    url: '/gameMain/activity',
-                    color: '',
-                    value: '4',
-                },
-                // {
-                //     icon: 'Group39324',
-                //     name: 'home_page_leagueActivities',
-                //     url: '/gameMain/activity',
-                //     color: '',
-                //     value: '1',
-                // },
+        //         {
+        //             icon: 'Group39099',
+        //             name: 'home_page_sportsGame',
+        //             url: '/gameMain/gamingPlatform',
+        //             color: '',
+        //             value: '',
+        //         },
+        //         {
+        //             icon: 'Group1556235261',
+        //             name: 'home_page_pokerGame',
+        //             url: '/gameMain/gamingPlatform',
+        //             color: '',
+        //             value: '',
+        //         },
+        //         {
+        //             icon: 'Group1556235309',
+        //             name: 'home_page_lotteryGame',
+        //             url: '/gameMain/gamingPlatform',
+        //             color: '',
+        //             value: '',
+        //         },
+        //     ],
+        // },
+        // {
+        //     title: 'home_page_activity',
+        //     list: [
+        //         {
+        //             icon: 'Group39311',
+        //             name: 'home_page_clubExclusive',
+        //             url: '/gameMain/activity',
+        //             color: '',
+        //             value: '5',
+        //         },
+        //         {
+        //             icon: 'Group39310',
+        //             name: 'home_page_BYExclusive',
+        //             url: '/gameMain/activity',
+        //             color: '',
+        //             value: '1',
+        //         },
+        //         {
+        //             icon: 'Group39312',
+        //             name: 'home_page_sportsActivities',
+        //             url: '/gameMain/activity',
+        //             color: '',
+        //             value: '2',
+        //         },
+        //         {
+        //             icon: 'Group39318',
+        //             name: 'home_page_liveActivities',
+        //             url: '/gameMain/activity',
+        //             color: '',
+        //             value: '3',
+        //         },
+        //         {
+        //             icon: 'Group39322',
+        //             name: 'home_page_slotActivity',
+        //             url: '/gameMain/activity',
+        //             color: '',
+        //             value: '4',
+        //         },
+        //         // {
+        //         //     icon: 'Group39324',
+        //         //     name: 'home_page_leagueActivities',
+        //         //     url: '/gameMain/activity',
+        //         //     color: '',
+        //         //     value: '1',
+        //         // },
 
-                // {
-                //     icon: 'Group39326',
-                //     name: 'home_page_events',
-                //     url: '/gameMain/activity',
-                //     color: '',
-                //     value: '1',
-                // },
-                // {
-                //     icon: 'Group39325',
-                //     name: 'home_page_europeanCupActivities',
-                //     url: '/gameMain/activity',
-                //     color: '',
-                //     value: '1',
-                // },
-            ]
-        },
+        //         // {
+        //         //     icon: 'Group39326',
+        //         //     name: 'home_page_events',
+        //         //     url: '/gameMain/activity',
+        //         //     color: '',
+        //         //     value: '1',
+        //         // },
+        //         // {
+        //         //     icon: 'Group39325',
+        //         //     name: 'home_page_europeanCupActivities',
+        //         //     url: '/gameMain/activity',
+        //         //     color: '',
+        //         //     value: '1',
+        //         // },
+        //     ]
+        // },
         {
             title: 'home_page_agencyCenter',
             list: [
@@ -270,7 +349,6 @@ onMounted(async () => {
     if (route.query.name) {
         state.active = route.query.name
     }
-    state.sideList[1].list = activityList
 });
 watch(
     () => route.query.name,

@@ -100,7 +100,7 @@
 import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, } from 'vue';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { Local, needLoginApi, noNeedLoginApi } from '@/utils/storage';
+import { Local, needLoginApi } from '@/utils/storage';
 import { useRoute, useRouter } from 'vue-router';
 
 import { Dialog } from '@/utils/discreteApi';
@@ -115,6 +115,8 @@ import { NetEnumDef } from '@/utils/netBase/NetEnumDef';
 import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
+import { NetPacket } from '@/utils/netBase/NetPacket';
+import { Net } from '@/utils/net/Net';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings } = storeToRefs(page);
@@ -399,7 +401,10 @@ MessageEvent2.addMsgEvent(
 );
 
 onMounted(async () => {
-  noNeedLoginApi()
+  let req_check_version_req = NetPacket.req_check_version();
+  req_check_version_req.version = 1;
+  Net.instance.sendRequest(req_check_version_req);
+
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_check_version,
     onHander_check_version
@@ -417,9 +422,7 @@ onMounted(async () => {
     await page.setMenuActive(Local.get('menuActive'), Local.get('menuName'))
   }
 
-  // let req_check_version_req = NetPacket.req_check_version();
-  // req_check_version_req.version = 1;
-  // Net.instance.sendRequest(req_check_version_req);
+
 
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_send_system_notice,

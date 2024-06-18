@@ -13,7 +13,8 @@ interface PageState {
     bannerArr: Array<string>
     textAnnouncement: Array<string>
     settings: any,
-    activityList: any
+    activityList: any,
+    activityTitleList: any
 }
 export const Page = defineStore('page', {
     state: (): PageState => ({
@@ -23,7 +24,8 @@ export const Page = defineStore('page', {
         bannerArr: [],
         textAnnouncement: [],
         settings: null,
-        activityList: null
+        activityList: null,
+        activityTitleList: null
     }),
     actions: {
         // 获取标签下拉选择框数据
@@ -40,10 +42,28 @@ export const Page = defineStore('page', {
             this.settings = value
         },
         async setActivityList(value: any) {
+            let list: Array<string> = []
+
+
+            let obj: any = {}
+
             value.map((e: any) => {
+                list.push(e.tag)
                 e.url = '/gameMain/activity'
             })
+            let newList = Array.from(new Set(list))
+
+            newList.map((e: any) => {
+                value.map((j: any) => {
+                    if (j.tag == e) {
+                        obj[e] = []
+                        obj[e].push(j)
+                    }
+                })
+            })
             this.activityList = value
+            this.activityTitleList = obj
+
         },
         async setTextAnnouncement(arr: Array<string>) {
             this.textAnnouncement = arr

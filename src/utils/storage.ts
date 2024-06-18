@@ -81,12 +81,17 @@ export const needLoginApi = async () => {
 		Net.instance.sendRequest(req_user_info);
 		let vipInfoReq = NetPacket.req_vip_info();
 		Net.instance.sendRequest(vipInfoReq);
+		// 获取所有活动  activities_category_icon_
+		const req = NetPacket.req_activites();
+		req.show = 0
+		Net.instance.sendRequest(req);
+	} else {
+		// 获取所有活动  activities_category_icon_
+
+		const req = NetPacket.req_activites();
+		req.show = 0
+		Net.instance.sendRequest(req);
 	}
 
 }
-export const noNeedLoginApi = async () => {
-	// 获取所有活动  activities_category_icon_
-	const req = NetPacket.req_activites();
-	req.show = 0
-	Net.instance.sendRequest(req);
-}
+

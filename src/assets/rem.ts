@@ -2,7 +2,7 @@ const setRem = () => {
     let width = document.documentElement.clientWidth || document.body.clientWidth
     let dom = document.getElementsByTagName('html')[0]
 
-    dom.style.fontSize = `${(width < 1000 ? 1000 : width) / 100}px`
+    dom.style.fontSize = `${(width < 1200 ? 1200 : width) / 100}px`
 }
 setRem()
 window.onresize = function () {
