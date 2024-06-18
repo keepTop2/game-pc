@@ -1,19 +1,20 @@
 <template>
   <n-flex vertical class="promo_info record_page">
     <n-flex align="center" class="tab_top">
-      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr" :key="index"
-        @click="clickTab(item.key)">
+      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
+        :key="index" @click="clickTab(item.key)">
         {{ t(item.title) }}
       </a>
     </n-flex>
     <n-spin :show="loading">
       <div class="promo_list">
-        <div :class="`list_item ${(item.volume || item.award) ? 'list_item_b' : ''}`" v-for="(item, index) in listData.list"
-          :key="index">
+        <div :class="`list_item ${(item.volume || item.award) ? 'list_item_b' : ''}`"
+          v-for="(item, index) in listData.list" :key="index">
           <n-flex justify="space-between" class="item_top">
             <div class="item_l">
               <span v-if="('1,2,3,4,5').includes(item.have_save)" class="item_name"> {{ t('promo_page_fuHuo') }} </span>
-              <span v-else class="item_name"> {{ tabArr.find((item_1: any) => item_1.key == item.tag) ? t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
+              <span v-else class="item_name"> {{ tabArr.find((item_1: any) => item_1.key == item.tag) ?
+                t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <span class="item_title"> {{ item.content ? t(item.content) : '-' }} </span>
@@ -23,10 +24,12 @@
 
             </div>
             <div class="item_r">
-              <n-button v-if="('1,2,3,4,5').includes(item.have_save)" :disabled="('1,2').includes(item.have_save)" :bordered="false" class="lq-btn" @click="applyBouns(item)">
+              <n-button v-if="('1,2,3,4,5').includes(item.have_save)" :disabled="('1,2').includes(item.have_save)"
+                :bordered="false" class="lq-btn" @click="applyBouns(item)">
                 {{ item.have_save === '1' ? t('promo_page_fuHuoNot') : t('promo_page_receive') }}
               </n-button>
-              <n-button v-else :bordered="false" class="lq-btn" @click="applyBouns(item)"> {{ item.tag === '0' ? t('promo_page_apply') : t('promo_page_receive') }} </n-button>
+              <n-button v-else :bordered="false" class="lq-btn" @click="applyBouns(item)"> {{ item.tag === '0' ?
+                t('promo_page_apply') : t('promo_page_receive') }} </n-button>
             </div>
           </n-flex>
           <div v-if="item.volume || item.award" class="item_bottom">
@@ -53,22 +56,22 @@
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination class="pagination" @update:page="pageChange" v-model:page="params.page"
-                  :item-count="listData.total_page" v-show="listData.total_page" />
+    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
+      :item-count="listData.total_page" v-show="listData.total_page" />
 
   </n-flex>
 
 </template>
 
 <script setup lang='ts'>
-import {onMounted, onUnmounted, reactive, ref} from 'vue';
-import {NetPacket} from "@/utils/netBase/NetPacket";
-import {Net} from "@/utils/net/Net";
-import {MessageEvent2} from "@/utils/net/MessageEvent2";
-import {NetMsgType} from "@/utils/netBase/NetMsgType";
-import {useI18n} from "vue-i18n";
-import {Message} from "@/utils/discreteApi";
-import {useRouter} from "vue-router";
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { NetPacket } from "@/utils/netBase/NetPacket";
+import { Net } from "@/utils/net/Net";
+import { MessageEvent2 } from "@/utils/net/MessageEvent2";
+import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { useI18n } from "vue-i18n";
+import { Message } from "@/utils/discreteApi";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 const { t } = useI18n();
@@ -193,6 +196,7 @@ onMounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
+
 .promo_info {
   font-size: 16px;
   font-family: PingFangSC;
@@ -219,15 +223,21 @@ onMounted(() => {
         background: url(/img/promo/tabBtn.webp) center no-repeat;
         background-size: 84%;
       }
+
       &.tab_item_0 {
         min-width: 90px;
+
         &.active {
           background-size: 100%;
         }
       }
-      &.tab_item_3, &.tab_item_6 {
+
+      &.tab_item_3,
+      &.tab_item_6 {
         min-width: 95px;
-        &.active { //, &:hover
+
+        &.active {
+          //, &:hover
           background-size: 84%;
         }
       }
@@ -284,9 +294,10 @@ onMounted(() => {
           background: url(/img/promo/applyBtn.webp) no-repeat;
           background-size: cover;
           transition: .3s;
-            ::v-deep(.n-button__content) {
-              display: block;
-            }
+
+          ::v-deep(.n-button__content) {
+            display: block;
+          }
         }
       }
 
