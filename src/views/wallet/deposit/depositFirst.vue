@@ -75,8 +75,15 @@
             <n-form-item :label="t('rechargeRecord_page_method')">
               <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.method" :options="mtdList" />
             </n-form-item>
-            <n-form-item :label="t('level_page_code')">
+            <n-form-item class="yh-item" :label="t('level_page_code')">
               <n-select v-model:value="form.discount" :options="dcList" />
+              <!-- 选择优惠后 -->
+              <div v-if="form.discount" class="choose-yh">
+                <div >优惠上限：{{ curDiscount.limit }}</div>
+                <div >赠送比列：{{ curDiscount.ratio }}%</div>
+                <div >流水倍数：{{ curDiscount.require }}X</div>
+                <div >限定场馆：{{ curDiscount.restrict }}</div>
+              </div>
             </n-form-item>
             <!-- 银行卡充值独有 -->
             <n-form-item v-if="curDepositWay.payname.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
@@ -146,6 +153,7 @@ const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
+const curDiscount = ref( {limit: 0, ratio: 0, require: 0, restrict: ''}); // 优惠
 
 // 充值提交参数
 const dataParams = {
@@ -166,6 +174,7 @@ const mtdList = ref<any>([{ ...baseMtdList }]);
 const baseDcList = { label: t('deposit_page_notOffer'), value: 0 }
 // 优惠列表
 const dcList = ref<any>([{ ...baseDcList }]);
+const discountList = ref<any>([]);
 const loading = ref(false);// 是否提交中
 
 const chooseMoneyArr = [
@@ -215,7 +224,9 @@ const handleShopInfoRes = (rs: TShopInfo) => {
   // 非银行的支付方式
   const notBankArr = newArr.filter((item: any) => item.payname !== 'bankcard');
   usdtRecharge.value = bankAll.concat(notBankArr);
-  rs.discount_list.forEach((dc: any) => dcList.value.push({ label: dc.name, value: dc.discount_ID }));
+  // 需要过滤 limit 为 0 的数据
+  discountList.value = rs.discount_list.filter((item) => item.limit)
+  discountList.value.forEach((dc: any) => dcList.value.push({ label: dc.name, value: dc.discount_ID }));
   console.log('-------', usdtRecharge.value)
   usdtRecharge.value.map((item: any) => {
     legalRecharge.value.push(item);
@@ -329,6 +340,15 @@ watch(
     curDepositWay.value = mtdList.value.find((item: any) => item.value === n)
   }
 )
+// 切换优惠
+watch(
+  () => form.value.discount,
+  (n) => {
+    curDiscount.value = discountList.value.find((item: any) => item.discount_ID === n)
+    console.log('-----', n, curDiscount.value)
+  }
+)
+
 
 onMounted(() => {
   setTimeout(() => {
@@ -490,6 +510,22 @@ defineExpose({
           height: 12px;
           background: url(/img/payment/error_icon.webp) center no-repeat;
           background-size: 100%;
+        }
+      }
+    }
+    .yh-item {
+      ::v-deep(.n-form-item-blank) {
+        display: block;
+      }
+      .choose-yh {
+        font-size: 16px;
+        color: #8e82c2;
+        height: 178px;
+        padding: 17px;
+        background: url(/img/payment/yh_bg.webp) center no-repeat;
+        background-size: 100%;
+        > div {
+          margin-bottom: 10px;
         }
       }
     }
