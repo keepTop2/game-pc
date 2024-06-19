@@ -310,9 +310,7 @@ const onRegisterOpen = async () => {
   await User(pinia).setReg(true)
 
 };
-const handleActivetys = async (res: any) => {
-  await Page(pinia).setActivityList(res.promo)
-}
+
 const onHander_check_version = async (message: any) => {
   if (message.result != NetEnumDef.check_version_result.cvr_yes) {
     console.log("check version failed");
@@ -409,10 +407,7 @@ onMounted(async () => {
     NetMsgType.msgType.msg_notify_check_version,
     onHander_check_version
   );
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_activites,
-    handleActivetys
-  );
+
   if (Local.get('lang')) {
     state.countryValue = Local.get('lang')
     await User(pinia).setLang(Local.get('lang'))

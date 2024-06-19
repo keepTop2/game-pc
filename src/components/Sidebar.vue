@@ -63,7 +63,7 @@
     </div>
 </template>
 <script lang="ts" setup name="sider">
-import { defineAsyncComponent, onMounted, reactive, ref, watch } from "vue";
+import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
@@ -71,6 +71,10 @@ import pinia from '@/store/index';
 import { User } from '@/store/user';
 
 import { Page } from '@/store/page';
+import { NetPacket } from "@/utils/netBase/NetPacket";
+import { Net } from "@/utils/net/Net";
+import { MessageEvent2 } from "@/utils/net/MessageEvent2";
+import { NetMsgType } from "@/utils/netBase/NetMsgType";
 const { activityTitleList } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 
@@ -345,10 +349,27 @@ const itemClick = (item: any) => {
     }
     state.active = item.name
 }
+const handleActivetys = async (res: any) => {
+    console.log(222);
+
+    await Page(pinia).setActivityList(res.promo)
+}
 onMounted(async () => {
     if (route.query.name) {
         state.active = route.query.name
     }
+    // 获取所有活动  activities_category_icon_
+    const req = NetPacket.req_activites();
+    req.show = 0
+    Net.instance.sendRequest(req);
+    MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_activites,
+        handleActivetys
+    );
+});
+onUnmounted(() => {
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
+
 });
 watch(
     () => route.query.name,
