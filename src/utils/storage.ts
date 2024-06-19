@@ -81,6 +81,8 @@ export const needLoginApi = async () => {
 		Net.instance.sendRequest(req_user_info);
 		let vipInfoReq = NetPacket.req_vip_info();
 		Net.instance.sendRequest(vipInfoReq);
+
 	}
 
 }
+

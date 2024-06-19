@@ -43,6 +43,7 @@ export default {
   level_page_slot_bet: 'Electronic game betting',
   level_page_sport_bet: 'Sports Betting',
   level_page_zm_bet: 'Desktop Betting',
+  level_page_esport: 'Esports rebate',
   level_page_privileges: 'Enjoy privileges',
   level_page_domain: 'exclusive domain name',
   level_page_manager: 'VIP manager',

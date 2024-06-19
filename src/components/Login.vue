@@ -1,5 +1,5 @@
 <template>
-  <div class="login_from_box">
+  <div class="login_from_box" style="width: ;">
     <img src="/img/login/silder.webp" alt="" />
     <span class="close">
       <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
@@ -74,7 +74,7 @@ import { NetEnumDef } from "@/utils/netBase/NetEnumDef";
 import { MessageEvent2 } from "@/utils/net/MessageEvent2";
 import { needLoginApi } from "@/utils/storage";
 // import { Close } from '@vicons/ionicons5'
-import { getRandomSign, getDeviceId, aaa, bbb } from "@/utils/net/Utils";
+import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/utils/net/Utils";
 import pinia from '@/store/index';
 // import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
@@ -82,9 +82,10 @@ import { Message } from '@/utils/discreteApi'
 import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyWithdrawPwd } from "@/utils/is";
 import { useI18n } from 'vue-i18n';
 import { IP } from "@/utils/others";
+import { useRoute } from "vue-router";
 const { t } = useI18n();
 const loginFormRef = ref();
-
+const route = useRoute();
 // const userInfo = User(pinia);
 // const { isLogin } = storeToRefs(userInfo);
 
@@ -409,22 +410,24 @@ const handleSubmit = async () => {
   state.loading = true
   const req_login = NetPacket.req_login();
 
-  req_login.login_type = 1;
+
 
   switch (state.active) {
     case 0:
       req_login.username = state.login.account;
+      req_login.login_type = 4;
       break;
     case 1:
       req_login.username = state.login.email;
+      req_login.login_type = 5;
       // req_login.username = state.codeValue + state.login.phone;
       break;
   }
 
   req_login.password = state.login.password;
   req_login.device_id = await getDeviceId();
-  req_login.device_model = "apple";
-  req_login.channel_id = 1;
+  req_login.device_model = device_model;
+  req_login.channel_id = route.query.channel_id || 123;
   req_login.aaa = aaa;
   req_login.bbb = bbb;
   req_login.ip = await IP();
@@ -475,7 +478,6 @@ onUnmounted(async () => {
 .login_from_box {
   display: flex;
   width: 850px;
-
 }
 
 .input_item_err {

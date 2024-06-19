@@ -166,6 +166,7 @@ export default {
   deposit_page_depositTips: '请注意：不要重复提交订单',
   deposit_page_inputBank: '输入银行名称查找',
   deposit_page_depSuccess: '充值成功',
+  deposit_page_notPayWay: '暂无充值方式',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',

@@ -102,8 +102,7 @@ import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
 import { useRoute, useRouter } from 'vue-router';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+
 import { Dialog } from '@/utils/discreteApi';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -116,6 +115,8 @@ import { NetEnumDef } from '@/utils/netBase/NetEnumDef';
 import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
+import { NetPacket } from '@/utils/netBase/NetPacket';
+import { Net } from '@/utils/net/Net';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings } = storeToRefs(page);
@@ -309,6 +310,7 @@ const onRegisterOpen = async () => {
   await User(pinia).setReg(true)
 
 };
+
 const onHander_check_version = async (message: any) => {
   if (message.result != NetEnumDef.check_version_result.cvr_yes) {
     console.log("check version failed");
@@ -397,11 +399,15 @@ MessageEvent2.addMsgEvent(
 );
 
 onMounted(async () => {
+  let req_check_version_req = NetPacket.req_check_version();
+  req_check_version_req.version = 1;
+  Net.instance.sendRequest(req_check_version_req);
 
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_check_version,
     onHander_check_version
   );
+
   if (Local.get('lang')) {
     state.countryValue = Local.get('lang')
     await User(pinia).setLang(Local.get('lang'))
@@ -411,9 +417,7 @@ onMounted(async () => {
     await page.setMenuActive(Local.get('menuActive'), Local.get('menuName'))
   }
 
-  let req_check_version_req = NetPacket.req_check_version();
-  req_check_version_req.version = 1;
-  Net.instance.sendRequest(req_check_version_req);
+
 
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_send_system_notice,

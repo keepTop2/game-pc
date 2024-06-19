@@ -2,7 +2,7 @@
     <div class="activity">
 
         <div class="activity_img">
-            <img @click="popDetail(item)" :src="t(item.pic_link)" alt="" v-for="(item, i) in state.activitys" :key="i">
+            <img @click="popDetail" :src="t(state.link)" alt="">
         </div>
         <n-modal v-model:show="state.showModal">
             <n-card style="width: 600px" title="活动详情" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -13,11 +13,8 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, watch } from 'vue';
-import { Net } from '@/utils/net/Net';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { onMounted, reactive, watch } from 'vue';
+
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -28,38 +25,27 @@ const route = useRoute();
 
 const state: any = reactive({
     name: '',
-    activitys: null,
+    link: '',
     showModal: false,
     detailImg: null,
 })
-const popDetail = (item: any) => {
-    state.detailImg = item.content
+const popDetail = () => {
     state.showModal = true
 }
-const handleActivetys = (res: any) => {
-    state.activitys = res.promo
-}
-// 请求获取所有活动
-const getActivetys = () => {
-    const req = NetPacket.req_activites();
-    req.shoe = 0
-    Net.instance.sendRequest(req);
-};
+
 onMounted(() => {
+    state.link = route.query.link
     state.name = route.query.name
-    getActivetys()
-    MessageEvent2.addMsgEvent(
-        NetMsgType.msgType.msg_notify_activites,
-        handleActivetys
-    );
+    state.detailImg = route.query.content
+
 });
-onUnmounted(() => {
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
-});
+
 watch(
-    () => route.query.name,
+    () => route.query,
     (n) => {
-        state.name = n
+        state.link = n.link
+        state.detailImg = n.content
+        state.name = n.name
     }
 )
 </script>

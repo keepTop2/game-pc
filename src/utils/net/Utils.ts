@@ -3,7 +3,10 @@ import { NetMsgType } from '../netBase/NetMsgType';
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 const getRandomNum = (start: number, end: number) => {
-    return Math.round(Math.random() * (end - start) + start);
+
+    return Math.floor(Math.round(Math.random() * (end - start) + start))
+
+
 };
 
 const base64Encode = (str: string) => {
@@ -310,8 +313,9 @@ const getDeviceId = async () => {
 }
 
 
-const aaa = "5" //getRandomNum(1, 10);
+const aaa = getRandomNum(1, 10);
 const bbb = md5("ZQnpBRGSWyI0CUdu" + aaa + "zT6FNt5/VfjhVfj");
+const device_model = navigator.userAgent
 export {
     getRandomNum,
     base64Encode,
@@ -321,4 +325,5 @@ export {
     getDeviceId,
     aaa,
     bbb,
+    device_model
 }

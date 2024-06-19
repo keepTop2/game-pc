@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import CommonForm from '@/components/CommonForm.vue';
 import { storeToRefs } from 'pinia';
-import pinia, {User} from '@/store/index';
+import pinia, {BankListInfo, User} from '@/store/index';
 import { Wallet } from "@/store";
 import {defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch} from 'vue';
 import { TForm } from '@/utils/types/formTypes';
@@ -35,6 +35,7 @@ const props = defineProps({
 })
 const UserStore = User(pinia);
 const walletInfo = Wallet(pinia);
+const bankListInfo = BankListInfo(pinia);
 const { showAddBank } = storeToRefs(walletInfo);
 const { info: userInfo } = storeToRefs(UserStore);
 const { showAddBankModal } = usePaymentManagement();
@@ -210,6 +211,15 @@ const selectBank = (e: any) => {
   form.data.bank = e.value;
   form.fields.bank.chooseBank = e;
 }
+const getBankList = () => {
+  const req = NetPacket.req_bank_name_list();
+  Net.instance.sendRequest(req);
+};
+
+const handleBankList = (res: any) => {
+  console.log('bankList-------', res)
+  bankListInfo.setBankListInfo(res.bank_name_list)
+};
 
 watch(
   () => showAddBank.value,
@@ -226,8 +236,9 @@ watch(
 )
 
 onMounted(() => {
+  getBankList();
   setBaseData();
-  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
   // 绑定银行卡
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
   // 监听手机号验证码返回
@@ -238,7 +249,7 @@ onMounted(() => {
 });
 onUnmounted(() => {
   // 取消监听
-  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
 });
