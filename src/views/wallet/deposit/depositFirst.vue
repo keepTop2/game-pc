@@ -79,10 +79,10 @@
               <n-select v-model:value="form.discount" :options="dcList" />
               <!-- 选择优惠后 -->
               <div v-if="form.discount" class="choose-yh">
-                <div >优惠上限：{{ curDiscount.limit }}</div>
-                <div >赠送比列：{{ curDiscount.ratio }}%</div>
-                <div >流水倍数：{{ curDiscount.require }}X</div>
-                <div >限定场馆：{{ curDiscount.restrict }}</div>
+                <div >{{ t('deposit_page_upperLimit') }}：{{ curDiscount.limit }}</div>
+                <div >{{ t('deposit_page_giftRatio') }}：{{ curDiscount.ratio }}%</div>
+                <div >{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
+                <div >{{ t('deposit_page_venues') }}：{{ curDiscount.restrict }}</div>
               </div>
             </n-form-item>
             <!-- 银行卡充值独有 -->
