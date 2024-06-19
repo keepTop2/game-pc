@@ -13,175 +13,204 @@
 
         <div class="body vertical center t-md">
           <n-flex justify="space-between" align="center" class="w-full" vertical>
-            <div class="item-list bank">
-              <n-flex class="item-list-tips" justify="space-between" align="center">
-                <p>至少添加一张银行卡</p>
-                <div class="tips-icon">
-                  <img :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+
+
+            <div class="calibration-box">
+              <n-flex class="submit-step" align="center" justify="center">
+                <div v-for="(item) in stepTuple.stepUi" :key="item"
+                     :class="['step-list', stepTuple.step >= item ? 'step-list-active' : '']">
+                  <div class="step-indicator"><span>{{ item }}</span></div>
+                  <div v-if="item !== 3" class="step-content">
+                    <img
+                      :src=" stepTuple.step > item ? '/img/wallet/calibration_step_active.webp' : '/img/wallet/calibration_step.webp'"
+                      alt="">
+                  </div>
                 </div>
               </n-flex>
 
-              <div class="bankForm" v-if="!bankError">
-                <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules"
-                        class="w-full choose-bank">
-                  <n-form-item :label="'选择银行'">
-                    <n-flex class="choose-bank">
-                      <n-flex align="center" class="choose-bank-l">
-                        <span class="bank-cicon">
-                          <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label"/>
-                        </span>
-                        <span class="bank-cname"> {{ chooseBank.label }} </span>
-                      </n-flex>
-                      <a class="change-btn" @click="showChangeBank"> 更换 </a>
-                    </n-flex>
-                  </n-form-item>
-
-                  <n-form-item :label="'银行卡号'" path="cardNo">
-                    <n-input size="large" v-model:value="formBank.cardNo"
-                             :placeholder="'请输入银行卡号'">
-                      <template #suffix>
-                        <a class="refresh-icon"></a>
-                      </template>
-                    </n-input>
-                  </n-form-item>
-                  <n-form-item :label="'银行账户名'" path="accountName">
-                    <n-input size="large" :disabled="props.myBankList.cardholder_name" v-model:value="formBank.accountName"
-                             :placeholder="'请输入银行账户名'">
-                      <template #suffix>
-                        <a class="refresh-icon"></a>
-                      </template>
-                    </n-input>
-                  </n-form-item>
-                </n-form>
-
-                <div class="cz-btn">
-                  <a @click="submitBank"> 确认 </a>
-                </div>
-              </div>
-
-              <div class="cardItem bankCard" v-if="bankError">
-                <n-flex class="bank-list">
-                  <n-flex align="center" class="bank-item" justify="space-between">
-                    <div class="bank-l-icon">
-<!--                      <img src="/img/wallet/phone.webp" alt="nodata">-->
-                    </div>
-                    <div class="bank-l-name">
-                      <p>
-                        <span>{{formBank.bankName}}</span>
-                        <span>*******</span>
-                      </p>
-                      <p>{{formatNumberString(formBank.cardNo + '')}}</p>
-                    </div>
-                  </n-flex>
+              <div v-if="stepTuple.step === 1" class="item-list bank">
+                <n-flex class="item-list-tips" justify="space-between" align="center">
+                  <p>至少添加一张银行卡</p>
+                  <div class="tips-icon">
+                    <img
+                      :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+                  </div>
                 </n-flex>
+
+                <div class="bankForm" v-if="!bankError">
+                  <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules"
+                          class="w-full choose-bank">
+                    <n-form-item :label="'选择银行'">
+                      <n-flex class="choose-bank">
+                        <n-flex align="center" class="choose-bank-l">
+                        <span class="bank-cicon">
+                          <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`"
+                               :alt="chooseBank.label" />
+                        </span>
+                          <span class="bank-cname"> {{ chooseBank.label }} </span>
+                        </n-flex>
+                        <a class="change-btn" @click="showChangeBank"> 更换 </a>
+                      </n-flex>
+                    </n-form-item>
+
+                    <n-form-item :label="'银行卡号'" path="cardNo">
+                      <n-input size="large" v-model:value="formBank.cardNo"
+                               :placeholder="'请输入银行卡号'">
+                        <template #suffix>
+                          <a class="refresh-icon"></a>
+                        </template>
+                      </n-input>
+                    </n-form-item>
+                    <n-form-item :label="'银行账户名'" path="accountName">
+                      <n-input size="large" :disabled="props.myBankList.cardholder_name"
+                               v-model:value="formBank.accountName"
+                               :placeholder="'请输入银行账户名'">
+                        <template #suffix>
+                          <a class="refresh-icon"></a>
+                        </template>
+                      </n-input>
+                    </n-form-item>
+                  </n-form>
+
+                  <!--                  <div class="cz-btn">-->
+                  <!--                    <a @click="submitBank"> 确认 </a>-->
+                  <!--                  </div>-->
+                </div>
+
+                <div class="cardItem bankCard" v-if="bankError">
+                  <n-flex class="bank-list" justify="center">
+                    <n-flex align="center" class="bank-item" justify="space-between">
+                      <div class="bank-l-icon">
+                        <img :src="`/img/bankIcon/bank_logo_${formBank.bank}.webp`" alt="nodata">
+                      </div>
+                      <div class="bank-l-name">
+                        <p>
+                          <span>{{ formBank.bankName }}</span>
+                          <span>*******</span>
+                        </p>
+                        <p>{{ formatNumberString(formBank.cardNo + '') }}</p>
+                      </div>
+                    </n-flex>
+                  </n-flex>
+                </div>
+
               </div>
 
-<!--              <div v-show="bankError" class="error">输入信息错误</div>-->
-            </div>
 
+              <div v-if="stepTuple.step === 2" class="item-list info">
+                <n-flex class="item-list-tips" justify="space-between" align="center">
+                  <p>请绑定手机信息</p>
+                  <div class="tips-icon">
+                    <img
+                      :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'"
+                      alt="">
+                  </div>
+                </n-flex>
 
-            <div class="item-list info">
-              <n-flex class="item-list-tips" justify="space-between" align="center">
-                <p>请绑定手机信息</p>
-                <div class="tips-icon">
-                  <img :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
-                </div>
-              </n-flex>
+                <div class="phoneForm" v-if="!phoneError">
 
-              <div class="phoneForm" v-if="!phoneError">
-
-                <n-form ref="formInfoRef" :model="formInfo" :rules="rules.infoRules">
-                  <n-form-item label="手机号" path="phone">
-                    <n-popselect v-model:value="formInfo.codeValue" :options="codeOptions"
-                                 @update:value="valueChange" trigger="click">
+                  <n-form ref="formInfoRef" :model="formInfo" :rules="rules.infoRules">
+                    <n-form-item label="手机号" path="phone">
+                      <n-popselect v-model:value="formInfo.codeValue" :options="codeOptions"
+                                   @update:value="valueChange" trigger="click">
               <span class="code_box">
                 <span>{{ formInfo.codeValue }}</span>
                 <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
-                    </n-popselect>
-                    <n-input clearable size="large" v-model:value="formInfo.phone" :placeholder="'请输入手机号'"></n-input>
-                  </n-form-item>
+                      </n-popselect>
+                      <n-input clearable size="large" v-model:value="formInfo.phone"
+                               :placeholder="'请输入手机号'"></n-input>
+                    </n-form-item>
 
 
-                  <n-form-item :label="'验证码'" path="phoneCode">
-                    <n-input clearable size="large" v-model:value="formInfo.phoneCode"
-                             :placeholder="'请输入5位数验证码'"></n-input>
-                    <n-button :bordered="false" :loading="phoneCodeLoading"
-                              @click="submitSendPhoneCode" class="btn"
-                              :disabled="phoneCodeDisabled">{{phoneCodeText}}
-                    </n-button>
-                  </n-form-item>
-                </n-form>
-                <div class="cz-btn">
-                  <a @click="submitPhone"> 确认 </a>
+                    <n-form-item :label="'验证码'" path="phoneCode">
+                      <n-input clearable size="large" v-model:value="formInfo.phoneCode"
+                               :placeholder="'请输入5位数验证码'"></n-input>
+                      <n-button :bordered="false" :loading="phoneCodeLoading"
+                                @click="submitSendPhoneCode" class="btn"
+                                :disabled="phoneCodeDisabled">{{ phoneCodeText }}
+                      </n-button>
+                    </n-form-item>
+                  </n-form>
+                  <!--                  <div class="cz-btn">-->
+                  <!--                    <a @click="submitPhone"> 确认 </a>-->
+                  <!--                  </div>-->
                 </div>
-              </div>
-              <div class="cardItem phoneCard" v-if="phoneError">
-                <n-flex class="bank-list">
-                  <n-flex align="center" class="bank-item">
-                    <div class="bank-l-icon">
-                      <img src="/img/wallet/phone.webp" alt="nodata">
-                    </div>
-                    <div class="bank-l-name">
-                      <p>
-                        <span>+84</span>
-                      </p>
-                      <p>{{maskNumberPhone(formInfo.phone)}}</p>
-                    </div>
+                <div class="cardItem phoneCard" v-if="phoneError">
+                  <n-flex class="bank-list">
+                    <n-flex align="center" class="bank-item">
+                      <div class="bank-l-icon">
+                        <img src="/img/wallet/phone.webp" alt="nodata">
+                      </div>
+                      <div class="bank-l-name">
+                        <p>
+                          <span>+84</span>
+                        </p>
+                        <p>{{ maskNumberPhone(formInfo.phone) }}</p>
+                      </div>
+                    </n-flex>
                   </n-flex>
+                </div>
+              </div>
+
+
+              <div v-if="stepTuple.step === 3" class="item-list capital">
+                <n-flex class="item-list-tips" justify="space-between" align="center">
+                  <p>设置资金密码</p>
+                  <div class="tips-icon">
+                    <img
+                      :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'"
+                      alt="">
+                  </div>
                 </n-flex>
-              </div>
-            </div>
+
+                <div class="capitalForm" v-if="!capitalError">
+                  <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital"
+                          class="w-full choose-bank">
+                    <!-- 银行卡充值独有 -->
+                    <n-form-item :label="'设置密码'" path="capitalPin">
+                      <n-input size="large" v-model:value="formCapital.capitalPin"
+                               :placeholder="'请输入6-10位资金密码'">
+                        <template #suffix>
+                          <a class="refresh-icon"></a>
+                        </template>
+                      </n-input>
+                    </n-form-item>
 
 
-            <div class="item-list capital">
-              <n-flex class="item-list-tips" justify="space-between" align="center">
-                <p>设置资金密码</p>
-                <div class="tips-icon">
-                  <img :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+                    <n-form-item :label="'重复密码'" path="capitalPinAgain">
+                      <n-input size="large" v-model:value="formCapital.capitalPinAgain"
+                               :placeholder="'请再次输入密码'">
+                        <template #suffix>
+                          <a class="refresh-icon"></a>
+                        </template>
+                      </n-input>
+                    </n-form-item>
+                  </n-form>
+
+                  <!--                  <div class="cz-btn">-->
+                  <!--                    <a @click="submitCapital"> 确认 </a>-->
+                  <!--                  </div>-->
                 </div>
-              </n-flex>
-
-              <div class="capitalForm" v-if="!capitalError">
-                <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w-full choose-bank">
-                  <!-- 银行卡充值独有 -->
-                  <n-form-item :label="'设置密码'" path="capitalPin">
-                    <n-input size="large" v-model:value="formCapital.capitalPin"
-                             :placeholder="'请输入6-10位资金密码'">
-                      <template #suffix>
-                        <a class="refresh-icon"></a>
-                      </template>
-                    </n-input>
-                  </n-form-item>
 
 
-                  <n-form-item :label="'重复密码'" path="capitalPinAgain">
-                    <n-input size="large" v-model:value="formCapital.capitalPinAgain"
-                             :placeholder="'请再次输入密码'">
-                      <template #suffix>
-                        <a class="refresh-icon"></a>
-                      </template>
-                    </n-input>
-                  </n-form-item>
-                </n-form>
-
-                <div class="cz-btn">
-                  <a @click="submitCapital"> 确认 </a>
-                  <!--                <a @click="goToDeposit"> 确认 </a>-->
+                <div class="cardItem" v-if="capitalError">
+                  <p>
+                    设置完成
+                  </p>
                 </div>
+
               </div>
 
 
-              <div class="cardItem" v-if="capitalError">
-                <p>
-                  设置完成
-                </p>
+              <div class="cz-btn">
+                <a @click="submitContent"> {{stepTuple.step === 3 && capitalError ? '完成' : '下一步' }} </a>
               </div>
 
             </div>
+
 
           </n-flex>
-          <!-- 充值列表选择 -->
 
         </div>
       </div>
@@ -195,23 +224,21 @@
 </template>
 
 <script setup lang="ts">
-import {defineAsyncComponent, nextTick, onMounted, onUnmounted, ref} from 'vue';
+import { defineAsyncComponent, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
 import { TTabList } from '@/utils/types';
 import { NetPacket } from '@/utils/netBase/NetPacket';
 import { Net } from '@/utils/net/Net';
-// import Deposit from '@/views/wallet/components/Deposit.vue';
-// import { Message } from '@/utils/discreteApi';
 import { verifyMobile, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is.ts';
 import { Message } from '@/utils/discreteApi.ts';
-// import { i18n } from '@/languages';
 import { storeToRefs } from 'pinia';
 import pinia, { User, BankListInfo } from '@/store';
-import { aaa, bbb, getDeviceId, getRandomSign} from '@/utils/net/Utils.ts';
+import { aaa, bbb, getDeviceId, getRandomSign } from '@/utils/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
+
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
 const UserStore = User(pinia);
@@ -223,12 +250,19 @@ const chooseBankModal = ref();
 const props = defineProps({
   myBankList: {
     type: Object,
-    default: () => {}
-  }
-})
+    default: () => {
+    },
+  },
+});
 
 const { t } = useI18n();
 const showModal = ref(false);
+
+const stepTuple = ref({
+  step: 1,
+  stepUi: [1, 2, 3],
+
+}); // 步骤
 
 
 // 银行列表
@@ -240,7 +274,7 @@ const openModal = () => {
   showModal.value = !showModal.value;
   nextTick(() => {
     getInfo();
-  })
+  });
 };
 const onClose = () => {
   showModal.value = false;
@@ -269,18 +303,10 @@ const formCapital = ref({
 
 
 const codeOptions = [
-  // {
-  //   label: '+63',
-  //   value: '+63'
-  // },
   {
     label: '+84',
     value: '+84',
   },
-  // {
-  //   label: '+86',
-  //   value: '+86',
-  // },
 ];
 const valueChange = (item: any) => {
   console.log(item);
@@ -292,43 +318,81 @@ const phoneCodeLoading = ref(false);
 const phoneCodeDisabled = ref(true);
 const phoneCodeText = ref<string | number>('发送');
 const submitSendPhoneCode = () => {
-  phoneCodeLoading.value = true
-    const req = NetPacket.req_get_mobile_sms_code()
-    req.mobile = formInfo.value.codeValue + formInfo.value.phone
-    req.operate_type = 1
-    Net.instance.sendRequest(req)
+  phoneCodeLoading.value = true;
+  const req = NetPacket.req_get_mobile_sms_code();
+  req.mobile = formInfo.value.codeValue + formInfo.value.phone;
+  req.operate_type = 1;
+  Net.instance.sendRequest(req);
 };
 
 // // 返回手机验证码是否发送
 const handleSMSback = (res: any) => {
-  phoneCodeLoading.value = false
+  phoneCodeLoading.value = false;
   if (res.code == 1) {
     if (res.message) {
-      Message.success(t(res.message))
+      Message.success(t(res.message));
     }
-    let timer = 60
-    phoneCodeDisabled.value = true
-    phoneCodeText.value = timer
+    let timer = 60;
+    phoneCodeDisabled.value = true;
+    phoneCodeText.value = timer;
     let timeInterval = setInterval(() => {
-      phoneCodeText.value = timer--
+      phoneCodeText.value = timer--;
       if (timer <= 0) {
-        clearInterval(timeInterval)
-        phoneCodeDisabled.value = false
-        phoneCodeText.value = '发送'
+        clearInterval(timeInterval);
+        phoneCodeDisabled.value = false;
+        phoneCodeText.value = '发送';
       }
     }, 1000);
   } else {
-    phoneCodeDisabled.value = false
+    phoneCodeDisabled.value = false;
   }
-}
+};
+
+
+// 下一步按钮
+const submitContent = () => {
+
+  // 判断是否绑定银行卡
+  // if (!bankError.value) return submitBank()
+  //
+  // if (!phoneError.value) return submitPhone()
+  //
+  // if (!capitalError.value) return submitCapital()
+  //
+  // stepTuple.value.step = stepTuple.value.step + 1
+
+  if (stepTuple.value.step === 3 && capitalError.value) {
+    Message.success(t('取款信息已完善'));
+  }
+
+  if (bankError.value) {
+    stepTuple.value.step = 2;
+  } else {
+    return submitBank();
+  }
+
+  if (phoneError.value) {
+    stepTuple.value.step = 3;
+  } else {
+    return submitPhone();
+  }
+
+
+  if (capitalError.value) {
+    openModal();
+  } else {
+    return submitCapital();
+  }
+
+
+};
 
 const bankError = ref(false);
-
 
 // 添加银行信息
 const formBankRef = ref();
 const submitBank = () => {
-  if  (!formBank.value.bank) return Message.error('请选择银行')
+  if (!formBank.value.bank) return Message.error('请选择银行');
   formBankRef.value?.validate((errors: any) => {
     if (!errors) {
       const req = NetPacket.req_new_bank_card_info();
@@ -346,13 +410,12 @@ const submitBank = () => {
 const handleAddBank = (res: any) => {
   if (res.result === 1) {
     bankError.value = true;
-    Message.success(t('paymentManagement_page_addBankSuc'))
+    stepTuple.value.step = 2;
+    Message.success(t('paymentManagement_page_addBankSuc'));
   } else {
-    Message.error(t('paymentManagement_page_addBankFail'))
+    Message.error(t('paymentManagement_page_addBankFail'));
   }
-}
-
-
+};
 
 
 // 字符串判断
@@ -389,7 +452,7 @@ const formatNumberString = (input: string): string => {
 
   // 将分割后的字符串和星号组合
   return parts.join(' ');
-}
+};
 
 const phoneError = ref(false);
 
@@ -407,8 +470,8 @@ const submitPhone = () => {
       req.aaa = aaa;
       req.bbb = bbb;
       // req.ip = await IP();
-      req.ip = await IP()
-      let id = await getDeviceId()
+      req.ip = await IP();
+      let id = await getDeviceId();
       req.sign = getRandomSign(id);
       Net.instance.sendRequest(req);
 
@@ -438,29 +501,29 @@ const maskNumberPhone = (numStr: string): string => {
 
   // 返回格式化后的字符串
   return firstPart + '****' + lastPart;
-}
+};
 
 
 // 返回是否绑定成功--手机号
 const handleChangeEmail = (res: any) => {
   if (res.code == 1) {
-    Message.success(t(res.message))
-    needLoginApi()
+    Message.success(t(res.message));
+    needLoginApi();
     setTimeout(() => {
-      phoneError.value = true
+      phoneError.value = true;
+      stepTuple.value.step = 2;
     }, 3000);
   }
-}
+};
 
 
 const capitalError = ref(false);
 const formCapitalRef = ref();
 //  绑定资金Form
 const submitCapital = () => {
-  formCapitalRef.value?.validate( async(errors: any) => {
+  formCapitalRef.value?.validate(async (errors: any) => {
     if (!errors) {
-
-      bindMoneyPassword()
+      bindMoneyPassword();
     } else {
       console.log(errors);
     }
@@ -470,23 +533,25 @@ const submitCapital = () => {
 
 // 绑定资金密码
 const bindMoneyPassword = () => {
-
   let req = NetPacket.req_bind_or_modify_withdraw_password();
-  req.operate_type = 1
-  req.old_password = ''
-  req.new_password =formCapital.value.capitalPin
-  req.role_id = roleInfo.value?.id
-  req.new_password_confirm = formCapital.value.capitalPinAgain
+  req.operate_type = 1;
+  req.old_password = '';
+  req.new_password = formCapital.value.capitalPin;
+  req.role_id = roleInfo.value?.id;
+  req.new_password_confirm = formCapital.value.capitalPinAgain;
   Net.instance.sendRequest(req);
-}
+};
 
 const handleBindOrModifyWithdrawPassword = (res: any) => {
   if (res.code == 1) {
-    Message.success(t(res.message))
+    Message.success(t(res.message));
     capitalError.value = true;
-    needLoginApi()
+    Message.success(t('取款信息已完善'));
+    stepTuple.value.step = 1;
+    openModal();
+    needLoginApi();
   }
-}
+};
 
 const rules = {
   bankRules: {
@@ -522,18 +587,16 @@ const rules = {
     phoneCode: [
       {
         required: !0,
-        trigger: "blur",
+        trigger: 'blur',
         validator: (rule: any, value: string) => {
           if (!value) {
-            return new Error(t('home_page_enterSmsCode'))
-          } else
-          if (verifyPhoneCaptcha(rule, value)) {
-            return true
+            return new Error(t('home_page_enterSmsCode'));
+          } else if (verifyPhoneCaptcha(rule, value)) {
+            return true;
           } else {
-            return new Error(t('home_page_smsCodeFormatIncorrect'))
+            return new Error(t('home_page_smsCodeFormatIncorrect'));
           }
         },
-
 
 
       },
@@ -544,15 +607,14 @@ const rules = {
     capitalPin: [
       {
         required: !0,
-        trigger: "blur",
+        trigger: 'blur',
         validator: (rule: any, value: string) => {
           if (!value) {
-            return new Error(t('home_page_enterOldPassword'))
-          } else
-          if (verifyWithdrawPwd(rule, value)) {
-            return true
+            return new Error(t('home_page_enterOldPassword'));
+          } else if (verifyWithdrawPwd(rule, value)) {
+            return true;
           } else {
-            return new Error(t('home_page_passwordFormatIncorrect'))
+            return new Error(t('home_page_passwordFormatIncorrect'));
           }
         },
 
@@ -563,15 +625,14 @@ const rules = {
     capitalPinAgain: [
       {
         required: !0,
-        trigger: "blur",
+        trigger: 'blur',
         validator: (rule: any, value: string) => {
           if (!value) {
-            return new Error(t('home_page_enterAgainNewPassword'))
-          } else
-          if (verifyWithdrawPwd(rule, value)) {
-            return true
+            return new Error(t('home_page_enterAgainNewPassword'));
+          } else if (verifyWithdrawPwd(rule, value)) {
+            return true;
           } else {
-            return new Error(t('home_page_passwordFormatIncorrect'))
+            return new Error(t('home_page_passwordFormatIncorrect'));
           }
         },
 
@@ -595,34 +656,32 @@ const selectBank = (e: any) => {
 };
 
 
-
-
 // 获取已绑定的银行账号
 const getInfo = () => {
 
   // console.log(props.myBankList, '--props.myBankList--');
   console.log(props.myBankList.cardholder_name, '---props.myBankList--');
-  formBank.value.accountName = props.myBankList.cardholder_name || ''
+  formBank.value.accountName = props.myBankList.cardholder_name || '';
 
   // 未绑定银行卡跳转到绑定银行卡`
   if (props.myBankList.bank_card_info_list && props.myBankList.bank_card_info_list.length) {
-    const {account_number, bank_id} = props.myBankList.bank_card_info_list[0]
-    formBank.value.bank = bank_id
-    formBank.value.cardNo = account_number
+    const { account_number, bank_id } = props.myBankList.bank_card_info_list[0];
+    formBank.value.bank = bank_id;
+    formBank.value.cardNo = account_number;
     // formBank.value.accountName = bank_name
-    bankError.value = true
-    let bankInfoItem = (bkList.value || []).find(item => item.value === bank_id)
-    formBank.value.bankName = bankInfoItem?.label || ''
+    bankError.value = true;
+    let bankInfoItem = (bkList.value || []).find(item => item.value === bank_id);
+    formBank.value.bankName = bankInfoItem?.label || '';
   }
 
-  formInfo.value.phone = userInfo.value.mobile || ''
+  formInfo.value.phone = userInfo.value.mobile || '';
 
   phoneError.value = Boolean(userInfo.value.mobile);
 
 
   capitalError.value = Boolean(roleInfo.value.withdraw_pwd);
 
-}
+};
 
 
 onMounted(() => {
@@ -669,6 +728,41 @@ defineExpose({
   .body {
     gap: 15px !important;
 
+    .calibration-box {
+      .submit-step {
+        margin-bottom: 20px;
+
+        .step-list {
+          display: flex;
+          align-items: center;
+
+          .step-indicator {
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 400;
+            color: rgba(142, 130, 194, 1);
+            background: url("/img/wallet/calibration_decide.webp") no-repeat;
+            background-size: cover;
+          }
+
+          .step-content {
+            margin: 0 30px;
+          }
+        }
+
+        .step-list-active {
+          .step-indicator {
+            background: url("/img/wallet/calibration_decide_active.webp") no-repeat;
+            background-size: cover;
+            color: #ffffff;
+          }
+        }
+      }
+    }
+
     .item-list {
       min-width: 414px;
       //width: 100% !important;
@@ -714,7 +808,7 @@ defineExpose({
       }
 
       .cardItem {
-        width: 100%;
+        margin: 0 auto;
 
         .bank-list {
           width: 100%;
@@ -739,8 +833,11 @@ defineExpose({
               margin-left: 14px;
               display: flex;
               align-items: center;
+              justify-content: center;
               img {
-                margin-left: 18px;
+                width: 100%;
+                height: 100%;
+                //margin-left: 18px;
               }
             }
 
@@ -827,148 +924,6 @@ defineExpose({
   }
 }
 
-
-.deposit_sm_modal {
-
-  .body {
-    .sm-txt {
-      font-size: 24px;
-      width: 375px;
-      height: 250px;
-      margin: 0 auto;
-      background: #17a1fb;
-    }
-
-    .bank-list-item {
-      width: 100%;
-
-      a {
-        img {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
-  }
-
-  .body-sec {
-    .refresh-icon {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      background: url(/img/payment/Vector.webp) center no-repeat;
-      background-size: 100%;
-
-      &.search-icon {
-        background-image: url(/img/payment/search_icon.webp);
-      }
-    }
-
-    .kjje-div {
-      gap: 20px !important;
-
-      .kj-item {
-        width: 110px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: url(/img/payment/monBg.webp) center no-repeat;
-        background-size: 100%;
-      }
-    }
-
-    .btn_zone {
-      margin: 10px auto;
-    }
-
-    .cz-tips {
-      font-size: 12px;
-      text-align: center;
-      color: #D16363;
-
-      .txt {
-        color: #60D580;
-        margin-bottom: 10px;
-      }
-
-      .tip {
-        gap: 4px !important;
-
-        .icon {
-          display: inline-block;
-          width: 12px;
-          height: 12px;
-          background: url(/img/payment/error_icon.webp) center no-repeat;
-          background-size: 100%;
-        }
-      }
-    }
-
-    .choose-bank {
-      gap: 10px !important;
-
-      .choose-bank-l {
-        width: 270px;
-        height: 38px;
-        background: url(/img/payment/inputBg.webp) center no-repeat;
-        background-size: 100%;
-
-        .bank-cicon {
-          width: 24px;
-          height: 24px;
-        }
-
-        .bank-cname {
-          width: 220px;
-          line-height: 16px;
-        }
-      }
-
-      .change-btn {
-        display: inline-block;
-        text-align: center;
-        width: 90px;
-        height: 36px;
-        line-height: 36px;
-        background: url(/img/payment/go-btn.webp) center no-repeat;
-        background-size: 100%;
-      }
-    }
-
-    // 选择银行
-    .bank-list {
-      width: 100%;
-      gap: 20px 18px !important;
-      max-height: 310px;
-      overflow-y: auto;
-
-      .bank-item {
-        cursor: pointer;
-        font-size: 14px;
-        width: 177px;
-        height: 46px;
-        background: url(/img/payment/bankBg.webp) center no-repeat;
-        background-size: 100%;
-
-        &:active {
-          transform: scale(.95);
-        }
-
-        .bank-l-icon {
-          width: 28px;
-          height: 28px;
-          margin-left: 8px;
-        }
-
-        .bank-l-name {
-          max-width: 120px;
-        }
-      }
-    }
-
-  }
-
-}
 
 // 选择银行
 
