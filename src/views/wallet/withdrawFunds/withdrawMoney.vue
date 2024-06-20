@@ -118,7 +118,7 @@ const switchVisible = ref(true)
 const form = ref( // 存款表单提交
   {
     // country: 1,
-    maxValue: 0, // 可提现金额
+    maxValue: '0', // 可提现金额
     password: '',
     amount: '', // 充值金额
     bank: 0, // 银行
@@ -265,9 +265,9 @@ const handleCanWithdraw = (res: any) => {
 // 设置可提现金额
 const setCanWithDrawMon = () => {
   if (isCanWithdraw.value) {
-    form.value.maxValue = Number(roleInfo.value.bank_money)
+    form.value.maxValue = roleInfo.value.bank_money + ''
   } else { // 不可以提现，可提现金额置为 0
-    form.value.maxValue = 0
+    form.value.maxValue = '0'
   }
 }
 
