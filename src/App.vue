@@ -22,7 +22,7 @@ import { User } from '@/store/user';
 import { MessageEvent2 } from "@/utils/net/MessageEvent2";
 import { NetMsgType } from "@/utils/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
-const store = User();
+
 const userInfo = User(pinia);
 const { lang } = storeToRefs(userInfo);
 const Language: any = {
