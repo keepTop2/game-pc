@@ -221,12 +221,10 @@ const submit = () => {
   req.account_number = form.value.bankCode;
   req.cardholder_name = form.value.accountName;
   Net.instance.sendRequest(req);
-  openModal()
-  flagBank(false)
 }
 
 // result: 2 // 1 成功，2 失败
-const handleAddBank = (res: any) => {
+const handleAddBankRef = (res: any) => {
   if (res.result === 1) {
     Message.success(t('paymentManagement_page_addBankSuc'))
     bankList.value.push({...form.value, name: '******'})
@@ -368,7 +366,7 @@ onMounted(() => {
 
 
   // 绑定银行卡
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
 
   // 设置默认
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
