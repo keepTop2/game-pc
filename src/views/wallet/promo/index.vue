@@ -56,7 +56,7 @@
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination class="pagination" @update:page="pageChange" v-model:page="params.page"
+    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
       :item-count="listData.total_page" v-show="listData.total_page" />
 
   </n-flex>
