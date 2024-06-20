@@ -129,7 +129,9 @@ const handleEmailInfo = (rs: any) => {
       email_id_list,
       hasNoRead: email_id_list.some((x: any) => !sb.has(x))
     };
-    store.setEmailList(params);
+
+
+    userInfo.setEmailList(params);
   }
 };
 // onBeforeMount(async () => {

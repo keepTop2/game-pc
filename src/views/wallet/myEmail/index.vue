@@ -55,12 +55,13 @@ import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
+import pinia from '@/store/index';
 interface tabType {
   label: string;
   id: number;
 }
 const { t } = useI18n();
-const store = User();
+const store = User(pinia);
 const { myEmail } = storeToRefs(store);
 const active_id = ref(1);
 const receive_email_id = ref();
@@ -150,7 +151,6 @@ const allClick = () => {
         Net.instance.sendRequest(query);
 
       }
-
     }
   }
 }
