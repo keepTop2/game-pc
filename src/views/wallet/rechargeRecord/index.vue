@@ -41,7 +41,7 @@
         </div>
 
         <!-- 分页 -->
-        <n-pagination class="pagination" @update:page="pageChange" v-model:page="params.page"
+        <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
             :item-count="result.total_page" v-show="result.total_page" />
     </n-flex>
 </template>

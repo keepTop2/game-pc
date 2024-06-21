@@ -36,7 +36,7 @@
         </div>
 
         <!-- 分页 -->
-        <n-pagination class="pagination" @update:page="pageChange" v-model:page="params.page"
+        <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
             :item-count="result.total_page" v-show="result.total_page" />
     </n-flex>
 </template>
@@ -96,7 +96,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let val = row[key]
     switch (key) {
         case "type":
-            rs = t(val)
+            rs = t('bType' + val)
             break
         case "item":
             rs = WalletTypeMap[val]

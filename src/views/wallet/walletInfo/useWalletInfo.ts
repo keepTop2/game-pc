@@ -14,7 +14,7 @@ import { Local } from '@/utils/storage';
 import { getCurrencyValue } from '@/utils/others';
 import {Message} from "@/utils/discreteApi";
 import {useI18n} from "vue-i18n";
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 // import { useRoute, useRouter } from 'vue-router';
 // import { useRoute } from 'vue-router';
 // import { ReadableStreamBYOBRequest } from 'node:stream/web';
@@ -26,7 +26,7 @@ const useWalletInfo = () => {
 
     const { t } = useI18n();
     // const router = useRouter();
-    const route = useRoute();
+    // const route = useRoute();
     const themeVars = useThemeVars();
     const wallet = Wallet(pinia);
     const { showDeposit, showWithdraw, showRedeemCode, showTransfer } = storeToRefs(wallet);
@@ -322,9 +322,9 @@ const useWalletInfo = () => {
   // })
   onMounted(() => {
     // 打开充值页面
-    if (route.query.openDialogType === 'deposit') {
-      wallet.setShowDeposit(true)
-    }
+    // if (route.query.openDialogType === 'deposit') {
+    //   wallet.setShowDeposit(true)
+    // }
     setVipInfo();
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_auto_trans, handleAutoTrans);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, handleMyBankList);

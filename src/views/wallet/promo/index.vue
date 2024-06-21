@@ -17,7 +17,7 @@
         t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <span class="item_title"> {{ item.content ? t(item.content) : '-' }} </span>
+                  <span class="item_title"> {{ item.name ? t(item.name) : '-' }} </span>
                 </template>
                 {{ item.content }}
               </n-tooltip>
@@ -56,7 +56,7 @@
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination class="pagination" @update:page="pageChange" v-model:page="params.page"
+    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
       :item-count="listData.total_page" v-show="listData.total_page" />
 
   </n-flex>
@@ -144,13 +144,13 @@ const resultHandle = (rs: any) => {
 
 const applyBouns = (data: any) => {
   // 全部
-  if (data.tag === '0') {
-    router.push('/wallet/walletInfo?openDialogType=deposit')
-  } else {
+  if (['System', 'VIP_related'].includes(data.tag)) {
     loading.value = true
     const query = NetPacket.req_get_email_attachments();
     query.email_id = data.have_save === '0' ? data.id : data.have_save;
     Net.instance.sendRequest(query);
+  } else {
+    router.push('/wallet/walletInfo?openDialogType=deposit')
   }
 }
 

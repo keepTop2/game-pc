@@ -1,6 +1,8 @@
 export default {
   // 通过接口返回的字段翻译
-  api_bankcard: 'Bank Transfer',
+  api_bankcard_0: 'Bank transfer',
+  api_bankcard_1: 'Direct connection to online banking',
+  api_bankcard_2: 'Scan QR code to pay',
   api_scratchcard: 'Scratch card',
   api_zalo: 'Zalo',
   api_viettel: 'Viettel',
@@ -31,6 +33,11 @@ export default {
   promo_page_receive: 'Receive now',
   promo_page_applySuc: 'Received successfully',
   promo_page_applyFail: 'Failed to receive',
+  promo_page_guDing: 'Fixed gift',
+  promo_page_depositZen: 'Deposit gift',
+  promo_page_vipZen: 'vip reward',
+  promo_page_fuHuo: 'Resurrection Gold',
+  promo_page_fuHuoNot: 'Not up to standard',
 
   // 账变记录 accountsRecord
   accountsRecord_page_type: 'account change type',
@@ -80,6 +87,8 @@ export default {
   paymentManagement_page_chBank: 'Please select a bank',
   paymentManagement_page_chCardNo: 'Please enter your bank card number',
   paymentManagement_page_chName: 'Please enter your bank name',
+  paymentManagement_page_tips: 'Tips',
+  paymentManagement_page_tipContent: 'Confirm deletion? ',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',
@@ -104,10 +113,18 @@ export default {
   walletInfo_page_in: 'Transfer',
   walletInfo_page_out: 'Transfer out',
   walletInfo_page_notMoney: 'No operable balance',
+  walletInfo_page_tranferTxt: 'Please click or drag to select the amount',
+  walletInfo_page_tranferTips: 'Warm reminder: Withdrawal requires the amount to be transferred to the safe first',
 
   // 提现记录  withdrawRecord
   withdrawRecord_page_wMethod: 'Withdrawal method',
   withdrawRecord_page_wAmount: 'Withdrawal amount',
+
+  // 登录记录 loginRecord
+  loginRecord_page_device: 'Login device',
+  loginRecord_page_date: 'Login time',
+  loginRecord_page_address: 'Login location',
+  loginRecord_page_way: 'Login method',
 
   // 添加银行 AddBank
   addBank_page_addBank: 'Add bank',
@@ -147,6 +164,12 @@ export default {
   deposit_page_enterMon: 'Please enter the deposit amount',
   deposit_page_depositTips: 'Please note: Do not submit orders repeatedly',
   deposit_page_inputBank: 'Enter bank name to search',
+  deposit_page_depSuccess: 'Deposit successful',
+  deposit_page_notPayWay: 'No recharge method',
+  deposit_page_upperLimit: 'Discount upper limit',
+  deposit_page_giftRatio: 'gift ratio',
+  deposit_page_multiple: 'rollover multiple',
+  deposit_page_venues: 'Limited venues',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Redeem now',

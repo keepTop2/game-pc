@@ -22,7 +22,7 @@ import { User } from '@/store/user';
 import { MessageEvent2 } from "@/utils/net/MessageEvent2";
 import { NetMsgType } from "@/utils/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
-const store = User();
+
 const userInfo = User(pinia);
 const { lang } = storeToRefs(userInfo);
 const Language: any = {
@@ -129,7 +129,9 @@ const handleEmailInfo = (rs: any) => {
       email_id_list,
       hasNoRead: email_id_list.some((x: any) => !sb.has(x))
     };
-    store.setEmailList(params);
+
+
+    userInfo.setEmailList(params);
   }
 };
 // onBeforeMount(async () => {

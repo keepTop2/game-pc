@@ -116,7 +116,6 @@ export default {
   walletInfo_page_tranferTxt: '请点击或拖动选择金额',
   walletInfo_page_tranferTips: '温馨提示:提款需先将金额转入保险柜',
 
-
   // 提现记录 withdrawRecord
   withdrawRecord_page_wMethod: '取款方式',
   withdrawRecord_page_wAmount: '取款金额',
@@ -167,6 +166,10 @@ export default {
   deposit_page_inputBank: '输入银行名称查找',
   deposit_page_depSuccess: '充值成功',
   deposit_page_notPayWay: '暂无充值方式',
+  deposit_page_upperLimit: '优惠上限',
+  deposit_page_giftRatio: '赠送比列',
+  deposit_page_multiple: '流水倍数',
+  deposit_page_venues: '限定场馆',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',

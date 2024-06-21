@@ -194,7 +194,7 @@
 
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
-// import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import {ref, nextTick, onMounted, onUnmounted} from 'vue';
 // import { EAllWallets, EWallets } from '@/enums/walletEnum';
 import useWalletInfo from './useWalletInfo';
@@ -214,6 +214,7 @@ const bankListInfo = BankListInfo(pinia);
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
+const route = useRoute();
 // const levelRule = defineAsyncComponent(() => import('@/views/level/rules.vue'));
 // const levelModal = ref();
 const depositFirModal = ref();
@@ -256,7 +257,13 @@ const handleBankList = (res: any) => {
 };
 
 onMounted(() => {
-  getBankList()
+  getBankList();
+  // 打开充值页面
+  if (route.query.openDialogType === 'deposit') {
+    setTimeout(() => {
+      depositFirModal.value.openModal();
+    }, 500)
+  }
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
 })
 onUnmounted(() => {
