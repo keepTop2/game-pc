@@ -170,12 +170,13 @@ import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import {TTabList} from "@/utils/types";
 import { Message } from "@/utils/discreteApi.ts";
-import pinia, { BankListInfo } from '@/store';
-import { storeToRefs } from 'pinia';
+
 // import { MessageMap } from '@/utils/net/MessageMap.ts';
 
-const BankListInfoStore = BankListInfo(pinia);
-const bankListData = storeToRefs(BankListInfoStore);
+import { storeToRefs } from 'pinia';
+import { Page } from '@/store/page';
+import pinia from '@/store';
+const { bankListInfo } = storeToRefs(Page(pinia));
 
 const emit = defineEmits(["bindBankCheck"]);
 
@@ -315,8 +316,8 @@ const flagBank = (flag: Boolean) => {
 const showBankModal = ref(false);
 
 // 银行列表
-const bkList = ref<TTabList>([...bankListData.bankList.value]);
-const originBkList = ref<TTabList>([...bankListData.bankList.value]);
+const bkList = ref<TTabList>([...bankListInfo.value]);
+const originBkList = ref<TTabList>([...bankListInfo.value]);
 
 const onCloseBank = () => {
   showBankModal.value = !showBankModal.value;
@@ -725,6 +726,8 @@ defineExpose({
     // 选择银行
     .bank-list {
       width: 100%;
+      min-width: 492px;
+      margin: 0 auto 30px;
       gap: 20px 18px !important;
       max-height: 310px;
       overflow-y: auto;
@@ -736,6 +739,7 @@ defineExpose({
         height: 46px;
         background: url(/img/payment/bankBg.webp) center no-repeat;
         background-size: 100%;
+        flex-flow: nowrap !important;
 
         &:active {
           transform: scale(.95);
@@ -749,9 +753,9 @@ defineExpose({
             height: 28px;
           }
         }
-        .bank-l-name {
-          //max-width: 120px;
-        }
+        //.bank-l-name {
+        //  //max-width: 120px;
+        //}
       }
     }
 

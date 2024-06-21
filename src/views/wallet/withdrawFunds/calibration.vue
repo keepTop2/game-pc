@@ -219,7 +219,7 @@
 
 
   <!-- 选择银行弹窗 -->
-  <chooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
+  <ChooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
 
 </template>
 
@@ -234,17 +234,18 @@ import { Net } from '@/utils/net/Net';
 import { verifyMobile, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is.ts';
 import { Message } from '@/utils/discreteApi.ts';
 import { storeToRefs } from 'pinia';
-import pinia, { User, BankListInfo } from '@/store';
+import pinia, { User } from '@/store';
 import { aaa, bbb, getDeviceId, getRandomSign } from '@/utils/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
 
-const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
+const ChooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
 const UserStore = User(pinia);
-const BankListInfoStore = BankListInfo(pinia);
 const { info: userInfo, roleInfo } = storeToRefs(UserStore);
-const { bankList } = storeToRefs(BankListInfoStore);
+import { Page } from '@/store/page';
+const { bankListInfo } = storeToRefs(Page(pinia));
+
 const chooseBankModal = ref();
 
 const props = defineProps({
@@ -266,7 +267,7 @@ const stepTuple = ref({
 
 
 // 银行列表
-const bkList = ref<TTabList>([...bankList.value]);
+const bkList = ref<TTabList>([...bankListInfo.value]);
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 
 
@@ -353,13 +354,6 @@ const handleSMSback = (res: any) => {
 const submitContent = () => {
 
   // 判断是否绑定银行卡
-  // if (!bankError.value) return submitBank()
-  //
-  // if (!phoneError.value) return submitPhone()
-  //
-  // if (!capitalError.value) return submitCapital()
-  //
-  // stepTuple.value.step = stepTuple.value.step + 1
 
   if (stepTuple.value.step === 3 && capitalError.value) {
     Message.success(t('取款信息已完善'));

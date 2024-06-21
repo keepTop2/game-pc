@@ -209,8 +209,10 @@ import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
 import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
 import { NetPacket } from '@/utils/netBase/NetPacket.ts';
 import { Net } from '@/utils/net/Net.ts';
-import pinia, { BankListInfo } from '@/store';
-const bankListInfo = BankListInfo(pinia);
+import { Page } from '@/store/page';
+import pinia from '@/store';
+const page = Page(pinia);
+
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
@@ -252,8 +254,7 @@ const getBankList = () => {
 };
 
 const handleBankList = (res: any) => {
-  console.log('bankList-------', res)
-  bankListInfo.setBankListInfo(res.bank_name_list)
+  page.setBankListInfo(res.bank_name_list)
 };
 
 onMounted(() => {
