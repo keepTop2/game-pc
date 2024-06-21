@@ -110,7 +110,7 @@ import {onMounted, ref, watch} from 'vue';
     .bank-item {
       cursor: pointer;
       font-size: 14px;
-      width: 177px;
+      width: 176px;
       height: 46px;
       background: url(/img/payment/bankBg.webp) center no-repeat;
       background-size: 100%;
