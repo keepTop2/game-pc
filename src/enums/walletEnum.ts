@@ -44,8 +44,7 @@ export const WalletTypeMap: any = {
  * @description: 货币
  */
 export const CurrencyMap: any = {
-    '1': '法币',
-    '2': 'USDT',
+    '1': '越南盾',
 }
 
 /**

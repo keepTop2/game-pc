@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, computed, onUnmounted, ref } from 'vue';
+import { reactive, computed, onUnmounted, ref, onMounted } from 'vue';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
 import { RechagreStatusMap, CurrencyMap } from "@/enums/walletEnum"
@@ -60,11 +60,11 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 const tableHeader = computed(() => {
     return [ // 表头
-        { title: t('rechargeRecord_page_method'), key: 'title' },
+        { title: t('rechargeRecord_page_method'), key: 'way_id' },
         { title: t('accountsRecord_page_hb'), key: 'currency' },
-        { title: t('rechargeRecord_page_amount'), key: 'amount' },
-        { title: t('auditRecord_page_state'), key: 'status' },
-        { title: t('auditRecord_page_startTime'), key: 'create_time' },
+        { title: t('rechargeRecord_page_amount'), key: 'pay_money' },
+        { title: t('auditRecord_page_state'), key: 'order_status' },
+        { title: t('auditRecord_page_startTime'), key: 'pay_time' },
     ]
 })
 
@@ -101,26 +101,31 @@ const result: any = reactive({ // 结果
 
 const loading = ref(false)
 const resultHandle = (rs: any) => { // 数据处理
+    console.error('???', JSON.stringify(rs), 'req_get_shop_info')
     setTimeout(() => {
         loading.value = false
     }, 300)
     result.total_page = rs.total_page || 0
     result.list = rs.recharge_record_list || []
 }
+const wayMap: any = ref({})
 const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
     let val = row[key]
     switch (key) {
-        case "status":
+        case "way_id":
+            rs = val ? t(wayMap[val]) : val
+            break
+        case "order_status":
             rs = RechagreStatusMap[val]
             break
         case "currency":
-            rs = CurrencyMap[val]
+            rs = CurrencyMap[1]
             break
-        case "amount":
+        case "pay_money":
             rs = Number(val).toLocaleString()
             break
-        case "create_time":
+        case "pay_time":
             rs = convertObjectToDateString(val)
             break
         default:
@@ -135,7 +140,9 @@ const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
     loading.value = true
-    pageChange(1)
+    setTimeout(() => {
+        pageChange(1)
+    }, 500)
 }
 const pageChange = (page: number) => { // 切换页码
     params.page = page
@@ -161,16 +168,31 @@ const queryData = () => { // 查询
     loading.value = true
     Net.instance.sendRequest(query);
 }
+const getPays = () => {
+    const query = NetPacket.req_get_shop_info()
+    Net.instance.sendRequest(query);
+}
+const waysHandle = (rs: any) => {
+    rs.rechargelist_by_paymenttype.forEach((item: any) => {
+        wayMap[item.paymenttype] = item.payname
+    })
+}
+getPays()
 
 // 回执监听
 MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_get_recharge_record_list,
     resultHandle,
 );
+
+MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_req_get_shop_info,
+    waysHandle,
+);
 onUnmounted(() => {
     // 取消监听
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_recharge_record_list, null);
-
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
 });
 </script>
 
