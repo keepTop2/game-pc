@@ -78,7 +78,7 @@
 
 
               <n-form-item :label="'银行账户名'" path="accountName">
-                <n-input size="large" :disabled="props.myBankName" v-model:value="form.accountName" :placeholder="'请输入银行账户名'" >
+                <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName" :placeholder="'请输入银行账户名'" >
                   <template #suffix>
                     <a class="refresh-icon"></a>
                   </template>
@@ -399,7 +399,8 @@ defineExpose({
   .body {
     gap: 15px !important;
     .bank-list {
-      margin-bottom: 30px;
+      min-width: 492px;
+      margin: 0 auto 30px;
       flex-wrap: nowrap!important;
       .bank-item {
         cursor: pointer;

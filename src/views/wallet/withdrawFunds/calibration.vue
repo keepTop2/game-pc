@@ -62,7 +62,7 @@
                       </n-input>
                     </n-form-item>
                     <n-form-item :label="'银行账户名'" path="accountName">
-                      <n-input size="large" :disabled="props.myBankList.cardholder_name"
+                      <n-input size="large" :disabled="!!props.myBankList.cardholder_name"
                                v-model:value="formBank.accountName"
                                :placeholder="'请输入银行账户名'">
                         <template #suffix>
@@ -659,7 +659,6 @@ const selectBank = (e: any) => {
 // 获取已绑定的银行账号
 const getInfo = () => {
 
-  // console.log(props.myBankList, '--props.myBankList--');
   console.log(props.myBankList.cardholder_name, '---props.myBankList--');
   formBank.value.accountName = props.myBankList.cardholder_name || '';
 
