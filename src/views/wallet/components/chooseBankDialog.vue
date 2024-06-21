@@ -31,16 +31,17 @@
 
 <script setup lang="ts">
 import {onMounted, ref, watch} from 'vue';
-  import {useI18n} from "vue-i18n";
-  import {TTabList} from "@/utils/types";
-  import {storeToRefs} from "pinia";
-  import pinia, {BankListInfo} from "@/store";
+import {useI18n} from "vue-i18n";
+import {TTabList} from "@/utils/types";
+import { storeToRefs } from 'pinia';
+import { Page } from '@/store/page';
+import pinia from '@/store';
+const { bankListInfo } = storeToRefs(Page(pinia));
 
-  const emit = defineEmits(['selectBank']);
-  const { t } = useI18n();
-  const BankListInfoStore = BankListInfo(pinia);
-  const { bankList } = storeToRefs(BankListInfoStore);
-  const showBankModal = ref(false);
+
+const emit = defineEmits(['selectBank']);
+const { t } = useI18n();
+const showBankModal = ref(false);
   // 银行列表
   const bkList = ref<TTabList>([]);
   const originBkList = ref<TTabList>([]);
@@ -50,8 +51,8 @@ import {onMounted, ref, watch} from 'vue';
   }
 
   const handleBankList = () => {
-    bkList.value = [...bankList.value];
-    originBkList.value = [...bkList.value];
+    bkList.value = [...bankListInfo.value];
+    originBkList.value = [...bankListInfo.value];
   }
   // 输入字符串匹配银行
   const handleInput = (v: string) => {
@@ -77,7 +78,7 @@ import {onMounted, ref, watch} from 'vue';
   }
 
   watch(
-    () => bankList.value,
+    () => bankListInfo.value,
     (n) => {
       console.log('999999', n)
       handleBankList();
