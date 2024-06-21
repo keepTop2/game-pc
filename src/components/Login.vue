@@ -1,5 +1,5 @@
 <template>
-  <div class="login_from_box" style="width: ;">
+  <div class="login_from_box">
     <img src="/img/login/silder.webp" alt="" />
     <span class="close">
       <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
