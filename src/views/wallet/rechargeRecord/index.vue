@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, computed, onUnmounted, ref, onMounted } from 'vue';
+import { reactive, computed, onUnmounted, ref } from 'vue';
 import { MessageEvent2 } from '@/utils/net/MessageEvent2';
 import { NetMsgType } from '@/utils/netBase/NetMsgType';
 import { RechagreStatusMap, CurrencyMap } from "@/enums/walletEnum"
@@ -101,7 +101,6 @@ const result: any = reactive({ // 结果
 
 const loading = ref(false)
 const resultHandle = (rs: any) => { // 数据处理
-    console.error('???', JSON.stringify(rs), 'req_get_shop_info')
     setTimeout(() => {
         loading.value = false
     }, 300)
@@ -114,7 +113,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let val = row[key]
     switch (key) {
         case "way_id":
-            rs = val ? t(wayMap[val]) : val
+            rs = (val && wayMap[val]) ? t(wayMap[val]) : val
             break
         case "order_status":
             rs = RechagreStatusMap[val]
