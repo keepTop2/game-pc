@@ -103,6 +103,8 @@ import {onMounted, ref, watch} from 'vue';
   // 选择银行
   .bank-list {
     width: 100%;
+    min-width: 492px;
+    margin: 0 auto;
     gap: 20px 18px !important;
     max-height: 310px;
     overflow-y: auto;
@@ -110,7 +112,7 @@ import {onMounted, ref, watch} from 'vue';
     .bank-item {
       cursor: pointer;
       font-size: 14px;
-      width: 177px;
+      width: 176px;
       height: 46px;
       background: url(/img/payment/bankBg.webp) center no-repeat;
       background-size: 100%;

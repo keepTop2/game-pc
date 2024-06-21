@@ -1,5 +1,6 @@
 import { MessageMap } from "@/utils/net/MessageMap";
-import { NetPacket } from "./NetPacket";
+import { NetPacket } from "@/utils/netBase/NetPacket";
+
 export module MessageMapRegister {
 	export function register() {
 		MessageMap.addMsgMap(NetPacket.req_check_version);
@@ -850,6 +851,10 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_dataosha_rank);
 		MessageMap.addMsgMap(NetPacket.req_dataosha_history);
 		MessageMap.addMsgMap(NetPacket.rsp_dataosha_history);
+		MessageMap.addMsgMap(NetPacket.req_dataosha_seed);
+		MessageMap.addMsgMap(NetPacket.rsp_dataosha_seed);
+		MessageMap.addMsgMap(NetPacket.req_dataosha_fair_verify);
+		MessageMap.addMsgMap(NetPacket.rsp_dataosha_fair_verify);
 		MessageMap.addMsgMap(NetPacket.req_mjhl2_info);
 		MessageMap.addMsgMap(NetPacket.notify_mjhl2_info);
 		MessageMap.addMsgMap(NetPacket.req_mjhl2_spin);
@@ -913,5 +918,23 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_can_withdraw);
 		MessageMap.addMsgMap(NetPacket.req_del_bank_card_info);
 		MessageMap.addMsgMap(NetPacket.notify_del_bank_card_info);
+		MessageMap.addMsgMap(NetPacket.req_init_connect);
+		MessageMap.addMsgMap(NetPacket.req_get_vip_rebate);
+		MessageMap.addMsgMap(NetPacket.vip_rebate_record);
+		MessageMap.addMsgMap(NetPacket.notify_get_vip_rebate);
+		MessageMap.addMsgMap(NetPacket.pdk_user_info);
+		MessageMap.addMsgMap(NetPacket.req_pdk_info);
+		MessageMap.addMsgMap(NetPacket.notify_pdk_info);
+		MessageMap.addMsgMap(NetPacket.req_pdk_ready);
+		MessageMap.addMsgMap(NetPacket.notify_pdk_start_counting);
+		MessageMap.addMsgMap(NetPacket.req_pdk_out_card);
+		MessageMap.addMsgMap(NetPacket.notify_s2c_out_card);
+		MessageMap.addMsgMap(NetPacket.req_pdk_pass_card);
+		MessageMap.addMsgMap(NetPacket.notify_s2c_pass_card);
+		MessageMap.addMsgMap(NetPacket.rsp_pdk_error);
+		MessageMap.addMsgMap(NetPacket.notify_s2c_game_start);
+		MessageMap.addMsgMap(NetPacket.notify_s2c_game_over);
+		MessageMap.addMsgMap(NetPacket.req_pdk_cheat);
+		MessageMap.addMsgMap(NetPacket.rsp_pdk_cheat);
 	}
 }

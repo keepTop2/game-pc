@@ -101,7 +101,8 @@ export module NetEnumDef {
         game_type_longhu = 43,
         game_type_shuangdan = 44,
         game_type_mjhlsecond = 45,
-        game_type_dataosha = 46
+        game_type_dataosha = 46,
+        game_type_pdk = 47
     };
     export enum room_type
     {
