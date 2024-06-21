@@ -399,7 +399,8 @@ defineExpose({
   .body {
     gap: 15px !important;
     .bank-list {
-      margin-bottom: 30px;
+      min-width: 492px;
+      margin: 0 auto 30px;
       flex-wrap: nowrap!important;
       .bank-item {
         cursor: pointer;
