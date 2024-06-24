@@ -74,6 +74,7 @@ export const needLoginApi = async () => {
 		tb_req.version = NetEnumDef.get_proto_version();
 		tb_req.device_id = await Utils.getDeviceId();
 		Net.instance.sendRequest(tb_req);
+
 		let req_roleinfo_with_id = NetPacket.req_roleinfo_with_id();
 		req_roleinfo_with_id.id = Local.get('user').user_id;
 		Net.instance.sendRequest(req_roleinfo_with_id);
