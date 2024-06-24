@@ -31,7 +31,8 @@
             </span>
             <span v-if="activeTab === 2">
               <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest" class="captcha_btn"
-                :disabled="item.disabled">{{ t('home_page_getcode') }}</n-button>
+                :disabled="item.disabled">{{ emailLoadingCount ? emailLoadingCount : t('home_page_getcode')
+                }}</n-button>
             </span>
           </template>
         </n-form-item>
@@ -39,7 +40,7 @@
     </n-form>
     <n-button :bordered="false" class="submit_btn pointer" :loading="loading" block @click="onSubmit">{{
       t('home_page_reg')
-      }}</n-button>
+    }}</n-button>
   </div>
 </template>
 
@@ -95,10 +96,12 @@ const refresh_captcha = async () => {
   Net.instance.sendRequest(req_register_captcha);
 };
 const onEmailRequest = () => {
+  if (emailLoadingCount.value) return
   const req_get_email = NetPacket.req_get_email_verification_code();
   req_get_email.operate_type = 1;
   req_get_email.email = state.register.email;
   Net.instance.sendRequest(req_get_email);
+
 };
 
 // 展示 / 隐藏密码数据
@@ -315,13 +318,15 @@ const registerSuccess = async (message: any) => {
     req_login.username = req_register.username;
     req_login.password = req_register.password;
     req_login.device_id = await getDeviceId();
-    req_login.device_model = "apple";
+    req_login.device_model = device_model;
     req_login.channel_id = route.query.channel_id || 123;
     req_login.aaa = aaa;
     req_login.bbb = bbb;
     req_login.ip = await IP();
     req_login.captcha = req_register.captcha;
     Net.instance.sendRequest(req_login);
+  } else {
+    Message.error(t(message.message))
   }
 
 }
@@ -334,9 +339,26 @@ const loginSuccess = async (message: any) => {
   await User(pinia).getUserLoginInfo(message)
   needLoginApi()
 }
+
+
+const emailLoadingCount = ref(0)
+let interval: any = null
+const loadingEmail = () => {
+  if (emailLoadingCount.value) return
+  if (interval) clearInterval(interval)
+  emailLoadingCount.value = 180
+  interval = setInterval(() => {
+    emailLoadingCount.value--
+    if (emailLoadingCount.value <= 0) {
+      clearInterval(interval)
+    }
+  }, 1000)
+}
 const emailVerificationSuccess = async (message: any) => {
   if (message.code == 1) {
-
+    loadingEmail()
+  } else {
+    Message.error(t(message.message))
   }
 }
 const onHander_check_version = async (message: any) => {
