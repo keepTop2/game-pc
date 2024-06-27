@@ -54,9 +54,10 @@ export const Page = defineStore('page', {
             let newList = Array.from(new Set(list))
 
             newList.map((e: any) => {
+                obj[e] = []
                 value.map((j: any) => {
                     if (j.tag == e) {
-                        obj[e] = []
+
                         obj[e].push(j)
                     }
                 })

@@ -24,7 +24,7 @@
               :multiple="item.multiple" :placeholder="t(item.placeholder)" :options="item.options"
               :render-label="renderLabel" /> -->
             <n-input clearable @keyup.enter="handleSubmit" :type="item.type" size="large"
-              v-model:value="state.login[item.name]" :placeholder="item.placeholder">
+              v-model:value="state.login[item.name]" :placeholder="t(item.placeholder)">
               <template #prefix v-if="item.leftIcon">
                 <iconpark-icon :icon-id="item.leftIcon" color="#8e82c2" size="1rem"></iconpark-icon>
               </template>
@@ -125,7 +125,7 @@ const state: any = reactive({
     phone: {
       name: "phone",
       type: "text",
-      placeholder: t('home_page_enterPhoneNumber'),
+      placeholder: 'home_page_enterPhoneNumber',
       slot: !1,
       leftIcon: false,
       changeRightIcon: !1,
@@ -135,7 +135,7 @@ const state: any = reactive({
     account: {
       name: "account",
       type: "text",
-      placeholder: t('home_page_enterAccount'),
+      placeholder: 'home_page_enterAccount',
       slot: !1,
       leftIcon: "Group39361-d3pmjajn",
       changeRightIcon: !1,
@@ -160,7 +160,7 @@ const state: any = reactive({
     email: {
       name: "email",
       type: "text",
-      placeholder: t('home_page_enterEmail'),
+      placeholder: 'home_page_enterEmail',
       slot: !1,
       leftIcon: "Group39361-d3pmjajn",
       changeRightIcon: !1,
@@ -169,7 +169,7 @@ const state: any = reactive({
     password: {
       name: "password",
       type: "password",
-      placeholder: t('home_page_enterPassword'),
+      placeholder: 'home_page_enterPassword',
       slot: !0,
       leftIcon: "Group39362-d3pmjajk",
       changeRightIcon: "Group39364",
@@ -178,7 +178,7 @@ const state: any = reactive({
     captcha: {
       name: "captcha",
       type: "text",
-      placeholder: t('home_page_enterVerificationCode'),
+      placeholder: 'home_page_enterVerificationCode',
       slot: !0,
       leftIcon: "Group39363-d3pmjao6",
       changeRightIcon: !1,
