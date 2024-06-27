@@ -144,5 +144,6 @@ export default {
     // 公告
     home_page_notice_title: '一般公告',
     home_page_notice_fixtitle: '维护公告',
-    home_page_notice_systitle: '系统公告'
+    home_page_notice_systitle: '系统公告',
+    home_page_notice_donttip: '不再显示'
 }
