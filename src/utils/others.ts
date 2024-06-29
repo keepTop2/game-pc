@@ -6,6 +6,18 @@ import { Page } from "@/store/page";
 const { settings } = storeToRefs(Page(pinia));
 const { info: userInfo } = storeToRefs(User(pinia));
 
+// 只有这些充值方式
+export const bankPayMethods = [1, 2, 3, 4, 5, 6];
+// 充值方式对应的名称
+export const bankPayType = [
+  {paymenttype: 1,  payname: 'bankcard'},
+  {paymenttype: 2,  payname: 'momo'},
+  {paymenttype: 3,  payname: 'zalo'},
+  {paymenttype: 4,  payname: 'viettel'},
+  {paymenttype: 5,  payname: 'scratchcard'},
+  {paymenttype: 6,  payname: 'usdt'},
+];
+
 /**
  * 打开外部链接
  * @param val 当前点击项菜单
