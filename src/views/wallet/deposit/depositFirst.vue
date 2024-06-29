@@ -142,6 +142,7 @@ import { NetPacket } from "@/utils/netBase/NetPacket";
 import { Net } from "@/utils/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Message } from "@/utils/discreteApi";
+import {bankPayMethods, bankPayType} from "@/utils/others";
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
 const emit = defineEmits(["haveBankList"]);
@@ -207,7 +208,16 @@ const getShopInfo = () => {
 const handleShopInfoRes = (rs: TShopInfo) => {
   resetData();
   // 匹配出银行的支付方式
-  const newArr = [...rs.rechargelist_by_paymenttype];
+  const newArr = [...rs.rechargelist_by_paymenttype].filter((item: any) => bankPayMethods.includes(item.paymenttype));
+  // 为了赋值 payname 字段
+  newArr.forEach((item: any) => {
+    bankPayType.forEach((item_1: any) => {
+      if (item.paymenttype === item_1.paymenttype) {
+        item.payname = item_1.payname
+      }
+    })
+  })
+  console.log('-----', newArr)
   const bankNewObj: any = newArr.find((item: any) => item.payname === 'bankcard');
   const bankAll: any = [];
   if (bankNewObj.paymethod) {
