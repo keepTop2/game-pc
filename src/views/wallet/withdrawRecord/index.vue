@@ -85,13 +85,13 @@ const optionsCurrency = computed(() => { // 法币
             value: Number(key)
         }
     })
-    options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
+    options.unshift({ value: 9, label: t('rechargeRecord_page_allHb') })
     return options
 })
 
 const params: any = reactive({ // 参数
     page: 1,
-    status: 0,
+    status: 9,
     currency: 0,
 })
 const result: any = reactive({ // 结果
