@@ -576,7 +576,7 @@ const itemClick = (item: any) => {
                         if (verifyPassword(rule, value)) {
                             return true
                         } else {
-                            return new Error(t('home_page_passwordFormatIncorrect'))
+                            return new Error(t('home_page_accountFormatIncorrect'))
                         }
                 },
             },
