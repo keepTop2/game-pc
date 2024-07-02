@@ -89,6 +89,14 @@ export default {
   paymentManagement_page_chName: 'Please enter your bank name',
   paymentManagement_page_tips: 'Tips',
   paymentManagement_page_tipContent: 'Confirm deletion? ',
+  paymentManagement_page_add_one_bank: 'Add a bank card',
+  paymentManagement_page_error_msg: 'Input information error',
+  paymentManagement_page_max_bank: 'Each user can add up to 6 bank cards, and you already have {num}',
+  paymentManagement_page_new_bank: 'Add new bank card',
+  paymentManagement_page_default_bank: 'Default card',
+  paymentManagement_page_delete: 'Delete',
+  paymentManagement_page_set_default: 'Set as default',
+  paymentManagement_page_set_xw_default: 'Are you sure to set it as the default bank card? ',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',
