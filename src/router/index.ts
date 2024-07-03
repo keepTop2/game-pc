@@ -5,7 +5,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
-import { sleep } from '@/utils/others';
 const userinfo = User(pinia);
 
 const { loadingEnd } = storeToRefs(userinfo);
@@ -164,23 +163,26 @@ const router = createRouter({
   history: createWebHistory(),
 });
 
-router.beforeEach(async (to: any, _from: any, next) => {
-  var next = next
+router.beforeEach(async (to: any, from: any) => {
   if (Local.get('user')) {
-    if (!loadingEnd.value) {
-      await sleep(800)
-      next()
-    } else {
-      next()
-    }
+    var timer = setInterval(() => {
+      if (!loadingEnd.value) {
+        return false
+      } else {
+        clearInterval(timer)
+        return true
+      }
+    }, 200);
   } else {
     if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity'].includes(to.name)) {
-      next()
+      return true
     } else {
       await User(pinia).setLogin(true)
-      next('/')
+      return from.path
     }
   }
+
+
 
 })
 router.afterEach(() => {

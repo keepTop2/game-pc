@@ -36,8 +36,8 @@
 
             <div>
 
-                <p :class="state.active == g ? 'hover' : ''" v-for="(game, g) in activityTitleList" :key="g"
-                    @click="itemClick(game)">
+                <p :class="state.active == g ? 'hover' : ''" v-for="(, g) in activityTitleList" :key="g"
+                    @click="activityItemClick(g)">
                     <!-- {{ game }}
                     {{ g }} -->
                     <!-- <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
@@ -320,7 +320,17 @@ const state: any = reactive({
 
     ],
 })
+const activityItemClick = (key: any) => {
+    router.push(
+        {
+            path: '/gameMain/activity',
+            query: {
+                typeName: key,
 
+            }
+        }
+    )
+}
 const itemClick = (item: any) => {
     if (item.url) {
         router.push(

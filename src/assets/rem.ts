@@ -1,3 +1,5 @@
+// import { Net } from "@/utils/net/Net"
+
 const setRem = () => {
     let width = document.documentElement.clientWidth || document.body.clientWidth
     let dom = document.getElementsByTagName('html')[0]
@@ -14,5 +16,6 @@ window.onresize = function () {
 //     }
 //     if (document.visibilityState == "hidden") {
 //         console.log("切换到后台")
+//         Net.instance.closeSocket()
 //     }
 // })

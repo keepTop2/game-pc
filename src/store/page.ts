@@ -49,7 +49,6 @@ export const Page = defineStore('page', {
 
             value.map((e: any) => {
                 list.push(e.tag)
-                e.url = '/gameMain/activity'
             })
             let newList = Array.from(new Set(list))
 
