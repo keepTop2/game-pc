@@ -17,12 +17,12 @@
           </n-flex>
           <n-flex align="center" class="le_l_content">
             <div class="le_l_l le_l_l_sec">
-              <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in ruleListData" :key="index">
-                <span> {{ item.level }} </span>
-                <span> {{ item.jsValidBet }} </span>
-                <span> {{ item.jsGift || t('level_page_wu') }} </span>
-                <span> {{ item.monthGift || t('level_page_wu') }} </span>
-                <span> {{ item.type || t('level_page_wu') }} </span>
+              <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
+                <span> VIP{{ item.level }} </span>
+                <span> {{ item.target_bet_money }} </span>
+                <span> {{ item.promotional_reward_status.money || '-' }} </span>
+                <span> {{ item.gift_money_amount || '-' }} </span>
+                <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>
               </n-flex>
             </div>
           </n-flex>
@@ -47,16 +47,15 @@
             <span> {{ t('home_page_sportsGame') }} </span>
             <span> {{ t('home_page_lotteryGame') }} </span>
             <span> {{ t('home_page_pokerGame') }} </span>
+            <span> {{ t('home_page_eSports') }} </span>
           </n-flex>
           <n-flex align="center" class="le_l_content">
             <div class="le_l_l le_l_l_sec">
-              <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in ruleListData" :key="index">
-                <span> {{ item.level }} </span>
-                <span> {{ item.live }} </span>
-                <span> {{ item.game }} </span>
-                <span> {{ item.sport }} </span>
-                <span> {{ item.lottery }} </span>
-                <span> {{ item.chess }} </span>
+              <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
+                <span> VIP{{ item.level }} </span>
+                <template v-for="(item_1) in item.ratio.split(',')" >
+                  <span> {{ toFixedNumber(Number(item_1) * 100) + '%' }} </span>
+                </template>
               </n-flex>
             </div>
           </n-flex>
@@ -74,9 +73,6 @@
           {{ t('level_page_rule_sec_9') }}<br>
           {{ t('level_page_rule_sec_10') }}
         </div>
-
-
-
       </div>
     </div>
 <!--  </n-modal>-->
@@ -85,29 +81,131 @@
 </template>
 
 <script setup lang='ts' name="levelRule">
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
 import {useI18n} from "vue-i18n";
+import pinia, {User} from "@/store";
+import {storeToRefs} from "pinia";
+import { toFixedNumber } from '@/utils/others';
 
 const { t } = useI18n();
 // const showModal =  ref(false);
+const UserStore = User(pinia);
+const { VIPinfo } = storeToRefs(UserStore);
+const baseVipLevelRewardConfig = [ // 基本数据
+  {
+    "level": 1,
+    "target_bet_money": 0,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 0
+    },
+    "gift_money_amount": 0,
+    "ratio": "0.004, 0.006, 0.004, 0.0005, 0.006, 0.004"
+  },
+  {
+    "level": 2,
+    "target_bet_money": 12500000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 28000
+    },
+    "gift_money_amount": 38000,
+    "ratio": "0.004, 0.007, 0.004, 0.0005, 0.007, 0.004"
+  },
+  {
+    "level": 3,
+    "target_bet_money": 50000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 100000
+    },
+    "gift_money_amount": 150000,
+    "ratio": "0.0045, 0.0075, 0.0045, 0.0005, 0.008, 0.0045"
+  },
+  {
+    "level": 4,
+    "target_bet_money": 150000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 300000
+    },
+    "gift_money_amount": 380000,
+    "ratio": "0.005, 0.008, 0.005, 0.001, 0.0085, 0.005"
+  },
+  {
+    "level": 5,
+    "target_bet_money": 500000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 880000
+    },
+    "gift_money_amount": 1280000,
+    "ratio": "0.0055, 0.0085, 0.0055, 0.001, 0.009, 0.0055"
+  },
+  {
+    "level": 6,
+    "target_bet_money": 2000000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 3380000
+    },
+    "gift_money_amount": 4680000,
+    "ratio": "0.006, 0.009, 0.006, 0.001, 0.0095, 0.006"
+  },
+  {
+    "level": 7,
+    "target_bet_money": 8000000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 13800000
+    },
+    "gift_money_amount": 15000000,
+    "ratio": "0.0065, 0.01, 0.0065, 0.0015, 0.01, 0.0065"
+  },
+  {
+    "level": 8,
+    "target_bet_money": 16000000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 26000000
+    },
+    "gift_money_amount": 28000000,
+    "ratio": "0.007, 0.0105, 0.007, 0.0015, 0.0105, 0.007"
+  },
+  {
+    "level": 9,
+    "target_bet_money": 32000000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 50000000
+    },
+    "gift_money_amount": 53800000,
+    "ratio": "0.0075, 0.0105, 0.0075, 0.002, 0.011, 0.0075"
+  },
+  {
+    "level": 10,
+    "target_bet_money": 150000000000,
+    "promotional_reward_status": {
+      "status": 0,
+      "money": 238000000
+    },
+    "gift_money_amount": 258000000,
+    "ratio": "0.008, 0.012, 0.008, 0.002, 0.012, 0.008"
+  }
+]
+const vipLevelRewardConfig = ref(VIPinfo.value?.vip_level_reward_config || [...baseVipLevelRewardConfig]);
 
 // const openModal = () => {
 //   showModal.value = !showModal.value
 // }
 
-const ruleListData = ref(
-  [
-    { level: 'VIP1', jsValidBet: '-', bjValidBet: '', jsGift: '-', monthGift: '-', type: '', live: '0.4', game: '0.4', sport: '0.4', lottery: '0.4', chess: '0.4' },
-    { level: 'VIP2', jsValidBet: '1,000.00', bjValidBet: '500.00', jsGift: '0.60', monthGift: '0.10', type: t('level_page_promo'), live: '0.5', game: '0.5', sport: '0.45', lottery: '0.5', chess: '0.45' },
-    { level: 'VIP3', jsValidBet: '4,000.00', bjValidBet: '2,000.00', jsGift: '2.50', monthGift: '0.60', type: t('level_page_promo'), live: '0.55', game: '0.6', sport: '0.5', lottery: '0.6', chess: '0.5' },
-    { level: 'VIP4', jsValidBet: '20,000.00', bjValidBet: '10,000.00', jsGift: '12.00', monthGift: '2.50', type: t('level_page_promo'), live: '0.6', game: '0.65', sport: '0.55', lottery: '0.65', chess: '0.55' },
-    { level: 'VIP5', jsValidBet: '60,000.00', bjValidBet: '30,000.00', jsGift: '36.00', monthGift: '12.00', type: t('level_page_promo'), live: '0.65', game: '0.7', sport: '0.6', lottery: '0.7', chess: '0.6' },
-    { level: 'VIP6', jsValidBet: '200,000.00', bjValidBet: '100,000.00', jsGift: '120.00', monthGift: '38.00', type: t('level_page_promo'), live: '0.7', game: '0.75', sport: '0.65', lottery: '0.75', chess: '0.7' },
-    { level: 'VIP7', jsValidBet: '800,000.00', bjValidBet: '400,000.00', jsGift: '480.00', monthGift: '118.00', type: t('level_page_promo'), live: '0.75', game: '0.8', sport: '0.7', lottery: '0.8', chess: '0.8' },
-    { level: 'VIP8', jsValidBet: '1,600,000.00', bjValidBet: '800,000.00', jsGift: '960.00', monthGift: '328.00', type: t('level_page_promo'), live: '0.8', game: '0.85', sport: '0.8', lottery: '0.85', chess: '0.85' },
-    { level: 'VIP9', jsValidBet: '3,600,000.00', bjValidBet: '1,500,000.00', jsGift: '1800.00', monthGift: '688.00', type: t('level_page_promo'), live: '0.9', game: '0.9', sport: '0.9', lottery: '0.9', chess: '0.9' },
-    { level: 'VIP10', jsValidBet: '12,600,000.00', bjValidBet: '6,500,000.00', jsGift: '7200.00', monthGift: '1688.00', type: t('level_page_promo'), live: '1', game: '1', sport: '1', lottery: '1', chess: '1' },
-  ]
+watch(
+  () => VIPinfo.value,
+  (n) => {
+    if (n) {
+      vipLevelRewardConfig.value = n.vip_level_reward_config;
+    }
+  }
 );
 
 // defineExpose({
@@ -147,14 +245,14 @@ const ruleListData = ref(
       span {
         height: 50px;
         line-height: 80px;
-        width: 20%;
+        flex: 1;
         text-align: center;
       }
     }
     &.level_list_sec {
       .le_l_header {
         span {
-          width: 16.66%;
+          flex: 1;
         }
       }
     }

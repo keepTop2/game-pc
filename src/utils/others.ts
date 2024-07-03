@@ -134,3 +134,16 @@ export const IP = (): Promise<string> => {
         });
     });
 }
+/**
+ *  精确小数点，截取位数，不四舍五入
+ *  l 小数点位数
+ *  精度丢失问题
+ * */
+export const toFixedNumber = (value: any, l = 2) => {
+  if (!value) {
+    return `0.${''.padEnd(l, '0')}`;
+  }
+  const str = value.toString().split('.');
+  const str1 = str[1] ? str[1].substr(0, l).padEnd(l, '0') : ''.padEnd(l, '0');
+  return str[0] + '.' + str1;
+}

@@ -89,6 +89,14 @@ export default {
   paymentManagement_page_chName: '请输入银行姓名',
   paymentManagement_page_tips: '提示',
   paymentManagement_page_tipContent: '确认删除吗？',
+  paymentManagement_page_add_one_bank: '添加一张银行卡',
+  paymentManagement_page_error_msg: '输入信息错误',
+  paymentManagement_page_max_bank: '每个用户最多添加6张银行卡，您已拥有{num}张',
+  paymentManagement_page_new_bank: '添加新银行卡',
+  paymentManagement_page_default_bank: '默认卡片',
+  paymentManagement_page_delete: '删除',
+  paymentManagement_page_set_default: '设为默认',
+  paymentManagement_page_set_xw_default: '确认设为默认银行卡吗？',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',
