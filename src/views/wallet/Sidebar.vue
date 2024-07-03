@@ -55,10 +55,15 @@ const state: any = reactive({
             name: 'home_page_auditRecord',
             url: 'auditRecord',
         },
+        // {
+        //     icon: 'diannaodenglujilu1',
+        //     name: 'home_page_loginRecord',
+        //     url: 'loginRecord',
+        // },
         {
             icon: 'diannaodenglujilu1',
-            name: 'home_page_loginRecord',
-            url: 'loginRecord',
+            name: 'home_page_waterRecord',
+            url: 'waterRecord',
         },
         {
             icon: 'Group39346',

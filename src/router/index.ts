@@ -137,6 +137,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/wallet/loginRecord/index.vue'),
       },
       {
+        path: 'waterRecord',
+        name: 'waterRecord',
+        meta: { title: 'waterRecord' },
+        component: () => import('@/views/wallet/waterRecord/index.vue'),
+      },
+      {
         path: 'myPromo',
         name: 'myPromo',
         meta: { title: '我的优惠' },
