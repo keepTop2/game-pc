@@ -63,7 +63,7 @@
 
                     <n-flex v-if="showMyBank?.show" align="center" class="bottom-tip">
                         <span class="gth-icon"></span>
-                        每个用户最多添加6张银行卡，您已拥有{{showMyBank.length}}张
+                        {{ t('paymentManagement_page_max_bank', {num: showMyBank.length || 0}) }}
                     </n-flex>
 
                 </div>

@@ -6,6 +6,18 @@ import { Page } from "@/store/page";
 const { settings } = storeToRefs(Page(pinia));
 const { info: userInfo } = storeToRefs(User(pinia));
 
+// 只有这些充值方式
+export const bankPayMethods = [1, 2, 3, 4, 5, 6];
+// 充值方式对应的名称
+export const bankPayType = [
+  {paymenttype: 1,  payname: 'bankcard'},
+  {paymenttype: 2,  payname: 'momo'},
+  {paymenttype: 3,  payname: 'zalo'},
+  {paymenttype: 4,  payname: 'viettel'},
+  {paymenttype: 5,  payname: 'scratchcard'},
+  {paymenttype: 6,  payname: 'usdt'},
+];
+
 /**
  * 打开外部链接
  * @param val 当前点击项菜单
@@ -121,4 +133,17 @@ export const IP = (): Promise<string> => {
             resolve(_ip);
         });
     });
+}
+/**
+ *  精确小数点，截取位数，不四舍五入
+ *  l 小数点位数
+ *  精度丢失问题
+ * */
+export const toFixedNumber = (value: any, l = 2) => {
+  if (!value) {
+    return `0.${''.padEnd(l, '0')}`;
+  }
+  const str = value.toString().split('.');
+  const str1 = str[1] ? str[1].substr(0, l).padEnd(l, '0') : ''.padEnd(l, '0');
+  return str[0] + '.' + str1;
 }

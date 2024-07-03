@@ -119,7 +119,7 @@
           <div class="tips">
             <img src="/img/wallet/bankTips.webp" alt="">
 <!--            bankList-->
-            <span>{{`每个用户最多添加6张银行卡，您已拥有${bankList.length}张`}}</span>
+            <span>{{ t('paymentManagement_page_max_bank', {num: bankList.length || 0}) }}</span>
           </div>
         </div>
 

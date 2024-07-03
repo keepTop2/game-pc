@@ -1,8 +1,9 @@
 <template>
     <div class="activity">
-
+        <!-- {{ activityTitleList[state.name] }} -->
         <div class="activity_img">
-            <img @click="popDetail" :src="t(state.link)" alt="">
+            <img @click="popDetail" v-for="(item, i) in activityTitleList[state.name]" :key="i" :src="t(item.pic_link)"
+                alt="">
         </div>
         <n-modal v-model:show="state.showModal">
             <n-card style="width: 600px" title="活动详情" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -17,7 +18,10 @@ import { onMounted, reactive, watch } from 'vue';
 
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-
+import { Page } from '@/store/page';
+import pinia from '@/store/index';
+import { storeToRefs } from 'pinia';
+const { activityTitleList } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 // const router = useRouter();
 const route = useRoute();
@@ -34,18 +38,19 @@ const popDetail = () => {
 }
 
 onMounted(() => {
-    state.link = route.query.link
-    state.name = route.query.name
-    state.detailImg = route.query.content
+    console.log(activityTitleList);
+
+    debugger
+    state.name = route.query.typeName
+
 
 });
 
 watch(
     () => route.query,
     (n) => {
-        state.link = n.link
-        state.detailImg = n.content
-        state.name = n.name
+
+        state.name = n.namtypeNamee
     }
 )
 </script>
