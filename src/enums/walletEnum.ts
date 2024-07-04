@@ -1,21 +1,25 @@
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
 /**
  * @description: 充值状态
  */
 export const RechagreStatusMap: any = {
-    '0': '失败',
-    '-1': '进行中',
-    '1': '已完成',
-    '2': '回调成功',
+    '0': t('rechagre_status_map_0'),
+    '-1': t('rechagre_status_map__1'),
+    '1': t('rechagre_status_map_1'),
+    '2': t('rechagre_status_map_2'),
 }
 
 /**
  * @description: 取款状态
  */
 export const WithdrawStatusMap: any = {
-    '0': '等待审核',
-    '1': '打款中',
-    '2': '已完成',
-    '3': '审核异常',
+    '0': t('withdraw_status_map_0'),
+    '1': t('withdraw_status_map_1'),
+    '2': t('withdraw_status_map_2'),
+    '3': t('withdraw_status_map_3'),
 }
 export const WithdrawStatusColorMap: any = {
     '0': '#FABB2D',
@@ -29,31 +33,31 @@ export const WithdrawStatusColorMap: any = {
  * @description: 转账类型
  */
 export const AccountTypeMap: any = {
-    '1': '提现',
-    '2': '转账',
+    '1': t('account_type_map_1'),
+    '2': t('account_type_map_2'),
 }
 /**
  * @description: 洗马记录类型
  */
 export const WashTypeMap: any = {
-    '-1': '按平台汇总',
-    '9999': '当前平台',
+    '-1': t('wash_type_map__1'),
+    '9999': t('wash_type_map_9999'),
 }
 /**
  * @description: 钱包类型
  */
 export const WalletTypeMap: any = {
-    '1': '携带钱包',
-    '2': '保险柜钱包',
-    '3_0': '系统优惠',
-    '3_1': '系统调整'
+    '1': t('wallet_type_map_1'),
+    '2': t('wallet_type_map_2'),
+    '3_0': t('wallet_type_map_3_0'),
+    '3_1': t('wallet_type_map_3_1'),
 }
 
 /**
  * @description: 货币
  */
 export const CurrencyMap: any = {
-    '1': '越南盾',
+    '1': t('vietnamese_dong'),
 }
 
 /**
@@ -61,12 +65,12 @@ export const CurrencyMap: any = {
  */
 export const PlatformMap: any = {
     "1": "BY88",
-    "2": "捕鱼",
-    "3": "老虎机",
-    "4": "视讯",
-    "5": "棋牌",
-    "6": "体育",
-    "7": "彩票",
+    "2": t("platform_map_2"),
+    "3": t("platform_map_3"),
+    "4": t("platform_map_4"),
+    "5": t("platform_map_5"),
+    "6": t("platform_map_6"),
+    "7": t("platform_map_7"),
 }
 export const PlatformValueMap: any = {
     PG: 1,
@@ -135,8 +139,8 @@ export const PlatformValueMap: any = {
  * @description: 稽核状态
  */
 export const AuditStatusMap: any = {
-    '1': '进行中',
-    '2': '已完成',
+    '1': t('audit_status_map_1'),
+    '2': t('audit_status_map_2'),
 }
 
 export const ETransfer: any = {
