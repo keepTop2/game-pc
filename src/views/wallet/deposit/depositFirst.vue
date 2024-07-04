@@ -316,7 +316,7 @@ const handleDepositSubmit = (res: any) => {
   console.log('---', res)
   loading.value = false;
   if (res.code === -1) {
-    Message.error('充值优惠检查失败')
+    Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
   } else { // code 0 成功
     Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置

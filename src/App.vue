@@ -24,7 +24,7 @@ import { NetMsgType } from "@/utils/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 
 const userInfo = User(pinia);
-const { lang } = storeToRefs(userInfo);
+const { lang, roleInfo } = storeToRefs(userInfo);
 const Language: any = {
   en: {
     global: enUS,
@@ -136,6 +136,14 @@ const handleEmailInfo = (rs: any) => {
 };
 // onBeforeMount(async () => {
 
+// 监听金额变化
+const handleUpdateMoney = async (data: any) => {
+  if (data) {
+    const newData = {...roleInfo.value}
+    newData.money = data.cur_money
+    await User(pinia).getRoleInfo(newData)
+  }
+}
 
 onMounted(async () => {
 
@@ -155,6 +163,10 @@ onMounted(async () => {
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_email_list,
     handleEmailInfo,
+  );
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_money_update2,
+    handleUpdateMoney
   );
 
 })
