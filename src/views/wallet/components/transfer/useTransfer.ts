@@ -1,14 +1,14 @@
-import pinia, {User} from '@/store/index';
+import pinia, { User } from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Wallet } from '@/store';
 import { ETransfer } from '@/enums/walletEnum';
-import {ref, watch} from 'vue';
-import {NetPacket} from "@/utils/netBase/NetPacket";
-import {Net} from "@/utils/net/Net";
-import {MessageEvent2} from "@/utils/net/MessageEvent2";
-import {NetMsgType} from "@/utils/netBase/NetMsgType";
-import {Message} from "@/utils/discreteApi";
-import {useI18n} from "vue-i18n";
+import { ref, watch } from 'vue';
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { Message } from "@/utils/discreteApi";
+import { useI18n } from "vue-i18n";
 
 const useTransfer = () => {
   const { t } = useI18n();
@@ -27,10 +27,10 @@ const useTransfer = () => {
   };
   const onSubmit = () => {
     if (!amount.value) {
-      return  Message.error(t('transfer_page_inputAmount'))
+      return Message.error(t('transfer_page_inputAmount'))
     }
     if (Number(amount.value) > Number(fromMoney.value)) {
-      return  Message.error(t('transfer_page_notEnough'))
+      return Message.error(t('transfer_page_notEnough'))
     }
     handleSubmit();
   };
@@ -60,7 +60,7 @@ const useTransfer = () => {
   const selectTotal = () => {
     amount.value = fromMoney.value.toString()
   }
-    // 中心钱包转账到游戏钱包
+  // 中心钱包转账到游戏钱包
   const centerToGame = () => {
     const req = NetPacket.req_bank_take();
     req.money = amount.value;

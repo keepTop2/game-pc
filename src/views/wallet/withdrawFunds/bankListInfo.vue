@@ -5,7 +5,7 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ '选择银行卡' }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
 
@@ -15,7 +15,7 @@
             <div class="bank-list" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank-item">
                 <div class="bank-l-icon">
-                  <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName"/>
+                  <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
                 </div>
                 <div class="bank-l-name">
                   <div class="info-text">
@@ -27,11 +27,11 @@
                   </div>
                   <div class="utilization-bank">
                     <n-button @click="bankCheck(index, 'isUse')"
-                              :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
+                      :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
                       {{ item.isUse ? '使用中' : '选择' }}
                     </n-button>
                     <n-button @click="bankCheck(index, 'isDefault')"
-                              :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
+                      :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
                       {{ item.isDefault ? '默认卡片' : '设为默认' }}
                     </n-button>
                   </div>
@@ -56,20 +56,20 @@
                 <img src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)">
               </div>
 
-              <n-form-item :label="'选择银行'" >
+              <n-form-item :label="'选择银行'">
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
                     <span class="bank-cicon">
-                       <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label"/>
+                      <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                     </span>
-                    <span class="bank-cname"> {{chooseBank.label}} </span>
+                    <span class="bank-cname"> {{ chooseBank.label }} </span>
                   </n-flex>
                   <a class="change-btn" @click="showChangeBank"> 更换 </a>
                 </n-flex>
               </n-form-item>
 
               <n-form-item :label="'银行卡号'" path="bankCode">
-                <n-input size="large" v-model:value="form.bankCode" :placeholder="'请输入银行卡号'" >
+                <n-input size="large" v-model:value="form.bankCode" :placeholder="'请输入银行卡号'">
                   <template #suffix>
                     <a class="refresh-icon"></a>
                   </template>
@@ -78,7 +78,8 @@
 
 
               <n-form-item :label="'银行账户名'" path="accountName">
-                <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName" :placeholder="'请输入银行账户名'" >
+                <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
+                  :placeholder="'请输入银行账户名'">
                   <template #suffix>
                     <a class="refresh-icon"></a>
                   </template>
@@ -86,30 +87,30 @@
               </n-form-item>
 
 
-<!--              <n-form-item label="手机号" path="phone">-->
-<!--                <n-input clearable size="large" v-model:value="form.phone"-->
-<!--                         :placeholder="'请输入手机号'"></n-input>-->
-<!--              </n-form-item>-->
+              <!--              <n-form-item label="手机号" path="phone">-->
+              <!--                <n-input clearable size="large" v-model:value="form.phone"-->
+              <!--                         :placeholder="'请输入手机号'"></n-input>-->
+              <!--              </n-form-item>-->
 
 
-<!--              <n-form-item :label="'验证码'">-->
-<!--                <n-input clearable size="large" v-model:value="form.phoneCode"-->
-<!--                         :placeholder="'请输入6位数验证码'"></n-input>-->
-<!--                <n-button :bordered="false" :loading="phoneCodeLoading"-->
-<!--                          @click="submitSendPhoneCode" class="btn"-->
-<!--                          :disabled="phoneCodeDisabled">发送-->
-<!--                </n-button>-->
-<!--              </n-form-item>-->
+              <!--              <n-form-item :label="'验证码'">-->
+              <!--                <n-input clearable size="large" v-model:value="form.phoneCode"-->
+              <!--                         :placeholder="'请输入6位数验证码'"></n-input>-->
+              <!--                <n-button :bordered="false" :loading="phoneCodeLoading"-->
+              <!--                          @click="submitSendPhoneCode" class="btn"-->
+              <!--                          :disabled="phoneCodeDisabled">发送-->
+              <!--                </n-button>-->
+              <!--              </n-form-item>-->
 
 
               <div class="cz-btn">
                 <a @click="submit"> 确认 </a>
                 <!--                <a @click="goToDeposit"> 确认 </a>-->
               </div>
-<!--              <div class="error">-->
-<!--                <img src="/img/wallet/tipsWarning.webp" alt="nodata">-->
-<!--                <span>输入信息错误</span>-->
-<!--                </div>-->
+              <!--              <div class="error">-->
+              <!--                <img src="/img/wallet/tipsWarning.webp" alt="nodata">-->
+              <!--                <span>输入信息错误</span>-->
+              <!--                </div>-->
 
             </n-form>
 
@@ -118,8 +119,8 @@
 
           <div class="tips">
             <img src="/img/wallet/bankTips.webp" alt="">
-<!--            bankList-->
-            <span>{{ t('paymentManagement_page_max_bank', {num: bankList.length || 0}) }}</span>
+            <!--            bankList-->
+            <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
           </div>
         </div>
 
@@ -135,21 +136,22 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ '请选择银行' }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t-md body-sec">
-          <n-input size="large"  @input="handleInput" :placeholder="'输入银行名称查找'" >
+          <n-input size="large" @input="handleInput" :placeholder="'输入银行名称查找'">
             <template #suffix>
               <a class="refresh-icon search-icon"></a>
             </template>
           </n-input>
           <n-flex class="bank-list">
-            <n-flex align="center" class="bank-item" v-for="(item, index) in bkList" @click="selectBank(item)" :key="index">
+            <n-flex align="center" class="bank-item" v-for="(item, index) in bkList" @click="selectBank(item)"
+              :key="index">
               <span class="bank-l-icon">
-                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label"/>
+                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
               </span>
-              <span class="bank-l-name"> {{item.label}} </span>
+              <span class="bank-l-name"> {{ item.label }} </span>
             </n-flex>
           </n-flex>
         </div>
@@ -163,16 +165,16 @@
 <script setup lang="ts">
 
 import { onMounted, onUnmounted, ref } from 'vue';
-import { NetPacket } from '@/utils/netBase/NetPacket.ts';
-import { Net } from '@/utils/net/Net.ts';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
-import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
+import { NetPacket } from '@/netBase/NetPacket.ts';
+import { Net } from '@/net/Net.ts';
+import { MessageEvent2 } from '@/net/MessageEvent2.ts';
+import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
-import {TTabList} from "@/utils/types";
+import { TTabList } from "@/utils/types";
 import { Message } from "@/utils/discreteApi.ts";
 import pinia, { BankListInfo } from '@/store';
 import { storeToRefs } from 'pinia';
-// import { MessageMap } from '@/utils/net/MessageMap.ts';
+// import { MessageMap } from '@/net/MessageMap.ts';
 
 const BankListInfoStore = BankListInfo(pinia);
 const bankListData = storeToRefs(BankListInfoStore);
@@ -182,7 +184,7 @@ const emit = defineEmits(["bindBankCheck"]);
 const props = defineProps({
   myBankList: {
     type: Object,
-    default: () => {}
+    default: () => { }
   },
   myBankName: {
     type: String,
@@ -196,7 +198,7 @@ const { t } = useI18n();
 const form = ref({
   bank: '',
   bankCode: '',
-  bankName:'',
+  bankName: '',
   accountName: props.myBankName,
 
 })
@@ -206,15 +208,15 @@ const form = ref({
 const formRef = ref()
 const submit = () => {
   if (!form.value.bank) {
-    return  Message.error(t('paymentManagement_page_chBank'))
+    return Message.error(t('paymentManagement_page_chBank'))
   }
 
   if (!form.value.bankCode) {
-    return  Message.error(t('paymentManagement_page_chCardNo'))
+    return Message.error(t('paymentManagement_page_chCardNo'))
   }
 
   if (!form.value.accountName) {
-    return  Message.error('请输入银行卡账户')
+    return Message.error('请输入银行卡账户')
   }
   const req = NetPacket.req_new_bank_card_info();
   req.bank_id = form.value.bank;
@@ -227,7 +229,7 @@ const submit = () => {
 const handleAddBankRef = (res: any) => {
   if (res.result === 1) {
     Message.success(t('paymentManagement_page_addBankSuc'))
-    bankList.value.push({...form.value, name: '******'})
+    bankList.value.push({ ...form.value, name: '******' })
     flagBank(false)
   } else {
     Message.error(t('paymentManagement_page_addBankFail'))
@@ -243,11 +245,11 @@ const setBankList = (res: any) => {
     item.bankCode = item.account_number
     item.bankName = item.bank_name
     item.name = '******'
-    if(index === 0) {
-      item.isDefault =  true
+    if (index === 0) {
+      item.isDefault = true
       item.isUse = true
     } else {
-      item.isDefault =  false
+      item.isDefault = false
       item.isUse = false
     }
 
@@ -349,7 +351,7 @@ const showChangeBank = () => {
 
 
 
-const chooseBank = ref({label: '', value: ''}); // 选择的银行卡
+const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 // 选择银行
 const selectBank = (e: any) => {
   form.value.bank = e.value;
@@ -398,10 +400,12 @@ defineExpose({
 
   .body {
     gap: 15px !important;
+
     .bank-list {
       min-width: 492px;
       margin: 0 auto 30px;
-      flex-wrap: nowrap!important;
+      flex-wrap: nowrap !important;
+
       .bank-item {
         cursor: pointer;
         font-size: 14px;
@@ -410,14 +414,17 @@ defineExpose({
         height: 90px;
         background: url(/img/payment/bankBg.webp) center no-repeat;
         background-size: 100%;
-        flex-wrap: nowrap!important;
+        flex-wrap: nowrap !important;
+
         .bank-l-icon {
           width: 54px;
           height: 54px;
+
           img {
             width: 54px;
             height: 54px;
           }
+
           //background-color: #ef1111;
           //margin-left: 18px;
         }
@@ -427,6 +434,7 @@ defineExpose({
           justify-content: space-between;
           width: 100%;
           margin-left: 45px;
+
           .utilization-bank {
             display: flex;
             align-items: center;
@@ -527,17 +535,21 @@ defineExpose({
       border: 3px solid rgba(78, 59, 153, 1);
       border-radius: 10px;
       box-sizing: border-box;
+
       .add-bank-text {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         img {
           cursor: pointer;
         }
       }
+
       .choose-bank {
         flex-flow: nowrap !important;
         gap: 10px !important;
+
         .choose-bank-l {
           width: 250px;
           height: 38px;
@@ -565,6 +577,7 @@ defineExpose({
           background-size: 100%;
         }
       }
+
       .btn {
         color: #fff;
         height: 40px !important;
@@ -573,15 +586,18 @@ defineExpose({
         background: url(/img/login/sendBtn.webp) no-repeat;
         background-size: contain;
       }
+
       .error {
         margin-top: 20px;
         text-align: center;
+
         img {
           width: 14px;
           height: 14px;
           margin-right: 4px;
           vertical-align: middle;
         }
+
         color: rgba(209, 99, 99, 1);
       }
     }
@@ -602,6 +618,7 @@ defineExpose({
         color: rgba(142, 130, 194, 1);
         font-size: 11px;
       }
+
       //padding: 0 18px 0 18px;
     }
 
@@ -609,6 +626,7 @@ defineExpose({
       display: flex;
       align-items: center;
       justify-content: center;
+
       a {
         font-size: 18px;
         display: block;
@@ -636,8 +654,10 @@ defineExpose({
       margin: 0 auto;
       background: #17a1fb;
     }
+
     .bank-list-item {
       width: 100%;
+
       a {
         img {
           width: 30px;
@@ -646,6 +666,7 @@ defineExpose({
       }
     }
   }
+
   .body-sec {
     .refresh-icon {
       display: inline-block;
@@ -658,6 +679,7 @@ defineExpose({
         background-image: url(/img/payment/search_icon.webp);
       }
     }
+
     .kjje-div {
       gap: 20px !important;
 
@@ -670,17 +692,21 @@ defineExpose({
         background-size: 100%;
       }
     }
+
     .btn_zone {
       margin: 10px auto;
     }
+
     .cz-tips {
       font-size: 12px;
       text-align: center;
       color: #D16363;
+
       .txt {
         color: #60D580;
         margin-bottom: 10px;
       }
+
       .tip {
         gap: 4px !important;
 
@@ -696,6 +722,7 @@ defineExpose({
 
     .choose-bank {
       gap: 10px !important;
+
       .choose-bank-l {
         width: 270px;
         height: 38px;
@@ -706,11 +733,13 @@ defineExpose({
           width: 24px;
           height: 24px;
         }
+
         .bank-cname {
           width: 220px;
           line-height: 16px;
         }
       }
+
       .change-btn {
         display: inline-block;
         text-align: center;
@@ -740,15 +769,18 @@ defineExpose({
         &:active {
           transform: scale(.95);
         }
+
         .bank-l-icon {
           width: 28px;
           height: 28px;
           margin-left: 8px;
+
           img {
             width: 28px;
             height: 28px;
           }
         }
+
         .bank-l-name {
           //max-width: 120px;
         }
@@ -759,3 +791,4 @@ defineExpose({
 
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

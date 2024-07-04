@@ -932,7 +932,9 @@ export module NetMsgType {
         msg_notify_s2c_game_start: 930,
         msg_notify_s2c_game_over: 931,
         msg_req_pdk_cheat: 932,
-        msg_rsp_pdk_cheat: 933
+        msg_rsp_pdk_cheat: 933,
+        msg_req_add_usdt_info: 934,
+        msg_notify_add_usdt_info: 935
     }
     type MsgType = typeof msgType1
 

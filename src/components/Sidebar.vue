@@ -71,10 +71,10 @@ import pinia from '@/store/index';
 import { User } from '@/store/user';
 
 import { Page } from '@/store/page';
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 const { activityTitleList } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 
@@ -516,3 +516,4 @@ watch(
     }
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

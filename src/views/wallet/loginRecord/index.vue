@@ -35,11 +35,11 @@
 
 <script setup lang='ts'>
 import { reactive, onUnmounted, ref, computed } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import DateSelect from "@/components/DateSelect.vue"
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { AuditStatusMap } from '@/enums/walletEnum'
 import { useI18n } from "vue-i18n";
@@ -135,3 +135,4 @@ onUnmounted(() => {
     user-select: none;
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

@@ -3,72 +3,71 @@
     <template #header>
       <div class="level_title level_title_sec">{{ t('level_page_member') }}</div>
     </template>-->
-    <div class="level_content">
-      <div class="level_info">
-        <div class="level_info_top">
+  <div class="level_content">
+    <div class="level_info">
+      <div class="level_info_top">
+      </div>
+      <n-spin :show="loading">
+        <div class="level_info_pross">
+          <n-flex class="level_info_vip" justify="space-between">
+            <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }} </div>
+            <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }} </div>
+          </n-flex>
+          <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
+              :style="`width: ${vipProcss().rateStr}`"> </span> </div>
+          <n-flex class="level_info_txt" justify="space-between">
+            <div> {{ t('level_page_needBet') }} {{ countNeedBet() }} </div>
+            <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
+          </n-flex>
         </div>
-        <n-spin :show="loading">
-          <div class="level_info_pross">
-            <n-flex class="level_info_vip" justify="space-between">
-              <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }} </div>
-              <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }} </div>
-            </n-flex>
-            <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
-                :style="`width: ${vipProcss().rateStr}`"> </span> </div>
-            <n-flex class="level_info_txt" justify="space-between">
-              <div> {{ t('level_page_needBet') }} {{ countNeedBet() }} </div>
-              <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
-            </n-flex>
-          </div>
 
-          <n-flex justify="space-between" align="center" class="level_info_jl">
-            <n-flex align="center" class="level_info_jl_l">
-              <span class="jl_amount"> <span> {{ t('level_page_rebate') }} </span> {{ levelDataAll.daily_rebate || 0 }}
-              </span>
-              <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
-            </n-flex>
-            <n-flex align="center" class="level_info_jl_r">
-              <span class="line_icon"></span>
-              <n-flex class="lq_btn" justify="center">
-                <span class="lq_icon"></span>
-                <span @click="getRebate"> {{ t('level_page_lq') }} </span>
-              </n-flex>
+        <n-flex justify="space-between" align="center" class="level_info_jl">
+          <n-flex align="center" class="level_info_jl_l">
+            <span class="jl_amount"> <span> {{ t('level_page_rebate') }} </span> {{ levelDataAll.daily_rebate || 0 }}
+            </span>
+            <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
+          </n-flex>
+          <n-flex align="center" class="level_info_jl_r">
+            <span class="line_icon"></span>
+            <n-flex class="lq_btn" justify="center">
+              <span class="lq_icon"></span>
+              <span @click="getRebate"> {{ t('level_page_lq') }} </span>
             </n-flex>
           </n-flex>
+        </n-flex>
 
-          <div class="level_info_vip_all">
-            <n-flex class="level_info_vip_l">
-              <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData" :key="index" @click="clickTab(item.key)">
-                <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
+        <div class="level_info_vip_all">
+          <n-flex class="level_info_vip_l">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
+              :key="index" @click="clickTab(item.key)">
+              <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
                    <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
-                <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
-              </div>
-            </n-flex>
-          </div>
-          <div class="level_list_sec">
-            <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
-              <div class="list_item_l">
-                <div class="title_big"> {{ item.title }} </div>
-                <div> {{ item.titleSec }} </div>
-              </div>
-              <n-flex class="list_item_r">
-                <div class="list_item_r_item" v-for="(item_1, index_1) in item.child"
-                     :key="index + index_1"
-                >
-                  <div :class="`list-item-bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
-                    <div class="item_img"> <img :src="`/img/level/${item_1.icon}.webp`"> </div>
-                    <div> {{ item_1.name }} </div>
-                  </div>
+              <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
+            </div>
+          </n-flex>
+        </div>
+        <div class="level_list_sec">
+          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
+            <div class="list_item_l">
+              <div class="title_big"> {{ item.title }} </div>
+              <div> {{ item.titleSec }} </div>
+            </div>
+            <n-flex class="list_item_r">
+              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
+                <div :class="`list-item-bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
+                  <div class="item_img"> <img :src="`/img/level/${item_1.icon}.webp`"> </div>
+                  <div> {{ item_1.name }} </div>
                 </div>
-              </n-flex>
+              </div>
             </n-flex>
-          </div>
-        </n-spin>
-
-      </div>
+          </n-flex>
+        </div>
+      </n-spin>
 
     </div>
-<!--  </n-modal>-->
+
+  </div>
+  <!--  </n-modal>-->
 
   <!-- 奖励派发说明 -->
   <n-modal :show="ruleModal" :mask-closable="false">
@@ -77,13 +76,13 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ t('level_page_paiTitle') }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center">
-          <div class="list-tip"> {{t('level_page_paiRule_1')}} </div>
-          <div class="list-tip"> {{t('level_page_paiRule_2')}} </div>
-          <div class="list-tip"> {{t('level_page_paiRule_3')}} </div>
+          <div class="list-tip"> {{ t('level_page_paiRule_1') }} </div>
+          <div class="list-tip"> {{ t('level_page_paiRule_2') }} </div>
+          <div class="list-tip"> {{ t('level_page_paiRule_3') }} </div>
         </div>
       </div>
     </n-card>
@@ -92,15 +91,15 @@
 </template>
 
 <script setup lang='ts' name="levelInfo">
-  import { onMounted, onUnmounted, ref, watch} from 'vue';
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { Message } from "@/utils/discreteApi.ts";
 import { useI18n } from "vue-i18n";
-import {storeToRefs} from "pinia";
-import pinia, {User} from "@/store";
+import { storeToRefs } from "pinia";
+import pinia, { User } from "@/store";
 
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
@@ -325,6 +324,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/CommonForm.less';
+
 .level_info {
   color: #fff;
   font-size: 16px;
@@ -503,6 +503,7 @@ onUnmounted(() => {
         display: block;
         height: 5px
       }
+
       &::-webkit-scrollbar-thumb {
         background: #a7b7d7;
         border-radius: 8px
@@ -519,12 +520,15 @@ onUnmounted(() => {
           width: 100%;
           opacity: .5;
         }
+
         &:nth-child(n+2) {
           margin-left: 10px;
         }
+
         &:active {
           transform: scale(.95);
         }
+
         &.active {
           img {
             opacity: 1;
@@ -600,6 +604,7 @@ onUnmounted(() => {
               height: 100%;
             }
           }
+
           .not {
             opacity: .5;
             /*.item_img {*/
@@ -617,10 +622,12 @@ onUnmounted(() => {
   }
 
 }
+
 .form_card {
   .form_container {
     .body {
       gap: 10px !important;
+
       .list-tip {
         font-size: 16px;
       }
@@ -628,3 +635,4 @@ onUnmounted(() => {
   }
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

@@ -45,10 +45,10 @@
 
 <script setup lang="ts">
 import { onUnmounted, ref, onMounted } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { Net } from '@/utils/net/Net';
-import { NetPacket } from '@/utils/netBase/NetPacket';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { Net } from '@/net/Net';
+import { NetPacket } from '@/netBase/NetPacket';
 import btn from './components/btn.vue';
 import infoModal from './components/infoModal.vue';
 import { User } from '@/store/user';
@@ -300,3 +300,4 @@ onUnmounted(() => {
   }
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

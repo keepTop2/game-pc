@@ -47,12 +47,12 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from "vue";
 
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
-import { NetEnumDef } from "@/utils/netBase/NetEnumDef";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
-import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/utils/net/Utils";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/net/Utils";
 
 import pinia from '@/store/index';
 import { User } from '@/store/user';
@@ -497,3 +497,4 @@ onUnmounted(() => {
   margin-left: 9px;
 }
 </style>
+@/netBase/NetPacket@/netBase/NetEnumDef@/netBase/NetMsgType

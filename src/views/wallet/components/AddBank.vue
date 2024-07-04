@@ -1,6 +1,7 @@
 <template>
   <CommonForm :title="t('addBank_page_addBank')" :submit-text="t('home_page_confirm')" :form-ref="'formRef'"
-    :form="form" :show-form="showAddBank" :showMyBank="showMyBank" @on-close="onClose" @on-submit="onSubmit" @onSubmitSec="onSubmitSec" @update-form-ref="updateFormRef"/>
+    :form="form" :show-form="showAddBank" :showMyBank="showMyBank" @on-close="onClose" @on-submit="onSubmit"
+    @onSubmitSec="onSubmitSec" @update-form-ref="updateFormRef" />
   <!-- 选择银行弹窗 -->
   <chooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
 </template>
@@ -8,15 +9,15 @@
 <script setup lang="ts">
 import CommonForm from '@/components/CommonForm.vue';
 import { storeToRefs } from 'pinia';
-import pinia, {BankListInfo, User} from '@/store/index';
+import pinia, { BankListInfo, User } from '@/store/index';
 import { Wallet } from "@/store";
-import {defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch} from 'vue';
+import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { TForm } from '@/utils/types/formTypes';
 import { useI18n } from "vue-i18n";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 import { Message } from "@/utils/discreteApi";
 import usePaymentManagement from "@/views/wallet/paymentManagement/usePaymentManagement";
 const chooseBankDialog = defineAsyncComponent(() => import('./chooseBankDialog.vue'));
@@ -80,7 +81,7 @@ const form: TForm = reactive({
       inputFilter: true, // 是否输入过滤
       showRight: true,
       btnText: 'deposit_page_changeWay',
-      chooseBank: {label: '', value: ''}, // 选择的银行卡
+      chooseBank: { label: '', value: '' }, // 选择的银行卡
     },
     cardNo: {
       name: 'cardNo',
@@ -172,7 +173,7 @@ const onSubmitSec = (item: any) => {
 // 发送手机验证码
 const sendSmsCode = () => {
   if (!userInfo.value.mobile) {
-    return  Message.error(t('addBank_page_notPhone'))
+    return Message.error(t('addBank_page_notPhone'))
   }
   form.fields.code.loading = true;
   const req = NetPacket.req_get_mobile_sms_code();
@@ -229,7 +230,7 @@ watch(
         ...dataParams,
         name: form.data.name
       };
-      form.fields.bank.chooseBank =  {label: '', value: ''};
+      form.fields.bank.chooseBank = { label: '', value: '' };
       showMyBank.value.length = props.myBankList.length
     }
   }
@@ -256,3 +257,4 @@ onUnmounted(() => {
 
 
 </script>
+@/netBase/NetMsgType@/netBase/NetPacket

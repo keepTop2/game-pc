@@ -1,8 +1,8 @@
 <template>
-    <CommonForm :title="t('withdraw_page_withdraw')" :submit-text="t('withdraw_page_withdrawNow')"
-        :form-ref="'withdrawFormRef'" :tab-list="tabList" :active-tab="activeTab" :form="form" :show-form="showWithdraw" :showTab="false"
-        @change-tab="changeTab" @on-close="onClose" @on-submit="onSubmit" @select-action="onSelectEmpty"
-        @update-form-ref="updateFormRef" />
+  <CommonForm :title="t('withdraw_page_withdraw')" :submit-text="t('withdraw_page_withdrawNow')"
+    :form-ref="'withdrawFormRef'" :tab-list="tabList" :active-tab="activeTab" :form="form" :show-form="showWithdraw"
+    :showTab="false" @change-tab="changeTab" @on-close="onClose" @on-submit="onSubmit" @select-action="onSelectEmpty"
+    @update-form-ref="updateFormRef" />
 </template>
 
 <script setup lang="ts">
@@ -13,19 +13,19 @@ import CommonForm from '@/components/CommonForm.vue';
 
 import pinia, { User, Wallet } from '@/store/index';
 import { TTabList } from '@/utils/types/formTypes';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
 // import { TBankCardInfoList } from '@/utils/types';
-import {Message} from "@/utils/discreteApi";
+import { Message } from "@/utils/discreteApi";
 
 const props = defineProps({
   myBankList: {
     type: Object,
-    default: () => {}
+    default: () => { }
   }
 })
 const router = useRouter();
@@ -53,115 +53,115 @@ const changeTab = (val: any) => {
 };
 
 const form = reactive({
-    fields: {
-        avail: {
-            name: 'availAmount',
-            label: t('withdraw_page_canAmount'),
-            placeholder: t('addBank_page_pInput'),
-            disabled: true
-        },
-        unit: {
-            name: 'unit',
-            label: t('rechargeRecord_page_currency'),
-            placeholder: t('addBank_page_pInput'),
-            view: 1,
-            disabled: true
-        },
-        bk: {
-            name: 'bank',
-            label: t('deposit_page_bank'),
-            placeholder: t('addBank_page_pChoose'),
-            hasPop: true,
-            opts: bkList,
-            view: 1
-        },
-        address: {
-            name: 'address',
-            label: t('withdraw_page_usdtAdd'),
-            placeholder: t('addBank_page_pInput'),
-            view: 2
-        },
-        withdraw: {
-            name: 'withdrawAmount',
-            label: t('withdraw_page_inputMon'),
-            placeholder: t('addBank_page_pInput')
-        },
-        walletPwd: {
-            name: 'walletPwd',
-            type: 'password',
-            label: t('withdraw_page_payPwd'),
-            placeholder: t('addBank_page_pInput')
-        },
+  fields: {
+    avail: {
+      name: 'availAmount',
+      label: t('withdraw_page_canAmount'),
+      placeholder: t('addBank_page_pInput'),
+      disabled: true
     },
-    rules: {
-        withdrawAmount: [
-            {
-                required: true,
-                message: t('amount_error'),
-                trigger: 'blur'
-            }
-        ],
-        address: [
-            {
-                validator: () => {
-                    if (activeTab.value === 2) {
-                        return true;
-                    } else if (!form.data.address) {
-                        return false;
-                    };
-                },
-                message: t('address_error'),
-                trigger: 'blur'
-            }
-        ],
-        walletPwd: [
-            {
-                required: true,
-                message: t('wallet_pwd_error'),
-                trigger: 'blur'
-            }
-        ],
+    unit: {
+      name: 'unit',
+      label: t('rechargeRecord_page_currency'),
+      placeholder: t('addBank_page_pInput'),
+      view: 1,
+      disabled: true
     },
-    data: {
-        availAmount: '0',
-        address: '',
-        withdrawAmount: '',
-        walletPwd: '',
-        unit: 'VND', // 越南盾
-        bank: null,
-    }
+    bk: {
+      name: 'bank',
+      label: t('deposit_page_bank'),
+      placeholder: t('addBank_page_pChoose'),
+      hasPop: true,
+      opts: bkList,
+      view: 1
+    },
+    address: {
+      name: 'address',
+      label: t('withdraw_page_usdtAdd'),
+      placeholder: t('addBank_page_pInput'),
+      view: 2
+    },
+    withdraw: {
+      name: 'withdrawAmount',
+      label: t('withdraw_page_inputMon'),
+      placeholder: t('addBank_page_pInput')
+    },
+    walletPwd: {
+      name: 'walletPwd',
+      type: 'password',
+      label: t('withdraw_page_payPwd'),
+      placeholder: t('addBank_page_pInput')
+    },
+  },
+  rules: {
+    withdrawAmount: [
+      {
+        required: true,
+        message: t('amount_error'),
+        trigger: 'blur'
+      }
+    ],
+    address: [
+      {
+        validator: () => {
+          if (activeTab.value === 2) {
+            return true;
+          } else if (!form.data.address) {
+            return false;
+          };
+        },
+        message: t('address_error'),
+        trigger: 'blur'
+      }
+    ],
+    walletPwd: [
+      {
+        required: true,
+        message: t('wallet_pwd_error'),
+        trigger: 'blur'
+      }
+    ],
+  },
+  data: {
+    availAmount: '0',
+    address: '',
+    withdrawAmount: '',
+    walletPwd: '',
+    unit: 'VND', // 越南盾
+    bank: null,
+  }
 });
 
 const onSelectEmpty = (i: string) => {
-    if (i === 'bank' && bkList.value.length === 0) {
-        router.push({ name: 'paymentManagement' });
-    }
+  if (i === 'bank' && bkList.value.length === 0) {
+    router.push({ name: 'paymentManagement' });
+  }
 };
 
 const onClose = () => WalletStore.setShowWithdraw(false);
 const onSubmit = () => {
   // 没有可提现金额
   if (!isCanWithdraw.value) {
-    return  Message.error(t('withdraw_page_CantWithdraw'))
+    return Message.error(t('withdraw_page_CantWithdraw'))
   }
   withdrawFormRef.value?.validate((err: any) => {
-      if (!err) {
-        console.log(activeTab.value, '----', form.data)
-        // 银行卡提款
-        if (activeTab.value === 1) {
-          if (!form.data.bank) {
-            return  Message.error(t('paymentManagement_page_chBank'))
-          }
-          if (form.data.withdrawAmount < props.myBankList.min_withdraw_money) {
-            return  Message.error(t('withdraw_page_minAmount', {minAmount: props.myBankList.min_withdraw_money}))
-          }
-          if (form.data.withdrawAmount > props.myBankList.max_withdraw_money) {
-            return  Message.error(t('withdraw_page_maxAmount', {maxAmount: props.myBankList.max_withdraw_money}))
-          }
-          form.data.address  = props.myBankList.bank_card_info_list.find((item: any) => item.bank_id === form.data.bank)?.account_number; // 银行卡号
+    if (!err) {
+      console.log(activeTab.value, '----', form.data)
+      // 银行卡提款
+      if (activeTab.value === 1) {
+        if (!form.data.bank) {
+          return Message.error(t('paymentManagement_page_chBank'))
         }
-          handleSubmit();
+        if (form.data.withdrawAmount < props.myBankList.min_withdraw_money) {
+          return Message.error(t('withdraw_page_minAmount', { minAmount: props.myBankList.min_withdraw_money }))
+        }
+        if (form.data.withdrawAmount > props.myBankList.max_withdraw_money) {
+          return Message.error(t('withdraw_page_maxAmount', { maxAmount: props.myBankList.max_withdraw_money }))
+        }
+        form.data.address = props.myBankList.bank_card_info_list.find((item: any) => item.bank_id === form.data.bank)?.account_number; // 银行卡号
       }
+      handleSubmit();
+    }
   })
 };
 const handleSubmit = () => {
@@ -212,22 +212,23 @@ const handleWithDrawSubmit = (res: any) => {
 }
 
 const initReq = () => {
-    Net.instance.sendRequest(NetPacket.req_can_withdraw());
-    // Net.instance.sendRequest(NetPacket.req_bank_card_info_list());
-    // Net.instance.sendRequest(NetPacket.req_get_audit_record());
+  Net.instance.sendRequest(NetPacket.req_can_withdraw());
+  // Net.instance.sendRequest(NetPacket.req_bank_card_info_list());
+  // Net.instance.sendRequest(NetPacket.req_get_audit_record());
 };
 
 onMounted(() => {
-    setBankList();
-    // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, handleBankCardInfoRes);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, handleCanWithdraw);
-    // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_audit_record, handleAuditRecord);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, handleWithDrawSubmit); // 提款提交监听
-    setTimeout(() => initReq(), 600);
+  setBankList();
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, handleBankCardInfoRes);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, handleCanWithdraw);
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_audit_record, handleAuditRecord);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, handleWithDrawSubmit); // 提款提交监听
+  setTimeout(() => initReq(), 600);
 });
 onUnmounted(() => {
-    // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, null);
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, null);
-    // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_audit_record, null);
+  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, null);
+  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_audit_record, null);
 });
 </script>
+@/netBase/NetMsgType@/netBase/NetPacket

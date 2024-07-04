@@ -1,9 +1,7 @@
 <template>
-    <CommonForm :title="t('walletInfo_page_code')" :submit-text="t('redeemCode_page_redeemCodeNow')"
-        :cancel="t('redeemCode_page_cancel')" :form-ref="'formRef'" :form="form" :show-form="showRedeemCode"
-        @on-close="onClose" @on-submit="onSubmit" @on-cancel="onCancel"
-        @update-form-ref="updateFormRef"
-    />
+  <CommonForm :title="t('walletInfo_page_code')" :submit-text="t('redeemCode_page_redeemCodeNow')"
+    :cancel="t('redeemCode_page_cancel')" :form-ref="'formRef'" :form="form" :show-form="showRedeemCode"
+    @on-close="onClose" @on-submit="onSubmit" @on-cancel="onCancel" @update-form-ref="updateFormRef" />
 </template>
 
 <script setup lang="ts">
@@ -12,15 +10,15 @@ import { storeToRefs } from 'pinia';
 
 import pinia from '@/store/index';
 import { Wallet } from "@/store";
-import {onMounted, onUnmounted, reactive, ref} from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { TForm } from '@/utils/types/formTypes';
 import { useI18n } from "vue-i18n";
 
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
-import {Message} from "@/utils/discreteApi";
-import {MessageEvent2} from "@/utils/net/MessageEvent2";
-import {NetMsgType} from "@/utils/netBase/NetMsgType";
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { Message } from "@/utils/discreteApi";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 
 const { t } = useI18n();
 const walletInfo = Wallet(pinia);
@@ -30,18 +28,18 @@ const formRef = ref();
 const updateFormRef = (ref: any) => formRef.value = ref;
 
 const form: TForm = reactive({
-    fields: {
-        code: {
-            name: 'code',
-            label: t('walletInfo_page_code'),
-            placeholder: t('addBank_page_pInput')
-        },
-
+  fields: {
+    code: {
+      name: 'code',
+      label: t('walletInfo_page_code'),
+      placeholder: t('addBank_page_pInput')
     },
-    rules: {},
-    data: {
-        code: '',
-    }
+
+  },
+  rules: {},
+  data: {
+    code: '',
+  }
 });
 
 const onClose = () => walletInfo.setShowRedeemCode(false);
@@ -49,7 +47,7 @@ const onSubmit = () => {
   formRef.value?.validate((err: any) => {
     if (!err) {
       if (!form.data.code) {
-        return  Message.error(t('redeemCode_page_enterCode'))
+        return Message.error(t('redeemCode_page_enterCode'))
       }
       handleSubmit();
     }
@@ -57,13 +55,13 @@ const onSubmit = () => {
 
 };
 const onCancel = () => {
-    walletInfo.setShowRedeemCode(false);
-    form.data.code = '';
+  walletInfo.setShowRedeemCode(false);
+  form.data.code = '';
 }
 const handleSubmit = () => {
-    const req = NetPacket.req_exchange();
-    req.code = form.data.code;
-    Net.instance.sendRequest(req);
+  const req = NetPacket.req_exchange();
+  req.code = form.data.code;
+  Net.instance.sendRequest(req);
 };
 // result： 1 成功，2 失败
 const handleExchange = (res: any) => {
@@ -83,3 +81,4 @@ onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_exchange, null);
 });
 </script>
+@/netBase/NetPacket@/netBase/NetMsgType

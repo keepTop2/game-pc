@@ -19,8 +19,8 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 // import { Page } from '@/store/page';
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 
 const userInfo = User(pinia);
@@ -171,3 +171,4 @@ onMounted(async () => {
   background-image: radial-gradient(circle at 50% 4%, #361e79, #22203e 66%);
 }
 </style>
+@/netBase/NetMsgType

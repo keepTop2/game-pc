@@ -1,5 +1,5 @@
-import { MessageMap } from "@/utils/net/MessageMap";
-import { NetPacket } from "@/utils/netBase/NetPacket";
+import { MessageMap } from "@/net/MessageMap";
+import { NetPacket } from "@/netBase/NetPacket";
 
 export module MessageMapRegister {
 	export function register() {
@@ -936,5 +936,7 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_s2c_game_over);
 		MessageMap.addMsgMap(NetPacket.req_pdk_cheat);
 		MessageMap.addMsgMap(NetPacket.rsp_pdk_cheat);
+		MessageMap.addMsgMap(NetPacket.req_add_usdt_info);
+		MessageMap.addMsgMap(NetPacket.notify_add_usdt_info);
 	}
 }

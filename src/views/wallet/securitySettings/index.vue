@@ -23,15 +23,15 @@
 <script setup lang='ts'>
 // 国际化使用 homepage
 import { onMounted, onUnmounted, reactive, defineAsyncComponent, ref } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-import { aaa, bbb, getRandomSign, getDeviceId } from "@/utils/net/Utils";
+import { aaa, bbb, getRandomSign, getDeviceId } from "@/net/Utils";
 import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
 import { Message } from '@/utils/discreteApi';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -937,3 +937,4 @@ onUnmounted(() => {
     }
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

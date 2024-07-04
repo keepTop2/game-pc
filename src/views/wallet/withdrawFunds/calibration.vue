@@ -6,8 +6,7 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ '请先完善取款信息' }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
-                             size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
 
@@ -18,11 +17,11 @@
             <div class="calibration-box">
               <n-flex class="submit-step" align="center" justify="center">
                 <div v-for="(item) in stepTuple.stepUi" :key="item"
-                     :class="['step-list', stepTuple.step >= item ? 'step-list-active' : '']">
+                  :class="['step-list', stepTuple.step >= item ? 'step-list-active' : '']">
                   <div class="step-indicator"><span>{{ item }}</span></div>
                   <div v-if="item !== 3" class="step-content">
                     <img
-                      :src=" stepTuple.step > item ? '/img/wallet/calibration_step_active.webp' : '/img/wallet/calibration_step.webp'"
+                      :src="stepTuple.step > item ? '/img/wallet/calibration_step_active.webp' : '/img/wallet/calibration_step.webp'"
                       alt="">
                   </div>
                 </div>
@@ -32,21 +31,18 @@
                 <n-flex class="item-list-tips" justify="space-between" align="center">
                   <p>至少添加一张银行卡</p>
                   <div class="tips-icon">
-                    <img
-                      :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+                    <img :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
                   </div>
                 </n-flex>
 
                 <div class="bankForm" v-if="!bankError">
-                  <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules"
-                          class="w-full choose-bank">
+                  <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules" class="w-full choose-bank">
                     <n-form-item :label="'选择银行'">
                       <n-flex class="choose-bank">
                         <n-flex align="center" class="choose-bank-l">
-                        <span class="bank-cicon">
-                          <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`"
-                               :alt="chooseBank.label" />
-                        </span>
+                          <span class="bank-cicon">
+                            <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
+                          </span>
                           <span class="bank-cname"> {{ chooseBank.label }} </span>
                         </n-flex>
                         <a class="change-btn" @click="showChangeBank"> 更换 </a>
@@ -54,8 +50,7 @@
                     </n-form-item>
 
                     <n-form-item :label="'银行卡号'" path="cardNo">
-                      <n-input size="large" v-model:value="formBank.cardNo"
-                               :placeholder="'请输入银行卡号'">
+                      <n-input size="large" v-model:value="formBank.cardNo" :placeholder="'请输入银行卡号'">
                         <template #suffix>
                           <a class="refresh-icon"></a>
                         </template>
@@ -63,8 +58,7 @@
                     </n-form-item>
                     <n-form-item :label="'银行账户名'" path="accountName">
                       <n-input size="large" :disabled="!!props.myBankList.cardholder_name"
-                               v-model:value="formBank.accountName"
-                               :placeholder="'请输入银行账户名'">
+                        v-model:value="formBank.accountName" :placeholder="'请输入银行账户名'">
                         <template #suffix>
                           <a class="refresh-icon"></a>
                         </template>
@@ -101,9 +95,7 @@
                 <n-flex class="item-list-tips" justify="space-between" align="center">
                   <p>请绑定手机信息</p>
                   <div class="tips-icon">
-                    <img
-                      :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'"
-                      alt="">
+                    <img :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
                   </div>
                 </n-flex>
 
@@ -111,24 +103,22 @@
 
                   <n-form ref="formInfoRef" :model="formInfo" :rules="rules.infoRules">
                     <n-form-item label="手机号" path="phone">
-                      <n-popselect v-model:value="formInfo.codeValue" :options="codeOptions"
-                                   @update:value="valueChange" trigger="click">
-              <span class="code_box">
-                <span>{{ formInfo.codeValue }}</span>
-                <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
-              </span>
+                      <n-popselect v-model:value="formInfo.codeValue" :options="codeOptions" @update:value="valueChange"
+                        trigger="click">
+                        <span class="code_box">
+                          <span>{{ formInfo.codeValue }}</span>
+                          <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
+                        </span>
                       </n-popselect>
-                      <n-input clearable size="large" v-model:value="formInfo.phone"
-                               :placeholder="'请输入手机号'"></n-input>
+                      <n-input clearable size="large" v-model:value="formInfo.phone" :placeholder="'请输入手机号'"></n-input>
                     </n-form-item>
 
 
                     <n-form-item :label="'验证码'" path="phoneCode">
                       <n-input clearable size="large" v-model:value="formInfo.phoneCode"
-                               :placeholder="'请输入5位数验证码'"></n-input>
-                      <n-button :bordered="false" :loading="phoneCodeLoading"
-                                @click="submitSendPhoneCode" class="btn"
-                                :disabled="phoneCodeDisabled">{{ phoneCodeText }}
+                        :placeholder="'请输入5位数验证码'"></n-input>
+                      <n-button :bordered="false" :loading="phoneCodeLoading" @click="submitSendPhoneCode" class="btn"
+                        :disabled="phoneCodeDisabled">{{ phoneCodeText }}
                       </n-button>
                     </n-form-item>
                   </n-form>
@@ -158,19 +148,15 @@
                 <n-flex class="item-list-tips" justify="space-between" align="center">
                   <p>设置资金密码</p>
                   <div class="tips-icon">
-                    <img
-                      :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'"
-                      alt="">
+                    <img :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
                   </div>
                 </n-flex>
 
                 <div class="capitalForm" v-if="!capitalError">
-                  <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital"
-                          class="w-full choose-bank">
+                  <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w-full choose-bank">
                     <!-- 银行卡充值独有 -->
                     <n-form-item :label="'设置密码'" path="capitalPin">
-                      <n-input size="large" v-model:value="formCapital.capitalPin"
-                               :placeholder="'请输入6-10位资金密码'">
+                      <n-input size="large" v-model:value="formCapital.capitalPin" :placeholder="'请输入6-10位资金密码'">
                         <template #suffix>
                           <a class="refresh-icon"></a>
                         </template>
@@ -179,8 +165,7 @@
 
 
                     <n-form-item :label="'重复密码'" path="capitalPinAgain">
-                      <n-input size="large" v-model:value="formCapital.capitalPinAgain"
-                               :placeholder="'请再次输入密码'">
+                      <n-input size="large" v-model:value="formCapital.capitalPinAgain" :placeholder="'请再次输入密码'">
                         <template #suffix>
                           <a class="refresh-icon"></a>
                         </template>
@@ -204,7 +189,7 @@
 
 
               <div class="cz-btn">
-                <a @click="submitContent"> {{stepTuple.step === 3 && capitalError ? '完成' : '下一步' }} </a>
+                <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? '完成' : '下一步' }} </a>
               </div>
 
             </div>
@@ -226,16 +211,16 @@
 <script setup lang="ts">
 import { defineAsyncComponent, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { TTabList } from '@/utils/types';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 import { verifyMobile, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is.ts';
 import { Message } from '@/utils/discreteApi.ts';
 import { storeToRefs } from 'pinia';
 import pinia, { User, BankListInfo } from '@/store';
-import { aaa, bbb, getDeviceId, getRandomSign } from '@/utils/net/Utils.ts';
+import { aaa, bbb, getDeviceId, getRandomSign } from '@/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
 
@@ -692,7 +677,7 @@ onMounted(() => {
   // 发送验证码
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, handleSMSback);
 
-// 绑定资金密码
+  // 绑定资金密码
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_or_modify_withdraw_password, handleBindOrModifyWithdrawPassword);
 
   // 绑定银行卡
@@ -833,6 +818,7 @@ defineExpose({
               display: flex;
               align-items: center;
               justify-content: center;
+
               img {
                 width: 100%;
                 height: 100%;
@@ -924,6 +910,5 @@ defineExpose({
 }
 
 
-// 选择银行
-
-</style>
+// 选择银行</style>
+@/netBase/NetMsgType@/netBase/NetPacket
