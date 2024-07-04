@@ -20,7 +20,7 @@
             <n-popselect v-if="item.isMobile" v-model:value="state.formData.formParams.codeValue"
               :options="state.codeOptions" @update:value="valueChange" trigger="click">
               <span class="code_box">
-                <span>{{ state.formData.formParams.codeValue }}</span>
+                <span>+{{ state.formData.formParams.codeValue }}</span>
                 <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </n-popselect>
@@ -103,7 +103,7 @@ const state: any = reactive({
       old_password: '',
       new_password: "",
       new_password_confirm: "",
-      codeValue: '+84',
+      codeValue: '84',
     },
     rules: {
       mobile: [
@@ -359,12 +359,12 @@ const changePassword = (params: any, type: number) => {
     req.operate_type = 2
   }
   if (state.formData.active == 1) {
-    req.username = req.mobile_or_email = params.mobile
+    req.username = state.formData.formParams.codeValue + params.mobile
     req.modify_type = 1
     req.captcha = params.phoneCode
   }
   if (state.formData.active == 2) {
-    req.username = req.mobile_or_email = params.email
+    req.username = params.email
     req.captcha = params.emailCode
     req.modify_type = 2
   }
