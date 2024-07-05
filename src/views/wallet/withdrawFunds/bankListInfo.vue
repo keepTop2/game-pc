@@ -172,7 +172,8 @@ import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { TTabList } from "@/utils/types";
 import { Message } from "@/utils/discreteApi.ts";
-import pinia, { BankListInfo } from '@/store';
+import pinia from '@/store';
+import { BankListInfo } from '@/store/bankListInfo';
 import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
 

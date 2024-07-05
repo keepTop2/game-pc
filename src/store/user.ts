@@ -99,22 +99,10 @@ export const User = defineStore('userInfo', {
 
     async getInfo(userInfo: TUserInfo) {
       this.info = userInfo
-      // if (userInfo) {
-      //     Local.set('userInfo', userInfo)
-      // } else {
-      //     this.info = Local.get('userInfo')
-      // }
-
+      this.info.hideString = '******'
     },
     async getVIPInfo(userInfo: TVIPInfo) {
       this.VIPinfo = userInfo
-      // if (userInfo) {
-      //     Local.set('VIPInfo', userInfo)
-
-      // } else {
-      //     this.VIPinfo = Local.get('VIPInfo')
-      // }
-
     },
     async getRoleInfo(roleInfo: TRoleInfo) {
       this.roleInfo = roleInfo

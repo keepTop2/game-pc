@@ -99,8 +99,8 @@ import { NetMsgType } from "@/netBase/NetMsgType";
 import { Message } from "@/utils/discreteApi.ts";
 import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
-import pinia, { User } from "@/store";
-
+import pinia from "@/store";
+import { User } from '@/store/user';
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo } = storeToRefs(UserStore);

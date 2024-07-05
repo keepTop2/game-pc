@@ -209,7 +209,8 @@ import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
-import pinia, { BankListInfo } from '@/store';
+import pinia from '@/store';
+import { BankListInfo } from '@/store/bankListInfo';
 const bankListInfo = BankListInfo(pinia);
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 

@@ -7,7 +7,9 @@ export type TUserInfo = {
     full_name?: string,
     mobile?: string,
     real_name?: string,
-    usdt_rate?: number
+    usdt_rate?: number,
+    hideString?: string,
+    [key: string]: string,
 };
 
 // Role相关数据类型

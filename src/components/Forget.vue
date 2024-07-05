@@ -330,7 +330,6 @@ const changeTab = (tabVal: number) => {
 };
 
 const submitNext = () => {
-  console.log(formRef.value);
   // 效验
 
   if (state.formData.step == 1) {
@@ -405,7 +404,6 @@ const handleGetEmailVerificationCode = (res: any) => {
     state.formData.list.emailCode.timer = setInterval(() => {
       state.formData.list.emailCode.timeText--
       if (state.formData.list.emailCode.timeText <= 0) {
-        console.log(1111);
 
         state.formData.list.emailCode.disabled = false
         clearInterval(state.formData.list.emailCode.timer)
@@ -429,7 +427,6 @@ const handleSMSback = (res: any) => {
     state.formData.list.phoneCode.timer = setInterval(() => {
       state.formData.list.phoneCode.timeText--
       if (state.formData.list.phoneCode.timeText <= 0) {
-        console.log(22222);
 
         clearInterval(state.formData.list.phoneCode.timer)
         state.formData.list.phoneCode.disabled = false

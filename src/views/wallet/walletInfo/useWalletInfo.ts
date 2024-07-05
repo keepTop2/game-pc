@@ -2,8 +2,9 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeVars } from "naive-ui";
 
-import pinia, { Wallet, User } from "@/store";
-
+import pinia from "@/store";
+import { User } from '@/store/user';
+import { Wallet } from '@/store/wallet';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { NetPacket } from '@/netBase/NetPacket';

@@ -10,8 +10,8 @@ import { storeToRefs } from 'pinia';
 
 import CommonForm from '@/components/CommonForm.vue';
 
-import pinia, { Wallet } from "@/store";
-
+import pinia from "@/store";
+import { Wallet } from '@/store/wallet';
 import { TTabList } from '@/utils/types/formTypes';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';

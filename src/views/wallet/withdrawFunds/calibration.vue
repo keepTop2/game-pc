@@ -219,7 +219,10 @@ import { Net } from '@/net/Net';
 import { verifyMobile, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is.ts';
 import { Message } from '@/utils/discreteApi.ts';
 import { storeToRefs } from 'pinia';
-import pinia, { User, BankListInfo } from '@/store';
+import pinia from '@/store';
+import { User } from '@/store/user';
+import { BankListInfo } from '@/store/bankListInfo';
+
 import { aaa, bbb, getDeviceId, getRandomSign } from '@/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';

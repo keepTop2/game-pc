@@ -11,7 +11,9 @@ import { storeToRefs } from 'pinia';
 
 import CommonForm from '@/components/CommonForm.vue';
 
-import pinia, { User, Wallet } from '@/store/index';
+import pinia from '@/store/index';
+import { User } from '@/store/user';
+import { Wallet } from '@/store/wallet';
 import { TTabList } from '@/utils/types/formTypes';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';

@@ -90,7 +90,8 @@ import { Net } from "@/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Message } from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
-import pinia, { User } from '@/store';
+import pinia from '@/store';
+import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 
 

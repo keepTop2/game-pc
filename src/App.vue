@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
@@ -89,7 +90,6 @@ const handleRoleInfo = async (data: any) => {
 // 角色VIP详情
 const handleVipInfo = async (data: any) => {
   await User(pinia).getVIPInfo(data)
-  console.log('app-levelInfo', data)
 }
 // 用户详情
 const handleUserInfo = async (data: any) => {

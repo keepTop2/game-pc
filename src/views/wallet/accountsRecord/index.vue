@@ -175,4 +175,3 @@ onUnmounted(() => {
     user-select: none;
 }
 </style>
-@/netBase/NetMsgType@/netBase/NetPacket

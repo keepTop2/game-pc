@@ -12,6 +12,7 @@ import { Message } from '@/utils/discreteApi'
 import { i18n } from '@/languages/index';
 import pinia from '@/store/index';
 import { Page } from '@/store/page';
+import { User } from "@/store/user";
 const getSetting = async () => {
     const settingsRes = await fetch('/settings.json?' + new Date().getTime())
     const settings = await settingsRes.json()
@@ -145,13 +146,14 @@ export class Net {
         return this.ws != null && this.ws.readyState == this.ws.CLOSED;
     }
 
-    closeSocket() {
+    async closeSocket() {
         if (this.ws != null) {
             this.ws.close();
             this.packageCount = 1;
         }
         console.log("close socket");
         // Local.clear()
+        await User(pinia).setLoadingEnd(false)
         this.ringBuffer.Clear();
         if (this.checkSocketTimerID) {
             clearInterval(this.checkSocketTimerID);

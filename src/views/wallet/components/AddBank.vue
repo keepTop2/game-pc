@@ -9,8 +9,11 @@
 <script setup lang="ts">
 import CommonForm from '@/components/CommonForm.vue';
 import { storeToRefs } from 'pinia';
-import pinia, { BankListInfo, User } from '@/store/index';
-import { Wallet } from "@/store";
+import pinia from '@/store/index';
+import { User } from '@/store/user';
+import { BankListInfo } from '@/store/bankListInfo';
+import { Wallet } from '@/store/wallet';
+
 import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { TForm } from '@/utils/types/formTypes';
 import { useI18n } from "vue-i18n";

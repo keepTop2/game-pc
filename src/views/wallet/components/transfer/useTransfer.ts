@@ -1,6 +1,8 @@
-import pinia, { User } from '@/store/index';
+import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
-import { Wallet } from '@/store';
+import { Wallet } from '@/store/wallet';
+import { User } from '@/store/user';
+
 import { ETransfer } from '@/enums/walletEnum';
 import { ref, watch } from 'vue';
 import { NetPacket } from "@/netBase/NetPacket";

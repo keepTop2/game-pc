@@ -9,7 +9,7 @@ import CommonForm from '@/components/CommonForm.vue';
 import { storeToRefs } from 'pinia';
 
 import pinia from '@/store/index';
-import { Wallet } from "@/store";
+import { Wallet } from "@/store/wallet";
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { TForm } from '@/utils/types/formTypes';
 import { useI18n } from "vue-i18n";

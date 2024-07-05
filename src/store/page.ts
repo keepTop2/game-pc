@@ -12,6 +12,7 @@ interface PageState {
     countryOptions: any
     bannerArr: Array<string>
     textAnnouncement: Array<string>
+    serviceUrlObj: any
     settings: any,
     activityList: any,
     activityTitleList: any
@@ -23,6 +24,7 @@ export const Page = defineStore('page', {
         countryOptions: null,
         bannerArr: [],
         textAnnouncement: [],
+        serviceUrlObj: {},
         settings: null,
         activityList: null,
         activityTitleList: null
@@ -72,7 +74,9 @@ export const Page = defineStore('page', {
             this.textAnnouncement.push(str)
             this.textAnnouncement.splice(0, 0)
         },
-
+        async setServiceUrlArr(obj: any) {
+            this.serviceUrlObj = obj
+        },
 
     },
 });

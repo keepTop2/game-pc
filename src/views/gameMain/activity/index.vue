@@ -38,12 +38,7 @@ const popDetail = () => {
 }
 
 onMounted(() => {
-    console.log(activityTitleList);
-
-    debugger
     state.name = route.query.typeName
-
-
 });
 
 watch(
