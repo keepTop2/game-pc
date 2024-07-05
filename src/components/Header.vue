@@ -330,7 +330,7 @@ const onHander_system_notice = async (message: any) => {
     } catch {
       localIds = []
     }
-    const list: any = dialogList.filter((item: any) => localIds.includes(item.title))
+    const list: any = dialogList.filter((item: any) => !localIds.includes(item.title))
     if (list.length) {
       await User(pinia).setNoticeList(list)
       User(pinia).setNotice(true)
