@@ -462,7 +462,7 @@ const submitPhone = () => {
   formInfoRef.value?.validate(async (errors: any) => {
     if (!errors) {
       let req = NetPacket.req_bind_modify_email();
-      req.email = formInfo.value.phoneCode + formInfo.value.phone;
+      req.email = formInfo.value.codeValue + formInfo.value.phone;
       req.username = userInfo.value?.full_name;
       req.captcha = formInfo.value.phoneCode;
       req.operate_type = 3;
