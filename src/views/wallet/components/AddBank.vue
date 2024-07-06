@@ -11,7 +11,7 @@ import CommonForm from '@/components/CommonForm.vue';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
-import { BankListInfo } from '@/store/bankListInfo';
+import { Page } from '@/store/page';
 import { Wallet } from '@/store/wallet';
 
 import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
@@ -39,7 +39,7 @@ const props = defineProps({
 })
 const UserStore = User(pinia);
 const walletInfo = Wallet(pinia);
-const bankListInfo = BankListInfo(pinia);
+
 const { showAddBank } = storeToRefs(walletInfo);
 const { info: userInfo } = storeToRefs(UserStore);
 const { showAddBankModal } = usePaymentManagement();
@@ -220,9 +220,8 @@ const getBankList = () => {
   Net.instance.sendRequest(req);
 };
 
-const handleBankList = (res: any) => {
-  console.log('bankList-------', res)
-  bankListInfo.setBankListInfo(res.bank_name_list)
+const handleBankList = async (res: any) => {
+  await Page(pinia).setBankListInfo(res.bank_name_list)
 };
 
 watch(

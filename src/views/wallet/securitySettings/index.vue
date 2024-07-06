@@ -35,10 +35,10 @@ import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
 import { Message } from '@/utils/discreteApi';
 import { Local, needLoginApi } from '@/utils/storage';
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import { IP } from '@/utils/others';
 const { t } = useI18n();
-const route = useRoute();
+// const route = useRoute();
 const PopForm = defineAsyncComponent(() => import('@/components/PopForm.vue'));
 const userInfo = User(pinia);
 const FormRef = ref()

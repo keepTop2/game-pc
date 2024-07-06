@@ -36,11 +36,11 @@ import { useI18n } from "vue-i18n";
 import { TTabList } from "@/utils/types";
 import { storeToRefs } from "pinia";
 import pinia from "@/store";
-import { BankListInfo } from '@/store/bankListInfo';
+import { Page } from '@/store/page';
 const emit = defineEmits(['selectBank']);
 const { t } = useI18n();
-const BankListInfoStore = BankListInfo(pinia);
-const { bankList } = storeToRefs(BankListInfoStore);
+const page = Page(pinia);
+const { bankListInfo } = storeToRefs(page);
 const showBankModal = ref(false);
 // 银行列表
 const bkList = ref<TTabList>([]);
@@ -51,7 +51,7 @@ const onCloseBank = () => {
 }
 
 const handleBankList = () => {
-  bkList.value = [...bankList.value];
+  bkList.value = [...bankListInfo.value];
   originBkList.value = [...bkList.value];
 }
 // 输入字符串匹配银行
@@ -78,7 +78,7 @@ const clickBank = (e: any) => {
 }
 
 watch(
-  () => bankList.value,
+  () => bankListInfo.value,
   (n) => {
     console.log('999999', n)
     handleBankList();

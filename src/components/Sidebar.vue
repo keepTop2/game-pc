@@ -36,7 +36,7 @@
 
             <div>
 
-                <p :class="state.active == g ? 'hover' : ''" v-for="(, g) in activityTitleList" :key="g"
+                <p :class="state.active == g ? 'hover' : ''" v-for="(_v, g) in activityTitleList" :key="g"
                     @click="activityItemClick(g)">
                     <!-- {{ game }}
                     {{ g }} -->
@@ -362,7 +362,7 @@ const itemClick = (item: any) => {
 const handleActivetys = async (res: any) => {
     console.log(222);
 
-    await Page(pinia).setActivityList(res.promo)
+    await Page(pinia).activityTitleList(res.promo)
 }
 onMounted(async () => {
     if (route.query.name) {

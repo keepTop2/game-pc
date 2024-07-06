@@ -16,6 +16,7 @@ interface PageState {
     settings: any,
     activityList: any,
     activityTitleList: any
+    bankListInfo: any
 }
 export const Page = defineStore('page', {
     state: (): PageState => ({
@@ -27,7 +28,8 @@ export const Page = defineStore('page', {
         serviceUrlObj: {},
         settings: null,
         activityList: null,
-        activityTitleList: null
+        activityTitleList: null,
+        bankListInfo: []
     }),
     actions: {
         // 获取标签下拉选择框数据
@@ -43,7 +45,7 @@ export const Page = defineStore('page', {
         async setSettings(value: any) {
             this.settings = value
         },
-        async setActivityList(value: any) {
+        async activityTitleList(value: any) {
             let list: Array<string> = []
 
 
@@ -77,6 +79,12 @@ export const Page = defineStore('page', {
         async setServiceUrlArr(obj: any) {
             this.serviceUrlObj = obj
         },
+
+        async setBankListInfo(v: any) {
+            let data = v.map((item: any) => { return { value: item.bank_id, label: item.bank_name } });
+            this.bankListInfo = [...data];
+        },
+
 
     },
 });

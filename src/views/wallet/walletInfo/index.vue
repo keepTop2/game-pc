@@ -210,8 +210,8 @@ import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import pinia from '@/store';
-import { BankListInfo } from '@/store/bankListInfo';
-const bankListInfo = BankListInfo(pinia);
+import { Page } from '@/store/page';
+
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
@@ -252,9 +252,8 @@ const getBankList = () => {
   Net.instance.sendRequest(req);
 };
 
-const handleBankList = (res: any) => {
-  console.log('bankList-------', res)
-  bankListInfo.setBankListInfo(res.bank_name_list)
+const handleBankList = async (res: any) => {
+  await Page(pinia).setBankListInfo(res.bank_name_list)
 };
 
 onMounted(() => {
