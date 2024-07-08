@@ -170,7 +170,7 @@ const dataParams = {
 const form = ref( // 存款表单提交
   { ...dataParams }
 );
-const curDiscountData = Local.get('curDiscountData') || {}; // 从我的优惠过来
+const curDiscountData = Local.get('curDiscountData') || {id: 0}; // 从我的优惠过来
 const baseMtdList = { label: t('addBank_page_pChoose'), value: -1, minrecharge: 0, maxrecharge: 0, paymethod: '' }
 // 充值方式列表
 const mtdList = ref<any>([{ ...baseMtdList }]);
