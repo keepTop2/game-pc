@@ -6,7 +6,7 @@
         <span class="abs pointer center close">
           <iconpark-icon @click="() => removeBank(bank)" icon-id="Group39368" color="#fff" size="0.7em"></iconpark-icon>
         </span>
-        <div class="abs number">**** **** **** {{ bank.account_number?.slice(12, 16) }}</div>
+        <div class="abs number">{{ maskString(bank.account_number) }}</div>
         <img class="abs bank_img" :src="bank.bankImgURL" :alt="bank.bank_name">
       </div>
       <div v-if="myBankList?.length < 6" class="bank add_bank pointer center" @click="() => showAddBankModal(true)">
@@ -86,6 +86,17 @@ const handleDelBankList = (res: any) => {
     Message.error(t('proxy_page_caoZuoFail'))
   }
 }
+// 银行卡，显示前3位和后4位
+const maskString = (str: any) => {
+  if (str.length <= 7) {
+    return str.replace(/./g, "***");
+  }
+  return str.substr(0, 3) + "**** ****" + str.substr(-4);
+}
+// 真实姓名显示
+// const maskNameString = (str: any) => {
+//   return str.substr(0, 1) + "**";
+// }
 
 onMounted(() => {
   setTimeout(() => {

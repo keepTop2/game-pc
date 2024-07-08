@@ -116,7 +116,7 @@
           </n-flex>
           <!-- 充值列表选择 -->
 
-          <div class="tips">
+          <div v-if="bankList.length > 0" class="tips">
             <img src="/img/wallet/bankTips.webp" alt="">
 <!--            bankList-->
             <span>{{ t('paymentManagement_page_max_bank', {num: bankList.length || 0}) }}</span>
