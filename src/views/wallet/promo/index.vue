@@ -72,6 +72,7 @@ import { NetMsgType } from "@/utils/netBase/NetMsgType";
 import { useI18n } from "vue-i18n";
 import { Message } from "@/utils/discreteApi";
 import { useRouter } from "vue-router";
+import { Local } from '@/utils/storage';
 
 const router = useRouter();
 const { t } = useI18n();
@@ -150,6 +151,7 @@ const applyBouns = (data: any) => {
     query.email_id = data.have_save === '0' ? data.id : data.have_save;
     Net.instance.sendRequest(query);
   } else {
+    Local.set('curDiscountData', data); // 当前选择的优惠，需要带到充值页面
     router.push('/wallet/walletInfo?openDialogType=deposit')
   }
 }

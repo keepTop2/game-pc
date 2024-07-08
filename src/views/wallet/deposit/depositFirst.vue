@@ -144,6 +144,7 @@ import { Net } from "@/utils/net/Net";
 import { Message } from "@/utils/discreteApi";
 import {bankPayMethods, bankPayType} from "@/utils/others";
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
+import { Local } from '@/utils/storage';
 
 const emit = defineEmits(["haveBankList"]);
 const chooseBankModal = ref();
@@ -169,6 +170,7 @@ const dataParams = {
 const form = ref( // 存款表单提交
   { ...dataParams }
 );
+const curDiscountData = Local.get('curDiscountData') || {}; // 从我的优惠过来
 const baseMtdList = { label: t('addBank_page_pChoose'), value: -1, minrecharge: 0, maxrecharge: 0, paymethod: '' }
 // 充值方式列表
 const mtdList = ref<any>([{ ...baseMtdList }]);
@@ -194,6 +196,7 @@ const openChooseBank = () => {
 }
 // 重置
 const resetData = () => {
+  form.value.discount = curDiscountData?.id; // 从我的优惠带过来已选择的优惠
   curDepositWay.value = { payname: '' }
   form.value = { ...dataParams }
   mtdList.value = [{ ...baseMtdList }]
@@ -320,6 +323,7 @@ const handleDepositSubmit = (res: any) => {
   } else { // code 0 成功
     Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置
+    Local.remove('curDiscountData'); // 重置
     if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1 ) {
       setTimeout(() => {
         window.open(res.url);
@@ -369,6 +373,7 @@ onMounted(() => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, handleDepositSubmit);
 })
 onUnmounted(() => {
+  Local.remove('curDiscountData'); // 重置
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
 })
