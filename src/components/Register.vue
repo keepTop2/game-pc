@@ -56,6 +56,7 @@ import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/net/Utils"
 
 import pinia from '@/store/index';
 import { User } from '@/store/user';
+import { Page } from '@/store/page';
 import { Local, needLoginApi } from "@/utils/storage";
 import { verifyCaptcha, verifyEmail, verifyPassword } from "@/utils/is";
 import { useI18n } from "vue-i18n";
@@ -161,7 +162,7 @@ const handleSubmit = async () => {
   req_register.aaa = aaa;
   req_register.bbb = bbb;
   req_register.captcha = state.register.captcha;
-  req_register.currency = state.register.currency || 0;
+  req_register.currency = state.register.currency || 1;
   req_register.agent_id = state.register.inviteCode;
   req_register.from_url = ""
   // req_register.name = state.register.name;
@@ -184,10 +185,7 @@ const changeTab = (tabId: number) => {
 };
 
 const state: any = reactive({
-  currencyList: [
-    { label: 'USD', value: 1 },
-    { label: 'USDT', value: 2 }
-  ],
+  currencyList: Page(pinia).settings?.currencyList,
   registerList: {
     email: {
       name: 'email',
