@@ -79,10 +79,10 @@
               <n-select v-model:value="form.discount" :options="dcList" />
               <!-- 选择优惠后 -->
               <div v-if="form.discount" class="choose-yh">
-                <div >{{ t('deposit_page_upperLimit') }}：{{ curDiscount.limit }}</div>
-                <div >{{ t('deposit_page_giftRatio') }}：{{ curDiscount.ratio }}%</div>
-                <div >{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
-                <div >{{ t('deposit_page_venues') }}：{{ curDiscount.restrict }}</div>
+                <div>{{ t('deposit_page_upperLimit') }}：{{ curDiscount.limit }}</div>
+                <div>{{ t('deposit_page_giftRatio') }}：{{ curDiscount.ratio }}%</div>
+                <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
+                <div>{{ t('deposit_page_venues') }}：{{ curDiscount.restrict }}</div>
               </div>
             </n-form-item>
             <!-- 银行卡充值独有 -->
@@ -112,7 +112,8 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w-full">
-            <n-button :bordered="false" class="submit_btn t-lg weight-5 center pointer" :disabled="loading" block @click="onSubmit">{{
+            <n-button :bordered="false" class="submit_btn t-lg weight-5 center pointer" :disabled="loading" block
+              @click="onSubmit">{{
     t('deposit_page_rechargeNow') }}</n-button>
           </div>
           <div class="cz-tips">
@@ -135,14 +136,14 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch, defineAsyncComponent } from 'vue';
 import { useI18n } from "vue-i18n";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { TShopInfo } from "@/utils/types";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Message } from "@/utils/discreteApi";
-import {bankPayMethods, bankPayType} from "@/utils/others";
+import { bankPayMethods, bankPayType } from "@/utils/others";
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
 const emit = defineEmits(["haveBankList"]);
@@ -154,7 +155,7 @@ const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
-const curDiscount = ref( {limit: 0, ratio: 0, require: 0, restrict: ''}); // 优惠
+const curDiscount = ref({ limit: 0, ratio: 0, require: 0, restrict: '' }); // 优惠
 
 // 充值提交参数
 const dataParams = {
@@ -320,7 +321,7 @@ const handleDepositSubmit = (res: any) => {
   } else { // code 0 成功
     Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置
-    if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1 ) {
+    if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
       setTimeout(() => {
         window.open(res.url);
       }, 1000)
@@ -523,10 +524,12 @@ defineExpose({
         }
       }
     }
+
     .yh-item {
       ::v-deep(.n-form-item-blank) {
         display: block;
       }
+
       .choose-yh {
         font-size: 16px;
         color: #8e82c2;
@@ -534,7 +537,8 @@ defineExpose({
         padding: 17px;
         background: url(/img/payment/yh_bg.webp) center no-repeat;
         background-size: 100%;
-        > div {
+
+        >div {
           margin-bottom: 10px;
         }
       }
@@ -547,3 +551,4 @@ defineExpose({
 
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

@@ -1,4 +1,4 @@
-import { Endian } from '@/utils/net/Endian';
+import { Endian } from '@/net/Endian';
 
 export module EncodeUtils {
   export function decode_msg_total_length(buf: never[], index: number) {

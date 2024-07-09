@@ -67,14 +67,14 @@ import { ref, reactive, onUnmounted, onMounted, } from "vue";
 //   SelectRenderLabel,
 //   NIcon
 // } from 'naive-ui'
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
-import { NetEnumDef } from "@/utils/netBase/NetEnumDef";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
+import { MessageEvent2 } from "@/net/MessageEvent2";
 import { needLoginApi } from "@/utils/storage";
 // import { Close } from '@vicons/ionicons5'
-import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/utils/net/Utils";
+import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/net/Utils";
 import pinia from '@/store/index';
 // import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
@@ -485,3 +485,4 @@ onUnmounted(async () => {
   font-size: 18px;
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType@/netBase/NetEnumDef

@@ -68,10 +68,10 @@
 <script setup lang='ts'>
 import { ref, reactive, onUnmounted, computed } from 'vue';
 import DateSelect from "@/components/DateSelect.vue"
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { IdentityMap } from "@/enums/proxyEnum";
 import levelManage from "./levelManage.vue"
 import { useI18n } from "vue-i18n";
@@ -305,3 +305,4 @@ onUnmounted(() => {
 
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

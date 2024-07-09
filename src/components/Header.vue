@@ -98,8 +98,8 @@
 
 <script setup lang='ts' name="Header">
 import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -111,12 +111,12 @@ import { User } from '@/store/user';
 import { handleOpenLink, verifyNumberComma } from '@/utils/others';
 
 import { useI18n } from "vue-i18n";
-import { NetEnumDef } from '@/utils/netBase/NetEnumDef';
+import { NetEnumDef } from '@/netBase/NetEnumDef';
 import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings } = storeToRefs(page);
@@ -344,12 +344,7 @@ const onHander_system_notice = async (message: any) => {
 }
 
 
-MessageEvent2.addMsgEvent(
-  NetMsgType.msgType.msg_notify_loading_end,
-  async () => {
-    await User(pinia).setLoadingEnd(true)
-  }
-);
+
 
 // 重复登录
 MessageEvent2.addMsgEvent(
@@ -711,3 +706,4 @@ const avatarLoadError = (e: any) => {
   }
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetEnumDef@/netBase/NetPacket

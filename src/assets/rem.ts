@@ -1,4 +1,4 @@
-// import { Net } from "@/utils/net/Net"
+// import { Net } from "@/net/Net"
 
 const setRem = () => {
     let width = document.documentElement.clientWidth || document.body.clientWidth

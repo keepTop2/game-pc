@@ -15,11 +15,11 @@
 
 <script setup lang='ts'>
 import { reactive } from 'vue';
-// import { Net } from '@/utils/net/Net';
-// import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-// import { NetPacket } from '@/utils/net/NetPacket';
-// import { NetMsgType } from '@/utils/net/NetMsgType';
-// import { getRandomSign, md5, getDeviceId } from '@/utils/net/Utils';
+// import { Net } from '@/net/Net';
+// import { MessageEvent2 } from '@/net/MessageEvent2';
+// import { NetPacket } from '@/net/NetPacket';
+// import { NetMsgType } from '@/net/NetMsgType';
+// import { getRandomSign, md5, getDeviceId } from '@/net/Utils';
 
 // import { useI18n } from 'vue-i18n';
 // const { t } = useI18n();

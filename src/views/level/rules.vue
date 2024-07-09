@@ -1,90 +1,91 @@
 <template>
- <!-- <n-modal class="level_modal" v-model:show="showModal" preset="card">
+  <!-- <n-modal class="level_modal" v-model:show="showModal" preset="card">
     <template #header>
       <div class="level_title">{{ t('level_page_rule') }}</div>
     </template>-->
-    <div class="level_content">
-      <div class="level_rules">
-        <div class="level_tip"> {{ t('level_page_pRule') }} </div>
+  <div class="level_content">
+    <div class="level_rules">
+      <div class="level_tip"> {{ t('level_page_pRule') }} </div>
 
-        <div class="level_list">
-          <n-flex justify="space-around" class="le_l_header">
-            <span> {{ t('level_page_member') }} </span>
-            <span> {{ t('level_page_pBet') }} </span>
-            <span> {{ t('level_page_bonus') }} </span>
-            <span> {{ t('level_page_monGift') }} </span>
-            <span> {{ t('level_page_method') }} </span>
-          </n-flex>
-          <n-flex align="center" class="le_l_content">
-            <div class="le_l_l le_l_l_sec">
-              <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
-                <span> VIP{{ item.level }} </span>
-                <span> {{ item.target_bet_money }} </span>
-                <span> {{ item.promotional_reward_status.money || '-' }} </span>
-                <span> {{ item.gift_money_amount || '-' }} </span>
-                <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>
-              </n-flex>
-            </div>
-          </n-flex>
+      <div class="level_list">
+        <n-flex justify="space-around" class="le_l_header">
+          <span> {{ t('level_page_member') }} </span>
+          <span> {{ t('level_page_pBet') }} </span>
+          <span> {{ t('level_page_bonus') }} </span>
+          <span> {{ t('level_page_monGift') }} </span>
+          <span> {{ t('level_page_method') }} </span>
+        </n-flex>
+        <n-flex align="center" class="le_l_content">
+          <div class="le_l_l le_l_l_sec">
+            <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
+              <span> VIP{{ item.level }} </span>
+              <span> {{ item.target_bet_money }} </span>
+              <span> {{ item.promotional_reward_status.money || '-' }} </span>
+              <span> {{ item.gift_money_amount || '-' }} </span>
+              <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>
+            </n-flex>
+          </div>
+        </n-flex>
 
-        </div>
+      </div>
 
-        <div class="level_tip_content">
-          {{ t('level_page_rule_1') }}<br>
-          {{ t('level_page_rule_2') }}<br>
-          {{ t('level_page_rule_3') }}<br>
-          {{ t('level_page_rule_4') }}<br>
-          {{ t('level_page_rule_5') }}<br>
-          {{ t('level_page_rule_6') }}
-        </div>
+      <div class="level_tip_content">
+        {{ t('level_page_rule_1') }}<br>
+        {{ t('level_page_rule_2') }}<br>
+        {{ t('level_page_rule_3') }}<br>
+        {{ t('level_page_rule_4') }}<br>
+        {{ t('level_page_rule_5') }}<br>
+        {{ t('level_page_rule_6') }}
+      </div>
 
-        <div class="level_tip level_tip_sec"> {{ t('level_page_mAward') }} </div>
-        <div class="level_list level_list_sec">
-          <n-flex justify="space-around" class="le_l_header">
-            <span> {{ t('level_page_member') }} </span>
-            <span> {{ t('level_page_live') }} </span>
-            <span> {{ t('home_page_slot') }} </span>
-            <span> {{ t('home_page_sportsGame') }} </span>
-            <span> {{ t('home_page_lotteryGame') }} </span>
-            <span> {{ t('home_page_pokerGame') }} </span>
-            <span> {{ t('home_page_eSports') }} </span>
-          </n-flex>
-          <n-flex align="center" class="le_l_content">
-            <div class="le_l_l le_l_l_sec">
-              <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
-                <span> VIP{{ item.level }} </span>
-                <template v-for="(item_1) in item.ratio.split(',')" >
-                  <span> {{ toFixedNumber(Number(item_1) * 100) + '%' }} </span>
-                </template>
-              </n-flex>
-            </div>
-          </n-flex>
+      <div class="level_tip level_tip_sec"> {{ t('level_page_mAward') }} </div>
+      <div class="level_list level_list_sec">
+        <n-flex justify="space-around" class="le_l_header">
+          <span> {{ t('level_page_member') }} </span>
+          <span> {{ t('level_page_live') }} </span>
+          <span> {{ t('home_page_slot') }} </span>
+          <span> {{ t('home_page_sportsGame') }} </span>
+          <span> {{ t('home_page_lotteryGame') }} </span>
+          <span> {{ t('home_page_pokerGame') }} </span>
+          <span> {{ t('home_page_eSports') }} </span>
+        </n-flex>
+        <n-flex align="center" class="le_l_content">
+          <div class="le_l_l le_l_l_sec">
+            <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
+              <span> VIP{{ item.level }} </span>
+              <template v-for="(item_1) in item.ratio.split(',')">
+                <span> {{ toFixedNumber(Number(item_1) * 100) + '%' }} </span>
+              </template>
+            </n-flex>
+          </div>
+        </n-flex>
 
-        </div>
-        <div class="level_tip_content">
-          {{ t('level_page_rule_sec_1') }}<br>
-          {{ t('level_page_rule_sec_2') }}<br>
-          {{ t('level_page_rule_sec_3') }}<br>
-          {{ t('level_page_rule_sec_4') }}<br>
-          {{ t('level_page_rule_sec_5') }}<br>
-          {{ t('level_page_rule_sec_6') }}<br>
-          {{ t('level_page_rule_sec_7') }}<br>
-          {{ t('level_page_rule_sec_8') }}<br>
-          {{ t('level_page_rule_sec_9') }}<br>
-          {{ t('level_page_rule_sec_10') }}
-        </div>
+      </div>
+      <div class="level_tip_content">
+        {{ t('level_page_rule_sec_1') }}<br>
+        {{ t('level_page_rule_sec_2') }}<br>
+        {{ t('level_page_rule_sec_3') }}<br>
+        {{ t('level_page_rule_sec_4') }}<br>
+        {{ t('level_page_rule_sec_5') }}<br>
+        {{ t('level_page_rule_sec_6') }}<br>
+        {{ t('level_page_rule_sec_7') }}<br>
+        {{ t('level_page_rule_sec_8') }}<br>
+        {{ t('level_page_rule_sec_9') }}<br>
+        {{ t('level_page_rule_sec_10') }}
       </div>
     </div>
-<!--  </n-modal>-->
+  </div>
+  <!--  </n-modal>-->
 
 
 </template>
 
 <script setup lang='ts' name="levelRule">
-import {ref, watch} from 'vue';
-import {useI18n} from "vue-i18n";
-import pinia, {User} from "@/store";
-import {storeToRefs} from "pinia";
+import { ref, watch } from 'vue';
+import { useI18n } from "vue-i18n";
+import pinia from "@/store";
+import { User } from '@/store/user';
+import { storeToRefs } from "pinia";
 import { toFixedNumber } from '@/utils/others';
 
 const { t } = useI18n();
@@ -249,6 +250,7 @@ watch(
         text-align: center;
       }
     }
+
     &.level_list_sec {
       .le_l_header {
         span {

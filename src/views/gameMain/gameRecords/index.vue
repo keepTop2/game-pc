@@ -7,11 +7,11 @@
 
 <script setup lang='ts'>
 import { onMounted, onUnmounted } from 'vue';
-import { Net } from '@/utils/net/Net';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
-// import { getRandomSign, md5, getDeviceId } from '@/utils/net/Utils';
+import { Net } from '@/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetPacket } from '@/netBase/NetPacket';
+import { NetMsgType } from '@/netBase/NetMsgType';
+// import { getRandomSign, md5, getDeviceId } from '@/net/Utils';
 // import { useRouter } from 'vue-router';
 
 // import pinia from '@/store/index';
@@ -46,4 +46,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang='less' scoped></style>
+<style lang='less' scoped></style>@/netBase/NetPacket@/netBase/NetMsgType

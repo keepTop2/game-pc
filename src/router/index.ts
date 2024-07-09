@@ -5,6 +5,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 const userinfo = User(pinia);
 
 const { loadingEnd } = storeToRefs(userinfo);
@@ -168,17 +170,27 @@ const router = createRouter({
   routes,
   history: createWebHistory(),
 });
+const getLoadingEnd = () => {
+  return new Promise(async (resolve) => {
+    MessageEvent2.addMsgEvent(
+      NetMsgType.msgType.msg_notify_loading_end,
+      () => {
+        resolve(true)
+      }
+    );
+  })
+}
 
 router.beforeEach(async (to: any, from: any) => {
   if (Local.get('user')) {
-    var timer = setInterval(() => {
-      if (!loadingEnd.value) {
-        return false
-      } else {
-        clearInterval(timer)
-        return true
-      }
-    }, 200);
+    if (!loadingEnd.value) {
+      const a: any = await getLoadingEnd()
+      await User(pinia).setLoadingEnd(a)
+    }
+    if (loadingEnd.value) {
+      return true
+    }
+
   } else {
     if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity'].includes(to.name)) {
       return true

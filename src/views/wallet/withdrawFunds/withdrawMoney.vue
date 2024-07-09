@@ -1,6 +1,7 @@
 <template>
 
-  <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName" :myBankList="props.myBankList"/>
+  <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName"
+    :myBankList="props.myBankList" />
 
   <n-modal class="deposit_modal" :show="showSecModal" :mask-closable="false">
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -8,33 +9,34 @@
         <div class="header rel center">
           <span class="weight-5 t-md">{{ '提款' }}</span>
           <span class="close abs center pointer t-sm">
-              <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t-md body-sec">
           <n-form ref="formRef" class="w-full" :model="form" :rules="rules">
-            <n-form-item :label="'可用法币数量'" >
+            <n-form-item :label="'可用法币数量'">
               <n-input size="large" disabled v-model:value="form.maxValue" />
             </n-form-item>
 
 
-            <n-form-item :label="'选择银行卡'" >
-              <div class="selectBank" >
+            <n-form-item :label="'选择银行卡'">
+              <div class="selectBank">
                 <div class="bankName">
                   <div class="icon">
-                    <img :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`" :alt="backItemInfo.bank_name"/>
+                    <img :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`" :alt="backItemInfo.bank_name" />
                   </div>
-                  <span>{{backItemInfo.bank_name}}</span>
+                  <span>{{ backItemInfo.bank_name }}</span>
                 </div>
                 <div class="mantissa">
-                  <span>尾号：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4, backItemInfo.account_number.length) }}</span>
+                  <span>尾号：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
+    backItemInfo.account_number.length) }}</span>
                 </div>
               </div>
-              <n-button :bordered="false"  class="btn" @click="openBankListInfo">更换</n-button>
+              <n-button :bordered="false" class="btn" @click="openBankListInfo">更换</n-button>
             </n-form-item>
 
-            <n-form-item :label="'输入提款金额'"  path="amount">
-              <n-input size="large" v-model:value="form.amount" :placeholder="'请输入充值金额'" >
+            <n-form-item :label="'输入提款金额'" path="amount">
+              <n-input size="large" v-model:value="form.amount" :placeholder="'请输入充值金额'">
                 <template #suffix>
                   <a class="refresh-icon"></a>
                 </template>
@@ -42,33 +44,30 @@
             </n-form-item>
 
 
-           <div class="switchVisible">
-             <n-form-item label="资金密码" path="password">
-               <n-input
-                 v-if="switchVisible"
-                 v-model:value="form.password"
-                 :type="changeRightInfo.type"
-                 @keydown.enter.prevent
-               >
-                 <template #suffix>
-                   <iconpark-icon  @click="iconClick" :icon-id="changeRightInfo.icon"
-                                   color="#8e82c2" size="1.5em"></iconpark-icon>
-                 </template>
-               </n-input>
-             </n-form-item>
-             <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
+            <div class="switchVisible">
+              <n-form-item label="资金密码" path="password">
+                <n-input v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
+                  @keydown.enter.prevent>
+                  <template #suffix>
+                    <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
+                      size="1.5em"></iconpark-icon>
+                  </template>
+                </n-input>
+              </n-form-item>
+              <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
 
-           </div>
+            </div>
 
 
             <n-flex class="kjje-div">
-              <a class="kj-item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)" :key="index">
-                {{item.label}}
+              <a class="kj-item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+                :key="index">
+                {{ item.label }}
               </a>
             </n-flex>
           </n-form>
           <div class="btn_zone flex w-full">
-            <div class="submit_btn t-lg weight-5 center pointer" block @click="onSubmit">{{'立即提款'}}</div>
+            <div class="submit_btn t-lg weight-5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
           </div>
           <div class="cz-tips">
             <div class="txt"> 预计到账：{{form.amount}} </div>
@@ -83,15 +82,16 @@
 
 <script setup lang="ts">
 import { CSSProperties, nextTick, onMounted, onUnmounted, ref } from 'vue';
-import {useI18n} from "vue-i18n";
-import {MessageEvent2} from "@/utils/net/MessageEvent2";
-import {NetMsgType} from "@/utils/netBase/NetMsgType";
-import {NetPacket} from "@/utils/netBase/NetPacket";
-import {Net} from "@/utils/net/Net";
+import { useI18n } from "vue-i18n";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
-import {Message} from "@/utils/discreteApi";
+import { Message } from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
-import pinia, { User } from '@/store';
+import pinia from '@/store';
+import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 
 
@@ -101,7 +101,7 @@ const { roleInfo } = storeToRefs(UserStore);
 const props = defineProps({
   myBankList: {
     type: Object,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -172,12 +172,12 @@ const iconClick = () => {
 }
 
 const chooseMoneyArr = [
-  {label: '100,000', value: 100000},
-  {label: '200,000', value: 200000},
-  {label: '500,000', value: 500000},
-  {label: '1,000,000', value: 1000000},
-  {label: '10,000,000', value: 10000000},
-  {label: '100,000,000', value: 100000000},
+  { label: '100,000', value: 100000 },
+  { label: '200,000', value: 200000 },
+  { label: '500,000', value: 500000 },
+  { label: '1,000,000', value: 1000000 },
+  { label: '10,000,000', value: 10000000 },
+  { label: '100,000,000', value: 100000000 },
 ];
 
 
@@ -205,16 +205,16 @@ const onSubmit = () => {
     if (!errors) {
 
       if (!form.value.bank) {
-        return  Message.error(t('paymentManagement_page_chBank'))
+        return Message.error(t('paymentManagement_page_chBank'))
       }
 
       if (form.value.amount < props.myBankList.min_withdraw_money) {
-        return  Message.error(t('withdraw_page_minAmount', {minAmount: props.myBankList.min_withdraw_money}))
+        return Message.error(t('withdraw_page_minAmount', { minAmount: props.myBankList.min_withdraw_money }))
       }
       if (form.value.amount > props.myBankList.max_withdraw_money) {
-        return  Message.error(t('withdraw_page_maxAmount', {maxAmount: props.myBankList.max_withdraw_money}))
+        return Message.error(t('withdraw_page_maxAmount', { maxAmount: props.myBankList.max_withdraw_money }))
       }
-      form.value.address  = props.myBankList.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
+      form.value.address = props.myBankList.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
       handleSubmit()
 
 
@@ -279,7 +279,7 @@ const backItemInfo = ref({
 })
 
 const getInfo = () => {
-  let bankListItem  = props.myBankList.bank_card_info_list[0]
+  let bankListItem = props.myBankList.bank_card_info_list[0]
   myBankName.value = props.myBankList.cardholder_name || ''
   form.value.bank = bankListItem.bank_id || 0
   backItemInfo.value.bank_name = bankListItem.bank_name || ''
@@ -288,7 +288,7 @@ const getInfo = () => {
 }
 
 const checkBankInfo = (item: any) => {
-  const {bank_id, account_number, bank_name} = item
+  const { bank_id, account_number, bank_name } = item
   form.value.bank = bank_id
   backItemInfo.value.bank_name = bank_name || ''
   backItemInfo.value.account_number = account_number || 'xxxxxxx'
@@ -368,6 +368,7 @@ const railStyle = ({ focused, checked }: {
 .deposit_modal {
   font-size: 16px;
   width: 650px !important;
+
   .body {
     gap: 15px !important;
 
@@ -381,6 +382,7 @@ const railStyle = ({ focused, checked }: {
       &.active {
         background-image: url(/img/payment/listBg_active.webp);
       }
+
       .item-list-l {
 
         .bank-icon {
@@ -389,6 +391,7 @@ const railStyle = ({ focused, checked }: {
             height: 50px;
           }
         }
+
         .bank-txt {
           padding-top: 3px;
 
@@ -400,12 +403,14 @@ const railStyle = ({ focused, checked }: {
               background-size: 100%;
             }
           }
+
           .bank-limit {
             margin-top: 13px;
             color: #fabb2d;
           }
         }
       }
+
       .item-list-r {
         a {
           margin-top: 8px;
@@ -454,6 +459,7 @@ const railStyle = ({ focused, checked }: {
       border-radius: 12px;
       border: 1px solid rgba(50, 44, 89, 1);
       background-color: rgba(29, 14, 74, 1);
+
       .bankName {
         display: flex;
         align-items: center;
@@ -464,16 +470,19 @@ const railStyle = ({ focused, checked }: {
         margin-left: 5px;
         border-radius: 6px;
         background: radial-gradient(87.04% 93.77% at 50% 13.97%, #4C36B3 0.17%, #3A2786 74.42%, #3C279A 100%);
+
         .icon {
           width: 18px;
           height: 18px;
           margin-right: 5px;
           background-color: #fff;
+
           img {
             width: 18px;
             height: 18px;
           }
         }
+
         span {
           width: calc(110px - 18px);
           white-space: nowrap;
@@ -485,14 +494,16 @@ const railStyle = ({ focused, checked }: {
 
     .switchVisible {
       position: relative;
+
       .switch {
         position: absolute;
         top: 0;
         right: 0;
+
         //background-color: #fff;
         .n-switch__rail {
-          width: 50px!important;
-          height: 20px!important;
+          width: 50px !important;
+          height: 20px !important;
         }
       }
     }
@@ -513,3 +524,4 @@ const railStyle = ({ focused, checked }: {
   }
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

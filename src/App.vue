@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
@@ -19,8 +20,8 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 // import { Page } from '@/store/page';
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 
 const userInfo = User(pinia);
@@ -89,7 +90,6 @@ const handleRoleInfo = async (data: any) => {
 // 角色VIP详情
 const handleVipInfo = async (data: any) => {
   await User(pinia).getVIPInfo(data)
-  console.log('app-levelInfo', data)
 }
 // 用户详情
 const handleUserInfo = async (data: any) => {
@@ -171,3 +171,4 @@ onMounted(async () => {
   background-image: radial-gradient(circle at 50% 4%, #361e79, #22203e 66%);
 }
 </style>
+@/netBase/NetMsgType

@@ -20,7 +20,7 @@
             <n-popselect v-if="item.isMobile" v-model:value="state.formData.formParams.codeValue"
               :options="state.codeOptions" @update:value="valueChange" trigger="click">
               <span class="code_box">
-                <span>{{ state.formData.formParams.codeValue }}</span>
+                <span>+{{ state.formData.formParams.codeValue }}</span>
                 <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </n-popselect>
@@ -59,10 +59,10 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, reactive } from "vue";
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
@@ -103,7 +103,7 @@ const state: any = reactive({
       old_password: '',
       new_password: "",
       new_password_confirm: "",
-      codeValue: '+84',
+      codeValue: '84',
     },
     rules: {
       mobile: [
@@ -330,7 +330,6 @@ const changeTab = (tabVal: number) => {
 };
 
 const submitNext = () => {
-  console.log(formRef.value);
   // 效验
 
   if (state.formData.step == 1) {
@@ -359,12 +358,12 @@ const changePassword = (params: any, type: number) => {
     req.operate_type = 2
   }
   if (state.formData.active == 1) {
-    req.username = req.mobile_or_email = params.mobile
+    req.username = state.formData.formParams.codeValue + params.mobile
     req.modify_type = 1
     req.captcha = params.phoneCode
   }
   if (state.formData.active == 2) {
-    req.username = req.mobile_or_email = params.email
+    req.username = params.email
     req.captcha = params.emailCode
     req.modify_type = 2
   }
@@ -405,7 +404,6 @@ const handleGetEmailVerificationCode = (res: any) => {
     state.formData.list.emailCode.timer = setInterval(() => {
       state.formData.list.emailCode.timeText--
       if (state.formData.list.emailCode.timeText <= 0) {
-        console.log(1111);
 
         state.formData.list.emailCode.disabled = false
         clearInterval(state.formData.list.emailCode.timer)
@@ -429,7 +427,6 @@ const handleSMSback = (res: any) => {
     state.formData.list.phoneCode.timer = setInterval(() => {
       state.formData.list.phoneCode.timeText--
       if (state.formData.list.phoneCode.timeText <= 0) {
-        console.log(22222);
 
         clearInterval(state.formData.list.phoneCode.timer)
         state.formData.list.phoneCode.disabled = false
@@ -569,3 +566,4 @@ onUnmounted(() => {
   margin-top: 40px;
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

@@ -1,6 +1,6 @@
 import { TPayment } from "@/utils/types/paymentTypes"
 import pinia from '@/store/index';
-import { Wallet } from "@/store";
+import { Wallet } from "@/store/wallet";
 
 export default () => {
     const wallet = Wallet(pinia);
