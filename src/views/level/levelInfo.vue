@@ -54,7 +54,7 @@
             </div>
             <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
-                <div :class="`list-item-bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
+                <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
                   <div class="item_img"> <img :src="`/img/level/${item_1.icon}.webp`"> </div>
                   <div> {{ item_1.name }} </div>
                 </div>
@@ -74,8 +74,8 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ t('level_page_paiTitle') }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ t('level_page_paiTitle') }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
