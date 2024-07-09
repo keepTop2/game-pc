@@ -141,5 +141,8 @@ export default {
     // 公告
     home_page_notice_title: 'General Announcements',
     home_page_notice_fixtitle: 'Maintenance Notice',
-    home_page_notice_systitle: 'System notification'
+    home_page_notice_systitle: 'System notification',
+
+    // 活动详情
+    activity_page_detail: 'Event Details'
 }
