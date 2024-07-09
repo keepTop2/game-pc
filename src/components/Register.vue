@@ -324,7 +324,7 @@ const registerSuccess = async (message: any) => {
     req_login.captcha = req_register.captcha;
     Net.instance.sendRequest(req_login);
   } else {
-    Message.error(t(message.message))
+    refresh_captcha()
   }
 
 }
