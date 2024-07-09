@@ -2001,5 +2001,42 @@ export default {
     "received": "Received",
     "confirm": "confirm",
     "one_click_claim": "One click claim",
-    "home_notice_mixtext": "{user} received {money} coins reward in {game}!"
+    "home_notice_mixtext": "{user} received {money} coins reward in {game}!",
+    // 充值状态
+    'rechagre_status_map_0': 'fail',
+    'rechagre_status_map__1': 'in progress',
+    'rechagre_status_map_1': 'completed',
+    'rechagre_status_map_2': 'Callback success',
+    // 取款状态
+    'withdraw_status_map_0': 'Moderated',
+    'withdraw_status_map_1': 'Payment in progress',
+    'withdraw_status_map_2': 'completed',
+    'withdraw_status_map_3': 'Audit exception',
+    // 转账类型
+    'account_type_map_1': 'withdraw',
+    'account_type_map_2': 'transfer',
+    // 洗马记录类型
+    'wash_type_map__1': 'Summary by platform',
+    'wash_type_map_9999': 'Current Platform',
+    // 钱包类型
+    'wallet_type_map_1': 'Carry a wallet',
+    'wallet_type_map_2': 'Safe deposit box wallet',
+    'wallet_type_map_3_0': 'System benefits',
+    'wallet_type_map_3_1': 'System Adjustment',
+    // 平台
+    'platform_map_2': '捕鱼',
+    'platform_map_3': '老虎机',
+    'platform_map_4': '视讯',
+    'platform_map_5': '棋牌',
+    'platform_map_6': '体育',
+    'platform_map_7': '彩票',
+    // 稽核状态
+    'audit_status_map_1': 'in progress',
+    'audit_status_map_2': 'completed',
+    // 赌场身份
+    'identity_map_1': '见习厅主',
+    'identity_map_2': '厅主',
+    'identity_map_3': '高级厅主',
+    'identity_map_4': '合伙人',
+    'identity_map_5': 'BOSS',
 }
