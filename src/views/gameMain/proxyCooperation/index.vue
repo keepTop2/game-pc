@@ -71,10 +71,10 @@
 <script setup lang='ts'>
 import { ref, onUnmounted } from 'vue';
 import cooperationTable from "@/components/cooperationTable.vue"
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { IdentityMap } from "@/enums/proxyEnum";
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
@@ -264,3 +264,4 @@ const copyToClipboard = (text: string) => {
     }
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

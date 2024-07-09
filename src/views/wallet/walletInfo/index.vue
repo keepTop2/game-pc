@@ -195,7 +195,7 @@
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
-import {ref, nextTick, onMounted, onUnmounted} from 'vue';
+import { ref, nextTick, onMounted, onUnmounted } from 'vue';
 // import { EAllWallets, EWallets } from '@/enums/walletEnum';
 import useWalletInfo from './useWalletInfo';
 import Withdraw from '@/views/wallet/components/Withdraw.vue';
@@ -205,12 +205,13 @@ import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
 import { Message } from "@/utils/discreteApi.ts";
-import { MessageEvent2 } from '@/utils/net/MessageEvent2.ts';
-import { NetMsgType } from '@/utils/netBase/NetMsgType.ts';
-import { NetPacket } from '@/utils/netBase/NetPacket.ts';
-import { Net } from '@/utils/net/Net.ts';
-import pinia, { BankListInfo } from '@/store';
-const bankListInfo = BankListInfo(pinia);
+import { MessageEvent2 } from '@/net/MessageEvent2.ts';
+import { NetMsgType } from '@/netBase/NetMsgType.ts';
+import { NetPacket } from '@/netBase/NetPacket.ts';
+import { Net } from '@/net/Net.ts';
+import pinia from '@/store';
+import { Page } from '@/store/page';
+
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 
 const { t } = useI18n();
@@ -251,9 +252,8 @@ const getBankList = () => {
   Net.instance.sendRequest(req);
 };
 
-const handleBankList = (res: any) => {
-  console.log('bankList-------', res)
-  bankListInfo.setBankListInfo(res.bank_name_list)
+const handleBankList = async (res: any) => {
+  await Page(pinia).setBankListInfo(res.bank_name_list)
 };
 
 onMounted(() => {
@@ -319,3 +319,4 @@ const {
 </script>
 
 <style src="./style.less" lang='less' scoped></style>
+@/netBase/NetMsgType@/netBase/NetPacket

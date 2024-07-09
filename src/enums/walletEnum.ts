@@ -33,19 +33,27 @@ export const AccountTypeMap: any = {
     '2': '转账',
 }
 /**
+ * @description: 洗马记录类型
+ */
+export const WashTypeMap: any = {
+    '-1': '按平台汇总',
+    '9999': '当前平台',
+}
+/**
  * @description: 钱包类型
  */
 export const WalletTypeMap: any = {
-    '1': '游戏钱包',
-    '2': '中心钱包',
+    '1': '携带钱包',
+    '2': '保险柜钱包',
+    '3_0': '系统优惠',
+    '3_1': '系统调整'
 }
 
 /**
  * @description: 货币
  */
 export const CurrencyMap: any = {
-    '1': '法币',
-    '2': 'USDT',
+    '1': '越南盾',
 }
 
 /**

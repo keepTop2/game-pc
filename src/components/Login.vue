@@ -1,5 +1,5 @@
 <template>
-  <div class="login_from_box" style="width: ;">
+  <div class="login_from_box">
     <img src="/img/login/silder.webp" alt="" />
     <span class="close">
       <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
@@ -24,7 +24,7 @@
               :multiple="item.multiple" :placeholder="t(item.placeholder)" :options="item.options"
               :render-label="renderLabel" /> -->
             <n-input clearable @keyup.enter="handleSubmit" :type="item.type" size="large"
-              v-model:value="state.login[item.name]" :placeholder="item.placeholder">
+              v-model:value="state.login[item.name]" :placeholder="t(item.placeholder)">
               <template #prefix v-if="item.leftIcon">
                 <iconpark-icon :icon-id="item.leftIcon" color="#8e82c2" size="1rem"></iconpark-icon>
               </template>
@@ -67,14 +67,14 @@ import { ref, reactive, onUnmounted, onMounted, } from "vue";
 //   SelectRenderLabel,
 //   NIcon
 // } from 'naive-ui'
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
-import { NetEnumDef } from "@/utils/netBase/NetEnumDef";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
+import { MessageEvent2 } from "@/net/MessageEvent2";
 import { needLoginApi } from "@/utils/storage";
 // import { Close } from '@vicons/ionicons5'
-import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/utils/net/Utils";
+import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/net/Utils";
 import pinia from '@/store/index';
 // import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
@@ -125,7 +125,7 @@ const state: any = reactive({
     phone: {
       name: "phone",
       type: "text",
-      placeholder: t('home_page_enterPhoneNumber'),
+      placeholder: 'home_page_enterPhoneNumber',
       slot: !1,
       leftIcon: false,
       changeRightIcon: !1,
@@ -135,7 +135,7 @@ const state: any = reactive({
     account: {
       name: "account",
       type: "text",
-      placeholder: t('home_page_enterAccount'),
+      placeholder: 'home_page_enterAccount',
       slot: !1,
       leftIcon: "Group39361-d3pmjajn",
       changeRightIcon: !1,
@@ -160,7 +160,7 @@ const state: any = reactive({
     email: {
       name: "email",
       type: "text",
-      placeholder: t('home_page_enterEmail'),
+      placeholder: 'home_page_enterEmail',
       slot: !1,
       leftIcon: "Group39361-d3pmjajn",
       changeRightIcon: !1,
@@ -169,7 +169,7 @@ const state: any = reactive({
     password: {
       name: "password",
       type: "password",
-      placeholder: t('home_page_enterPassword'),
+      placeholder: 'home_page_enterPassword',
       slot: !0,
       leftIcon: "Group39362-d3pmjajk",
       changeRightIcon: "Group39364",
@@ -178,7 +178,7 @@ const state: any = reactive({
     captcha: {
       name: "captcha",
       type: "text",
-      placeholder: t('home_page_enterVerificationCode'),
+      placeholder: 'home_page_enterVerificationCode',
       slot: !0,
       leftIcon: "Group39363-d3pmjao6",
       changeRightIcon: !1,
@@ -485,3 +485,4 @@ onUnmounted(async () => {
   font-size: 18px;
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType@/netBase/NetEnumDef

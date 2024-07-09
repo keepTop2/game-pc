@@ -48,8 +48,6 @@ for (const key in itemize) {
 const userInfo = User(pinia);
 const { lang } = storeToRefs(userInfo);
 
-
-
 // 导出语言国际化
 // https://vue-i18n.intlify.dev/guide/essentials/fallback.html#explicit-fallback-with-one-locale
 export const i18n = createI18n({

@@ -6,10 +6,10 @@
  * @method remove 移除永久缓存
  * @method clear 移除全部永久缓存
  */
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import * as Utils from "@/utils/net/Utils";
-import { NetEnumDef } from "./netBase/NetEnumDef";
-import { Net } from "./net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import * as Utils from "@/net/Utils";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
+import { Net } from "@/net/Net";
 export const Local = {
 	// 设置永久缓存
 	set<T>(key: string, val: T) {
@@ -74,6 +74,7 @@ export const needLoginApi = async () => {
 		tb_req.version = NetEnumDef.get_proto_version();
 		tb_req.device_id = await Utils.getDeviceId();
 		Net.instance.sendRequest(tb_req);
+
 		let req_roleinfo_with_id = NetPacket.req_roleinfo_with_id();
 		req_roleinfo_with_id.id = Local.get('user').user_id;
 		Net.instance.sendRequest(req_roleinfo_with_id);

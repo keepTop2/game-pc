@@ -48,12 +48,12 @@
 
 <script setup lang='ts'>
 import { reactive, computed, onUnmounted, ref } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { WithdrawStatusMap, CurrencyMap, WithdrawStatusColorMap } from "@/enums/walletEnum"
 import DateSelect from "@/components/DateSelect.vue"
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 
@@ -85,13 +85,13 @@ const optionsCurrency = computed(() => { // 法币
             value: Number(key)
         }
     })
-    options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
+    options.unshift({ value: 9, label: t('rechargeRecord_page_allHb') })
     return options
 })
 
 const params: any = reactive({ // 参数
     page: 1,
-    status: 0,
+    status: 9,
     currency: 0,
 })
 const result: any = reactive({ // 结果
@@ -189,3 +189,4 @@ onUnmounted(() => {
     user-select: none;
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

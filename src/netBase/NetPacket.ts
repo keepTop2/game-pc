@@ -1,5 +1,5 @@
-import { EncodeUtils } from "@/utils/net/EncodeUtils";
-import { NetMsgType } from "./NetMsgType";
+import { EncodeUtils } from "@/net/EncodeUtils";
+import { NetMsgType } from "@/netBase/NetMsgType";
 
 export module NetPacket {
 	export function req_check_version() {
@@ -3307,15 +3307,19 @@ export module NetPacket {
 	export function req_enter_room() {
 		let tb: any = {
 			room_type_id: 0,
+			game_mode: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_enter_room"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.game_mode, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.game_mode = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -16254,6 +16258,7 @@ export module NetPacket {
 		let tb: any = {
 			way_id: 0,
 			pay_money: 0,
+			bonus: 0,
 			order_status: 0,
 			pay_time: stime(),
 			getMsgID: function () {
@@ -16262,6 +16267,7 @@ export module NetPacket {
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.way_id, buf);
 				EncodeUtils.int64ToByte(tb.pay_money, buf);
+				EncodeUtils.int64ToByte(tb.bonus, buf);
 				EncodeUtils.int32ToByte(tb.order_status, buf);
 				tb.pay_time.encode(buf);
 			},
@@ -16270,6 +16276,8 @@ export module NetPacket {
 				tb.way_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.pay_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.bonus = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
 				tb.order_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -16445,16 +16453,21 @@ export module NetPacket {
 	export function notify_apply_withdraw() {
 		let tb: any = {
 			result: 0,
+			tip: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_apply_withdraw"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.result, buf);
+				EncodeUtils.utf8StrtoBytes(tb.tip, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
+				let tip_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.tip = tip_value[0];
+				startIndex += tip_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -16618,6 +16631,7 @@ export module NetPacket {
 			pay_money: 0,
 			item: 0,
 			create_time: stime(),
+			remark: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_accounting_change_record"];
 			},
@@ -16627,6 +16641,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.pay_money, buf);
 				EncodeUtils.int32ToByte(tb.item, buf);
 				tb.create_time.encode(buf);
+				EncodeUtils.utf8StrtoBytes(tb.remark, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -16639,6 +16654,9 @@ export module NetPacket {
 				tb.item = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				startIndex += tb.create_time.decode(buf, startIndex);
+				let remark_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.remark = remark_value[0];
+				startIndex += remark_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -22604,6 +22622,7 @@ export module NetPacket {
 			maxrecharge: 0,
 			paymethod: '',
 			payname: '',
+			status: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_recharge_list"];
 			},
@@ -22613,6 +22632,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.maxrecharge, buf);
 				EncodeUtils.utf8StrtoBytes(tb.paymethod, buf);
 				EncodeUtils.utf8StrtoBytes(tb.payname, buf);
+				EncodeUtils.int32ToByte(tb.status, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -22628,6 +22648,8 @@ export module NetPacket {
 				let payname_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.payname = payname_value[0];
 				startIndex += payname_value[1];
+				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -22645,6 +22667,7 @@ export module NetPacket {
 			require: 0,
 			restrict: '',
 			name: '',
+			threshold: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_recharge_discount"];
 			},
@@ -22655,6 +22678,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.require, buf);
 				EncodeUtils.utf8StrtoBytes(tb.restrict, buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+				EncodeUtils.int64ToByte(tb.threshold, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -22672,6 +22696,8 @@ export module NetPacket {
 				let name_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.name = name_value[0];
 				startIndex += name_value[1];
+				tb.threshold = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -22733,6 +22759,8 @@ export module NetPacket {
 			bank_list: [],
 			usdt_viet_rate: 0,
 			is_speical_player: 0,
+			last_bank: 0,
+			bank_name: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_req_get_shop_info"];
 			},
@@ -22751,6 +22779,8 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.usdt_viet_rate, buf);
 				EncodeUtils.int32ToByte(tb.is_speical_player, buf);
+				EncodeUtils.int32ToByte(tb.last_bank, buf);
+				EncodeUtils.utf8StrtoBytes(tb.bank_name, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -22779,6 +22809,11 @@ export module NetPacket {
 				startIndex += 4;
 				tb.is_speical_player = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
+				tb.last_bank = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let bank_name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.bank_name = bank_name_value[0];
+				startIndex += bank_name_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -22794,6 +22829,7 @@ export module NetPacket {
 			channel_type: 0,
 			bank_channel_type: 0,
 			got_discount: 0,
+			network_type: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_from_third"];
 			},
@@ -22802,6 +22838,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.channel_type, buf);
 				EncodeUtils.int32ToByte(tb.bank_channel_type, buf);
 				EncodeUtils.int32ToByte(tb.got_discount, buf);
+				EncodeUtils.int32ToByte(tb.network_type, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -22813,6 +22850,8 @@ export module NetPacket {
 				tb.bank_channel_type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.got_discount = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.network_type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -25013,6 +25052,7 @@ export module NetPacket {
 			winamount: 0,
 			all_betinfo: [],
 			totalbetAmount: [],
+			nobetplayer: [],
 			gameover_time: [],
 			bet_time: 0,
 			betchips: [],
@@ -25037,6 +25077,10 @@ export module NetPacket {
 				EncodeUtils.uInt16ToByte(tb.totalbetAmount.length, buf);
 				for (let i = 0; i < tb.totalbetAmount.length; ++i) {
 					tb.totalbetAmount[i].encode(buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.nobetplayer.length, buf);
+				for (let i = 0; i < tb.nobetplayer.length; ++i) {
+					EncodeUtils.int64ToByte(tb.nobetplayer[i], buf);
 				}
 				EncodeUtils.uInt16ToByte(tb.gameover_time.length, buf);
 				for (let i = 0; i < tb.gameover_time.length; ++i) {
@@ -25077,6 +25121,12 @@ export module NetPacket {
 					let tmp = dataosha_totalbet_info();
 					startIndex += tmp.decode(buf, startIndex);
 					tb.totalbetAmount.push(tmp);
+				}
+				let nobetplayer_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < nobetplayer_len; ++i) {
+					tb.nobetplayer.push(EncodeUtils.ByteToint64(buf, startIndex));
+					startIndex += 8;
 				}
 				let gameover_time_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -25122,6 +25172,8 @@ export module NetPacket {
 			winamount: 0,
 			cur_money: 0,
 			end_time2: 0,
+			server_ciphertext: '',
+			roundid: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_gameover"];
 			},
@@ -25134,6 +25186,8 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.winamount, buf);
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
+				EncodeUtils.utf8StrtoBytes(tb.server_ciphertext, buf);
+				EncodeUtils.utf8StrtoBytes(tb.roundid, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -25152,6 +25206,12 @@ export module NetPacket {
 				startIndex += 8;
 				tb.end_time2 = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
+				let server_ciphertext_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.server_ciphertext = server_ciphertext_value[0];
+				startIndex += server_ciphertext_value[1];
+				let roundid_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.roundid = roundid_value[0];
+				startIndex += roundid_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -25453,6 +25513,138 @@ export module NetPacket {
 		};
 		return tb;
 	}
+	export function req_dataosha_seed() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_dataosha_seed"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_seed"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function rsp_dataosha_seed() {
+		let tb: any = {
+			client_seed: '',
+			server_ciphertext: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_rsp_dataosha_seed"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.utf8StrtoBytes(tb.client_seed, buf);
+				EncodeUtils.utf8StrtoBytes(tb.server_ciphertext, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let client_seed_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.client_seed = client_seed_value[0];
+				startIndex += client_seed_value[1];
+				let server_ciphertext_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.server_ciphertext = server_ciphertext_value[0];
+				startIndex += server_ciphertext_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_dataosha_seed"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_dataosha_fair_verify() {
+		let tb: any = {
+			roundid: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_dataosha_fair_verify"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.utf8StrtoBytes(tb.roundid, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let roundid_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.roundid = roundid_value[0];
+				startIndex += roundid_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_fair_verify"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function rsp_dataosha_fair_verify() {
+		let tb: any = {
+			client_seed: '',
+			server_ciphertext: '',
+			server_plaintext: '',
+			complete_plaintext: '',
+			complete_ciphertext: '',
+			prefix5: '',
+			prefix5_decimal: '',
+			prefix5_decimal_mod: '',
+			killroom: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_rsp_dataosha_fair_verify"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.utf8StrtoBytes(tb.client_seed, buf);
+				EncodeUtils.utf8StrtoBytes(tb.server_ciphertext, buf);
+				EncodeUtils.utf8StrtoBytes(tb.server_plaintext, buf);
+				EncodeUtils.utf8StrtoBytes(tb.complete_plaintext, buf);
+				EncodeUtils.utf8StrtoBytes(tb.complete_ciphertext, buf);
+				EncodeUtils.utf8StrtoBytes(tb.prefix5, buf);
+				EncodeUtils.utf8StrtoBytes(tb.prefix5_decimal, buf);
+				EncodeUtils.utf8StrtoBytes(tb.prefix5_decimal_mod, buf);
+				EncodeUtils.utf8StrtoBytes(tb.killroom, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let client_seed_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.client_seed = client_seed_value[0];
+				startIndex += client_seed_value[1];
+				let server_ciphertext_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.server_ciphertext = server_ciphertext_value[0];
+				startIndex += server_ciphertext_value[1];
+				let server_plaintext_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.server_plaintext = server_plaintext_value[0];
+				startIndex += server_plaintext_value[1];
+				let complete_plaintext_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.complete_plaintext = complete_plaintext_value[0];
+				startIndex += complete_plaintext_value[1];
+				let complete_ciphertext_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.complete_ciphertext = complete_ciphertext_value[0];
+				startIndex += complete_ciphertext_value[1];
+				let prefix5_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.prefix5 = prefix5_value[0];
+				startIndex += prefix5_value[1];
+				let prefix5_decimal_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.prefix5_decimal = prefix5_decimal_value[0];
+				startIndex += prefix5_decimal_value[1];
+				let prefix5_decimal_mod_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.prefix5_decimal_mod = prefix5_decimal_mod_value[0];
+				startIndex += prefix5_decimal_mod_value[1];
+				let killroom_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.killroom = killroom_value[0];
+				startIndex += killroom_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_dataosha_fair_verify"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
 	export function req_mjhl2_info() {
 		let tb: any = {
 			getMsgID: function () {
@@ -25608,7 +25800,7 @@ export module NetPacket {
 	export function notify_daily_return_info() {
 		let tb: any = {
 			level: 0,
-			ratio: 0,
+			ratio: '',
 			personal_money: 0,
 			team_money: 0,
 			s_link: '',
@@ -25617,7 +25809,7 @@ export module NetPacket {
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.level, buf);
-				EncodeUtils.int32ToByte(tb.ratio, buf);
+				EncodeUtils.utf8StrtoBytes(tb.ratio, buf);
 				EncodeUtils.int64ToByte(tb.personal_money, buf);
 				EncodeUtils.int64ToByte(tb.team_money, buf);
 				EncodeUtils.utf8StrtoBytes(tb.s_link, buf);
@@ -25626,8 +25818,9 @@ export module NetPacket {
 				let startIndex = index;
 				tb.level = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.ratio = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				let ratio_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.ratio = ratio_value[0];
+				startIndex += ratio_value[1];
 				tb.personal_money = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
 				tb.team_money = EncodeUtils.ByteToint64(buf, startIndex);
@@ -27348,6 +27541,8 @@ export module NetPacket {
 			can_withdraw: 0,
 			canot_withdraw: 0,
 			turnover: 0,
+			revenueratio_withdraw: '',
+			exchange_ratio_withdraw: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_can_withdraw"];
 			},
@@ -27356,6 +27551,8 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.can_withdraw, buf);
 				EncodeUtils.int64ToByte(tb.canot_withdraw, buf);
 				EncodeUtils.int64ToByte(tb.turnover, buf);
+				EncodeUtils.utf8StrtoBytes(tb.revenueratio_withdraw, buf);
+				EncodeUtils.utf8StrtoBytes(tb.exchange_ratio_withdraw, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -27367,6 +27564,12 @@ export module NetPacket {
 				startIndex += 8;
 				tb.turnover = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
+				let revenueratio_withdraw_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.revenueratio_withdraw = revenueratio_withdraw_value[0];
+				startIndex += revenueratio_withdraw_value[1];
+				let exchange_ratio_withdraw_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.exchange_ratio_withdraw = exchange_ratio_withdraw_value[0];
+				startIndex += exchange_ratio_withdraw_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -27416,6 +27619,619 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_del_bank_card_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_init_connect() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_init_connect"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_init_connect"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_get_vip_rebate() {
+		let tb: any = {
+			page: 0,
+			type: 0,
+			start_time: stime(),
+			end_time: stime(),
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_get_vip_rebate"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.page, buf);
+				EncodeUtils.int32ToByte(tb.type, buf);
+				tb.start_time.encode(buf);
+				tb.end_time.encode(buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				startIndex += tb.start_time.decode(buf, startIndex);
+				startIndex += tb.end_time.decode(buf, startIndex);
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_vip_rebate"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function vip_rebate_record() {
+		let tb: any = {
+			bet_money: 0,
+			rebate: 0,
+			type: 0,
+			create_time: stime(),
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_vip_rebate_record"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int64ToByte(tb.bet_money, buf);
+				EncodeUtils.int64ToByte(tb.rebate, buf);
+				EncodeUtils.int32ToByte(tb.type, buf);
+				tb.create_time.encode(buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.rebate = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				startIndex += tb.create_time.decode(buf, startIndex);
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_vip_rebate_record"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_get_vip_rebate() {
+		let tb: any = {
+			total_page: 0,
+			record_list: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_get_vip_rebate"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.total_page, buf);
+				EncodeUtils.uInt16ToByte(tb.record_list.length, buf);
+				for (let i = 0; i < tb.record_list.length; ++i) {
+					tb.record_list[i].encode(buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let record_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < record_list_len; ++i) {
+					let tmp = vip_rebate_record();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.record_list.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_vip_rebate"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function pdk_user_info() {
+		let tb: any = {
+			role_id: 0,
+			nickname: '',
+			role_status: 0,
+			chairid: 0,
+			current_money: 0,
+			score: 0,
+			leftcarddata: [],
+			leftcardcount: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_pdk_user_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int64ToByte(tb.role_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
+				EncodeUtils.int32ToByte(tb.role_status, buf);
+				EncodeUtils.int32ToByte(tb.chairid, buf);
+				EncodeUtils.int64ToByte(tb.current_money, buf);
+				EncodeUtils.int64ToByte(tb.score, buf);
+				EncodeUtils.uInt16ToByte(tb.leftcarddata.length, buf);
+				for (let i = 0; i < tb.leftcarddata.length; ++i) {
+					EncodeUtils.int32ToByte(tb.leftcarddata[i], buf);
+				}
+				EncodeUtils.int32ToByte(tb.leftcardcount, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				let nickname_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.nickname = nickname_value[0];
+				startIndex += nickname_value[1];
+				tb.role_status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.chairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.current_money = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				let leftcarddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < leftcarddata_len; ++i) {
+					tb.leftcarddata.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				tb.leftcardcount = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_pdk_user_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_pdk_info() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_pdk_info"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_pdk_info() {
+		let tb: any = {
+			gamescene: 0,
+			userinfo: [],
+			bankchairid: 0,
+			outcardchairid: 0,
+			currentchairid: 0,
+			turn_card_data: [],
+			lefttime: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_pdk_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.gamescene, buf);
+				EncodeUtils.uInt16ToByte(tb.userinfo.length, buf);
+				for (let i = 0; i < tb.userinfo.length; ++i) {
+					tb.userinfo[i].encode(buf);
+				}
+				EncodeUtils.int32ToByte(tb.bankchairid, buf);
+				EncodeUtils.int32ToByte(tb.outcardchairid, buf);
+				EncodeUtils.int32ToByte(tb.currentchairid, buf);
+				EncodeUtils.uInt16ToByte(tb.turn_card_data.length, buf);
+				for (let i = 0; i < tb.turn_card_data.length; ++i) {
+					EncodeUtils.int32ToByte(tb.turn_card_data[i], buf);
+				}
+				EncodeUtils.int32ToByte(tb.lefttime, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.gamescene = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let userinfo_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < userinfo_len; ++i) {
+					let tmp = pdk_user_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.userinfo.push(tmp);
+				}
+				tb.bankchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.outcardchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.currentchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let turn_card_data_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < turn_card_data_len; ++i) {
+					tb.turn_card_data.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				tb.lefttime = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pdk_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_pdk_ready() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_pdk_ready"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_ready"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_pdk_start_counting() {
+		let tb: any = {
+			start_time: stime(),
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_pdk_start_counting"];
+			},
+			encode: function (buf: any) {
+				tb.start_time.encode(buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				startIndex += tb.start_time.decode(buf, startIndex);
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pdk_start_counting"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_pdk_out_card() {
+		let tb: any = {
+			carddata: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_pdk_out_card"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
+				for (let i = 0; i < tb.carddata.length; ++i) {
+					EncodeUtils.int32ToByte(tb.carddata[i], buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let carddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < carddata_len; ++i) {
+					tb.carddata.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_out_card"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_s2c_out_card() {
+		let tb: any = {
+			outcardchairid: 0,
+			currentchairid: 0,
+			carddata: [],
+			leftcardcount: 0,
+			is_realtime_settle: 0,
+			losechairid: 0,
+			winchairid: 0,
+			score: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_s2c_out_card"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.outcardchairid, buf);
+				EncodeUtils.int32ToByte(tb.currentchairid, buf);
+				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
+				for (let i = 0; i < tb.carddata.length; ++i) {
+					EncodeUtils.int32ToByte(tb.carddata[i], buf);
+				}
+				EncodeUtils.int32ToByte(tb.leftcardcount, buf);
+				EncodeUtils.int32ToByte(tb.is_realtime_settle, buf);
+				EncodeUtils.int32ToByte(tb.losechairid, buf);
+				EncodeUtils.int32ToByte(tb.winchairid, buf);
+				EncodeUtils.int64ToByte(tb.score, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.outcardchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.currentchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let carddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < carddata_len; ++i) {
+					tb.carddata.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				tb.leftcardcount = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.is_realtime_settle = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.losechairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.winchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_out_card"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_pdk_pass_card() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_pdk_pass_card"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_pass_card"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_s2c_pass_card() {
+		let tb: any = {
+			passcardchairid: 0,
+			currentchairid: 0,
+			turnover: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_s2c_pass_card"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.passcardchairid, buf);
+				EncodeUtils.int32ToByte(tb.currentchairid, buf);
+				EncodeUtils.int32ToByte(tb.turnover, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.passcardchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.currentchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.turnover = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_pass_card"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function rsp_pdk_error() {
+		let tb: any = {
+			errormsg: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_rsp_pdk_error"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.utf8StrtoBytes(tb.errormsg, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let errormsg_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.errormsg = errormsg_value[0];
+				startIndex += errormsg_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_pdk_error"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_s2c_game_start() {
+		let tb: any = {
+			bankchairid: 0,
+			firstoutchairid: 0,
+			carddata: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_s2c_game_start"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.bankchairid, buf);
+				EncodeUtils.int32ToByte(tb.firstoutchairid, buf);
+				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
+				for (let i = 0; i < tb.carddata.length; ++i) {
+					EncodeUtils.int32ToByte(tb.carddata[i], buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.bankchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.firstoutchairid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let carddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < carddata_len; ++i) {
+					tb.carddata.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_game_start"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_s2c_game_over() {
+		let tb: any = {
+			userinfo: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_s2c_game_over"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.uInt16ToByte(tb.userinfo.length, buf);
+				for (let i = 0; i < tb.userinfo.length; ++i) {
+					tb.userinfo[i].encode(buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let userinfo_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < userinfo_len; ++i) {
+					let tmp = pdk_user_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.userinfo.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_game_over"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_pdk_cheat() {
+		let tb: any = {
+			carddata: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_pdk_cheat"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
+				for (let i = 0; i < tb.carddata.length; ++i) {
+					EncodeUtils.int32ToByte(tb.carddata[i], buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let carddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < carddata_len; ++i) {
+					tb.carddata.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_cheat"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function rsp_pdk_cheat() {
+		let tb: any = {
+			result: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_rsp_pdk_cheat"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.result, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_pdk_cheat"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_add_usdt_info() {
+		let tb: any = {
+			usdt_addr: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_add_usdt_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.utf8StrtoBytes(tb.usdt_addr, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let usdt_addr_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.usdt_addr = usdt_addr_value[0];
+				startIndex += usdt_addr_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_add_usdt_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_add_usdt_info() {
+		let tb: any = {
+			result: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_add_usdt_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.result, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_add_usdt_info"], buf);
 				return tb.encode(buf);
 			}
 		};

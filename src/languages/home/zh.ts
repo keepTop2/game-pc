@@ -26,6 +26,7 @@ export default {
     home_page_betRecord: '投注记录',
     home_page_auditRecord: '稽核记录',
     home_page_loginRecord: '登录记录',
+    home_page_waterRecord: '洗马记录',
     home_page_paymentManagement: '支付管理',
     home_page_myPromo: '我的优惠',
     home_page_myEmail: '我的邮箱',
@@ -144,5 +145,9 @@ export default {
     // 公告
     home_page_notice_title: '一般公告',
     home_page_notice_fixtitle: '维护公告',
-    home_page_notice_systitle: '系统公告'
+    home_page_notice_systitle: '系统公告',
+    home_page_notice_donttip: '不再显示',
+
+    // 活动详情
+    activity_page_detail: '活动详情'
 }

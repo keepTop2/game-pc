@@ -116,7 +116,7 @@ export function verifyPhoneCaptcha(_rule: any, val: string) {
 }
 const phoneCodeMap: any = {
   "+63": { name: "philippines", code: "+63", regExp: /^(\+63|0)?(9\d{2}|[2-8]\d{2})\d{7}$/ }, // 菲律宾
-  "+84": { name: "vietnam", code: "+84", regExp: /^((^(\+84|84|0|0084)?)(3|5|7|8|9))+([0-9]{8})$/ }, // 越南
+  "84": { name: "vietnam", code: "+84", regExp: /^((^(\+84|84|0|0084)?)(3|5|7|8|9))+([0-9]{8})$/ }, // 越南
   "+81": { name: "japan", code: "+81", regExp: /^(\+?81|0)\d{1,4}[ \-]?\d{1,4}[ \-]?\d{4}$/ }, // 日本
   "+82": { name: "south_korea", code: "+82", regExp: /^(00){0,1}(82){1}0{0,1}[7,1](?:\d{8}|\d{9})$/ }, // 韩国
   "+55": { name: "brazil", code: "+55", regExp: /^(\+?55|0)\-?[1-9]{2}\-?[2-9]{1}\d{3,4}\-?\d{4}$/ }, // 巴西

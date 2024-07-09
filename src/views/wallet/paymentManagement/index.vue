@@ -20,12 +20,12 @@
 import usePaymentManagement from './usePaymentManagement';
 import AddBank from '../components/AddBank.vue';
 import { useI18n } from "vue-i18n";
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 import { onMounted, onUnmounted, ref } from "vue";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
-import {Dialog, Message} from "@/utils/discreteApi";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { Dialog, Message } from "@/utils/discreteApi";
 
 const { t } = useI18n();
 const { showAddBankModal } = usePaymentManagement();
@@ -113,3 +113,4 @@ onUnmounted(() => {
 
 </script>
 <style src="./style.less" lang="less" scoped></style>
+@/netBase/NetPacket@/netBase/NetMsgType

@@ -1,4 +1,5 @@
-import pinia, { User } from "@/store";
+import pinia from "@/store";
+import { User } from '@/store/user';
 import { storeToRefs } from "pinia";
 import { Local } from "./storage";
 import { Page } from "@/store/page";
@@ -10,12 +11,12 @@ const { info: userInfo } = storeToRefs(User(pinia));
 export const bankPayMethods = [1, 2, 3, 4, 5, 6];
 // 充值方式对应的名称
 export const bankPayType = [
-  {paymenttype: 1,  payname: 'bankcard'},
-  {paymenttype: 2,  payname: 'momo'},
-  {paymenttype: 3,  payname: 'zalo'},
-  {paymenttype: 4,  payname: 'viettel'},
-  {paymenttype: 5,  payname: 'scratchcard'},
-  {paymenttype: 6,  payname: 'usdt'},
+    { paymenttype: 1, payname: 'bankcard' },
+    { paymenttype: 2, payname: 'momo' },
+    { paymenttype: 3, payname: 'zalo' },
+    { paymenttype: 4, payname: 'viettel' },
+    { paymenttype: 5, payname: 'scratchcard' },
+    { paymenttype: 6, payname: 'usdt' },
 ];
 
 /**
@@ -140,10 +141,10 @@ export const IP = (): Promise<string> => {
  *  精度丢失问题
  * */
 export const toFixedNumber = (value: any, l = 2) => {
-  if (!value) {
-    return `0.${''.padEnd(l, '0')}`;
-  }
-  const str = value.toString().split('.');
-  const str1 = str[1] ? str[1].substr(0, l).padEnd(l, '0') : ''.padEnd(l, '0');
-  return str[0] + '.' + str1;
+    if (!value) {
+        return `0.${''.padEnd(l, '0')}`;
+    }
+    const str = value.toString().split('.');
+    const str1 = str[1] ? str[1].substr(0, l).padEnd(l, '0') : ''.padEnd(l, '0');
+    return str[0] + '.' + str1;
 }

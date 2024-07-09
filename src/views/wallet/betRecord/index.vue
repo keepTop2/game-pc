@@ -54,11 +54,11 @@
 
 <script setup lang='ts'>
 import { reactive, computed, onUnmounted, ref } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import DateSelect from "@/components/DateSelect.vue"
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
 import { PlatformValueMap } from "@/enums/walletEnum"
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
@@ -239,3 +239,4 @@ onUnmounted(() => {
     }
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

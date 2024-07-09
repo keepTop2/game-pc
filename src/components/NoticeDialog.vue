@@ -23,7 +23,7 @@
         <div class="notice_btn" @click="closeDialog">{{ t('home_page_confirm') }}</div>
         <div class="notice_readed">
             <n-checkbox v-model:checked="readed">
-                <span>不再显示</span>
+                <span>{{ t('home_page_notice_donttip') }}</span>
             </n-checkbox>
         </div>
 

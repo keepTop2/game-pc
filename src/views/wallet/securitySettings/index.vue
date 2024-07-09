@@ -3,7 +3,7 @@
         <n-flex vertical class="items" v-for="(items, i) in  state.list " :key="i">
             <span>{{ t(items.text) }}</span>
             <div v-if="items.btns">
-                <span>{{ items.value }}</span>
+                <span>{{ info[items.value] }}</span>
                 <div v-if="items.btns.length > 0">
                     <span class="bind_btn" v-for="(item, j) in  items.btns " :id="items.text" :key="j"
                         @click="itemClick(items)">
@@ -23,22 +23,22 @@
 <script setup lang='ts'>
 // 国际化使用 homepage
 import { onMounted, onUnmounted, reactive, defineAsyncComponent, ref } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-import { aaa, bbb, getRandomSign, getDeviceId } from "@/utils/net/Utils";
+import { aaa, bbb, getRandomSign, getDeviceId } from "@/net/Utils";
 import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
 import { Message } from '@/utils/discreteApi';
 import { Local, needLoginApi } from '@/utils/storage';
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import { IP } from '@/utils/others';
 const { t } = useI18n();
-const route = useRoute();
+// const route = useRoute();
 const PopForm = defineAsyncComponent(() => import('@/components/PopForm.vue'));
 const userInfo = User(pinia);
 const FormRef = ref()
@@ -52,12 +52,12 @@ const state: any = reactive({
     list: [
         {
             text: 'home_page_name',
-            value: '',
+            value: 'real_name',
             btns: [],
         },
         {
             text: 'home_page_account',
-            value: '',
+            value: 'full_name',
             btns: [],
             formData: {
                 title: 'home_page_modifyAccount',
@@ -85,7 +85,7 @@ const state: any = reactive({
         },
         {
             text: 'home_page_password',
-            value: '******',
+            value: 'hideString',
 
             btns: [
                 { text: 'home_page_modify', icon: 'Group39376', value: 1 }
@@ -202,7 +202,7 @@ const state: any = reactive({
         },
         {
             text: 'home_page_email',
-            value: '',
+            value: 'email',
             btns: [
                 { text: 'home_page_bind', icon: 'Group39377', value: 0 },
                 // { text: '修改', icon: 'Group39376', value: 1 }
@@ -253,7 +253,7 @@ const state: any = reactive({
         },
         {
             text: 'home_page_phone',
-            value: info.value?.mobile || '',
+            value: 'mobile',
             btns: [
                 { text: 'home_page_bind', icon: 'Group39377', value: 0 },
                 // { text: '修改', icon: 'Group39376', value: 1 }
@@ -309,7 +309,7 @@ const state: any = reactive({
         // },
         {
             text: 'home_page_fundPassword',
-            value: '********',
+            value: 'hideString',
             btns: [
                 { text: 'home_page_modify', icon: 'Group39376', value: 1 }
             ],
@@ -560,9 +560,6 @@ const itemClick = (item: any) => {
                             return new Error(t('home_page_smsCodeFormatIncorrect'))
                         }
                 },
-
-
-
             },
         ],
         account: [
@@ -576,7 +573,7 @@ const itemClick = (item: any) => {
                         if (verifyPassword(rule, value)) {
                             return true
                         } else {
-                            return new Error(t('home_page_passwordFormatIncorrect'))
+                            return new Error(t('home_page_accountFormatIncorrect'))
                         }
                 },
             },
@@ -764,7 +761,7 @@ const handleModifyWithdrawPassword = (res: any) => {
     let findWithdrawPassword = state.list.find((e: any) => e.type == 10)
     // { text: '修改', icon: 'Group39376', value: 1 }
     if (res.code == 1) {
-        findWithdrawPassword.value = '********'
+
         findWithdrawPassword.formData.formParams.operate_type = 2
         findWithdrawPassword.btns = [{ text: 'home_page_modify', icon: 'Group39376', value: 1 }]
         findWithdrawPassword.formData.list.old_withdrawPwd.show = true
@@ -772,7 +769,7 @@ const handleModifyWithdrawPassword = (res: any) => {
         findWithdrawPassword.formData.buttonText = 'home_page_modifyNow'
     }
     if (res.code == 2) {
-        findWithdrawPassword.value = ''
+
         findWithdrawPassword.formData.formParams.operate_type = 1
         findWithdrawPassword.btns = [{ text: 'home_page_bind', icon: 'Group39377', value: 2 }]
         findWithdrawPassword.formData.list.old_withdrawPwd.show = false
@@ -786,7 +783,6 @@ const handleModifyAccount = (res: any) => {
         let find = state.list.find((e: any) => e.type == 1)
         if (res.code == 1) {
             find.btns = [{ text: 'home_page_modify', icon: 'Group39376', value: 1 }]
-            find.value = info.value?.full_name
             state.first = 2
         } else {
             find.btns = []
@@ -831,30 +827,16 @@ onMounted(async () => {
     );
     let findEmail = state.list.find((e: any) => e.type == 4)
     let findPhone = state.list.find((e: any) => e.type == 5)
-    let findWithdrawPassword = state.list.find((e: any) => e.type == 10)
 
-    // setTimeout(() => {
     if (info.value?.mobile) {
         findPhone.btns = []
-        findPhone.value = info.value?.mobile
+
     }
     if (info.value?.email) {
         findEmail.btns = []
-        findEmail.value = info.value?.email
+
     }
-    // 打开绑定手机页面
-    if (route.query.openDialogType === 'bindPhone') {
-        setTimeout(() => {
-            itemClick(findPhone)
-        }, 500)
-    }
-    // 打开绑定资金密码页面
-    if (route.query.openDialogType === 'bindPayPwd') {
-        setTimeout(() => {
-            itemClick(findWithdrawPassword)
-        }, 500)
-    }
-    state.list[0].value = info.value?.real_name
+
 
     getModifyAccount()
     getModifyWithdrawPassword()
@@ -937,3 +919,4 @@ onUnmounted(() => {
     }
 }
 </style>
+@/netBase/NetMsgType@/netBase/NetPacket

@@ -12,9 +12,11 @@ interface PageState {
     countryOptions: any
     bannerArr: Array<string>
     textAnnouncement: Array<string>
+    serviceUrlObj: any
     settings: any,
     activityList: any,
     activityTitleList: any
+    bankListInfo: any
 }
 export const Page = defineStore('page', {
     state: (): PageState => ({
@@ -23,9 +25,11 @@ export const Page = defineStore('page', {
         countryOptions: null,
         bannerArr: [],
         textAnnouncement: [],
+        serviceUrlObj: {},
         settings: null,
         activityList: null,
-        activityTitleList: null
+        activityTitleList: {},
+        bankListInfo: []
     }),
     actions: {
         // 获取标签下拉选择框数据
@@ -41,7 +45,7 @@ export const Page = defineStore('page', {
         async setSettings(value: any) {
             this.settings = value
         },
-        async setActivityList(value: any) {
+        async setActivityTitleList(value: any) {
             let list: Array<string> = []
 
 
@@ -49,20 +53,21 @@ export const Page = defineStore('page', {
 
             value.map((e: any) => {
                 list.push(e.tag)
-                e.url = '/gameMain/activity'
             })
             let newList = Array.from(new Set(list))
 
             newList.map((e: any) => {
+                obj[e] = []
                 value.map((j: any) => {
                     if (j.tag == e) {
-                        obj[e] = []
+
                         obj[e].push(j)
                     }
                 })
             })
             this.activityList = value
             this.activityTitleList = obj
+            console.log(this.activityTitleList);
 
         },
         async setTextAnnouncement(arr: Array<string>) {
@@ -71,6 +76,14 @@ export const Page = defineStore('page', {
         async setTextAnnouncementMore(str: string) {
             this.textAnnouncement.push(str)
             this.textAnnouncement.splice(0, 0)
+        },
+        async setServiceUrlArr(obj: any) {
+            this.serviceUrlObj = obj
+        },
+
+        async setBankListInfo(v: any) {
+            let data = v.map((item: any) => { return { value: item.bank_id, label: item.bank_name } });
+            this.bankListInfo = [...data];
         },
 
 

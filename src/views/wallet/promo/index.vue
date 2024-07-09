@@ -65,10 +65,10 @@
 
 <script setup lang='ts'>
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { NetPacket } from "@/utils/netBase/NetPacket";
-import { Net } from "@/utils/net/Net";
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { useI18n } from "vue-i18n";
 import { Message } from "@/utils/discreteApi";
 import { useRouter } from "vue-router";
@@ -337,3 +337,4 @@ onMounted(() => {
   }
 }
 </style>
+@/netBase/NetPacket@/netBase/NetMsgType

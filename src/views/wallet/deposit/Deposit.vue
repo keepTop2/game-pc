@@ -1,7 +1,7 @@
 <template>
     <CommonForm :title="t('deposit_page_deposit')" :submit-text="t('deposit_page_arrival')" :form-ref="'depositFormRef'"
-        :tab-list="tabList" :active-tab="activeTab" :form="form" :show-form="showDeposit" :showTab="false" @change-tab="changeTab"
-        @on-close="onClose" @on-submit="onSubmit" @update-form-ref="updateFormRef" />
+        :tab-list="tabList" :active-tab="activeTab" :form="form" :show-form="showDeposit" :showTab="false"
+        @change-tab="changeTab" @on-close="onClose" @on-submit="onSubmit" @update-form-ref="updateFormRef" />
 </template>
 
 <script setup lang="ts">
@@ -10,13 +10,13 @@ import { storeToRefs } from 'pinia';
 
 import CommonForm from '@/components/CommonForm.vue';
 
-import pinia, { Wallet } from "@/store";
-
+import pinia from "@/store";
+import { Wallet } from '@/store/wallet';
 import { TTabList } from '@/utils/types/formTypes';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 import { TBank, TDiscount, TRechargeByPaymenttype, TShopInfo } from '@/utils/types/paymentTypes';
 import { useI18n } from "vue-i18n";
 import { Message } from "@/utils/discreteApi.ts";
@@ -40,8 +40,8 @@ const tabList: TTabList = [
 // ];
 // 充值方式列表
 const mtdList = ref<any>([
-  { label: t('addBank_page_pChoose'), value: -1 ,  minrecharge: 0, maxrecharge: 0, paymethod: ''}
-  ]);
+    { label: t('addBank_page_pChoose'), value: -1, minrecharge: 0, maxrecharge: 0, paymethod: '' }
+]);
 
 // 优惠列表
 const dcList = ref<TTabList>([{ label: t('deposit_page_notOffer'), value: 0 }]);
@@ -57,12 +57,12 @@ const bkMtdList = ref<TTabList>([
 ]);
 // 充值提交参数
 const dataParams = {
-  // country: 1,
-  method: -1,
-  discount: 0, // 优惠
-  amount: '',
-  bank: null, // 银行
-  bankMethod: 100, // 银行支付方式，对应传给后端参数 type
+    // country: 1,
+    method: -1,
+    discount: 0, // 优惠
+    amount: '',
+    bank: null, // 银行
+    bankMethod: 100, // 银行支付方式，对应传给后端参数 type
 }
 
 const form = reactive({
@@ -140,48 +140,48 @@ const form = reactive({
         ]
     },
     data: {
-      ...dataParams,
-      exchangeRate: ''
+        ...dataParams,
+        exchangeRate: ''
     }
 });
 
 const activeTab = ref<any>(1);
 const changeTab = (val: any) => {
-  activeTab.value = val;
-  // 重置参数
-  form.data = {
-    ...dataParams,
-    exchangeRate: form.data.exchangeRate,
-  };
+    activeTab.value = val;
+    // 重置参数
+    form.data = {
+        ...dataParams,
+        exchangeRate: form.data.exchangeRate,
+    };
 };
 
 const onClose = () => walletInfo.setShowDeposit(false);
 const onSubmit = () => {
     depositFormRef.value?.validate((err: any) => {
         if (!err) {
-          console.log(activeTab.value, '----', form.data)
-          console.log('----=====', mtdList.value)
-          // 获取到当前支付方式的最低最高充值金额
-          let curObj;
-          // usdt 充值
-          if (activeTab.value === 2) {
-            curObj = usdtRecharge.value
-            form.data.method = curObj.paymenttype || 6; // usdt 6
-          } else { // 非 usdt 充值
-            curObj = mtdList.value.find((item: any) => item.value === form.data.method)
-          }
-          console.log('&&&&&', curObj)
-          if (form.data.amount < curObj.minrecharge) {
-            return  Message.error(t('deposit_page_minAmount', {minAmount: curObj.minrecharge}))
-          }
-          if (form.data.amount > curObj.maxrecharge) {
-            return  Message.error(t('deposit_page_maxAmount', {maxAmount: curObj.maxrecharge}))
-          }
-          // 如果是银行卡方式，需要选择银行
-          if (legalRecharge.value.find((item: any) => item.paymenttype === form.data.method)?.payname === 'bankcard' && !form.data.bank) {
-            return  Message.error(t('paymentManagement_page_chBank'))
-          }
-           handleSubmit();
+            console.log(activeTab.value, '----', form.data)
+            console.log('----=====', mtdList.value)
+            // 获取到当前支付方式的最低最高充值金额
+            let curObj;
+            // usdt 充值
+            if (activeTab.value === 2) {
+                curObj = usdtRecharge.value
+                form.data.method = curObj.paymenttype || 6; // usdt 6
+            } else { // 非 usdt 充值
+                curObj = mtdList.value.find((item: any) => item.value === form.data.method)
+            }
+            console.log('&&&&&', curObj)
+            if (form.data.amount < curObj.minrecharge) {
+                return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }))
+            }
+            if (form.data.amount > curObj.maxrecharge) {
+                return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }))
+            }
+            // 如果是银行卡方式，需要选择银行
+            if (legalRecharge.value.find((item: any) => item.paymenttype === form.data.method)?.payname === 'bankcard' && !form.data.bank) {
+                return Message.error(t('paymentManagement_page_chBank'))
+            }
+            handleSubmit();
         }
     });
 };
@@ -196,10 +196,10 @@ const handleSubmit = () => {
     Net.instance.sendRequest(req);
 };
 const handleDepositSubmit = (res: any) => {
-  console.log('---', res)
-  if (res.code === -1) {
-    Message.error('充值优惠检查失败')
-  }
+    console.log('---', res)
+    if (res.code === -1) {
+        Message.error('充值优惠检查失败')
+    }
 }
 
 const usdtRecharge = ref<TRechargeByPaymenttype>({});
@@ -213,13 +213,14 @@ const handleShopInfoRes = (rs: TShopInfo) => {
     rs.rechargelist_by_paymenttype.filter((item) => item.payname?.toLowerCase() !== 'usdt').forEach((item) => {
         legalRecharge.value.push(item);
         mtdList.value.push(
-          {
-            minrecharge: item.minrecharge,
-            maxrecharge: item.maxrecharge,
-            paymethod: item.paymethod,
-            label: t(`api_${item.payname}`),
-            value: item.paymenttype }
-          );
+            {
+                minrecharge: item.minrecharge,
+                maxrecharge: item.maxrecharge,
+                paymethod: item.paymethod,
+                label: t(`api_${item.payname}`),
+                value: item.paymenttype
+            }
+        );
     });
 };
 
@@ -248,3 +249,4 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
 });
 </script>
+@/netBase/NetMsgType@/netBase/NetPacket

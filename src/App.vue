@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
@@ -19,12 +20,11 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 // import { Page } from '@/store/page';
-import { MessageEvent2 } from "@/utils/net/MessageEvent2";
-import { NetMsgType } from "@/utils/netBase/NetMsgType";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
-
 const userInfo = User(pinia);
-const { lang, roleInfo } = storeToRefs(userInfo);
+const { lang, roleInfo, myEmail } = storeToRefs(userInfo);
 const Language: any = {
   en: {
     global: enUS,
@@ -89,7 +89,6 @@ const handleRoleInfo = async (data: any) => {
 // 角色VIP详情
 const handleVipInfo = async (data: any) => {
   await User(pinia).getVIPInfo(data)
-  console.log('app-levelInfo', data)
 }
 // 用户详情
 const handleUserInfo = async (data: any) => {
@@ -100,7 +99,7 @@ const handleUserInfo = async (data: any) => {
 const emailList: any = []
 let email_id_list: any = []
 // 我的邮箱
-const handleEmailInfo = (rs: any) => {
+const handleEmailInfo = async (rs: any) => {
   if (rs.emails.length > 0) {
     if (!email_id_list.includes(rs.emails[0].email_id)) {
       emailList.push(rs.emails[0])
@@ -129,11 +128,19 @@ const handleEmailInfo = (rs: any) => {
       email_id_list,
       hasNoRead: email_id_list.some((x: any) => !sb.has(x))
     };
-
-
-    userInfo.setEmailList(params);
+    await User(pinia).setEmailList(params);
   }
 };
+// 监听新收到邮箱
+const handleNewEmail = (rs: any) => {
+  //奖励邮箱
+  if (rs.new_email.attachments[0].award_value > 0) {
+    myEmail.value.rewardList.unshift(rs.new_email)
+  } else {
+    myEmail.value.list.unshift(rs.new_email)
+  }
+  myEmail.value.hasNoRead = true
+}
 // onBeforeMount(async () => {
 
 // 监听金额变化
@@ -168,6 +175,11 @@ onMounted(async () => {
     NetMsgType.msgType.msg_notify_money_update2,
     handleUpdateMoney
   );
+  // 监听新邮件
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_new_email,
+    handleNewEmail
+  );
 
 })
 </script>
@@ -183,3 +195,4 @@ onMounted(async () => {
   background-image: radial-gradient(circle at 50% 4%, #361e79, #22203e 66%);
 }
 </style>
+@/netBase/NetMsgType

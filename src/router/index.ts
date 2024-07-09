@@ -5,7 +5,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
-import { sleep } from '@/utils/others';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 const userinfo = User(pinia);
 
 const { loadingEnd } = storeToRefs(userinfo);
@@ -138,6 +139,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/wallet/loginRecord/index.vue'),
       },
       {
+        path: 'waterRecord',
+        name: 'waterRecord',
+        meta: { title: 'waterRecord' },
+        component: () => import('@/views/wallet/waterRecord/index.vue'),
+      },
+      {
         path: 'myPromo',
         name: 'myPromo',
         meta: { title: '我的优惠' },
@@ -163,24 +170,37 @@ const router = createRouter({
   routes,
   history: createWebHistory(),
 });
+const getLoadingEnd = () => {
+  return new Promise(async (resolve) => {
+    MessageEvent2.addMsgEvent(
+      NetMsgType.msgType.msg_notify_loading_end,
+      () => {
+        resolve(true)
+      }
+    );
+  })
+}
 
-router.beforeEach(async (to: any, _from: any, next) => {
-  var next = next
+router.beforeEach(async (to: any, from: any) => {
   if (Local.get('user')) {
     if (!loadingEnd.value) {
-      await sleep(800)
-      next()
-    } else {
-      next()
+      const a: any = await getLoadingEnd()
+      await User(pinia).setLoadingEnd(a)
     }
+    if (loadingEnd.value) {
+      return true
+    }
+
   } else {
     if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity'].includes(to.name)) {
-      next()
+      return true
     } else {
       await User(pinia).setLogin(true)
-      next('/')
+      return from.path
     }
   }
+
+
 
 })
 router.afterEach(() => {

@@ -2,11 +2,8 @@
 import { createPinia } from 'pinia';
 // import { registerPiniaPersistPlugin } from '@/store/plugin/persist';
 
-const store = createPinia();
+const pinia = createPinia();
 // registerPiniaPersistPlugin(store);
 
-export default store;
+export default pinia;
 
-export { User } from './user';
-export { Wallet } from './wallet';
-export { BankListInfo } from './bankListInfo';

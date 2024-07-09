@@ -43,19 +43,19 @@
 
 <script setup lang='ts'>
 import { reactive, computed, onUnmounted, ref } from 'vue';
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { AccountTypeMap, WalletTypeMap } from "@/enums/walletEnum"
 import DateSelect from "@/components/DateSelect.vue"
-import { Net } from "@/utils/net/Net";
-import { NetPacket } from "@/utils/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { NetPacket } from "@/netBase/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const tableHeader = computed(() => {
     return [ // 表头
-        { title: t('accountsRecord_page_type'), key: 'type' },
+        { title: t('accountsRecord_page_type'), key: 'b_type' },
         { title: t('accountsRecord_page_hb'), key: 'currency' },
         { title: t('accountsRecord_page_amount'), key: 'pay_money' },
         { title: t('accountsRecord_page_content'), key: 'item' },
@@ -95,11 +95,19 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
     let val = row[key]
     switch (key) {
-        case "type":
-            rs = t('bType' + val)
+        case "b_type":
+            rs = t('bType' + (val > 100 ? 101 : val))
             break
         case "item":
-            rs = WalletTypeMap[val]
+            if (val == 3) {
+                if (row['pay_money'] > 0) {
+                    rs = WalletTypeMap['3_0']
+                } else {
+                    rs = WalletTypeMap['3_1']
+                }
+            } else {
+                rs = WalletTypeMap[val]
+            }
             break
         // 2就是usdt,其他暂时是越南盾
         case "currency":

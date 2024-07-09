@@ -2,18 +2,19 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeVars } from "naive-ui";
 
-import pinia, { Wallet, User } from "@/store";
-
-import { MessageEvent2 } from '@/utils/net/MessageEvent2';
-import { NetMsgType } from '@/utils/netBase/NetMsgType';
-import { NetPacket } from '@/utils/netBase/NetPacket';
-import { Net } from '@/utils/net/Net';
+import pinia from "@/store";
+import { User } from '@/store/user';
+import { Wallet } from '@/store/wallet';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 import { TVIPLevelReward } from '@/utils/types';
 import { watch } from 'vue';
 import { Local } from '@/utils/storage';
 import { getCurrencyValue } from '@/utils/others';
-import {Message} from "@/utils/discreteApi";
-import {useI18n} from "vue-i18n";
+import { Message } from "@/utils/discreteApi";
+import { useI18n } from "vue-i18n";
 // import { useRoute } from 'vue-router';
 // import { useRoute, useRouter } from 'vue-router';
 // import { useRoute } from 'vue-router';
@@ -24,39 +25,39 @@ const useWalletInfo = () => {
   const calibrationRef = ref() // 提款校验-
   const withdrawMoneyRef = ref() // 提款
 
-    const { t } = useI18n();
-    // const router = useRouter();
-    // const route = useRoute();
-    const themeVars = useThemeVars();
-    const wallet = Wallet(pinia);
-    const { showDeposit, showWithdraw, showRedeemCode, showTransfer } = storeToRefs(wallet);
-    const UserStore = User(pinia);
-    const { info: userInfo, roleInfo, VIPinfo } = storeToRefs(UserStore);
-    const loading = ref<boolean>(false);
-    const updateAuto = ref<boolean>(false);
-    const timerRe = ref();
-    const refreshFlag = ref(false);
-    const eyeOpen = ref(false);
-    const currencyList: Array<{ label: string, key: number }> = [
-        { label: 'VND', key: 1 },
-        { label: 'USDT', key: 2 }
-    ];
-    const currencyUnit = ref<number>(Local.get('currency') || 1);
-    const gameMoney = ref<number>(Number(roleInfo.value.money)); // 我的钱包余额
-    const bankMoney = ref<number>(Number(roleInfo.value.bank_money)); // 保险柜余额
-    const totalMoney = ref<number>(gameMoney.value + bankMoney.value);
-    const totalMoneyTxt = ref<any>(totalMoney.value);
-    const target_bet_money = ref(0);
-    const target: any = ref({bet_money: 0})
-    const tranType = ref('out'); // 转账类型 out, in
-    const tranMoney: any = ref<any>(); // 转账金额
-    const chooseMoneyArr = [
-      {label: '100,000', value: 100000},
-      {label: '200,000', value: 200000},
-      {label: '500,000', value: 500000},
-      {label: '1,000,000', value: 1000000},
-      {label: '10,000,000', value: 10000000},
-    ];
+  const { t } = useI18n();
+  // const router = useRouter();
+  // const route = useRoute();
+  const themeVars = useThemeVars();
+  const wallet = Wallet(pinia);
+  const { showDeposit, showWithdraw, showRedeemCode, showTransfer } = storeToRefs(wallet);
+  const UserStore = User(pinia);
+  const { info: userInfo, roleInfo, VIPinfo } = storeToRefs(UserStore);
+  const loading = ref<boolean>(false);
+  const updateAuto = ref<boolean>(false);
+  const timerRe = ref();
+  const refreshFlag = ref(false);
+  const eyeOpen = ref(false);
+  const currencyList: Array<{ label: string, key: number }> = [
+    { label: 'VND', key: 1 },
+    { label: 'USDT', key: 2 }
+  ];
+  const currencyUnit = ref<number>(Local.get('currency') || 1);
+  const gameMoney = ref<number>(Number(roleInfo.value.money)); // 我的钱包余额
+  const bankMoney = ref<number>(Number(roleInfo.value.bank_money)); // 保险柜余额
+  const totalMoney = ref<number>(gameMoney.value + bankMoney.value);
+  const totalMoneyTxt = ref<any>(totalMoney.value);
+  const target_bet_money = ref(0);
+  const target: any = ref({ bet_money: 0 })
+  const tranType = ref('out'); // 转账类型 out, in
+  const tranMoney: any = ref<any>(); // 转账金额
+  const chooseMoneyArr = [
+    { label: '100,000', value: 100000 },
+    { label: '200,000', value: 200000 },
+    { label: '500,000', value: 500000 },
+    { label: '1,000,000', value: 1000000 },
+    { label: '10,000,000', value: 10000000 },
+  ];
   const slideStr = ref<any>('0%');
   const myBankList = ref(); // 已绑定的银行列表
 
@@ -86,7 +87,7 @@ const useWalletInfo = () => {
       return
     }
     // 未绑定资金密码
-    if(!roleInfo.value.withdraw_pwd) {
+    if (!roleInfo.value.withdraw_pwd) {
       // router.push('/wallet/securitySettings?openDialogType=bindPayPwd')
       calibrationRef.value.openModal();
       return
@@ -194,7 +195,7 @@ const useWalletInfo = () => {
 
       const targetLevel: TVIPLevelReward = VIPinfo.value?.vip_level_reward_config[Number(VIPinfo.value.current_vip_level) + 1]
 
-      const { level, gift_money_amount } = targetLevel || {target_bet_money: 0, level: 1, gift_money_amount: 0};
+      const { level, gift_money_amount } = targetLevel || { target_bet_money: 0, level: 1, gift_money_amount: 0 };
       if (targetLevel?.target_bet_money != null) {
         target_bet_money.value = targetLevel?.target_bet_money
       }
@@ -207,87 +208,87 @@ const useWalletInfo = () => {
     }
   }
 
-    const handleCurrencyChange = (key: number) => {
-        Local.set('currency', key);
-        currencyUnit.value = key;
-        gameMoney.value = getCurrencyValue(Number(roleInfo.value.money));
-        bankMoney.value = getCurrencyValue(Number(roleInfo.value.bank_money));
-        totalMoney.value = gameMoney.value + bankMoney.value;
-        target.value.bet_money = getCurrencyValue(target_bet_money.value);
-    };
+  const handleCurrencyChange = (key: number) => {
+    Local.set('currency', key);
+    currencyUnit.value = key;
+    gameMoney.value = getCurrencyValue(Number(roleInfo.value.money));
+    bankMoney.value = getCurrencyValue(Number(roleInfo.value.bank_money));
+    totalMoney.value = gameMoney.value + bankMoney.value;
+    target.value.bet_money = getCurrencyValue(target_bet_money.value);
+  };
 
 
-    // const showDepositModal = (v: boolean) => wallet.setShowDeposit(v);
-    const showWithdrawModal = (v: boolean) => wallet.setShowWithdraw(v);
-    const showRedeemCodeModal = (v: boolean) => wallet.setShowRedeemCode(v);
-    const showTransferModal = (v: string, obj: string) => {
-      wallet.setDialogShowTransfer(true); // 显示窗口
-      if (v === 'in') {
-          wallet.setShowTransfer(v, 'center', obj);
-      } else {
-          wallet.setShowTransfer(v, obj, 'center');
-      }
-    };
+  // const showDepositModal = (v: boolean) => wallet.setShowDeposit(v);
+  const showWithdrawModal = (v: boolean) => wallet.setShowWithdraw(v);
+  const showRedeemCodeModal = (v: boolean) => wallet.setShowRedeemCode(v);
+  const showTransferModal = (v: string, obj: string) => {
+    wallet.setDialogShowTransfer(true); // 显示窗口
+    if (v === 'in') {
+      wallet.setShowTransfer(v, 'center', obj);
+    } else {
+      wallet.setShowTransfer(v, obj, 'center');
+    }
+  };
 
-    const refreshWallet = () => {
-      if (!refreshFlag.value) {
-        clearTimeout(timerRe.value);
-        refreshFlag.value = true;
-        getNewMon();
-        timerRe.value = setTimeout(() => {
-          refreshFlag.value = false
-        }, 1 * 1000)
-      }
+  const refreshWallet = () => {
+    if (!refreshFlag.value) {
+      clearTimeout(timerRe.value);
+      refreshFlag.value = true;
+      getNewMon();
+      timerRe.value = setTimeout(() => {
+        refreshFlag.value = false
+      }, 1 * 1000)
     }
-    // 金额显示隐藏
-    const moneyShow = () => {
-      if (eyeOpen.value) {
-        totalMoneyTxt.value = totalMoney.value
-      } else {
-        totalMoneyTxt.value = '******'
-      }
-      eyeOpen.value = !eyeOpen.value
+  }
+  // 金额显示隐藏
+  const moneyShow = () => {
+    if (eyeOpen.value) {
+      totalMoneyTxt.value = totalMoney.value
+    } else {
+      totalMoneyTxt.value = '******'
     }
+    eyeOpen.value = !eyeOpen.value
+  }
 
-    const getNewMon = () => {
-      const req = NetPacket.req_roleinfo_with_id();
-      req.id = roleInfo.value.id;
-      Net.instance.sendRequest(req);
-    }
+  const getNewMon = () => {
+    const req = NetPacket.req_roleinfo_with_id();
+    req.id = roleInfo.value.id;
+    Net.instance.sendRequest(req);
+  }
 
-    const initReq = () => {
-        const transReq = NetPacket.req_auto_trans();
-        const roleInfoReq = NetPacket.req_roleinfo_with_id();
-        Net.instance.sendRequest(transReq);
-        Net.instance.sendRequest(roleInfoReq);
-    };
+  const initReq = () => {
+    const transReq = NetPacket.req_auto_trans();
+    const roleInfoReq = NetPacket.req_roleinfo_with_id();
+    Net.instance.sendRequest(transReq);
+    Net.instance.sendRequest(roleInfoReq);
+  };
 
-    // 转账类型切换
-    const changeTranType = (type: any) => {
-      tranType.value = type;
+  // 转账类型切换
+  const changeTranType = (type: any) => {
+    tranType.value = type;
+  }
+  // 选择全部金额
+  const allTranferMon = () => {
+    if (tranType.value === 'in') {
+      tranMoney.value = gameMoney.value
+    } else {
+      tranMoney.value = bankMoney.value
     }
-    // 选择全部金额
-    const allTranferMon = () => {
-      if (tranType.value === 'in') {
-        tranMoney.value = gameMoney.value
-      } else {
-        tranMoney.value = bankMoney.value
-      }
+  }
+  // 选择快捷金额
+  const chooseFastMon = (e: any) => {
+    tranMoney.value = e
+  }
+  // 金额拖动
+  const formatTooltip = (value: any) => {
+    if (tranType.value === 'in') {
+      tranMoney.value = parseInt(String((gameMoney.value * value) / 100))
+    } else {
+      tranMoney.value = parseInt(String((bankMoney.value * value) / 100))
     }
-    // 选择快捷金额
-    const chooseFastMon = (e: any) => {
-      tranMoney.value = e
-    }
-    // 金额拖动
-    const formatTooltip = (value: any) => {
-      if (tranType.value === 'in') {
-        tranMoney.value = parseInt(String((gameMoney.value * value) / 100))
-      } else {
-        tranMoney.value = parseInt(String((bankMoney.value * value) / 100))
-      }
-      slideStr.value = `${value}%`
-      return slideStr.value
-    }
+    slideStr.value = `${value}%`
+    return slideStr.value
+  }
 
   watch(
     () => updateAuto.value,
@@ -333,58 +334,58 @@ const useWalletInfo = () => {
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_take_result, handleCenterToGame);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_save_result, handleGameToCenter);
 
-      setTimeout(() => initReq(), 500);
-    });
-    onUnmounted(() => {
-       MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_auto_trans, null);
-      // 取消监听
-      MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, null);
+    setTimeout(() => initReq(), 500);
+  });
+  onUnmounted(() => {
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_auto_trans, null);
+    // 取消监听
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, null);
 
-      MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_take_result, null);
-      MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_save_result, null);
-    });
-    return {
-      loading,
-      themeVars,
-      currencyUnit,
-      currencyList,
-      gameMoney,
-      bankMoney,
-      totalMoney,
-      handleCurrencyChange,
-      // showDepositModal,
-      showWithdrawModal,
-      showRedeemCodeModal,
-      showTransferModal,
-      showDeposit,
-      showWithdraw,
-      showRedeemCode,
-      showTransfer,
-      userInfo,
-      roleInfo,
-      VIPinfo,
-      updateAuto,
-      refreshWallet,
-      target,
-      refreshFlag,
-      // getAllMoney,
-      goToWithdraw,
-      myBankList,
-      eyeOpen,
-      totalMoneyTxt,
-      moneyShow,
-      tranType,
-      changeTranType,
-      tranMoney,
-      chooseMoneyArr,
-      allTranferMon,
-      formatTooltip,
-      handleSubmit,
-      slideStr,
-      chooseFastMon,
-      calibrationRef,
-      withdrawMoneyRef
-    };
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_take_result, null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bank_save_result, null);
+  });
+  return {
+    loading,
+    themeVars,
+    currencyUnit,
+    currencyList,
+    gameMoney,
+    bankMoney,
+    totalMoney,
+    handleCurrencyChange,
+    // showDepositModal,
+    showWithdrawModal,
+    showRedeemCodeModal,
+    showTransferModal,
+    showDeposit,
+    showWithdraw,
+    showRedeemCode,
+    showTransfer,
+    userInfo,
+    roleInfo,
+    VIPinfo,
+    updateAuto,
+    refreshWallet,
+    target,
+    refreshFlag,
+    // getAllMoney,
+    goToWithdraw,
+    myBankList,
+    eyeOpen,
+    totalMoneyTxt,
+    moneyShow,
+    tranType,
+    changeTranType,
+    tranMoney,
+    chooseMoneyArr,
+    allTranferMon,
+    formatTooltip,
+    handleSubmit,
+    slideStr,
+    chooseFastMon,
+    calibrationRef,
+    withdrawMoneyRef
+  };
 }
 
 export default useWalletInfo;

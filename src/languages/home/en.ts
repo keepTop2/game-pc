@@ -25,6 +25,7 @@ export default {
     home_page_betRecord: 'Bet record',
     home_page_auditRecord: 'Audit record',
     home_page_loginRecord: 'Login record',
+    home_page_waterRecord: 'Wash record',
     home_page_paymentManagement: 'Payment management',
     home_page_myPromo: 'myPromo',
     home_page_myEmail: 'my Email',
@@ -140,5 +141,8 @@ export default {
     // 公告
     home_page_notice_title: 'General Announcements',
     home_page_notice_fixtitle: 'Maintenance Notice',
-    home_page_notice_systitle: 'System notification'
+    home_page_notice_systitle: 'System notification',
+
+    // 活动详情
+    activity_page_detail: 'Event Details'
 }
