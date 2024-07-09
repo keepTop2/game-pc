@@ -343,7 +343,12 @@ const onHander_system_notice = async (message: any) => {
   }
 }
 
-
+MessageEvent2.addMsgEvent(
+  NetMsgType.msgType.msg_notify_loading_end,
+  async () => {
+    await User(pinia).setLoadingEnd(true)
+  }
+);
 
 
 // 重复登录

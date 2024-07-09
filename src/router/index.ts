@@ -171,10 +171,11 @@ const router = createRouter({
   history: createWebHistory(),
 });
 const getLoadingEnd = () => {
-  return new Promise(async (resolve) => {
+  return new Promise((resolve) => {
     MessageEvent2.addMsgEvent(
       NetMsgType.msgType.msg_notify_loading_end,
-      () => {
+      async () => {
+        await User(pinia).setLoadingEnd(true)
         resolve(true)
       }
     );
@@ -183,9 +184,10 @@ const getLoadingEnd = () => {
 
 router.beforeEach(async (to: any, from: any) => {
   if (Local.get('user')) {
+    debugger
     if (!loadingEnd.value) {
-      const a: any = await getLoadingEnd()
-      await User(pinia).setLoadingEnd(a)
+      await getLoadingEnd()
+
     }
     if (loadingEnd.value) {
       return true
