@@ -7,12 +7,12 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ '提款' }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ '提款' }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t-md body-sec">
+        <div class="body vertical center t_md body_sec">
           <n-form ref="formRef" class="w-full" :model="form" :rules="rules">
             <n-form-item :label="'可用法币数量'">
               <n-input size="large" disabled v-model:value="form.maxValue" />
@@ -38,7 +38,7 @@
             <n-form-item :label="'输入提款金额'" path="amount">
               <n-input size="large" v-model:value="form.amount" :placeholder="'请输入充值金额'">
                 <template #suffix>
-                  <a class="refresh-icon"></a>
+                  <a class="refresh_icon"></a>
                 </template>
               </n-input>
             </n-form-item>
@@ -67,7 +67,7 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w-full">
-            <div class="submit_btn t-lg weight-5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
+            <div class="submit_btn t-lg weight_5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
           </div>
           <div class="cz-tips">
             <div class="txt"> 预计到账：{{form.amount}} </div>

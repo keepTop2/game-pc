@@ -3,21 +3,21 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ '选择银行卡' }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ '选择银行卡' }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
 
 
-        <div class="body vertical center t-md">
+        <div class="body vertical center t_md">
           <n-flex justify="space-between" align="center" class="w-full" vertical>
-            <div class="bank-list" v-for="(item, index) in bankList" :key="index">
-              <n-flex align="center" class=" bank-item">
-                <div class="bank-l-icon">
+            <div class="bank_list" v-for="(item, index) in bankList" :key="index">
+              <n-flex align="center" class=" bank_item">
+                <div class="bank_l_icon">
                   <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
                 </div>
-                <div class="bank-l-name">
+                <div class="bank_l_name">
                   <div class="info-text">
                     <p>
                       <span>{{ item.bankName }}</span>
@@ -40,7 +40,7 @@
             </div>
 
             <div v-if="!(bankList.length >= 6)">
-              <div class="bank-list-add" v-show="!addBankFlag">
+              <div class="bank_list_add" v-show="!addBankFlag">
                 <div class="center" @click="flagBank(true)">
                   <img src="/img/wallet/bankAdd.webp" alt="nodata">
                   <span>添加新银行卡</span>
@@ -71,7 +71,7 @@
               <n-form-item :label="'银行卡号'" path="bankCode">
                 <n-input size="large" v-model:value="form.bankCode" :placeholder="'请输入银行卡号'">
                   <template #suffix>
-                    <a class="refresh-icon"></a>
+                    <a class="refresh_icon"></a>
                   </template>
                 </n-input>
               </n-form-item>
@@ -81,7 +81,7 @@
                 <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
                   :placeholder="'请输入银行账户名'">
                   <template #suffix>
-                    <a class="refresh-icon"></a>
+                    <a class="refresh_icon"></a>
                   </template>
                 </n-input>
               </n-form-item>
@@ -134,24 +134,24 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ '请选择银行' }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ '请选择银行' }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t-md body-sec">
+        <div class="body vertical center t_md body_sec">
           <n-input size="large" @input="handleInput" :placeholder="'输入银行名称查找'">
             <template #suffix>
-              <a class="refresh-icon search-icon"></a>
+              <a class="refresh_icon search_icon"></a>
             </template>
           </n-input>
-          <n-flex class="bank-list">
-            <n-flex align="center" class="bank-item" v-for="(item, index) in bkList" @click="selectBank(item)"
+          <n-flex class="bank_list">
+            <n-flex align="center" class="bank_item" v-for="(item, index) in bkList" @click="selectBank(item)"
               :key="index">
-              <span class="bank-l-icon">
+              <span class="bank_l_icon">
                 <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
               </span>
-              <span class="bank-l-name"> {{ item.label }} </span>
+              <span class="bank_l_name"> {{ item.label }} </span>
             </n-flex>
           </n-flex>
         </div>
@@ -401,12 +401,12 @@ defineExpose({
   .body {
     gap: 15px !important;
 
-    .bank-list {
+    .bank_list {
       min-width: 492px;
       margin: 0 auto 30px;
       flex-wrap: nowrap !important;
 
-      .bank-item {
+      .bank_item {
         cursor: pointer;
         font-size: 14px;
         width: 403px;
@@ -416,7 +416,7 @@ defineExpose({
         background-size: 100%;
         flex-wrap: nowrap !important;
 
-        .bank-l-icon {
+        .bank_l_icon {
           width: 54px;
           height: 54px;
 
@@ -429,7 +429,7 @@ defineExpose({
           //margin-left: 18px;
         }
 
-        .bank-l-name {
+        .bank_l_name {
           display: flex;
           justify-content: space-between;
           width: 100%;
@@ -494,7 +494,7 @@ defineExpose({
       }
     }
 
-    .bank-list-add {
+    .bank_list_add {
       cursor: pointer;
       font-size: 14px;
       width: 403px;
@@ -655,7 +655,7 @@ defineExpose({
       background: #17a1fb;
     }
 
-    .bank-list-item {
+    .bank_list_item {
       width: 100%;
 
       a {
@@ -667,15 +667,15 @@ defineExpose({
     }
   }
 
-  .body-sec {
-    .refresh-icon {
+  .body_sec {
+    .refresh_icon {
       display: inline-block;
       width: 16px;
       height: 16px;
       background: url(/img/payment/Vector.webp) center no-repeat;
       background-size: 100%;
 
-      &.search-icon {
+      &.search_icon {
         background-image: url(/img/payment/search_icon.webp);
       }
     }
@@ -752,7 +752,7 @@ defineExpose({
     }
 
     // 选择银行
-    .bank-list {
+    .bank_list {
       width: 100%;
       min-width: 492px;
       margin: 0 auto 30px;
@@ -760,7 +760,7 @@ defineExpose({
       max-height: 310px;
       overflow-y: auto;
 
-      .bank-item {
+      .bank_item {
         cursor: pointer;
         font-size: 14px;
         width: 176px;
@@ -773,7 +773,7 @@ defineExpose({
           transform: scale(.95);
         }
 
-        .bank-l-icon {
+        .bank_l_icon {
           width: 28px;
           height: 28px;
           margin-left: 8px;

@@ -4,15 +4,15 @@
             <n-spin :show="transferLoading">
                 <div class="form_container vertical">
                     <div class="header rel center">
-                        <span class="weight-5 t-md">{{ t(ETransfer[showTransfer.method]) }}</span>
-                        <span class="close abs center pointer t-sm">
+                        <span class="weight_5 t_md">{{ t(ETransfer[showTransfer.method]) }}</span>
+                        <span class="close abs center pointer t_sm">
                             <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
                                 size="1rem"></iconpark-icon>
                         </span>
                     </div>
-                    <div class="body vertical center t-md">
+                    <div class="body vertical center t_md">
                         <div class="amount_info flex rel">
-                            <div class="vertical tab between_center weight-5">
+                            <div class="vertical tab between_center weight_5">
                                 <div> {{ t('transfer_page_from') }}</div>
                                 <div>{{ t('transfer_page_to') }}</div>
                             </div>
@@ -38,7 +38,7 @@
         t('transfer_page_allMoney') }}</div>
                             </n-form-item>
                         </n-form>
-                        <div class="submit_btn t-lg weight-5 center pointer" block @click="onSubmit">
+                        <div class="submit_btn t-lg weight_5 center pointer" block @click="onSubmit">
                             {{ t('withdraw_page_withdrawNow') }}</div>
                     </div>
                 </div>
