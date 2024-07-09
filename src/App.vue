@@ -100,7 +100,7 @@ const handleUserInfo = async (data: any) => {
 const emailList: any = []
 let email_id_list: any = []
 // 我的邮箱
-const handleEmailInfo = (rs: any) => {
+const handleEmailInfo =async (rs: any) => {
   if (rs.emails.length > 0) {
     if (!email_id_list.includes(rs.emails[0].email_id)) {
       emailList.push(rs.emails[0])
@@ -129,7 +129,7 @@ const handleEmailInfo = (rs: any) => {
       email_id_list,
       hasNoRead: email_id_list.some((x: any) => !sb.has(x))
     };
-    store.setEmailList(params);
+    await User(pinia).setEmailList(params);
   }
 };
 // 监听新收到邮箱
