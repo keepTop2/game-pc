@@ -1,6 +1,5 @@
 <template>
     <div class="activity">
-        <!-- {{ activityTitleList[state.name] }} -->
         <div class="activity_img">
             <img @click="popDetail" v-for="(item, i) in activityTitleList[state.name]" :key="i" :src="t(item.pic_link)"
                 alt="">
@@ -45,7 +44,7 @@ watch(
     () => route.query,
     (n) => {
 
-        state.name = n.namtypeNamee
+        state.name = n.typeName
     }
 )
 </script>

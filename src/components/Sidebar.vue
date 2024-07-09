@@ -38,8 +38,8 @@
 
                 <p :class="state.active == g ? 'hover' : ''" v-for="(_v, g) in activityTitleList" :key="g"
                     @click="activityItemClick(g)">
-                    <!-- {{ game }}
-                    {{ g }} -->
+
+
                     <!-- <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
                     <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon> -->
                     <span>{{ t(g) }}</span>
@@ -76,6 +76,7 @@ import { Net } from "@/net/Net";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 const { activityTitleList } = storeToRefs(Page(pinia));
+
 const { t } = useI18n();
 
 const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
@@ -326,7 +327,7 @@ const activityItemClick = (key: any) => {
             path: '/gameMain/activity',
             query: {
                 typeName: key,
-
+                name: key,
             }
         }
     )
@@ -362,7 +363,7 @@ const itemClick = (item: any) => {
 const handleActivetys = async (res: any) => {
     console.log(222);
 
-    await Page(pinia).activityTitleList(res.promo)
+    await Page(pinia).setActivityTitleList(res.promo)
 }
 onMounted(async () => {
     if (route.query.name) {

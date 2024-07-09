@@ -28,7 +28,7 @@ export const Page = defineStore('page', {
         serviceUrlObj: {},
         settings: null,
         activityList: null,
-        activityTitleList: null,
+        activityTitleList: {},
         bankListInfo: []
     }),
     actions: {
@@ -45,7 +45,7 @@ export const Page = defineStore('page', {
         async setSettings(value: any) {
             this.settings = value
         },
-        async activityTitleList(value: any) {
+        async setActivityTitleList(value: any) {
             let list: Array<string> = []
 
 
@@ -67,6 +67,7 @@ export const Page = defineStore('page', {
             })
             this.activityList = value
             this.activityTitleList = obj
+            console.log(this.activityTitleList);
 
         },
         async setTextAnnouncement(arr: Array<string>) {
