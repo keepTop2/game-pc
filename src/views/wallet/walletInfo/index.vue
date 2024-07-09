@@ -147,8 +147,8 @@
               </template>
             </n-slider>
           </div>
-          <n-flex class="kjje-div">
-            <a :class="`kj-item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr"
+          <n-flex class="kjje_div">
+            <a :class="`kj_item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr"
               @click="chooseFastMon(item.value)" :key="index">
               {{ item.label }}
             </a>

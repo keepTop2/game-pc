@@ -184,7 +184,7 @@ const getLoadingEnd = () => {
 
 router.beforeEach(async (to: any, from: any) => {
   if (Local.get('user')) {
-    debugger
+    // debugger
     if (!loadingEnd.value) {
       await getLoadingEnd()
 

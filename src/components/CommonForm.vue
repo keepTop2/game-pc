@@ -16,7 +16,7 @@
         label
     }}</span>
                     </div>
-                    <n-form :model="form.data" :rules="form.rules" :show-label="true" ref="formRef" class="w-full">
+                    <n-form :model="form.data" :rules="form.rules" :show-label="true" ref="formRef" class="w_full">
                         <template v-for="item in form.fields">
                             <n-form-item v-if="(!item.view || activeTab === item.view) && item.otherCond !== false"
                                 :label="item.label" :path="item.name">
@@ -51,7 +51,7 @@
                             </n-form-item>
                         </template>
                     </n-form>
-                    <div class="btn_zone flex w-full">
+                    <div class="btn_zone flex w_full">
                         <div v-if="cancel" class="button cancel_btn t-lg weight_5 center pointer" block
                             @click="emits('onCancel')">{{ cancel
                             }}</div>
