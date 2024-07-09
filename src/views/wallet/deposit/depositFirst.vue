@@ -171,6 +171,7 @@ const dataParams = {
 const form = ref( // 存款表单提交
   { ...dataParams }
 );
+const curDiscountData = Local.get('curDiscountData') || {id: 0}; // 从我的优惠过来
 const baseMtdList = { label: t('addBank_page_pChoose'), value: -1, minrecharge: 0, maxrecharge: 0, paymethod: '' }
 // 充值方式列表
 const mtdList = ref<any>([{ ...baseMtdList }]);
@@ -196,6 +197,7 @@ const openChooseBank = () => {
 }
 // 重置
 const resetData = () => {
+  form.value.discount = curDiscountData?.id; // 从我的优惠带过来已选择的优惠
   curDepositWay.value = { payname: '' }
   form.value = { ...dataParams }
   mtdList.value = [{ ...baseMtdList }]
@@ -318,7 +320,7 @@ const handleDepositSubmit = (res: any) => {
   console.log('---', res)
   loading.value = false;
   if (res.code === -1) {
-    Message.error('充值优惠检查失败')
+    Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
   } else { // code 0 成功
     Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置
@@ -372,6 +374,7 @@ onMounted(() => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, handleDepositSubmit);
 })
 onUnmounted(() => {
+  Local.remove('curDiscountData'); // 重置
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
 })
