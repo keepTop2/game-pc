@@ -31,7 +31,6 @@ declare module 'vue' {
     NoticeDialog: typeof import('./src/components/NoticeDialog.vue')['default']
     NPopover: typeof import('naive-ui')['NPopover']
     NPopselect: typeof import('naive-ui')['NPopselect']
-    NSelect: typeof import('naive-ui')['NSelect']
     NSwitch: typeof import('naive-ui')['NSwitch']
     PopForm: typeof import('./src/components/PopForm.vue')['default']
     Register: typeof import('./src/components/Register.vue')['default']
