@@ -4,12 +4,12 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ t('deposit_page_deposit') }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t-md">
+        <div class="body vertical center t_md">
           <!-- 充值列表选择 -->
           <n-flex justify="space-between" :class="`item-list ${curDepositWay.payname === item.payname ? 'active' : ''}`"
             v-for="(item, index) in usdtRecharge" :key="index">
@@ -41,16 +41,16 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ t('deposit_page_instructions') }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ t('deposit_page_instructions') }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseSm" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t-md">
+        <div class="body vertical center t_md">
           <n-flex align="center" justify="center" class="sm-txt">
             <span>占位图</span>
           </n-flex>
-          <n-flex justify="space-between" class="bank-list-item">
+          <n-flex justify="space-between" class="bank_list_item">
             <a v-for="(item, index) in usdtRecharge" :key="index">
               <img :src="`/img/payment/icon/icon_${item.payname}.webp`" />
             </a>
@@ -65,12 +65,12 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ t('deposit_page_deposit') }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t-md body-sec">
+        <div class="body vertical center t_md body_sec">
           <n-form ref="formRef" class="w-full">
             <n-form-item :label="t('rechargeRecord_page_method')">
               <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.method" :options="mtdList" />
@@ -100,7 +100,7 @@
             <n-form-item :label="t('rechargeRecord_page_amount')">
               <n-input size="large" v-model:value="form.amount" :placeholder="t('deposit_page_enterMon')">
                 <template #suffix>
-                  <a class="refresh-icon"></a>
+                  <a class="refresh_icon"></a>
                 </template>
               </n-input>
             </n-form-item>
@@ -112,7 +112,7 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w-full">
-            <n-button :bordered="false" class="submit_btn t-lg weight-5 center pointer" :disabled="loading" block
+            <n-button :bordered="false" class="submit_btn t-lg weight_5 center pointer" :disabled="loading" block
               @click="onSubmit">{{
     t('deposit_page_rechargeNow') }}</n-button>
           </div>
@@ -141,6 +141,7 @@ import { NetMsgType } from "@/netBase/NetMsgType";
 import { TShopInfo } from "@/utils/types";
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
+import { Local } from "@/utils/storage";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Message } from "@/utils/discreteApi";
 import { bankPayMethods, bankPayType } from "@/utils/others";
@@ -321,6 +322,7 @@ const handleDepositSubmit = (res: any) => {
   } else { // code 0 成功
     Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置
+    Local.remove('curDiscountData'); // 重置
     if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
       setTimeout(() => {
         window.open(res.url);
@@ -472,7 +474,7 @@ defineExpose({
       background: #17a1fb;
     }
 
-    .bank-list-item {
+    .bank_list_item {
       width: 100%;
 
       a {
@@ -484,7 +486,7 @@ defineExpose({
     }
   }
 
-  .body-sec {
+  .body_sec {
     .kjje-div {
       gap: 20px !important;
 

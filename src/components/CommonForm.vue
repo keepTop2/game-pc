@@ -3,13 +3,13 @@
         <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
             <div class="form_container vertical">
                 <div class="header rel center">
-                    <span class="weight-5 t-md">{{ title }}</span>
+                    <span class="weight_5 t_md">{{ title }}</span>
                     <span class="close abs center pointer t-sm">
                         <iconpark-icon @click="emits('onClose')" icon-id="Group39368" color="#fff"
                             size="1rem"></iconpark-icon>
                     </span>
                 </div>
-                <div class="body vertical center t-md">
+                <div class="body vertical center t_md">
                     <div v-if="tabList?.length && curShowTab" class="tab center">
                         <span :class="activeTab === value ? 'pointer active' : 'pointer'"
                             v-for="({ label, value }) in tabList" :key="value" @click="emits('changeTab', value)">{{
@@ -52,10 +52,10 @@
                         </template>
                     </n-form>
                     <div class="btn_zone flex w-full">
-                        <div v-if="cancel" class="button cancel_btn t-lg weight-5 center pointer" block
+                        <div v-if="cancel" class="button cancel_btn t-lg weight_5 center pointer" block
                             @click="emits('onCancel')">{{ cancel
                             }}</div>
-                        <div :class="!!cancel && 'fixed_bg'" class="button submit_btn t-lg weight-5 center pointer"
+                        <div :class="!!cancel && 'fixed_bg'" class="button submit_btn t-lg weight_5 center pointer"
                             block @click="emits('onSubmit')">
                             {{submitText }}
                         </div>

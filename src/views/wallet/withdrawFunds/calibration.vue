@@ -4,13 +4,13 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ '请先完善取款信息' }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ '请先完善取款信息' }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
 
-        <div class="body vertical center t-md">
+        <div class="body vertical center t_md">
           <n-flex justify="space-between" align="center" class="w-full" vertical>
 
 
@@ -52,7 +52,7 @@
                     <n-form-item :label="'银行卡号'" path="cardNo">
                       <n-input size="large" v-model:value="formBank.cardNo" :placeholder="'请输入银行卡号'">
                         <template #suffix>
-                          <a class="refresh-icon"></a>
+                          <a class="refresh_icon"></a>
                         </template>
                       </n-input>
                     </n-form-item>
@@ -60,7 +60,7 @@
                       <n-input size="large" :disabled="!!props.myBankList.cardholder_name"
                         v-model:value="formBank.accountName" :placeholder="'请输入银行账户名'">
                         <template #suffix>
-                          <a class="refresh-icon"></a>
+                          <a class="refresh_icon"></a>
                         </template>
                       </n-input>
                     </n-form-item>
@@ -72,12 +72,12 @@
                 </div>
 
                 <div class="cardItem bankCard" v-if="bankError">
-                  <n-flex class="bank-list" justify="center">
-                    <n-flex align="center" class="bank-item" justify="space-between">
-                      <div class="bank-l-icon">
+                  <n-flex class="bank_list" justify="center">
+                    <n-flex align="center" class="bank_item" justify="space-between">
+                      <div class="bank_l_icon">
                         <img :src="`/img/bankIcon/bank_logo_${formBank.bank}.webp`" alt="nodata">
                       </div>
-                      <div class="bank-l-name">
+                      <div class="bank_l_name">
                         <p>
                           <span>{{ formBank.bankName }}</span>
                           <span>*******</span>
@@ -127,12 +127,12 @@
                   <!--                  </div>-->
                 </div>
                 <div class="cardItem phoneCard" v-if="phoneError">
-                  <n-flex class="bank-list">
-                    <n-flex align="center" class="bank-item">
-                      <div class="bank-l-icon">
+                  <n-flex class="bank_list">
+                    <n-flex align="center" class="bank_item">
+                      <div class="bank_l_icon">
                         <img src="/img/wallet/phone.webp" alt="nodata">
                       </div>
-                      <div class="bank-l-name">
+                      <div class="bank_l_name">
                         <p>
                           <span>+84</span>
                         </p>
@@ -158,7 +158,7 @@
                     <n-form-item :label="'设置密码'" path="capitalPin">
                       <n-input size="large" v-model:value="formCapital.capitalPin" :placeholder="'请输入6-10位资金密码'">
                         <template #suffix>
-                          <a class="refresh-icon"></a>
+                          <a class="refresh_icon"></a>
                         </template>
                       </n-input>
                     </n-form-item>
@@ -167,7 +167,7 @@
                     <n-form-item :label="'重复密码'" path="capitalPinAgain">
                       <n-input size="large" v-model:value="formCapital.capitalPinAgain" :placeholder="'请再次输入密码'">
                         <template #suffix>
-                          <a class="refresh-icon"></a>
+                          <a class="refresh_icon"></a>
                         </template>
                       </n-input>
                     </n-form-item>
@@ -790,13 +790,13 @@ defineExpose({
       .cardItem {
         margin: 0 auto;
 
-        .bank-list {
+        .bank_list {
           width: 100%;
           gap: 20px 18px !important;
           max-height: 310px;
           overflow-y: auto;
 
-          .bank-item {
+          .bank_item {
             //cursor: pointer;
             font-size: 14px;
             width: 374px;
@@ -807,7 +807,7 @@ defineExpose({
             //&:active {
             //  transform: scale(.95);
             //}
-            .bank-l-icon {
+            .bank_l_icon {
               width: 48px;
               height: 48px;
               margin-left: 14px;
@@ -822,7 +822,7 @@ defineExpose({
               }
             }
 
-            .bank-l-name {
+            .bank_l_name {
               p {
                 margin-right: 17px;
               }
@@ -864,7 +864,7 @@ defineExpose({
       }
 
       .phoneCard {
-        .bank-l-name {
+        .bank_l_name {
           margin-left: 29px;
         }
       }

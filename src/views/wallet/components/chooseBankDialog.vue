@@ -4,24 +4,24 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight-5 t-md">{{ t('paymentManagement_page_chBank') }}</span>
-          <span class="close abs center pointer t-sm">
+          <span class="weight_5 t_md">{{ t('paymentManagement_page_chBank') }}</span>
+          <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t-md body-sec">
+        <div class="body vertical center t_md body_sec">
           <n-input size="large" @input="handleInput" :placeholder="t('deposit_page_inputBank')">
             <template #suffix>
-              <a class="refresh-icon search-icon"></a>
+              <a class="refresh_icon search_icon"></a>
             </template>
           </n-input>
-          <n-flex class="bank-list">
-            <n-flex align="center" class="bank-item" v-for="(item, index) in bkList" @click="clickBank(item)"
+          <n-flex class="bank_list">
+            <n-flex align="center" class="bank_item" v-for="(item, index) in bkList" @click="clickBank(item)"
               :key="index">
-              <span class="bank-l-icon">
+              <span class="bank_l_icon">
                 <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
               </span>
-              <span class="bank-l-name"> {{ item.label }} </span>
+              <span class="bank_l_name"> {{ item.label }} </span>
             </n-flex>
           </n-flex>
         </div>
@@ -102,7 +102,7 @@ defineExpose({
 @import '@/assets/CommonForm.less';
 
 // 选择银行
-.bank-list {
+.bank_list {
   width: 100%;
   min-width: 492px;
   margin: 0 auto;
@@ -110,7 +110,7 @@ defineExpose({
   max-height: 310px;
   overflow-y: auto;
 
-  .bank-item {
+  .bank_item {
     cursor: pointer;
     font-size: 14px;
     width: 176px;
@@ -122,7 +122,7 @@ defineExpose({
       transform: scale(.95);
     }
 
-    .bank-l-icon {
+    .bank_l_icon {
       display: flex;
       width: 28px;
       height: 28px;
@@ -135,7 +135,7 @@ defineExpose({
       }
     }
 
-    .bank-l-name {
+    .bank_l_name {
       max-width: 120px;
     }
   }

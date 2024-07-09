@@ -24,7 +24,7 @@ import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 const userInfo = User(pinia);
-const { lang, myEmail } = storeToRefs(userInfo);
+const { lang, roleInfo, myEmail } = storeToRefs(userInfo);
 const Language: any = {
   en: {
     global: enUS,
@@ -141,8 +141,15 @@ const handleNewEmail = (rs: any) => {
   }
   myEmail.value.hasNoRead = true
 }
-// onBeforeMount(async () => {
 
+// 监听金额变化
+const handleUpdateMoney = async (data: any) => {
+  if (data) {
+    const newData = { ...roleInfo.value }
+    newData.money = data.cur_money
+    await User(pinia).getRoleInfo(newData)
+  }
+}
 
 onMounted(async () => {
 
@@ -162,6 +169,10 @@ onMounted(async () => {
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_email_list,
     handleEmailInfo,
+  );
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_money_update2,
+    handleUpdateMoney
   );
   // 监听新邮件
   MessageEvent2.addMsgEvent(
