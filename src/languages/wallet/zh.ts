@@ -122,11 +122,11 @@ export default {
   betRecord_page_winLose: '输赢',
   betRecord_page_settlement: '结算时间',
 
-  // 洗马记录
+  // 洗码记录
   washRecord_page_plat: '所属平台',
-  washRecord_page_amount: '洗马量',
-  washRecord_page_money: '洗马金额',
-  washRecord_page_time: '洗马时间',
+  washRecord_page_amount: '洗码量',
+  washRecord_page_money: '洗码金额',
+  washRecord_page_time: '洗码时间',
   washRecord_page_currPlat: '当前平台',
 
   // paymentManagement

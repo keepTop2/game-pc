@@ -5,11 +5,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
-import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
+import { sleep } from '@/utils/others';
 const userinfo = User(pinia);
 
-const { loadingEnd } = storeToRefs(userinfo);
+const { loadingEnd, wsOpen } = storeToRefs(userinfo);
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -170,24 +169,18 @@ const router = createRouter({
   routes,
   history: createWebHistory(),
 });
-const getLoadingEnd = () => {
-  return new Promise((resolve) => {
-    MessageEvent2.addMsgEvent(
-      NetMsgType.msgType.msg_notify_loading_end,
-      async () => {
-        await User(pinia).setLoadingEnd(true)
-        resolve(true)
-      }
-    );
-  })
-}
+
 
 router.beforeEach(async (to: any, from: any) => {
-  if (Local.get('user')) {
-    debugger
-    if (!loadingEnd.value) {
-      await getLoadingEnd()
+  if (!wsOpen.value) {
+    await sleep(300)
+  }
 
+  if (Local.get('user')) {
+
+    if (!loadingEnd.value) {
+      sleep(200)
+      return true
     }
     if (loadingEnd.value) {
       return true

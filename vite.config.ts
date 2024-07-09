@@ -54,7 +54,14 @@ export default defineConfig({
     //   }
     // },
     target: 'esnext',
+    minify: 'terser',
     chunkSizeWarningLimit: 1000,
+    terserOptions: { //去除console和debugger
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
   },
   server: {
     host: '0.0.0.0',

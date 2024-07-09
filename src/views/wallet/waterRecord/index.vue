@@ -169,7 +169,7 @@ const queryData = () => { // 查询
     }, 100)
 }
 
-// 有洗马记录的平台
+// 有洗码记录的平台
 const selfListIds: any = ref([])
 const queryPlatIds = () => { // 查询
     const query = NetPacket.req_get_vip_rebate()

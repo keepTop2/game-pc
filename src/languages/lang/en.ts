@@ -2015,7 +2015,7 @@ export default {
     // 转账类型
     'account_type_map_1': 'withdraw',
     'account_type_map_2': 'transfer',
-    // 洗马记录类型
+    // 洗码记录类型
     'wash_type_map__1': 'Summary by platform',
     'wash_type_map_9999': 'Current Platform',
     // 钱包类型

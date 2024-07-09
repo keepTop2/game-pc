@@ -2012,7 +2012,7 @@ export default {
     // 转账类型
     'account_type_map_1': '提现',
     'account_type_map_2': '转账',
-    // 洗马记录类型
+    // 洗码记录类型
     'wash_type_map__1': '按平台汇总',
     'wash_type_map_9999': '当前平台',
     // 钱包类型

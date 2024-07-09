@@ -36,7 +36,7 @@ export const AccountTypeMap: any = {
     '2': t('account_type_map_2'),
 }
 /**
- * @description: 洗马记录类型
+ * @description: 洗码记录类型
  */
 export const WashTypeMap: any = {
     '-1': t('wash_type_map__1'),

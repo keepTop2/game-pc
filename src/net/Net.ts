@@ -154,6 +154,7 @@ export class Net {
         console.log("close socket");
         // Local.clear()
         await User(pinia).setLoadingEnd(false)
+        await User(pinia).setWsOpen(false)
         this.ringBuffer.Clear();
         if (this.checkSocketTimerID) {
             clearInterval(this.checkSocketTimerID);
@@ -161,8 +162,9 @@ export class Net {
         }
     }
 
-    onWsOpen(e: { target: WebSocket; }) {
+    async onWsOpen(e: { target: WebSocket; }) {
         console.log("onWsOpen e: ", this.ws, " e.target: ", e.target);
+        await User(pinia).setWsOpen(true)
         if (e && e.target && this.ws != e.target) {
             //忽略无效的连接
             return;

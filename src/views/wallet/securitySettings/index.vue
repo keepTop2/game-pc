@@ -769,7 +769,7 @@ const handleModifyWithdrawPassword = (res: any) => {
         findWithdrawPassword.formData.buttonText = 'home_page_modifyNow'
     }
     if (res.code == 2) {
-
+        findWithdrawPassword.value = ''
         findWithdrawPassword.formData.formParams.operate_type = 1
         findWithdrawPassword.btns = [{ text: 'home_page_bind', icon: 'Group39377', value: 2 }]
         findWithdrawPassword.formData.list.old_withdrawPwd.show = false

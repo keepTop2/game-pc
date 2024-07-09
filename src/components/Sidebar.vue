@@ -361,8 +361,6 @@ const itemClick = (item: any) => {
     state.active = item.name
 }
 const handleActivetys = async (res: any) => {
-    console.log(222);
-
     await Page(pinia).setActivityTitleList(res.promo)
 }
 onMounted(async () => {

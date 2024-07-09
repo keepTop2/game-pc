@@ -21,6 +21,7 @@ interface UserState {
   myEmail: any; // 邮箱列表
   lang: string;
   loadingEnd: boolean;
+  wsOpen: boolean
 }
 const languages: any = {
   zh: 'zh',
@@ -32,6 +33,7 @@ const languages: any = {
 export const User = defineStore('userInfo', {
 
   state: (): UserState => ({
+    wsOpen: false,
     isLogin: false,
     isReg: false,
     isForget: false,
@@ -60,6 +62,9 @@ export const User = defineStore('userInfo', {
     },
   }),
   actions: {
+    async setWsOpen(value: boolean) {
+      this.wsOpen = value
+    },
     // 获取标签下拉选择框数据
     async setLogin(value: boolean) {
       this.isLogin = value

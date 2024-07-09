@@ -6,10 +6,11 @@
         <n-carousel draggable>
           <img class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)">
         </n-carousel>
-        <p>
+        <p style="height: 40px;">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
           <n-carousel :show-dots="false" autoplay draggable direction="vertical">
-            <span v-for="(v, i) in textAnnouncement" :key="i" class="carousel_span">{{ t(v) }}</span>
+            <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px;" class="carousel_span">{{ t(v)
+              }}</span>
           </n-carousel>
         </p>
       </div>
@@ -329,7 +330,6 @@ onUnmounted(() => {
 
 .carousel_span {
   margin-left: 8.5px;
-  height: 100%;
   display: flex;
   align-items: center;
 }
