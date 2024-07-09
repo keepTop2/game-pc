@@ -1998,5 +1998,42 @@ export default {
     "received": "已领取",
     "confirm": "确认",
     "one_click_claim": "一键领取",
-    "home_notice_mixtext": "{user} 在 {game} 获得 {money} 金币奖励！"
+    "home_notice_mixtext": "{user} 在 {game} 获得 {money} 金币奖励！",
+    // 充值状态
+    'rechagre_status_map_0': '失败',
+    'rechagre_status_map__1': '进行中',
+    'rechagre_status_map_1': '已完成',
+    'rechagre_status_map_2': '回调成功',
+    // 取款状态
+    'withdraw_status_map_0': '等待审核',
+    'withdraw_status_map_1': '打款中',
+    'withdraw_status_map_2': '已完成',
+    'withdraw_status_map_3': '审核异常',
+    // 转账类型
+    'account_type_map_1': '提现',
+    'account_type_map_2': '转账',
+    // 洗马记录类型
+    'wash_type_map__1': '按平台汇总',
+    'wash_type_map_9999': '当前平台',
+    // 钱包类型
+    'wallet_type_map_1': '携带钱包',
+    'wallet_type_map_2': '保险柜钱包',
+    'wallet_type_map_3_0': '系统优惠',
+    'wallet_type_map_3_1': '系统调整',
+    // 平台
+    'platform_map_2': '捕鱼',
+    'platform_map_3': '老虎机',
+    'platform_map_4': '视讯',
+    'platform_map_5': '棋牌',
+    'platform_map_6': '体育',
+    'platform_map_7': '彩票',
+    // 稽核状态
+    'audit_status_map_1': '进行中',
+    'audit_status_map_2': '已完成',
+    // 赌场身份
+    'identity_map_1': '见习厅主',
+    'identity_map_2': '厅主',
+    'identity_map_3': '高级厅主',
+    'identity_map_4': '合伙人',
+    'identity_map_5': 'BOSS',
 }
