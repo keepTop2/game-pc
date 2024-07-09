@@ -24,7 +24,7 @@ import { NetMsgType } from "@/utils/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 const store = User();
 const userInfo = User(pinia);
-const { lang } = storeToRefs(userInfo);
+const { lang,myEmail } = storeToRefs(userInfo);
 const Language: any = {
   en: {
     global: enUS,
@@ -129,11 +129,19 @@ const handleEmailInfo = (rs: any) => {
       email_id_list,
       hasNoRead: email_id_list.some((x: any) => !sb.has(x))
     };
-
-
-    userInfo.setEmailList(params);
+    store.setEmailList(params);
   }
 };
+// 监听新收到邮箱
+const handleNewEmail = (rs: any) => {
+  //奖励邮箱
+  if (rs.new_email.attachments[0].award_value > 0) {
+    myEmail.value.rewardList.unshift(rs.new_email)
+  } else {
+    myEmail.value.list.unshift(rs.new_email)
+  }
+  myEmail.value.hasNoRead = true
+}
 // onBeforeMount(async () => {
 
 
@@ -155,6 +163,11 @@ onMounted(async () => {
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_email_list,
     handleEmailInfo,
+  );
+    // 监听新邮件
+    MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_new_email,
+    handleNewEmail
   );
 
 })
