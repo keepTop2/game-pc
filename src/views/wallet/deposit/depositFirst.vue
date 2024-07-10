@@ -11,25 +11,25 @@
         </div>
         <div class="body vertical center t_md">
           <!-- 充值列表选择 -->
-          <n-flex justify="space-between" :class="`item-list ${curDepositWay.payname === item.payname ? 'active' : ''}`"
+          <n-flex justify="space-between" align="center" :class="`item_list ${curDepositWay.payname === item.payname ? 'active' : ''}`"
             v-for="(item, index) in usdtRecharge" :key="index">
-            <n-flex align="center" class="item-list-l">
-              <div class="bank-icon">
+            <n-flex align="center" class="item_list_l">
+              <div class="bank_icon">
                 <img :src="`/img/payment/icon/icon_${item.payname}.webp`" />
               </div>
-              <div class="bank-txt">
-                <n-flex class="bank-name">
+              <div class="bank_txt">
+                <n-flex class="bank_name">
                   {{ t(`api_${item.payname}`) }}
-                  <a class="wh-icon" @click="onCloseSm"></a>
+                  <a class="wh_icon" @click="onCloseSm"></a>
                 </n-flex>
-                <div class="bank-limit">{{ item.minrecharge }} ~ {{ item.maxrecharge }}</div>
+                <div class="bank_limit">{{ item.minrecharge }} ~ {{ item.maxrecharge }}</div>
               </div>
             </n-flex>
-            <div class="item-list-r">
+            <div class="item_list_r">
               <a @click="chooseWay(item)"> {{ t('deposit_page_use') }} </a>
             </div>
           </n-flex>
-          <div class="cz-btn">
+          <div class="cz_btn">
             <a @click="goToDeposit"> {{ t('deposit_page_rechargeNow') }} </a>
           </div>
         </div>
@@ -71,7 +71,7 @@
           </span>
         </div>
         <div class="body vertical center t_md body_sec">
-          <n-form ref="formRef" class="w-full">
+          <n-form ref="formRef" class="w_full">
             <n-form-item :label="t('rechargeRecord_page_method')">
               <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.method" :options="mtdList" />
             </n-form-item>
@@ -89,9 +89,9 @@
             <n-form-item v-if="curDepositWay.payname.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
               <n-flex class="choose-bank">
                 <n-flex align="center" class="choose-bank-l">
-                  <span class="bank-cicon" v-if="chooseBank.value"> <img
+                  <span class="bank_cicon" v-if="chooseBank.value"> <img
                       :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" /> </span>
-                  <span class="bank-cname"> {{ chooseBank.label }} </span>
+                  <span class="bank_cname"> {{ chooseBank.label }} </span>
                 </n-flex>
                 <n-button :bordered="false" class="change-btn" @click="showChangeBank"> {{ t('deposit_page_changeWay')
                   }} </n-button>
@@ -104,19 +104,19 @@
                 </template>
               </n-input>
             </n-form-item>
-            <n-flex class="kjje-div">
-              <a class="kj-item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+            <n-flex class="kjje_div">
+              <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
                 :key="index">
                 {{ item.label }}
               </a>
             </n-flex>
           </n-form>
-          <div class="btn_zone flex w-full">
-            <n-button :bordered="false" class="submit_btn t-lg weight_5 center pointer" :disabled="loading" block
+          <div class="btn_zone flex w_full">
+            <n-button :bordered="false" class="submit_btn  weight_5 center pointer" :disabled="loading" block
               @click="onSubmit">{{
     t('deposit_page_rechargeNow') }}</n-button>
           </div>
-          <div class="cz-tips">
+          <div class="cz_tips">
             <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
             <n-flex align="center" class="tip">
               <span class="icon"></span>
@@ -171,6 +171,7 @@ const dataParams = {
 const form = ref( // 存款表单提交
   { ...dataParams }
 );
+const curDiscountData = Local.get('curDiscountData') || {id: 0}; // 从我的优惠过来
 const baseMtdList = { label: t('addBank_page_pChoose'), value: -1, minrecharge: 0, maxrecharge: 0, paymethod: '' }
 // 充值方式列表
 const mtdList = ref<any>([{ ...baseMtdList }]);
@@ -201,6 +202,7 @@ const resetData = () => {
   mtdList.value = [{ ...baseMtdList }]
   dcList.value = [{ ...baseDcList }]
   chooseBank.value = { label: '', value: '' }
+  form.value.discount = curDiscountData?.id; // 从我的优惠带过来已选择的优惠
 }
 // 获取充值信息
 const getShopInfo = () => {
@@ -318,7 +320,7 @@ const handleDepositSubmit = (res: any) => {
   console.log('---', res)
   loading.value = false;
   if (res.code === -1) {
-    Message.error('充值优惠检查失败')
+    Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
   } else { // code 0 成功
     Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置
@@ -372,6 +374,7 @@ onMounted(() => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, handleDepositSubmit);
 })
 onUnmounted(() => {
+  Local.remove('curDiscountData'); // 重置
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
 })
@@ -392,10 +395,10 @@ defineExpose({
   .body {
     gap: 15px !important;
 
-    .item-list {
+    .item_list {
       width: 536px;
       height: 96px;
-      padding: 15px 17px 10px;
+      padding: 0 17px 10px;
       background: url(/img/payment/listBg.webp) center no-repeat;
       background-size: 100%;
 
@@ -403,20 +406,20 @@ defineExpose({
         background-image: url(/img/payment/listBg_active.webp);
       }
 
-      .item-list-l {
+      .item_list_l {
 
-        .bank-icon {
+        .bank_icon {
           img {
             width: 50px;
             height: 50px;
           }
         }
 
-        .bank-txt {
+        .bank_txt {
           padding-top: 3px;
 
-          .bank-name {
-            .wh-icon {
+          .bank_name {
+            .wh_icon {
               width: 16px;
               height: 16px;
               background: url(/img/payment/wh.webp) center no-repeat;
@@ -424,16 +427,15 @@ defineExpose({
             }
           }
 
-          .bank-limit {
+          .bank_limit {
             margin-top: 13px;
             color: #fabb2d;
           }
         }
       }
 
-      .item-list-r {
+      .item_list_r {
         a {
-          margin-top: 8px;
           display: inline-block;
           text-align: center;
           width: 90px;
@@ -446,7 +448,7 @@ defineExpose({
 
     }
 
-    .cz-btn {
+    .cz_btn {
       a {
         font-size: 18px;
         display: block;
@@ -487,10 +489,10 @@ defineExpose({
   }
 
   .body_sec {
-    .kjje-div {
+    .kjje_div {
       gap: 20px !important;
 
-      .kj-item {
+      .kj_item {
         width: 110px;
         height: 40px;
         line-height: 40px;
@@ -504,7 +506,7 @@ defineExpose({
       margin: 10px auto;
     }
 
-    .cz-tips {
+    .cz_tips {
       font-size: 12px;
       text-align: center;
       color: #D16363;

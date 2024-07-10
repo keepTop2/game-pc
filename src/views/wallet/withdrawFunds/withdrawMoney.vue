@@ -13,7 +13,7 @@
           </span>
         </div>
         <div class="body vertical center t_md body_sec">
-          <n-form ref="formRef" class="w-full" :model="form" :rules="rules">
+          <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
             <n-form-item :label="'可用法币数量'">
               <n-input size="large" disabled v-model:value="form.maxValue" />
             </n-form-item>
@@ -59,17 +59,17 @@
             </div>
 
 
-            <n-flex class="kjje-div">
-              <a class="kj-item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+            <n-flex class="kjje_div">
+              <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
                 :key="index">
                 {{ item.label }}
               </a>
             </n-flex>
           </n-form>
-          <div class="btn_zone flex w-full">
-            <div class="submit_btn t-lg weight_5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
+          <div class="btn_zone flex w_full">
+            <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
           </div>
-          <div class="cz-tips">
+          <div class="cz_tips">
             <div class="txt"> 预计到账：{{form.amount}} </div>
           </div>
         </div>
@@ -435,7 +435,7 @@ const railStyle = ({ focused, checked }: {
       background-size: contain;
     }
 
-    .cz-btn {
+    .cz_btn {
       a {
         font-size: 18px;
         display: block;
@@ -508,10 +508,10 @@ const railStyle = ({ focused, checked }: {
       }
     }
 
-    .kjje-div {
+    .kjje_div {
       gap: 20px !important;
 
-      .kj-item {
+      .kj_item {
         width: 110px;
         height: 40px;
         line-height: 40px;

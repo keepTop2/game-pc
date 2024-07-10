@@ -11,7 +11,7 @@
         </div>
 
         <div class="body vertical center t_md">
-          <n-flex justify="space-between" align="center" class="w-full" vertical>
+          <n-flex justify="space-between" align="center" class="w_full" vertical>
 
 
             <div class="calibration-box">
@@ -36,14 +36,14 @@
                 </n-flex>
 
                 <div class="bankForm" v-if="!bankError">
-                  <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules" class="w-full choose-bank">
+                  <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules" class="w_full choose-bank">
                     <n-form-item :label="'选择银行'">
                       <n-flex class="choose-bank">
                         <n-flex align="center" class="choose-bank-l">
-                          <span class="bank-cicon">
+                          <span class="bank_cicon">
                             <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                           </span>
-                          <span class="bank-cname"> {{ chooseBank.label }} </span>
+                          <span class="bank_cname"> {{ chooseBank.label }} </span>
                         </n-flex>
                         <a class="change-btn" @click="showChangeBank"> 更换 </a>
                       </n-flex>
@@ -66,7 +66,7 @@
                     </n-form-item>
                   </n-form>
 
-                  <!--                  <div class="cz-btn">-->
+                  <!--                  <div class="cz_btn">-->
                   <!--                    <a @click="submitBank"> 确认 </a>-->
                   <!--                  </div>-->
                 </div>
@@ -122,7 +122,7 @@
                       </n-button>
                     </n-form-item>
                   </n-form>
-                  <!--                  <div class="cz-btn">-->
+                  <!--                  <div class="cz_btn">-->
                   <!--                    <a @click="submitPhone"> 确认 </a>-->
                   <!--                  </div>-->
                 </div>
@@ -153,7 +153,7 @@
                 </n-flex>
 
                 <div class="capitalForm" v-if="!capitalError">
-                  <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w-full choose-bank">
+                  <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w_full choose-bank">
                     <!-- 银行卡充值独有 -->
                     <n-form-item :label="'设置密码'" path="capitalPin">
                       <n-input size="large" v-model:value="formCapital.capitalPin" :placeholder="'请输入6-10位资金密码'">
@@ -173,7 +173,7 @@
                     </n-form-item>
                   </n-form>
 
-                  <!--                  <div class="cz-btn">-->
+                  <!--                  <div class="cz_btn">-->
                   <!--                    <a @click="submitCapital"> 确认 </a>-->
                   <!--                  </div>-->
                 </div>
@@ -188,7 +188,7 @@
               </div>
 
 
-              <div class="cz-btn">
+              <div class="cz_btn">
                 <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? '完成' : '下一步' }} </a>
               </div>
 
@@ -759,12 +759,12 @@ defineExpose({
           background: url(/img/payment/inputBg.webp) center no-repeat;
           background-size: 100%;
 
-          .bank-cicon {
+          .bank_cicon {
             width: 24px;
             height: 24px;
           }
 
-          .bank-cname {
+          .bank_cname {
             width: 220px;
             line-height: 16px;
           }
@@ -888,7 +888,7 @@ defineExpose({
     }
 
 
-    .cz-btn {
+    .cz_btn {
       a {
         font-size: 18px;
         display: block;

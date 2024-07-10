@@ -11,7 +11,7 @@
 
 
         <div class="body vertical center t_md">
-          <n-flex justify="space-between" align="center" class="w-full" vertical>
+          <n-flex justify="space-between" align="center" class="w_full" vertical>
             <div class="bank_list" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank_item">
                 <div class="bank_l_icon">
@@ -49,7 +49,7 @@
             </div>
 
 
-            <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w-full bank-add-form">
+            <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
 
               <div class="add-bank-text">
                 <p>添加一张银行卡</p>
@@ -59,10 +59,10 @@
               <n-form-item :label="'选择银行'">
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
-                    <span class="bank-cicon">
+                    <span class="bank_cicon">
                       <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                     </span>
-                    <span class="bank-cname"> {{ chooseBank.label }} </span>
+                    <span class="bank_cname"> {{ chooseBank.label }} </span>
                   </n-flex>
                   <a class="change-btn" @click="showChangeBank"> 更换 </a>
                 </n-flex>
@@ -103,7 +103,7 @@
               <!--              </n-form-item>-->
 
 
-              <div class="cz-btn">
+              <div class="cz_btn">
                 <a @click="submit"> 确认 </a>
                 <!--                <a @click="goToDeposit"> 确认 </a>-->
               </div>
@@ -556,12 +556,12 @@ defineExpose({
           background: url(/img/payment/inputBg.webp) center no-repeat;
           background-size: 100%;
 
-          .bank-cicon {
+          .bank_cicon {
             width: 24px;
             height: 24px;
           }
 
-          .bank-cname {
+          .bank_cname {
             width: 220px;
             line-height: 16px;
           }
@@ -622,7 +622,7 @@ defineExpose({
       //padding: 0 18px 0 18px;
     }
 
-    .cz-btn {
+    .cz_btn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -680,10 +680,10 @@ defineExpose({
       }
     }
 
-    .kjje-div {
+    .kjje_div {
       gap: 20px !important;
 
-      .kj-item {
+      .kj_item {
         width: 110px;
         height: 40px;
         line-height: 40px;
@@ -697,7 +697,7 @@ defineExpose({
       margin: 10px auto;
     }
 
-    .cz-tips {
+    .cz_tips {
       font-size: 12px;
       text-align: center;
       color: #D16363;
@@ -729,12 +729,12 @@ defineExpose({
         background: url(/img/payment/inputBg.webp) center no-repeat;
         background-size: 100%;
 
-        .bank-cicon {
+        .bank_cicon {
           width: 24px;
           height: 24px;
         }
 
-        .bank-cname {
+        .bank_cname {
           width: 220px;
           line-height: 16px;
         }

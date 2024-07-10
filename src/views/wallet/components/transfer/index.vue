@@ -30,7 +30,7 @@
                                 <iconpark-icon icon-id="qiehuan11" size="1.5rem"></iconpark-icon>
                             </div>
                         </div>
-                        <n-form :model="{ amount }" :show-label="true" ref="formRef" class="w-full">
+                        <n-form :model="{ amount }" :show-label="true" ref="formRef" class="w_full">
                             <n-form-item :label="t('transfer_page_amount')" path="amount" class="rel">
                                 <n-input type="text" size="large" v-model:value="amount"
                                     :placeholder="t('transfer_page_inputAmount')" />
@@ -38,7 +38,7 @@
         t('transfer_page_allMoney') }}</div>
                             </n-form-item>
                         </n-form>
-                        <div class="submit_btn t-lg weight_5 center pointer" block @click="onSubmit">
+                        <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">
                             {{ t('withdraw_page_withdrawNow') }}</div>
                     </div>
                 </div>
