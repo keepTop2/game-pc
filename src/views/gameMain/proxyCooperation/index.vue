@@ -8,12 +8,12 @@
             <div class="model_box_content content_box" style="border-bottom:1px solid #322C59;padding-bottom: 12px">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_casino') }}：</span>
-                    <span>{{ IdentityMap[proxyInfo.level] || '--' }}</span>
+                    <span>{{ IdentityMap[proxyInfo.level || 1] || '--' }}</span>
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
                     <span>{{ proxyInfo.ratio ? `${proxyInfo.ratio / 100}%（${t('proxy_page_value')}）` :
-                        '--' }}</span>
+                        '0' }}</span>
                 </div>
             </div>
             <div class="model_box_content content_box">
