@@ -113,7 +113,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     switch (key) {
         // way_id是2，那就是usdt, 其他都是银行卡
         case "way_id":
-            rs = val == 2 ? 'USDT' : t('api_bankcard')
+            rs = val == 2 ? 'USDT' : t('api_bankcard_0')
             break
         // way_id来判断，2就是usdt,其他暂时是越南盾
         case "currency":

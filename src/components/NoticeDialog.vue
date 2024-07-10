@@ -42,6 +42,7 @@ import { User } from '@/store/user';
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+
 const userInfo = User(pinia);
 const { noticeList } = storeToRefs(userInfo);
 
@@ -66,6 +67,9 @@ const noticeTitle = computed(() => {
 
 
 const closeDialog = () => { // 关闭弹窗
+    try {
+        to(0)
+    } catch { }
     if (readed.value) { // 缓存下已读列表
         let localIds = []
         try {

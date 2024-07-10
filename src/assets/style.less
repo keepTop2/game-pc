@@ -466,3 +466,10 @@ input {
   box-sizing: border-box;
   padding: 20px;
 }
+
+.n-carousel.n-carousel--card .n-carousel__slide.n-carousel__slide--current {
+  // 当轮播只有一个时的样式修复
+  opacity: 1 !important;
+  transform: translateX(-50%) translateZ(0) !important;
+  z-index: 1;
+}
