@@ -12,7 +12,7 @@
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
-                    <span>{{ proxyInfo.ratio ? `${proxyInfo.ratio / 100}%（${t('proxy_page_value')}）` :
+                    <span>{{ proxyInfo.ratio ? `${proxyInfo.ratio * 100}%（${t('proxy_page_value')}）` :
                         '0' }}</span>
                 </div>
             </div>

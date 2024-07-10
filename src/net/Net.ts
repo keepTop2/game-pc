@@ -13,7 +13,7 @@ import { i18n } from '@/languages/index';
 import pinia from '@/store/index';
 import { Page } from '@/store/page';
 import { User } from "@/store/user";
-const getSetting = async () => {
+export const getSetting = async () => {
     const settingsRes = await fetch('/settings.json?' + new Date().getTime())
     const settings = await settingsRes.json()
     const adminI18nRes = await fetch(settings.admin_i18n_add_url)

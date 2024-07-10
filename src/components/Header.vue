@@ -116,7 +116,7 @@ import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
-import { Net } from '@/net/Net';
+import { Net, getSetting } from '@/net/Net';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings } = storeToRefs(page);
@@ -321,6 +321,7 @@ const onHander_check_version = async (message: any) => {
 const onHander_system_notice = async (message: any) => {
   if (message.notice_list?.length) {
     const dialogList: any = message.notice_list.filter((item: any) => item.position == 1)
+
     const paomaList: any = message.notice_list.filter((item: any) => item.position == 0)
 
     // 弹窗公告
@@ -330,7 +331,9 @@ const onHander_system_notice = async (message: any) => {
     } catch {
       localIds = []
     }
-    const list: any = dialogList.filter((item: any) => !localIds.includes(item.title))
+    const list: any = dialogList.filter((item: any) => !localIds.includes(item.title)).sort((a: any, b: any) => {
+      return b.priority - a.priority
+    })
     if (list.length) {
       await User(pinia).setNoticeList(list)
       User(pinia).setNotice(true)
@@ -340,6 +343,39 @@ const onHander_system_notice = async (message: any) => {
     paomaList.forEach((item: any) => {
       page.setTextAnnouncementMore(t(item.content))
     })
+  }
+}
+
+
+const onHandler_system_msg = async (m: any) => {
+  console.error('----系统消息', m)
+  if (m.Params && m.Params.length == 6) { // 跑马灯
+    // ***[0]*** 在 [3] 获得 [4] 金币奖励！
+    const str = t('home_notice_mixtext', {
+      user: `${m.Params[0]?.substr(0, 4)}***`,
+      game: m.Params[3] ? t(m.Params[3]) : '',
+      money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
+    })
+    page.setTextAnnouncementMore(str)
+  }
+  else if (m.Params.length == 1 && m.Params[0].includes('noticelist:')) { // 弹窗公告
+    try {
+      const msgId = m.Params[0].split(':')[1]
+      if (msgId) {
+        const list: any = [{
+          content: `system_notice_content_${msgId}`,
+          title: `system_notice_title_${msgId}`,
+          position: 1,
+          priority: m.priority,
+          type: m.type,
+        }]
+        await getSetting() // 获取最新翻译文案
+        await User(pinia).setNoticeList(list)
+        User(pinia).setNotice(true)
+      }
+    } catch {
+      console.error('error msg', m)
+    }
   }
 }
 
@@ -425,15 +461,7 @@ onMounted(async () => {
   );
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_sys_msg,
-    (m: any) => {
-      // ***[0]*** 在 [3] 获得 [4] 金币奖励！
-      const str = t('home_notice_mixtext', {
-        user: `${m.Params[0]?.substr(0, 4)}***`,
-        game: m.Params[3] ? t(m.Params[3]) : '',
-        money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
-      })
-      page.setTextAnnouncementMore(str)
-    }
+    onHandler_system_msg
   );
 })
 
