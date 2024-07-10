@@ -46,6 +46,7 @@ import { AuditStatusMap } from '@/enums/walletEnum'
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+
 const tableHeader = computed(() => {
     return [ // 表头
         { title: t('auditRecord_page_audit'), key: 'title' },
@@ -77,6 +78,9 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
     let val = row[key]
     switch (key) {
+        case "title":
+            rs = t(val)
+            break
         case "type":
             rs = AuditStatusMap[val]
             break
