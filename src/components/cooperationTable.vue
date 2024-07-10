@@ -93,7 +93,7 @@ const changeTab = (key: number) => {
 const params: any = reactive({ // 搜索参数
     page: 1,
     search_name: "",
-    search_lev: "0",
+    search_lev: "-1",
 })
 const levels = computed(() => {
     const arr = []
@@ -102,7 +102,7 @@ const levels = computed(() => {
             arr.push({ label: IdentityMap[key], value: key })
         }
     })
-    arr.unshift({ label: t('proxy_page_all'), value: '0' })
+    arr.unshift({ label: t('proxy_page_all'), value: '-1' })
     return arr
 })
 
@@ -172,7 +172,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let val = row[key]
     switch (key) {
         case "level":
-            rs = IdentityMap[val] || '--'
+            rs = IdentityMap[val] || t('proxy_page_player')
             break
         case "team_num":
         case "team_bet":
