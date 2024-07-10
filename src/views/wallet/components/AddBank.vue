@@ -90,6 +90,7 @@ const form: TForm = reactive({
       name: 'cardNo',
       label: t('addBank_page_bankCard'),
       placeholder: t('addBank_page_pInput'),
+      type: 'number'
     },
     name: {
       name: 'name',

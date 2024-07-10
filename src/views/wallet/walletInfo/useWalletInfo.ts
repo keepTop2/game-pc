@@ -214,6 +214,7 @@ const useWalletInfo = () => {
     gameMoney.value = getCurrencyValue(Number(roleInfo.value.money));
     bankMoney.value = getCurrencyValue(Number(roleInfo.value.bank_money));
     totalMoney.value = gameMoney.value + bankMoney.value;
+    totalMoneyTxt.value = totalMoney.value;
     target.value.bet_money = getCurrencyValue(target_bet_money.value);
   };
 
@@ -302,6 +303,7 @@ const useWalletInfo = () => {
       }
     }
   );
+  // 更新余额等
   watch(
     () => roleInfo.value,
     (n) => {

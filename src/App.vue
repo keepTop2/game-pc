@@ -23,6 +23,9 @@ import { User } from '@/store/user';
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
+import { Message } from "@/utils/discreteApi";
+import {useI18n} from "vue-i18n";
+
 const userInfo = User(pinia);
 const { lang, roleInfo, myEmail } = storeToRefs(userInfo);
 const Language: any = {
@@ -40,6 +43,7 @@ const Language: any = {
   }
 }
 
+const { t } = useI18n();
 
 const themeOverrides: GlobalThemeOverrides = {
 
@@ -145,9 +149,16 @@ const handleNewEmail = (rs: any) => {
 // 监听金额变化
 const handleUpdateMoney = async (data: any) => {
   if (data) {
+    Message.success(t('deposit_page_depSuccess')); // 充值成功需要弹出提示
     const newData = { ...roleInfo.value }
     newData.money = data.cur_money
     await User(pinia).getRoleInfo(newData)
+  }
+}
+// 余额变化
+const handleUpdateRoleInfo = async (data: any) => {
+  if (data) {
+    await User(pinia).getRoleInfo(data)
   }
 }
 
@@ -170,6 +181,7 @@ onMounted(async () => {
     NetMsgType.msgType.msg_notify_email_list,
     handleEmailInfo,
   );
+  // 前台充值金额变化
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_money_update2,
     handleUpdateMoney
@@ -178,6 +190,11 @@ onMounted(async () => {
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_new_email,
     handleNewEmail
+  );
+  // 用户金额变化后，重新拉取金额
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_roleinfo_with_id,
+    handleUpdateRoleInfo
   );
 
 })

@@ -322,7 +322,7 @@ const handleDepositSubmit = (res: any) => {
   if (res.code === -1) {
     Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
   } else { // code 0 成功
-    Message.success(t('deposit_page_depSuccess'))
+    // Message.success(t('deposit_page_depSuccess'))
     form.value.amount = ''; // 重置
     Local.remove('curDiscountData'); // 重置
     if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {

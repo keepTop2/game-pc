@@ -101,13 +101,13 @@
                 <span class="icon"></span>
                 <span class="m-txt"> {{ gameMoney }} </span>
               </n-flex>
-              <n-flex class="top_mon_box_r">
+<!--              <n-flex class="top_mon_box_r">
                 <div class="automatic">
                   <span class="size2 gray">{{ t('walletInfo_page_follow') }}</span>
                   <n-switch class="switch" v-model:value="updateAuto">
                   </n-switch>
                 </div>
-              </n-flex>
+              </n-flex>-->
             </n-flex>
           </div>
           <div class="top_center">
@@ -292,7 +292,7 @@ const {
   roleInfo,
   userInfo,
   VIPinfo,
-  updateAuto,
+  // updateAuto,
   refreshWallet,
   target,
   refreshFlag,
