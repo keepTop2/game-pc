@@ -116,7 +116,7 @@ import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
-import { Net } from '@/net/Net';
+import { Net, getSetting } from '@/net/Net';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings } = storeToRefs(page);
@@ -319,7 +319,6 @@ const onHander_check_version = async (message: any) => {
   needLoginApi()
 }
 const onHander_system_notice = async (message: any) => {
-  console.error(message.notice_list)
   if (message.notice_list?.length) {
     const dialogList: any = message.notice_list.filter((item: any) => item.position == 1)
 
@@ -347,6 +346,7 @@ const onHander_system_notice = async (message: any) => {
   }
 }
 
+
 const onHandler_system_msg = async (m: any) => {
   console.error('----系统消息', m)
   if (m.Params && m.Params.length == 6) { // 跑马灯
@@ -369,6 +369,7 @@ const onHandler_system_msg = async (m: any) => {
           priority: m.priority,
           type: m.type,
         }]
+        await getSetting() // 获取最新翻译文案
         await User(pinia).setNoticeList(list)
         User(pinia).setNotice(true)
       }
