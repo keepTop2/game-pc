@@ -58,7 +58,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     terserOptions: { //去除console和debugger
       compress: {
-        drop_console: true,
+        // drop_console: true,
         drop_debugger: true
       }
     }

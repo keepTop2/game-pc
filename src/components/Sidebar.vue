@@ -36,12 +36,12 @@
 
             <div>
 
-                <p :class="state.active == g ? 'hover' : ''" v-for="(_v, g) in activityTitleList" :key="g"
+                <p :class="state.active == g ? 'hover' : ''" v-for="(_v, g) of activityTitleList" :key="g"
                     @click="activityItemClick(g)">
 
 
-                    <!-- <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
-                    <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon> -->
+                    <img :src="t(String(setIconLink(String(g))))" alt="" class="icon_img" />
+                    <!-- <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon> -->
                     <span>{{ t(g) }}</span>
                 </p>
             </div>
@@ -360,6 +360,14 @@ const itemClick = (item: any) => {
     }
     state.active = item.name
 }
+const setIconLink = (str: string) => {
+    let str1 = str.split('_')
+    let str2
+    if (str1.length > 0) {
+        str2 = str1[0] + '_' + str1[1] + '_icon_' + str1[2]
+    }
+    return str2
+}
 const handleActivetys = async (res: any) => {
     await Page(pinia).setActivityTitleList(res.promo)
 }
@@ -436,6 +444,11 @@ watch(
             bottom: 5px;
             left: 5px;
 
+        }
+
+        .icon_img {
+            width: 1rem;
+            height: 1rem;
         }
 
         >div {
