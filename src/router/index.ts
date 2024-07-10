@@ -5,7 +5,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
-import { sleep } from '@/utils/others';
 const userinfo = User(pinia);
 
 const { loadingEnd, wsOpen } = storeToRefs(userinfo);
@@ -170,28 +169,44 @@ const router = createRouter({
   history: createWebHistory(),
 });
 
+const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
+  return new Promise(async () => {
+    let timer
+    if (condition()) {
+      clearTimeout(timer)
+      timer = null
+      if (isNext) {
+        next(isNext)
+      } else {
+        await User(pinia).setLogin(true)
+        next(isNext)
+      }
 
-router.beforeEach(async (to: any, from: any) => {
-  if (!wsOpen.value) {
-    await sleep(300)
-  }
+    } else {
+      timer = setTimeout(() => {
+        console.log(55555);
 
+        waitForCondition(condition, next, isNext);
+      }, 200);
+    }
+  })
+}
+
+router.beforeEach(async (to: any, _from: any, next: any) => {
   if (Local.get('user')) {
-
-    if (!loadingEnd.value) {
-      sleep(200)
-      return true
-    }
-    if (loadingEnd.value) {
-      return true
-    }
-
+    await waitForCondition(
+      () => (wsOpen.value && loadingEnd.value), next, true
+    )
   } else {
     if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity'].includes(to.name)) {
-      return true
+      await waitForCondition(
+        () => wsOpen.value, next, true
+      )
     } else {
-      await User(pinia).setLogin(true)
-      return from.path
+
+      await waitForCondition(
+        () => wsOpen.value, next, false
+      )
     }
   }
 
