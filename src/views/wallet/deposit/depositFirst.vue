@@ -89,8 +89,8 @@
             <n-form-item v-if="curDepositWay.payname.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
               <n-flex class="choose-bank">
                 <n-flex align="center" class="choose-bank-l">
-                  <span class="bank_cicon" v-if="chooseBank.value"> <img
-                      :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" /> </span>
+                  <n-flex class="bank_cicon" v-if="chooseBank.value"> <img
+                      :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" /> </n-flex>
                   <span class="bank_cname"> {{ chooseBank.label }} </span>
                 </n-flex>
                 <n-button :bordered="false" class="change-btn" @click="showChangeBank"> {{ t('deposit_page_changeWay')
@@ -129,7 +129,7 @@
   </n-modal>
 
   <!-- 选择银行弹窗 -->
-  <chooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
+  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList"  ref="chooseBankModal" @selectBank="selectBank" />
 
 </template>
 
@@ -190,6 +190,7 @@ const chooseMoneyArr = [
   { label: '100,000,000', value: 100000000 },
 ];
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
+const bankAllList = ref([]); // 充值银行选择列表
 
 // 打开银行弹窗
 const openChooseBank = () => {
@@ -347,6 +348,15 @@ const selectBank = (e: any) => {
   form.value.bank = e.value;
   chooseBank.value = e;
 }
+// 充值单独用的银行列表
+const getDepositBankList = () => {
+  const req = NetPacket.req_pay_name_list();
+  Net.instance.sendRequest(req);
+}
+// 充值单独用的银行列表
+const handleDepositBank = (res: any) => {
+  bankAllList.value = res.pay_name_list.map((item: any) => { return { value: item.pay_id, label: item.pay_name } });
+}
 
 // 切换充值方式
 watch(
@@ -367,16 +377,19 @@ watch(
 
 onMounted(() => {
   setTimeout(() => {
+    getDepositBankList();
     getShopInfo();
   }, 600)
   // 获取银行信息
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, handleShopInfoRes);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, handleDepositSubmit);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, handleDepositBank);
 })
 onUnmounted(() => {
   Local.remove('curDiscountData'); // 重置
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, null);
 })
 
 defineExpose({

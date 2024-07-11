@@ -37,13 +37,24 @@ import { TTabList } from "@/utils/types";
 import { storeToRefs } from "pinia";
 import pinia from "@/store";
 import { Page } from '@/store/page';
+
+const props = defineProps({
+  isDepositBank: {
+    type: Boolean,
+    default: () => false
+  },
+  bankAllList: {
+    type: Array,
+    default: () => []
+  }
+})
 const emit = defineEmits(['selectBank']);
 const { t } = useI18n();
 const page = Page(pinia);
 const { bankListInfo } = storeToRefs(page);
 const showBankModal = ref(false);
 // 银行列表
-const bkList = ref<TTabList>([]);
+const bkList = ref<any>([]);
 const originBkList = ref<TTabList>([]);
 
 const onCloseBank = () => {
@@ -51,7 +62,11 @@ const onCloseBank = () => {
 }
 
 const handleBankList = () => {
-  bkList.value = [...bankListInfo.value];
+  if (props.isDepositBank) { // 充值
+    bkList.value = [...props.bankAllList];
+  } else { // 其他 绑定银行，提现等
+    bkList.value = [...bankListInfo.value];
+  }
   originBkList.value = [...bkList.value];
 }
 // 输入字符串匹配银行
