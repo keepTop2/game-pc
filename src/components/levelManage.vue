@@ -38,18 +38,30 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n()
 const emits = defineEmits(['success'])
+const props = defineProps({
+    proxyInfo: {
+        type: Object,
+        default: () => { }
+    }
+})
 
 const loading = ref(false)
 const showModal = ref(false)
 const level = ref('0')
 const levelInfo: any = ref({}) // 会员层级数据
+
+// 1.除实习厅主，其他代理等级设置下级时，必须比自己等级低，不能同样等级
+// 2.实习厅主，可以把他的直属玩家设置为与自己等级相同的实习厅主
 const levels: any = computed(() => {
     const arr: any = []
     Object.keys(IdentityMap).map((key: string) => {
-        if ((levelInfo.value.level || 0) <= Number(key)) {
+        if ((levelInfo.value.level || 0) <= Number(key) && key < props.proxyInfo.level) {
             arr.push({ label: IdentityMap[key], value: key })
         }
     })
+    if (props.proxyInfo.level == 1) {
+        arr.push({ label: IdentityMap[1], value: 1 })
+    }
     return arr
 })
 

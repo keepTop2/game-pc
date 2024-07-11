@@ -61,7 +61,7 @@
 
 
         <!-- 等级管理 -->
-        <levelManage @success="queryData" ref="levelM" />
+        <levelManage @success="queryData" :proxyInfo="proxyInfo" ref="levelM" />
     </div>
 </template>
 
