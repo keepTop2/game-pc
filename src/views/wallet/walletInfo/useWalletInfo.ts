@@ -74,7 +74,7 @@ const useWalletInfo = () => {
     console.log('=====', roleInfo.value)
 
 
-    // 未绑定银行卡跳转到绑定银行卡
+    // // 未绑定银行卡跳转到绑定银行卡
     if (!myBankList.value.bank_card_info_list || myBankList.value.bank_card_info_list.length == 0) {
       // router.push('/wallet/paymentManagement')
       calibrationRef.value.openModal();
