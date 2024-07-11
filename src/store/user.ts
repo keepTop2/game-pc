@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { Local } from '@/utils/storage';
-import { i18n } from '@/languages';
+
 import { TRoleInfo, TUserInfo, TVIPInfo } from '@/utils/types';
 /**
  * 用户信息
@@ -19,17 +19,10 @@ interface UserState {
   roleInfo: TRoleInfo; // 角色详情
   VIPinfo: TVIPInfo; // vip详情
   myEmail: any; // 邮箱列表
-  lang: string;
   loadingEnd: boolean;
   wsOpen: boolean
 }
-const languages: any = {
-  zh: 'zh',
-  'zh-CN': 'zh',
-  vi: 'vi',
-  'vi-VN': 'vi',
-  en: 'en',
-};
+
 export const User = defineStore('userInfo', {
 
   state: (): UserState => ({
@@ -44,7 +37,7 @@ export const User = defineStore('userInfo', {
     info: {},
     loginInfo: null,
     VIPinfo: {},
-    lang: languages[navigator.language] || 'zh',
+
     roleInfo: {
       nickname: '',
       money: 0,
@@ -112,10 +105,6 @@ export const User = defineStore('userInfo', {
     async getRoleInfo(roleInfo: TRoleInfo) {
       this.roleInfo = roleInfo
     },
-    async setLang(value: any) {
-      Local.set('lang', value)
-      i18n.global.locale.value = languages[value]
-      this.lang = value
-    },
+
   }
 });

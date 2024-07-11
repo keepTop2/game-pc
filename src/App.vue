@@ -19,15 +19,17 @@ import { onMounted } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-// import { Page } from '@/store/page';
+import { Page } from '@/store/page';
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 import { Message } from "@/utils/discreteApi";
-import {useI18n} from "vue-i18n";
-
+import { useI18n } from "vue-i18n";
+import { Local } from '@/utils/storage';
 const userInfo = User(pinia);
-const { lang, roleInfo, myEmail } = storeToRefs(userInfo);
+const page = Page(pinia);
+const { roleInfo, myEmail } = storeToRefs(userInfo);
+const { lang } = storeToRefs(page);
 const Language: any = {
   en: {
     global: enUS,
@@ -37,7 +39,7 @@ const Language: any = {
     global: zhCN,
     date: dateZhCN,
   },
-  vi: {
+  vn: {
     global: viVN,
     date: dateViVN
   }
@@ -196,6 +198,8 @@ onMounted(async () => {
     NetMsgType.msgType.msg_notify_roleinfo_with_id,
     handleUpdateRoleInfo
   );
+
+  await page.setLang(Local.get('lang'))
 
 })
 </script>
