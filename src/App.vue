@@ -159,7 +159,7 @@ const handleUpdateMoney = async (data: any) => {
 }
 // 余额变化
 const handleUpdateRoleInfo = async (data: any) => {
-  if (data) {
+  if (data?.id) {
     await User(pinia).getRoleInfo(data)
   }
 }
