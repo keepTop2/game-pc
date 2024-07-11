@@ -40,12 +40,12 @@
                 <!-- 按钮们 -->
                 <div class="btns">
                     <img class="line" src="/img/proxy/line.webp" alt="line">
-                    <div @click="router.push({ name: 'walletInfo' })">
-                        <div class="btn" style="margin-bottom:10px;">
+                    <div>
+                        <div class="btn" style="margin-bottom:10px;" @click="claim">
                             <iconpark-icon class="icon" name="Group39373" size="1rem"></iconpark-icon>
                             <span>{{ t('proxy_page_withDraw') }}</span>
                         </div>
-                        <div class="btn">
+                        <div class="btn" @click="router.push({ name: 'walletInfo' })">
                             <iconpark-icon name="Group39415" size="1rem"></iconpark-icon>
                             <span>{{ t('proxy_page_tranfer') }}</span>
                         </div>
@@ -111,10 +111,25 @@ const resultHandle = (rs: any) => {
     console.error('proxyInfo', proxyInfo.value)
 }
 
+// 提款
+const claim = () => {
+    const query = NetPacket.req_daily_return_claim()
+    Net.instance.sendRequest(query);
+}
+const claimHandle = (rs: any) => {
+    if (rs.result === 0) {
+        queryData()
+    }
+}
+
 // 回执监听
 MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_daily_return_info,
     resultHandle,
+);
+MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_daily_return_claim,
+    claimHandle,
 );
 onUnmounted(() => {
     // 取消监听
