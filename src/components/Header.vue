@@ -49,10 +49,10 @@
         </n-popover>
         <span class="country_box">
           <span>
-            <n-popselect v-model:value="state.countryValue" :render-label="renderLabel" :options="settings.lang_list"
+            <n-popselect v-model:value="lang" :render-label="renderLabel" :options="settings.lang_list"
               @update:value="valueChange" trigger="click">
               <span>
-                <img :src="`/img/home/${state.countryValue}.png`" alt="country">
+                <img :src="`/img/home/${lang}.png`" alt="country">
                 <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </n-popselect>
@@ -119,7 +119,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getSetting } from '@/net/Net';
 const { t } = useI18n()
 const page = Page(pinia);
-const { menuActive, settings } = storeToRefs(page);
+const { menuActive, settings, lang } = storeToRefs(page);
 
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
@@ -206,7 +206,6 @@ const state: any = reactive({
   active: 0,
   slider: true,
   lang_list: null,
-  countryValue: 'vi',
   icons: [
     {
       icon: 'shequ',
@@ -297,7 +296,7 @@ const menuClick = async (item: any, j: number) => {
 }
 const valueChange = async (item: any) => {
 
-  await User(pinia).setLang(item)
+  await page.setLang(item)
 }
 const onLoginOpen = async () => {
   state.active = 1
@@ -348,7 +347,7 @@ const onHander_system_notice = async (message: any) => {
 
 
 const onHandler_system_msg = async (m: any) => {
-  console.error('----系统消息', m)
+  // console.error('----系统消息', m)
   if (m.Params && m.Params.length == 6) { // 跑马灯
     // ***[0]*** 在 [3] 获得 [4] 金币奖励！
     const str = t('home_notice_mixtext', {
@@ -444,10 +443,7 @@ onMounted(async () => {
     onHander_check_version
   );
 
-  if (Local.get('lang')) {
-    state.countryValue = Local.get('lang')
-    await User(pinia).setLang(Local.get('lang'))
-  }
+
   Local.set('agentid', route.query.uid || '0')
   if (Local.get('menuActive')) {
     await page.setMenuActive(Local.get('menuActive'), Local.get('menuName'))
@@ -463,6 +459,7 @@ onMounted(async () => {
     NetMsgType.msgType.msg_notify_sys_msg,
     onHandler_system_msg
   );
+
 })
 
 onUnmounted(() => {

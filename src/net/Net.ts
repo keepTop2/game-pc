@@ -19,24 +19,26 @@ export const getSetting = async () => {
     const adminI18nRes = await fetch(settings.admin_i18n_add_url)
     const adminI18n = await adminI18nRes.json()
     i18n.global.mergeLocaleMessage('zh', adminI18n.zh)
-    i18n.global.mergeLocaleMessage('vi', adminI18n.vn)
+    i18n.global.mergeLocaleMessage('vn', adminI18n.vn)
     i18n.global.mergeLocaleMessage('en', adminI18n.en)
-
-    let keys = Object.keys(adminI18n.en)
-    let bannerArr: Array<string> = []
-    let textAnnouncement: Array<string> = []
-    keys.map((e: string) => {
-        if (e.indexOf('pc_admin_banner_list') != -1) {
-            bannerArr.push(e)
-        }
-        if (e.indexOf('system_notice_title') != -1) {
-            textAnnouncement.push(e)
-        }
-    })
+    // let lang = Local.get('lang')
+    // let keys = Object.keys(adminI18n[lang])
+    // let bannerArr: Array<string> = []
+    // let textAnnouncement: Array<string> = []
+    // keys.map((e: string) => {
+    //     if (e.indexOf('pc_admin_banner_list') != -1) {
+    //         bannerArr.push(e)
+    //     }
+    //     if (e.indexOf('system_notice_title') != -1) {
+    //         textAnnouncement.push(e)
+    //     }
+    // })
+    // console.log(bannerArr);
 
     await Page(pinia).setSettings(settings)
-    await Page(pinia).setBannerArr(bannerArr)
-    await Page(pinia).setTextAnnouncement(textAnnouncement)
+    await Page(pinia).setAdminI18n(adminI18n)
+    // await Page(pinia).setBannerArr(bannerArr)
+    // await Page(pinia).setTextAnnouncement(textAnnouncement)
     return settings
 }
 const settings = await getSetting()

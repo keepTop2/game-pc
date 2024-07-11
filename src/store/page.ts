@@ -1,7 +1,7 @@
 
 import { defineStore } from 'pinia';
 import { Local } from '@/utils/storage';
-
+import { i18n } from '@/languages';
 /**
  * 页面信息
  * @methods setUserInfos 设置用户信息
@@ -10,14 +10,23 @@ interface PageState {
     menuActive: number
     menuName: string
     countryOptions: any
-    bannerArr: Array<string>
-    textAnnouncement: Array<string>
+    bannerArr: any
+    textAnnouncement: any
     serviceUrlObj: any
     settings: any,
     activityList: any,
     activityTitleList: any
-    bankListInfo: any
+    bankListInfo: any,
+    adminI18n: any,
+    lang: string;
 }
+const languages: any = {
+    zh: 'zh',
+    'zh-CN': 'zh',
+    vn: 'vn',
+    'vi-VN': 'vn',
+    en: 'en',
+};
 export const Page = defineStore('page', {
     state: (): PageState => ({
         menuActive: -1,
@@ -29,7 +38,9 @@ export const Page = defineStore('page', {
         settings: null,
         activityList: null,
         activityTitleList: {},
-        bankListInfo: []
+        bankListInfo: [],
+        adminI18n: null,
+        lang: 'zh',
     }),
     actions: {
         // 获取标签下拉选择框数据
@@ -44,6 +55,35 @@ export const Page = defineStore('page', {
         },
         async setSettings(value: any) {
             this.settings = value
+        },
+        async setAdminI18n(value: any) {
+            this.adminI18n = value
+        },
+        async setLang(value: any) {
+            this.bannerArr = null
+            this.textAnnouncement = null
+            if (value) {
+                this.lang = value
+            }
+
+            Local.set('lang', this.lang)
+            i18n.global.locale.value = languages[this.lang]
+
+            let keys = Object.keys(this.adminI18n[this.lang])
+            let bannerArr: Array<string> = []
+            let textAnnouncement: Array<string> = []
+            keys.map((e: string) => {
+                if (e.indexOf('pc_admin_banner_list') != -1) {
+                    bannerArr.push(e)
+                }
+                if (e.indexOf('system_notice_title') != -1) {
+                    textAnnouncement.push(e)
+                }
+            })
+
+            this.bannerArr = bannerArr
+            this.textAnnouncement = textAnnouncement
+
         },
         async setActivityTitleList(value: any) {
             let list: Array<string> = []

@@ -3,12 +3,12 @@
     <Sidebar />
     <div class="content">
       <div class="announcement">
-        <n-carousel draggable>
+        <n-carousel draggable v-if="bannerArr">
           <img class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)">
         </n-carousel>
         <p style="height: 40px;">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-          <n-carousel :show-dots="false" autoplay draggable direction="vertical">
+          <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
             <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px;" class="carousel_span">{{ t(v)
               }}</span>
           </n-carousel>
@@ -166,8 +166,8 @@ onUnmounted(() => {
     >p {
       position: absolute;
       bottom: 0px;
-      left: 2px;
-      width: 1167px;
+      left: 0;
+      width: 1171px;
       height: 40px;
       padding: 0 14.5px;
       background-color: rgba(0, 0, 0, .3);
@@ -176,8 +176,8 @@ onUnmounted(() => {
       align-items: center;
       color: #fff;
       font-size: 16px;
-      border-bottom-left-radius: 15px;
-      border-bottom-right-radius: 15px;
+      // border-bottom-left-radius: 15px;
+      // border-bottom-right-radius: 15px;
 
     }
   }

@@ -1,7 +1,7 @@
 import { createI18n, I18nOptions } from 'vue-i18n';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
-import { User } from '@/store/user';
+import { Page } from '@/store/page';
 
 
 // 定义语言国际化内容
@@ -20,7 +20,7 @@ import { User } from '@/store/user';
 // 定义变量内容
 const messages: I18nOptions['messages'] = {};
 
-const itemize: any = { en: [], zh: [], vi: [] };
+const itemize: any = { en: [], zh: [], vn: [] };
 const modules: Record<string, any> = import.meta.glob('./**/*.ts', { eager: true });
 // 对自动引入的 modules 进行分类 en、zh-cn、zh-tw
 // https://vitejs.cn/vite3-cn/guide/features.html#glob-import
@@ -44,9 +44,11 @@ function mergeArrObj(list: any, key: string) {
 for (const key in itemize) {
 	messages[key] = mergeArrObj(itemize, key);
 }
+
+
 // 读取 pinia 默认语言
-const userInfo = User(pinia);
-const { lang } = storeToRefs(userInfo);
+const page = Page(pinia);
+const { lang } = storeToRefs(page);
 
 // 导出语言国际化
 // https://vue-i18n.intlify.dev/guide/essentials/fallback.html#explicit-fallback-with-one-locale
