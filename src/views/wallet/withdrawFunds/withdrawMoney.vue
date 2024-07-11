@@ -258,7 +258,6 @@ const chooseFastMon = (e: any) => {
 
 const isCanWithdraw = ref(false)
 const handleCanWithdraw = (res: any) => {
-  alert(res.rlt)
   isCanWithdraw.value = !res.rlt;
   setCanWithDrawMon();
 };
