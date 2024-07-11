@@ -264,11 +264,22 @@ const handleCanWithdraw = (res: any) => {
 
 // 设置可提现金额
 const setCanWithDrawMon = () => {
+
+  console.log(setCanWithDrawMon, '--setCanWithDrawMon--');
+
+  // if (isCanWithdraw.value) {
+  //   form.value.maxValue = roleInfo.value.bank_money + ''
+  // } else { // 不可以提现，可提现金额置为 0
+  //   form.value.maxValue = '0'
+  // }
+
+
   if (isCanWithdraw.value) {
-    form.value.maxValue = roleInfo.value.bank_money + ''
+    form.value.maxValue = roleInfo.value.bank_money.toString()
   } else { // 不可以提现，可提现金额置为 0
-    form.value.maxValue = '0'
+    form.value.maxValue = '0';
   }
+
 }
 
 
@@ -311,23 +322,25 @@ const checkBankInfo = (item: any) => {
 // }
 
 
+const initReq = () => {
+  form.value.maxValue = roleInfo.value.bank_money.toString()
+  Net.instance.sendRequest(NetPacket.req_can_withdraw());
+};
 
 onMounted(() => {
+
+  setTimeout(() => initReq(), 600);
+
   // 可提现金额
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, handleCanWithdraw);
 
   // 提款提交监听
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, handleWithDrawSubmit);
 
-
 })
 onUnmounted(() => {
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
-
-
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, null);
-
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, null);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, null);
 })
 
 defineExpose({
