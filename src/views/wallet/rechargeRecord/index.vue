@@ -98,7 +98,6 @@ const result: any = reactive({ // 结果
     total_page: 0,
     list: []
 })
-
 const loading = ref(false)
 const resultHandle = (rs: any) => { // 数据处理
     setTimeout(() => {
@@ -176,7 +175,6 @@ const waysHandle = (rs: any) => {
         wayMap[item.paymenttype] = item.payname
     })
 }
-getPays()
 
 // 回执监听
 MessageEvent2.addMsgEvent(
@@ -184,10 +182,13 @@ MessageEvent2.addMsgEvent(
     resultHandle,
 );
 
-MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_req_get_shop_info,
-    waysHandle,
-);
+setTimeout(() => {
+    MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_req_get_shop_info,
+        waysHandle,
+    );
+    getPays()
+}, 300)
 onUnmounted(() => {
     // 取消监听
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_recharge_record_list, null);
