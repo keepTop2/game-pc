@@ -169,124 +169,13 @@ const state: any = reactive({
         list: null
     },
     sideList: [
-
-        // {
-        //     title: 'home_page_game',
-        //     list: [
-        //         {
-        //             icon: 'Group39096',
-        //             name: 'home_page_slot',
-        //             url: '/gameMain/gamingPlatform',
-        //             color: '',
-        //             value: '',
-        //         },
-        //         {
-        //             icon: 'Group39095',
-        //             name: 'home_page_live',
-        //             url: '/gameMain/gamingPlatform',
-        //             color: '',
-        //             value: '',
-        //         },
-        //         {
-        //             icon: 'Group39098',
-        //             name: 'home_page_fishing',
-        //             url: '/gameMain/gamingPlatform',
-        //             color: '',
-        //             value: '',
-        //         },
-
-        //         {
-        //             icon: 'Group39099',
-        //             name: 'home_page_sportsGame',
-        //             url: '/gameMain/gamingPlatform',
-        //             color: '',
-        //             value: '',
-        //         },
-        //         {
-        //             icon: 'Group1556235261',
-        //             name: 'home_page_pokerGame',
-        //             url: '/gameMain/gamingPlatform',
-        //             color: '',
-        //             value: '',
-        //         },
-        //         {
-        //             icon: 'Group1556235309',
-        //             name: 'home_page_lotteryGame',
-        //             url: '/gameMain/gamingPlatform',
-        //             color: '',
-        //             value: '',
-        //         },
-        //     ],
-        // },
-        // {
-        //     title: 'home_page_activity',
-        //     list: [
-        //         {
-        //             icon: 'Group39311',
-        //             name: 'home_page_clubExclusive',
-        //             url: '/gameMain/activity',
-        //             color: '',
-        //             value: '5',
-        //         },
-        //         {
-        //             icon: 'Group39310',
-        //             name: 'home_page_BYExclusive',
-        //             url: '/gameMain/activity',
-        //             color: '',
-        //             value: '1',
-        //         },
-        //         {
-        //             icon: 'Group39312',
-        //             name: 'home_page_sportsActivities',
-        //             url: '/gameMain/activity',
-        //             color: '',
-        //             value: '2',
-        //         },
-        //         {
-        //             icon: 'Group39318',
-        //             name: 'home_page_liveActivities',
-        //             url: '/gameMain/activity',
-        //             color: '',
-        //             value: '3',
-        //         },
-        //         {
-        //             icon: 'Group39322',
-        //             name: 'home_page_slotActivity',
-        //             url: '/gameMain/activity',
-        //             color: '',
-        //             value: '4',
-        //         },
-        //         // {
-        //         //     icon: 'Group39324',
-        //         //     name: 'home_page_leagueActivities',
-        //         //     url: '/gameMain/activity',
-        //         //     color: '',
-        //         //     value: '1',
-        //         // },
-
-        //         // {
-        //         //     icon: 'Group39326',
-        //         //     name: 'home_page_events',
-        //         //     url: '/gameMain/activity',
-        //         //     color: '',
-        //         //     value: '1',
-        //         // },
-        //         // {
-        //         //     icon: 'Group39325',
-        //         //     name: 'home_page_europeanCupActivities',
-        //         //     url: '/gameMain/activity',
-        //         //     color: '',
-        //         //     value: '1',
-        //         // },
-        //     ]
-        // },
         {
             title: 'home_page_agencyCenter',
             list: [
                 {
                     icon: 'Group39329',
                     name: 'home_page_agencyCooperation',
-                    url: '',
+                    url: '/gameMain/proxyCooperation',
                     color: '',
                     value: 'proxy_coop',
                 },
@@ -350,14 +239,7 @@ const itemClick = (item: any) => {
         openType.value = item.value
         clubModal.value.openModal()
     }
-    // 代理合作
-    if (item.value === 'proxy_coop') {
-        if (!hasLogin.value) {// 未登录
-            userinfo.setLogin(true)
-            return
-        }
-        router.push({ name: 'proxyCooperation' })
-    }
+
     state.active = item.name
 }
 const setIconLink = (str: string) => {
