@@ -1,5 +1,5 @@
 export default {
-  club_page_ren: '人',
+  club_page_ren: 'mọi người',
   club_page_id: 'ID câu lạc bộ',
   club_page_sf: 'Bản sắc câu lạc bộ',
   club_page_cheny: 'Thành viên',
