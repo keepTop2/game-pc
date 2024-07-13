@@ -272,12 +272,14 @@ onMounted(() => {
 
         .item_name {
           display: inline-block;
-          width: 126px;
+          min-width: 126px;
+          padding:0 8px ;
           height: 46px;
           padding-top: 6px;
           text-align: center;
           background: url(/img/promo/nameBg.webp) no-repeat;
           background-size: cover;
+          box-sizing: border-box
         }
 
         .item_title {
