@@ -68,7 +68,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
-import { User } from '@/store/user';
+// import { User } from '@/store/user';
 
 import { Page } from '@/store/page';
 import { NetPacket } from "@/netBase/NetPacket";
@@ -83,8 +83,8 @@ const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
 const router = useRouter();
 const route = useRoute();
 
-const userinfo = User(pinia);
-const { hasLogin } = storeToRefs(userinfo);
+// const userinfo = User(pinia);
+// const { hasLogin } = storeToRefs(userinfo);
 
 // const route = useRoute();
 
