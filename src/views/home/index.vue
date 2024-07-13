@@ -24,7 +24,7 @@
               </b>
               <span>{{ t(item.name) }}</span>
             </span>
-            <span class="more" @click="allPlatForm(item)">更多</span>
+            <span class="more" @click="allPlatForm(item)">{{ t('home_page_more') }}</span>
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
             show-arrow>

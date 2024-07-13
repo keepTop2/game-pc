@@ -5,8 +5,8 @@ export default {
     home_page_login: 'Đăng nhập',
     home_page_signUp: 'Đăng ký',
     home_page_vi: 'Việt Nam',
-    home_page_zh: 'Tiếng Trung giản thể',
-    home_page_en: 'Tiếng Anh',
+    home_page_zh: '简体中文',
+    home_page_en: 'English',
     // 退出登录提示语
     home_page_logout: 'Đăng xuất',
     home_page_confirmSignOut: 'Xác nhận thoát? ',
@@ -55,12 +55,15 @@ export default {
     home_page_events: 'sự kiện',
     home_page_europeanCupActivities: 'Hoạt động của Cúp Châu Âu',
     home_page_agencyCenter: 'Trung tâm đại lý',
-    home_page_agencyCoOperation: 'Hợp tác đại lý',
+    home_page_agencyCooperation: 'Hợp tác đại lý',
     home_page_agentIntroduction: 'Giới thiệu đại lý',
     home_page_vipLevel: 'Cấp thành viên',
+    home_page_community: 'cộng đồng',
+    home_page_customerService: 'Dịch vụ khách hàng',
+    home_page_downloadApp: 'Tải xuống ứng dụng',
     // 游戏部分
     home_page_all: 'tất cả',
-
+    home_page_more: 'Hơn',
     // 登录弹窗
     home_page_accountLogin: 'Đăng nhập tài khoản',
     home_page_emailLogin: 'Email đăng nhập',

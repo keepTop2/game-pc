@@ -45,7 +45,7 @@
               <span>{{ v.name_key }}</span>
             </p>
           </div>
-          <span v-else class="text_color">{{ item.tips }}</span>
+          <span v-else class="text_color">{{ t(item.tips) }}</span>
         </n-popover>
         <span class="country_box">
           <span>
@@ -205,30 +205,29 @@ const state: any = reactive({
   userInfo: null,
   active: 0,
   slider: true,
-  lang_list: null,
   icons: [
     {
       icon: 'shequ',
       color: '#8e82c2',
-      tips: '社区',
+      tips: 'home_page_community',
       url: 'sq'
     },
     {
       icon: 'Group39337',
       color: '#8e82c2',
-      tips: '客服',
+      tips: 'home_page_customerService',
       url: 'kf'
     },
     {
       icon: 'youxiang',
       color: '#8e82c2',
-      tips: '邮箱',
+      tips: 'home_page_email',
       url: '/wallet/myEmail',
     },
     {
       icon: 'APPxiazai1',
       color: '#8e82c2',
-      tips: '下载APP',
+      tips: 'home_page_downloadApp',
       url: 'dw'
     },
   ],
@@ -558,23 +557,24 @@ const avatarLoadError = (e: any) => {
         color: #fff;
 
         >span {
-          width: 62px;
           height: 32px;
           display: flex;
           font-size: 12px;
           justify-content: center;
           align-items: center;
           border-radius: 12px;
-          // padding: 9px 14px;
+          padding: 0 10px;
           border: solid 1px #5a47b2;
           background-color: #402c95;
-          background-image: url(/img/home/unactive1.webp);
+
+          border-image: url('/img/home/unactive1.webp') 0 20 0 20 fill / 0px 10px stretch stretch;
           background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          background-image: url(/img/home/active1.webp);
+          border-image: url('/img/home/active1.webp') 0 20 0 20 fill / 0px 10px stretch stretch;
+
         }
       }
     }

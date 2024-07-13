@@ -4,7 +4,7 @@ export default {
     home_page_seachGame: '搜索游戏',
     home_page_login: '登录',
     home_page_signUp: '注册',
-    home_page_vi: 'Vietnam',
+    home_page_vi: 'Việt Nam',
     home_page_zh: '简体中文',
     home_page_en: 'English',
     // 退出登录提示语
@@ -58,8 +58,13 @@ export default {
     home_page_agencyCooperation: '代理合作',
     home_page_agentIntroduction: '代理介绍',
     home_page_vipLevel: '会员等级',
+    home_page_community: '社区',
+    home_page_customerService: '客服',
+    home_page_downloadApp: '下载APP',
+
     // 游戏部分
     home_page_all: '全部',
+    home_page_more: '更多',
 
     // 登录弹窗
     home_page_accountLogin: '账号登录',

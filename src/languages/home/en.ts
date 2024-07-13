@@ -4,7 +4,7 @@ export default {
     home_page_seachGame: 'Seach game',
     home_page_login: 'Login',
     home_page_signUp: 'Sign up',
-    home_page_vi: 'Vietnam',
+    home_page_vi: 'Việt Nam',
     home_page_zh: '简体中文',
     home_page_en: 'English',
 
@@ -57,8 +57,12 @@ export default {
     home_page_agencyCooperation: 'Agency cooperation',
     home_page_agentIntroduction: 'Agent introduction',
     home_page_vipLevel: 'VIP level',
+    home_page_community: 'Community',
+    home_page_customerService: 'Customer service',
+    home_page_downloadApp: 'Download APP',
     // 游戏部分
     home_page_all: 'All',
+    home_page_more: 'More',
     // 登录弹窗
     home_page_accountLogin: 'Account login',
     home_page_emailLogin: 'Email login',
