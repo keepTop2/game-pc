@@ -49,14 +49,14 @@
         <div class="level_list_sec">
           <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
             <div class="list_item_l">
-              <div class="title_big"> {{ item.title }} </div>
+              <div class="title_big"> {{ t(item.title) }} </div>
               <div> {{ item.titleSec }} </div>
             </div>
             <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
                 <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
                   <div class="item_img"> <img :src="`/img/level/${item_1.icon}.webp`"> </div>
-                  <div> {{ item_1.name }} </div>
+                  <div> {{ t(item_1.name) }} </div>
                 </div>
               </div>
             </n-flex>
@@ -136,37 +136,37 @@ const levelListData = ref(
 const levelDyData = ref(
   [
     {
-      key: 'vip', title: t('level_page_vip'), titleSec: 'VIP GIFT MONEY',
+      key: 'vip', title: 'level_page_vip', titleSec: 'VIP GIFT MONEY',
       child: [
-        { name: t('level_page_bonus'), icon: 'level_js', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_month_gift'), icon: 'level_lj', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_bonus', icon: 'level_js', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
       ]
     },
     {
-      key: 'chip', title: t('level_page_code'), titleSec: 'CHIP DISCOUNT',
+      key: 'chip', title: 'level_page_code', titleSec: 'CHIP DISCOUNT',
       child: [
-        { name: t('level_page_live_bet'), icon: 'level_live', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_slot_bet'), icon: 'level_game', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_sport_bet'), icon: 'level_sport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_zm_bet'), icon: 'level_zm', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_esport'), icon: 'level_esport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_live_bet', icon: 'level_live', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_slot_bet', icon: 'level_game', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_sport_bet', icon: 'level_sport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_zm_bet', icon: 'level_zm', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_esport', icon: 'level_esport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
       ]
     },
     {
-      key: 'enjoy', title: t('level_page_privileges'), titleSec: 'ENJOY PRIVILEGES',
+      key: 'enjoy', title: 'level_page_privileges', titleSec: 'ENJOY PRIVILEGES',
       child: [
-        { name: t('level_page_domain'), icon: 'level_ym', levelArr: [7, 8, 9, 10] },
-        { name: t('level_page_manager'), icon: 'level_vip', levelArr: [4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_access'), icon: 'level_deposit', levelArr: [4, 5, 6, 7, 8, 9, 10] },
-        { name: t('level_page_activity'), icon: 'level_promo', levelArr: [4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_domain', icon: 'level_ym', levelArr: [7, 8, 9, 10] },
+        { name: 'level_page_manager', icon: 'level_vip', levelArr: [4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_access', icon: 'level_deposit', levelArr: [4, 5, 6, 7, 8, 9, 10] },
+        { name: 'level_page_activity', icon: 'level_promo', levelArr: [4, 5, 6, 7, 8, 9, 10] },
       ]
     },
     {
-      key: 'tq', title: t('level_page_private'), titleSec: 'PRIVATE PRIVILEGES',
+      key: 'tq', title: 'level_page_private', titleSec: 'PRIVATE PRIVILEGES',
       child: [
-        { name: t('level_page_secretary'), icon: 'level_sw', levelArr: [8, 9, 10] },
-        { name: t('level_page_reception'), icon: 'level_gb', levelArr: [8, 9, 10] },
-        { name: t('level_page_month_gift'), icon: 'level_lj', levelArr: [8, 9, 10] },
+        { name: 'level_page_secretary', icon: 'level_sw', levelArr: [8, 9, 10] },
+        { name: 'level_page_reception', icon: 'level_gb', levelArr: [8, 9, 10] },
+        { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [8, 9, 10] },
       ]
     },
 
@@ -593,7 +593,8 @@ onUnmounted(() => {
         flex: auto;
 
         .list_item_r_item {
-          width: 16.67%;
+          //width: 16.67%;
+          width: 160px;
           text-align: center;
 
           .item_img {
