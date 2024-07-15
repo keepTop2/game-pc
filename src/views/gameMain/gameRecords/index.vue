@@ -23,7 +23,7 @@ import Games from "@/components/Games.vue";
 // const userInfo = User(pinia);
 // const { isLogin } = storeToRefs(userInfo);
 const reqGameRecords = () => {
-    let req = NetPacket.req_pt888_get_self_record();
+    let req = NetPacket.req_recent_games();
     // debugger
     Net.instance.sendRequest(req);
 }
@@ -32,17 +32,15 @@ const resGameRecords = (res: any) => {
 
 }
 onMounted(() => {
-
-
     MessageEvent2.addMsgEvent(
-        NetMsgType.msgType.msg_notify_pt888_get_self_record,
+        NetMsgType.msgType.msg_req_recent_games,
         resGameRecords
     );
     reqGameRecords()
 
 });
 onUnmounted(() => {
-    // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_platform_gametype_list, null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recent_games, null);
 });
 </script>
 
