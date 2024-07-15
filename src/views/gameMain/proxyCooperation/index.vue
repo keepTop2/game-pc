@@ -8,7 +8,7 @@
             <div class="model_box_content content_box" style="border-bottom:1px solid #322C59;padding-bottom: 12px">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_casino') }}：</span>
-                    <span>{{ IdentityMap[proxyInfo.level || 1] || '--' }}</span>
+                    <span>{{ IdentityMap[proxyInfo.level] || '--' }}</span>
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
@@ -43,12 +43,12 @@
                     <div>
                         <div class="btn" style="margin-bottom:10px;" @click="claim">
                             <iconpark-icon class="icon" name="Group39373" size="1rem"></iconpark-icon>
-                            <span>{{ t('proxy_page_withDraw') }}</span>
+                            <span>{{ t('WithDraw_Commission') }}</span>
                         </div>
-                        <div class="btn" @click="router.push({ name: 'walletInfo' })">
+                        <!-- <div class="btn" @click="router.push({ name: 'walletInfo' })">
                             <iconpark-icon name="Group39415" size="1rem"></iconpark-icon>
                             <span>{{ t('proxy_page_tranfer') }}</span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -118,7 +118,10 @@ const claim = () => {
 }
 const claimHandle = (rs: any) => {
     if (rs.result === 0) {
+        Message.success(t('bank_success'))
         queryData()
+    } else {
+        Message.error(t('withdraw_page_CantWithdraw'))
     }
 }
 

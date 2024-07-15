@@ -163,7 +163,7 @@ const handleSubmit = async () => {
   req_register.bbb = bbb;
   req_register.captcha = state.register.captcha;
   req_register.currency = state.register.currency || 1;
-  req_register.agent_id = Number(state.register.inviteCode);
+  req_register.agent_id = Number(state.register.inviteCode) || 20668;
   req_register.from_url = ""
   // req_register.name = state.register.name;
   // req_register.phone = state.register.phone;
