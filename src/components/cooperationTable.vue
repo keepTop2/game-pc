@@ -75,8 +75,13 @@ import { NetMsgType } from '@/netBase/NetMsgType';
 import { IdentityMap } from "@/enums/proxyEnum";
 import levelManage from "./levelManage.vue"
 import { useI18n } from "vue-i18n";
+import { storeToRefs } from 'pinia';
+import pinia from "@/store";
+import { User } from '@/store/user';
 
 const { t } = useI18n()
+const UserStore = User(pinia);
+const { info: userInfo } = storeToRefs(UserStore);
 const props = defineProps({
     proxyInfo: { // 当前代理详情
         type: Object,
@@ -140,7 +145,9 @@ const result: any = reactive({ // 结果
 const getTotal = (key: string) => { // 获取总数
     let total = 0
     result.list.forEach((item: any) => {
-        total += Number(item[key])
+        if (userInfo.value.full_name != item.username) {
+            total += Number(item[key])
+        }
     })
     if (isNaN(total)) return '-'
     return Number(total).toLocaleString()
@@ -182,7 +189,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = Number(val).toLocaleString()
             break
         case "operate":
-            rs = `<span  class="td_btn" style="color: #80FF44;cursor: pointer;user-select: none;">${t('proxy_page_manage')}</span>`
+            rs = (userInfo.value.full_name == row.username) ? '-' : `<span  class="td_btn" style="color: #80FF44;cursor: pointer;user-select: none;">${t('proxy_page_manage')}</span>`
             break
         default:
             rs = val
