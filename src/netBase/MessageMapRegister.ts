@@ -938,5 +938,19 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.rsp_pdk_cheat);
 		MessageMap.addMsgMap(NetPacket.req_add_usdt_info);
 		MessageMap.addMsgMap(NetPacket.notify_add_usdt_info);
+		MessageMap.addMsgMap(NetPacket.usdt_info);
+		MessageMap.addMsgMap(NetPacket.req_usdt_info_list);
+		MessageMap.addMsgMap(NetPacket.notify_usdt_info_list);
+		MessageMap.addMsgMap(NetPacket.revenue_ratio);
+		MessageMap.addMsgMap(NetPacket.req_usdt_and_revenue_ratio);
+		MessageMap.addMsgMap(NetPacket.notify_usdt_and_revenue_ratio);
+		MessageMap.addMsgMap(NetPacket.req_withdraw_count);
+		MessageMap.addMsgMap(NetPacket.nodify_withdraw_count);
+		MessageMap.addMsgMap(NetPacket.req_del_usdt_info);
+		MessageMap.addMsgMap(NetPacket.notify_del_usdt_info);
+		MessageMap.addMsgMap(NetPacket.req_set_default_usdt);
+		MessageMap.addMsgMap(NetPacket.notify_set_default_usdt);
+		MessageMap.addMsgMap(NetPacket.req_recent_games);
+		MessageMap.addMsgMap(NetPacket.notify_recent_games);
 	}
 }

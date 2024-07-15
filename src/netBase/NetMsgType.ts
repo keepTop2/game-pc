@@ -934,7 +934,21 @@ export module NetMsgType {
         msg_req_pdk_cheat: 932,
         msg_rsp_pdk_cheat: 933,
         msg_req_add_usdt_info: 934,
-        msg_notify_add_usdt_info: 935
+        msg_notify_add_usdt_info: 935,
+        msg_usdt_info: 936,
+        msg_req_usdt_info_list: 937,
+        msg_notify_usdt_info_list: 938,
+        msg_revenue_ratio: 939,
+        msg_req_usdt_and_revenue_ratio: 940,
+        msg_notify_usdt_and_revenue_ratio: 941,
+        msg_req_withdraw_count: 942,
+        msg_nodify_withdraw_count: 943,
+        msg_req_del_usdt_info: 944,
+        msg_notify_del_usdt_info: 945,
+        msg_req_set_default_usdt: 946,
+        msg_notify_set_default_usdt: 947,
+        msg_req_recent_games: 948,
+        msg_notify_recent_games: 949
     }
     type MsgType = typeof msgType1
 
