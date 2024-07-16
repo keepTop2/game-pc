@@ -16,7 +16,7 @@
             <n-popselect v-if="item.isPhone" v-model:value="state.codeValue" :options="state.codeOptions"
               @update:value="valueChange" trigger="click">
               <span class="code_box">
-                <span>{{ state.codeValue }}</span>
+                <span>+{{ state.codeValue }}</span>
                 <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </n-popselect>
@@ -280,15 +280,15 @@ const state: any = reactive({
     ],
   },
 
-  codeValue: '+84',
+  codeValue: '84',
   codeOptions: [
     // {
     //   label: '+63',
     //   value: '+63',
     // },
     {
-      label: '+84',
-      value: '+84',
+      label: '84',
+      value: '84',
     },
     // {
     //   label: '+86',

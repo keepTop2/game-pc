@@ -269,8 +269,8 @@ const state: any = reactive({
     //   value: '+63'
     // },
     {
-      label: '+84',
-      value: '+84'
+      label: '84',
+      value: '84'
     },
     // {
     //   label: '+86',

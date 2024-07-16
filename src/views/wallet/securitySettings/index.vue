@@ -111,7 +111,7 @@ const state: any = reactive({
                     old_password: '',
                     new_password: "",
                     new_password_confirm: "",
-                    codeValue: '+84',
+                    codeValue: '84',
                 },
 
                 list: {
@@ -268,7 +268,7 @@ const state: any = reactive({
                     modify_type: 1, //1表示常规修改密码，modify_type=2表示通过手机修改密码，modify_type=3表示通过邮箱修改密码
                     verify_code: "",
                     mobile: "",
-                    codeValue: '+84',
+                    codeValue: '84',
                 },
 
                 list: {

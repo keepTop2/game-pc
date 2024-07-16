@@ -106,7 +106,7 @@
                       <n-popselect v-model:value="formInfo.codeValue" :options="codeOptions" @update:value="valueChange"
                         trigger="click">
                         <span class="code_box">
-                          <span>{{ formInfo.codeValue }}</span>
+                          <span>+{{ formInfo.codeValue }}</span>
                           <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
                         </span>
                       </n-popselect>
@@ -279,7 +279,7 @@ const formBank = ref( // 存款表单提交
 );
 
 const formInfo = ref({
-  codeValue: '+84',
+  codeValue: '84',
   phone: '',
   phoneCode: '',
 });
@@ -292,8 +292,8 @@ const formCapital = ref({
 
 const codeOptions = [
   {
-    label: '+84',
-    value: '+84',
+    label: '84',
+    value: '84',
   },
 ];
 const valueChange = (item: any) => {
