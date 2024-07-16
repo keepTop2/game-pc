@@ -43,6 +43,7 @@ const PopForm = defineAsyncComponent(() => import('@/components/PopForm.vue'));
 const userInfo = User(pinia);
 const FormRef = ref()
 const { info, roleInfo } = storeToRefs(userInfo);
+
 const state: any = reactive({
     first: 1,
     checkPhoneOremail: false,
@@ -106,12 +107,12 @@ const state: any = reactive({
                     modify_type: 1, //1表示常规修改密码，modify_type=2表示通过手机修改密码，modify_type=3表示通过邮箱修改密码
                     phoneCode: "",
                     emailCode: "",
-                    mobile: "",
-                    email: '',
+                    mobile: info.value.mobile?.slice(2) || "",
+                    email: info.value.email || '',
                     old_password: '',
                     new_password: "",
                     new_password_confirm: "",
-                    codeValue: '84',
+                    codeValue: info.value.mobile?.slice(0, 2) || "",
                 },
 
                 list: {
@@ -125,7 +126,7 @@ const state: any = reactive({
                         changeRightIcon: !1,
                         show: false,
                         isMobile: true,
-
+                        disabled: info.value.mobile ? true : false,
                     },
 
                     email: {
@@ -137,6 +138,7 @@ const state: any = reactive({
                         // leftIcon: "Group39361-d3pmjajn",
                         changeRightIcon: !1,
                         show: false,
+                        disabled: info.value.email ? true : false,
                     },
                     old_password: {
                         name: "old_password",
@@ -177,7 +179,7 @@ const state: any = reactive({
                         // leftIcon: "Group39363-d3pmjao6",
                         changeRightIcon: !1,
                         show: false,
-                        disabled: true,
+                        disabled: info.value.mobile ? false : true,
                         loading: false,
                         timeText: 'home_page_send',
                         timer: null
@@ -191,7 +193,7 @@ const state: any = reactive({
                         // leftIcon: "Group39363-d3pmjao6",
                         changeRightIcon: !1,
                         show: false,
-                        disabled: true,
+                        disabled: info.value.email ? false : true,
                         loading: false,
                         timeText: 'home_page_send',
                         timer: null

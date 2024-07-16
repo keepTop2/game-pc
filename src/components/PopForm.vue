@@ -29,7 +29,7 @@
                 <n-select v-if="item.type == 'select'" v-model:value="state.formData.formParams[item.name]"
                   :filterable="item.filterable" :multiple="item.multiple" :placeholder="t(item.placeholder)"
                   :options="item.options" />
-                <n-input v-else clearable :type="item.type" size="large"
+                <n-input v-else clearable :type="item.type" size="large" :disabled="item.disabled"
                   v-model:value="state.formData.formParams[item.name]" :placeholder="t(item.placeholder)">
                   <template #prefix v-if="item.leftIcon">
                     <iconpark-icon :icon-id="item.leftIcon" color="#8e82c2" size="1rem"></iconpark-icon>
@@ -155,7 +155,12 @@ const submitSend = (item: any) => {
   if (state.formData.active == 1) {
     const req = NetPacket.req_get_mobile_sms_code()
     req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
-    req.operate_type = 1
+    if (state.formData.list.mobile.disabled) {
+      req.operate_type = 3
+    } else {
+      req.operate_type = 1
+    }
+
     Net.instance.sendRequest(req)
   }
   if (state.formData.active == 2) {
