@@ -597,6 +597,7 @@ export default {
     "Hierarchy": "Hierarchy",
     "Effective team flow": "Effective team flow",
     "Direct Commission": "Direct player",
+    "Insufficient Commission": "Insufficient commission available",
     "Casino draws": "Casino draws",
     "General Report": "General Report",
     "Team Report": "Team Report",

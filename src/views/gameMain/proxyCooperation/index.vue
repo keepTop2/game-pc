@@ -118,10 +118,10 @@ const claim = () => {
 }
 const claimHandle = (rs: any) => {
     if (rs.result === 0) {
-        Message.success(t('bank_success'))
+        Message.success(t('promo_page_applySuc'))
         queryData()
     } else {
-        Message.error(t('withdraw_page_CantWithdraw'))
+        Message.error(t('Insufficient Commission'))
     }
 }
 

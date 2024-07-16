@@ -75,7 +75,7 @@ export const needLoginApi = async () => {
 		tb_req.device_id = await Utils.getDeviceId();
 		Net.instance.sendRequest(tb_req);
 
-    // 目前观察好像没有什么用，先去掉
+		// 目前观察好像没有什么用，先去掉
 		// let req_roleinfo_with_id = NetPacket.req_roleinfo_with_id();
 		// req_roleinfo_with_id.id = Local.get('user').user_id;
 		// Net.instance.sendRequest(req_roleinfo_with_id);

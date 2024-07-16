@@ -590,6 +590,7 @@ export default {
     "Effective flow": "有效流水",
     "Effective team flow": "团队佣金",
     "Direct Commission": "直属玩家佣金",
+    "Insufficient Commission": "可领取佣金不足",
     "Casino draws": "赌场抽点",
     "General Report": "总报表",
     "Team Report": "团队报表",
