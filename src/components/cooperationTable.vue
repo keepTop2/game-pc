@@ -198,7 +198,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
 }
 
 const clickTd = (row: any, key: string) => { // td点击事件
-    if (key != 'operate') return
+    if (key != 'operate' || userInfo.value.full_name == row.username) return
     levelM.value.openModal(row)
 }
 

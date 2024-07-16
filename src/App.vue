@@ -26,6 +26,8 @@ import { convertObjectToDateString } from '@/utils/dateTime';
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 import { Local } from '@/utils/storage';
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 const userInfo = User(pinia);
 const page = Page(pinia);
 const { roleInfo, myEmail } = storeToRefs(userInfo);
@@ -163,6 +165,17 @@ const handleUpdateRoleInfo = async (data: any) => {
     await User(pinia).getRoleInfo(data)
   }
 }
+// 登录成功后发送邀请码
+const handleLoginFinish = async (data: any) => {
+  if (data.result == 1) {
+    const agent_id = localStorage.getItem('agent_id')
+    if (Number(agent_id)) {
+      const rq = NetPacket.req_set_invitecode();
+      rq.superior_id = Number(agent_id)
+      Net.instance.sendRequest(rq);
+    }
+  }
+}
 
 onMounted(async () => {
 
@@ -197,6 +210,11 @@ onMounted(async () => {
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_roleinfo_with_id,
     handleUpdateRoleInfo
+  );
+  // 登录完成
+  MessageEvent2.addMsgEvent(
+    10086,
+    handleLoginFinish,
   );
 
   await page.setLang(Local.get('lang'))

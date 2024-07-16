@@ -60,7 +60,7 @@ const levels: any = computed(() => {
         }
     })
     if (props.proxyInfo.level == 1) {
-        arr.push({ label: IdentityMap[1], value: 1 })
+        arr.push({ label: IdentityMap[1], value: '1' })
     }
     return arr
 })

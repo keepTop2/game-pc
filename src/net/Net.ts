@@ -342,7 +342,9 @@ export class Net {
             );
         }
         //  第二个 net 对应第二个ip地址
-
+        if (msgID == 5) { // 这个事件id监听不到
+            MessageEvent2.sendEvent(10086, message);
+        }
         MessageEvent2.sendEvent(msgID, message);
     }
 
