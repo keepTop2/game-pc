@@ -155,7 +155,12 @@ const submitSend = (item: any) => {
   if (state.formData.active == 1) {
     const req = NetPacket.req_get_mobile_sms_code()
     req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
-    req.operate_type = 1
+    if (state.formData.list.mobile.disabled) {
+      req.operate_type = 3
+    } else {
+      req.operate_type = 1
+    }
+
     Net.instance.sendRequest(req)
   }
   if (state.formData.active == 2) {
