@@ -1,5 +1,5 @@
 export default {
-  club_page_ren: '人',
+  club_page_ren: 'People',
   club_page_id: 'Club ID',
   club_page_sf: 'Club identity',
   club_page_cheny: 'member',
