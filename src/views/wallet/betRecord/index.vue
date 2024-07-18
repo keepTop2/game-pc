@@ -181,7 +181,7 @@ const queryData = () => { // 查询
     loading.value = true
     Net.instance.sendRequest(query);
     setTimeout(() => {
-        getPlatformData
+        getPlatformData()
     }, 300)
 }
 const getPlatformData = () => { // 获取平台数据
