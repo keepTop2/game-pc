@@ -948,7 +948,9 @@ export module NetMsgType {
         msg_req_set_default_usdt: 946,
         msg_notify_set_default_usdt: 947,
         msg_req_recent_games: 948,
-        msg_notify_recent_games: 949
+        msg_notify_recent_games: 949,
+        msg_req_discount_details: 950,
+        msg_notify_discount_details: 951
     }
     type MsgType = typeof msgType1
 

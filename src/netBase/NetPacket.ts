@@ -3307,19 +3307,15 @@ export module NetPacket {
 	export function req_enter_room() {
 		let tb: any = {
 			room_type_id: 0,
-			game_mode: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_enter_room"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
-				EncodeUtils.int32ToByte(tb.game_mode, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.game_mode = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -22707,6 +22703,9 @@ export module NetPacket {
 			restrict: '',
 			name: '',
 			threshold: 0,
+			save_trigger: 0,
+			save_ratio: 0,
+			save_require: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_recharge_discount"];
 			},
@@ -22718,6 +22717,9 @@ export module NetPacket {
 				EncodeUtils.utf8StrtoBytes(tb.restrict, buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.int64ToByte(tb.threshold, buf);
+				EncodeUtils.int64ToByte(tb.save_trigger, buf);
+				EncodeUtils.int32ToByte(tb.save_ratio, buf);
+				EncodeUtils.int32ToByte(tb.save_require, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -22737,6 +22739,12 @@ export module NetPacket {
 				startIndex += name_value[1];
 				tb.threshold = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
+				tb.save_trigger = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.save_ratio = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.save_require = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -27234,13 +27242,19 @@ export module NetPacket {
 	}
 	export function req_platform_gametype_list() {
 		let tb: any = {
+			start_time: stime(),
+			end_time: stime(),
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_platform_gametype_list"];
 			},
-			encode: function (_buf: any) {
+			encode: function (buf: any) {
+				tb.start_time.encode(buf);
+				tb.end_time.encode(buf);
 			},
-			decode: function (_buf: any, index: number) {
+			decode: function (buf: any, index: number) {
 				let startIndex = index;
+				startIndex += tb.start_time.decode(buf, startIndex);
+				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -28639,6 +28653,55 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recent_games"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_discount_details() {
+		let tb: any = {
+			activity_ID: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_discount_details"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.activity_ID, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.activity_ID = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_discount_details"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_discount_details() {
+		let tb: any = {
+			details: recharge_discount(),
+			start_time: stime(),
+			end_time: stime(),
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_discount_details"];
+			},
+			encode: function (buf: any) {
+				tb.details.encode(buf);
+				tb.start_time.encode(buf);
+				tb.end_time.encode(buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				startIndex += tb.details.decode(buf, startIndex);
+				startIndex += tb.start_time.decode(buf, startIndex);
+				startIndex += tb.end_time.decode(buf, startIndex);
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_discount_details"], buf);
 				return tb.encode(buf);
 			}
 		};

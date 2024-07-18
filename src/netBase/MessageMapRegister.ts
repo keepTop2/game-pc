@@ -952,5 +952,7 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_set_default_usdt);
 		MessageMap.addMsgMap(NetPacket.req_recent_games);
 		MessageMap.addMsgMap(NetPacket.notify_recent_games);
+		MessageMap.addMsgMap(NetPacket.req_discount_details);
+		MessageMap.addMsgMap(NetPacket.notify_discount_details);
 	}
 }
