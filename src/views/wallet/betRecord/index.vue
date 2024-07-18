@@ -180,14 +180,19 @@ const queryData = () => { // 查询
     query.play_type = params.play_type
     loading.value = true
     Net.instance.sendRequest(query);
+    setTimeout(() => {
+        getPlatformData
+    }, 300)
 }
 const getPlatformData = () => { // 获取平台数据
     const query = NetPacket.req_platform_gametype_list()
+    Object.assign(query.start_time, params.start_time)
+    Object.assign(query.end_time, params.end_time)
     Net.instance.sendRequest(query);
 }
 setTimeout(() => {
     getPlatformData()
-}, 1200)
+}, 500)
 
 // 回执监听
 MessageEvent2.addMsgEvent(
