@@ -389,6 +389,8 @@ MessageEvent2.addMsgEvent(
 MessageEvent2.addMsgEvent(
   NetMsgType.msgType.msg_notify_repeat_login,
   async () => {
+    Local.remove('user')
+    await User(pinia).setHasLogin(false)
     Dialog.warning({
       showIcon: false,
       maskClosable: false,
@@ -396,14 +398,10 @@ MessageEvent2.addMsgEvent(
       content: t('home_page_offlineContent', { time: convertObjectToDateString(convertDateToObject(new Date())) }),
       positiveText: t('home_page_offlineConfirm'),
       onPositiveClick: async () => {
-        Local.remove('user')
-        await User(pinia).setHasLogin(false)
-        await User(pinia).setLogin(true)
         location.href = '/'
+        await User(pinia).setLogin(true)
       },
       onClose: async () => {
-        Local.remove('user')
-        await User(pinia).setHasLogin(false)
         location.href = '/'
       },
 

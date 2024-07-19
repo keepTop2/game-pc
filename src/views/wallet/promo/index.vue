@@ -12,7 +12,7 @@
           v-for="(item, index) in listData.list" :key="index">
           <n-flex justify="space-between" class="item_top">
             <div class="item_l">
-<!--              <span v-if="('1,2,3,4,5').includes(item.have_save)" class="item_name"> {{ t('promo_page_fuHuo') }} </span>-->
+              <!--              <span v-if="('1,2,3,4,5').includes(item.have_save)" class="item_name"> {{ t('promo_page_fuHuo') }} </span>-->
               <span class="item_name"> {{ tabArr.find((item_1: any) => item_1.key == item.tag) ?
         t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
               <n-tooltip trigger="hover">
@@ -24,14 +24,14 @@
 
             </div>
             <div class="item_r">
-<!--              <n-button v-if="('1,2,3,4,5').includes(item.have_save)" :disabled="('1,2').includes(item.have_save)"
+              <!--              <n-button v-if="('1,2,3,4,5').includes(item.have_save)" :disabled="('1,2').includes(item.have_save)"
                 :bordered="false" class="lq-btn" @click="applyBouns(item)">
                 {{ item.have_save === '1' ? t('promo_page_fuHuoNot') : t('promo_page_receive') }}
               </n-button>-->
               <n-button :bordered="false" class="lq-btn" @click="applyBouns(item)">
-               {{ t('promo_page_apply') }}
+                {{ t('promo_page_apply') }}
               </n-button>
-<!--              <n-button v-else :bordered="false" class="lq-btn" @click="applyBouns(item)"> {{ item.tag === '0' ?
+              <!--              <n-button v-else :bordered="false" class="lq-btn" @click="applyBouns(item)"> {{ item.tag === '0' ?
         t('promo_page_apply') : t('promo_page_receive') }} </n-button>-->
             </div>
           </n-flex>
@@ -273,7 +273,7 @@ onMounted(() => {
         .item_name {
           display: inline-block;
           min-width: 126px;
-          padding:0 8px ;
+          padding: 0 8px;
           height: 46px;
           padding-top: 6px;
           text-align: center;
@@ -342,4 +342,3 @@ onMounted(() => {
   }
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType

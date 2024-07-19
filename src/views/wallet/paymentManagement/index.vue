@@ -102,4 +102,3 @@ onUnmounted(() => {
 
 </script>
 <style src="./style.less" lang="less" scoped></style>
-@/netBase/NetPacket@/netBase/NetMsgType

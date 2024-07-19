@@ -249,4 +249,3 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
 });
 </script>
-@/netBase/NetMsgType@/netBase/NetPacket

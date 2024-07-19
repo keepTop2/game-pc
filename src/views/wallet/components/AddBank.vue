@@ -260,4 +260,3 @@ onUnmounted(() => {
 
 
 </script>
-@/netBase/NetMsgType@/netBase/NetPacket

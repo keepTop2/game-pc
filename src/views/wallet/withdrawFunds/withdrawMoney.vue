@@ -537,4 +537,3 @@ const railStyle = ({ focused, checked }: {
   }
 }
 </style>
-@/netBase/NetMsgType@/netBase/NetPacket

@@ -233,4 +233,3 @@ onUnmounted(() => {
   // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_audit_record, null);
 });
 </script>
-@/netBase/NetMsgType@/netBase/NetPacket

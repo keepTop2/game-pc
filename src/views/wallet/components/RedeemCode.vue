@@ -81,4 +81,3 @@ onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_exchange, null);
 });
 </script>
-@/netBase/NetPacket@/netBase/NetMsgType

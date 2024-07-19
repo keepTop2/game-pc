@@ -11,7 +11,8 @@
         </div>
         <div class="body vertical center t_md">
           <!-- 充值列表选择 -->
-          <n-flex justify="space-between" align="center" :class="`item_list ${curDepositWay.payname === item.payname ? 'active' : ''}`"
+          <n-flex justify="space-between" align="center"
+            :class="`item_list ${curDepositWay.payname === item.payname ? 'active' : ''}`"
             v-for="(item, index) in usdtRecharge" :key="index">
             <n-flex align="center" class="item_list_l">
               <div class="bank_icon">
@@ -129,7 +130,8 @@
   </n-modal>
 
   <!-- 选择银行弹窗 -->
-  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList"  ref="chooseBankModal" @selectBank="selectBank" />
+  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList" ref="chooseBankModal"
+    @selectBank="selectBank" />
 
 </template>
 
@@ -171,7 +173,7 @@ const dataParams = {
 const form = ref( // 存款表单提交
   { ...dataParams }
 );
-const curDiscountData = Local.get('curDiscountData') || {id: 0}; // 从我的优惠过来
+const curDiscountData = Local.get('curDiscountData') || { id: 0 }; // 从我的优惠过来
 const baseMtdList = { label: t('addBank_page_pChoose'), value: -1, minrecharge: 0, maxrecharge: 0, paymethod: '' }
 // 充值方式列表
 const mtdList = ref<any>([{ ...baseMtdList }]);
@@ -568,4 +570,3 @@ defineExpose({
 
 }
 </style>
-@/netBase/NetMsgType@/netBase/NetPacket

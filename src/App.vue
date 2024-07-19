@@ -23,8 +23,8 @@ import { Page } from '@/store/page';
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
-import { Message } from "@/utils/discreteApi";
-import { useI18n } from "vue-i18n";
+// import { Message } from "@/utils/discreteApi";
+// import { useI18n } from "vue-i18n";
 import { Local } from '@/utils/storage';
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
@@ -47,7 +47,7 @@ const Language: any = {
   }
 }
 
-const { t } = useI18n();
+// const { t } = useI18n();
 
 const themeOverrides: GlobalThemeOverrides = {
 
@@ -153,7 +153,7 @@ const handleNewEmail = (rs: any) => {
 // 监听金额变化
 const handleUpdateMoney = async (data: any) => {
   if (data) {
-    Message.success(t('deposit_page_depSuccess')); // 充值成功需要弹出提示
+    // Message.success(t('deposit_page_depSuccess')); // 充值成功需要弹出提示
     const newData = { ...roleInfo.value }
     newData.money = data.cur_money
     await User(pinia).getRoleInfo(newData)
@@ -233,4 +233,3 @@ onMounted(async () => {
   background-image: radial-gradient(circle at 50% 4%, #361e79, #22203e 66%);
 }
 </style>
-@/netBase/NetMsgType
