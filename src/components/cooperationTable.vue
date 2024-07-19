@@ -312,4 +312,3 @@ onUnmounted(() => {
 
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType

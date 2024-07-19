@@ -566,4 +566,3 @@ onUnmounted(() => {
   margin-top: 40px;
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType

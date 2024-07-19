@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang='ts' name="Header">
-import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, } from 'vue';
+import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -344,7 +344,9 @@ const onHander_system_notice = async (message: any) => {
   }
 }
 
-
+const avatarLoadError = (e: any) => {
+  e.target.src = defaultAvatar
+}
 const onHandler_system_msg = async (m: any) => {
   // console.error('----系统消息', m)
   if (m.Params && m.Params.length == 6) { // 跑马灯
@@ -464,10 +466,19 @@ onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_check_version, null);
 
 });
+watch(
+  () => route.path,
+  async (n: any) => {
+    if (n) {
+      let index = menu.findIndex((e: any) => e.url == n)
 
-const avatarLoadError = (e: any) => {
-  e.target.src = defaultAvatar
-}
+      if (index != -1) {
+        await page.setMenuActive(index, menu[index].name)
+      }
+    }
+  }
+)
+
 
 </script>
 
@@ -734,4 +745,3 @@ const avatarLoadError = (e: any) => {
   }
 }
 </style>
-@/netBase/NetMsgType@/netBase/NetEnumDef@/netBase/NetPacket

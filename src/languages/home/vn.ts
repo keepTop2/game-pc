@@ -12,11 +12,18 @@ export default {
     home_page_confirmSignOut: 'Xác nhận thoát? ',
     home_page_confirm: 'Được',
     home_page_cancel: 'Hủy',
+    // 短信服务提示语
+    home_page_smsTitle: 'Nhắc',
+    home_page_smsContent: 'Để mang đến cho bạn trải nghiệm tốt hơn, phí dịch vụ SMS',
+    home_page_smsPrice: '1 món 1000đ',
+    home_page_smsContent1: '. Sau khi bạn xác nhận, chúng tôi sẽ tự động khấu trừ phí từ ví của bạn và gửi xác minh, không cần thực hiện thao tác nào khác.',
+    home_page_smsContent2: 'Lưu ý: Nếu số dư trong ví di động của bạn không đủ, vui lòng',
+    home_page_smsGoWallet: 'Vào ví',
+    home_page_smsContent3: 'Lấy nó ra khỏi két hoặc đi sạc lại',
     // 重复登录
     home_page_offlineNotification: 'Thông báo ngoại tuyến',
     home_page_offlineContent: 'Tài khoản của bạn đã được đăng nhập trên một thiết bị khác vào lúc {time}. Nếu việc này không do chính bạn thực hiện, mật khẩu có thể bị rò rỉ',
     home_page_offlineConfirm: 'Đăng nhập lại',
-
 
     // 导航栏隐藏式侧边栏
     home_page_myWallet: 'Ví của tôi',

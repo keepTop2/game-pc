@@ -485,4 +485,3 @@ onUnmounted(async () => {
   font-size: 18px;
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType@/netBase/NetEnumDef

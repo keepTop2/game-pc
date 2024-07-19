@@ -7,12 +7,19 @@ export default {
     home_page_vi: 'Việt Nam',
     home_page_zh: '简体中文',
     home_page_en: 'English',
-
     // 退出登录提示语
     home_page_logout: 'Log out',
     home_page_confirmSignOut: 'Are you sure you want to Log out?',
     home_page_confirm: 'Confirm',
     home_page_cancel: 'Cancel',
+    // 短信服务提示语
+    home_page_smsTitle: 'Tips',
+    home_page_smsContent: 'In order to provide you with a better experience, the SMS service fee',
+    home_page_smsPrice: '1000 VND per message',
+    home_page_smsContent1: '. After you confirm, we will automatically deduct the fee from your wallet and send it for verification. No other operations are required.',
+    home_page_smsContent2: 'Note: If your wallet balance is insufficient, please',
+    home_page_smsGoWallet: 'Go to wallet',
+    home_page_smsContent3: 'Take it out from the safe or go to recharge',
     // 重复登录
     home_page_offlineNotification: 'Offline Notification',
     home_page_offlineContent: 'Your account was logged in from another device at {time}. If it was not done by you, your password may have been leaked. We recommend that you change your password.',

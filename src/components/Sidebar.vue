@@ -410,4 +410,3 @@ watch(
     }
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType

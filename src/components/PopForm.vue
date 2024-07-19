@@ -54,6 +54,20 @@
     </div>
 
   </n-modal>
+
+  <n-modal v-model:show="state.showModa" preset="card" style="width: 40%;" :mask-closable="false" @close="closeModal">
+    <template #header>
+      <div class="forget_title">提示</div>
+    </template>
+    <div class="tips">
+      <p>{{ t('home_page_smsContent') }}<b>{{ t('home_page_smsPrice') }}</b>{{ t('home_page_smsContent1') }}</p>
+      <p>{{ t('home_page_smsContent2') }} <span @click="router.push('/wallet/walletInfo')">{{ t('home_page_smsGoWallet')
+          }}</span> {{ t('home_page_smsContent3') }}</p>
+      <n-button class="btn_block" :bordered="false" block @click="sendMobileSmsCode"> {{ t('home_page_confirm')
+        }}</n-button>
+    </div>
+
+  </n-modal>
 </template>
 
 <script setup lang="ts">
@@ -63,15 +77,16 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { Message } from "@/utils/discreteApi";
-
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
-
+const router = useRouter();
 const emit = defineEmits(['changeTab', 'submitData', 'nextChange']);
 
 const formRef = ref();
 const isShow = ref(false)
 const state: any = reactive({
+  showModa: false,
   formData: null,
   formInitValue: null,
 
@@ -148,22 +163,34 @@ const submitNext = () => {
     });
   }
 };
+const closeModal = () => {
+  state.itemClick.loading = false
+}
+// 手机验证码协议
+const sendMobileSmsCode = () => {
+  state.itemClick.loading = true
+  state.showModa = false
+  const req = NetPacket.req_get_mobile_sms_code()
+  req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
+  if (state.formData.list.mobile.disabled) {
+    req.operate_type = 3
+  } else {
+    req.operate_type = 1
+  }
+
+  Net.instance.sendRequest(req)
+}
 // 发送验证码
 const submitSend = (item: any) => {
-  item.loading = true
+  state.itemClick = item
   // 1 为手机  2 为邮箱 
   if (state.formData.active == 1) {
-    const req = NetPacket.req_get_mobile_sms_code()
-    req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
-    if (state.formData.list.mobile.disabled) {
-      req.operate_type = 3
-    } else {
-      req.operate_type = 1
-    }
+    state.showModa = true
 
-    Net.instance.sendRequest(req)
+
   }
   if (state.formData.active == 2) {
+    item.loading = true
     const req = NetPacket.req_get_email_verification_code()
     req.email = state.formData.formParams.email
     Net.instance.sendRequest(req)
@@ -345,6 +372,19 @@ defineExpose({
   .login_btn {
     margin-top: 40px;
   }
+
+}
+
+.tips {
+  p {
+    >b {
+      color: yellow;
+    }
+
+    >span {
+      color: red;
+      cursor: pointer;
+    }
+  }
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType

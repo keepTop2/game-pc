@@ -12,6 +12,14 @@ export default {
     home_page_confirmSignOut: '确认要退出吗？',
     home_page_confirm: '确定',
     home_page_cancel: '取消',
+    // 短信服务提示语
+    home_page_smsTitle: '提示',
+    home_page_smsContent: '为了给您提供更好的体验，短信服务费',
+    home_page_smsPrice: '1条1000越南盾',
+    home_page_smsContent1: '。您确认后，我们将自动从您的携带钱包进行扣费并发送验证，无需其他操作.',
+    home_page_smsContent2: '注意：若您的携带钱包余额不足，请',
+    home_page_smsGoWallet: '前往钱包',
+    home_page_smsContent3: '从保险柜取出或前往充值',
     // 重复登录
     home_page_offlineNotification: '下线通知',
     home_page_offlineContent: '您的账号于{time}在另一台设备登录，如非本人操作，则密码可能泄露，建议您修改密码',

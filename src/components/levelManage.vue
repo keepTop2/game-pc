@@ -193,4 +193,3 @@ defineExpose({
     }
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType
