@@ -23,8 +23,8 @@ import { Page } from '@/store/page';
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
-// import { Message } from "@/utils/discreteApi";
-// import { useI18n } from "vue-i18n";
+import { Message } from "@/utils/discreteApi";
+import { useI18n } from "vue-i18n";
 import { Local } from '@/utils/storage';
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
@@ -47,7 +47,7 @@ const Language: any = {
   }
 }
 
-// const { t } = useI18n();
+const { t } = useI18n();
 
 const themeOverrides: GlobalThemeOverrides = {
 
@@ -165,6 +165,14 @@ const handleUpdateRoleInfo = async (data: any) => {
     await User(pinia).getRoleInfo(data)
   }
 }
+// 充值成功，弹出提示
+const handleDepositSuc = async (data: any) => {
+  if (data?.amount) {
+    Message.success(t('deposit_page_depSuccess')); // 充值成功需要弹出提示
+  } else {
+    Message.error(t('deposit_page_depFail'));
+  }
+}
 // 登录成功后发送邀请码
 const handleLoginFinish = async (data: any) => {
   if (data.result == 1) {
@@ -210,6 +218,11 @@ onMounted(async () => {
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_roleinfo_with_id,
     handleUpdateRoleInfo
+  );
+  // 充值成功
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_recharge_success_from_third,
+    handleDepositSuc
   );
   // 登录完成
   MessageEvent2.addMsgEvent(
