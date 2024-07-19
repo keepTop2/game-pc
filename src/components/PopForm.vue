@@ -54,35 +54,23 @@
     </div>
 
   </n-modal>
+  <SmsCode ref="SmsCodeRef" @submitEvent="sendMobileSmsCode"></SmsCode>
 
-  <n-modal v-model:show="state.showModa" preset="card" style="width: 40%;" :mask-closable="false" @close="closeModal">
-    <template #header>
-      <div class="forget_title">提示</div>
-    </template>
-    <div class="tips">
-      <p>{{ t('home_page_smsContent') }}<b>{{ t('home_page_smsPrice') }}</b>{{ t('home_page_smsContent1') }}</p>
-      <p>{{ t('home_page_smsContent2') }} <span @click="router.push('/wallet/walletInfo')">{{ t('home_page_smsGoWallet')
-          }}</span> {{ t('home_page_smsContent3') }}</p>
-      <n-button class="btn_block" :bordered="false" block @click="sendMobileSmsCode"> {{ t('home_page_confirm')
-        }}</n-button>
-    </div>
-
-  </n-modal>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, defineAsyncComponent } from "vue";
 import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { Message } from "@/utils/discreteApi";
-import { useRouter } from 'vue-router';
+
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
-const router = useRouter();
+const SmsCode = defineAsyncComponent(() => import('@/components/SmsCodeModal.vue'));
 const emit = defineEmits(['changeTab', 'submitData', 'nextChange']);
-
+const SmsCodeRef = ref()
 const formRef = ref();
 const isShow = ref(false)
 const state: any = reactive({
@@ -158,18 +146,15 @@ const submitNext = () => {
     formRef.value?.validate((errors: any) => {
       if (!errors) {
         emit('submitData', state.formData.formParams, state.type);
-
       }
     });
   }
 };
-const closeModal = () => {
-  state.itemClick.loading = false
-}
+
 // 手机验证码协议
 const sendMobileSmsCode = () => {
   state.itemClick.loading = true
-  state.showModa = false
+  SmsCodeRef.value.closeDialog()
   const req = NetPacket.req_get_mobile_sms_code()
   req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
   if (state.formData.list.mobile.disabled) {
@@ -185,7 +170,7 @@ const submitSend = (item: any) => {
   state.itemClick = item
   // 1 为手机  2 为邮箱 
   if (state.formData.active == 1) {
-    state.showModa = true
+    SmsCodeRef.value.openDialog()
 
 
   }
@@ -371,20 +356,6 @@ defineExpose({
 
   .login_btn {
     margin-top: 40px;
-  }
-
-}
-
-.tips {
-  p {
-    >b {
-      color: yellow;
-    }
-
-    >span {
-      color: red;
-      cursor: pointer;
-    }
   }
 }
 </style>

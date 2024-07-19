@@ -484,11 +484,8 @@ watch(
 
 <style lang='less' scoped>
 .header-bg-img {
-
   background-blend-mode: color-burn;
 }
-
-
 
 .country_box {
   display: flex;
@@ -498,7 +495,6 @@ watch(
   height: 32px;
   cursor: pointer;
   border-radius: 10px;
-
   background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
   >span {
