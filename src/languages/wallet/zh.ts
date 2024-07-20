@@ -222,6 +222,7 @@ export default {
   deposit_page_depositTips: '请注意：不要重复提交订单',
   deposit_page_inputBank: '输入银行名称查找',
   deposit_page_depSuccess: '充值成功',
+  deposit_page_depFail: '充值失败',
   deposit_page_notPayWay: '暂无充值方式',
   deposit_page_upperLimit: '优惠上限',
   deposit_page_giftRatio: '赠送比列',
