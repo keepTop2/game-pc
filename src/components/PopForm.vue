@@ -29,7 +29,7 @@
                 <n-select v-if="item.type == 'select'" v-model:value="state.formData.formParams[item.name]"
                   :filterable="item.filterable" :multiple="item.multiple" :placeholder="t(item.placeholder)"
                   :options="item.options" />
-                <n-input v-else clearable :type="item.type" size="large" :disabled="item.disabled"
+                <n-input v-else clearable :type="item.type" size="large" :disabled="item.disabled" autoComplete="off"
                   v-model:value="state.formData.formParams[item.name]" :placeholder="t(item.placeholder)">
                   <template #prefix v-if="item.leftIcon">
                     <iconpark-icon :icon-id="item.leftIcon" color="#8e82c2" size="1rem"></iconpark-icon>
