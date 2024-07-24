@@ -127,6 +127,7 @@ const state: any = reactive({
                         show: false,
                         isMobile: true,
                         disabled: info.value.mobile ? true : false,
+
                     },
 
                     email: {
@@ -139,6 +140,7 @@ const state: any = reactive({
                         changeRightIcon: !1,
                         show: false,
                         disabled: info.value.email ? true : false,
+
                     },
                     old_password: {
                         name: "old_password",
@@ -182,7 +184,8 @@ const state: any = reactive({
                         disabled: info.value.mobile ? false : true,
                         loading: false,
                         timeText: 'home_page_send',
-                        timer: null
+                        timer: null,
+                        btnDisabled: false,
                     },
                     emailCode: {
                         name: "emailCode",
@@ -196,7 +199,8 @@ const state: any = reactive({
                         disabled: info.value.email ? false : true,
                         loading: false,
                         timeText: 'home_page_send',
-                        timer: null
+                        timer: null,
+                        btnDisabled: false,
                     },
                 },
             },
@@ -246,7 +250,8 @@ const state: any = reactive({
                         disabled: true,
                         loading: false,
                         timeText: 'home_page_send',
-                        timer: null
+                        timer: null,
+                        btnDisabled: false,
                     },
                 },
             },
@@ -297,7 +302,8 @@ const state: any = reactive({
                         disabled: true,
                         loading: false,
                         timeText: 'home_page_send',
-                        timer: null
+                        timer: null,
+                        btnDisabled: false,
                     },
                 },
             },

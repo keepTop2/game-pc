@@ -247,7 +247,8 @@ const state: any = reactive({
         disabled: true,
         loading: false,
         timeText: t('home_page_send'),
-        timer: null
+        timer: null,
+        btnDisabled: false,
       },
       emailCode: {
         name: "emailCode",
@@ -261,7 +262,8 @@ const state: any = reactive({
         disabled: true,
         loading: false,
         timeText: t('home_page_send'),
-        timer: null
+        timer: null,
+        btnDisabled: false,
       },
     },
   },
