@@ -148,6 +148,7 @@ export default {
   sg_game_common_already_unlock_bet_limit:
     'bạn đã mở khoá hạn chế sao kê,Bạn có muốn tiếp tục trò chơi không?',
   sg_role_money_not_enough: 'số dư không đủ.',
+  role_money_not_enough: 'số dư không đủ.',
   sg_role_already_get_reward:
     'Tài khoản khác của bạn đã quay vòng quay may mắn , cám ơn bạn đã tham gia!',
   upgrade_vip_account:
