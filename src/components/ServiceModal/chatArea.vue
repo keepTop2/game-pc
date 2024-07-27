@@ -1,9 +1,9 @@
 <template>
   <div class="chat_content">
     <div class="chat_item"  v-for="item in chatList" :key="item.id" :style="{justifyContent:item.role=='kf'?'flex-start':'flex-end'}">
-      <img :src="`/img/serviceModal/${item.role=='kf'?'avatar':'avatar1'}.webp`" alt="">
+      <img v-if="item.role=='kf'"  :src="`/img/serviceModal/avatar.webp`" alt="">
       <div class="chat_main">
-        <div class="user_info">
+        <div class="user_info" :style="{flexDirection:item.role=='kf'?'row':'row-reverse'}">
           <span>{{ item.name }}</span>
           <div class="mark_kf">{{ item.role=='kf'?'官方客服':'我' }}</div>
           <span class="date">{{ item.date }}</span>
@@ -12,6 +12,7 @@
           {{ item.content }}
         </div>
       </div>
+      <img v-if="item.role=='user'" :src="`/img/serviceModal/avatar1.webp`" alt="">
     </div>
   </div>
 </template>
@@ -65,6 +66,7 @@ const chatList = [
 
   .chat_item {
     display: flex;
+    // flex-direction: row-reverse;
   //  justify-content: flex-end;
    
 
@@ -74,11 +76,13 @@ const chatList = [
     }
     .chat_main{
       margin-left: 10px;
+      margin-right: 10px;
     }
 
     .user_info {
       display: flex;
       gap: 8px;
+
 
       .mark_kf {
         border-radius: 6px;
