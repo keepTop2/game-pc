@@ -93,11 +93,13 @@
         </div>
       </div>
     </div>
+    <!-- 客服弹窗 -->
+    <ServiceModal  v-model:visible="visible"></ServiceModal>
   </header>
 </template>
 
 <script setup lang='ts' name="Header">
-import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch } from 'vue';
+import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch,ref } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -117,6 +119,7 @@ import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime
 import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getSetting } from '@/net/Net';
+import ServiceModal  from './ServiceModal/ServiceModal.vue'
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings, lang } = storeToRefs(page);
@@ -126,6 +129,8 @@ const userInfo = User(pinia);
 const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
+
+const visible  =  ref(false) // 打开客服
 
 const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
 const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
@@ -243,10 +248,13 @@ const openLink = (item: any) => {
 
 }
 const iconClick = async (item: any) => {
+  console.log(item)
   if (item.url) {
     switch (item.url) {
+      // 客服
       case 'kf':
-        handleOpenLink(settings.value.serviceTelegram)
+      visible.value = true
+        // handleOpenLink(settings.value.serviceTelegram)
         break;
       case 'dw':
         handleOpenLink(settings.value.appDownTipList.app_down_url)
