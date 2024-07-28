@@ -1,4 +1,5 @@
 .payment_management {
+    display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 0 15px;
@@ -26,19 +27,25 @@
         }
 
         .close {
-            top: 10px;
-            right: 11px;
-            width: 20px;
-            height: 20px;
-            flex-grow: 0;
-            border-radius: 4px;
-            background-color: rgba(204, 198, 198, 0.42);
-            z-index: 10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          top: 10px;
+          right: 11px;
+          width: 20px;
+          height: 20px;
+          flex-grow: 0;
+          border-radius: 4px;
+          background-color: rgba(204, 198, 198, 0.42);
+          z-index: 10;
         }
 
         &.add_bank {
-            color: var(--c-inactive);
-            border: 1px dashed var(--c-inactive);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--c-inactive);
+          border: 1px dashed var(--c-inactive);
         }
     }
 }
