@@ -3,39 +3,68 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main">
       <h4 class="top_title">
-          <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
-          <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-          </i>
-        </h4>
-        <div class="main_body">
+        <span>与阿铁的聊天 (官方客服)</span>
+        <i>
+          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+        </i>
+      </h4>
+      <div class="main_body">
         <!-- 左侧菜单 -->
-        <div class="left_menu"></div>
+        <div class="left_menu">
+          <n-flex class="tabs">
+            <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
+                 @click="tabClick(tab)">
+              {{ t(tab.label) }}
+            </div>
+          </n-flex>
+          <n-input v-model:value="search" placeholder="查找聊天列表" />
+          <div class="user_list">
+            <div class="list_item" v-for="item in userList" :key="item.id">
+              <div class="item_left">
+                <img :src="`/img/serviceModal/avatar1.webp`" alt="">
+                <span>{{ item.name }}</span>
+              </div>
+              <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+            </div>
+          </div>
+        </div>
         <!-- 右侧聊天区域 -->
         <div class="right_content">
           <chatArea></chatArea>
+          <div class="send_message">
+            <n-input v-model:value="value">
+              <template #suffix>
+                <div class="send_icon">
+                  <img :src="`/img/serviceModal/image.webp`" alt="">
+                  <img :src="`/img/serviceModal/video.webp`" alt="">
+                  <img :src="`/img/serviceModal/emoji.webp`" alt="">
+                </div>
+              </template>
+            </n-input>
+            <div class="send_btn">发送</div>
+          </div>
         </div>
-        </div>
-      <!-- 快捷语设置 -->
-      <shortcutSettings v-model:visible="visibleSetting"/>
+      </div>
     </div>
   </n-modal>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import { computed, ref } from 'vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
 import chatArea from './chatArea.vue';
-import shortcutSettings from './shortcutSettings.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
-
-// import { useI18n } from 'vue-i18n';
-// const { t } = useI18n();
+interface tabType {
+  label: string;
+  id: number;
+}
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -43,7 +72,29 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['update:visible']);
-const visibleSetting = ref(false) // 快捷语设置
+const active_id = ref(1);
+const search = ref('')
+const value = ref('')
+
+const tab_list = [
+  { label: '聊天列表', id: 1 },
+  { label: '用户列表', id: 2 },
+];
+
+// tab 标签点击
+const tabClick = (tab: tabType) => {
+  console.log(tab);
+  active_id.value = tab.id;
+};
+
+const userList = [
+  { name: '小美', role: 'proxy', id: 1 },
+  { name: '啊铁', role: 'user', id: 2 },
+  { name: '客服', role: 'user', id: 3 },
+  { name: 'davie', role: 'user', id: 4 },
+  { name: 'chu', role: 'proxy', id: 5 },
+]
+
 
 
 const isShow = computed({
@@ -54,12 +105,6 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
-
-// 打开快捷语设置
-const showSetting = () => {
-  visibleSetting.value = true
-}
-
 </script>
 <style lang="less" scoped>
 .main {
@@ -83,9 +128,9 @@ const showSetting = () => {
     text-align: center;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     background-image: linear-gradient(to bottom,
-        #4c36b3 100%,
-        #3a2786 28%,
-        #3c279a 0%);
+    #4c36b3 100%,
+    #3a2786 28%,
+    #3c279a 0%);
 
     >i {
       position: absolute;
@@ -94,18 +139,125 @@ const showSetting = () => {
       cursor: pointer;
     }
   }
-  .main_body{
+
+  .main_body {
     height: 686px;
     display: flex;
-    .left_menu{
+
+    .left_menu {
+      padding: 16px 10px;
       height: 100%;
       width: 280px;
       background-color: #2D1769;
+      box-sizing: border-box;
+
+      &:deep(.n-input__placeholder) {
+
+        text-align: center;
+
+      }
     }
-    .right_content{
+
+    .right_content {
+      padding: 0 30px;
       height: 100%;
-      flex:1;
+      flex: 1;
       background-color: #231353;
+    }
+  }
+}
+
+.tabs {
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  padding: 2px;
+  border-radius: 14px;
+  background: linear-gradient(0deg, #1d0e4a, #1d0e4a),
+  radial-gradient(50% 50% at 50% 50%,
+  rgba(126, 126, 126, 0.1) 0%,
+  rgba(21, 21, 21, 0.1) 100%),
+  linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.1) 100%);
+
+  .tab {
+    flex: 1;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #8d84c5;
+    cursor: pointer;
+  }
+
+  .active_tab {
+    background: url(/img/serviceModal/tab_btn.webp) no-repeat;
+    background-size: 100% 112%;
+    color: #fff;
+  }
+}
+
+.user_list {
+  .list_item {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .item_left {
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+      }
+    }
+
+    .high_proxy {
+      font-size: 12px;
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background-image: radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776);
+    }
+  }
+
+}
+
+.send_message {
+  height: 52px;
+  display: flex;
+  align-items: center;
+
+  &:deep(.n-input) {
+
+    height: 52px;
+
+    .n-input__input-el {
+      height: 52px;
+    }
+  }
+
+  .send_btn {
+    cursor: pointer;
+    height: 52px;
+    width: 130px;
+    margin-left: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(/img/serviceModal/send_btn.webp) no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+  }
+  .send_icon{
+    display: flex;
+    gap: 12px;
+    img{
+      height: 24px;
+      width: 24px;
+      cursor: pointer;
     }
   }
 }
