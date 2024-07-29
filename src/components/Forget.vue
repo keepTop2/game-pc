@@ -54,11 +54,12 @@
         }}</n-button>
     </div>
   </div>
+  <SmsCode ref="SmsCodeRef" @submitEvent="sendMobileSmsCode"></SmsCode>
 
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, reactive } from "vue";
+import { onMounted, onUnmounted, ref, reactive, defineAsyncComponent } from "vue";
 import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";
 import { MessageEvent2 } from "@/net/MessageEvent2";
@@ -72,11 +73,12 @@ import { useI18n } from 'vue-i18n';
 import { Local } from "@/utils/storage";
 import { Message } from "@/utils/discreteApi";
 import { handleOpenLink } from "@/utils/others";
+const SmsCode = defineAsyncComponent(() => import('@/components/SmsCodeModal.vue'));
 const page = Page(pinia);
 const { settings } = storeToRefs(page);
 
 const formRef = ref();
-
+const SmsCodeRef = ref()
 const { t } = useI18n();
 
 
@@ -199,7 +201,7 @@ const state: any = reactive({
         placeholder: t('home_page_enterEmail'),
         label: t('home_page_email'),
         slot: !1,
-        leftIcon: "Group39361-d3pmjajn",
+        leftIcon: "Group39361",
         changeRightIcon: !1,
         show: false,
       },
@@ -209,7 +211,7 @@ const state: any = reactive({
         placeholder: t('home_page_enterOldPassword'),
         label: t('home_page_oldPassword'),
         slot: !0,
-        leftIcon: "Group39362-d3pmjajk",
+        leftIcon: "Group39362",
         changeRightIcon: "Group39364",
         show: false,
       },
@@ -219,7 +221,7 @@ const state: any = reactive({
         placeholder: t('home_page_enterNewPassword'),
         label: t('home_page_newPassword'),
         slot: !0,
-        leftIcon: "Group39362-d3pmjajk",
+        leftIcon: "Group39362",
         changeRightIcon: "Group39364",
         show: false,
       },
@@ -229,7 +231,7 @@ const state: any = reactive({
         placeholder: t('home_page_enterAgainNewPassword'),
         label: t('home_page_newPassword'),
         slot: !0,
-        leftIcon: "Group39362-d3pmjajk",
+        leftIcon: "Group39362",
         changeRightIcon: "Group39364",
         show: false,
       },
@@ -239,13 +241,14 @@ const state: any = reactive({
         placeholder: t('home_page_enterSmsCode'),
         label: t('home_page_smsCode'),
         slot: !0,
-        leftIcon: "Group39363-d3pmjao6",
+        leftIcon: "Group39363",
         changeRightIcon: !1,
         show: true,
         disabled: true,
         loading: false,
         timeText: t('home_page_send'),
-        timer: null
+        timer: null,
+        btnDisabled: false,
       },
       emailCode: {
         name: "emailCode",
@@ -253,13 +256,14 @@ const state: any = reactive({
         placeholder: t('home_page_enterVerificationCode'),
         label: t('home_page_verificationCode'),
         slot: !0,
-        leftIcon: "Group39363-d3pmjao6",
+        leftIcon: "Group39363",
         changeRightIcon: !1,
         show: false,
         disabled: true,
         loading: false,
         timeText: t('home_page_send'),
-        timer: null
+        timer: null,
+        btnDisabled: false,
       },
     },
   },
@@ -374,17 +378,25 @@ const changePassword = (params: any, type: number) => {
 
   Net.instance.sendRequest(req);
 };
+// 手机验证码协议
+const sendMobileSmsCode = () => {
+  state.itemClick.loading = true
+  SmsCodeRef.value.closeDialog()
+  const req = NetPacket.req_get_mobile_sms_login_code()
+  req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
+
+  Net.instance.sendRequest(req)
+}
 // 发送验证码
 const submitSend = (item: any) => {
-  item.loading = true
+
+  state.itemClick = item
   // 1 为手机  2 为邮箱 
   if (state.formData.active == 1) {
-    const req = NetPacket.req_get_mobile_sms_login_code()
-    req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
-
-    Net.instance.sendRequest(req)
+    SmsCodeRef.value.openDialog()
   }
   if (state.formData.active == 2) {
+    item.loading = true
     const req = NetPacket.req_get_email_verification_code()
     req.email = state.formData.formParams.email
     Net.instance.sendRequest(req)

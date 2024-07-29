@@ -29,7 +29,7 @@
                 <n-select v-if="item.type == 'select'" v-model:value="state.formData.formParams[item.name]"
                   :filterable="item.filterable" :multiple="item.multiple" :placeholder="t(item.placeholder)"
                   :options="item.options" />
-                <n-input v-else clearable :type="item.type" size="large" :disabled="item.disabled"
+                <n-input v-else clearable :type="item.type" size="large" :disabled="item.disabled" autoComplete="off"
                   v-model:value="state.formData.formParams[item.name]" :placeholder="t(item.placeholder)">
                   <template #prefix v-if="item.leftIcon">
                     <iconpark-icon :icon-id="item.leftIcon" color="#8e82c2" size="1rem"></iconpark-icon>
@@ -154,6 +154,7 @@ const submitNext = () => {
 // 手机验证码协议
 const sendMobileSmsCode = () => {
   state.itemClick.loading = true
+  debugger
   SmsCodeRef.value.closeDialog()
   const req = NetPacket.req_get_mobile_sms_code()
   req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
@@ -189,19 +190,17 @@ const handleGetEmailVerificationCode = (res: any) => {
     if (res.message) {
       Message.success(t(res.message))
     }
-    state.formData.list.emailCode.disabled = true
+    state.formData.list.emailCode.btnDisabled = true
     state.formData.list.emailCode.timeText = 160
     state.formData.list.emailCode.timer = setInterval(() => {
       state.formData.list.emailCode.timeText--
       if (state.formData.list.emailCode.timeText <= 0) {
-        state.formData.list.emailCode.disabled = false
+        state.formData.list.emailCode.btnDisabled = false
         clearInterval(state.formData.list.emailCode.timer)
         state.formData.list.emailCode.timer = null
         state.formData.list.emailCode.timeText = 'home_page_send'
       }
     }, 1000);
-  } else {
-    state.formData.list.emailCode.disabled = false
   }
 };
 // 返回手机验证码是否发送
@@ -211,19 +210,17 @@ const handleSMSback = (res: any) => {
     if (res.message) {
       Message.success(t(res.message))
     }
-    state.formData.list.phoneCode.disabled = true
+    state.formData.list.phoneCode.btnDisabled = true
     state.formData.list.phoneCode.timeText = 60
     state.formData.list.phoneCode.timer = setInterval(() => {
       state.formData.list.phoneCode.timeText--
       if (state.formData.list.phoneCode.timeText <= 0) {
         clearInterval(state.formData.list.phoneCode.timer)
-        state.formData.list.phoneCode.disabled = false
+        state.formData.list.phoneCode.btnDisabled = false
         state.formData.list.phoneCode.timer = null
         state.formData.list.phoneCode.timeText = 'home_page_send'
       }
     }, 1000);
-  } else {
-    state.formData.list.phoneCode.disabled = false
   }
 
 

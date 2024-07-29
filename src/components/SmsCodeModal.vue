@@ -1,7 +1,7 @@
 <template>
     <n-modal v-model:show="showModa" preset="card" style="width: 40%;" :mask-closable="false" @close="openDialog">
         <template #header>
-            <div class="forget_title">提示</div>
+            <div class="forget_title">{{ t('home_page_smsTitle') }}</div>
         </template>
         <div class="tips">
             <p>{{ t('home_page_smsContent') }}<b>{{ t('home_page_smsPrice') }}</b>{{ t('home_page_smsContent1') }}</p>

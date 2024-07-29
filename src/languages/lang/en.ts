@@ -111,6 +111,7 @@ export default {
     "sg_game_minigame_max_bet_full": "The bet amount exceeds the allowed bet range!",
     "sg_game_common_already_unlock_bet_limit": "You have turned on the betting limit, do you still want to continue playing?",
     "sg_role_money_not_enough": "Insufficient balance!",
+    "role_money_not_enough": "Insufficient balance!",
     "sg_role_already_get_reward": "Your other accounts have already received the Lucky Roulette benefits, thank you for your participation!",
     "upgrade_vip_account": "You are not a VIP account yet, do you want to upgrade to a VIP account?",
     "zxfw_amount_not_enough": "Insufficient amount, please recharge!",

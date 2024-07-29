@@ -111,6 +111,7 @@ export default {
     "sg_game_minigame_max_bet_full": "下注金额超出允许的下注范围!",
     "sg_game_common_already_unlock_bet_limit": "你已经开启限制流水，你还要继续游戏吗？",
     "sg_role_money_not_enough": "余额不足！",
+    "role_money_not_enough": "余额不足！",
     "sg_role_already_get_reward": "您的其他账号已领用过幸运轮盘福利，谢谢你的参与!",
     "upgrade_vip_account": "您还不是VIP账户，是否要升级为VIP账户？",
     "zxfw_amount_not_enough": "金额不足，请充值！",

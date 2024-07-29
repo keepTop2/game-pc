@@ -102,6 +102,15 @@ watch(
     deep: true,
   }
 )
+watch(
+  () => showBankModal.value,
+  (n) => {
+   if (n) {
+     bkList.value = [...originBkList.value]
+   }
+  }
+)
+
 
 onMounted(() => {
   handleBankList();

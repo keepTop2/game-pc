@@ -222,6 +222,7 @@ export default {
     deposit_page_depositTips: 'Lưu ý: Không gửi yêu cầu trùng lặp',
     deposit_page_inputBank: 'Nhập tên ngân hàng để tìm kiếm',
     deposit_page_depSuccess: 'Nạp tiền thành công',
+    deposit_page_depFail: 'Nạp tiền không thành công',
     deposit_page_notPayWay: 'Chưa có phương thức nạp tiền',
     deposit_page_upperLimit: 'Giới hạn ưu đãi tối đa',
     deposit_page_giftRatio: 'Tỷ lệ quà tặng',

@@ -222,6 +222,7 @@ export default {
   deposit_page_depositTips: 'Please Note: Do Not Resubmit Orders',
   deposit_page_inputBank: 'Enter Bank Name to Search',
   deposit_page_depSuccess: 'Deposit Success',
+  deposit_page_depFail: 'Recharge failed',
   deposit_page_notPayWay: 'No Deposit Method Available',
   deposit_page_upperLimit: 'Promo Upper Limit',
   deposit_page_giftRatio: 'Gift Ratio',

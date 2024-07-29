@@ -570,6 +570,7 @@ watch(
         color: #fff;
 
         >span {
+          min-width: 62px;
           height: 32px;
           display: flex;
           font-size: 12px;
@@ -577,16 +578,16 @@ watch(
           align-items: center;
           border-radius: 12px;
           padding: 0 10px;
-          border: solid 1px #5a47b2;
-          background-color: #402c95;
+          // border: solid 1px #5a47b2;
+          // background-color: #402c95;
 
-          border-image: url('/img/home/unactive1.webp') 0 20 0 20 fill / 0px 10px stretch stretch;
-          background-size: cover;
+          border-image: url('/img/home/unactive1.webp') 0 30 0 30 fill / 0px 10px stretch stretch;
+          // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url('/img/home/active1.webp') 0 20 0 20 fill / 0px 10px stretch stretch;
+          border-image: url('/img/home/active1.webp') 0 30 0 30 fill / 0px 10px stretch stretch;
 
         }
       }
