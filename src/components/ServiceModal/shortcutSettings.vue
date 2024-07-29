@@ -38,7 +38,7 @@
               <n-input clearable/>
               <span class="add_icon"></span>
             </n-flex>
-            <span style="color: #c0c2db">管理类型</span>
+            <span @click="showSetting" class="button" style="color: #c0c2db">管理类型</span>
           </n-flex>
 
           <!-- 表格 -->
@@ -64,7 +64,7 @@
                   </div>
                   <n-flex align="center" justify="center" class="n_select n_select_list" @click="clickShowSelectList(index)">
                     {{typeArr.find((ite: any) => ite.value === item.type)?.label}}
-                    <i :class="`n-base-icon n-base-suffix__arrow`">
+                    <i :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
                       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.14645 5.64645C3.34171 5.45118 3.65829 5.45118 3.85355 5.64645L8 9.79289L12.1464 5.64645C12.3417 5.45118 12.6583 5.45118 12.8536 5.64645C13.0488 5.84171 13.0488 6.15829 12.8536 6.35355L8.35355 10.8536C8.15829 11.0488 7.84171 11.0488 7.64645 10.8536L3.14645 6.35355C2.95118 6.15829 2.95118 5.84171 3.14645 5.64645Z" fill="currentColor"></path>
                       </svg>
                     </i>
@@ -81,7 +81,7 @@
                   <n-switch class="switch" v-model:value="item.isAutomatic">
                   </n-switch>
                 </n-flex>
-                <span class="list_item button" style="color: #ff2424">
+                <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
                   删除
                 </span>
               </n-flex>
@@ -96,13 +96,16 @@
 
         </div>
       </div>
-    </n-card>
+      <!-- 快捷语设置 -->
+      <categoryList v-model:visible="visibleSetting"/>
 
+    </n-card>
   </n-modal>
 </template>
 
 <script setup lang="ts">
 import {computed, ref} from 'vue';
+import categoryList from './categoryList.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -111,6 +114,7 @@ import {computed, ref} from 'vue';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
+import { Dialog } from "@/utils/discreteApi";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -119,6 +123,7 @@ const props = defineProps({
     default: false,
   },
 });
+const visibleSetting = ref(false) // 类别
 const emit = defineEmits(['update:visible']);
 
 const curTab: any = ref('0')
@@ -166,6 +171,10 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+// 打开类别设置
+const showSetting = () => {
+  visibleSetting.value = true
+}
 const clickTab = (e: any) => {
   curTab.value = e;
 }
@@ -185,6 +194,23 @@ const clickSelectList = (e: any, index: any) => {
   dataList.value[index].type = e;
   dataList.value[index].showSelect = false;
 }
+// 删除
+const removeList = (item: any) => {
+  console.log(item);
+  Dialog.warning({
+    showIcon: false,
+    title: t('paymentManagement_page_tips'),
+    content: t('paymentManagement_page_tipContent'),
+    positiveText: t('home_page_confirm'),
+    negativeText: t('home_page_cancel'),
+    onPositiveClick: () => {
+      console.log('---', item)
+    },
+    onNegativeClick: () => {
+
+    },
+  })
+};
 
 </script>
 <style lang="less" scoped>

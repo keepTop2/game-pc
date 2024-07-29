@@ -2,8 +2,10 @@
   <!-- 客服聊天弹窗 -->
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main">
+      <!-- 快捷语设置 -->
+      <shortcutSettings v-model:visible="visibleSetting"/>
       <h4 class="top_title">
-        <span>与阿铁的聊天 (官方客服)</span>
+        <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
         <i>
           <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
@@ -56,6 +58,7 @@ import { computed, ref } from 'vue';
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
 import chatArea from './chatArea.vue';
+import shortcutSettings from './shortcutSettings.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -71,6 +74,7 @@ const props = defineProps({
     default: false,
   },
 });
+const visibleSetting = ref(false) // 快捷语设置
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
@@ -105,6 +109,10 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+// 打开快捷语设置
+const showSetting = () => {
+  visibleSetting.value = true
+}
 </script>
 <style lang="less" scoped>
 .main {
