@@ -32,13 +32,21 @@
         <div class="right_content">
           <chatArea></chatArea>
           <div class="send_message">
+            <!-- <picker set="emojione" /> -->
             <n-input v-model:value="value">
               <template #suffix>
-              <div class="send_icon">
-                <img :src="`/img/serviceModal/image.webp`" alt="">
-                <img :src="`/img/serviceModal/video.webp`" alt="">
-                <img :src="`/img/serviceModal/emoji.webp`" alt="">
-              </div>
+                <div class="send_icon">
+                  <img :src="`/img/serviceModal/image.webp`" alt="">
+                  <img :src="`/img/serviceModal/video.webp`" alt="">
+                  <n-popover  trigger="hover" :show-arrow="false" placement="top-end">
+                    <template #trigger>
+                      <img :src="`/img/serviceModal/emoji.webp`" alt="">
+                    </template>
+                    <div class="emoji">
+                      <EmojiPicker :native="true" @select="onSelectEmoji" />
+                    </div>
+                  </n-popover>
+                </div>
               </template>
             </n-input>
             <div class="send_btn">发送</div>
@@ -51,6 +59,9 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import EmojiPicker from 'vue3-emoji-picker'
+
+import 'vue3-emoji-picker/css'
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -94,6 +105,20 @@ const userList = [
   { name: 'davie', role: 'user', id: 4 },
   { name: 'chu', role: 'proxy', id: 5 },
 ]
+
+function onSelectEmoji(emoji: any) {
+  console.log(emoji)
+  /*
+    // result
+    { 
+        i: "😚", 
+        n: ["kissing face"], 
+        r: "1f61a", // with skin tone
+        t: "neutral", // skin tone
+        u: "1f61a" // without tone
+    }
+    */
+}
 
 
 
@@ -159,6 +184,7 @@ const isShow = computed({
     }
 
     .right_content {
+      position: relative;
       padding: 0 30px;
       height: 100%;
       flex: 1;
@@ -251,14 +277,22 @@ const isShow = computed({
     background-size: 100% 100%;
     color: #fff;
   }
-  .send_icon{
+
+  .send_icon {
     display: flex;
     gap: 12px;
-    img{
+
+    img {
       height: 24px;
       width: 24px;
       cursor: pointer;
     }
+  }
+}
+.emoji{
+  &:deep(.v3-emoji-picker){
+    width: 350px;
+    height: 350px;
   }
 }
 </style>

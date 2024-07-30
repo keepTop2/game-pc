@@ -18,17 +18,18 @@
     "click-outside-vue3": "^4.0.1",
     "crypto-js": "^4.2.0",
     "endian": "^0.1.0",
-    "terser": "^5.16.2",
     "js-cookie": "^3.0.5",
     "naive-ui": "^2.38.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "postcss": "^8.4.38",
     "qs": "^6.12.1",
+    "terser": "^5.16.2",
     "vite-plugin-eslint": "^1.8.1",
     "vue": "^3.4.21",
     "vue-i18n": "^9.9.0",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vue3-emoji-picker": "^1.1.8"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
