@@ -3,12 +3,19 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main">
       <h4 class="top_title">
-          <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
-          <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-          </i>
-        </h4>
-        <div class="main_body">
+        <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
+        <i>
+          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+        </i>
+      </h4>
+      <div class="main_body">
+        <!-- 左侧设置 -->
+        <div class="left_setting">
+          <div class="set_item" v-for="item in settingList" :key="item.id">
+            <img :src="`/img/serviceModal/${item.img}`" alt="">
+            <span>{{ item.name }}</span>
+          </div>
+        </div>
         <!-- 左侧菜单 -->
         <div class="left_menu">
           <n-flex class="tabs">
@@ -38,7 +45,7 @@
                 <div class="send_icon">
                   <img :src="`/img/serviceModal/image.webp`" alt="">
                   <img :src="`/img/serviceModal/video.webp`" alt="">
-                  <n-popover  trigger="hover" :show-arrow="false" placement="top-end">
+                  <n-popover trigger="hover" :show-arrow="false" placement="top-end">
                     <template #trigger>
                       <img :src="`/img/serviceModal/emoji.webp`" alt="">
                     </template>
@@ -52,9 +59,9 @@
             <div class="send_btn">发送</div>
           </div>
         </div>
-        </div>
+      </div>
       <!-- 快捷语设置 -->
-      <shortcutSettings v-model:visible="visibleSetting"/>
+      <shortcutSettings v-model:visible="visibleSetting" />
     </div>
   </n-modal>
 </template>
@@ -109,6 +116,12 @@ const userList = [
   { name: 'chu', role: 'proxy', id: 5 },
 ]
 
+const settingList = [
+  { name: '全部对话', img: 'total.webp', id: 1 },
+  { name: '工作', img: 'work.webp', id: 2 },
+  { name: '编辑', img: 'edit.webp', id: 3 },
+]
+
 function onSelectEmoji(emoji: any) {
   console.log(emoji)
   /*
@@ -143,7 +156,7 @@ const showSetting = () => {
 </script>
 <style lang="less" scoped>
 .main {
-  width: 1200px;
+  // width: 100%;
   border-radius: 14px;
   border: solid 1.4px #322c59;
   overflow: hidden;
@@ -193,11 +206,32 @@ const showSetting = () => {
       }
     }
 
+    .left_setting {
+      width: 72px;
+      background-color: #2D1769;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .set_item {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        img{
+          width: 32px;
+        }
+
+      }
+    }
+
     .right_content {
       position: relative;
       padding: 0 30px;
       height: 100%;
-      flex: 1;
+      width: 920px;
       background-color: #231353;
     }
   }
@@ -299,8 +333,9 @@ const showSetting = () => {
     }
   }
 }
-.emoji{
-  &:deep(.v3-emoji-picker){
+
+.emoji {
+  &:deep(.v3-emoji-picker) {
     width: 350px;
     height: 350px;
   }
