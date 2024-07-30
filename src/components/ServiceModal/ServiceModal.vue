@@ -3,7 +3,7 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main">
       <!-- 快捷语设置 -->
-      <shortcutSettings v-model:visible="visibleSetting"/>
+      <shortcutSettings v-model:visible="visibleSetting" />
       <h4 class="top_title">
         <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
         <i>
@@ -15,7 +15,7 @@
         <div class="left_menu">
           <n-flex class="tabs">
             <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
-                 @click="tabClick(tab)">
+              @click="tabClick(tab)">
               {{ t(tab.label) }}
             </div>
           </n-flex>
@@ -34,12 +34,20 @@
         <div class="right_content">
           <chatArea></chatArea>
           <div class="send_message">
+            <!-- <picker set="emojione" /> -->
             <n-input v-model:value="value">
               <template #suffix>
                 <div class="send_icon">
                   <img :src="`/img/serviceModal/image.webp`" alt="">
                   <img :src="`/img/serviceModal/video.webp`" alt="">
-                  <img :src="`/img/serviceModal/emoji.webp`" alt="">
+                  <n-popover trigger="hover" :show-arrow="false" placement="top-end">
+                    <template #trigger>
+                      <img :src="`/img/serviceModal/emoji.webp`" alt="">
+                    </template>
+                    <div class="emoji">
+                      <EmojiPicker :native="true" @select="onSelectEmoji" />
+                    </div>
+                  </n-popover>
                 </div>
               </template>
             </n-input>
@@ -47,12 +55,17 @@
           </div>
         </div>
       </div>
+      <!-- 快捷语设置 -->
+      <shortcutSettings v-model:visible="visibleSetting" />
     </div>
   </n-modal>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import EmojiPicker from 'vue3-emoji-picker'
+
+import 'vue3-emoji-picker/css'
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -74,7 +87,6 @@ const props = defineProps({
     default: false,
   },
 });
-const visibleSetting = ref(false) // 快捷语设置
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
@@ -99,6 +111,21 @@ const userList = [
   { name: 'chu', role: 'proxy', id: 5 },
 ]
 
+function onSelectEmoji(emoji: any) {
+  console.log(emoji)
+  /*
+    // result
+    { 
+        i: "😚", 
+        n: ["kissing face"], 
+        r: "1f61a", // with skin tone
+        t: "neutral", // skin tone
+        u: "1f61a" // without tone
+    }
+    */
+}
+
+const visibleSetting = ref(false) // 快捷语设置
 
 
 const isShow = computed({
@@ -136,9 +163,9 @@ const showSetting = () => {
     text-align: center;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     background-image: linear-gradient(to bottom,
-    #4c36b3 100%,
-    #3a2786 28%,
-    #3c279a 0%);
+        #4c36b3 100%,
+        #3a2786 28%,
+        #3c279a 0%);
 
     >i {
       position: absolute;
@@ -167,6 +194,7 @@ const showSetting = () => {
     }
 
     .right_content {
+      position: relative;
       padding: 0 30px;
       height: 100%;
       flex: 1;
@@ -181,10 +209,10 @@ const showSetting = () => {
   padding: 2px;
   border-radius: 14px;
   background: linear-gradient(0deg, #1d0e4a, #1d0e4a),
-  radial-gradient(50% 50% at 50% 50%,
-  rgba(126, 126, 126, 0.1) 0%,
-  rgba(21, 21, 21, 0.1) 100%),
-  linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.1) 100%);
+    radial-gradient(50% 50% at 50% 50%,
+      rgba(126, 126, 126, 0.1) 0%,
+      rgba(21, 21, 21, 0.1) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.1) 100%);
 
   .tab {
     flex: 1;
@@ -259,14 +287,23 @@ const showSetting = () => {
     background-size: 100% 100%;
     color: #fff;
   }
-  .send_icon{
+
+  .send_icon {
     display: flex;
     gap: 12px;
-    img{
+
+    img {
       height: 24px;
       width: 24px;
       cursor: pointer;
     }
+  }
+}
+
+.emoji {
+  &:deep(.v3-emoji-picker) {
+    width: 350px;
+    height: 350px;
   }
 }
 </style>
