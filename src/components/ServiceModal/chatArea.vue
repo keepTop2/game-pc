@@ -56,7 +56,7 @@ const chatList = [
 <style lang="less" scoped>
 .chat_content {
   height: 558px;
-  padding: 30px;
+  padding: 30px 0px;
   box-sizing: border-box;
   overflow-y: auto;
   &::-webkit-scrollbar {
