@@ -3,12 +3,12 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main">
       <h4 class="top_title">
-        <span>与阿铁的聊天 (官方客服)</span>
-        <i>
-          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-        </i>
-      </h4>
-      <div class="main_body">
+          <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
+          <i>
+            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+          </i>
+        </h4>
+        <div class="main_body">
         <!-- 左侧菜单 -->
         <div class="left_menu">
           <n-flex class="tabs">
@@ -52,7 +52,9 @@
             <div class="send_btn">发送</div>
           </div>
         </div>
-      </div>
+        </div>
+      <!-- 快捷语设置 -->
+      <shortcutSettings v-model:visible="visibleSetting"/>
     </div>
   </n-modal>
 </template>
@@ -67,6 +69,7 @@ import 'vue3-emoji-picker/css'
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
 import chatArea from './chatArea.vue';
+import shortcutSettings from './shortcutSettings.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -120,6 +123,7 @@ function onSelectEmoji(emoji: any) {
     */
 }
 
+const visibleSetting = ref(false) // 快捷语设置
 
 
 const isShow = computed({
@@ -130,6 +134,12 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+
+// 打开快捷语设置
+const showSetting = () => {
+  visibleSetting.value = true
+}
+
 </script>
 <style lang="less" scoped>
 .main {
