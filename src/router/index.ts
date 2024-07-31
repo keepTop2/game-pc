@@ -151,7 +151,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'paymentManagement',
         name: 'paymentManagement',
-        meta: { title: '字符管理' },
+        meta: { title: '支付管理' },
         component: () => import('@/views/wallet/paymentManagement/index.vue'),
       },
       {

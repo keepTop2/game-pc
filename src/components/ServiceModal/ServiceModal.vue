@@ -2,6 +2,8 @@
   <!-- 客服聊天弹窗 -->
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main">
+      <!-- 快捷语设置 -->
+      <shortcutSettings v-model:visible="visibleSetting" />
       <h4 class="top_title">
         <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
         <i>
@@ -161,7 +163,6 @@ const manageClick = ()=>{
 const showSetting = () => {
   visibleSetting.value = true
 }
-
 </script>
 <style lang="less" scoped>
 .main {
