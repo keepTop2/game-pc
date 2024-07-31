@@ -11,6 +11,13 @@
         </i>
       </h4>
       <div class="main_body">
+        <!-- 左侧设置 -->
+        <div class="left_setting">
+          <div class="set_item" v-for="item in settingList" :key="item.id">
+            <img :src="`/img/serviceModal/${item.img}`" alt="">
+            <span>{{ item.name }}</span>
+          </div>
+        </div>
         <!-- 左侧菜单 -->
         <div class="left_menu">
           <n-flex class="tabs">
@@ -20,6 +27,7 @@
             </div>
           </n-flex>
           <n-input v-model:value="search" placeholder="查找聊天列表" />
+          <div class="manage_group" @click="manageClick">管理分组</div>
           <div class="user_list">
             <div class="list_item" v-for="item in userList" :key="item.id">
               <div class="item_left">
@@ -57,6 +65,8 @@
       </div>
       <!-- 快捷语设置 -->
       <shortcutSettings v-model:visible="visibleSetting" />
+
+      <manageGroup  v-model:visible="visibleGroup" />
     </div>
   </n-modal>
 </template>
@@ -72,6 +82,7 @@ import 'vue3-emoji-picker/css'
 // import { NetPacket } from '@/netBase/NetPacket';
 import chatArea from './chatArea.vue';
 import shortcutSettings from './shortcutSettings.vue';
+import manageGroup from './manageGroup.vue'
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -111,6 +122,12 @@ const userList = [
   { name: 'chu', role: 'proxy', id: 5 },
 ]
 
+const settingList = [
+  { name: '全部对话', img: 'total.webp', id: 1 },
+  { name: '工作', img: 'work.webp', id: 2 },
+  { name: '编辑', img: 'edit.webp', id: 3 },
+]
+
 function onSelectEmoji(emoji: any) {
   console.log(emoji)
   /*
@@ -126,6 +143,7 @@ function onSelectEmoji(emoji: any) {
 }
 
 const visibleSetting = ref(false) // 快捷语设置
+const visibleGroup = ref(false) // 管理分组弹窗
 
 
 const isShow = computed({
@@ -136,6 +154,11 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+
+const manageClick = ()=>{
+  visibleGroup.value = true
+}
+
 // 打开快捷语设置
 const showSetting = () => {
   visibleSetting.value = true
@@ -143,7 +166,7 @@ const showSetting = () => {
 </script>
 <style lang="less" scoped>
 .main {
-  width: 1200px;
+  // width: 100%;
   border-radius: 14px;
   border: solid 1.4px #322c59;
   overflow: hidden;
@@ -193,11 +216,32 @@ const showSetting = () => {
       }
     }
 
+    .left_setting {
+      width: 72px;
+      background-color: #2D1769;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .set_item {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        img{
+          width: 32px;
+        }
+
+      }
+    }
+
     .right_content {
       position: relative;
       padding: 0 30px;
       height: 100%;
-      flex: 1;
+      width: 920px;
       background-color: #231353;
     }
   }
@@ -305,5 +349,13 @@ const showSetting = () => {
     width: 350px;
     height: 350px;
   }
+}
+
+.manage_group{
+  display: flex;
+  justify-content: flex-end;
+  color:#C0C2DB;
+  margin-top: 12px;
+  cursor: pointer;
 }
 </style>
