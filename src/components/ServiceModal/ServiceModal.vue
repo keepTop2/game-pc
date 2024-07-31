@@ -25,6 +25,7 @@
             </div>
           </n-flex>
           <n-input v-model:value="search" placeholder="查找聊天列表" />
+          <div class="manage_group" @click="manageClick">管理分组</div>
           <div class="user_list">
             <div class="list_item" v-for="item in userList" :key="item.id">
               <div class="item_left">
@@ -62,6 +63,8 @@
       </div>
       <!-- 快捷语设置 -->
       <shortcutSettings v-model:visible="visibleSetting" />
+
+      <manageGroup  v-model:visible="visibleGroup" />
     </div>
   </n-modal>
 </template>
@@ -77,6 +80,7 @@ import 'vue3-emoji-picker/css'
 // import { NetPacket } from '@/netBase/NetPacket';
 import chatArea from './chatArea.vue';
 import shortcutSettings from './shortcutSettings.vue';
+import manageGroup from './manageGroup.vue'
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -137,6 +141,7 @@ function onSelectEmoji(emoji: any) {
 }
 
 const visibleSetting = ref(false) // 快捷语设置
+const visibleGroup = ref(false) // 管理分组弹窗
 
 
 const isShow = computed({
@@ -147,6 +152,10 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+
+const manageClick = ()=>{
+  visibleGroup.value = true
+}
 
 // 打开快捷语设置
 const showSetting = () => {
@@ -339,5 +348,13 @@ const showSetting = () => {
     width: 350px;
     height: 350px;
   }
+}
+
+.manage_group{
+  display: flex;
+  justify-content: flex-end;
+  color:#C0C2DB;
+  margin-top: 12px;
+  cursor: pointer;
 }
 </style>
