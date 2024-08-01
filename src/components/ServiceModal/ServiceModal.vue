@@ -14,6 +14,7 @@
         <!-- 左侧设置 -->
         <div class="left_setting">
           <div class="set_item" v-for="item in settingList" :key="item.id">
+            <iconpark-icon  :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
             <img :src="`/img/serviceModal/${item.img}`" alt="">
             <span>{{ item.name }}</span>
           </div>
@@ -46,11 +47,12 @@
             <n-input v-model:value="value">
               <template #suffix>
                 <div class="send_icon">
-                  <img :src="`/img/serviceModal/image.webp`" alt="">
-                  <img :src="`/img/serviceModal/video.webp`" alt="">
+                  <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
+                  <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
+                  <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
                   <n-popover trigger="hover" :show-arrow="false" placement="top-end">
                     <template #trigger>
-                      <img :src="`/img/serviceModal/emoji.webp`" alt="">
+                      <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
                     </template>
                     <div class="emoji">
                       <EmojiPicker :native="true" @select="onSelectEmoji" />
@@ -67,6 +69,8 @@
       <shortcutSettings v-model:visible="visibleSetting" />
 
       <manageGroup  v-model:visible="visibleGroup" />
+
+      <sendMoneyModal  v-model:visible="visibleTransfor" />
     </div>
   </n-modal>
 </template>
@@ -83,6 +87,7 @@ import 'vue3-emoji-picker/css'
 import chatArea from './chatArea.vue';
 import shortcutSettings from './shortcutSettings.vue';
 import manageGroup from './manageGroup.vue'
+import sendMoneyModal from './sendMoneyModal.vue'
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -123,9 +128,9 @@ const userList = [
 ]
 
 const settingList = [
-  { name: '全部对话', img: 'total.webp', id: 1 },
-  { name: '工作', img: 'work.webp', id: 2 },
-  { name: '编辑', img: 'edit.webp', id: 3 },
+  { name: '全部对话', img: 'zuocweidy01', id: 1 },
+  { name: '工作', img: 'zuocweidy02', id: 2 },
+  { name: '编辑', img: 'zuocweidy03', id: 3 },
 ]
 
 function onSelectEmoji(emoji: any) {
@@ -142,8 +147,14 @@ function onSelectEmoji(emoji: any) {
     */
 }
 
+const visibleTransfor = ref(false)
 const visibleSetting = ref(false) // 快捷语设置
 const visibleGroup = ref(false) // 管理分组弹窗
+
+// 转账
+const sendMoney = ()=>{
+  visibleTransfor.value =  true
+}
 
 
 const isShow = computed({
@@ -358,4 +369,8 @@ const showSetting = () => {
   margin-top: 12px;
   cursor: pointer;
 }
+.pointer{
+  cursor: pointer;
+}
+
 </style>
