@@ -12,7 +12,14 @@
          <div class="group_main">
           <div class="tips">将不同对话归纳分类，并在它们之间快速切换。</div>
           <div>
-            <div>当前分组</div>
+            <div class="title">当前分组</div>
+            <div class="group_item">
+            <div class="">
+              <img src="/img/serviceModal/work.png" alt="">
+              <span>工作</span>
+            </div>
+            <img src="/img/serviceModal/delete.png" alt="">
+            </div>
           </div>
          </div>
       </div>
@@ -41,7 +48,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:visible']);
 
-const isAdd = ref(false)
+// const isAdd = ref(false)
 const isShow = computed({
   get: function () {
     return props.visible;
@@ -89,6 +96,15 @@ const isShow = computed({
     .tips{
       color:#8D84C5;
       font-size: 14px;
+    }
+    .title{
+      margin-top: 20px;
+      color:#ffffff;
+      font-size: 14px;
+    }
+    .group_item{
+      display: flex;
+      justify-content: space-between;
     }
   }
 
