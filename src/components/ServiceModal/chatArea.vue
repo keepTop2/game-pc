@@ -8,8 +8,21 @@
           <div class="mark_kf">{{ item.role=='kf'?'官方客服':'我' }}</div>
           <span class="date">{{ item.date }}</span>
         </div>
-        <div class="user_content">
+        <div :class="[item.role=='kf'?'user_content':'me_content']" v-if="!item.money">
           {{ item.content }}
+        </div>
+        <!-- 转账 -->
+        <div :class="[item.role=='kf'?'user_content':'me_content']" v-else class="money">
+          <div class="left">
+          <img src="/img/serviceModal/transfer.webp" alt="">
+          <div class="left_info">
+          <span>转账给你</span>
+          <span>300,000,000,000</span>
+          </div>
+          </div>
+          <div class="total">
+          代理转账
+          </div>
         </div>
       </div>
       <img v-if="item.role=='user'" :src="`/img/serviceModal/avatar1.webp`" alt="">
@@ -39,7 +52,7 @@
 
 const chatList = [
   {name:'阿铁',date:'2024/7/9 18:00:05',role:'kf',content:'你好，我想申请升级代理',id:1},
-  {name:'阿铁',date:'2024/7/9 18:10:05',role:'user',content:'你好，我想申请升级代理',id:2},
+  {name:'阿铁',date:'2024/7/9 18:10:05',role:'user',money:'2000',content:'你好，我想申请升级代理',id:2},
   {name:'阿铁',date:'2024/7/9 18:20:05',role:'kf',content:'你好，我想申请升级代理',id:3},
   {name:'阿铁',date:'2024/7/9 18:30:05',role:'user',content:'你好，我想申请升级代理',id:4},
   {name:'阿铁',date:'2024/7/9 18:40:05',role:'kf',content:'你好，我想申请升级代理',id:5},
@@ -106,6 +119,36 @@ const chatList = [
       padding: 8px 16px;
       border: solid 1px #353b5a;
       background-color: #322c59;
+    }
+    .me_content {
+      margin-top: 12px;
+      border-radius: 12px 2px 12px 12px;
+      padding: 8px 16px;
+      border: solid 1px #353b5a;
+      background-color: #322c59;
+    }
+
+    .money{
+      padding: 8px 0px;
+      width: 287px;
+      border: unset;
+      cursor: pointer;
+      background-color: #F9493E;
+
+      .left{
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+        .left_info{
+          margin-left: 10px;
+          display: flex;
+          flex-direction: column;
+        }
+      }
+      .total{
+        border-top: solid 1px rgba(255, 255, 255, 0.2);
+        text-align: center;
+      }
     }
   }
 }
