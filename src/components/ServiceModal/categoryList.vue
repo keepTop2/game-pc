@@ -28,7 +28,7 @@
             <div class="table_body">
               <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
                 <n-flex justify="center" class="list_lx">
-                  <n-input v-model:value="item.content" placeholder="此处修改快捷语" style="text-align: left" clearable/>
+                  <n-input v-model:value="item.content" placeholder="可直接修改类别，保存后生效" style="text-align: left"/>
                 </n-flex>
                 <span class="list_kjy">
                   88
@@ -156,6 +156,23 @@ const removeList = (item: any) => {
       height: 566px;
       padding: 30px 60px 40px;
 
+      .n-input {
+        font-size: 16px;
+        height: 40px;
+        padding: 0 30px 0 0;
+        border-radius: 12px;
+        box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+        border: solid 1px #322c59;
+        background-color: #1d0e4a;
+
+        :deep(.n-input-wrapper) {
+          padding: 0 10px;
+        }
+        :deep(.n-input__input-el) {
+          height: 100%;
+        }
+      }
+
       .input_top {
         gap: 0 10px !important;
         margin: 0 0 20px;
@@ -173,16 +190,11 @@ const removeList = (item: any) => {
             background-size: 100%;
           }
         }
-        .n-input {
-          padding: 0 30px 0 0px;
-          border-radius: 12px;
-          box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-          border: solid 1px #322c59;
-          background-color: #1d0e4a;
-        }
+
       }
 
       .table_box {
+        font-size: 14px;
         text-align: center;
         .table_header {
           padding-left: 10px;
@@ -224,6 +236,10 @@ const removeList = (item: any) => {
             &:nth-child(2n) {
               background: #2E1D7D;
             }
+            .n-input {
+              padding: 0;
+              font-size: 14px;
+            }
             .list_item {
               flex: 1;
             }
@@ -235,6 +251,7 @@ const removeList = (item: any) => {
         }
       }
       .btn_bottom {
+        font-size: 18px;
         gap: 8px 31px !important;
         margin-top: 90px;
         > div {

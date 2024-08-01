@@ -279,6 +279,7 @@ const removeList = (item: any) => {
       }
 
       .n_select {
+        font-size: 16px;
         cursor: pointer;
         gap: 0 7px !important;
         position: absolute;
@@ -335,6 +336,22 @@ const removeList = (item: any) => {
         }
       }
 
+      .n-input {
+        font-size: 16px;
+        height: 40px;
+        padding: 0 30px 0 72px;
+        border-radius: 12px;
+        box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+        border: solid 1px #322c59;
+        background-color: #1d0e4a;
+
+        :deep(.n-input-wrapper) {
+          padding: 0 10px;
+        }
+        :deep(.n-input__input-el) {
+          height: 100%;
+        }
+      }
       .input_top {
         margin: 20px 0;
         .input_box {
@@ -351,16 +368,10 @@ const removeList = (item: any) => {
             background-size: 100%;
           }
         }
-        .n-input {
-          padding: 0 30px 0 72px;
-          border-radius: 12px;
-          box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-          border: solid 1px #322c59;
-          background-color: #1d0e4a;
-        }
       }
 
       .table_box {
+        font-size: 14px;
         text-align: center;
         .table_header {
           gap: 0!important;
@@ -396,6 +407,10 @@ const removeList = (item: any) => {
 
             &:nth-child(2n) {
               background: #2E1D7D;
+            }
+            .n-input {
+              padding: 0;
+              font-size: 14px;
             }
             .list_item {
               flex: 1;
@@ -440,6 +455,7 @@ const removeList = (item: any) => {
         }
       }
       .btn_bottom {
+        font-size: 18px;
         gap: 8px 34px !important;
         margin-top: 80px;
         > div {
