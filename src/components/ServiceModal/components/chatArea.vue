@@ -68,7 +68,7 @@ const chatList = [
 </script>
 <style lang="less" scoped>
 .chat_content {
-  height: 558px;
+  height: 538px;
   padding: 30px 0px;
   box-sizing: border-box;
   overflow-y: auto;

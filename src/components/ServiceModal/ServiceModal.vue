@@ -14,7 +14,7 @@
         <!-- 左侧设置 -->
         <div class="left_setting">
           <div class="set_item" v-for="item in settingList" :key="item.id">
-            <iconpark-icon  :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
+            <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
             <img :src="`/img/serviceModal/${item.img}`" alt="">
             <span>{{ item.name }}</span>
           </div>
@@ -35,13 +35,35 @@
                 <img :src="`/img/serviceModal/avatar1.webp`" alt="">
                 <span>{{ item.name }}</span>
               </div>
-              <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+              <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
+                <template #trigger>
+                  <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+                </template>
+                <div class="select_wrap">
+                  <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
+                </div>
+              </n-popover>
             </div>
           </div>
         </div>
         <!-- 右侧聊天区域 -->
         <div class="right_content">
           <chatArea></chatArea>
+          <!-- 快捷语选择 -->
+          <div class="short_wrap">
+            <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
+              <n-popover trigger="hover" placement="top" :show-arrow="false">
+                <template #trigger>
+                  <span>{{ item.name }}</span>
+                </template>
+                <div class="short_wrap_list">
+                  <span v-for="op in short_options" :key="op">{{ op }}</span>
+                </div>
+              </n-popover>
+            </div>
+
+          </div>
+
           <div class="send_message">
             <!-- <picker set="emojione" /> -->
             <n-input v-model:value="value">
@@ -68,9 +90,9 @@
       <!-- 快捷语设置 -->
       <shortcutSettings v-model:visible="visibleSetting" />
 
-      <manageGroup  v-model:visible="visibleGroup" />
-
-      <sendMoneyModal  v-model:visible="visibleTransfor" />
+      <manageGroup v-model:visible="visibleGroup" />
+      <!-- 转账弹窗 -->
+      <sendMoneyModal v-model:visible="visibleTransfor" />
     </div>
   </n-modal>
 </template>
@@ -84,10 +106,10 @@ import 'vue3-emoji-picker/css'
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
-import chatArea from './chatArea.vue';
-import shortcutSettings from './shortcutSettings.vue';
-import manageGroup from './manageGroup.vue'
-import sendMoneyModal from './sendMoneyModal.vue'
+import chatArea from './components/chatArea.vue';
+import shortcutSettings from './components/shortcutSettings.vue';
+import manageGroup from './components/manageGroup.vue'
+import sendMoneyModal from './components/sendMoneyModal.vue'
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -126,6 +148,21 @@ const userList = [
   { name: 'davie', role: 'user', id: 4 },
   { name: 'chu', role: 'proxy', id: 5 },
 ]
+const selectList = [
+  { name: '置顶', id: 1 },
+  { name: '未读', id: 2 },
+  { name: '屏蔽', id: 3 },
+  { name: '移动分组到', id: 4 }
+]
+
+const shortList = [
+  { name: '充值', role: 'proxy', id: 1 },
+  { name: '提款', role: 'user', id: 2 },
+  { name: '投注', role: 'user', id: 3 },
+  { name: '代理', role: 'user', id: 4 },
+  { name: '活动', role: 'proxy', id: 5 },
+]
+const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
 
 const settingList = [
   { name: '全部对话', img: 'zuocweidy01', id: 1 },
@@ -152,8 +189,8 @@ const visibleSetting = ref(false) // 快捷语设置
 const visibleGroup = ref(false) // 管理分组弹窗
 
 // 转账
-const sendMoney = ()=>{
-  visibleTransfor.value =  true
+const sendMoney = () => {
+  visibleTransfor.value = true
 }
 
 
@@ -166,7 +203,7 @@ const isShow = computed({
   },
 });
 
-const manageClick = ()=>{
+const manageClick = () => {
   visibleGroup.value = true
 }
 
@@ -241,7 +278,8 @@ const showSetting = () => {
         flex-direction: column;
         align-items: center;
         cursor: pointer;
-        img{
+
+        img {
           width: 32px;
         }
 
@@ -306,6 +344,7 @@ const showSetting = () => {
     }
 
     .high_proxy {
+      cursor: pointer;
       font-size: 12px;
       color: #fff;
       padding: 6px 8px;
@@ -362,15 +401,71 @@ const showSetting = () => {
   }
 }
 
-.manage_group{
+.manage_group {
   display: flex;
   justify-content: flex-end;
-  color:#C0C2DB;
+  color: #C0C2DB;
   margin-top: 12px;
   cursor: pointer;
 }
-.pointer{
+
+.pointer {
   cursor: pointer;
 }
 
+.select_wrap {
+  width: 118px;
+
+  div {
+    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+    height: 36px;
+    line-height: 36px;
+    cursor: pointer;
+    color: #8E82C2;
+    padding-left: 19px;
+
+    &:last-child {
+      border: unset;
+    }
+  }
+}
+
+.short_wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+
+  .short_wrap_item {
+    width: 98px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 10px;
+    background: url(/img/serviceModal/anniu.webp) no-repeat;
+    background-size: 100% 100%;
+  }
+}
+.short_wrap_list{
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  padding: 16px;
+  gap: 10px;
+  span{
+    cursor: pointer;
+  }
+}
+
+:deep(.n-popover) {
+  padding: unset !important;
+
+  &:not(.n-popover--raw) {
+    background-image: linear-gradient(to bottom, #2c205c 100%, #261771 -50%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
+  }
+
+
+}
 </style>
