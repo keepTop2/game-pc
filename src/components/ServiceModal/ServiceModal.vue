@@ -66,7 +66,7 @@
 
           <div class="send_message">
             <!-- <picker set="emojione" /> -->
-            <n-input v-model:value="value">
+            <n-input v-model:value="value"  type="textarea" rows="2">
               <template #suffix>
                 <div class="send_icon">
                   <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
@@ -356,16 +356,19 @@ const showSetting = () => {
 }
 
 .send_message {
-  height: 52px;
+  //height: 52px;
   display: flex;
   align-items: center;
 
   &:deep(.n-input) {
-
-    height: 52px;
+   
+   // height: 52px;
 
     .n-input__input-el {
-      height: 52px;
+     // height: 52px;
+    }
+    .n-input__suffix{
+      display: block;
     }
   }
 
@@ -383,6 +386,7 @@ const showSetting = () => {
   }
 
   .send_icon {
+    margin-top: 10px;
     display: flex;
     gap: 12px;
 
@@ -423,6 +427,10 @@ const showSetting = () => {
     cursor: pointer;
     color: #8E82C2;
     padding-left: 19px;
+    &:hover{
+      background-color: #1154FF;
+      color:#ffffff;
+    }
 
     &:last-child {
       border: unset;
@@ -463,6 +471,7 @@ const showSetting = () => {
   padding: unset !important;
 
   &:not(.n-popover--raw) {
+    overflow: hidden;
     background-image: linear-gradient(to bottom, #2c205c 100%, #261771 -50%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
   }
 
