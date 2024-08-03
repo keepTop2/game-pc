@@ -81,7 +81,9 @@ const handleBankList = () => {
         }
       })
     });
-    bkList.value = curBankArr;
+    bkList.value = curBankArr.sort((a: any, b: any) => {
+      return b.status - a.status
+    });
   } else { // 其他 绑定银行，提现等
     bkList.value = [...bankListInfo.value];
   }
