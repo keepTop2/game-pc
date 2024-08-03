@@ -253,7 +253,7 @@ const getBankList = () => {
 };
 
 const handleBankList = async (res: any) => {
-  await Page(pinia).setBankListInfo(res.bank_name_list)
+  await Page(pinia).setBankListInfo(res.bank_name_list, res.status_list)
 };
 
 onMounted(() => {
