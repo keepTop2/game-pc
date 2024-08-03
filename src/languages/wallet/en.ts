@@ -194,6 +194,7 @@ export default {
   addBank_page_phoneCode: 'Phone Verification Code',
   addBank_page_getCode: 'Get',
   addBank_page_notPhone: 'You have not bound your mobile phone number, please bind your mobile phone number first',
+  addBank_page_bank_wh: 'In maintenance',
 
   // 充值 Deposit
   deposit_page_deposit: 'Deposit',

@@ -16,8 +16,12 @@
             </template>
           </n-input>
           <n-flex class="bank_list">
-            <n-flex align="center" class="bank_item" v-for="(item, index) in bkList" @click="clickBank(item)"
+            <n-flex align="center" :class="`bank_item ${item.status === 0 ? 'wh_item' : ''}`" v-for="(item, index) in bkList" @click="clickBank(item)"
               :key="index">
+              <div v-if="item.status === 0" class="bank_wh">
+                <iconpark-icon icon-id="weihuz" size="1rem"></iconpark-icon>
+                <span>{{t('addBank_page_bank_wh')}}</span>
+              </div>
               <span class="bank_l_icon">
                 <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
               </span>
@@ -62,8 +66,22 @@ const onCloseBank = () => {
 }
 
 const handleBankList = () => {
+  // console.log('-----====', bankListInfo.value)
+  // console.log('&&&&&&&&===', props.bankAllList)
   if (props.isDepositBank) { // 充值
     bkList.value = [...props.bankAllList];
+    const curBankArr: any = [];
+    props.bankAllList.map((item: any) => {
+      bankListInfo.value.map((ite: any) => {
+        if (ite.value === item.value) {
+          curBankArr.push({
+            ...ite,
+            label: item.label
+          })
+        }
+      })
+    });
+    bkList.value = curBankArr;
   } else { // 其他 绑定银行，提现等
     bkList.value = [...bankListInfo.value];
   }
@@ -88,6 +106,7 @@ const handleInput = (v: string) => {
 }
 // 选择银行
 const clickBank = (e: any) => {
+  // if (e.status === 0) return;
   onCloseBank();
   emit('selectBank', e)
 }
@@ -135,6 +154,7 @@ defineExpose({
   overflow-y: auto;
 
   .bank_item {
+    position: relative;
     cursor: pointer;
     font-size: 14px;
     width: 176px;
@@ -145,7 +165,22 @@ defineExpose({
     &:active {
       transform: scale(.95);
     }
-
+    &.wh_item {
+      pointer-events: none;
+    }
+    .bank_wh {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      background: rgba(0, 0, 0, .7);
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      span {
+        margin-left: 5px;
+      }
+    }
     .bank_l_icon {
       display: flex;
       width: 28px;
