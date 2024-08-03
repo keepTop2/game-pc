@@ -5,7 +5,7 @@
       <!-- 快捷语设置 -->
       <shortcutSettings v-model:visible="visibleSetting" />
       <h4 class="top_title">
-        <span @click="showSetting">与阿铁的聊天 (官方客服)</span>
+        <span>与阿铁的聊天 (官方客服)</span>
         <i>
           <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
@@ -32,7 +32,10 @@
           <div class="user_list">
             <div class="list_item" v-for="item in userList" :key="item.id">
               <div class="item_left">
-                <img :src="`/img/serviceModal/avatar1.webp`" alt="">
+                <div class="avatar">
+                  <img :src="`/img/serviceModal/avatar1.webp`" alt="" class="img1">
+                  <img :src="`/img/serviceModal/vip1.webp`" alt="" class="img2">
+                </div>
                 <span>{{ item.name }}</span>
               </div>
               <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
@@ -50,23 +53,24 @@
         <div class="right_content">
           <chatArea></chatArea>
           <!-- 快捷语选择 -->
-          <div class="short_wrap">
-            <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
-              <n-popover trigger="hover" placement="top" :show-arrow="false">
-                <template #trigger>
-                  <span>{{ item.name }}</span>
-                </template>
-                <div class="short_wrap_list">
-                  <span v-for="op in short_options" :key="op">{{ op }}</span>
-                </div>
-              </n-popover>
+          <div class="setting_wrap">
+            <div class="short_wrap">
+              <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
+                <n-popover trigger="hover" placement="top" :show-arrow="false">
+                  <template #trigger>
+                    <span>{{ item.name }}</span>
+                  </template>
+                  <div class="short_wrap_list">
+                    <span v-for="op in short_options" :key="op">{{ op }}</span>
+                  </div>
+                </n-popover>
+              </div>
             </div>
-
+            <div class="setting" @click="showSetting">快捷语设置</div>
           </div>
-
           <div class="send_message">
             <!-- <picker set="emojione" /> -->
-            <n-input v-model:value="value"  type="textarea" rows="2">
+            <n-input v-model:value="value" type="textarea" rows="2">
               <template #suffix>
                 <div class="send_icon">
                   <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
@@ -336,10 +340,19 @@ const showSetting = () => {
       display: flex;
       align-items: center;
 
-      img {
-        height: 50px;
-        width: 50px;
-        margin-right: 10px;
+      .avatar {
+        display: flex;
+        flex-direction: column;
+
+        .img1 {
+            height: 50px;
+            width: 50px;
+            margin-right: 10px;   
+        }
+        .img2 {
+            height: 21px; 
+            margin-top: -15px;
+        }
       }
     }
 
@@ -361,13 +374,14 @@ const showSetting = () => {
   align-items: center;
 
   &:deep(.n-input) {
-   
-   // height: 52px;
+
+    // height: 52px;
 
     .n-input__input-el {
-     // height: 52px;
+      // height: 52px;
     }
-    .n-input__suffix{
+
+    .n-input__suffix {
       display: block;
     }
   }
@@ -427,14 +441,34 @@ const showSetting = () => {
     cursor: pointer;
     color: #8E82C2;
     padding-left: 19px;
-    &:hover{
+
+    &:hover {
       background-color: #1154FF;
-      color:#ffffff;
+      color: #ffffff;
     }
 
     &:last-child {
       border: unset;
     }
+  }
+}
+
+.setting_wrap {
+  display: flex;
+  justify-content: space-between;
+
+  .setting {
+    cursor: pointer;
+    margin-top: 6px;
+    padding: 0 23px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    border: solid 1px #322c59;
+    background-color: #1d0e4a;
   }
 }
 
@@ -456,13 +490,15 @@ const showSetting = () => {
     background-size: 100% 100%;
   }
 }
-.short_wrap_list{
+
+.short_wrap_list {
   display: flex;
   flex-direction: column;
   color: #ffffff;
   padding: 16px;
   gap: 10px;
-  span{
+
+  span {
     cursor: pointer;
   }
 }
