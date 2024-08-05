@@ -6,17 +6,22 @@
       <shortcutSettings v-model:visible="visibleSetting" />
       <h4 class="top_title">
         <span>与阿铁的聊天 (官方客服)</span>
+
         <i>
+          <n-switch v-model:value="active" />
           <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
+
       </h4>
       <div class="main_body">
         <!-- 左侧设置 -->
         <div class="left_setting">
           <div class="set_item" v-for="item in settingList" :key="item.id">
-            <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
-            <img :src="`/img/serviceModal/${item.img}`" alt="">
-            <span>{{ item.name }}</span>
+            <n-badge :value="5" :max="15" class="set_item" :show="item.id == 1" :offset="[-17]">
+              <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
+              <img :src="`/img/serviceModal/${item.img}`" alt="">
+              <span>{{ item.name }}</span>
+            </n-badge>
           </div>
         </div>
         <!-- 左侧菜单 -->
@@ -134,6 +139,8 @@ const active_id = ref(1);
 const search = ref('')
 const value = ref('')
 
+const active = ref(true)  // 禁言
+
 const tab_list = [
   { label: '聊天列表', id: 1 },
   { label: '用户列表', id: 2 },
@@ -244,9 +251,18 @@ const showSetting = () => {
 
     >i {
       position: absolute;
-      top: 5px;
+      top: 15px;
       right: 15px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &:deep(.n-switch--active .n-switch__rail) {
+ 
+        background-color: #0CC51E;
+      
     }
   }
 
@@ -345,13 +361,14 @@ const showSetting = () => {
         flex-direction: column;
 
         .img1 {
-            height: 50px;
-            width: 50px;
-            margin-right: 10px;   
+          height: 50px;
+          width: 50px;
+          margin-right: 10px;
         }
+
         .img2 {
-            height: 21px; 
-            margin-top: -15px;
+          height: 21px;
+          margin-top: -15px;
         }
       }
     }
@@ -510,7 +527,5 @@ const showSetting = () => {
     overflow: hidden;
     background-image: linear-gradient(to bottom, #2c205c 100%, #261771 -50%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
   }
-
-
 }
 </style>
