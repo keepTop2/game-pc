@@ -121,8 +121,15 @@ export const Page = defineStore('page', {
             this.serviceUrlObj = obj
         },
 
-        async setBankListInfo(v: any) {
-            let data = v.map((item: any) => { return { value: item.bank_id, label: item.bank_name } });
+        async setBankListInfo(v: any, statusArr: any) {
+          // 添加银行维护状态，0 维护，1 开启
+            let data = v.map((item: any, index: number) => {
+              return {
+                value: item.bank_id,
+                label: item.bank_name,
+                status: statusArr[index]
+              }
+            });
             this.bankListInfo = [...data];
         },
 
