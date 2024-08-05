@@ -123,12 +123,14 @@ export const Page = defineStore('page', {
 
         async setBankListInfo(v: any, statusArr: any) {
           // 添加银行维护状态，0 维护，1 开启
-            let data = v.map((item: any, index: number) => {
+            const data = v.map((item: any, index: number) => {
               return {
                 value: item.bank_id,
                 label: item.bank_name,
                 status: statusArr[index]
               }
+            }).sort((a: any, b: any) => {
+              return b.status - a.status
             });
             this.bankListInfo = [...data];
         },
