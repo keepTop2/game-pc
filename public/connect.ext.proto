@@ -1,0 +1,289 @@
+syntax = "proto3";
+
+
+enum PackageType {
+  PT_UNKNOWN = 0; // 未知
+  PT_SIGN_IN = 1; // 设备登录请求
+  PT_SYNC = 2; // 消息同步触发
+  PT_HEARTBEAT = 3; // 心跳
+  PT_MESSAGE = 4; // 消息投递
+  PT_SUBSCRIBE_ROOM = 5; // 订阅房间
+  PT_MESSAGE_USER = 6; // 给用户发消息
+  PT_MESSAGE_ROOM = 7; // 群发
+  PT_MESSAGE_HISTORY= 8; // 历史消息
+
+  PT_MESSAGE_ADDCHARGROUP= 9; // 添加分组
+  PT_MESSAGE_EDITCHARGROUP= 10; // 编辑分组 置顶/排序
+  PT_MESSAGE_DELCHARGROUP= 11; // 删除分组
+  PT_MESSAGE_LISTGROUP= 12; // 获取分组列表
+  PT_MESSAGE_LISTCHARGROUP= 13; // 获取分组里面的聊天列表
+  PT_MESSAGE_EDITCHAR= 14; // 编辑某一条聊天到某个分组/置顶/排序/不接收消息
+
+}
+
+// 上行数据
+message Input {
+  PackageType type = 1; // 包的类型
+  int64 requestid = 2; // 请求id
+  bytes data = 3; // 数据
+}
+
+// 下行数据
+message Output {
+  PackageType type = 1; // 包的类型
+  int64 requestid = 2; // 请求id
+  int32 code = 3; // 错误码
+  string message = 4; // 错误信息
+  bytes data = 5; // 数据
+}
+
+// 设备登录,packagetype:1
+message SignInInput {
+  int64 deviceid = 1; // 设备id
+  int64 userid = 2; // 用户id
+  string token = 3; // 秘钥
+}
+
+// 消息同步请求,packagetype:2
+message SyncInput {
+  int64 seq = 1; // 客户端已经同步的序列号
+}
+// 消息同步响应,packagetype:2
+message SyncOutput {
+  repeated Message messages = 1; // 消息列表
+  bool hasmore = 2; // 是否有更多数据
+}
+
+// 订阅房间请求
+message SubscribeRoomInput {
+  int64 roomid = 1; // 房间ID，如果为0，取消房间订阅
+  int64 seq = 2; // 消息消息序列号，
+}
+
+// 消息投递,packagetype:4
+// message.ext.proto文件下 Message
+
+// 投递消息回执,packagetype:4
+message MessageACK {
+  int64 deviceack = 2; // 设备收到消息的确认号
+  int64 receivetime = 3; // 消息接收时间戳，精确到毫秒
+}
+enum MessageType {
+  MEUNKNOWN = 0; // 未知
+  METEXT = 1; // 文字消息
+  MEEMO = 2; // 表情消息
+  MEPIC = 3; // 图片消息
+  MEVIO = 4; // 视频消息
+  MEMON = 5; // 转账消息
+  MEJSON = 6; // json消息
+  MEMIX = 7; // 混合消息(一段html代码)
+}
+// 消息发送体
+message MessageTextContent {
+  string data = 1; // 数据
+}
+// 消息发送体
+message MessageInpute {
+  int64 fromdeviceid = 1; // 发送消息的设备号
+  int64 todeviceid = 2; // 接收消息的设备号
+  string sendtime = 3; // 消息发送时间
+  MessageType mtype = 4; // 消息类型
+  bytes data = 5; // 发送的具体数据
+}
+// 消息接收体
+message MessageOutpute {
+  int64 fromdeviceid = 1; // 发送消息的设备号
+  int64 todeviceid = 2; // 接收消息的设备号
+  string sendtime = 3; // 消息发送时间
+  MessageType mtype = 4; // 消息类型
+  bytes data = 5; // 发送的具体数据
+}
+
+
+
+
+
+
+message ConnSignInReq {
+  int64 deviceid = 1; // 设备id
+  int64 userid = 2; // 用户id
+  string token = 3; // 秘钥
+  string connaddr = 4; // 服务器地址
+  string clientaddr = 5; // 客户端地址
+}
+
+message SyncReq {
+  int64 userid = 1; // 用户id
+  int64 deviceid = 2; // 设备id
+  int64 seq = 3; // 客户端已经同步的序列号
+}
+message SyncResp {
+  repeated Message messages = 1; // 消息列表
+  bool hasmore = 2; // 是否有更多数据
+}
+
+message MessageACKReq {
+  int64 userid = 1; // 用户id
+  int64 deviceid = 2; // 设备id
+  int64 deviceack = 3; // 设备收到消息的确认号
+  int64 receivetime = 4; // 消息接收时间戳，精确到毫秒
+}
+
+message OfflineReq {
+  int64 userid = 1; // 用户id
+  int64 deviceid = 2; // 设备id
+  string clientaddr = 3; // 客户端地址
+}
+
+message SubscribeRoomReq{
+  int64 userid = 1; // 用户id
+  int64 deviceid = 2; // 设备id
+  int64 roomid = 3; // 房间id
+  int64 seq = 4; // 消息序列号
+  string connaddr = 5; // 服务器地址
+}
+
+message PushReq{
+  int64 userid = 1; // 用户ID
+  int32 code = 2; // 推送码
+  bytes content = 3; // 推送内容
+  bool ispersist = 4; // 是否持久化
+}
+message PushResp{
+  int64 seq = 1;
+}
+
+message PushAllReq{
+  int32 code = 1; // 推送码
+  bytes content = 2; // 推送内容
+}
+
+message GetDeviceReq {
+  int64 deviceid = 1;
+}
+message GetDeviceResp {
+  Device device = 1;
+}
+
+message Device {
+  int64 deviceid = 1; // 设备id
+  int64 userid = 2; // 用户id
+  int32 type = 3; // 设备类型,1:Android；2：IOS；3：Windows; 4：MacOS；5：Web
+  string brand = 4; // 手机厂商
+  string model = 5; // 机型
+  string systemversion = 6; // 系统版本
+  string sdkversion = 7; // SDK版本
+  int32 status = 8; // 在线状态，0：不在线；1：在线
+  string connaddr = 9;  // 服务端连接地址
+  string clientaddr = 10; // 客户端地址
+  int64 createtime = 11; // 创建时间
+  int64 updatetime = 12; // 更新时间
+}
+
+message ServerStopReq {
+  string connaddr = 1;
+}
+
+// 单条消息投递内容（估算大约100个字节）,todo 通知栏提醒
+message Message {
+  int32 code = 1; // 推送码
+  bytes content = 2; // 推送内容
+  int64 seq = 3; // 用户消息发送序列号
+  int64 sendtime = 4; // 消息发送时间戳，精确到毫秒
+  MessageStatus status = 5; // 消息状态
+}
+
+enum MessageStatus {
+  MSNORMAL = 0; // 正常的
+  MSRECALL = 1; // 撤回
+}
+
+message DeliverMessageReq {
+  int64 deviceid = 1; // 设备id
+  Message message = 2; // 数据
+}
+
+// 房间推送
+message PushRoomMsg{
+  int64 roomid = 1; // 设备id
+  Message message = 2; // 数据
+}
+
+// 房间推送
+message PushAllMsg{
+  Message message = 2; // 数据
+}
+
+// 消息同步请求，获取历史消息,packagetype:8获取历史消息
+message SyncHistoryInput {
+  string chatid = 1; // 消息id
+  int32 perpage = 2; // 每页数量
+  int32 page = 3; // 页数
+}
+
+
+
+message ChatGroupModifyReq {
+  int64 id = 1;         //ID
+  int64 deviceid = 2; // 设备id
+  int32 sort =  3;    // 排序，在置顶时使用
+  int32 istop = 4;    // 是否置顶  1为置顶
+  string name =  5;    // 编辑group时候 如果传了这个字段则需要修改
+}
+message GroupListReq {
+  int64 deviceid = 1; // 设备id
+  int32 page = 2; // 分页
+  int32 pagesize = 3; // 分页参数
+}
+message ChatGroupListReq {
+  int64 deviceid = 1; // 设备id
+  int64 groupid = 2; // 分组id
+  int32 page = 3; // 分页
+  int32 pagesize = 4; // 分页参数
+}
+//每个分组的基本信息
+message ChatGroupItem {
+  int64 id = 1; // id
+  int32 sort = 2; // 排序
+  int32 istop = 3; // 是否置顶
+  int64 deviceid = 4; // 设备id
+  string name = 5; // 创建时间
+  string createdtime = 6; // 创建时间
+  string updatetime = 7; // 更新时间
+}
+//每个聊天的基本信息
+message ChatItemModifyReq {
+  int64 id = 1; // id
+  int64 deviceid = 2; // 设备id
+  int64 chatgroupid = 3; // 聊天分组id
+  string chatid = 4; // 聊天ID
+  int32 sort = 5; // 排序
+  int32 istop = 6; // 是否置顶
+  int32 enableflag = 7; // 是否屏蔽消息
+}
+//每个聊天的基本信息
+message ChatItem {
+  int64 id = 1; // id
+  int64 deviceid = 2; // 设备id
+  int64 chatgroupid = 3; // 聊天分组id
+  string chatid = 4; // 聊天ID
+  int32 sort = 5; // 排序
+  int32 istop = 6; // 是否置顶
+  int32 enableflag = 7; // 是否已审核
+  string createdtime = 8; // 创建时间
+  string updatetime = 9; // 更新时间
+}
+//获取获取所有聊天列表
+message ChatListRsp {
+  repeated ChatItem chatitem = 1;//聊天列表
+}
+
+//获取分组列表
+message GroupListRsp {
+  repeated ChatGroupItem groupitem = 1;//分组列表
+}
+//获取获取某个分组下面的所有聊天
+message GroupChatListRsp {
+  int64 id = 1; // id
+  repeated ChatItem chatitem = 2;//分组列表
+}

@@ -23,7 +23,12 @@
       <NoticeDialog v-if="isNotice" />
     </div>
   </n-modal>
-
+  <!-- 客服弹窗 -->
+  <n-modal :show="visible" :mask-closable="false">
+    <div>
+      <ServiceModal v-model:visible="visible" />
+    </div>
+  </n-modal>
   <header class="header">
     <div>
       <div class="logo_box">
@@ -93,13 +98,12 @@
         </div>
       </div>
     </div>
-    <!-- 客服弹窗 -->
-    <ServiceModal  v-model:visible="visible"></ServiceModal>
+
   </header>
 </template>
 
 <script setup lang='ts' name="Header">
-import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch,ref } from 'vue';
+import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch, ref } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -119,7 +123,7 @@ import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime
 import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getSetting } from '@/net/Net';
-import ServiceModal  from './ServiceModal/ServiceModal.vue'
+import ServiceModal from './ServiceModal/ServiceModal.vue'
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings, lang } = storeToRefs(page);
@@ -130,7 +134,7 @@ const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail } = stor
 const router = useRouter();
 const route = useRoute();
 
-const visible  =  ref(false) // 打开客服
+const visible = ref(false) // 打开客服
 
 const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
 const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
@@ -253,7 +257,7 @@ const iconClick = async (item: any) => {
     switch (item.url) {
       // 客服
       case 'kf':
-      visible.value = true
+        visible.value = true
         // handleOpenLink(settings.value.serviceTelegram)
         break;
       case 'dw':

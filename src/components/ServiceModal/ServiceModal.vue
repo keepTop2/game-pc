@@ -1,113 +1,113 @@
 <template>
   <!-- 客服聊天弹窗 -->
-  <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
-    <div class="main">
-      <!-- 快捷语设置 -->
-      <shortcutSettings v-model:visible="visibleSetting" />
-      <h4 class="top_title">
-        <span>与阿铁的聊天 (官方客服)</span>
 
-        <i>
-          <n-switch v-model:value="active" />
-          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-        </i>
+  <div class="main">
+    <!-- 快捷语设置 -->
+    <shortcutSettings v-model:visible="visibleSetting" />
+    <h4 class="top_title">
+      <span>与阿铁的聊天 (官方客服)</span>
 
-      </h4>
-      <div class="main_body">
-        <!-- 左侧设置 -->
-        <div class="left_setting">
-          <div class="set_item" v-for="item in settingList" :key="item.id">
-            <n-badge :value="5" :max="15" class="set_item" :show="item.id == 1" :offset="[-17]">
-              <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
-              <img :src="`/img/serviceModal/${item.img}`" alt="">
+      <i>
+        <n-switch v-model:value="active" />
+        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+      </i>
+
+    </h4>
+    <div class="main_body">
+      <!-- 左侧设置 -->
+      <div class="left_setting">
+        <div class="set_item" v-for="item in settingList" :key="item.id">
+          <n-badge :value="5" :max="15" class="set_item" :show="item.id == 1" :offset="[-17]">
+            <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
+            <img :src="`/img/serviceModal/${item.img}`" alt="">
+            <span>{{ item.name }}</span>
+          </n-badge>
+        </div>
+      </div>
+      <!-- 左侧菜单 -->
+      <div class="left_menu">
+        <n-flex class="tabs">
+          <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
+            @click="tabClick(tab)">
+            {{ t(tab.label) }}
+          </div>
+        </n-flex>
+        <n-input v-model:value="search" placeholder="查找聊天列表" />
+        <div class="manage_group" @click="manageClick">管理分组</div>
+        <div class="user_list">
+          <div class="list_item" v-for="item in userList" :key="item.id">
+            <div class="item_left">
+              <div class="avatar">
+                <img :src="`/img/serviceModal/avatar1.webp`" alt="" class="img1">
+                <img :src="`/img/serviceModal/vip1.webp`" alt="" class="img2">
+              </div>
               <span>{{ item.name }}</span>
-            </n-badge>
+            </div>
+            <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
+              <template #trigger>
+                <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+              </template>
+              <div class="select_wrap">
+                <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
+              </div>
+            </n-popover>
           </div>
         </div>
-        <!-- 左侧菜单 -->
-        <div class="left_menu">
-          <n-flex class="tabs">
-            <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
-              @click="tabClick(tab)">
-              {{ t(tab.label) }}
-            </div>
-          </n-flex>
-          <n-input v-model:value="search" placeholder="查找聊天列表" />
-          <div class="manage_group" @click="manageClick">管理分组</div>
-          <div class="user_list">
-            <div class="list_item" v-for="item in userList" :key="item.id">
-              <div class="item_left">
-                <div class="avatar">
-                  <img :src="`/img/serviceModal/avatar1.webp`" alt="" class="img1">
-                  <img :src="`/img/serviceModal/vip1.webp`" alt="" class="img2">
-                </div>
-                <span>{{ item.name }}</span>
-              </div>
-              <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
+      </div>
+      <!-- 右侧聊天区域 -->
+      <div class="right_content">
+        <chatArea></chatArea>
+        <!-- 快捷语选择 -->
+        <div class="setting_wrap">
+          <div class="short_wrap">
+            <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
+              <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
-                  <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+                  <span>{{ item.name }}</span>
                 </template>
-                <div class="select_wrap">
-                  <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
+                <div class="short_wrap_list">
+                  <span v-for="op in short_options" :key="op">{{ op }}</span>
                 </div>
               </n-popover>
             </div>
           </div>
+          <div class="setting" @click="showSetting">快捷语设置</div>
         </div>
-        <!-- 右侧聊天区域 -->
-        <div class="right_content">
-          <chatArea></chatArea>
-          <!-- 快捷语选择 -->
-          <div class="setting_wrap">
-            <div class="short_wrap">
-              <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
-                <n-popover trigger="hover" placement="top" :show-arrow="false">
+        <div class="send_message">
+          <!-- <picker set="emojione" /> -->
+          <n-input v-model:value="value" type="textarea" rows="2">
+            <template #suffix>
+              <div class="send_icon">
+                <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
+                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
+                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
+                <n-popover trigger="hover" :show-arrow="false" placement="top-end">
                   <template #trigger>
-                    <span>{{ item.name }}</span>
+                    <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
                   </template>
-                  <div class="short_wrap_list">
-                    <span v-for="op in short_options" :key="op">{{ op }}</span>
+                  <div class="emoji">
+                    <EmojiPicker :native="true" @select="onSelectEmoji" />
                   </div>
                 </n-popover>
               </div>
-            </div>
-            <div class="setting" @click="showSetting">快捷语设置</div>
-          </div>
-          <div class="send_message">
-            <!-- <picker set="emojione" /> -->
-            <n-input v-model:value="value" type="textarea" rows="2">
-              <template #suffix>
-                <div class="send_icon">
-                  <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-                  <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
-                  <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
-                  <n-popover trigger="hover" :show-arrow="false" placement="top-end">
-                    <template #trigger>
-                      <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
-                    </template>
-                    <div class="emoji">
-                      <EmojiPicker :native="true" @select="onSelectEmoji" />
-                    </div>
-                  </n-popover>
-                </div>
-              </template>
-            </n-input>
-            <div class="send_btn">发送</div>
-          </div>
+            </template>
+          </n-input>
+          <div class="send_btn" @click="sendMsg">发送</div>
         </div>
       </div>
-      <!-- 快捷语设置 -->
-      <shortcutSettings v-model:visible="visibleSetting" />
-
-      <manageGroup v-model:visible="visibleGroup" />
-      <!-- 转账弹窗 -->
-      <sendMoneyModal v-model:visible="visibleTransfor" />
     </div>
-  </n-modal>
+    <!-- 快捷语设置 -->
+    <shortcutSettings v-model:visible="visibleSetting" />
+
+    <manageGroup v-model:visible="visibleGroup" />
+    <!-- 转账弹窗 -->
+    <sendMoneyModal v-model:visible="visibleTransfor" />
+  </div>
+
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, reactive } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 
 import 'vue3-emoji-picker/css'
@@ -115,6 +115,8 @@ import 'vue3-emoji-picker/css'
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
+import ReconnectingWebSocket from 'reconnecting-websocket';
+import protobuf from 'protobufjs';
 import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
 import manageGroup from './components/manageGroup.vue'
@@ -122,11 +124,17 @@ import sendMoneyModal from './components/sendMoneyModal.vue'
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
+// import { getDeviceId, } from "@/net/Utils";
+import { Buffer } from 'buffer';
+// import { Local } from "@/utils/storage";
 interface tabType {
   label: string;
   id: number;
 }
 import { useI18n } from 'vue-i18n';
+
+const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
+
 const { t } = useI18n();
 const props = defineProps({
   visible: {
@@ -134,6 +142,16 @@ const props = defineProps({
     default: false,
   },
 });
+const state: any = reactive({
+  messagetype: 4,//消息类型
+  dataList: {},
+  seqnumber: '',
+  sendmessages: [],
+  messages: [],
+  deviceID: 10086,
+  requestid: 5000, //对方ID
+  todeviceid: 10085, //对方设备ID
+})
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
@@ -222,6 +240,200 @@ const manageClick = () => {
 const showSetting = () => {
   visibleSetting.value = true
 }
+//获取一个格式化的时间
+const getDateFromat = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  const datatime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  return datatime;
+}
+// 发送消息
+const sendMsg = () => {
+  if (value.value !== '') {
+    const type = 6; // 给用户发消息
+    state.requestid++;
+    const requestid = state.requestid;
+
+    const msginput = {
+      // data:new TextEncoder().encode(this.jsmessage),
+      data: value.value
+    };
+    //编码消息内容
+    const errMsg1 = state.dataList.MessageTextContent.verify(msginput);
+    if (errMsg1) throw new Error(errMsg1);
+    const msginputdata = state.dataList.MessageTextContent.encode(state.dataList.MessageTextContent.create(msginput)).finish();
+
+
+    var datatime = getDateFromat()
+    const msgcontent = {
+      fromdeviceid: state.deviceID,
+      todeviceid: state.todeviceid,
+      sendtime: datatime,
+      mtype: state.messagetype,//文字类型消息
+      data: msginputdata,
+    };
+
+    //编码消息体
+    const errMsg2 = state.dataList.MessageInpute.verify(msgcontent);
+    if (errMsg2) throw new Error(errMsg2);
+    const msgcontentdata = state.dataList.MessageInpute.encode(state.dataList.MessageInpute.create(msgcontent)).finish();
+
+    const encodedRequest = encodeInput(type, requestid, msgcontentdata);
+
+
+    const buffer = Buffer.from(encodedRequest);
+    const decodedMessage = state.dataList.Input.decode(buffer);
+
+
+    const buffer1 = Buffer.from(decodedMessage.data);
+    const decodedMessage1 = state.dataList.MessageInpute.decode(buffer1);
+
+
+
+    const decoder = new TextDecoder('utf-8');
+    const decodedString2 = decoder.decode(decodedMessage1.data);
+    console.log("decodedMessage1.data :", decodedString2)
+    // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
+    ws.send(encodedRequest);
+    value.value = ''
+  }
+}
+const encodeSignInInput = (payload: any) => {
+  console.log("encodeSignInInput", payload)
+  const errMsg = state.dataList.SignInInput.verify(payload);
+  if (errMsg) throw new Error(errMsg);
+  const message = state.dataList.SignInInput.create(payload);
+  console.log(
+    payload
+  );
+
+  const buffer = state.dataList.SignInInput.encode(message).finish();
+  return buffer;
+}
+const encodeInput = (type: number, request_id: number, data: any) => {
+  // Build payload object
+  const payload = {
+    type: type,
+    requestid: request_id,
+    data: data,
+  };
+  // Verify payload
+  const errMsg = state.dataList.Input.verify(payload);
+  if (errMsg) throw new Error(errMsg);
+  // Create message
+  const message = state.dataList.Input.create(payload);
+  // Encode message
+  const buffer = state.dataList.Input.encode(message).finish();
+  return buffer;
+}
+const onOpen = () => {
+  console.log(11111);
+
+  const type = 1; // PT_SIGN_IN
+  const requestid = 5000;
+  const singin = {
+    deviceid: state.deviceID,//用户的roleid
+    userid: 10086,// Local.get('user').user_id,//用户的roleid
+    token: 'mmssdfasd1155',// Local.get('user').token,//后期从另外一个项目中获取
+  }
+  const data = encodeSignInInput(singin)
+  const encodedRequest = encodeInput(type, requestid, data);
+  console.log("encodedRequest:", encodedRequest)
+  const buffer = Buffer.from(encodedRequest);
+  const decodedMessage = state.dataList.Input.decode(buffer);
+  console.log("decodedMessage :", decodedMessage)
+  const decoder = new TextDecoder('utf-8');
+  const decodedString = decoder.decode(decodedMessage.data);
+  console.log("decodedMessage.data :", decodedString)
+  ws.send(encodedRequest);
+}
+//收到消息
+const onMessage: any = async (event: any) => {
+  debugger
+  const arrayBuffer = await event.data.arrayBuffer();
+  console.log("arrayBuffer", arrayBuffer)
+  const buffer = new Uint8Array(arrayBuffer);
+  const decodedMessage1 = state.dataList.Output.decode(buffer);
+  const decodeobj1 = state.dataList.Output.toObject(decodedMessage1);
+  console.log("onMessage/Output output0 ", decodeobj1)
+  if (decodeobj1.code > 10000) {
+    alert(decodeobj1.message)
+    return;
+  }
+  if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
+    console.log(decodeobj1.type)
+  }
+  else if (decodeobj1.type == 4) {// 消息投递
+
+    const buffer00 = new Uint8Array(decodeobj1.data);
+    const decodedMessage00 = state.dataList.ServiceMessage.decode(buffer00);
+    const decodeobj00 = state.dataList.ServiceMessage.toObject(decodedMessage00);
+    console.log("onMessage/ServiceMessage output1 ", decodeobj00)
+    const buffer1 = new Uint8Array(decodeobj00.content);
+    const decodedMessage2 = state.dataList.MessageOutpute.decode(buffer1);
+    const decodeobj2 = state.dataList.MessageOutpute.toObject(decodedMessage2);
+    console.log("onMessage/MessageOutpute output2 ", decodeobj2)
+
+    const buffer2 = new Uint8Array(decodeobj2.data);
+    const decodedMessage3 = state.dataList.MessageTextContent.decode(buffer2);
+    const decodeobj3 = state.dataList.MessageTextContent.toObject(decodedMessage3);
+    console.log("onMessage/MessageTextContent output3 ", decodeobj3)
+
+    // root.messages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型" + decodeobj2.mtype);
+  }
+  //消息同步触发,或者是历史消息 也是使用type等于2下发的
+  else if (decodeobj1.type == 2) {
+
+    //先解析出消息体
+    const buffer00 = new Uint8Array(decodeobj1.data);
+    const decodedMessage00 = state.dataList.SyncResp.decode(buffer00);
+    const decodeobj00 = state.dataList.SyncResp.toObject(decodedMessage00);
+    console.log("onMessage/SyncResp output4 ", decodeobj00)
+
+    if (Object.keys(decodeobj00).length > 0) {
+      if (Object.keys(decodeobj00.messages).length > 0) {
+        decodeobj00.messages.forEach((item: any) => {
+          state.seqnumber = item.seq
+          const buffer1 = new Uint8Array(item.content);
+          const decodedMessage2 = state.dataList.MessageOutpute.decode(buffer1);
+          const decodeobj2 = state.dataList.MessageOutpute.toObject(decodedMessage2);
+          console.log("onMessage/MessageOutpute output5 ", decodeobj2)
+          //取出消息
+          const buffer2 = new Uint8Array(decodeobj2.data);
+          const decodedMessage3 = state.dataList.MessageTextContent.decode(buffer2);
+          const decodeobj3 = state.dataList.MessageTextContent.toObject(decodedMessage3);
+          console.log("onMessage/MessageTextContent output6", decodeobj3)
+          if (decodeobj2.fromdeviceid == state.deviceID) {
+            state.sendmessages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型:" + decodeobj2.mtype);
+          } else {
+            state.messages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型:" + decodeobj2.mtype);
+          }
+
+        })
+      }
+    }
+
+
+  }
+
+}
+onMounted(async () => {
+  // state.deviceID =  await getDeviceId()
+  const root = await protobuf.load('/connect.ext.proto');
+  ['Input', 'Output', 'SignInInput', 'MessageTextContent', 'MessageInpute', 'MessageOutpute', 'DeliverMessageReq', 'Message', 'SyncInput', 'SyncResp', 'SyncHistoryInput'].map((str: string) => {
+    state.dataList[str] = root.lookupType(str)
+  })
+
+  // ws.addEventListener("open", onOpen);
+  onOpen()
+  ws.addEventListener('message', onMessage);
+})
 </script>
 <style lang="less" scoped>
 .main {
@@ -260,9 +472,9 @@ const showSetting = () => {
     }
 
     &:deep(.n-switch--active .n-switch__rail) {
- 
-        background-color: #0CC51E;
-      
+
+      background-color: #0CC51E;
+
     }
   }
 
