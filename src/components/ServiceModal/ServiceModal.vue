@@ -124,16 +124,21 @@ import sendMoneyModal from './components/sendMoneyModal.vue'
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
-// import { getDeviceId, } from "@/net/Utils";
+
 import { Buffer } from 'buffer';
-// import { Local } from "@/utils/storage";
+import { Local } from "@/utils/storage";
 interface tabType {
   label: string;
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-
+import { storeToRefs } from 'pinia';
+import pinia from '@/store';
+import { User } from '@/store/user';
+const UserStore = User(pinia);
+const { roleInfo } = storeToRefs(UserStore);
 const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
+
 
 const { t } = useI18n();
 const props = defineProps({
@@ -148,7 +153,7 @@ const state: any = reactive({
   seqnumber: '',
   sendmessages: [],
   messages: [],
-  deviceID: 10086,
+  deviceID: roleInfo.value.id,
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
 })
@@ -339,8 +344,8 @@ const onOpen = () => {
   const requestid = 5000;
   const singin = {
     deviceid: state.deviceID,//用户的roleid
-    userid: 10086,// Local.get('user').user_id,//用户的roleid
-    token: 'mmssdfasd1155',// Local.get('user').token,//后期从另外一个项目中获取
+    userid: state.deviceID,//用户的roleid
+    token: Local.get('user').token,//后期从另外一个项目中获取
   }
   const data = encodeSignInInput(singin)
   const encodedRequest = encodeInput(type, requestid, data);
@@ -424,7 +429,7 @@ const onMessage: any = async (event: any) => {
 
 }
 onMounted(async () => {
-  // state.deviceID =  await getDeviceId()
+
   const root = await protobuf.load('/connect.ext.proto');
   ['Input', 'Output', 'SignInInput', 'MessageTextContent', 'MessageInpute', 'MessageOutpute', 'DeliverMessageReq', 'Message', 'SyncInput', 'SyncResp', 'SyncHistoryInput'].map((str: string) => {
     state.dataList[str] = root.lookupType(str)
