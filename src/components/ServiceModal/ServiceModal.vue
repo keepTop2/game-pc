@@ -75,7 +75,7 @@
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
-          <n-input v-model:value="value" type="textarea" rows="2">
+          <n-input v-model:value="testMsg" type="textarea" rows="2">
             <template #suffix>
               <div class="send_icon">
                 <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
@@ -109,13 +109,13 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, reactive } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
-
+import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
-import ReconnectingWebSocket from 'reconnecting-websocket';
+// import ReconnectingWebSocket from 'reconnecting-websocket';
 import protobuf from 'protobufjs';
 import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
@@ -137,7 +137,7 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
-const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
+// const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
 
 
 const { t } = useI18n();
@@ -148,19 +148,19 @@ const props = defineProps({
   },
 });
 const state: any = reactive({
-  messagetype: 4,//消息类型
-  dataList: {},
+  root: null,
+  messagetype: 1,//消息类型
   seqnumber: '',
   sendmessages: [],
   messages: [],
-  deviceID: roleInfo.value.id,
+  deviceID: 10086,// roleInfo.value.id,
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
 })
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
-const value = ref('')
+const testMsg = ref('')
 
 const active = ref(true)  // 禁言
 
@@ -260,19 +260,21 @@ const getDateFromat = () => {
 }
 // 发送消息
 const sendMsg = () => {
-  if (value.value !== '') {
+  if (testMsg.value !== '') {
     const type = 6; // 给用户发消息
     state.requestid++;
     const requestid = state.requestid;
 
     const msginput = {
       // data:new TextEncoder().encode(this.jsmessage),
-      data: value.value
+      data: testMsg.value
     };
+    debugger
     //编码消息内容
-    const errMsg1 = state.dataList.MessageTextContent.verify(msginput);
+    let MessageTextContentItem = state.root.lookupType('MessageTextContent')
+    const errMsg1 = MessageTextContentItem.verify(msginput);
     if (errMsg1) throw new Error(errMsg1);
-    const msginputdata = state.dataList.MessageTextContent.encode(state.dataList.MessageTextContent.create(msginput)).finish();
+    const msginputdata = MessageTextContentItem.encode(MessageTextContentItem.create(msginput)).finish();
 
 
     var datatime = getDateFromat()
@@ -285,19 +287,20 @@ const sendMsg = () => {
     };
 
     //编码消息体
-    const errMsg2 = state.dataList.MessageInpute.verify(msgcontent);
+    let MessageInputeItem = state.root.lookupType('MessageInpute')
+    const errMsg2 = MessageInputeItem.verify(msgcontent);
     if (errMsg2) throw new Error(errMsg2);
-    const msgcontentdata = state.dataList.MessageInpute.encode(state.dataList.MessageInpute.create(msgcontent)).finish();
+    const msgcontentdata = MessageInputeItem.encode(MessageInputeItem.create(msgcontent)).finish();
 
     const encodedRequest = encodeInput(type, requestid, msgcontentdata);
-
+    let InputItem = state.root.lookupType('Input')
 
     const buffer = Buffer.from(encodedRequest);
-    const decodedMessage = state.dataList.Input.decode(buffer);
+    const decodedMessage = InputItem.decode(buffer);
 
 
     const buffer1 = Buffer.from(decodedMessage.data);
-    const decodedMessage1 = state.dataList.MessageInpute.decode(buffer1);
+    const decodedMessage1 = InputItem.decode(buffer1);
 
 
 
@@ -305,20 +308,22 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    ws.send(encodedRequest);
-    value.value = ''
+
+    IWebsocket.sendMessageHandler(encodedRequest);
+    testMsg.value = ''
   }
 }
 const encodeSignInInput = (payload: any) => {
   console.log("encodeSignInInput", payload)
-  const errMsg = state.dataList.SignInInput.verify(payload);
+  let SignInInputItem = state.root.lookupType('SignInInput')
+  const errMsg = SignInInputItem.verify(payload);
   if (errMsg) throw new Error(errMsg);
-  const message = state.dataList.SignInInput.create(payload);
+  const message = SignInInputItem.create(payload);
   console.log(
     payload
   );
 
-  const buffer = state.dataList.SignInInput.encode(message).finish();
+  const buffer = SignInInputItem.encode(message).finish();
   return buffer;
 }
 const encodeInput = (type: number, request_id: number, data: any) => {
@@ -329,43 +334,88 @@ const encodeInput = (type: number, request_id: number, data: any) => {
     data: data,
   };
   // Verify payload
-  const errMsg = state.dataList.Input.verify(payload);
+  let InputItem = state.root.lookupType('Input')
+  const errMsg = InputItem.verify(payload);
   if (errMsg) throw new Error(errMsg);
   // Create message
-  const message = state.dataList.Input.create(payload);
+  const message = InputItem.create(payload);
   // Encode message
-  const buffer = state.dataList.Input.encode(message).finish();
+  const buffer = InputItem.encode(message).finish();
   return buffer;
 }
 const onOpen = () => {
-  console.log(11111);
-
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
   const singin = {
     deviceid: state.deviceID,//用户的roleid
     userid: state.deviceID,//用户的roleid
-    token: Local.get('user').token,//后期从另外一个项目中获取
+    token: 'mmssdfasd1155',// Local.get('user').token,//后期从另外一个项目中获取
   }
   const data = encodeSignInInput(singin)
   const encodedRequest = encodeInput(type, requestid, data);
-  console.log("encodedRequest:", encodedRequest)
-  const buffer = Buffer.from(encodedRequest);
-  const decodedMessage = state.dataList.Input.decode(buffer);
-  console.log("decodedMessage :", decodedMessage)
-  const decoder = new TextDecoder('utf-8');
-  const decodedString = decoder.decode(decodedMessage.data);
-  console.log("decodedMessage.data :", decodedString)
-  ws.send(encodedRequest);
+  // console.log("encodedRequest:", encodedRequest)
+  // const buffer = Buffer.from(encodedRequest);
+  // const decodedMessage = state.dataList.Input.decode(buffer);
+  // console.log("decodedMessage :", decodedMessage)
+  // const decoder = new TextDecoder('utf-8');
+  // const decodedString = decoder.decode(decodedMessage.data);
+  // console.log("decodedMessage.data :", decodedString)
+  IWebsocket.sendMessageHandler(encodedRequest);
+
+}
+const getChatMsgPublic = (data: any) => {
+  let MessageOutputeItem = state.root.lookupType('MessageOutpute')
+  const buffer1 = new Uint8Array(data.content);
+  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+  const decodeobj2 = MessageOutputeItem.toObject(decodedMessage2);
+  console.log("onMessage/MessageOutpute output2 ", decodeobj2)
+  let obj: any = {
+    1: 'MessageTextContent',//文字消息
+    2: 'MessageMoContent',//表情消息
+    3: 'MessagePicContent', //图片
+    4: 'MessageVideoContent',//视频
+    5: 'MessageMoneyContent'//转账
+  }
+  let MessageTextContentItem = state.root.lookupType(obj[decodeobj2.mtype])
+  const buffer2 = new Uint8Array(decodeobj2.data);
+  const decodedMessage3 = MessageTextContentItem.decode(buffer2);
+  const decodeobj3 = MessageTextContentItem.toObject(decodedMessage3);
+  console.log("onMessage/MessageTextContent output3 ", decodeobj3)
+  return decodeobj3  // 后续逻辑自己写吧
+}
+const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
+  let ServiceMessageItem = state.root.lookupType(ServiceMessage)
+  const buffer00 = new Uint8Array(decodeobj1.data);
+  const decodedMessage00 = ServiceMessageItem.decode(buffer00);
+  const decodeobj00 = ServiceMessageItem.toObject(decodedMessage00);
+  console.log("onMessage/ServiceMessage output1 ", decodeobj00)
+  getChatMsgPublic(decodeobj00)
+
+
+
+}
+const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
+  let SyncRespItem = state.root.lookupType(SyncResp)
+  //先解析出消息体
+  const buffer00 = new Uint8Array(decodeobj1.data);
+  const decodedMessage00 = SyncRespItem.decode(buffer00);
+  const decodeobj00 = SyncRespItem.toObject(decodedMessage00);
+  console.log("onMessage/SyncResp output4 ", decodeobj00)
+
+  if (Object.keys(decodeobj00).length > 0) {
+    if (Object.keys(decodeobj00.messages).length > 0) {
+      decodeobj00.messages.forEach((item: any) => {
+        getChatMsgPublic(item)
+      })
+    }
+  }
+
 }
 //收到消息
-const onMessage: any = async (event: any) => {
-  debugger
-  const arrayBuffer = await event.data.arrayBuffer();
-  console.log("arrayBuffer", arrayBuffer)
-  const buffer = new Uint8Array(arrayBuffer);
-  const decodedMessage1 = state.dataList.Output.decode(buffer);
-  const decodeobj1 = state.dataList.Output.toObject(decodedMessage1);
+const onMessage: any = async (buffer: any) => {
+  let OutputItem = state.root.lookupType('Output')
+  const decodedMessage1 = OutputItem.decode(buffer);
+  const decodeobj1 = OutputItem.toObject(decodedMessage1);
   console.log("onMessage/Output output0 ", decodeobj1)
   if (decodeobj1.code > 10000) {
     alert(decodeobj1.message)
@@ -374,70 +424,23 @@ const onMessage: any = async (event: any) => {
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
     console.log(decodeobj1.type)
   }
+
   else if (decodeobj1.type == 4) {// 消息投递
-
-    const buffer00 = new Uint8Array(decodeobj1.data);
-    const decodedMessage00 = state.dataList.ServiceMessage.decode(buffer00);
-    const decodeobj00 = state.dataList.ServiceMessage.toObject(decodedMessage00);
-    console.log("onMessage/ServiceMessage output1 ", decodeobj00)
-    const buffer1 = new Uint8Array(decodeobj00.content);
-    const decodedMessage2 = state.dataList.MessageOutpute.decode(buffer1);
-    const decodeobj2 = state.dataList.MessageOutpute.toObject(decodedMessage2);
-    console.log("onMessage/MessageOutpute output2 ", decodeobj2)
-
-    const buffer2 = new Uint8Array(decodeobj2.data);
-    const decodedMessage3 = state.dataList.MessageTextContent.decode(buffer2);
-    const decodeobj3 = state.dataList.MessageTextContent.toObject(decodedMessage3);
-    console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-
-    // root.messages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型" + decodeobj2.mtype);
+    getChatMsg4(decodeobj1, 'ServiceMessage')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
   else if (decodeobj1.type == 2) {
-
-    //先解析出消息体
-    const buffer00 = new Uint8Array(decodeobj1.data);
-    const decodedMessage00 = state.dataList.SyncResp.decode(buffer00);
-    const decodeobj00 = state.dataList.SyncResp.toObject(decodedMessage00);
-    console.log("onMessage/SyncResp output4 ", decodeobj00)
-
-    if (Object.keys(decodeobj00).length > 0) {
-      if (Object.keys(decodeobj00.messages).length > 0) {
-        decodeobj00.messages.forEach((item: any) => {
-          state.seqnumber = item.seq
-          const buffer1 = new Uint8Array(item.content);
-          const decodedMessage2 = state.dataList.MessageOutpute.decode(buffer1);
-          const decodeobj2 = state.dataList.MessageOutpute.toObject(decodedMessage2);
-          console.log("onMessage/MessageOutpute output5 ", decodeobj2)
-          //取出消息
-          const buffer2 = new Uint8Array(decodeobj2.data);
-          const decodedMessage3 = state.dataList.MessageTextContent.decode(buffer2);
-          const decodeobj3 = state.dataList.MessageTextContent.toObject(decodedMessage3);
-          console.log("onMessage/MessageTextContent output6", decodeobj3)
-          if (decodeobj2.fromdeviceid == state.deviceID) {
-            state.sendmessages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型:" + decodeobj2.mtype);
-          } else {
-            state.messages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型:" + decodeobj2.mtype);
-          }
-
-        })
-      }
-    }
-
-
+    getChatMsg2(decodeobj1, 'SyncResp')
   }
 
 }
+
 onMounted(async () => {
-
-  const root = await protobuf.load('/connect.ext.proto');
-  ['Input', 'Output', 'SignInInput', 'MessageTextContent', 'MessageInpute', 'MessageOutpute', 'DeliverMessageReq', 'Message', 'SyncInput', 'SyncResp', 'SyncHistoryInput'].map((str: string) => {
-    state.dataList[str] = root.lookupType(str)
-  })
-
-  // ws.addEventListener("open", onOpen);
+  IWebsocket.conectWebsocket()
+  state.root = await protobuf.load('/connect.ext.proto');
   onOpen()
-  ws.addEventListener('message', onMessage);
+  IWebsocket.resgisterHandler(onMessage)
+
 })
 </script>
 <style lang="less" scoped>

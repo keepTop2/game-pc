@@ -18,6 +18,7 @@ enum PackageType {
   PT_MESSAGE_LISTGROUP= 12; // 获取分组列表
   PT_MESSAGE_LISTCHARGROUP= 13; // 获取分组里面的聊天列表
   PT_MESSAGE_EDITCHAR= 14; // 编辑某一条聊天到某个分组/置顶/排序/不接收消息
+  PT_MESSAGE_SEARCHUSER= 15; // 查询用户
 
 }
 
@@ -78,10 +79,28 @@ enum MessageType {
   MEJSON = 6; // json消息
   MEMIX = 7; // 混合消息(一段html代码)
 }
-// 消息发送体
+// 文字消息
 message MessageTextContent {
   string data = 1; // 数据
 }
+// 表情消息
+message MessageMoContent {
+  string data = 1; // 数据
+}
+// 图片消息
+message MessagePicContent {
+  string data = 1; // 数据
+}
+// 视频消息
+message MessageVideoContent {
+  string data = 1; // 数据
+}
+// 转账消息
+message MessageMoneyContent {
+  string data = 1; // 数据
+}
+
+
 // 消息发送体
 message MessageInpute {
   int64 fromdeviceid = 1; // 发送消息的设备号
@@ -286,4 +305,24 @@ message GroupListRsp {
 message GroupChatListRsp {
   int64 id = 1; // id
   repeated ChatItem chatitem = 2;//分组列表
+}
+//每个用户的基本信息
+message UserRole {
+  int64 role_id = 1; // 用户的角色id
+  int64 pid = 2; // 上级id
+  int64 deep = 3; // 校色深度
+  string username = 4; // 用户名
+  string head_photo = 5; // 用户头像
+  string ip = 6; // 登录ip
+}
+//用户列表
+message UserRolesRsp {
+  repeated UserRole roles = 1;//用户列表
+}
+
+//查询用户请求
+message UserRoleReq {
+  int64 roleid = 1; // 设备id
+  int64 deviceid = 2; // 设备id
+
 }
