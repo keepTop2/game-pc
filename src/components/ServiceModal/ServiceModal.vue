@@ -121,6 +121,7 @@ import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
+import usechatHooks from './useHooks';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -157,6 +158,10 @@ const state: any = reactive({
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
 })
+
+const {getChatlist,getChatMsg13} = usechatHooks(state,IWebsocket)
+
+
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
@@ -413,6 +418,7 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
+  console.log(22222222288,buffer)
   let OutputItem = state.root.lookupType('Output')
   const decodedMessage1 = OutputItem.decode(buffer);
   const decodeobj1 = OutputItem.toObject(decodedMessage1);
@@ -432,6 +438,9 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 2) {
     getChatMsg2(decodeobj1, 'SyncResp')
   }
+  else if (decodeobj1.type == 13) {
+    getChatMsg13(decodeobj1)
+  }
 
 }
 
@@ -440,6 +449,10 @@ onMounted(async () => {
   state.root = await protobuf.load('/connect.ext.proto');
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
+
+   setTimeout(() => {
+    getChatlist()
+   }, 2000);
 
 })
 </script>
