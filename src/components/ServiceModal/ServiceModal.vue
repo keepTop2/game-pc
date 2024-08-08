@@ -157,9 +157,10 @@ const state: any = reactive({
   deviceID: 10086,// roleInfo.value.id,
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
+
 })
 
-const {getChatlist,getChatMsg13,getDateFromat} = usechatHooks(state,IWebsocket)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg } = usechatHooks(state, IWebsocket)
 
 
 const emit = defineEmits(['update:visible']);
@@ -295,8 +296,6 @@ const sendMsg = () => {
     const buffer1 = Buffer.from(decodedMessage.data);
     const decodedMessage1 = InputItem.decode(buffer1);
 
-
-
     const decoder = new TextDecoder('utf-8');
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
@@ -367,6 +366,21 @@ const getChatMsgPublic = (data: any) => {
   const decodedMessage3 = MessageTextContentItem.decode(buffer2);
   const decodeobj3 = MessageTextContentItem.toObject(decodedMessage3);
   console.log("onMessage/MessageTextContent output3 ", decodeobj3)
+  console.log("2222222222", decodeobj2)
+  console.log("22222222233", decodeobj3)
+  const messageObj = {
+    time:'',   // 时间
+    role:'',   //角色
+    message:'',   //消息
+
+  }
+  // 我方消息
+  if (decodeobj2.fromdeviceid == state.deviceID) {
+    state.sendmessages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型:" + decodeobj2.mtype);
+  } else {
+    // 对方消息
+    state.messages.push(decodeobj2.fromdeviceid + ":" + decodeobj3.data + "   (" + decodeobj2.sendtime + ")类型:" + decodeobj2.mtype);
+  }
   return decodeobj3  // 后续逻辑自己写吧
 }
 
@@ -401,7 +415,7 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
-  console.log(22222222288,buffer)
+  console.log(22222222288, buffer)
   let OutputItem = state.root.lookupType('Output')
   const decodedMessage1 = OutputItem.decode(buffer);
   const decodeobj1 = OutputItem.toObject(decodedMessage1);
@@ -433,9 +447,10 @@ onMounted(async () => {
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
 
-   setTimeout(() => {
+  setTimeout(() => {
     getChatlist()
-   }, 2000);
+    synchistorymsg()
+  }, 2000);
 
 })
 </script>
