@@ -1,18 +1,20 @@
 <template>
-  <div class="chat_content">
-    <div class="chat_item"  v-for="item in chatList" :key="item.id" :style="{justifyContent:item.role=='kf'?'flex-start':'flex-end'}">
-      <img v-if="item.role=='kf'"  :src="`/img/serviceModal/avatar.webp`" alt="">
+    <n-spin :show="show">
+  <div class="chat_content"  ref="chatContentRef">
+  <div v-if="chatList.length">
+    <div class="chat_item"  v-for="item in (chatList as any)" :key="item.date" :style="{justifyContent:item.role=='2'?'flex-start':'flex-end'}">
+      <img v-if="item.role=='2'"  :src="`/img/serviceModal/avatar.webp`" alt="">
       <div class="chat_main">
-        <div class="user_info" :style="{flexDirection:item.role=='kf'?'row':'row-reverse'}">
+        <div class="user_info" :style="{flexDirection:item.role=='2'?'row':'row-reverse'}">
           <span>{{ item.name }}</span>
-          <div class="mark_kf">{{ item.role=='kf'?'官方客服':'我' }}</div>
+          <div class="mark_kf">{{ item.role=='2'?'官方客服':'我' }}</div>
           <span class="date">{{ item.date }}</span>
         </div>
-        <div :class="[item.role=='kf'?'user_content':'me_content']" v-if="!item.money">
+        <div :class="[item.role=='2'?'user_content':'me_content']" v-if="!item.money">
           {{ item.content }}
         </div>
         <!-- 转账 -->
-        <div :class="[item.role=='kf'?'user_content':'me_content']" v-else class="money">
+        <div :class="[item.role=='2'?'user_content':'me_content']" v-else class="money">
           <div class="left">
           <img src="/img/serviceModal/transfer.webp" alt="">
           <div class="left_info">
@@ -25,13 +27,15 @@
           </div>
         </div>
       </div>
-      <img v-if="item.role=='user'" :src="`/img/serviceModal/avatar1.webp`" alt="">
+      <img v-if="item.role==1" :src="`/img/serviceModal/avatar1.webp`" alt="">
     </div>
   </div>
+  </div>
+</n-spin>
 </template>
 
 <script setup lang="ts">
-// import { computed } from 'vue';
+ import { ref,onMounted,nextTick } from 'vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -42,25 +46,33 @@
 
 // import { useI18n } from 'vue-i18n';
 // const { t } = useI18n();
-// const props = defineProps({
-//   visible: {
-//     type: Boolean,
-//     default: false,
-//   },
-// });
+const props = defineProps({
+  chatList: {
+    type: Array,
+    default: ()=>([]),
+  },
+});
+
+const chatContentRef:any = ref(null)
+const show = ref(false)
+
+function scrollToBottom() {
+ const element = chatContentRef.value
+ element.scrollTo(0, chatContentRef.value.scrollHeight)
+}
+
+onMounted(()=>{
+  show.value = true
+  setTimeout(() => {
+     show.value = false
+    scrollToBottom()
+  },1000);
+ 
+})
+
+
 // const emit = defineEmits(['update:visible']);
 
-const chatList = [
-  {name:'阿铁',date:'2024/7/9 18:00:05',role:'kf',content:'你好，我想申请升级代理',id:1},
-  {name:'阿铁',date:'2024/7/9 18:10:05',role:'user',money:'2000',content:'你好，我想申请升级代理',id:2},
-  {name:'阿铁',date:'2024/7/9 18:20:05',role:'kf',content:'你好，我想申请升级代理',id:3},
-  {name:'阿铁',date:'2024/7/9 18:30:05',role:'user',content:'你好，我想申请升级代理',id:4},
-  {name:'阿铁',date:'2024/7/9 18:40:05',role:'kf',content:'你好，我想申请升级代理',id:5},
-  {name:'阿铁',date:'2024/7/9 18:50:05',role:'user',content:'你好，我想申请升级代理',id:6},
-  {name:'阿铁',date:'2024/7/9 18:55:05',role:'kf',content:'你好，我想申请升级代理',id:7},
-  {name:'阿铁',date:'2024/7/9 18:50:05',role:'user',content:'你好，我想申请升级代理',id:6},
-  {name:'阿铁',date:'2024/7/9 18:55:05',role:'kf',content:'你好，我想申请升级代理',id:7},
-]
 
 
 
@@ -79,6 +91,7 @@ const chatList = [
 
   .chat_item {
     display: flex;
+    margin-bottom: 20px;
     // flex-direction: row-reverse;
   //  justify-content: flex-end;
    
@@ -114,7 +127,7 @@ const chatList = [
     }
 
     .user_content {
-      margin-top: 12px;
+      margin-top: 5px;
       border-radius: 2px 12px 12px 12px;
       padding: 8px 16px;
       border: solid 1px #353b5a;
