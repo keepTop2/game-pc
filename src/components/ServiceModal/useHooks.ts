@@ -30,15 +30,18 @@ const usechatHooks = (state: any, IWebsocket: any) => {
   };
 
   //  type13   聊天列表回执
-  const getChatMsg13 = (decodeobj1: any, ServiceMessage: string) => {
+  const getChatMsg13 = (decodeobj1: any) => {
     //先解析出消息体
-    // const buffer00 = new Uint8Array(decodeobj1.data);
-    // const decodedMessage00 = this.GroupChatListRsp.decode(buffer00);
-    // const decodeobj00 = this.GroupChatListRsp.toObject(decodedMessage00);
-    // console.log(
-    //   'onMessage/GroupChatListRsp output4 ' + this.deviceid,
-    //   decodeobj00,
-    // );
+    if (decodeobj1.data) {
+      const buffer00 = new Uint8Array(decodeobj1.data);
+      const decodedMessage00 = state_data.GroupChatListRsp.decode(buffer00);
+      const decodeobj00 =
+        state_data.GroupChatListRsp.toObject(decodedMessage00);
+      console.log(
+        'onMessage/GroupChatListRsp output4 ' + state.deviceid,
+        decodeobj00,
+      );
+    }
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {
@@ -58,6 +61,19 @@ const usechatHooks = (state: any, IWebsocket: any) => {
     const buffer = state_data.Input.encode(message).finish();
     return buffer;
   };
+  //获取一个格式化的时间
+  const getDateFromat = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const datatime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return datatime;
+  };
 
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
@@ -66,6 +82,7 @@ const usechatHooks = (state: any, IWebsocket: any) => {
   return {
     getChatlist,
     getChatMsg13,
+    getDateFromat
   };
 };
 export default usechatHooks;

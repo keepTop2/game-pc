@@ -159,7 +159,7 @@ const state: any = reactive({
   todeviceid: 10085, //对方设备ID
 })
 
-const {getChatlist,getChatMsg13} = usechatHooks(state,IWebsocket)
+const {getChatlist,getChatMsg13,getDateFromat} = usechatHooks(state,IWebsocket)
 
 
 const emit = defineEmits(['update:visible']);
@@ -250,19 +250,7 @@ const manageClick = () => {
 const showSetting = () => {
   visibleSetting.value = true
 }
-//获取一个格式化的时间
-const getDateFromat = () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
 
-  const datatime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  return datatime;
-}
 // 发送消息
 const sendMsg = () => {
   if (testMsg.value !== '') {
@@ -358,13 +346,6 @@ const onOpen = () => {
   }
   const data = encodeSignInInput(singin)
   const encodedRequest = encodeInput(type, requestid, data);
-  // console.log("encodedRequest:", encodedRequest)
-  // const buffer = Buffer.from(encodedRequest);
-  // const decodedMessage = state.dataList.Input.decode(buffer);
-  // console.log("decodedMessage :", decodedMessage)
-  // const decoder = new TextDecoder('utf-8');
-  // const decodedString = decoder.decode(decodedMessage.data);
-  // console.log("decodedMessage.data :", decodedString)
   IWebsocket.sendMessageHandler(encodedRequest);
 
 }
@@ -388,6 +369,8 @@ const getChatMsgPublic = (data: any) => {
   console.log("onMessage/MessageTextContent output3 ", decodeobj3)
   return decodeobj3  // 后续逻辑自己写吧
 }
+
+// 收到对方发来的消息
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   let ServiceMessageItem = state.root.lookupType(ServiceMessage)
   const buffer00 = new Uint8Array(decodeobj1.data);
@@ -396,9 +379,9 @@ const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
   getChatMsgPublic(decodeobj00)
 
-
-
 }
+
+
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
   let SyncRespItem = state.root.lookupType(SyncResp)
   //先解析出消息体
@@ -432,7 +415,7 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 消息投递
-    getChatMsg4(decodeobj1, 'ServiceMessage')
+    getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
   else if (decodeobj1.type == 2) {
