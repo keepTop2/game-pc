@@ -63,6 +63,7 @@ export default {
   "bType14": "游戏投注",
   "bType15": "洗码返利",
   "bType43": "取消或提现失败",
+  "bType30": "验证码扣费",
   "bType32": "系统充值",
   "bType33": "洗码返利",
   "bType38": "手机绑定奖励",

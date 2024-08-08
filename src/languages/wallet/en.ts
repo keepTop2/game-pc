@@ -63,6 +63,7 @@ export default {
   "bType14": "Game Bet",
   "bType15": "Wash Code Rebate",
   "bType43": "Cancel or Withdrawal Fail",
+  "bType30": "Verification Charge",
   "bType32": "System Deposit",
   "bType33": "Wash Code Rebate",
   "bType38": "Mobile Binding Reward",
