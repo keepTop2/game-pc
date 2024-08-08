@@ -215,7 +215,7 @@ const useWalletInfo = () => {
     bankMoney.value = getCurrencyValue(Number(roleInfo.value.bank_money));
     totalMoney.value = gameMoney.value + bankMoney.value;
     totalMoneyTxt.value = totalMoney.value;
-    target.value.bet_money = getCurrencyValue(target_bet_money.value);
+    // target.value.bet_money = getCurrencyValue(target_bet_money.value);
   };
 
 
@@ -299,6 +299,7 @@ const useWalletInfo = () => {
     () => VIPinfo.value,
     (n) => {
       if (n) {
+        console.log('-----**', n)
         setVipInfo()
       }
     }
@@ -308,6 +309,7 @@ const useWalletInfo = () => {
     () => roleInfo.value,
     (n) => {
       if (n) {
+        console.log('-----&&&', n)
         handleCurrencyChange(1); // 默认越南盾
       }
     }
