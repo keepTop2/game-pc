@@ -18,7 +18,6 @@
               <n-input size="large" disabled v-model:value="form.maxValue" />
             </n-form-item>
 
-
             <n-form-item :label="'选择银行卡'">
               <div class="selectBank">
                 <div class="bankName">
@@ -36,17 +35,18 @@
             </n-form-item>
 
             <n-form-item :label="'输入提款金额'" path="amount">
-              <n-input size="large" v-model:value="form.amount" :placeholder="'请输入充值金额'">
+              <!-- 防止记住用户名和密码填充 -->
+              <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
+              <n-input clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="'请输入充值金额'">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
               </n-input>
             </n-form-item>
 
-
             <div class="switchVisible">
               <n-form-item label="资金密码" path="password">
-                <n-input v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
+                <n-input clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
                   @keydown.enter.prevent>
                   <template #suffix>
                     <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
@@ -69,7 +69,7 @@
           <div class="btn_zone flex w_full">
             <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
           </div>
-          <div class="cz_tips">
+          <div v-show="form.amount" class="cz_tips">
             <div class="txt"> 预计到账：{{form.amount}} </div>
           </div>
         </div>
@@ -106,24 +106,20 @@ const props = defineProps({
 })
 
 const myBankName = ref(''); // 如果有已经绑定的银行卡姓名，下次绑定需要一致
-
 const { t } = useI18n();
-
 const showSecModal = ref(false);
-
-
 const switchVisible = ref(true)
-
-
-const form = ref( // 存款表单提交
-  {
-    // country: 1,
-    maxValue: '0', // 可提现金额
-    password: '',
-    amount: '', // 充值金额
-    bank: 0, // 银行
-    address: '', // 银行卡号
-  }
+const formRef = ref()
+const baseObj =  {
+  // country: 1,
+  maxValue: '0', // 可提现金额
+  password: '',
+  amount: '', // 充值金额
+  bank: 0, // 银行
+  address: '', // 银行卡号
+}
+const form: any = ref( // 存款表单提交
+  {...baseObj}
 );
 
 const rules = {
@@ -143,7 +139,6 @@ const rules = {
   ]
 }
 
-
 const bankListInfoRef = ref()
 const bankListInfoShow = ref(false)
 const openBankListInfo = () => {
@@ -152,7 +147,6 @@ const openBankListInfo = () => {
     bankListInfoRef.value.openModal()
   })
 }
-
 
 const changeRightInfo = ref({
   icon: 'Group39364',
@@ -180,25 +174,17 @@ const chooseMoneyArr = [
   { label: '100,000,000', value: 100000000 },
 ];
 
-
-
-
-
 const openModal = () => {
   showSecModal.value = !showSecModal.value;
-
   nextTick(() => {
     getInfo();
+    form.value = {...baseObj}
   })
 }
 
 const onCloseSec = () => {
   showSecModal.value = !showSecModal.value
 }
-
-
-
-const formRef = ref()
 
 const onSubmit = () => {
   formRef.value?.validate((errors: any) => {
@@ -246,15 +232,10 @@ const handleWithDrawSubmit = (res: any) => {
   }
 }
 
-
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
   form.value.amount = e.toString()
 }
-
-
-
-
 
 const isCanWithdraw = ref(false)
 const handleCanWithdraw = (res: any) => {
@@ -382,6 +363,10 @@ const railStyle = ({ focused, checked }: {
   font-size: 16px;
   width: 650px !important;
 
+  .hideInput {
+    position: absolute;
+    opacity: 0;
+  }
   .body {
     gap: 15px !important;
 
