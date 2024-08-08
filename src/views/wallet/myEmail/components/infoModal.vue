@@ -12,12 +12,12 @@
         <div class="info_form">
           <div class="form-item">
             <span>{{ t('email_title') }}</span>
-            <div class="item-title">{{ data.title }}</div>
+            <div class="item-title">{{ data?.title }}</div>
           </div>
           <div class="form-item">
             <span>{{ t('email_content') }}</span>
-            <div class="item-content">
-              <div v-html="data.content"></div>
+            <div class="item_content">
+              <div v-html="data?.content" class="content_wrap"</div>
             </div>
           </div>
           <div class="form-item" v-if="active_id == 2">
@@ -26,7 +26,7 @@
               <div class="item-title-left">
                 <img src="/img/email/majesticon.svg" alt="" />
                 <span>{{
-    Common.thousands(data.attachments[0].award_value)
+    Common.thousands(data?.attachments[0].award_value)
   }}</span>
               </div>
               <btn :width="90" @click="getAward" v-if="!receive_email_id">{{ t('vip_collect') }}</btn>
@@ -63,7 +63,7 @@ const props = defineProps({
   },
   data: {
     type: Object,
-    default: () => { },
+    default: () => ({}),
   },
   active_id: {
     type: Number,
@@ -206,7 +206,7 @@ const isShow = computed({
   }
 }
 
-.item-content {
+.item_content {
   min-height: 150px;
   width: 100%;
   margin-top: 10px;
@@ -215,6 +215,13 @@ const isShow = computed({
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border: solid 1px #322c59;
   background-color: #1d0e4a;
+  .content_wrap{
+    min-height: 150px;
+    max-height: 300px;
+   word-break: break-all;
+   overflow-y: auto;
+   padding: 3px 8px;
+  }
 }
 
 .is-receive {

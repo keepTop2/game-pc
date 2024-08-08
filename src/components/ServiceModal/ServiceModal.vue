@@ -121,6 +121,7 @@ import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
+import usechatHooks from './useHooks';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -157,6 +158,10 @@ const state: any = reactive({
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
 })
+
+const { getChatlist, getChatMsg13, getDateFromat } = usechatHooks(state, IWebsocket)
+
+
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
@@ -245,19 +250,7 @@ const manageClick = () => {
 const showSetting = () => {
   visibleSetting.value = true
 }
-//获取一个格式化的时间
-const getDateFromat = () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
 
-  const datatime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  return datatime;
-}
 // 发送消息
 const sendMsg = () => {
   if (testMsg.value !== '') {
@@ -388,6 +381,8 @@ const getChatMsgPublic = (data: any) => {
   console.log("onMessage/MessageTextContent output3 ", decodeobj3)
   return decodeobj3  // 后续逻辑自己写吧
 }
+
+// 收到对方发来的消息
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   let ServiceMessageItem = state.root.lookupType(ServiceMessage)
   const buffer00 = new Uint8Array(decodeobj1.data);
@@ -396,9 +391,9 @@ const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
   getChatMsgPublic(decodeobj00)
 
-
-
 }
+
+
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
   let SyncRespItem = state.root.lookupType(SyncResp)
   //先解析出消息体
@@ -418,6 +413,7 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
+  console.log(22222222288, buffer)
   let OutputItem = state.root.lookupType('Output')
   const decodedMessage1 = OutputItem.decode(buffer);
   const decodeobj1 = OutputItem.toObject(decodedMessage1);
@@ -431,11 +427,14 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 消息投递
-    getChatMsg4(decodeobj1, 'ServiceMessage')
+    getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
   else if (decodeobj1.type == 2) {
     getChatMsg2(decodeobj1, 'SyncResp')
+  }
+  else if (decodeobj1.type == 13) {
+    getChatMsg13(decodeobj1)
   }
 
 }
@@ -445,6 +444,10 @@ onMounted(async () => {
   state.root = await protobuf.load('/connect.ext.proto');
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
+
+  setTimeout(() => {
+    getChatlist()
+  }, 2000);
 
 })
 </script>

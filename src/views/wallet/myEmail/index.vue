@@ -125,10 +125,22 @@ const setZero = (value: any) => {
 };
 
 //通知附件领取成功回执
+const isReadTotal =ref(0)
 const resultAttachments = (rs: any) => {
   receive_email_id.value = rs.email_id
   if (rs.email_id) {
-    Message.success('领取成功')
+     //全部领取
+    if (is_click_all.value) {
+      isReadTotal.value++
+      isReadTotal.value==1&&Message.success('领取成功')
+      setTimeout(() => {
+        is_click_all.value = false
+        isReadTotal.value = 0
+      }, 1000);
+    }else{
+      Message.success('领取成功')
+    }
+    
   }
 }
 
