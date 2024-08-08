@@ -32,8 +32,9 @@ export const WithdrawStatusColorMap: any = {
  * @description: 转账类型
  */
 export const AccountTypeMap: any = {
-    '1': t('account_type_map_1'),
-    '2': t('account_type_map_2'),
+    '80': '邮件获取',
+    '90': '保险柜-携带钱包',
+    '91': '携带钱包-保险柜'
 }
 /**
  * @description: 洗码记录类型

@@ -75,7 +75,7 @@ const optionsStatus = computed(() => { // 状态
             value: Number(key)
         }
     })
-    options.unshift({ value: 0, label: t('rechargeRecord_page_allState') })
+    options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
     return options
 })
 const optionsCurrency = computed(() => { // 法币
@@ -85,7 +85,7 @@ const optionsCurrency = computed(() => { // 法币
             value: Number(key)
         }
     })
-    options.unshift({ value: 9, label: t('rechargeRecord_page_allHb') })
+    options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
     return options
 })
 
