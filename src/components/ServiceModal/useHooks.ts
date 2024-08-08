@@ -1,4 +1,4 @@
-import { ref, reactive, onMounted, nextTick } from 'vue';
+import { reactive, onMounted } from 'vue';
 
 const usechatHooks = (state: any, IWebsocket: any) => {
   const state_data: any = reactive({

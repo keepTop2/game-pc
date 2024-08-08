@@ -66,15 +66,6 @@ message SyncOutput {
   bool hasmore = 2; // 是否有更多数据
 }
 
-// 订阅房间请求
-message SubscribeRoomInput {
-  int64 roomid = 1; // 房间ID，如果为0，取消房间订阅
-  int64 seq = 2; // 消息消息序列号，
-}
-
-// 消息投递,packagetype:4
-// message.ext.proto文件下 Message
-
 // 投递消息回执,packagetype:4
 message MessageACK {
   int64 deviceack = 2; // 设备收到消息的确认号
@@ -130,10 +121,6 @@ message MessageOutpute {
 }
 
 
-
-
-
-
 message ConnSignInReq {
   int64 deviceid = 1; // 设备id
   int64 userid = 2; // 用户id
@@ -159,90 +146,32 @@ message MessageACKReq {
   int64 receivetime = 4; // 消息接收时间戳，精确到毫秒
 }
 
-message OfflineReq {
-  int64 userid = 1; // 用户id
-  int64 deviceid = 2; // 设备id
-  string clientaddr = 3; // 客户端地址
-}
 
-message SubscribeRoomReq{
-  int64 userid = 1; // 用户id
-  int64 deviceid = 2; // 设备id
-  int64 roomid = 3; // 房间id
-  int64 seq = 4; // 消息序列号
-  string connaddr = 5; // 服务器地址
-}
 
-message PushReq{
-  int64 userid = 1; // 用户ID
-  int32 code = 2; // 推送码
-  bytes content = 3; // 推送内容
-  bool ispersist = 4; // 是否持久化
-}
-message PushResp{
-  int64 seq = 1;
-}
-
-message PushAllReq{
-  int32 code = 1; // 推送码
-  bytes content = 2; // 推送内容
-}
-
-message GetDeviceReq {
-  int64 deviceid = 1;
-}
-message GetDeviceResp {
-  Device device = 1;
-}
-
-message Device {
-  int64 deviceid = 1; // 设备id
-  int64 userid = 2; // 用户id
-  int32 type = 3; // 设备类型,1:Android；2：IOS；3：Windows; 4：MacOS；5：Web
-  string brand = 4; // 手机厂商
-  string model = 5; // 机型
-  string systemversion = 6; // 系统版本
-  string sdkversion = 7; // SDK版本
-  int32 status = 8; // 在线状态，0：不在线；1：在线
-  string connaddr = 9;  // 服务端连接地址
-  string clientaddr = 10; // 客户端地址
-  int64 createtime = 11; // 创建时间
-  int64 updatetime = 12; // 更新时间
-}
-
-message ServerStopReq {
-  string connaddr = 1;
-}
 
 // 单条消息投递内容（估算大约100个字节）,todo 通知栏提醒
 message Message {
   int32 code = 1; // 推送码
   bytes content = 2; // 推送内容
   int64 seq = 3; // 用户消息发送序列号
-  int64 sendtime = 4; // 消息发送时间戳，精确到毫秒
+  string send_time = 4; // 消息发送时间
   MessageStatus status = 5; // 消息状态
+  MessageCStatus cstatus = 6; // 消息审核状态
 }
 
 enum MessageStatus {
-  MSNORMAL = 0; // 正常的
-  MSRECALL = 1; // 撤回
+  MS_NORMAL = 0; // 正常的
+  MS_RECALL = 1; // 撤回
+  MS_ALREAD = 2; // 已读
 }
 
-message DeliverMessageReq {
-  int64 deviceid = 1; // 设备id
-  Message message = 2; // 数据
+enum MessageCStatus {
+  MSC_NORMAL = 0; // 正常的
+  MSC_PASS = 1; // 通过
+  MSC_REFUSE = 2; // 审核失败
 }
 
-// 房间推送
-message PushRoomMsg{
-  int64 roomid = 1; // 设备id
-  Message message = 2; // 数据
-}
 
-// 房间推送
-message PushAllMsg{
-  Message message = 2; // 数据
-}
 
 // 消息同步请求，获取历史消息,packagetype:8获取历史消息
 message SyncHistoryInput {
@@ -250,7 +179,6 @@ message SyncHistoryInput {
   int32 perpage = 2; // 每页数量
   int32 page = 3; // 页数
 }
-
 
 
 message ChatGroupModifyReq {
