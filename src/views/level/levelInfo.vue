@@ -190,7 +190,10 @@ const resultHandle = (res: any) => {
     loading.value = false
   }, 300)
   // levelDataAll.value = res;
-  levelDataAll.value = VIPinfo.value;
+  if (Object.keys(VIPinfo.value).length > 0) {
+    levelDataAll.value = VIPinfo.value;
+    curTab.value = levelDataAll.value.current_vip_level;
+  }
 }
 // money: 0, result: 2 // 1 成功，2 失败
 const resultHandleClaim = (res: any) => {

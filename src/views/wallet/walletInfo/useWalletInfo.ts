@@ -203,7 +203,7 @@ const useWalletInfo = () => {
         progress: (Number(VIPinfo.value.total_bet_money) / Number(target_bet_money.value)) * 100,
         level,
         gift_money_amount,
-        bet_money: target_bet_money.value - Number(VIPinfo.value.total_bet_money)
+        bet_money: target_bet_money.value - Number(VIPinfo.value.total_bet_money) // 所需投注， aa=vip等级的投注额-当前投注
       }
     }
   }
