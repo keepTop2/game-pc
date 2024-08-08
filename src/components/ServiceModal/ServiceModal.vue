@@ -268,8 +268,6 @@ const sendMsg = () => {
     const errMsg1 = MessageTextContentItem.verify(msginput);
     if (errMsg1) throw new Error(errMsg1);
     const msginputdata = MessageTextContentItem.encode(MessageTextContentItem.create(msginput)).finish();
-
-
     var datatime = getDateFromat()
     const msgcontent = {
       fromdeviceid: state.deviceID,
@@ -290,18 +288,11 @@ const sendMsg = () => {
       data: msgcontentdata,
     };
     const encodedRequest = encodeParams(params, 'Input')
-
     let InputItem = state.root.lookupType('Input')
-
     const buffer = Buffer.from(encodedRequest);
     const decodedMessage = InputItem.decode(buffer);
-
-
     const buffer1 = Buffer.from(decodedMessage.data);
     const decodedMessage1 = InputItem.decode(buffer1);
-
-
-
     const decoder = new TextDecoder('utf-8');
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
@@ -311,30 +302,22 @@ const sendMsg = () => {
     testMsg.value = ''
   }
 }
-const encodeSignInInput = (payload: any) => {
-  console.log("encodeSignInInput", payload)
-  let SignInInputItem = state.root.lookupType('SignInInput')
-  const errMsg = SignInInputItem.verify(payload);
-  if (errMsg) throw new Error(errMsg);
-  const message = SignInInputItem.create(payload);
-  console.log(
-    payload
-  );
-
-  const buffer = SignInInputItem.encode(message).finish();
-  return buffer;
-}
+// 编码发送参数
 const encodeParams = (params: any, name: string) => {
   let item = state.root.lookupType(name)
   const errMsg = item.verify(params);
   if (errMsg) throw new Error(errMsg);
-  // Create message
   const message = item.create(params);
-  // Encode message
   const buffer = item.encode(message).finish();
   return buffer;
 }
-
+// 解析消息体
+const decodeContent = (data: any, name: string) => {
+  let MessageOutputeItem = state.root.lookupType(name)
+  const buffer1 = new Uint8Array(data);
+  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+  return MessageOutputeItem.toObject(decodedMessage2);
+}
 const onOpen = () => {
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
@@ -343,7 +326,7 @@ const onOpen = () => {
     userid: state.deviceID,//用户的roleid
     token: 'mmssdfasd1155',// Local.get('user').token,//后期从另外一个项目中获取
   }
-  const data = encodeSignInInput(singin)
+  const data = encodeParams(singin, 'SignInInput')
   const params = {
     type: type,
     requestid: requestid,
@@ -362,10 +345,9 @@ const onOpen = () => {
 
 }
 const getChatMsgPublic = (data: any) => {
-  let MessageOutputeItem = state.root.lookupType('MessageOutpute')
-  const buffer1 = new Uint8Array(data.content);
-  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
-  const decodeobj2 = MessageOutputeItem.toObject(decodedMessage2);
+
+  const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
+
   console.log("onMessage/MessageOutpute output2 ", decodeobj2)
   let obj: any = {
     1: 'MessageTextContent',//文字消息
@@ -374,32 +356,23 @@ const getChatMsgPublic = (data: any) => {
     4: 'MessageVideoContent',//视频
     5: 'MessageMoneyContent'//转账
   }
-  let MessageTextContentItem = state.root.lookupType(obj[decodeobj2.mtype])
-  const buffer2 = new Uint8Array(decodeobj2.data);
-  const decodedMessage3 = MessageTextContentItem.decode(buffer2);
-  const decodeobj3 = MessageTextContentItem.toObject(decodedMessage3);
+
+  const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
   console.log("onMessage/MessageTextContent output3 ", decodeobj3)
   return decodeobj3  // 后续逻辑自己写吧
 }
 
 // 收到对方发来的消息
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
-  let ServiceMessageItem = state.root.lookupType(ServiceMessage)
-  const buffer00 = new Uint8Array(decodeobj1.data);
-  const decodedMessage00 = ServiceMessageItem.decode(buffer00);
-  const decodeobj00 = ServiceMessageItem.toObject(decodedMessage00);
+  const decodeobj00 = decodeContent(decodeobj1.data, ServiceMessage)
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
   getChatMsgPublic(decodeobj00)
-
 }
 
 
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
-  let SyncRespItem = state.root.lookupType(SyncResp)
-  //先解析出消息体
-  const buffer00 = new Uint8Array(decodeobj1.data);
-  const decodedMessage00 = SyncRespItem.decode(buffer00);
-  const decodeobj00 = SyncRespItem.toObject(decodedMessage00);
+  const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
+
   console.log("onMessage/SyncResp output4 ", decodeobj00)
 
   if (Object.keys(decodeobj00).length > 0) {
@@ -413,10 +386,8 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
-  console.log(22222222288, buffer)
-  let OutputItem = state.root.lookupType('Output')
-  const decodedMessage1 = OutputItem.decode(buffer);
-  const decodeobj1 = OutputItem.toObject(decodedMessage1);
+  const decodeobj1 = decodeContent(buffer, 'Output');;
+
   console.log("onMessage/Output output0 ", decodeobj1)
   if (decodeobj1.code > 10000) {
     alert(decodeobj1.message)
