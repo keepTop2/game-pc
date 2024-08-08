@@ -63,6 +63,7 @@ export default {
     "bType14": "Cược trò chơi",
     "bType15": "Hoàn trả mã rửa",
     "bType43": "Hủy bỏ hoặc rút tiền thất bại",
+    "bType30": "Phí xác minh",
     "bType32": "Nạp tiền hệ thống",
     "bType33": "Hoàn trả mã rửa",
     "bType38": "Phần thưởng liên kết điện thoại di động",
