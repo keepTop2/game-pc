@@ -19,6 +19,17 @@ enum PackageType {
   PT_MESSAGE_LISTCHARGROUP= 13; // 获取分组里面的聊天列表
   PT_MESSAGE_EDITCHAR= 14; // 编辑某一条聊天到某个分组/置顶/排序/不接收消息
   PT_MESSAGE_SEARCHUSER= 15; // 查询用户
+  
+    PT_MESSAGE_ADDQPH = 16; // 新增快捷语
+    PT_MESSAGE_EDITQPH = 17; // 修改
+    PT_MESSAGE_DELQPH = 18; // 删除
+    PT_MESSAGE_LISTQPH = 19; // 列表
+  
+    PT_MESSAGE_ADDQPHC = 20; // 新增快捷语分类
+    PT_MESSAGE_EDITQPHC = 21; // 修改
+    PT_MESSAGE_DELQPHC = 22; // 删除
+    PT_MESSAGE_LISTQPHC = 23; // 列表
+
 
 }
 
@@ -325,4 +336,60 @@ message UserRoleReq {
   int64 roleid = 1; // 设备id
   int64 deviceid = 2; // 设备id
 
+}
+
+//快捷语 增删改 请求协议
+message QuickPhrasesModifyReq {
+  int64 id = 1; //
+  int64 qhcid = 2; //
+  int64 deviceid = 3; //
+  int32 istop = 4; //
+  int32 sort = 5; //
+  int32 isautorsp = 6; //
+  string content = 7; //
+}
+//快捷语类型 增删改 请求协议
+message QuickPhrasesCModifyReq {
+  int64 id = 1; //
+  int64 deviceid = 2; //
+  int32 sort = 3; //
+  string title = 4; //
+}
+//快捷语列表 请求协议
+message QuickPhrasesListReq {
+  int64 deviceid = 1; // 设备id
+  int64 qhcid = 2; // 设备id
+  int32 page = 3; // 分页
+  int32 pagesize = 4; // 分页参数
+}
+//快捷语分类列表 请求协议
+message QuickPhrasesCListListReq {
+  int64 deviceid = 1; // 设备id
+  int32 page = 2; // 分页
+  int32 pagesize = 3; // 分页参数
+}
+//快捷语列表返回协议
+message QuickPhrasesListRsp {
+  repeated QuickPhrases quickphrase = 1;
+}
+//快捷语分类列表返回协议
+message QuickPhrasesCListRsp {
+  repeated QuickPhrasesC quickphrasec = 1;
+}
+//快捷语具体字段
+message QuickPhrases {
+  int64 id = 1; //
+  int64 qhcid = 2; //
+  int64 deviceid = 3; //
+  int32 istop = 4; //
+  int32 sort = 5; //
+  int32 isautorsp = 6; //
+  string content = 7; //
+}
+//快捷语类型 具体字段
+message QuickPhrasesC {
+  int64 id = 1; //
+  int64 deviceid = 2; //
+  int32 sort = 3; //
+  string title = 4; //
 }

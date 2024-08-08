@@ -14,7 +14,7 @@
         <div class="subtitle">{{ t('proxy_page_copyZd') }}</div>
         <div class="table shadow_table">
             <n-flex class="tr th">
-                <div class="td">{{ t('proxy_page_account') }}</div>
+                <div class="td">{{ t('proxy_page_agentCj') }}</div>
                 <div class="td">{{ t('proxy_page_zsCommission') }}</div>
             </n-flex>
             <n-flex class="tr" v-for="(item, i) in proxyConfig" :key="i">
@@ -33,15 +33,20 @@
                 <div class="name">BOSS</div>
             </n-flex>
             <n-flex class="model_box_content">
+                <n-flex class="item item_margin" style="width:100%">
+                    <span class="item_title">
+                        输赢流水：</span>
+                    <span>1,000,000</span>
+                </n-flex>
                 <n-flex class="item " style="width:100%">
                     <span class="item_title">{{ t('proxy_page_team') }}：</span>
-                    <span>{{ t('proxy_page_turnover') }} 300w*0.125% (1.5%~1.375%) =3750</span>
+                    <span>{{ t('proxy_page_turnover') }} 300,000 *（0.65%-0.525%）=3,750</span>
                 </n-flex>
                 <n-flex class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_contributions') }}：</span>
-                    <span>15000
-                        {{ t('proxy_page_revenue') }}={{ t('proxy_page_team') }}+{{ t('proxy_page_contributions')
-                        }}=18750</span>
+                    <span>(1000,000 * 0.65%) + (100,000 * 0.65%) = 13,000 <br /><br />
+                        {{ t('proxy_page_revenue') }} = {{ t('proxy_page_team') }} + {{ t('proxy_page_contributions')
+                        }} = 16,750</span>
                 </n-flex>
                 <!-- <n-flex class="item item_3">
                         <span class="item_title">团队总业绩：</span>
@@ -256,19 +261,22 @@
         <div class="intro">
             <div class="title">详细介绍</div>
             <div class="subtitle">举例说明如下：</div>
-            <div class="content">俱乐部返点以有效流水为依据，boss最先发现商机，发展了b1和b2，b1向boss申请成为合伙人，b1又马上发展c1和c2 c1向合伙人b1申请成为高级厅主
+            <div class="content">赌场返点以有效流水为依据，BOSS最先发现商机，发展了B1和B2，B1向BOSS申请成为合伙人，B1又马上发展C1和C2，C1向合伙人B1申请成为高级厅主
                 <div class="br"></div>
-                几天后合伙人b1有效流水100w b2有效流水也是100w c1有效流水100w c2有效流水也是100w
+                几天后BOSS有效流水100W，合伙人B1有效流水100W，B2流水100W，C1流水100W，C2有效流水100W
             </div>
             <div class="subtitle">直属玩家：</div>
-            <div class="content">b2是boss的直属玩家<div class="br"></div>c2是合伙人b1的直属玩家</div>
+            <div class="content">boss是boss的直属玩家<div class="br"></div>b2是boss的直属玩家<div class="br"></div>c2是合伙人b1的直属玩家
+            </div>
             <div class="subtitle">下级代理：</div>
             <div class="content">合伙人b1是boss的下级代理<div class="br"></div>高级厅主c1是b1的下级代理<div class="br"></div>
                 高级厅主c1是boss的下下级代理</div>
             <div class="subtitle">那么他们之间的收益如下:</div>
-            <div class="content">boss直属玩家贡献1.000.000*0.65%=
-                6500vnd<div class="br"></div>boss下级代理b1+c1+c2贡献（100w+100w+100w）*0.125%（0.65%-0.525%）=3750vnd<div
-                    class="br"></div>boss返水=boss直属玩家贡献+下级代理贡献=6500+3750=10250vnd
+            <div class="content">BOSS直属玩家贡献 = BOSS有效流水 * BOSS有效流水抽成 + 直属玩家有效流水 * BOSS有效流水抽成 = 100W * 0.65% + 100W *
+                0.65% = 13,000<div class="br"></div>
+                BOSS团队佣金 =（B1+C1+C2）有效流水 *（BOSS有效流水抽成 - 合伙人有效流水抽成）=（100w+100W+100W）*（0.65% - 0.525%）= 3,750<div
+                    class="br">
+                </div>BOSS总佣金 = BOSS直属玩家贡献 + 下级代理贡献 = 13,000 + 3750 = 16,750
             </div>
         </div>
     </div>

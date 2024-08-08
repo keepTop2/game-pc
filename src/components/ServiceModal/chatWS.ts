@@ -40,14 +40,13 @@ class IWebsocket {
     }
     // 发送消息
     sendMessageHandler(data: any) {
-        console.log(333333,data)
+        console.log(333333, data)
         this.instance?.send(data);
     }
     // 消息事件监听
     async onMessageHandler(evt: MessageEvent<any>) {
         const arrayBuffer = await evt.data.arrayBuffer();
-        const buffer = new Uint8Array(arrayBuffer);
-        this.handler?.call(this, buffer);
+        this.handler?.call(this, arrayBuffer);
     }
     // 断开连接
     close() {
