@@ -291,8 +291,13 @@ const sendMsg = () => {
     const errMsg2 = MessageInputeItem.verify(msgcontent);
     if (errMsg2) throw new Error(errMsg2);
     const msgcontentdata = MessageInputeItem.encode(MessageInputeItem.create(msgcontent)).finish();
+    const params = {
+      type: type,
+      requestid: requestid,
+      data: msgcontentdata,
+    };
+    const encodedRequest = encodeParams(params, 'Input')
 
-    const encodedRequest = encodeInput(type, requestid, msgcontentdata);
     let InputItem = state.root.lookupType('Input')
 
     const buffer = Buffer.from(encodedRequest);
@@ -326,23 +331,17 @@ const encodeSignInInput = (payload: any) => {
   const buffer = SignInInputItem.encode(message).finish();
   return buffer;
 }
-const encodeInput = (type: number, request_id: number, data: any) => {
-  // Build payload object
-  const payload = {
-    type: type,
-    requestid: request_id,
-    data: data,
-  };
-  // Verify payload
-  let InputItem = state.root.lookupType('Input')
-  const errMsg = InputItem.verify(payload);
+const encodeParams = (params: any, name: string) => {
+  let item = state.root.lookupType(name)
+  const errMsg = item.verify(params);
   if (errMsg) throw new Error(errMsg);
   // Create message
-  const message = InputItem.create(payload);
+  const message = item.create(params);
   // Encode message
-  const buffer = InputItem.encode(message).finish();
+  const buffer = item.encode(message).finish();
   return buffer;
 }
+
 const onOpen = () => {
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
@@ -352,7 +351,13 @@ const onOpen = () => {
     token: 'mmssdfasd1155',// Local.get('user').token,//后期从另外一个项目中获取
   }
   const data = encodeSignInInput(singin)
-  const encodedRequest = encodeInput(type, requestid, data);
+  const params = {
+    type: type,
+    requestid: requestid,
+    data: data,
+  };
+  const encodedRequest = encodeParams(params, 'Input')
+
   // console.log("encodedRequest:", encodedRequest)
   // const buffer = Buffer.from(encodedRequest);
   // const decodedMessage = state.dataList.Input.decode(buffer);
