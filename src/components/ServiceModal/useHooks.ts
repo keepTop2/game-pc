@@ -1,21 +1,22 @@
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, toRefs } from 'vue';
 
 const usechatHooks = (state: any, IWebsocket: any) => {
   const state_data: any = reactive({
     ChatGroupListReq: '',
     Input: null,
 
-    per_page:20,
-    page:1
+    per_page: 20,
+    page: 1,
+    chatitemList: [], // 聊天列表
   });
 
-  const getchatId = ()=>{
-		if(state.deviceID > state.todeviceid) {
-			return state.deviceID+"-"+state.todeviceid//大的在前小的在后
-		} else {
-			return state.todeviceid+"-"+state.deviceID//大的在前小的在后
-		}
-	}
+  const getchatId = () => {
+    if (state.deviceID > state.todeviceid) {
+      return state.deviceID + '-' + state.todeviceid; //大的在前小的在后
+    } else {
+      return state.todeviceid + '-' + state.deviceID; //大的在前小的在后
+    }
+  };
 
   // 获取聊天列表
   const getChatlist = () => {
@@ -24,7 +25,7 @@ const usechatHooks = (state: any, IWebsocket: any) => {
     const requestid = state.requestid;
     const type = 13; //
     var payload = {
-      deviceid: state.deviceid,
+      deviceid: state.deviceID,
       groupid: 0,
       page: 1,
       pagesize: 1,
@@ -41,16 +42,18 @@ const usechatHooks = (state: any, IWebsocket: any) => {
 
   //  type13   聊天列表回执
   const getChatMsg13 = (decodeobj1: any) => {
+    const GroupChatListRsp = state.root.lookupType('GroupChatListRsp');
     //先解析出消息体
     if (decodeobj1.data) {
       const buffer00 = new Uint8Array(decodeobj1.data);
-      const decodedMessage00 = state_data.GroupChatListRsp.decode(buffer00);
-      const decodeobj00 =
-        state_data.GroupChatListRsp.toObject(decodedMessage00);
+      const decodedMessage00 = GroupChatListRsp.decode(buffer00);
+      const decodeobj00 = GroupChatListRsp.toObject(decodedMessage00);
       console.log(
-        'onMessage/GroupChatListRsp output4 ' + state.deviceid,
+        'onMessage/GroupChatListRsp output4 ' + state.deviceID,
         decodeobj00,
       );
+      state_data.chatitemList = decodeobj00.chatitem;
+      console.log(666666, state_data.chatitemList);
     }
   };
 
@@ -86,40 +89,39 @@ const usechatHooks = (state: any, IWebsocket: any) => {
   };
 
   //  同步历史数据
- const synchistorymsg = ()=>{//同步历史消息
-		state.requestid++;
-		const requestid = state.requestid;
-		const type = 8; // 消息同步触发
-		var payload = {
-			chatid:getchatId(),
-			perpage:state_data.per_page,
-			page:state_data.page,
-		}
-		console.log("synchistorymsg",payload)
-		const SyncHistoryInput =state.root.lookupType('SyncHistoryInput');
-		state_data.page ++;
-		//编码消息体
-		const errMsg2 = SyncHistoryInput.verify(payload);
-		if (errMsg2) throw new Error(errMsg2);
-		const decodedata = SyncHistoryInput.encode(SyncHistoryInput.create(payload)).finish();
-		const encodedRequest = encodeInput(type, requestid, decodedata);
+  const synchistorymsg = () => {
+    //同步历史消息
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 8; // 消息同步触发
+    var payload = {
+      chatid: getchatId(),
+      perpage: state_data.per_page,
+      page: state_data.page,
+    };
+    console.log('synchistorymsg', payload);
+    const SyncHistoryInput = state.root.lookupType('SyncHistoryInput');
+    state_data.page++;
+    //编码消息体
+    const errMsg2 = SyncHistoryInput.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = SyncHistoryInput.encode(
+      SyncHistoryInput.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
     IWebsocket.sendMessageHandler(encodedRequest);
-	}
-
-
-
-
-
+  };
 
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     // state_data.Input = state.root.lookupType('Input');
   });
   return {
+    ...toRefs(state_data),
     getChatlist,
     getChatMsg13,
     getDateFromat,
-    synchistorymsg
+    synchistorymsg,
   };
 };
 export default usechatHooks;
