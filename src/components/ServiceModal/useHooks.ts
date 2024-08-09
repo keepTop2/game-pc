@@ -4,11 +4,21 @@ const usechatHooks = (state: any, IWebsocket: any) => {
   const state_data: any = reactive({
     ChatGroupListReq: '',
     Input: null,
+
+    per_page:20,
+    page:1
   });
+
+  const getchatId = ()=>{
+		if(state.deviceID > state.todeviceid) {
+			return state.deviceID+"-"+state.todeviceid//大的在前小的在后
+		} else {
+			return state.todeviceid+"-"+state.deviceID//大的在前小的在后
+		}
+	}
 
   // 获取聊天列表
   const getChatlist = () => {
-    console.log(222222, state);
     state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     state.requestid++;
     const requestid = state.requestid;
@@ -75,6 +85,32 @@ const usechatHooks = (state: any, IWebsocket: any) => {
     return datatime;
   };
 
+  //  同步历史数据
+ const synchistorymsg = ()=>{//同步历史消息
+		state.requestid++;
+		const requestid = state.requestid;
+		const type = 8; // 消息同步触发
+		var payload = {
+			chatid:getchatId(),
+			perpage:state_data.per_page,
+			page:state_data.page,
+		}
+		console.log("synchistorymsg",payload)
+		const SyncHistoryInput =state.root.lookupType('SyncHistoryInput');
+		state_data.page ++;
+		//编码消息体
+		const errMsg2 = SyncHistoryInput.verify(payload);
+		if (errMsg2) throw new Error(errMsg2);
+		const decodedata = SyncHistoryInput.encode(SyncHistoryInput.create(payload)).finish();
+		const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+	}
+
+
+
+
+
+
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     // state_data.Input = state.root.lookupType('Input');
@@ -82,7 +118,8 @@ const usechatHooks = (state: any, IWebsocket: any) => {
   return {
     getChatlist,
     getChatMsg13,
-    getDateFromat
+    getDateFromat,
+    synchistorymsg
   };
 };
 export default usechatHooks;

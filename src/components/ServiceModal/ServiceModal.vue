@@ -56,7 +56,7 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea></chatArea>
+        <chatArea :chatList="state.chatMessagesList"></chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
@@ -152,14 +152,15 @@ const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
   seqnumber: '',
-  sendmessages: [],
-  messages: [],
+  chatMessagesList: [], // 聊天消息
   deviceID: 10086,// roleInfo.value.id,
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
+  firstIn: false,
+  messageType:null,
 })
 
-const { getChatlist, getChatMsg13, getDateFromat } = usechatHooks(state, IWebsocket)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg } = usechatHooks(state, IWebsocket)
 
 
 const emit = defineEmits(['update:visible']);
@@ -210,7 +211,7 @@ const settingList = [
 ]
 
 function onSelectEmoji(emoji: any) {
-  console.log(emoji)
+  testMsg.value = testMsg.value+emoji.i
   /*
     // result
     { 
@@ -262,7 +263,6 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-    debugger
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -282,6 +282,13 @@ const sendMsg = () => {
     const errMsg2 = MessageInputeItem.verify(msgcontent);
     if (errMsg2) throw new Error(errMsg2);
     const msgcontentdata = MessageInputeItem.encode(MessageInputeItem.create(msgcontent)).finish();
+    // { text: '文字', value: 1 },
+		// 	{ text: '表情', value: 2 },
+		// 	{ text: '图片', value: 3 },
+		// 	{ text: '视频', value: 4 },
+		// 	{ text: '转账', value: 5 },
+		// 	{ text: 'json', value: 6 },
+		// 	{ text: '混合', value: 7 },
     const params = {
       type: type,
       requestid: requestid,
@@ -292,16 +299,21 @@ const sendMsg = () => {
     const buffer = Buffer.from(encodedRequest);
     const decodedMessage = InputItem.decode(buffer);
     const buffer1 = Buffer.from(decodedMessage.data);
-    const decodedMessage1 = InputItem.decode(buffer1);
+    const decodedMessage1 = MessageInputeItem.decode(buffer1);
     const decoder = new TextDecoder('utf-8');
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
+    console.log(66666666,decodedString2.substring(1))
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
 
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
+    state.chatMessagesList.push({date:datatime,role:1,content:decodedString2.substring(1),name:state.deviceID})
   }
 }
+
+
+
 // 编码发送参数
 const encodeParams = (params: any, name: string) => {
   let item = state.root.lookupType(name)
@@ -316,6 +328,7 @@ const decodeContent = (data: any, name: string) => {
   let MessageOutputeItem = state.root.lookupType(name)
   const buffer1 = new Uint8Array(data);
   const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+
   return MessageOutputeItem.toObject(decodedMessage2);
 }
 const onOpen = () => {
@@ -333,19 +346,10 @@ const onOpen = () => {
     data: data,
   };
   const encodedRequest = encodeParams(params, 'Input')
-
-  // console.log("encodedRequest:", encodedRequest)
-  // const buffer = Buffer.from(encodedRequest);
-  // const decodedMessage = state.dataList.Input.decode(buffer);
-  // console.log("decodedMessage :", decodedMessage)
-  // const decoder = new TextDecoder('utf-8');
-  // const decodedString = decoder.decode(decodedMessage.data);
-  // console.log("decodedMessage.data :", decodedString)
   IWebsocket.sendMessageHandler(encodedRequest);
 
 }
 const getChatMsgPublic = (data: any) => {
-
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
 
   console.log("onMessage/MessageOutpute output2 ", decodeobj2)
@@ -359,7 +363,18 @@ const getChatMsgPublic = (data: any) => {
 
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
   console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-  return decodeobj3  // 后续逻辑自己写吧
+  const messageObj = {
+    date: decodeobj2.sendtime,   // 时间
+    role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
+    content: decodeobj3.data,   //消息
+    name: decodeobj2.fromdeviceid
+  }
+  if (state.messageType==4) {    //获取到新消息
+    state.chatMessagesList.push(messageObj)
+  }else{    // 聊天记录
+    state.chatMessagesList.unshift(messageObj)
+  }
+  
 }
 
 // 收到对方发来的消息
@@ -370,9 +385,10 @@ const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
 }
 
 
+//  聊天记录
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
-  const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
 
+  const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
   console.log("onMessage/SyncResp output4 ", decodeobj00)
 
   if (Object.keys(decodeobj00).length > 0) {
@@ -382,30 +398,30 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
       })
     }
   }
-
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
   const decodeobj1 = decodeContent(buffer, 'Output');;
-
   console.log("onMessage/Output output0 ", decodeobj1)
+  state.messageType = decodeobj1.type
   if (decodeobj1.code > 10000) {
     alert(decodeobj1.message)
     return;
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
-    console.log(decodeobj1.type)
+    console.log(decodeobj1)
   }
 
-  else if (decodeobj1.type == 4) {// 消息投递
-    getChatMsg4(decodeobj1, 'Message')
+  else if (decodeobj1.type == 4) {// 获取到新消息投递
+     getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
   else if (decodeobj1.type == 2) {
     getChatMsg2(decodeobj1, 'SyncResp')
   }
+  // 获取聊天列表
   else if (decodeobj1.type == 13) {
-    getChatMsg13(decodeobj1)
+     getChatMsg13(decodeobj1)
   }
 
 }
@@ -415,10 +431,10 @@ onMounted(async () => {
   state.root = await protobuf.load('/connect.ext.proto');
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
+  getChatlist()
+  synchistorymsg()
+  state.firstIn = true
 
-  setTimeout(() => {
-    getChatlist()
-  }, 2000);
 
 })
 </script>
