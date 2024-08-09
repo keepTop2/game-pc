@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
- import { ref,onMounted,nextTick } from 'vue';
+ import { ref,onMounted,watch ,computed} from 'vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -52,20 +52,33 @@ const props = defineProps({
     default: ()=>([]),
   },
 });
-
-const chatContentRef:any = ref(null)
-const show = ref(false)
+const newValue = computed(()=>{
+  return props.chatList.length
+})
 
 function scrollToBottom() {
  const element = chatContentRef.value
  element.scrollTo(0, chatContentRef.value.scrollHeight)
 }
 
+
+// 监听新消息滚动到最底部
+watch(()=>newValue.value,()=>{
+  setTimeout(() => {
+    scrollToBottom()
+  }, 500);
+  
+})
+
+const chatContentRef:any = ref(null)
+const show = ref(false)
+
+
 onMounted(()=>{
   show.value = true
   setTimeout(() => {
      show.value = false
-    scrollToBottom()
+    // scrollToBottom()
   },1000);
  
 })

@@ -156,8 +156,8 @@ const state: any = reactive({
   deviceID: 10086,// roleInfo.value.id,
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
-  firstIn: false
-
+  firstIn: false,
+  messageType:null,
 })
 
 const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg } = usechatHooks(state, IWebsocket)
@@ -211,7 +211,7 @@ const settingList = [
 ]
 
 function onSelectEmoji(emoji: any) {
-  console.log(emoji)
+  testMsg.value = testMsg.value+emoji.i
   /*
     // result
     { 
@@ -303,6 +303,7 @@ const sendMsg = () => {
     const decoder = new TextDecoder('utf-8');
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
+    console.log(66666666,decodedString2.substring(1))
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
 
     IWebsocket.sendMessageHandler(encodedRequest);
@@ -368,7 +369,12 @@ const getChatMsgPublic = (data: any) => {
     content: decodeobj3.data,   //消息
     name: decodeobj2.fromdeviceid
   }
-  state.chatMessagesList.unshift(messageObj)
+  if (state.messageType==4) {    //获取到新消息
+    state.chatMessagesList.push(messageObj)
+  }else{    // 聊天记录
+    state.chatMessagesList.unshift(messageObj)
+  }
+  
 }
 
 // 收到对方发来的消息
@@ -379,6 +385,7 @@ const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
 }
 
 
+//  聊天记录
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 
   const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
@@ -396,6 +403,7 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 const onMessage: any = async (buffer: any) => {
   const decodeobj1 = decodeContent(buffer, 'Output');;
   console.log("onMessage/Output output0 ", decodeobj1)
+  state.messageType = decodeobj1.type
   if (decodeobj1.code > 10000) {
     alert(decodeobj1.message)
     return;
@@ -404,7 +412,7 @@ const onMessage: any = async (buffer: any) => {
     console.log(decodeobj1)
   }
 
-  else if (decodeobj1.type == 4) {// 消息投递
+  else if (decodeobj1.type == 4) {// 获取到新消息投递
      getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
