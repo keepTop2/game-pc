@@ -29,6 +29,7 @@ enum PackageType {
     PT_MESSAGE_EDITQPHC = 21; // 修改
     PT_MESSAGE_DELQPHC = 22; // 删除
     PT_MESSAGE_LISTQPHC = 23; // 列表
+	PT_MESSAGE_GETKF = 24; // 获取客服deviceid
 
 
 }
@@ -238,6 +239,7 @@ message ChatItem {
   string TIp = 14; // 对方登录ip
   int32 iskf = 15; // 1标识是客服
   int32 vip = 16; // 是否是vip
+  int64 todeviceid = 17; // 对方设备id
 }
 //获取获取所有聊天列表
 message ChatListRsp {
@@ -274,7 +276,10 @@ message UserRoleReq {
   int64 deviceid = 2; // 设备id
 
 }
-
+//查询客服信息
+message KfRoleIdGetReq {
+  int64 deviceid = 1; // 设备id
+}
 //快捷语 增删改 请求协议
 message QuickPhrasesModifyReq {
   int64 id = 1; //

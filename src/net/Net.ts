@@ -328,8 +328,12 @@ export class Net {
         this.timeOut = 40;
         let message = this.ringBuffer.decode_msg_body(messageStruct, bodyLen - 2);
         if (message.code != 1) {
+
             if (message.message) {
-                Message.error(i18n.global.t(message.message))
+                if (!['account_type_error', 'withdraw_password_can_be_bound'].includes(message.message)) {
+                    Message.error(i18n.global.t(message.message))
+                }
+
             }
         }
         // console.log("DecodeMessage==>", this.getMsgType(msgID));
