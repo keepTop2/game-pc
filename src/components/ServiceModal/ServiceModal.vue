@@ -26,22 +26,25 @@
       </div>
       <!-- 左侧菜单 -->
       <div class="left_menu">
-        <n-flex class="tabs">
-          <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
-            @click="tabClick(tab)">
-            {{ t(tab.label) }}
-          </div>
-        </n-flex>
-        <n-input v-model:value="search" placeholder="查找聊天列表" />
-        <div class="manage_group" @click="manageClick">管理分组</div>
+        <div style="padding:0 10px">
+          <n-flex class="tabs">
+            <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
+              @click="tabClick(tab)">
+              {{ t(tab.label) }}
+            </div>
+          </n-flex>
+          <n-input v-model:value="search" placeholder="查找聊天列表" />
+          <div class="manage_group" @click="manageClick">管理分组</div>
+        </div>
         <div class="user_list">
-          <div class="list_item" v-for="item in userList" :key="item.id">
+          <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']" v-for="item in chatitemList"
+            :key="item.id" @click="selectUser(item)">
             <div class="item_left">
               <div class="avatar">
-                <img :src="`/img/serviceModal/avatar1.webp`" alt="" class="img1">
-                <img :src="`/img/serviceModal/vip1.webp`" alt="" class="img2">
+                <img :src="`/img/head_icons/${item.THeadPhoto}.webp`" alt="" class="img1">
+                <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2">
               </div>
-              <span>{{ item.name }}</span>
+              <span>{{ item.TUsername }}</span>
             </div>
             <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
@@ -157,10 +160,12 @@ const state: any = reactive({
   requestid: 5000, //对方ID
   todeviceid: 10085, //对方设备ID
   firstIn: false,
-  messageType:null,
+  messageType: null,
+  userData: '',
+  activeId: null,
 })
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg } = usechatHooks(state, IWebsocket)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList }: any = usechatHooks(state, IWebsocket)
 
 
 const emit = defineEmits(['update:visible']);
@@ -177,7 +182,6 @@ const tab_list = [
 
 // tab 标签点击
 const tabClick = (tab: tabType) => {
-  console.log(tab);
   active_id.value = tab.id;
 };
 
@@ -211,7 +215,7 @@ const settingList = [
 ]
 
 function onSelectEmoji(emoji: any) {
-  testMsg.value = testMsg.value+emoji.i
+  testMsg.value = testMsg.value + emoji.i
   /*
     // result
     { 
@@ -251,6 +255,14 @@ const manageClick = () => {
 const showSetting = () => {
   visibleSetting.value = true
 }
+// 选择用户聊天
+const selectUser = (item: any) => {
+  // console.log(3333333,item)
+  state.userData = item
+  state.activeId = item.id
+}
+
+
 
 // 发送消息
 const sendMsg = () => {
@@ -283,12 +295,12 @@ const sendMsg = () => {
     if (errMsg2) throw new Error(errMsg2);
     const msgcontentdata = MessageInputeItem.encode(MessageInputeItem.create(msgcontent)).finish();
     // { text: '文字', value: 1 },
-		// 	{ text: '表情', value: 2 },
-		// 	{ text: '图片', value: 3 },
-		// 	{ text: '视频', value: 4 },
-		// 	{ text: '转账', value: 5 },
-		// 	{ text: 'json', value: 6 },
-		// 	{ text: '混合', value: 7 },
+    // 	{ text: '表情', value: 2 },
+    // 	{ text: '图片', value: 3 },
+    // 	{ text: '视频', value: 4 },
+    // 	{ text: '转账', value: 5 },
+    // 	{ text: 'json', value: 6 },
+    // 	{ text: '混合', value: 7 },
     const params = {
       type: type,
       requestid: requestid,
@@ -303,12 +315,11 @@ const sendMsg = () => {
     const decoder = new TextDecoder('utf-8');
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
-    console.log(66666666,decodedString2.substring(1))
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
 
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
-    state.chatMessagesList.push({date:datatime,role:1,content:decodedString2.substring(1),name:state.deviceID})
+    state.chatMessagesList.push({ date: datatime, role: 1, content: decodedString2.substring(1), name: state.deviceID })
   }
 }
 
@@ -369,12 +380,12 @@ const getChatMsgPublic = (data: any) => {
     content: decodeobj3.data,   //消息
     name: decodeobj2.fromdeviceid
   }
-  if (state.messageType==4) {    //获取到新消息
+  if (state.messageType == 4) {    //获取到新消息
     state.chatMessagesList.push(messageObj)
-  }else{    // 聊天记录
+  } else {    // 聊天记录
     state.chatMessagesList.unshift(messageObj)
   }
-  
+
 }
 
 // 收到对方发来的消息
@@ -413,7 +424,7 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
-     getChatMsg4(decodeobj1, 'Message')
+    getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
   else if (decodeobj1.type == 2) {
@@ -421,7 +432,7 @@ const onMessage: any = async (buffer: any) => {
   }
   // 获取聊天列表
   else if (decodeobj1.type == 13) {
-     getChatMsg13(decodeobj1)
+    getChatMsg13(decodeobj1)
   }
 
 }
@@ -486,7 +497,7 @@ onMounted(async () => {
     display: flex;
 
     .left_menu {
-      padding: 16px 10px;
+      padding: 16px 0px;
       height: 100%;
       width: 280px;
       background-color: #2D1769;
@@ -563,6 +574,8 @@ onMounted(async () => {
 .user_list {
   .list_item {
     height: 70px;
+    padding: 0 10px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -596,6 +609,10 @@ onMounted(async () => {
       border-radius: 6px;
       background-image: radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776);
     }
+  }
+
+  .item_active {
+    background-color: #422299
   }
 
 }
