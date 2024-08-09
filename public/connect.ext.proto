@@ -231,6 +231,13 @@ message ChatItem {
   int32 enableflag = 7; // 是否已审核
   string createdtime = 8; // 创建时间
   string updatetime = 9; // 更新时间
+  int64 deep = 10;       // 对方层级 -1代表上级 1代表直属下级 其余代表非直接下级下级玩家
+  int64 Tdeviceid = 11; // 对方用户名
+  string TUsername = 12; // 对方用户名
+  string THeadPhoto = 13; // 对方头像
+  string TIp = 14; // 对方登录ip
+  int32 iskf = 15; // 1标识是客服
+  int32 vip = 16; // 是否是vip
 }
 //获取获取所有聊天列表
 message ChatListRsp {
@@ -248,12 +255,13 @@ message GroupChatListRsp {
 }
 //每个用户的基本信息
 message UserRole {
-  int64 role_id = 1; // 用户的角色id
+  int64 roleid = 1; // 用户的角色id
   int64 pid = 2; // 上级id
   int64 deep = 3; // 校色深度
   string username = 4; // 用户名
-  string head_photo = 5; // 用户头像
+  string headphoto = 5; // 用户头像
   string ip = 6; // 登录ip
+  int32 vip = 7; // vip等级
 }
 //用户列表
 message UserRolesRsp {
