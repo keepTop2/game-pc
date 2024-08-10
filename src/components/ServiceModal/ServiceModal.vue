@@ -48,7 +48,7 @@
             </div>
             <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
-                <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+                <div class="high_proxy">{{deepObj[item.deep]  }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
@@ -95,7 +95,7 @@
               </div>
             </template>
           </n-input>
-          <div class="send_btn" @click="sendMsg">发送</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
     </div>
@@ -151,6 +151,12 @@ const props = defineProps({
     default: false,
   },
 });
+const deepObj:any = {
+  '-1':'上级代理',
+  '1':'下级代理',
+  '0':'官方客服',
+}
+
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
@@ -165,7 +171,18 @@ const state: any = reactive({
   activeId: null,
 })
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList }: any = usechatHooks(state, IWebsocket)
+
+// 解析消息体
+const decodeContent = (data: any, name: string) => {
+  let MessageOutputeItem = state.root.lookupType(name)
+  const buffer1 = new Uint8Array(data);
+  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+
+  return MessageOutputeItem.toObject(decodedMessage2);
+}
+
+
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList,getChatMsg24 }: any = usechatHooks(state, IWebsocket,decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
@@ -334,14 +351,7 @@ const encodeParams = (params: any, name: string) => {
   const buffer = item.encode(message).finish();
   return buffer;
 }
-// 解析消息体
-const decodeContent = (data: any, name: string) => {
-  let MessageOutputeItem = state.root.lookupType(name)
-  const buffer1 = new Uint8Array(data);
-  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
 
-  return MessageOutputeItem.toObject(decodedMessage2);
-}
 const onOpen = () => {
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
@@ -433,6 +443,10 @@ const onMessage: any = async (buffer: any) => {
   // 获取聊天列表
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
+  }
+    // 获取客服聊天列表
+    else if (decodeobj1.type == 24) {
+    getChatMsg24(decodeobj1)
   }
 
 }
