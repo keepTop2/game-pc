@@ -130,17 +130,17 @@ import usechatHooks from './useHooks';
 // import { Message } from '@/utils/discreteApi';
 
 import { Buffer } from 'buffer';
-import { Local } from "@/utils/storage";
+// import { Local } from "@/utils/storage";
 interface tabType {
   label: string;
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
-import pinia from '@/store';
-import { User } from '@/store/user';
-const UserStore = User(pinia);
-const { roleInfo } = storeToRefs(UserStore);
+// import { storeToRefs } from 'pinia';
+// import pinia from '@/store';
+// import { User } from '@/store/user';
+// const UserStore = User(pinia);
+// const { roleInfo } = storeToRefs(UserStore);
 // const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
 
 

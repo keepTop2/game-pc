@@ -17,7 +17,7 @@ class IWebsocket {
                 console.log("websocket-连接成功", evt);
                 resolve(evt);
             };
-            this.instance.onclose = (evt) => {
+            this.instance.onclose = () => {
                 console.log("websocket-断开连接");
             };
             this.instance.onmessage = (evt) => {
