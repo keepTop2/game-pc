@@ -9,7 +9,8 @@
     </n-flex>
     <div class="attention">
       <span>{{ t('7_days') }}</span>
-      <btn @click="allClick">{{ active_id == 1 ? t('all_read') : t('one_click_claim') }}</btn>
+      <btn :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">{{ active_id == 1 ?
+        t('all_read') : (received_all ? '已全部领取' : t('one_click_claim')) }}</btn>
     </div>
     <div class="list" v-if="myEmail[active_id == 1 ? 'list' : 'rewardList'].length > 0">
       <div class="list-item" v-for="item in myEmail[active_id == 1 ? 'list' : 'rewardList']" :key="item">
@@ -44,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, onMounted } from 'vue';
+import { onUnmounted, ref, onMounted, computed } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Net } from '@/net/Net';
@@ -63,6 +64,7 @@ interface tabType {
 const { t } = useI18n();
 const store = User(pinia);
 const { myEmail } = storeToRefs(store);
+
 const active_id = ref(1);
 const receive_email_id = ref();
 const visible = ref(false);
@@ -102,6 +104,9 @@ const loading = ref(false);
 
 //邮箱已读
 const resultRead_email = (rs: any) => {
+  setTimeout(() => {
+    btnLoading1.value = false
+  }, 3000)
   let email_id;
   if (rs.email_id.indexOf('-') > -1) {
     email_id = rs.email_id.slice(1)
@@ -125,29 +130,48 @@ const setZero = (value: any) => {
 };
 
 //通知附件领取成功回执
-const isReadTotal =ref(0)
+const receive_email_ids: any = ref([]) // 已领取的id
+const received_all = computed(() => {
+  return myEmail.value['rewardList'].every((email: any) => {
+    return receive_email_ids.value.includes(email.email_id)
+  })
+})
+const isReadTotal = ref(0)
 const resultAttachments = (rs: any) => {
+  setTimeout(() => {
+    btnLoading2.value = false
+  }, 3000)
   receive_email_id.value = rs.email_id
+  receive_email_ids.value.push(rs.email_id)
   if (rs.email_id) {
-     //全部领取
+    //全部领取
     if (is_click_all.value) {
       isReadTotal.value++
-      isReadTotal.value==1&&Message.success('领取成功')
+      isReadTotal.value == 1 && Message.success('领取成功')
       setTimeout(() => {
         is_click_all.value = false
         isReadTotal.value = 0
       }, 1000);
-    }else{
+    } else {
       Message.success('领取成功')
     }
-    
+
   }
 }
 
 // 全部已读，一键领取
+const btnLoading1 = ref(false)
+const btnLoading2 = ref(false)
 const allClick = () => {
   is_click_all.value = true
   const list = myEmail.value[active_id.value == 1 ? 'list' : 'rewardList']
+  if (active_id.value == 1) {
+    if (btnLoading1.value) return
+    btnLoading1.value = true
+  } else {
+    if (btnLoading2.value) return
+    btnLoading2.value = true
+  }
   if (list && list.length > 0) {
     for (const item of list) {
       //全部已读
@@ -155,13 +179,13 @@ const allClick = () => {
         const query = NetPacket.req_read_email();
         query.email_id = item.email_id;
         Net.instance.sendRequest(query);
-
       } else {
         // 一键领取
-        const query = NetPacket.req_get_email_attachments();
-        query.email_id = item.email_id;
-        Net.instance.sendRequest(query);
-
+        if (!receive_email_ids.value.includes(item.email_id)) {
+          const query = NetPacket.req_get_email_attachments();
+          query.email_id = item.email_id;
+          Net.instance.sendRequest(query);
+        }
       }
     }
   }
@@ -235,6 +259,11 @@ onUnmounted(() => {
   align-items: center;
   font-size: 16px;
   color: #8d84c5;
+}
+
+.received_all {
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
 
 .list {
