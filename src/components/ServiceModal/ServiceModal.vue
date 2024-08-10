@@ -5,7 +5,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
     <h4 class="top_title">
-      <span>与阿铁的聊天 (官方客服)</span>
+      <span>与{{state.userData.TUsername}}的聊天</span>
 
       <i>
         <n-switch v-model:value="active" />
@@ -63,10 +63,12 @@
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
+            <div v-for="item in shortList" :key="item.id">
               <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
+                <div class="short_wrap_item">
                   <span>{{ item.name }}</span>
+                </div>
                 </template>
                 <div class="short_wrap_list">
                   <span v-for="op in short_options" :key="op">{{ op }}</span>
@@ -136,12 +138,7 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-// import { storeToRefs } from 'pinia';
-// import pinia from '@/store';
-// import { User } from '@/store/user';
-// const UserStore = User(pinia);
-// const { roleInfo } = storeToRefs(UserStore);
-// const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
+
 
 
 const { t } = useI18n();
@@ -202,13 +199,7 @@ const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
 
-const userList = [
-  { name: '小美', role: 'proxy', id: 1 },
-  { name: '啊铁', role: 'user', id: 2 },
-  { name: '客服', role: 'user', id: 3 },
-  { name: 'davie', role: 'user', id: 4 },
-  { name: 'chu', role: 'proxy', id: 5 },
-]
+
 const selectList = [
   { name: '置顶', id: 1 },
   { name: '未读', id: 2 },
@@ -274,9 +265,12 @@ const showSetting = () => {
 }
 // 选择用户聊天
 const selectUser = (item: any) => {
-  // console.log(3333333,item)
+  state.chatMessagesList = []
   state.userData = item
   state.activeId = item.id
+  state.todeviceid = item.Tdeviceid
+  // 获取聊天记录
+  synchistorymsg()
 }
 
 
@@ -418,6 +412,8 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
         getChatMsgPublic(item)
       })
     }
+  }else{
+    state.chatMessagesList = []
   }
 }
 //收到消息
@@ -456,8 +452,8 @@ onMounted(async () => {
   state.root = await protobuf.load('/connect.ext.proto');
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
-  getChatlist()
-  synchistorymsg()
+   getChatlist()
+  // synchistorymsg()
   state.firstIn = true
 
 

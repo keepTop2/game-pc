@@ -5,7 +5,7 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     ChatGroupListReq: '',
     Input: null,
 
-    per_page: 20,
+    per_page: 50,
     page: 1,
     chatitemList: [], // 聊天列表
   });
@@ -68,22 +68,32 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data,'GroupChatListRsp')
       state_data.chatitemList = decodeobj00.chatitem;
-      getKfChat()
-      console.log(666666, state_data.chatitemList);
+      const item = state_data.chatitemList[0]
+      console.log(6666666,item)
+       //如果没有官方的历史聊天记录需要获取一下
+      if (item?.iskf!=1) {
+        getKfChat()
+      }
     }
   };
   //  获取客服信息
   const getChatMsg24 = (decodeobj1: any) => {
-    console.log(
-      '6666666' +decodeobj1.data,
-    );
     //先解析出消息体
-    if (decodeobj1.data) {
-      const decodeobj00 = decodeContent(decodeobj1.data,'UserRolesRsp')
-      console.log(
-        'UserRolesRsp' +decodeobj00,
-      );
+    const UserRole =state.root.lookupType('UserRole');
+    const buffer00 = new Uint8Array(decodeobj1.data);
+    const decodedMessage00 = UserRole.decode(buffer00);
+    const decodeobj00 = UserRole.toObject(decodedMessage00);
+    const obj = {
+      THeadPhoto: '1001',
+      TUsername: decodeobj00.username,
+      Tdeviceid: decodeobj00.roleid,
+      chatid: "",
+      deep: 0,
+      deviceid: state.deviceID,
+      id: 99999
     }
+    console.log(6666666,decodeobj00)
+    state_data.chatitemList.unshift(obj)
   };
 
 
@@ -127,7 +137,7 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     var payload = {
       chatid: getchatId(),
       perpage: state_data.per_page,
-      page: state_data.page,
+      page: 1,
     };
     console.log('synchistorymsg', payload);
     const SyncHistoryInput = state.root.lookupType('SyncHistoryInput');
