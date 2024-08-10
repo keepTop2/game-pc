@@ -9,7 +9,8 @@
     </n-flex>
     <div class="attention">
       <span>{{ t('7_days') }}</span>
-      <btn @click="allClick">{{ active_id == 1 ? t('all_read') : t('one_click_claim') }}</btn>
+      <btn :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">{{ active_id == 1 ?
+        t('all_read') : (received_all ? '已全部领取' : t('one_click_claim')) }}</btn>
     </div>
     <div class="list" v-if="myEmail[active_id == 1 ? 'list' : 'rewardList'].length > 0">
       <div class="list-item" v-for="item in myEmail[active_id == 1 ? 'list' : 'rewardList']" :key="item">
@@ -44,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, onMounted } from 'vue';
+import { onUnmounted, ref, onMounted, computed } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Net } from '@/net/Net';
@@ -64,7 +65,6 @@ const { t } = useI18n();
 const store = User(pinia);
 const { myEmail } = storeToRefs(store);
 
-console.error('???', myEmail.value)
 const active_id = ref(1);
 const receive_email_id = ref();
 const visible = ref(false);
@@ -131,6 +131,11 @@ const setZero = (value: any) => {
 
 //通知附件领取成功回执
 const receive_email_ids: any = ref([]) // 已领取的id
+const received_all = computed(() => {
+  return myEmail.value['rewardList'].every((email: any) => {
+    return receive_email_ids.value.includes(email.email_id)
+  })
+})
 const isReadTotal = ref(0)
 const resultAttachments = (rs: any) => {
   setTimeout(() => {
@@ -254,6 +259,11 @@ onUnmounted(() => {
   align-items: center;
   font-size: 16px;
   color: #8d84c5;
+}
+
+.received_all {
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
 
 .list {
