@@ -5,7 +5,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
     <h4 class="top_title">
-      <span>与阿铁的聊天 (官方客服)</span>
+      <span>与{{ state.userData.TUsername }}的聊天</span>
 
       <i>
         <n-switch v-model:value="active" />
@@ -48,7 +48,7 @@
             </div>
             <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
-                <div class="high_proxy">{{ item.role == 'proxy' ? '上级代理' : '官方客服' }}</div>
+                <div class="high_proxy">{{ deepObj[item.deep] }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
@@ -63,10 +63,12 @@
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <div v-for="item in shortList" :key="item.id" class="short_wrap_item">
+            <div v-for="item in shortList" :key="item.id">
               <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
-                  <span>{{ item.name }}</span>
+                  <div class="short_wrap_item">
+                    <span>{{ item.name }}</span>
+                  </div>
                 </template>
                 <div class="short_wrap_list">
                   <span v-for="op in short_options" :key="op">{{ op }}</span>
@@ -95,7 +97,7 @@
               </div>
             </template>
           </n-input>
-          <div class="send_btn" @click="sendMsg">发送</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
     </div>
@@ -136,12 +138,7 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-// import { storeToRefs } from 'pinia';
-// import pinia from '@/store';
-// import { User } from '@/store/user';
-// const UserStore = User(pinia);
-// const { roleInfo } = storeToRefs(UserStore);
-// const ws = new ReconnectingWebSocket('ws://18.162.112.52:8512/ws', [], { maxEnqueuedMessages: 10, });
+
 
 
 const { t } = useI18n();
@@ -151,6 +148,12 @@ const props = defineProps({
     default: false,
   },
 });
+const deepObj: any = {
+  '-1': '上级代理',
+  '1': '下级代理',
+  '0': '官方客服',
+}
+
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
@@ -165,7 +168,18 @@ const state: any = reactive({
   activeId: null,
 })
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList }: any = usechatHooks(state, IWebsocket)
+
+// 解析消息体
+const decodeContent = (data: any, name: string) => {
+  let MessageOutputeItem = state.root.lookupType(name)
+  const buffer1 = new Uint8Array(data);
+  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+
+  return MessageOutputeItem.toObject(decodedMessage2);
+}
+
+
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24 }: any = usechatHooks(state, IWebsocket, decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
@@ -185,13 +199,6 @@ const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
 
-const userList = [
-  { name: '小美', role: 'proxy', id: 1 },
-  { name: '啊铁', role: 'user', id: 2 },
-  { name: '客服', role: 'user', id: 3 },
-  { name: 'davie', role: 'user', id: 4 },
-  { name: 'chu', role: 'proxy', id: 5 },
-]
 const selectList = [
   { name: '置顶', id: 1 },
   { name: '未读', id: 2 },
@@ -257,9 +264,12 @@ const showSetting = () => {
 }
 // 选择用户聊天
 const selectUser = (item: any) => {
-  // console.log(3333333,item)
+  state.chatMessagesList = []
   state.userData = item
   state.activeId = item.id
+  state.todeviceid = item.Tdeviceid
+  // 获取聊天记录
+  synchistorymsg()
 }
 
 
@@ -334,14 +344,7 @@ const encodeParams = (params: any, name: string) => {
   const buffer = item.encode(message).finish();
   return buffer;
 }
-// 解析消息体
-const decodeContent = (data: any, name: string) => {
-  let MessageOutputeItem = state.root.lookupType(name)
-  const buffer1 = new Uint8Array(data);
-  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
 
-  return MessageOutputeItem.toObject(decodedMessage2);
-}
 const onOpen = () => {
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
@@ -408,6 +411,8 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
         getChatMsgPublic(item)
       })
     }
+  } else {
+    state.chatMessagesList = []
   }
 }
 //收到消息
@@ -434,6 +439,10 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
   }
+  // 获取客服聊天列表
+  else if (decodeobj1.type == 24) {
+    getChatMsg24(decodeobj1)
+  }
 
 }
 
@@ -443,7 +452,7 @@ onMounted(async () => {
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
   getChatlist()
-  synchistorymsg()
+  // synchistorymsg()
   state.firstIn = true
 
 
