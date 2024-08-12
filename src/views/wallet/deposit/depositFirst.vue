@@ -410,7 +410,7 @@ const handleSubmit = () => {
   Net.instance.sendRequest(req);
 };
 const handleDepositSubmit = (res: any) => {
-  console.log('---', res)
+  // console.log('---', res)
   loading.value = false;
   if (res.code === -1) {
     Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
@@ -462,7 +462,7 @@ watch(
   () => form.value.discount,
   (n) => {
     curDiscount.value = discountList.value.find((item: any) => item.discount_ID === n)
-    console.log('-----', n, curDiscount.value)
+    // console.log('-----', n, curDiscount.value)
   }
 )
 
