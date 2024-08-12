@@ -66,7 +66,7 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="icon_back button"><img src="/img/home/back.webp" alt="" @click="goBackList"></span>
+<!--          <span class="icon_back button"><img src="/img/home/back.webp" alt="" @click="goBackList"></span>-->
           <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
           <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
@@ -141,13 +141,13 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
+          <span class="weight_5 t_md">{{ t('deposit_page_exchange') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="showModal = false" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body center t_md exchange_list body_sec">
-          <div class="ex_list_item" v-for="(item, index) in exchangeArr" :key="index" @click="openWin(item.value)">
+          <div class="ex_list_item button" v-for="(item, index) in exchangeArr" :key="index" @click="openWin(item.value)">
             <div class="icon">
               <img :src="`/img/payment/usdt/logo${index + 1}.webp`" />
             </div>
@@ -196,7 +196,7 @@ const dataParams = {
   amount: '',
   bank: null, // 银行
   bankMethod: 100, // 银行支付方式，对应传给后端参数 type
-  network_type: '', // usdt 独有
+  network_type: 0, // usdt 独有
 }
 
 const form = ref( // 存款表单提交
@@ -231,7 +231,7 @@ const usdtObj = ref({
 //   mon: 0, // 最低充值金额
 // });
 const netWorkArr = [
-  { label: t('deposit_page_chooseNetWork'), value: '' },
+  { label: t('deposit_page_chooseNetWork'), value: 0 },
   { label: 'TRC20', value: 1 },
   { label: 'ERC20', value: 2 },
 ];
@@ -347,10 +347,10 @@ const goToDeposit = () => {
   showSecModal.value = true;
 }
 // 返回充值列表
-const goBackList = () => {
-  showMyModal.value = true;
-  showSecModal.value = false;
-}
+// const goBackList = () => {
+//   showMyModal.value = true;
+//   showSecModal.value = false;
+// }
 // 选择充值方式
 const chooseWay = (data: any) => {
   form.value.method = data.paymenttype
@@ -403,9 +403,11 @@ const handleSubmit = () => {
   const req = NetPacket.req_recharge_from_third();
   req.amount = form.value.amount;
   req.channel_type = form.value.method; // 接口返回的 paymenttype 值乘以100
-  req.bank_channel_type = legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 ? form.value.bank : 0; // 只有选择银行的时候才有，usdt 是 0
+  // req.bank_channel_type = legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 ? form.value.bank : 0; // 只有选择银行的时候才有，usdt 是 0
+  req.bank_channel_type = 3; // 目前看h5 的全部是 3
   req.type = form.value.bankMethod; // 只有选择银行的时候才有，银行支付方式
   req.got_discount = form.value.discount;
+  req.network_type = form.value.network_type;
   console.log('=======充值提交参数', req)
   Net.instance.sendRequest(req);
 };
@@ -690,6 +692,7 @@ defineExpose({
       .icon {
         width: 100%;
         text-align: center;
+        margin-bottom: 10px;
         img {
           width: 36px;
           height: 36px;

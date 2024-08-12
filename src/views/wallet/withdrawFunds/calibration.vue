@@ -4,7 +4,7 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight_5 t_md">{{ '请先完善取款信息' }}</span>
+          <span class="weight_5 t_md">{{ t('paymentManagement_page_information') }}</span>
           <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
@@ -29,7 +29,7 @@
 
               <div v-if="stepTuple.step === 1" class="item-list bank">
                 <n-flex class="item-list-tips" justify="space-between" align="center">
-                  <p>至少添加一张银行卡</p>
+                  <p>{{ t('paymentManagement_page_oneBank') }}</p>
                   <div class="tips-icon">
                     <img :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
                   </div>
@@ -37,7 +37,7 @@
 
                 <div class="bankForm" v-if="!bankError">
                   <n-form ref="formBankRef" :model="formBank" :rules="rules.bankRules" class="w_full choose-bank">
-                    <n-form-item :label="'选择银行'">
+                    <n-form-item :label="t('addBank_page_pChooseBank')">
                       <n-flex class="choose-bank">
                         <n-flex align="center" class="choose-bank-l">
                           <span class="bank_cicon">
@@ -45,20 +45,20 @@
                           </span>
                           <span class="bank_cname"> {{ chooseBank.label }} </span>
                         </n-flex>
-                        <a class="change-btn" @click="showChangeBank"> 更换 </a>
+                        <a class="change-btn" @click="showChangeBank"> {{ t('deposit_page_changeWay') }} </a>
                       </n-flex>
                     </n-form-item>
 
-                    <n-form-item :label="'银行卡号'" path="cardNo">
-                      <n-input size="large" v-model:value="formBank.cardNo" :placeholder="'请输入银行卡号'">
+                    <n-form-item :label="t('addBank_page_bankCard')" path="cardNo">
+                      <n-input size="large" v-model:value="formBank.cardNo" :placeholder="t('paymentManagement_page_chCardNo')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
                         </template>
                       </n-input>
                     </n-form-item>
-                    <n-form-item :label="'银行账户名'" path="accountName">
+                    <n-form-item :label="t('addBank_page_name')" path="accountName">
                       <n-input size="large" :disabled="!!props.myBankList.cardholder_name"
-                        v-model:value="formBank.accountName" :placeholder="'请输入银行账户名'">
+                        v-model:value="formBank.accountName" :placeholder="t('paymentManagement_page_enterBank')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
                         </template>
@@ -93,7 +93,7 @@
 
               <div v-if="stepTuple.step === 2" class="item-list info">
                 <n-flex class="item-list-tips" justify="space-between" align="center">
-                  <p>请绑定手机信息</p>
+                  <p>{{ t('paymentManagement_page_bindMobile') }}</p>
                   <div class="tips-icon">
                     <img :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
                   </div>
@@ -102,7 +102,7 @@
                 <div class="phoneForm" v-if="!phoneError">
 
                   <n-form ref="formInfoRef" :model="formInfo" :rules="rules.infoRules">
-                    <n-form-item label="手机号" path="phone">
+                    <n-form-item :label="t('paymentManagement_page_phoneNum')" path="phone">
                       <n-popselect v-model:value="formInfo.codeValue" :options="codeOptions" @update:value="valueChange"
                         trigger="click">
                         <span class="code_box">
@@ -110,13 +110,13 @@
                           <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
                         </span>
                       </n-popselect>
-                      <n-input clearable size="large" v-model:value="formInfo.phone" :placeholder="'请输入手机号'"></n-input>
+                      <n-input clearable size="large" v-model:value="formInfo.phone" :placeholder="t('home_page_enterPhoneNumber')"></n-input>
                     </n-form-item>
 
 
-                    <n-form-item :label="'验证码'" path="phoneCode">
+                    <n-form-item :label="t('home_page_smsCode')" path="phoneCode">
                       <n-input clearable size="large" v-model:value="formInfo.phoneCode"
-                        :placeholder="'请输入5位数验证码'"></n-input>
+                        :placeholder="t('home_page_enterVerificationCode')"></n-input>
                       <n-button :bordered="false" :loading="phoneCodeLoading" @click="submitSendPhoneCode" class="btn"
                         :disabled="phoneCodeDisabled">{{ phoneCodeText }}
                       </n-button>
@@ -146,7 +146,7 @@
 
               <div v-if="stepTuple.step === 3" class="item-list capital">
                 <n-flex class="item-list-tips" justify="space-between" align="center">
-                  <p>设置资金密码</p>
+                  <p>{{ t('paymentManagement_page_setPayPwd') }}</p>
                   <div class="tips-icon">
                     <img :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
                   </div>
@@ -155,8 +155,8 @@
                 <div class="capitalForm" v-if="!capitalError">
                   <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w_full choose-bank">
                     <!-- 银行卡充值独有 -->
-                    <n-form-item :label="'设置密码'" path="capitalPin">
-                      <n-input size="large" v-model:value="formCapital.capitalPin" :placeholder="'请输入6-10位资金密码'">
+                    <n-form-item :label="t('paymentManagement_page_setPwd')" path="capitalPin">
+                      <n-input size="large" v-model:value="formCapital.capitalPin" :placeholder="t('paymentManagement_page_plSetPayPwd')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
                         </template>
@@ -164,8 +164,8 @@
                     </n-form-item>
 
 
-                    <n-form-item :label="'重复密码'" path="capitalPinAgain">
-                      <n-input size="large" v-model:value="formCapital.capitalPinAgain" :placeholder="'请再次输入密码'">
+                    <n-form-item :label="t('paymentManagement_page_repPwd')" path="capitalPinAgain">
+                      <n-input size="large" v-model:value="formCapital.capitalPinAgain" :placeholder="t('home_page_secPwd')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
                         </template>
@@ -181,7 +181,7 @@
 
                 <div class="cardItem" v-if="capitalError">
                   <p>
-                    设置完成
+                    {{ t('paymentManagement_page_setFinish') }}
                   </p>
                 </div>
 
@@ -189,7 +189,7 @@
 
 
               <div class="cz_btn">
-                <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? '完成' : '下一步' }} </a>
+                <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? t('paymentManagement_page_finish') : t('home_page_next') }} </a>
               </div>
 
             </div>
@@ -304,7 +304,7 @@ const valueChange = (item: any) => {
 
 const phoneCodeLoading = ref(false);
 const phoneCodeDisabled = ref(true);
-const phoneCodeText = ref<string | number>('发送');
+const phoneCodeText = ref<string | number>(t('home_page_send'));
 const submitSendPhoneCode = () => {
   phoneCodeLoading.value = true;
   const req = NetPacket.req_get_mobile_sms_code();
@@ -328,7 +328,7 @@ const handleSMSback = (res: any) => {
       if (timer <= 0) {
         clearInterval(timeInterval);
         phoneCodeDisabled.value = false;
-        phoneCodeText.value = '发送';
+        phoneCodeText.value = t('home_page_send');
       }
     }, 1000);
   } else {
@@ -343,7 +343,7 @@ const submitContent = () => {
   // 判断是否绑定银行卡
 
   if (stepTuple.value.step === 3 && capitalError.value) {
-    Message.success(t('取款信息已完善'));
+    Message.success(t('paymentManagement_page_withCompleted'));
   }
 
   if (bankError.value) {
@@ -373,7 +373,7 @@ const bankError = ref(false);
 // 添加银行信息
 const formBankRef = ref();
 const submitBank = () => {
-  if (!formBank.value.bank) return Message.error('请选择银行');
+  if (!formBank.value.bank) return Message.error(t('paymentManagement_page_chBank'));
   formBankRef.value?.validate((errors: any) => {
     if (!errors) {
       const req = NetPacket.req_new_bank_card_info();
@@ -527,7 +527,7 @@ const handleBindOrModifyWithdrawPassword = (res: any) => {
   if (res.code == 1) {
     Message.success(t(res.message));
     capitalError.value = true;
-    Message.success(t('取款信息已完善'));
+    Message.success(t('paymentManagement_page_withCompleted'));
     stepTuple.value.step = 1;
     openModal();
     needLoginApi();
@@ -538,12 +538,12 @@ const rules = {
   bankRules: {
     cardNo: {
       required: true,
-      message: '请输入银行卡号',
+      message: t('paymentManagement_page_chCardNo'),
       trigger: 'input',
     },
     accountName: {
       required: true,
-      message: '请输入账户名',
+      message: t('paymentManagement_page_enterBank'),
       trigger: 'input',
     },
   },
