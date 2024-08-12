@@ -69,7 +69,6 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
       const decodeobj00 = decodeContent(decodeobj1.data,'GroupChatListRsp')
       state_data.chatitemList = decodeobj00.chatitem;
       const item = state_data.chatitemList[0]
-      console.log(6666666,item)
        //如果没有官方的历史聊天记录需要获取一下
       if (item?.iskf!=1) {
         getKfChat()
@@ -92,7 +91,6 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
       deviceid: state.deviceID,
       id: 99999
     }
-    console.log(6666666,decodeobj00)
     state_data.chatitemList.unshift(obj)
   };
 
@@ -127,6 +125,7 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     const datatime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     return datatime;
   };
+
 
   //  同步历史数据
   const synchistorymsg = () => {

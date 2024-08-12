@@ -10,8 +10,7 @@
           <div class="mark_kf">{{ item.role=='2'?'官方客服':'我' }}</div>
           <span class="date">{{ item.date }}</span>
         </div>
-        <div :class="[item.role=='2'?'user_content':'me_content']" v-if="!item.money">
-          {{ item.content }}
+        <div :class="[item.role=='2'?'user_content':'me_content']" v-if="!item.money" v-html="item.content">
         </div>
         <!-- 转账 -->
         <div :class="[item.role=='2'?'user_content':'me_content']" v-else class="money">

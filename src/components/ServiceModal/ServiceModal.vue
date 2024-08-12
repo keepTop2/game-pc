@@ -5,7 +5,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
     <h4 class="top_title">
-      <span>与{{state.userData.TUsername}}的聊天</span>
+      <span>与{{ state.userData.TUsername }}的聊天</span>
 
       <i>
         <n-switch v-model:value="active" />
@@ -48,7 +48,7 @@
             </div>
             <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
-                <div class="high_proxy">{{deepObj[item.deep]  }}</div>
+                <div class="high_proxy">{{ deepObj[item.deep] }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
@@ -66,9 +66,9 @@
             <div v-for="item in shortList" :key="item.id">
               <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
-                <div class="short_wrap_item">
-                  <span>{{ item.name }}</span>
-                </div>
+                  <div class="short_wrap_item">
+                    <span>{{ item.name }}</span>
+                  </div>
                 </template>
                 <div class="short_wrap_list">
                   <span v-for="op in short_options" :key="op">{{ op }}</span>
@@ -80,7 +80,24 @@
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
-          <n-input v-model:value="testMsg" type="textarea" rows="2">
+          <div class="input_content">
+            <div id="message-input" ref="msgRef" v-html="testMsg"   contenteditable="true"   spellcheck="false" autofocus class="input_wrap">
+          </div>
+          <div class="send_icon">
+                <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
+                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
+                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
+                <n-popover trigger="hover" :show-arrow="false" placement="top-end">
+                  <template #trigger>
+                    <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
+                  </template>
+                  <div class="emoji">
+                    <EmojiPicker :native="true" @select="onSelectEmoji" />
+                  </div>
+                </n-popover>
+              </div>
+          </div>
+          <!-- <n-input v-model:value="testMsg" type="textarea" rows="2">
             <template #suffix>
               <div class="send_icon">
                 <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
@@ -96,7 +113,7 @@
                 </n-popover>
               </div>
             </template>
-          </n-input>
+          </n-input> -->
           <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
@@ -138,8 +155,8 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-
-
+const EMOJI_REMOTE_SRC = "https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64";
+const msgRef:any = ref(null)
 
 const { t } = useI18n();
 const props = defineProps({
@@ -148,10 +165,10 @@ const props = defineProps({
     default: false,
   },
 });
-const deepObj:any = {
-  '-1':'上级代理',
-  '1':'下级代理',
-  '0':'官方客服',
+const deepObj: any = {
+  '-1': '上级代理',
+  '1': '下级代理',
+  '0': '官方客服',
 }
 
 const state: any = reactive({
@@ -169,6 +186,9 @@ const state: any = reactive({
 })
 
 
+
+
+
 // 解析消息体
 const decodeContent = (data: any, name: string) => {
   let MessageOutputeItem = state.root.lookupType(name)
@@ -179,13 +199,14 @@ const decodeContent = (data: any, name: string) => {
 }
 
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList,getChatMsg24 }: any = usechatHooks(state, IWebsocket,decodeContent)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24 }: any = usechatHooks(state, IWebsocket, decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
 const testMsg = ref('')
+const sendMsgText = ref('')
 
 const active = ref(true)  // 禁言
 
@@ -222,8 +243,17 @@ const settingList = [
   { name: '编辑', img: 'zuocweidy03', id: 3 },
 ]
 
+
+// 添加表情
+
 function onSelectEmoji(emoji: any) {
-  testMsg.value = testMsg.value + emoji.i
+  testMsg.value =  msgRef.value.innerHTML
+  const emojiImg = EMOJI_REMOTE_SRC + `/${emoji.r}.png`
+  // 表情转化为标签
+  let img = `<img src="${emojiImg}" width="23" height="23" style="vertical-align: middle;">`
+  testMsg.value = testMsg.value + img
+  msgRef.value.innerHTML = testMsg.value 
+
   /*
     // result
     { 
@@ -277,6 +307,7 @@ const selectUser = (item: any) => {
 
 // 发送消息
 const sendMsg = () => {
+  testMsg.value  = msgRef.value.innerHTML
   if (testMsg.value !== '') {
     const type = 6; // 给用户发消息
     state.requestid++;
@@ -286,6 +317,7 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
+
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -412,7 +444,7 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
         getChatMsgPublic(item)
       })
     }
-  }else{
+  } else {
     state.chatMessagesList = []
   }
 }
@@ -440,8 +472,8 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
   }
-    // 获取客服聊天列表
-    else if (decodeobj1.type == 24) {
+  // 获取客服聊天列表
+  else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
   }
 
@@ -452,7 +484,7 @@ onMounted(async () => {
   state.root = await protobuf.load('/connect.ext.proto');
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
-   getChatlist()
+  getChatlist()
   // synchistorymsg()
   state.firstIn = true
 
@@ -769,5 +801,29 @@ onMounted(async () => {
     overflow: hidden;
     background-image: linear-gradient(to bottom, #2c205c 100%, #261771 -50%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
   }
+}
+
+.input_content{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .send_icon{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+  }
+}
+.input_wrap{
+  width: 100%;
+  height: 80px;
+  border-radius: 12px;
+  box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  border: solid 1px #322c59;
+  background-color: #1d0e4a;
+  outline:none;
+  position: relative;
+  padding: 10px;
+  padding-right: 135px;
+  overflow-y: auto;
 }
 </style>
