@@ -1,11 +1,11 @@
 import { reactive, onMounted, toRefs } from 'vue';
 
-const usechatHooks = (state: any, IWebsocket: any) => {
+const usechatHooks = (state: any, IWebsocket: any, decodeContent: any) => {
   const state_data: any = reactive({
     ChatGroupListReq: '',
     Input: null,
 
-    per_page: 20,
+    per_page: 50,
     page: 1,
     chatitemList: [], // 聊天列表
   });
@@ -40,22 +40,62 @@ const usechatHooks = (state: any, IWebsocket: any) => {
     IWebsocket.sendMessageHandler(encodedRequest);
   };
 
+  // 获取官方客服
+  const getKfChat = () => {
+    const KfRoleIdGetReq = state.root.lookupType('KfRoleIdGetReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 24; //
+    var payload = {
+      deviceid: state.deviceID,
+    };
+    //编码消息体
+    const errMsg2 = KfRoleIdGetReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = KfRoleIdGetReq.encode(
+      KfRoleIdGetReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+
   //  type13   聊天列表回执
+  //deep -1代表上级
+  // 1代表直属下级
+  // 大于1代表 非直属下级
   const getChatMsg13 = (decodeobj1: any) => {
-    const GroupChatListRsp = state.root.lookupType('GroupChatListRsp');
     //先解析出消息体
     if (decodeobj1.data) {
-      const buffer00 = new Uint8Array(decodeobj1.data);
-      const decodedMessage00 = GroupChatListRsp.decode(buffer00);
-      const decodeobj00 = GroupChatListRsp.toObject(decodedMessage00);
-      console.log(
-        'onMessage/GroupChatListRsp output4 ' + state.deviceID,
-        decodeobj00,
-      );
+      const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp')
       state_data.chatitemList = decodeobj00.chatitem;
-      console.log(666666, state_data.chatitemList);
+      const item = state_data.chatitemList[0]
+      console.log(6666666, item)
+      //如果没有官方的历史聊天记录需要获取一下
+      if (item?.iskf != 1) {
+        getKfChat()
+      }
     }
   };
+  //  获取客服信息
+  const getChatMsg24 = (decodeobj1: any) => {
+    //先解析出消息体
+    const UserRole = state.root.lookupType('UserRole');
+    const buffer00 = new Uint8Array(decodeobj1.data);
+    const decodedMessage00 = UserRole.decode(buffer00);
+    const decodeobj00 = UserRole.toObject(decodedMessage00);
+    const obj = {
+      THeadPhoto: '1001',
+      TUsername: decodeobj00.username,
+      Tdeviceid: decodeobj00.roleid,
+      chatid: "",
+      deep: 0,
+      deviceid: state.deviceID,
+      id: 99999
+    }
+    console.log(6666666, decodeobj00)
+    state_data.chatitemList.unshift(obj)
+  };
+
 
   const encodeInput = (type: any, request_id: any, data: any) => {
     state_data.Input = state.root.lookupType('Input');
@@ -97,7 +137,7 @@ const usechatHooks = (state: any, IWebsocket: any) => {
     var payload = {
       chatid: getchatId(),
       perpage: state_data.per_page,
-      page: state_data.page,
+      page: 1,
     };
     console.log('synchistorymsg', payload);
     const SyncHistoryInput = state.root.lookupType('SyncHistoryInput');
@@ -120,6 +160,7 @@ const usechatHooks = (state: any, IWebsocket: any) => {
     ...toRefs(state_data),
     getChatlist,
     getChatMsg13,
+    getChatMsg24,
     getDateFromat,
     synchistorymsg,
   };
