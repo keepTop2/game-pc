@@ -185,13 +185,6 @@ const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
 
-const userList = [
-  { name: '小美', role: 'proxy', id: 1 },
-  { name: '啊铁', role: 'user', id: 2 },
-  { name: '客服', role: 'user', id: 3 },
-  { name: 'davie', role: 'user', id: 4 },
-  { name: 'chu', role: 'proxy', id: 5 },
-]
 const selectList = [
   { name: '置顶', id: 1 },
   { name: '未读', id: 2 },
