@@ -230,6 +230,12 @@ export default {
   deposit_page_giftRatio: 'Gift Ratio',
   deposit_page_multiple: 'Turnover Multiple',
   deposit_page_venues: 'Limited Venues',
+  deposit_page_netWork: 'network',
+  deposit_page_chooseNetWork: 'Select network',
+  deposit_page_pleChooseNetWork: 'Please select a recharge network',
+  deposit_page_exchange: 'Exchange',
+  deposit_page_toExchange: 'Visit the exchange',
+  deposit_page_minDeposit: 'Minimum recharge',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Redeem Now',

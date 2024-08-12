@@ -230,6 +230,12 @@ export default {
   deposit_page_giftRatio: '赠送比列',
   deposit_page_multiple: '流水倍数',
   deposit_page_venues: '限定场馆',
+  deposit_page_netWork: '网络',
+  deposit_page_chooseNetWork: '选择网络',
+  deposit_page_pleChooseNetWork: '请选择充值网络',
+  deposit_page_exchange: '交易所',
+  deposit_page_toExchange: '访问交易所',
+  deposit_page_minDeposit: '最低充值',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',
