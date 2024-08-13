@@ -1,6 +1,6 @@
 <template>
   <!-- <Deposit v-if="showDeposit" />-->
-  <n-modal class="deposit_modal" :show="showModal" :mask-closable="false">
+  <n-modal class="deposit_modal" :show="showMyModal" :mask-closable="false">
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
@@ -66,6 +66,7 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
+<!--          <span class="icon_back button"><img src="/img/home/back.webp" alt="" @click="goBackList"></span>-->
           <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
           <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
@@ -86,6 +87,9 @@
                 <div>{{ t('deposit_page_venues') }}：{{ curDiscount.restrict }}</div>
               </div>
             </n-form-item>
+            <n-form-item v-if="['usdt'].includes(curDepositWay.payname)" class="yh_item" :label="t('deposit_page_netWork')">
+              <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.network_type" :options="netWorkArr" />
+            </n-form-item>
             <!-- 银行卡充值独有 -->
             <n-form-item v-if="curDepositWay.payname.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
               <n-flex class="choose-bank">
@@ -104,6 +108,10 @@
                   <a class="refresh_icon"></a>
                 </template>
               </n-input>
+              <n-flex v-if="['usdt'].includes(curDepositWay.payname)" justify="space-between" class="flex usdt_box">
+                <span>USDT: {{countUsdtMon()}}</span>
+                <span class="button" @click="showModal = true">{{t('deposit_page_toExchange')}}</span>
+              </n-flex>
             </n-form-item>
             <n-flex class="kjje_div">
               <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
@@ -114,12 +122,11 @@
           </n-form>
           <div class="btn_zone flex w_full">
             <n-button :bordered="false" class="submit_btn  weight_5 center pointer" :disabled="loading" block
-              @click="onSubmit">{{
-    t('deposit_page_rechargeNow') }}</n-button>
+              @click="onSubmit">{{t('deposit_page_rechargeNow') }}</n-button>
           </div>
           <div class="cz_tips">
-            <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
-            <n-flex align="center" class="tip">
+            <div v-show="form.amount" class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
+            <n-flex justify="center" class="tip">
               <span class="icon"></span>
               <span> {{ t('deposit_page_depositTips') }} </span>
             </n-flex>
@@ -129,6 +136,27 @@
     </n-card>
   </n-modal>
 
+  <!-- 交易所列表 -->
+  <n-modal class="deposit_sm_modal" :show="showModal" :mask-closable="false">
+    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <div class="form_container vertical">
+        <div class="header rel center">
+          <span class="weight_5 t_md">{{ t('deposit_page_exchange') }}</span>
+          <span class="close abs center pointer t_sm">
+            <iconpark-icon @click="showModal = false" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+          </span>
+        </div>
+        <div class="body center t_md exchange_list body_sec">
+          <div class="ex_list_item button" v-for="(item, index) in exchangeArr" :key="index" @click="openWin(item.value)">
+            <div class="icon">
+              <img :src="`/img/payment/usdt/logo${index + 1}.webp`" />
+            </div>
+            <span>{{item.label}}</span>
+          </div>
+        </div>
+      </div>
+    </n-card>
+  </n-modal>
   <!-- 选择银行弹窗 -->
   <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList" ref="chooseBankModal"
     @selectBank="selectBank" />
@@ -152,7 +180,7 @@ const chooseBankDialog = defineAsyncComponent(() => import('../components/choose
 const emit = defineEmits(["haveBankList"]);
 const chooseBankModal = ref();
 const { t } = useI18n();
-const showModal = ref(false);
+const showMyModal = ref(false);
 const showSmModal = ref(false);
 const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
@@ -168,6 +196,7 @@ const dataParams = {
   amount: '',
   bank: null, // 银行
   bankMethod: 100, // 银行支付方式，对应传给后端参数 type
+  network_type: 0, // usdt 独有
 }
 
 const form = ref( // 存款表单提交
@@ -193,6 +222,39 @@ const chooseMoneyArr = [
 ];
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 const bankAllList = ref([]); // 充值银行选择列表
+
+const usdtObj = ref({
+  rate: 26540, // usdt 汇率,
+});
+// const minDepositObj = ref({
+//   show: false,
+//   mon: 0, // 最低充值金额
+// });
+const netWorkArr = [
+  { label: t('deposit_page_chooseNetWork'), value: 0 },
+  { label: 'TRC20', value: 1 },
+  { label: 'ERC20', value: 2 },
+];
+const showModal = ref(false);
+// 交易所链接
+const exchangeArr = [
+  { label: 'Binance', value: 'https://www.binance.com/vi/price/tether/VND' },
+  { label: 'Coinbase', value: 'https://www.coinbase.com/zh-cn/converter' },
+  { label: 'Gate.io', value: 'https://www.gate.io/zh/crypto/buy?crypto=USDT&fiat=vnd' },
+  { label: 'Bybit', value: 'https://www.bybit.com/fiat/trade/express/home' },
+  { label: 'OKX', value: 'https://www.okx.com/zh-hans/price/tether-usdt' },
+  { label: 'HTX', value: 'https://www.htx.com/zh-cn/fiat-crypto/one-trade/buy-usdt-vnd' },
+];
+
+const openWin = (url: any) => {
+  window.open(url)
+}
+// 计算usdt 金额
+const countUsdtMon = () => {
+  if (!usdtObj.value.rate) return
+  const num = Number(form.value.amount) / usdtObj.value.rate;
+  return num.toFixed(2)
+}
 
 // 打开银行弹窗
 const openChooseBank = () => {
@@ -239,7 +301,7 @@ const handleShopInfoRes = (rs: TShopInfo) => {
     })
   }
   // 非银行的支付方式
-  const notBankArr = newArr.filter((item: any) => item.payname !== 'bankcard');
+  const notBankArr = newArr.filter((item: any) => item.payname !== 'bankcard').map((item: any) => {return {...item, paymenttype: item.paymenttype * 100}});
   usdtRecharge.value = bankAll.concat(notBankArr);
   // 需要过滤 limit 为 0 的数据
   discountList.value = rs.discount_list.filter((item) => item.limit)
@@ -263,11 +325,11 @@ const handleShopInfoRes = (rs: TShopInfo) => {
 };
 
 const openModal = () => {
-  showModal.value = !showModal.value;
+  showMyModal.value = !showMyModal.value;
   // getShopInfo();
 }
 const onClose = () => {
-  showModal.value = false
+  showMyModal.value = false
 }
 const onCloseSm = () => {
   showSmModal.value = !showSmModal.value
@@ -284,6 +346,11 @@ const goToDeposit = () => {
   onClose();
   showSecModal.value = true;
 }
+// 返回充值列表
+// const goBackList = () => {
+//   showMyModal.value = true;
+//   showSecModal.value = false;
+// }
 // 选择充值方式
 const chooseWay = (data: any) => {
   form.value.method = data.paymenttype
@@ -295,15 +362,38 @@ const onSubmit = () => {
   if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 && !form.value.bank) {
     return Message.error(t('paymentManagement_page_chBank'))
   }
+  // 如果是usdt ，需要选择网络
+  if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('usdt') > -1 && !form.value.network_type) {
+    return Message.error(t('deposit_page_pleChooseNetWork'))
+  }
   // 获取到当前支付方式的最低最高充值金额
   const curObj = mtdList.value.find((item: any) => item.value === form.value.method)
   console.log('&&&&&', curObj)
-  if (form.value.amount < curObj.minrecharge) {
-    return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }))
+  // usdt 充值方式
+  if (curObj.payname === 'usdt') {
+    // minDepositObj.value = {
+    //   show: true,
+    //   mon: Number(curObj.minrecharge) * usdtObj.value.rate
+    // };
+    if (Number(form.value.amount) < Number(curObj.minrecharge) * usdtObj.value.rate) {
+      return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }))
+    }
+    if (Number(form.value.amount) > Number(curObj.maxrecharge) * usdtObj.value.rate) {
+      return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }))
+    }
+  } else { // 其他
+    // minDepositObj.value = {
+    //   show: true,
+    //   mon: curObj.minrecharge
+    // };
+    if (form.value.amount < curObj.minrecharge) {
+      return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }))
+    }
+    if (form.value.amount > curObj.maxrecharge) {
+      return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }))
+    }
   }
-  if (form.value.amount > curObj.maxrecharge) {
-    return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }))
-  }
+  // minDepositObj.value.show = false;
   loading.value = true;
   handleSubmit()
 }
@@ -313,14 +403,16 @@ const handleSubmit = () => {
   const req = NetPacket.req_recharge_from_third();
   req.amount = form.value.amount;
   req.channel_type = form.value.method; // 接口返回的 paymenttype 值乘以100
-  req.bank_channel_type = legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 ? form.value.bank : 0; // 只有选择银行的时候才有，usdt 是 0
+  // req.bank_channel_type = legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 ? form.value.bank : 0; // 只有选择银行的时候才有，usdt 是 0
+  req.bank_channel_type = 3; // 目前看h5 的全部是 3
   req.type = form.value.bankMethod; // 只有选择银行的时候才有，银行支付方式
   req.got_discount = form.value.discount;
+  req.network_type = form.value.network_type;
   console.log('=======充值提交参数', req)
   Net.instance.sendRequest(req);
 };
 const handleDepositSubmit = (res: any) => {
-  console.log('---', res)
+  // console.log('---', res)
   loading.value = false;
   if (res.code === -1) {
     Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
@@ -372,7 +464,7 @@ watch(
   () => form.value.discount,
   (n) => {
     curDiscount.value = discountList.value.find((item: any) => item.discount_ID === n)
-    console.log('-----', n, curDiscount.value)
+    // console.log('-----', n, curDiscount.value)
   }
 )
 
@@ -504,6 +596,7 @@ defineExpose({
   }
 
   .body_sec {
+
     .kjje_div {
       gap: 20px !important;
 
@@ -565,6 +658,46 @@ defineExpose({
 
     .choose-bank {
       gap: 10px !important;
+    }
+
+    .usdt_box {
+      width: 100%;
+
+      .button {
+        text-decoration: underline;
+        color: #5971FF;
+      }
+    }
+
+  }
+  .exchange_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 40px 40px !important;
+
+    .ex_list_item {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      width: 112px;
+      height: 112px;
+      background: url(/img/payment/usdt/itembg.webp) center no-repeat;
+      background-size: 100%;
+
+      &:nth-child(n + 4) {
+        margin-top: 15px;
+      }
+      .icon {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+        img {
+          width: 36px;
+          height: 36px;
+        }
+      }
     }
   }
 

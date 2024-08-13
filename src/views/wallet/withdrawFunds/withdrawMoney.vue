@@ -7,18 +7,18 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight_5 t_md">{{ '提款' }}</span>
+          <span class="weight_5 t_md">{{ t('proxy_page_withDraw') }}</span>
           <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md body_sec">
           <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
-            <n-form-item :label="'可用法币数量'">
+            <n-form-item :label="t('walletInfo_page_availableMount')">
               <n-input size="large" disabled v-model:value="form.maxValue" />
             </n-form-item>
 
-            <n-form-item :label="'选择银行卡'">
+            <n-form-item :label="t('walletInfo_page_selectBank')">
               <div class="selectBank">
                 <div class="bankName">
                   <div class="icon">
@@ -27,17 +27,17 @@
                   <span>{{ backItemInfo.bank_name }}</span>
                 </div>
                 <div class="mantissa">
-                  <span>尾号：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
+                  <span>{{ t('walletInfo_page_tailNumber') }}：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
     backItemInfo.account_number.length) }}</span>
                 </div>
               </div>
-              <n-button :bordered="false" class="btn" @click="openBankListInfo">更换</n-button>
+              <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay') }}</n-button>
             </n-form-item>
 
-            <n-form-item :label="'输入提款金额'" path="amount">
+            <n-form-item :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-              <n-input clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="'请输入充值金额'">
+              <n-input clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
@@ -45,7 +45,7 @@
             </n-form-item>
 
             <div class="switchVisible">
-              <n-form-item label="资金密码" path="password">
+              <n-form-item :label="t('withdraw_page_payPwd')" path="password">
                 <n-input clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
                   @keydown.enter.prevent>
                   <template #suffix>
@@ -67,10 +67,10 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w_full">
-            <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{ '立即提款' }}</div>
+            <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}</div>
           </div>
           <div v-show="form.amount" class="cz_tips">
-            <div class="txt"> 预计到账：{{form.amount}} </div>
+            <div class="txt"> {{ t('deposit_page_arrival') }}：{{form.amount}} </div>
           </div>
         </div>
       </div>

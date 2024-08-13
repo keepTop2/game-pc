@@ -147,6 +147,23 @@ export default {
   paymentManagement_page_delete: '删除',
   paymentManagement_page_set_default: '设为默认',
   paymentManagement_page_set_xw_default: '确认设为默认银行卡吗？',
+  paymentManagement_page_setDefaulted: '已设为默认',
+  paymentManagement_page_inUse: '使用中',
+  paymentManagement_page_choose: '选择',
+  paymentManagement_page_enterBank: '请输入银行账户名',
+  paymentManagement_page_confirm: '确认',
+  paymentManagement_page_setError: '设置失败',
+  paymentManagement_page_information: '请先完善取款信息',
+  paymentManagement_page_oneBank: '至少添加一张银行卡',
+  paymentManagement_page_bindMobile: '请绑定手机信息',
+  paymentManagement_page_phoneNum: '手机号',
+  paymentManagement_page_setPayPwd: '设置资金密码',
+  paymentManagement_page_setPwd: '设置密码',
+  paymentManagement_page_plSetPayPwd: '请输入6-10位资金密码',
+  paymentManagement_page_repPwd: '重复密码',
+  paymentManagement_page_setFinish: '设置完成',
+  paymentManagement_page_finish: '完成',
+  paymentManagement_page_withCompleted: '取款信息已完善',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',
@@ -173,6 +190,11 @@ export default {
   walletInfo_page_notMoney: '没有可操作余额',
   walletInfo_page_tranferTxt: '请点击或拖动选择金额',
   walletInfo_page_tranferTips: '温馨提示:提款需先将金额转入保险柜',
+  walletInfo_page_availableMount: '可用法币数量',
+  walletInfo_page_selectBank: '选择银行卡',
+  walletInfo_page_tailNumber: '尾号',
+  walletInfo_page_withdrawalMon: '输入提款金额',
+  walletInfo_page_immediatelyMon: '立即提款',
 
   // 提现记录 withdrawRecord
   withdrawRecord_page_wMethod: '取款方式',
@@ -230,6 +252,12 @@ export default {
   deposit_page_giftRatio: '赠送比列',
   deposit_page_multiple: '流水倍数',
   deposit_page_venues: '限定场馆',
+  deposit_page_netWork: '网络',
+  deposit_page_chooseNetWork: '选择网络',
+  deposit_page_pleChooseNetWork: '请选择充值网络',
+  deposit_page_exchange: '交易所',
+  deposit_page_toExchange: '访问交易所',
+  deposit_page_minDeposit: '最低充值',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',

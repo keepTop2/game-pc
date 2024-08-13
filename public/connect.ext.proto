@@ -238,8 +238,9 @@ message ChatItem {
   string THeadPhoto = 13; // 对方头像
   string TIp = 14; // 对方登录ip
   int32 iskf = 15; // 1标识是客服
-  int32 vip = 16; // 是否是vip
+  int32 vip = 16; // vip等级
   int64 todeviceid = 17; // 对方设备id
+  int64 unreadnums = 18; // 未读消息数
 }
 //获取获取所有聊天列表
 message ChatListRsp {

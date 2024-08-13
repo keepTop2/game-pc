@@ -220,7 +220,6 @@ const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
 
-
 const selectList = [
   { name: '置顶', id: 1 },
   { name: '未读', id: 2 },
