@@ -1,6 +1,6 @@
-import {  reactive, onMounted, toRefs } from 'vue';
+import { reactive, onMounted, toRefs } from 'vue';
 
-const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
+const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
   const state_data: any = reactive({
     ChatGroupListReq: '',
     Input: null,
@@ -40,24 +40,24 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     IWebsocket.sendMessageHandler(encodedRequest);
   };
 
-    // 获取官方客服
-    const getKfChat = () => {
-     const KfRoleIdGetReq= state.root.lookupType('KfRoleIdGetReq');
-      state.requestid++;
-      const requestid = state.requestid;
-      const type = 24; //
-      var payload = {
-        deviceid: state.deviceID,
-      };
-      //编码消息体
-      const errMsg2 = KfRoleIdGetReq.verify(payload);
-      if (errMsg2) throw new Error(errMsg2);
-      const decodedata = KfRoleIdGetReq.encode(
-        KfRoleIdGetReq.create(payload),
-      ).finish();
-      const encodedRequest = encodeInput(type, requestid, decodedata);
-      IWebsocket.sendMessageHandler(encodedRequest);
+  // 获取官方客服
+  const getKfChat = () => {
+    const KfRoleIdGetReq = state.root.lookupType('KfRoleIdGetReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 24; //
+    var payload = {
+      deviceid: state.deviceID,
     };
+    //编码消息体
+    const errMsg2 = KfRoleIdGetReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = KfRoleIdGetReq.encode(
+      KfRoleIdGetReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
 
   //  type13   聊天列表回执
   //deep -1代表上级
@@ -66,19 +66,19 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
   const getChatMsg13 = (decodeobj1: any) => {
     //先解析出消息体
     if (decodeobj1.data) {
-      const decodeobj00 = decodeContent(decodeobj1.data,'GroupChatListRsp')
+      const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
       state_data.chatitemList = decodeobj00.chatitem;
-      const item = state_data.chatitemList[0]
-       //如果没有官方的历史聊天记录需要获取一下
-      if (item?.iskf!=1) {
-        getKfChat()
+      const item = state_data.chatitemList[0];
+      //如果没有官方的历史聊天记录需要获取一下
+      if (item?.iskf != 1) {
+        getKfChat();
       }
     }
   };
   //  获取客服信息
   const getChatMsg24 = (decodeobj1: any) => {
     //先解析出消息体
-    const UserRole =state.root.lookupType('UserRole');
+    const UserRole = state.root.lookupType('UserRole');
     const buffer00 = new Uint8Array(decodeobj1.data);
     const decodedMessage00 = UserRole.decode(buffer00);
     const decodeobj00 = UserRole.toObject(decodedMessage00);
@@ -86,14 +86,13 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
       THeadPhoto: '1001',
       TUsername: decodeobj00.username,
       Tdeviceid: decodeobj00.roleid,
-      chatid: "",
+      chatid: '',
       deep: 0,
       deviceid: state.deviceID,
-      id: 99999
-    }
-    state_data.chatitemList.unshift(obj)
+      id: 99999,
+    };
+    state_data.chatitemList.unshift(obj);
   };
-
 
   const encodeInput = (type: any, request_id: any, data: any) => {
     state_data.Input = state.root.lookupType('Input');
@@ -126,7 +125,6 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     return datatime;
   };
 
-
   //  同步历史数据
   const synchistorymsg = () => {
     //同步历史消息
@@ -151,6 +149,27 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     IWebsocket.sendMessageHandler(encodedRequest);
   };
 
+  //处理聊天数据表情
+  const initMessage = (text:any) => {
+    const EMOJI_REMOTE_SRC = "https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64";
+    // 定义一个函数来将特定格式的字符串替换为图片
+    function replaceWithEmojiImages(text:any) {
+      // 定义一个正则表达式来匹配 /:1f600:/ 格式的字符串
+      const regex = /\/:(.*?):\//g;
+
+      // 使用 replace 方法和回调函数进行替换
+      return text.replace(regex, (match:any) => {
+        const value = match.slice(2,-2)
+        // 构建图片标签
+        const imgSrc = `${EMOJI_REMOTE_SRC}/${value}.png`; // 假设图片存储在这个路径
+        return `<img data-code="${value}" src="${imgSrc}"  width="23" height="23" class="emoji-img"/>`;
+      });
+    }
+    // 调用函数进行替换
+    const outputText = replaceWithEmojiImages(text);
+    return outputText;
+  };
+
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     // state_data.Input = state.root.lookupType('Input');
@@ -162,6 +181,7 @@ const usechatHooks = (state: any, IWebsocket: any,decodeContent:any) => {
     getChatMsg24,
     getDateFromat,
     synchistorymsg,
+    initMessage
   };
 };
 export default usechatHooks;

@@ -81,21 +81,22 @@
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div id="message-input" ref="msgRef" v-html="testMsg"   contenteditable="true"   spellcheck="false" autofocus class="input_wrap">
-          </div>
-          <div class="send_icon">
-                <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
-                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
-                <n-popover trigger="hover" :show-arrow="false" placement="top-end">
-                  <template #trigger>
-                    <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
-                  </template>
-                  <div class="emoji">
-                    <EmojiPicker :native="true" @select="onSelectEmoji" />
-                  </div>
-                </n-popover>
-              </div>
+            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" contenteditable="true"
+              spellcheck="false" autofocus class="input_wrap">
+            </div>
+            <div class="send_icon">
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
+              <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
+              <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
+              <n-popover trigger="hover" :show-arrow="false" placement="top-end">
+                <template #trigger>
+                  <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
+                </template>
+                <div class="emoji">
+                  <EmojiPicker :native="true" @select="onSelectEmoji" />
+                </div>
+              </n-popover>
+            </div>
           </div>
           <!-- <n-input v-model:value="testMsg" type="textarea" rows="2">
             <template #suffix>
@@ -155,8 +156,8 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-const EMOJI_REMOTE_SRC = "https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64";
-const msgRef:any = ref(null)
+
+const msgRef: any = ref(null)
 
 const { t } = useI18n();
 const props = defineProps({
@@ -199,14 +200,13 @@ const decodeContent = (data: any, name: string) => {
 }
 
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24 }: any = usechatHooks(state, IWebsocket, decodeContent)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, initMessage }: any = usechatHooks(state, IWebsocket, decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
 const search = ref('')
 const testMsg = ref('')
-const sendMsgText = ref('')
 
 const active = ref(true)  // 禁言
 
@@ -247,13 +247,10 @@ const settingList = [
 // 添加表情
 
 function onSelectEmoji(emoji: any) {
-  testMsg.value =  msgRef.value.innerHTML
-  const emojiImg = EMOJI_REMOTE_SRC + `/${emoji.r}.png`
-  // 表情转化为标签
-  let img = `<img src="${emojiImg}" width="23" height="23" style="vertical-align: middle;">`
+  testMsg.value = msgRef.value.innerHTML
+  let img = `/:${emoji.r}:/`
   testMsg.value = testMsg.value + img
-  msgRef.value.innerHTML = testMsg.value 
-
+  msgRef.value.innerHTML = testMsg.value
   /*
     // result
     { 
@@ -307,7 +304,7 @@ const selectUser = (item: any) => {
 
 // 发送消息
 const sendMsg = () => {
-  testMsg.value  = msgRef.value.innerHTML
+  testMsg.value = msgRef.value.innerHTML
   if (testMsg.value !== '') {
     const type = 6; // 给用户发消息
     state.requestid++;
@@ -803,24 +800,26 @@ onMounted(async () => {
   }
 }
 
-.input_content{
+.input_content {
   position: relative;
   width: 100%;
   height: 100%;
-  .send_icon{
+
+  .send_icon {
     position: absolute;
     right: 10px;
     top: 0px;
   }
 }
-.input_wrap{
+
+.input_wrap {
   width: 100%;
   height: 80px;
   border-radius: 12px;
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border: solid 1px #322c59;
   background-color: #1d0e4a;
-  outline:none;
+  outline: none;
   position: relative;
   padding: 10px;
   padding-right: 135px;

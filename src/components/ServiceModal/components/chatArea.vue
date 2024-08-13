@@ -1,40 +1,43 @@
 <template>
-    <n-spin :show="show">
-  <div class="chat_content"  ref="chatContentRef">
-  <div v-if="chatList.length">
-    <div class="chat_item"  v-for="item in (chatList as any)" :key="item.date" :style="{justifyContent:item.role=='2'?'flex-start':'flex-end'}">
-      <img v-if="item.role=='2'"  :src="`/img/serviceModal/avatar.webp`" alt="">
-      <div class="chat_main">
-        <div class="user_info" :style="{flexDirection:item.role=='2'?'row':'row-reverse'}">
-          <span>{{ item.name }}</span>
-          <div class="mark_kf">{{ item.role=='2'?'官方客服':'我' }}</div>
-          <span class="date">{{ item.date }}</span>
-        </div>
-        <div :class="[item.role=='2'?'user_content':'me_content']" v-if="!item.money" v-html="item.content">
-        </div>
-        <!-- 转账 -->
-        <div :class="[item.role=='2'?'user_content':'me_content']" v-else class="money">
-          <div class="left">
-          <img src="/img/serviceModal/transfer.webp" alt="">
-          <div class="left_info">
-          <span>转账给你</span>
-          <span>300,000,000,000</span>
+  <n-spin :show="show">
+    <div class="chat_content" ref="chatContentRef">
+      <div v-if="chatList.length">
+        <div class="chat_item" v-for="item in (chatList as any)" :key="item.date"
+          :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }">
+          <img v-if="item.role == '2'" :src="`/img/serviceModal/avatar.webp`" alt="">
+          <div class="chat_main">
+            <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
+              <span>{{ item.name }}</span>
+              <div class="mark_kf">{{ item.role == '2' ? '官方客服' : '我' }}</div>
+              <span class="date">{{ item.date }}</span>
+            </div>
+            <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
+              v-html="initMessage(item.content)">
+            </div>
+            <!-- 转账 -->
+            <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-else class="money">
+              <div class="left">
+                <img src="/img/serviceModal/transfer.webp" alt="">
+                <div class="left_info">
+                  <span>转账给你</span>
+                  <span>300,000,000,000</span>
+                </div>
+              </div>
+              <div class="total">
+                代理转账
+              </div>
+            </div>
           </div>
-          </div>
-          <div class="total">
-          代理转账
-          </div>
+          <img v-if="item.role == 1" :src="`/img/serviceModal/avatar1.webp`" alt="">
         </div>
       </div>
-      <img v-if="item.role==1" :src="`/img/serviceModal/avatar1.webp`" alt="">
     </div>
-  </div>
-  </div>
-</n-spin>
+  </n-spin>
 </template>
 
 <script setup lang="ts">
- import { ref,onMounted,watch ,computed} from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
+import usechatHooks from '../useHooks';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -48,38 +51,39 @@
 const props = defineProps({
   chatList: {
     type: Array,
-    default: ()=>([]),
+    default: () => ([]),
   },
 });
-const newValue = computed(()=>{
+const { initMessage }: any = usechatHooks()
+const newValue = computed(() => {
   return props.chatList.length
 })
 
 function scrollToBottom() {
- const element = chatContentRef.value
- element.scrollTo(0, chatContentRef.value.scrollHeight)
+  const element = chatContentRef.value
+  element.scrollTo(0, chatContentRef.value.scrollHeight)
 }
 
 
 // 监听新消息滚动到最底部
-watch(()=>newValue.value,()=>{
+watch(() => newValue.value, () => {
   setTimeout(() => {
     scrollToBottom()
   }, 500);
-  
+
 })
 
-const chatContentRef:any = ref(null)
+const chatContentRef: any = ref(null)
 const show = ref(false)
 
 
-onMounted(()=>{
+onMounted(() => {
   show.value = true
   setTimeout(() => {
-     show.value = false
+    show.value = false
     // scrollToBottom()
-  },1000);
- 
+  }, 1000);
+
 })
 
 
@@ -96,23 +100,25 @@ onMounted(()=>{
   padding: 30px 0px;
   box-sizing: border-box;
   overflow-y: auto;
+
   &::-webkit-scrollbar {
-  display: none;
-}
+    display: none;
+  }
 
 
   .chat_item {
     display: flex;
     margin-bottom: 20px;
     // flex-direction: row-reverse;
-  //  justify-content: flex-end;
-   
+    //  justify-content: flex-end;
+
 
     img {
       width: 40px;
       height: 40px;
     }
-    .chat_main{
+
+    .chat_main {
       margin-left: 10px;
       margin-right: 10px;
     }
@@ -145,6 +151,7 @@ onMounted(()=>{
       border: solid 1px #353b5a;
       background-color: #322c59;
     }
+
     .me_content {
       margin-top: 12px;
       border-radius: 12px 2px 12px 12px;
@@ -153,24 +160,26 @@ onMounted(()=>{
       background-color: #322c59;
     }
 
-    .money{
+    .money {
       padding: 8px 0px;
       width: 287px;
       border: unset;
       cursor: pointer;
       background-color: #F9493E;
 
-      .left{
+      .left {
         display: flex;
         align-items: center;
         margin-left: 16px;
-        .left_info{
+
+        .left_info {
           margin-left: 10px;
           display: flex;
           flex-direction: column;
         }
       }
-      .total{
+
+      .total {
         border-top: solid 1px rgba(255, 255, 255, 0.2);
         text-align: center;
       }
