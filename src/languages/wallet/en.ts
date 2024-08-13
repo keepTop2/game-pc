@@ -147,6 +147,23 @@ export default {
   paymentManagement_page_delete: 'Delete',
   paymentManagement_page_set_default: 'Set as Default',
   paymentManagement_page_set_xw_default: 'Confirm Set as Default Bank Card?',
+  paymentManagement_page_setDefaulted: 'Already set as default',
+  paymentManagement_page_inUse: 'In use',
+  paymentManagement_page_choose: 'choose',
+  paymentManagement_page_enterBank: 'Please enter your bank account name',
+  paymentManagement_page_confirm: 'Confirm',
+  paymentManagement_page_setError: 'Setup failed',
+  paymentManagement_page_information: 'Please complete the withdrawal information first',
+  paymentManagement_page_oneBank: 'Add at least one bank card',
+  paymentManagement_page_bindMobile: 'Please bind mobile phone information',
+  paymentManagement_page_phoneNum: 'Mobile phone number',
+  paymentManagement_page_setPayPwd: 'Set fund password',
+  paymentManagement_page_setPwd: 'Set password',
+  paymentManagement_page_plSetPayPwd: 'Please enter the 6-10 digit fund password',
+  paymentManagement_page_repPwd: 'Repeat password',
+  paymentManagement_page_setFinish: 'Setup completed',
+  paymentManagement_page_finish: 'Complete',
+  paymentManagement_page_withCompleted: 'Withdrawal information has been completed',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',
@@ -173,6 +190,11 @@ export default {
   walletInfo_page_notMoney: 'No Operable Balance',
   walletInfo_page_tranferTxt: 'Please Click or Drag to Select Amount',
   walletInfo_page_tranferTips: 'Friendly Reminder: Withdrawals need to be transferred to the safe first',
+  walletInfo_page_availableMount: 'Amount of available fiat currency',
+  walletInfo_page_selectBank: 'Select bank card',
+  walletInfo_page_tailNumber: 'Tail number',
+  walletInfo_page_withdrawalMon: 'Enter the withdrawal amount',
+  walletInfo_page_immediatelyMon: 'Withdraw immediately',
 
   // 提现记录 withdrawRecord
   withdrawRecord_page_wMethod: 'Withdrawal Method',
@@ -230,6 +252,12 @@ export default {
   deposit_page_giftRatio: 'Gift Ratio',
   deposit_page_multiple: 'Turnover Multiple',
   deposit_page_venues: 'Limited Venues',
+  deposit_page_netWork: 'network',
+  deposit_page_chooseNetWork: 'Select network',
+  deposit_page_pleChooseNetWork: 'Please select a recharge network',
+  deposit_page_exchange: 'Exchange',
+  deposit_page_toExchange: 'Visit the exchange',
+  deposit_page_minDeposit: 'Minimum recharge',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Redeem Now',

@@ -3,7 +3,7 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight_5 t_md">{{ '选择银行卡' }}</span>
+          <span class="weight_5 t_md">{{ t('walletInfo_page_selectBank') }}</span>
           <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
@@ -28,11 +28,11 @@
                   <div class="utilization-bank">
                     <n-button @click="bankCheck(index, 'isUse')"
                       :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
-                      {{ item.isUse ? '使用中' : '选择' }}
+                      {{ item.isUse ? t('paymentManagement_page_inUse') : t('paymentManagement_page_choose') }}
                     </n-button>
                     <n-button @click="bankCheck(index, 'isDefault')"
                       :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
-                      {{ item.isDefault ? '默认卡片' : '设为默认' }}
+                      {{ item.isDefault ? t('paymentManagement_page_default_bank') : t('paymentManagement_page_set_default') }}
                     </n-button>
                   </div>
                 </div>
@@ -43,7 +43,7 @@
               <div class="bank_list_add" v-show="!addBankFlag">
                 <div class="center" @click="flagBank(true)">
                   <img src="/img/wallet/bankAdd.webp" alt="nodata">
-                  <span>添加新银行卡</span>
+                  <span>{{ t('paymentManagement_page_new_bank') }}</span>
                 </div>
               </div>
             </div>
@@ -52,11 +52,11 @@
             <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
 
               <div class="add-bank-text">
-                <p>添加一张银行卡</p>
+                <p>{{ t('paymentManagement_page_add_one_bank') }}</p>
                 <img src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)">
               </div>
 
-              <n-form-item :label="'选择银行'">
+              <n-form-item :label="t('addBank_page_pChooseBank')">
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
                     <span class="bank_cicon">
@@ -64,12 +64,12 @@
                     </span>
                     <span class="bank_cname"> {{ chooseBank.label }} </span>
                   </n-flex>
-                  <a class="change-btn" @click="showChangeBank"> 更换 </a>
+                  <a class="change-btn" @click="showChangeBank"> {{ t('deposit_page_changeWay') }} </a>
                 </n-flex>
               </n-form-item>
 
-              <n-form-item :label="'银行卡号'" path="bankCode">
-                <n-input size="large" v-model:value="form.bankCode" :placeholder="'请输入银行卡号'">
+              <n-form-item :label="t('addBank_page_bankCard')" path="bankCode">
+                <n-input size="large" v-model:value="form.bankCode" :placeholder="t('paymentManagement_page_chCardNo')">
                   <template #suffix>
                     <a class="refresh_icon"></a>
                   </template>
@@ -77,9 +77,9 @@
               </n-form-item>
 
 
-              <n-form-item :label="'银行账户名'" path="accountName">
+              <n-form-item :label="t('addBank_page_name')" path="accountName">
                 <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
-                  :placeholder="'请输入银行账户名'">
+                  :placeholder="t('paymentManagement_page_enterBank')">
                   <template #suffix>
                     <a class="refresh_icon"></a>
                   </template>
@@ -104,7 +104,7 @@
 
 
               <div class="cz_btn">
-                <a @click="submit"> 确认 </a>
+                <a @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
                 <!--                <a @click="goToDeposit"> 确认 </a>-->
               </div>
               <!--              <div class="error">-->
@@ -134,13 +134,13 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <span class="weight_5 t_md">{{ '请选择银行' }}</span>
+          <span class="weight_5 t_md">{{ t('paymentManagement_page_chBank') }}</span>
           <span class="close abs center pointer t_sm">
             <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md body_sec">
-          <n-input size="large" @input="handleInput" :placeholder="'输入银行名称查找'">
+          <n-input size="large" @input="handleInput" :placeholder="t('deposit_page_inputBank')">
             <template #suffix>
               <a class="refresh_icon search_icon"></a>
             </template>
@@ -216,7 +216,7 @@ const submit = () => {
   }
 
   if (!form.value.accountName) {
-    return Message.error('请输入银行卡账户')
+    return Message.error(t('paymentManagement_page_chName'))
   }
   const req = NetPacket.req_new_bank_card_info();
   req.bank_id = form.value.bank;
@@ -288,9 +288,9 @@ const handleBankId = (params: any) => {
 
 const defaultBankId = (res: any) => {
   if (res.rlt === 1) {
-    Message.error(t('已设为默认'))
+    Message.error(t('paymentManagement_page_setDefaulted'))
   } else {
-    Message.success(t('设置失败'))
+    Message.success(t('paymentManagement_page_setError'))
 
   }
 }
