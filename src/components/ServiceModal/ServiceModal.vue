@@ -41,14 +41,14 @@
             :key="item.id" @click="selectUser(item)">
             <div class="item_left">
               <div class="avatar">
-                <img :src="`/img/head_icons/${item.THeadPhoto}.webp`" alt="" class="img1">
-                <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2">
+                <img :src="`/img/head_icons/${item.THeadPhoto?item.THeadPhoto:'1002'}.webp`" alt="" class="img1">
+                <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
               </div>
               <span>{{ item.TUsername }}</span>
             </div>
             <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
-                <div class="high_proxy">{{ deepObj[item.deep] }}</div>
+                <div class="high_proxy">{{ deepObj[item.deep]||'直属玩家' }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
@@ -122,7 +122,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
 
-    <manageGroup v-model:visible="visibleGroup" />
+    <manageGroup v-model:visible="visibleGroup" :stateData="state" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
   </div>
@@ -145,6 +145,7 @@ import shortcutSettings from './components/shortcutSettings.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
 import usechatHooks from './useHooks';
+import { Message } from "@/utils/discreteApi.ts";
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -170,6 +171,7 @@ const deepObj: any = {
   '-1': '上级代理',
   '1': '下级代理',
   '0': '官方客服',
+
 }
 
 const state: any = reactive({
@@ -177,9 +179,9 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: 10086,// roleInfo.value.id,
+  deviceID: 10031,// roleInfo.value.id,
   requestid: 5000, //对方ID
-  todeviceid: 10085, //对方设备ID
+  todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
   userData: '',
@@ -200,7 +202,7 @@ const decodeContent = (data: any, name: string) => {
 }
 
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, initMessage }: any = usechatHooks(state, IWebsocket, decodeContent)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24,getChatMsg12, initMessage,getListGroup,encodeParams }: any = usechatHooks(state, IWebsocket, decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
@@ -281,8 +283,11 @@ const isShow = computed({
   },
 });
 
+
+// 打开管理分组，获取分组列表
 const manageClick = () => {
   visibleGroup.value = true
+  getListGroup()
 }
 
 // 打开快捷语设置
@@ -313,6 +318,8 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
+
+    console.log(222222222,testMsg.value)
 
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
@@ -358,21 +365,14 @@ const sendMsg = () => {
 
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
-    state.chatMessagesList.push({ date: datatime, role: 1, content: decodedString2.substring(1), name: state.deviceID })
+    msgRef.value.innerHTML = ''
+    state.chatMessagesList.push({ date: datatime, role: 1, content: decodedString2, name: state.deviceID })
   }
 }
 
 
 
-// 编码发送参数
-const encodeParams = (params: any, name: string) => {
-  let item = state.root.lookupType(name)
-  const errMsg = item.verify(params);
-  if (errMsg) throw new Error(errMsg);
-  const message = item.create(params);
-  const buffer = item.encode(message).finish();
-  return buffer;
-}
+
 
 const onOpen = () => {
   const type = 1; // PT_SIGN_IN
@@ -467,6 +467,15 @@ const onMessage: any = async (buffer: any) => {
   // 获取聊天列表
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
+  }
+  //分组列表删除回执
+  else if (decodeobj1.type == 11) {
+    getListGroup()
+    Message.success('操作成功')
+  }
+  // 获取分组列表
+  else if (decodeobj1.type == 12) {
+    getChatMsg12(decodeobj1)
   }
   // 获取客服聊天列表
   else if (decodeobj1.type == 24) {

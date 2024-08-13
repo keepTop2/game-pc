@@ -1,14 +1,17 @@
 import { reactive, onMounted, toRefs } from 'vue';
 
-const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
-  const state_data: any = reactive({
-    ChatGroupListReq: '',
-    Input: null,
+const state_data: any = reactive({
+  ChatGroupListReq: '',
+  Input: null,
 
-    per_page: 50,
-    page: 1,
-    chatitemList: [], // 聊天列表
-  });
+  per_page: 50,
+  page: 1,
+  chatitemList: [], // 聊天列表
+  groupList:[]    // 分组列表
+});
+
+const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
+
 
   const getchatId = () => {
     if (state.deviceID > state.todeviceid) {
@@ -28,7 +31,7 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
       deviceid: state.deviceID,
       groupid: 0,
       page: 1,
-      pagesize: 1,
+      pagesize: 1000,
     };
     //编码消息体
     const errMsg2 = state_data.ChatGroupListReq.verify(payload);
@@ -69,10 +72,13 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
       const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
       state_data.chatitemList = decodeobj00.chatitem;
       const item = state_data.chatitemList[0];
+      console.log(3333333, state_data.chatitemList);
       //如果没有官方的历史聊天记录需要获取一下
       if (item?.iskf != 1) {
         getKfChat();
       }
+    } else {
+      getKfChat();
     }
   };
   //  获取客服信息
@@ -149,17 +155,42 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
     IWebsocket.sendMessageHandler(encodedRequest);
   };
 
+  // 获取分组列表
+  const getListGroup = () => {
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 12; //
+    var payload = {
+      deviceid: state.deviceID,
+      page: 1,
+      pagesize: 100,
+    };
+    const GroupListReq = state.root.lookupType('GroupListReq');
+    const decodedata = GroupListReq.encode(
+      GroupListReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+    //  获取分组列表
+    const getChatMsg12 = (decodeobj1: any) => {
+      const decodeobj00 = decodeContent(decodeobj1.data, 'GroupListRsp');
+      state_data.groupList = decodeobj00.groupitem
+      console.log(3333333,state_data.groupList)
+    };
+
   //处理聊天数据表情
-  const initMessage = (text:any) => {
-    const EMOJI_REMOTE_SRC = "https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64";
+  const initMessage = (text: any) => {
+    const EMOJI_REMOTE_SRC =
+      'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64';
     // 定义一个函数来将特定格式的字符串替换为图片
-    function replaceWithEmojiImages(text:any) {
+    function replaceWithEmojiImages(text: any) {
       // 定义一个正则表达式来匹配 /:1f600:/ 格式的字符串
       const regex = /\/:(.*?):\//g;
 
       // 使用 replace 方法和回调函数进行替换
-      return text.replace(regex, (match:any) => {
-        const value = match.slice(2,-2)
+      return text.replace(regex, (match: any) => {
+        const value = match.slice(2, -2);
         // 构建图片标签
         const imgSrc = `${EMOJI_REMOTE_SRC}/${value}.png`; // 假设图片存储在这个路径
         return `<img data-code="${value}" src="${imgSrc}"  width="23" height="23" class="emoji-img"/>`;
@@ -169,6 +200,16 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
     const outputText = replaceWithEmojiImages(text);
     return outputText;
   };
+
+  // 编码发送参数
+const encodeParams = (params: any, name: string) => {
+  let item = state.root.lookupType(name)
+  const errMsg = item.verify(params);
+  if (errMsg) throw new Error(errMsg);
+  const message = item.create(params);
+  const buffer = item.encode(message).finish();
+  return buffer;
+}
 
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
@@ -181,7 +222,11 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
     getChatMsg24,
     getDateFromat,
     synchistorymsg,
-    initMessage
+    initMessage,
+    getListGroup,
+    getChatMsg12,
+    encodeParams,
+    encodeInput
   };
 };
 export default usechatHooks;
