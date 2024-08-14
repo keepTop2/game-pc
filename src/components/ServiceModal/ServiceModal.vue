@@ -122,7 +122,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
 
-    <manageGroup v-model:visible="visibleGroup" :stateData="state" />
+    <manageGroup v-model:visible="visibleGroup" :stateData="state" :chatitemList="chatitemList" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
   </div>
@@ -362,11 +362,10 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-
+    state.chatMessagesList.push({ date: datatime, role: 1, content:testMsg.value, name: state.deviceID })
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
     msgRef.value.innerHTML = ''
-    state.chatMessagesList.push({ date: datatime, role: 1, content: decodedString2, name: state.deviceID })
   }
 }
 
