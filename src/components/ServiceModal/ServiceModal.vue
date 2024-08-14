@@ -256,16 +256,6 @@ function onSelectEmoji(emoji: any) {
   let img = `/:${emoji.r}:/`
   testMsg.value = testMsg.value + img
   msgRef.value.innerHTML = testMsg.value
-  /*
-    // result
-    { 
-        i: "😚", 
-        n: ["kissing face"], 
-        r: "1f61a", // with skin tone
-        t: "neutral", // skin tone
-        u: "1f61a" // without tone
-    }
-    */
 }
 
 const visibleTransfor = ref(false)
@@ -467,9 +457,13 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 2) {
     getChatMsg2(decodeobj1, 'SyncResp')
   }
-  // 获取聊天列表
+  // 保存分组成功
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
+  }
+    //分组列表删除回执
+    else if (decodeobj1.type == 9) {
+    Message.success('操作成功')
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {

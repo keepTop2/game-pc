@@ -173,6 +173,7 @@ const saveGroup = () => {
   const decodedata = encodeParams(payload, 'ChatGroupModifyReq')
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest)
+  isShow.value = false
 }
 // 删除分组
 const delGroup = (item: any) => {
