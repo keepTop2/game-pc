@@ -5,7 +5,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
     <h4 class="top_title">
-      <span>与{{ state.userData.TUsername }}的聊天</span>
+      <span>与{{ state.userData.TUsername }}的聊天 {{roleInfo.id}}</span>
 
       <i>
         <n-switch v-model:value="active" />
@@ -146,6 +146,9 @@ import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
 import usechatHooks from './useHooks';
 import { Message } from "@/utils/discreteApi.ts";
+import pinia from '@/store/index';
+import { storeToRefs } from 'pinia';
+import { User } from '@/store/user';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -157,7 +160,8 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
-
+const userInfo = User(pinia);
+const { roleInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
 
 const { t } = useI18n();
@@ -179,7 +183,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: 10031,// roleInfo.value.id,
+  deviceID: roleInfo.value.id,// roleInfo.value.id,
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,

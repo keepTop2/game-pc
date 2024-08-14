@@ -98,6 +98,7 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
       id: 99999,
     };
     state_data.chatitemList.unshift(obj);
+    console.log(333333,state_data.chatitemList)
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {
