@@ -177,9 +177,11 @@ enum MessageCStatus {
 
 // 消息同步请求，获取历史消息,packagetype:8获取历史消息
 message SyncHistoryInput {
-  string chatid = 1; // 消息id
-  int32 perpage = 2; // 每页数量
-  int32 page = 3; // 页数
+	string chatid = 1; // 消息id
+	int32 perpage = 2; // 每页数量
+	int32 page = 3; // 页数
+	int64 deviceid = 4; //用户id
+	int32 ctype = 5; //值为1 标识是与客服的聊天历史 其余的值为非客服聊天
 }
 
 
@@ -300,7 +302,7 @@ message QuickPhrasesCModifyReq {
 }
 //快捷语列表 请求协议
 message QuickPhrasesListReq {
-  int64 deviceid = 1; // 设备id
+  int64 deviceid = 1; // 设备id  如果此字段没有或者等于0 则表示是官方的，不能修改删除
   int64 qhcid = 2; // 设备id
   int32 page = 3; // 分页
   int32 pagesize = 4; // 分页参数
@@ -323,7 +325,7 @@ message QuickPhrasesCListRsp {
 message QuickPhrases {
   int64 id = 1; //
   int64 qhcid = 2; //
-  int64 deviceid = 3; //
+  int64 deviceid = 3; // 如果此字段没有或者等于0 则表示是官方的，不能修改删除
   int32 istop = 4; //
   int32 sort = 5; //
   int32 isautorsp = 6; //
