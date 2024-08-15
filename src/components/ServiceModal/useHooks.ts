@@ -1,5 +1,5 @@
 import { reactive, onMounted, toRefs } from 'vue';
-
+import IWebsocket from './chatWS'
 const state_data: any = reactive({
   ChatGroupListReq: '',
   Input: null,
@@ -7,10 +7,13 @@ const state_data: any = reactive({
   per_page: 50,
   page: 1,
   chatitemList: [], // 聊天列表
-  groupList:[]    // 分组列表
+  groupChatitemList: [], // 分组聊天列表
+
+  groupList:[] ,   // 分组列表
+  groupItem:''    // 选中分组
 });
 
-const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
+const usechatHooks = (state?: any) => {
 
 
   const getchatId = () => {
@@ -20,19 +23,30 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
       return state.todeviceid + '-' + state.deviceID; //大的在前小的在后
     }
   };
+  // 解析消息体
+const decodeContent = (data: any, name: string) => {
+  let MessageOutputeItem = state.root.lookupType(name)
+  const buffer1 = new Uint8Array(data);
+  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+
+  return MessageOutputeItem.toObject(decodedMessage2);
+}
+
+
 
   // 获取聊天列表
-  const getChatlist = () => {
+  const getChatlist = (item?:any) => {
     state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     state.requestid++;
     const requestid = state.requestid;
     const type = 13; //
     var payload = {
       deviceid: state.deviceID,
-      groupid: 0,
+      groupid: item?item.id:0,
       page: 1,
       pagesize: 1000,
     };
+    state_data.groupItem = item
     //编码消息体
     const errMsg2 = state_data.ChatGroupListReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);
@@ -70,13 +84,17 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
     //先解析出消息体
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
-      state_data.chatitemList = decodeobj00.chatitem;
-      const item = state_data.chatitemList[0];
+      if (state_data.groupItem&&state_data.groupItem.id) {
+        state_data.groupChatitemList = decodeobj00.chatitem;
+      }else{
+        state_data.chatitemList = decodeobj00.chatitem;
+        const item = state_data.chatitemList[0];
+        if (item?.iskf != 1) {
+          getKfChat();
+        }
+      }
       console.log(3333333, state_data.chatitemList);
       //如果没有官方的历史聊天记录需要获取一下
-      if (item?.iskf != 1) {
-        getKfChat();
-      }
     } else {
       getKfChat();
     }
@@ -98,7 +116,6 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
       id: 99999,
     };
     state_data.chatitemList.unshift(obj);
-    console.log(333333,state_data.chatitemList)
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {
@@ -194,7 +211,7 @@ const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
         const value = match.slice(2, -2);
         // 构建图片标签
         const imgSrc = `${EMOJI_REMOTE_SRC}/${value}.png`; // 假设图片存储在这个路径
-        return `<img data-code="${value}" src="${imgSrc}"  width="23" height="23" class="emoji-img"/>`;
+        return `<img data-code="${value}" src="${imgSrc}"  width="20" height="20" class="emoji-img"/>`;
       });
     }
     // 调用函数进行替换
@@ -227,7 +244,8 @@ const encodeParams = (params: any, name: string) => {
     getListGroup,
     getChatMsg12,
     encodeParams,
-    encodeInput
+    encodeInput,
+    decodeContent
   };
 };
 export default usechatHooks;

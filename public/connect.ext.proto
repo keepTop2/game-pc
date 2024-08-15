@@ -177,9 +177,11 @@ enum MessageCStatus {
 
 // 消息同步请求，获取历史消息,packagetype:8获取历史消息
 message SyncHistoryInput {
-  string chatid = 1; // 消息id
-  int32 perpage = 2; // 每页数量
-  int32 page = 3; // 页数
+	string chatid = 1; // 消息id
+	int32 perpage = 2; // 每页数量
+	int32 page = 3; // 页数
+	int64 deviceid = 4; //用户id
+	int32 ctype = 5; //值为1 标识是与客服的聊天历史 其余的值为非客服聊天
 }
 
 
@@ -189,6 +191,13 @@ message ChatGroupModifyReq {
   int32 sort =  3;    // 排序，在置顶时使用
   int32 istop = 4;    // 是否置顶  1为置顶
   string name =  5;    // 编辑group时候 如果传了这个字段则需要修改
+}
+message ChatGroupModifyRsp {
+  int64 id = 1;         //ID
+  int64 deviceid = 2; //
+  int32 sort =  3;    //
+  int32 istop = 4;    //
+  string name =  5;    //
 }
 message GroupListReq {
   int64 deviceid = 1; // 设备id
@@ -241,6 +250,7 @@ message ChatItem {
   int32 vip = 16; // vip等级
   int64 todeviceid = 17; // 对方设备id
   int64 unreadnums = 18; // 未读消息数
+  int32 agentlevel = 19; // 代理等级
 }
 //获取获取所有聊天列表
 message ChatListRsp {
@@ -265,6 +275,7 @@ message UserRole {
   string headphoto = 5; // 用户头像
   string ip = 6; // 登录ip
   int32 vip = 7; // vip等级
+  int32 agentlevel = 8; // 代理等级
 }
 //用户列表
 message UserRolesRsp {
@@ -300,7 +311,7 @@ message QuickPhrasesCModifyReq {
 }
 //快捷语列表 请求协议
 message QuickPhrasesListReq {
-  int64 deviceid = 1; // 设备id
+  int64 deviceid = 1; // 设备id  如果此字段没有或者等于0 则表示是官方的，不能修改删除
   int64 qhcid = 2; // 设备id
   int32 page = 3; // 分页
   int32 pagesize = 4; // 分页参数
@@ -323,7 +334,7 @@ message QuickPhrasesCListRsp {
 message QuickPhrases {
   int64 id = 1; //
   int64 qhcid = 2; //
-  int64 deviceid = 3; //
+  int64 deviceid = 3; // 如果此字段没有或者等于0 则表示是官方的，不能修改删除
   int32 istop = 4; //
   int32 sort = 5; //
   int32 isautorsp = 6; //

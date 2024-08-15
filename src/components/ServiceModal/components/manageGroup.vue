@@ -14,12 +14,12 @@
           <div class="tips">将不同对话归纳分类，并在它们之间快速切换。</div>
           <div class="group_now">
             <div class="title">当前分组</div>
-            <div class="group_item" v-for="item in groupList" :key="item.id">
+            <div class="group_item" v-for="item in groupList" :key="item.id" @click="editGroup(item)">
               <div class="item_left">
                 <iconpark-icon icon-id="zuocweidy02" size="1.3rem" />
                 <span>{{ item.name }}</span>
               </div>
-              <iconpark-icon icon-id="lajilou" size="1rem" @click="delGroup(item)" class="pointer" />
+              <iconpark-icon icon-id="lajilou" size="1rem" @click.stop="delGroup(item)" class="pointer" />
             </div>
           </div>
           <div class="add_group" @click="addGroup">
@@ -45,14 +45,13 @@
             <div class="list_item" v-for="item in chatitemIdList" :key="item.id">
               <div class="user_info">
                 <div class="avatar">
-                      <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
-                        class="img1">
-                      <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
-                    </div>
-                    <span>{{ item.TUsername }}</span>
+                  <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                  <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                </div>
+                <span>{{ item.TUsername }}</span>
                 <div class="high_proxy">上级代理</div>
               </div>
-              <iconpark-icon icon-id="shanchu" class="pointer"size="0.6rem" @click="delItem(item)" />
+              <iconpark-icon icon-id="shanchu" class="pointer" size="0.6rem" @click="delItem(item)" />
             </div>
           </div>
           <div class="tips">选择会出现在此分组中的对话语分类。</div>
@@ -67,7 +66,7 @@
           <div class="title">对话</div>
           <div class="user_list">
             <n-checkbox-group v-model:value="chatitemIdList">
-              <n-checkbox  :value="item" v-for="item in chatitemList" :key="item.id">
+              <n-checkbox :value="item" v-for="item in itemList" :key="item.id">
                 <div class="list_item">
                   <div class="user_info">
                     <div class="avatar">
@@ -115,7 +114,7 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  chatitemList: {
+  itemList: {
     type: Object,
     default: () => ([]),
   },
@@ -123,23 +122,33 @@ const props = defineProps({
 const emit = defineEmits(['update:visible']);
 const step = ref(1)
 const groupName = ref('')
-const chatitemIdList:any = ref([])
-const { groupList, encodeInput, encodeParams }: any = usechatHooks(props.stateData)
+const editGroupItem = ref()
+const { groupList, encodeInput, encodeParams, decodeContent, getChatlist, groupChatitemList }: any = usechatHooks(props.stateData)
 const stepTitle: any = {
   1: '创建分组',
   2: '分组管理',
   3: '添加对话',
 }
+
+const chatitemIdList: any = ref(groupChatitemList || [])
 //创建分组
 const addGroup = () => {
   step.value = 2
   groupName.value = ''
+  groupChatitemList.value = []
 
+}
+//编辑分组
+const editGroup = (item: any) => {
+  step.value = 2
+  groupName.value = item.name
+  editGroupItem.value = item
+  getChatlist(item)
 }
 //添加对话
 const addUser = () => {
   step.value = 3
-  chatitemIdList.value =[]
+  chatitemIdList.value = []
 
 }
 // 取消保存分组
@@ -148,14 +157,17 @@ const cancelAddGroup = () => {
 }
 
 // 选择对话取消
-const closeChatItem = ()=>{
+const closeChatItem = () => {
   step.value = 2
-  chatitemIdList.value =[]
+  chatitemIdList.value = []
 }
 
 // 删除选择的对话
-const delItem = (item:any)=>{
-  chatitemIdList.value = chatitemIdList.value.filter((op:any)=>op.id!=item.id)
+const delItem = (item: any) => {
+  chatitemIdList.value = chatitemIdList.value.filter((op: any) => op.id != item.id)
+  if (editGroupItem.value && editGroupItem.value.id && editGroupItem.value.id == item.chatgroupid) {
+    editchat(item, { id: -1 })
+  }
 }
 
 // 保存分组
@@ -163,17 +175,23 @@ const saveGroup = () => {
   const state = props.stateData
   state.requestid++;
   const requestid = state.requestid;
-  const type = 9; //
-  var payload = {
+  let type = 9; //
+  var payload: any = {
     deviceid: state.deviceID,
     sort: 1,
     istop: 2,
     name: groupName.value
   }
+  // 编辑分组
+  if (editGroupItem.value && editGroupItem.value.id) {
+    payload.id = editGroupItem.value.id
+    type = 10
+  }
   const decodedata = encodeParams(payload, 'ChatGroupModifyReq')
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest)
   isShow.value = false
+  editGroupItem.value = ''
 }
 // 删除分组
 const delGroup = (item: any) => {
@@ -191,6 +209,37 @@ const delGroup = (item: any) => {
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest);
 }
+// 编辑聊天列表
+const editchat = (item: any, decodeobj00: any) => {//
+  const state = props.stateData
+  const requestid = state.requestid;
+  const type = 14; // 消息同步触发
+  var payload = {
+    id: item.id,
+    deviceid: state.deviceID,
+    chatgroupid: decodeobj00.id,
+    sort: 6,
+    istop: 6,
+    enableflag: 6,
+  }
+  const decodedata = encodeParams(payload, 'ChatItemModifyReq')
+  const encodedRequest = encodeInput(type, requestid, decodedata);
+  IWebsocket.sendMessageHandler(encodedRequest);
+}
+
+//分组列表保存回执处理
+const getChatMsg9 = (decodeobj1: any) => {
+  const decodeobj00 = decodeContent(decodeobj1.data, 'ChatGroupModifyRsp');
+  if (chatitemIdList.value.length) {
+    chatitemIdList.value.forEach((item: any) => {
+      editchat(item, decodeobj00)
+    })
+  }
+}
+
+defineExpose({
+  getChatMsg9
+})
 
 
 const isShow = computed({
@@ -258,7 +307,14 @@ const isShow = computed({
   .group_item {
     margin-top: 12px;
     display: flex;
+    cursor: pointer;
+    padding: 2px 4px;
     justify-content: space-between;
+
+    &:hover {
+      background-color: #422299;
+      border-radius: 3px;
+    }
 
     .item_left {
       display: flex;
@@ -353,7 +409,7 @@ const isShow = computed({
       display: flex;
       align-items: center;
       gap: 10px;
-      color:#ffffff;
+      color: #ffffff;
     }
   }
 
@@ -364,11 +420,13 @@ const isShow = computed({
       width: 100%;
       display: flex;
       align-items: center;
-      .n-checkbox__label{
+
+      .n-checkbox__label {
         display: inline-block;
         width: 100%;
       }
-      .n-checkbox-box{
+
+      .n-checkbox-box {
         border-radius: 50%;
       }
     }

@@ -5,7 +5,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
     <h4 class="top_title">
-      <span>与{{ state.userData.TUsername }}的聊天 {{roleInfo.id}}</span>
+      <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
       <i>
         <n-switch v-model:value="active" />
@@ -16,7 +16,7 @@
     <div class="main_body">
       <!-- 左侧设置 -->
       <div class="left_setting">
-        <div class="set_item" v-for="item in settingList" :key="item.id">
+        <div class="set_item" v-for="item in settingList" :key="item.id" @click="settingClick(item)">
           <n-badge :value="5" :max="15" class="set_item" :show="item.id == 1" :offset="[-17]">
             <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
             <img :src="`/img/serviceModal/${item.img}`" alt="">
@@ -41,14 +41,14 @@
             :key="item.id" @click="selectUser(item)">
             <div class="item_left">
               <div class="avatar">
-                <img :src="`/img/head_icons/${item.THeadPhoto?item.THeadPhoto:'1002'}.webp`" alt="" class="img1">
+                <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
                 <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
               </div>
               <span>{{ item.TUsername }}</span>
             </div>
             <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
-                <div class="high_proxy">{{ deepObj[item.deep]||'直属玩家' }}</div>
+                <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
@@ -81,8 +81,8 @@
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" contenteditable="true"
-              spellcheck="false" autofocus class="input_wrap">
+            <div id="message-input" ref="msgRef" @keydown.enter="sendMsg"  v-html="initMessage(testMsg)" contenteditable="true" spellcheck="false"
+              autofocus class="input_wrap">
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
@@ -122,7 +122,7 @@
     <!-- 快捷语设置 -->
     <shortcutSettings v-model:visible="visibleSetting" />
 
-    <manageGroup v-model:visible="visibleGroup" :stateData="state" :chatitemList="chatitemList" />
+    <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
   </div>
@@ -163,7 +163,7 @@ import { useI18n } from 'vue-i18n';
 const userInfo = User(pinia);
 const { roleInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
-
+const groupRef: any = ref(null)
 const { t } = useI18n();
 const props = defineProps({
   visible: {
@@ -183,7 +183,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: roleInfo.value.id,// roleInfo.value.id,
+  deviceID: roleInfo.value.id,// roleInfo.value.id, //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
@@ -194,19 +194,7 @@ const state: any = reactive({
 
 
 
-
-
-// 解析消息体
-const decodeContent = (data: any, name: string) => {
-  let MessageOutputeItem = state.root.lookupType(name)
-  const buffer1 = new Uint8Array(data);
-  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
-
-  return MessageOutputeItem.toObject(decodedMessage2);
-}
-
-
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24,getChatMsg12, initMessage,getListGroup,encodeParams }: any = usechatHooks(state, IWebsocket, decodeContent)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,decodeContent }: any = usechatHooks(state)
 
 
 const emit = defineEmits(['update:visible']);
@@ -298,6 +286,14 @@ const selectUser = (item: any) => {
   synchistorymsg()
 }
 
+// 设置按钮
+const settingClick = (item: any)=>{
+  if (item.id==3) {
+    manageClick()
+  }
+
+}
+
 
 
 // 发送消息
@@ -312,8 +308,6 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-
-    console.log(222222222,testMsg.value)
 
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
@@ -356,7 +350,7 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    state.chatMessagesList.push({ date: datatime, role: 1, content:testMsg.value, name: state.deviceID })
+    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: state.deviceID })
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
     msgRef.value.innerHTML = ''
@@ -403,7 +397,7 @@ const getChatMsgPublic = (data: any) => {
     date: decodeobj2.sendtime,   // 时间
     role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
     content: decodeobj3.data,   //消息
-    name: decodeobj2.fromdeviceid
+    name:decodeobj2.fromdeviceid == state.deviceID ? '' :  state.userData.TUsername
   }
   if (state.messageType == 4) {    //获取到新消息
     state.chatMessagesList.push(messageObj)
@@ -461,9 +455,11 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
   }
-    //分组列表删除回执
-    else if (decodeobj1.type == 9) {
+  //分组列表保存回执
+  else if (decodeobj1.type == 9) {
     Message.success('操作成功')
+    groupRef.value.getChatMsg9(decodeobj1)
+
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {
@@ -472,6 +468,10 @@ const onMessage: any = async (buffer: any) => {
   }
   // 获取分组列表
   else if (decodeobj1.type == 12) {
+    getChatMsg12(decodeobj1)
+  }
+    // 获取分组列表
+    else if (decodeobj1.type == 12) {
     getChatMsg12(decodeobj1)
   }
   // 获取客服聊天列表

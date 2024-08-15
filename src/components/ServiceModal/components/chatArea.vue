@@ -125,6 +125,7 @@ onMounted(() => {
 
     .user_info {
       display: flex;
+      align-items: center;
       gap: 8px;
 
 
@@ -156,6 +157,9 @@ onMounted(() => {
       margin-top: 12px;
       border-radius: 12px 2px 12px 12px;
       padding: 8px 16px;
+      display: flex;
+      align-items: center;
+       max-width: 450px;
       border: solid 1px #353b5a;
       background-color: #322c59;
     }
