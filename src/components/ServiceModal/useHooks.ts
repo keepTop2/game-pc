@@ -7,7 +7,10 @@ const state_data: any = reactive({
   per_page: 50,
   page: 1,
   chatitemList: [], // 聊天列表
-  groupList:[]    // 分组列表
+  groupList:[],    // 分组列表
+
+  quickPhrasesList:[],  // 快捷语列表
+  QuickPhrasesListReq:[],  // 快捷语列表请求
 });
 
 const usechatHooks = (state?: any, IWebsocket?: any, decodeContent?: any) => {
@@ -212,6 +215,34 @@ const encodeParams = (params: any, name: string) => {
   return buffer;
 }
 
+  // 获取快捷语列表
+  const getShortcutlist = () => {
+    state_data.QuickPhrasesListReq = state.root.lookupType('QuickPhrasesListReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 19; //
+    var payload = {
+      deviceid: state.deviceID,
+      page: 1,
+      pagesize: 100,
+    };
+    //编码消息体
+    const errMsg2 = state_data.QuickPhrasesListReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = state_data.QuickPhrasesListReq.encode(
+      state_data.QuickPhrasesListReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+  // 接收快捷语列表
+  const getShortcutMsg = (decodeobj1: any) => {
+    if (decodeobj1.data) {
+      const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
+      state_data.quickPhrasesList = decodeobj00.chatitem;
+      console.log('快捷语--', state_data.quickPhrasesList);
+    }
+  };
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     // state_data.Input = state.root.lookupType('Input');
@@ -227,7 +258,9 @@ const encodeParams = (params: any, name: string) => {
     getListGroup,
     getChatMsg12,
     encodeParams,
-    encodeInput
+    encodeInput,
+    getShortcutlist,
+    getShortcutMsg,
   };
 };
 export default usechatHooks;

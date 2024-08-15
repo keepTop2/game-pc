@@ -2,8 +2,7 @@
   <!-- 客服聊天弹窗 -->
 
   <div class="main">
-    <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" />
+
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{roleInfo.id}}</span>
 
@@ -206,7 +205,7 @@ const decodeContent = (data: any, name: string) => {
 }
 
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24,getChatMsg12, initMessage,getListGroup,encodeParams }: any = usechatHooks(state, IWebsocket, decodeContent)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24,getChatMsg12, initMessage,getListGroup,encodeParams, getShortcutlist, getShortcutMsg }: any = usechatHooks(state, IWebsocket, decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
@@ -478,6 +477,10 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
   }
+  // 快捷语列表
+  else if (decodeobj1.type == 19) {
+    getShortcutMsg(decodeobj1)
+  }
 
 }
 
@@ -487,6 +490,7 @@ onMounted(async () => {
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
   getChatlist()
+  getShortcutlist()
   // synchistorymsg()
   state.firstIn = true
 
