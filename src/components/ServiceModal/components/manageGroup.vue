@@ -14,12 +14,12 @@
           <div class="tips">将不同对话归纳分类，并在它们之间快速切换。</div>
           <div class="group_now">
             <div class="title">当前分组</div>
-            <div class="group_item">
+            <div class="group_item" v-for="item in groupList" :key="item.id">
               <div class="item_left">
                 <iconpark-icon icon-id="zuocweidy02" size="1.3rem" />
-                <span>工作</span>
+                <span>{{ item.name }}</span>
               </div>
-              <iconpark-icon icon-id="lajilou" size="1rem" />
+              <iconpark-icon icon-id="lajilou" size="1rem" @click="delGroup(item)" class="pointer" />
             </div>
           </div>
           <div class="add_group" @click="addGroup">
@@ -31,7 +31,7 @@
         <div class="group_add" v-if="step == 2">
           <div class="title">分组名称</div>
           <div class="add_name">
-            <n-input v-model:value="edit" placeholder="编辑名称" />
+            <n-input v-model:value="groupName" placeholder="编辑名称" />
             <iconpark-icon icon-id="zuocweidy02" size="1.3rem" />
           </div>
           <div>
@@ -42,37 +42,49 @@
             </div>
           </div>
           <div class="user_list">
-            <div class="list_item">
+            <div class="list_item" v-for="item in chatitemIdList" :key="item.id">
               <div class="user_info">
-                <img :src="`/img/serviceModal/avatar1.webp`" alt="">
-                <span>abc***fds</span>
+                <div class="avatar">
+                      <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                        class="img1">
+                      <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                    </div>
+                    <span>{{ item.TUsername }}</span>
                 <div class="high_proxy">上级代理</div>
               </div>
-              <iconpark-icon icon-id="shanchu" size="0.6rem" />
+              <iconpark-icon icon-id="shanchu" class="pointer"size="0.6rem" @click="delItem(item)" />
             </div>
           </div>
           <div class="tips">选择会出现在此分组中的对话语分类。</div>
           <div class="btn_group">
-            <div class="btn_close">取消</div>
-            <div class="btn_save">保存</div>
+            <div class="btn_close" @click="cancelAddGroup">取消</div>
+            <div class="btn_save" @click="saveGroup">保存</div>
           </div>
         </div>
         <!-- 添加对话 -->
         <div v-if="step == 3">
-          <n-input v-model:value="edit" placeholder="输入对话名称" />
+          <n-input v-model:value="groupName" placeholder="输入对话名称" />
           <div class="title">对话</div>
           <div class="user_list">
-            <div class="list_item" v-for="index in 10" :key="index">
-              <div class="user_info">
-                <img :src="`/img/serviceModal/avatar1.webp`" alt="">
-                <span>abc***fds</span>
-              </div>
-              <div class="high_proxy">上级代理</div>
-            </div>
+            <n-checkbox-group v-model:value="chatitemIdList">
+              <n-checkbox  :value="item" v-for="item in chatitemList" :key="item.id">
+                <div class="list_item">
+                  <div class="user_info">
+                    <div class="avatar">
+                      <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                        class="img1">
+                      <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                    </div>
+                    <span>{{ item.TUsername }}</span>
+                  </div>
+                  <div class="high_proxy">上级代理</div>
+                </div>
+              </n-checkbox>
+            </n-checkbox-group>
           </div>
           <div class="btn_group">
-            <div class="btn_close">取消</div>
-            <div class="btn_save">保存</div>
+            <div class="btn_close" @click="closeChatItem">取消</div>
+            <div class="btn_save" @click="step = 2">保存</div>
           </div>
         </div>
       </div>
@@ -82,6 +94,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import usechatHooks from '../useHooks';
+import IWebsocket from '../chatWS'
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -97,11 +111,20 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  stateData: {
+    type: Object,
+    default: () => ({}),
+  },
+  chatitemList: {
+    type: Object,
+    default: () => ([]),
+  },
 });
 const emit = defineEmits(['update:visible']);
 const step = ref(1)
-const edit = ref('')
-
+const groupName = ref('')
+const chatitemIdList:any = ref([])
+const { groupList, encodeInput, encodeParams }: any = usechatHooks(props.stateData)
 const stepTitle: any = {
   1: '创建分组',
   2: '分组管理',
@@ -110,13 +133,66 @@ const stepTitle: any = {
 //创建分组
 const addGroup = () => {
   step.value = 2
+  groupName.value = ''
 
 }
 //添加对话
 const addUser = () => {
   step.value = 3
+  chatitemIdList.value =[]
 
 }
+// 取消保存分组
+const cancelAddGroup = () => {
+  step.value = 1
+}
+
+// 选择对话取消
+const closeChatItem = ()=>{
+  step.value = 2
+  chatitemIdList.value =[]
+}
+
+// 删除选择的对话
+const delItem = (item:any)=>{
+  chatitemIdList.value = chatitemIdList.value.filter((op:any)=>op.id!=item.id)
+}
+
+// 保存分组
+const saveGroup = () => {
+  const state = props.stateData
+  state.requestid++;
+  const requestid = state.requestid;
+  const type = 9; //
+  var payload = {
+    deviceid: state.deviceID,
+    sort: 1,
+    istop: 2,
+    name: groupName.value
+  }
+  const decodedata = encodeParams(payload, 'ChatGroupModifyReq')
+  const encodedRequest = encodeInput(type, requestid, decodedata);
+  IWebsocket.sendMessageHandler(encodedRequest)
+  isShow.value = false
+}
+// 删除分组
+const delGroup = (item: any) => {
+  const state = props.stateData
+  const requestid = state.requestid;
+  const type = 11; //
+  var payload = {
+    deviceid: state.deviceID,
+    id: item.id,
+    sort: 0,
+    istop: 0,
+    name: "",
+  }
+  const decodedata = encodeParams(payload, 'ChatGroupModifyReq')
+  const encodedRequest = encodeInput(type, requestid, decodedata);
+  IWebsocket.sendMessageHandler(encodedRequest);
+}
+
+
 const isShow = computed({
   get: function () {
     return props.visible;
@@ -158,7 +234,7 @@ const isShow = computed({
 .main_body {
   width: 494px;
   height: 480px;
-  padding: 40px 60px;
+  padding: 40px 50px;
   background-color: #231353;
   box-sizing: border-box;
 }
@@ -205,9 +281,10 @@ const isShow = computed({
 }
 
 .group_add {
- .user_list{
-  height: 150px;
+  .user_list {
+    height: 150px;
   }
+
   .add_name {
     margin-top: 10px;
     gap: 12px;
@@ -231,7 +308,7 @@ const isShow = computed({
 }
 
 .btn_group {
- margin-top: 30px;
+  margin-top: 30px;
   display: flex;
   gap: 34px;
 
@@ -266,6 +343,7 @@ const isShow = computed({
 .user_list {
   height: 270px;
   overflow-y: auto;
+
   .list_item {
     margin-top: 16px;
     display: flex;
@@ -275,6 +353,24 @@ const isShow = computed({
       display: flex;
       align-items: center;
       gap: 10px;
+      color:#ffffff;
+    }
+  }
+
+  &:deep(.n-checkbox-group) {
+    width: 100%;
+
+    .n-checkbox {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      .n-checkbox__label{
+        display: inline-block;
+        width: 100%;
+      }
+      .n-checkbox-box{
+        border-radius: 50%;
+      }
     }
   }
 }
@@ -289,5 +385,16 @@ const isShow = computed({
   // padding: 6px 8px;
   border-radius: 6px;
   background-image: radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.avatar {
+  img {
+    height: 50px;
+    width: 50px;
+  }
 }
 </style>
