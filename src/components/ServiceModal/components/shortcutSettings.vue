@@ -35,7 +35,7 @@
                   </svg>
                 </i>
               </n-flex>
-              <n-input clearable/>
+              <n-input v-model:value="addForm.title" clearable/>
               <span class="add_icon"></span>
             </n-flex>
             <span @click="showSetting" class="button" style="color: #c0c2db">管理类型</span>
@@ -91,7 +91,7 @@
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
             <n-flex align="center" justify="center" class="button">修改</n-flex>
-            <n-flex align="center" justify="center" class="button">保存</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addQuick">保存</n-flex>
           </n-flex>
 
         </div>
@@ -114,7 +114,8 @@ import categoryList from './categoryList.vue';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
-import { Dialog } from "@/utils/discreteApi";
+import {Dialog, Message} from "@/utils/discreteApi";
+import {i} from "vite/dist/node/types.d-aGj9QkWt";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -124,8 +125,11 @@ const props = defineProps({
   },
 });
 const visibleSetting = ref(false) // 类别
-const emit = defineEmits(['update:visible']);
+const emit = defineEmits(['update:visible', 'addModifyQuick']);
 
+const addForm = ref({
+  title: ''
+});
 const curTab: any = ref('0')
 // tag: 所在标签
 const tabArr: any = ref(
@@ -205,12 +209,38 @@ const removeList = (item: any) => {
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
       console.log('---', item)
+      const curP = {
+        id: item.id,
+        mType: 18,
+      }
+      doActionQuick(curP);
     },
     onNegativeClick: () => {
 
     },
   })
 };
+// 新增快捷语
+const addQuick = () => {
+  const curP = {
+    title: addForm.value.title,
+    mType: 16,
+  }
+  if (!curP.title) {
+    return Message.error(t('内容不能为空'));
+  }
+  console.log(addForm.value.title)
+  doActionQuick(curP)
+}
+// 新增编辑删除快捷语
+const doActionQuick = (data: any) => {
+  const params = {
+    mType: data?.mType,
+    id: data?.id || '',
+    title: data?.title || '',
+  }
+  emit('addModifyQuick', params)
+}
 
 </script>
 <style lang="less" scoped>

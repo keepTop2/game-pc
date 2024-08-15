@@ -119,7 +119,9 @@
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" />
+    <shortcutSettings v-model:visible="visibleSetting"
+       @addModifyQuick="addModifyQuick"
+    />
 
     <manageGroup v-model:visible="visibleGroup" :stateData="state" :chatitemList="chatitemList" />
     <!-- 转账弹窗 -->
@@ -205,7 +207,7 @@ const decodeContent = (data: any, name: string) => {
 }
 
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24,getChatMsg12, initMessage,getListGroup,encodeParams, getShortcutlist, getShortcutMsg }: any = usechatHooks(state, IWebsocket, decodeContent)
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24,getChatMsg12, initMessage,getListGroup,encodeParams, getShortcutlist, getShortcutMsg, sendShortcutList }: any = usechatHooks(state, IWebsocket, decodeContent)
 
 
 const emit = defineEmits(['update:visible']);
@@ -481,7 +483,30 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 19) {
     getShortcutMsg(decodeobj1)
   }
+  // 新增快捷语
+  else if (decodeobj1.type == 16) {
+   console.log('----新增快捷语')
+    getShortcutMsg(decodeobj1)
+  }
+  // 编辑快捷语
+  else if (decodeobj1.type == 17) {
+    console.log('----编辑快捷语')
+    getShortcutMsg(decodeobj1)
+  }
+  // 删除快捷语
+  else if (decodeobj1.type == 18) {
+    console.log('----删除快捷语')
+    getShortcutMsg(decodeobj1)
+  }
 
+}
+// 快捷语增删改查
+const addModifyQuick = (data: any) => {
+  console.log('-----===', data)
+  if (!data.mType) {
+    return
+  }
+  sendShortcutList(data)
 }
 
 onMounted(async () => {
