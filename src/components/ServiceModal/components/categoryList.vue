@@ -14,7 +14,7 @@
             <span>添加类型</span>
             <n-flex class="input_box">
               <n-input v-model:value="addForm.title" clearable/>
-              <span class="add_icon"></span>
+              <span class="add_icon button" @click="addNewLine"></span>
             </n-flex>
           </n-flex>
 
@@ -26,17 +26,24 @@
               <span>操作</span>
             </n-flex>
             <div class="table_body">
-              <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
-                <n-flex justify="center" class="list_lx">
-                  <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效" style="text-align: left"/>
-                </n-flex>
-                <span class="list_kjy">
+              <div class="nodata" v-if="!dataCateList.length">
+                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <div>{{ t('home_page_nomore_data') }}</div>
+              </div>
+              <div v-else>
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList" :key="index">
+                  <n-flex justify="center" class="list_lx">
+                    <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效" style="text-align: left"/>
+                  </n-flex>
+                  <span class="list_kjy">
                   {{item?.num || 0}}
                 </span>
-                <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
+                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
                   删除
                 </span>
-              </n-flex>
+                </n-flex>
+              </div>
+
             </div>
 
           </div>
@@ -80,7 +87,8 @@ const emit = defineEmits(['update:visible', 'addModifyCateQuick']);
 const addForm = ref({
   title: ''
 });
-const dataList: any = ref([]);
+const isLoading = ref(false);
+const dataCateList: any = ref([]);
 
 const isShow = computed({
   get: function () {
@@ -95,7 +103,7 @@ const closeWin = () => {
   isShow.value = false
 }
 // 删除
-const removeList = (item: any) => {
+const removeList = (item: any, index: number) => {
   Dialog.warning({
     showIcon: false,
     title: t('paymentManagement_page_tips'),
@@ -104,43 +112,73 @@ const removeList = (item: any) => {
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
       console.log('---', item)
-      const curP = {
-        ...item,
-        mType: 22, // 20 新增，21 修改，22 删除
+      // 接口的数据，需要调接口
+      if (item.id) {
+        const curP = {
+          ...item,
+          mType: 22, // 20 新增，21 修改，22 删除
+        }
+        doActionCateQuick(curP);
+      } else { // 前端添加的数据，直接删除
+        dataCateList.value.splice(index, 1)
       }
-      doActionCateQuick(curP);
     },
     onNegativeClick: () => {
 
     },
   })
 };
-
-// 新增快捷语
-const addCateQuick = () => {
-  const curP = {
+// 新增一行
+const addNewLine = () => {
+  const obj = {
     title: addForm.value.title,
     mType: 20, // 20 新增，21 修改，22 删除
   }
-  if (!curP.title) {
+  if (!obj.title) {
     return Message.error(t('内容不能为空'));
   }
-  console.log(addForm.value.title)
-  doActionCateQuick(curP)
+  dataCateList.value.push(obj)
+  addForm.value.title = ''; // 清空
+}
+// 新增快捷语
+const addCateQuick = () => {
+  if (isLoading.value) return
+
+  isLoading.value = true;
+  dataCateList.value.map((item: any) => {
+    // 这是编辑的数据
+    if (item.id) {
+      console.log('编辑快捷语分类哈哈哈--')
+      const curP = {
+        ...item,
+        mType: 21, // 20 新增，21 修改，22 删除
+      }
+      doActionCateQuick(curP)
+    } else {  // 这是新增的数据
+      console.log('新增快捷语分类啊啊啊--')
+      const curP = {
+        ...item,
+        mType: 20, // 20 新增，21 修改，22 删除
+      }
+      doActionCateQuick(curP)
+    }
+  })
+  console.log(dataCateList.value)
+  setTimeout(() => {
+    isLoading.value = false
+  }, 5 * 1000)
 }
 // 新增编辑删除快捷语
 const doActionCateQuick = (data: any) => {
   const params = {
-    mType: data?.mType,
-    id: data?.id,
-    title: data?.title || '',
+    ...data,
   }
   emit('addModifyCateQuick', params)
 }
 
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
-    dataList.value = n;
+    dataCateList.value = n;
   }
 })
 

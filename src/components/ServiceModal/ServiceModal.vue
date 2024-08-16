@@ -488,29 +488,27 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
   }
+
+  // 新增，修改，删除快捷语，重新请求列表
+  else if ([16, 17, 18].includes(decodeobj1.type)) {
+    console.log('----更新快捷语')
+    getShortcutlist();
+  }
   // 快捷语列表
-  else if (decodeobj1.type == 19) {
-    getShortcutMsg(decodeobj1)
-  }
-  // 新增快捷语，重新请求列表
-  else if (decodeobj1.type == 16) {
-    console.log('----新增快捷语')
-    getShortcutMsg(decodeobj1)
-  }
-  // 编辑快捷语，重新请求列表
-  else if (decodeobj1.type == 17) {
-    console.log('----编辑快捷语')
-    getShortcutMsg(decodeobj1)
-  }
-  // 删除快捷语，重新请求列表
-  else if (decodeobj1.type == 18) {
-    console.log('----删除快捷语')
+  else if ([19].includes(decodeobj1.type)) {
+    console.log('----获取快捷语')
     getShortcutMsg(decodeobj1)
   }
   // 快捷语--分类列表，重新请求列表
-  else if ([20, 21, 22, 23].includes(decodeobj1.type)) {
+  else if ([20, 21, 22].includes(decodeobj1.type)) {
     console.log('----更新快捷语分类')
-    getShortcutCateMsg(decodeobj1)
+    Message.success(t('proxy_page_caoZuo'));
+    getShortcutCatelist();
+  }
+  // 快捷语--分类列表，重新请求列表
+  else if ([23].includes(decodeobj1.type)) {
+    console.log('----获取快捷语分类')
+    getShortcutCateMsg(decodeobj1);
   }
 
 }

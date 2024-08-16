@@ -285,6 +285,7 @@ const usechatHooks = (state?: any) => {
     console.log('快捷语解析前--', decodeobj1)
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
+      console.log('-----***', decodeobj00)
       state_data.quickPhrasesList = decodeobj00.chatitem;
       console.log('快捷语解析后==', state_data.quickPhrasesList);
     }
