@@ -2,8 +2,7 @@
   <!-- 客服聊天弹窗 -->
 
   <div class="main">
-    <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" />
+
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
@@ -81,7 +80,7 @@
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div id="message-input" ref="msgRef"   v-html="initMessage(testMsg)" contenteditable="true" spellcheck="false"
+            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" contenteditable="true" spellcheck="false"
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
@@ -120,7 +119,7 @@
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" />
+    <shortcutSettings v-model:visible="visibleSetting" @addModifyQuick="addModifyQuick" />
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
     <!-- 转账弹窗 -->
@@ -194,7 +193,10 @@ const state: any = reactive({
 
 
 
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,decodeContent }: any = usechatHooks(state)
+
+
+
+const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams, getShortcutlist, getShortcutMsg, sendShortcutList, decodeContent }: any = usechatHooks(state)
 
 
 const emit = defineEmits(['update:visible']);
@@ -287,8 +289,8 @@ const selectUser = (item: any) => {
 }
 
 // 设置按钮
-const settingClick = (item: any)=>{
-  if (item.id==3) {
+const settingClick = (item: any) => {
+  if (item.id == 3) {
     manageClick()
   }
 
@@ -308,7 +310,7 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-    console.log(222222222,testMsg.value)
+    console.log(222222222, testMsg.value)
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -350,7 +352,7 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name:'' })
+    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
     msgRef.value.innerHTML = ''
@@ -397,7 +399,7 @@ const getChatMsgPublic = (data: any) => {
     date: decodeobj2.sendtime,   // 时间
     role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
     content: decodeobj3.data,   //消息
-    name:decodeobj2.fromdeviceid == state.deviceID ? '' :  state.userData.TUsername
+    name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
   }
   if (state.messageType == 4) {    //获取到新消息
     state.chatMessagesList.push(messageObj)
@@ -470,15 +472,42 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 12) {
     getChatMsg12(decodeobj1)
   }
-    // 获取分组列表
-    else if (decodeobj1.type == 12) {
+  // 获取分组列表
+  else if (decodeobj1.type == 12) {
     getChatMsg12(decodeobj1)
   }
   // 获取客服聊天列表
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
   }
+  // 快捷语列表
+  else if (decodeobj1.type == 19) {
+    getShortcutMsg(decodeobj1)
+  }
+  // 新增快捷语
+  else if (decodeobj1.type == 16) {
+    console.log('----新增快捷语')
+    getShortcutMsg(decodeobj1)
+  }
+  // 编辑快捷语
+  else if (decodeobj1.type == 17) {
+    console.log('----编辑快捷语')
+    getShortcutMsg(decodeobj1)
+  }
+  // 删除快捷语
+  else if (decodeobj1.type == 18) {
+    console.log('----删除快捷语')
+    getShortcutMsg(decodeobj1)
+  }
 
+}
+// 快捷语增删改查
+const addModifyQuick = (data: any) => {
+  console.log('-----===', data)
+  if (!data.mType) {
+    return
+  }
+  sendShortcutList(data)
 }
 
 onMounted(async () => {
@@ -487,6 +516,7 @@ onMounted(async () => {
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
   getChatlist()
+  getShortcutlist()
   // synchistorymsg()
   state.firstIn = true
 
