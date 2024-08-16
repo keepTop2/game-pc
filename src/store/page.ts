@@ -19,6 +19,7 @@ interface PageState {
     bankListInfo: any,
     adminI18n: any,
     lang: string;
+    unread: number
 }
 const languages: any = {
     zh: 'zh',
@@ -41,8 +42,27 @@ export const Page = defineStore('page', {
         bankListInfo: [],
         adminI18n: null,
         lang: 'zh',
+        unread: 0,
     }),
     actions: {
+        // 获取未读消息数量
+        async getUnread() {
+            this.unread = 0
+            const customer_server: any = this.$state.settings?.customer_server
+            const device_id = localStorage.getItem('device_id')
+            if (customer_server && device_id) {
+                fetch(customer_server + `/api/message/unread?device_id=${device_id}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json(); // 将响应解析为 JSON
+                    })
+                    .then(res => {
+                        this.unread = res?.data?.count || 0
+                    })
+            }
+        },
         // 获取标签下拉选择框数据
         async setMenuActive(value: number, name: string) {
             Local.set('menuActive', value)
@@ -122,15 +142,15 @@ export const Page = defineStore('page', {
         },
 
         async setBankListInfo(v: any, statusArr: any) {
-          // 添加银行维护状态，0 维护，1 开启
+            // 添加银行维护状态，0 维护，1 开启
             const data = v.map((item: any, index: number) => {
-              return {
-                value: item.bank_id,
-                label: item.bank_name,
-                status: statusArr[index]
-              }
+                return {
+                    value: item.bank_id,
+                    label: item.bank_name,
+                    status: statusArr[index]
+                }
             }).sort((a: any, b: any) => {
-              return b.status - a.status
+                return b.status - a.status
             });
             this.bankListInfo = [...data];
         },

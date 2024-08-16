@@ -1,0 +1,42 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>...</title>
+    <script>
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        const deviceId = params.get('device_id');
+        if (deviceId) {
+            localStorage.setItem('device_id', deviceId)
+            getConfig()
+        } else {
+            location.href = '/'
+        }
+        async function getConfig() {
+            const settingsRes = await fetch('/settings.json?' + new Date().getTime())
+            const settings = await settingsRes.json()
+            console.error(settings)
+            if (settings.customer_server) {
+                // 获取角色
+                fetch(settings.customer_server + `/api/user/info?device_id=${deviceId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json(); // 将响应解析为 JSON
+                    })
+                    .then(res => {
+                        const agent_level = res?.data?.agent_level
+                        console.error('角色', agent_level)
+                    })
+            }
+        }
+
+    </script>
+</head>
+
+<body></body>
+
+</html>

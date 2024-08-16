@@ -233,6 +233,8 @@ onMounted(async () => {
   await page.setLang(Local.get('lang'))
 
 })
+
+
 </script>
 <style lang="less" scoped>
 .hold {
