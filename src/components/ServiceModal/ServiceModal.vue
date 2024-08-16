@@ -52,7 +52,7 @@
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
-                <div v-show="o.id == 4">
+                <div >
                   {{ selectList[3].name }}
                 </div>
               </div>
