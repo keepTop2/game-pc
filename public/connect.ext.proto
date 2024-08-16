@@ -25,12 +25,13 @@ enum PackageType {
     PT_MESSAGE_DELQPH = 18; // 删除
     PT_MESSAGE_LISTQPH = 19; // 列表
   
-    PT_MESSAGE_ADDQPHC = 20; // 新增快捷语分类
-    PT_MESSAGE_EDITQPHC = 21; // 修改
-    PT_MESSAGE_DELQPHC = 22; // 删除
-    PT_MESSAGE_LISTQPHC = 23; // 列表
+	PT_MESSAGE_ADDQPHC = 20; // 新增快捷语分类
+	PT_MESSAGE_EDITQPHC = 21; // 修改
+	PT_MESSAGE_DELQPHC = 22; // 删除
+	PT_MESSAGE_LISTQPHC = 23; // 列表
 	PT_MESSAGE_GETKF = 24; // 获取客服deviceid
-
+	PT_MESSAGE_MUTE = 25; // 禁言解禁操作
+	PT_MESSAGE_FORBID = 26; // 禁止解除禁止的操作
 
 }
 
@@ -346,4 +347,18 @@ message QuickPhrasesC {
   int64 deviceid = 2; //
   int32 sort = 3; //
   string title = 4; //
+}
+//禁言解禁请求
+message MuteReq {
+  int64 deviceid = 1; // 设备id
+  string ip = 2; // ip
+  int32 mtype = 3; // 操作类型 1 禁言用户 2禁言ip   3解封用户 4解封ip
+  int32 days = 4; // 天数
+}
+//解封解封请求
+message ForbidReq {
+  int64 deviceid = 1; // 设备id
+  string ip = 2; // ip
+  int32 mtype = 3; // 操作类型 1 封禁用户 2封禁ip   3解封用户 4解封ip
+  int32 days = 4; // 天数
 }
