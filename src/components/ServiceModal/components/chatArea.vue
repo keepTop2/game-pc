@@ -12,7 +12,7 @@
               <span class="date">{{ item.date }}</span>
             </div>
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
-              v-html="initMessage(item.content)">
+              v-html="initMessage(item.content)" @click="showImg(item.content)">
             </div>
             <!-- 转账 -->
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-else class="money">
@@ -75,7 +75,9 @@ watch(() => newValue.value, () => {
 
 const chatContentRef: any = ref(null)
 const show = ref(false)
-
+const showImg = (content:any)=>{
+console.log(333222,content)
+}
 
 onMounted(() => {
   show.value = true
