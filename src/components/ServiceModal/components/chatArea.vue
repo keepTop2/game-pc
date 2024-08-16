@@ -12,7 +12,13 @@
               <span class="date">{{ item.date }}</span>
             </div>
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
-              v-html="initMessage(item.content)" @click="showImg(item.content)">
+              @click="showImg(item.content)">
+              <div v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1"></div>
+              <!-- 图片视频 -->
+              <div v-else>
+                <n-image v-if="item.content.indexOf('storage/uploadss/image') == -1" width="140" :src="item.content"
+                  :previewed-img-props="{ style: { border: '8px solid white' } }" />
+              </div>
             </div>
             <!-- 转账 -->
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-else class="money">
@@ -75,8 +81,8 @@ watch(() => newValue.value, () => {
 
 const chatContentRef: any = ref(null)
 const show = ref(false)
-const showImg = (content:any)=>{
-console.log(333222,content)
+const showImg = (content: any) => {
+  console.log(333222, content)
 }
 
 onMounted(() => {
@@ -161,7 +167,7 @@ onMounted(() => {
       padding: 8px 16px;
       display: flex;
       align-items: center;
-       max-width: 450px;
+      max-width: 450px;
       border: solid 1px #353b5a;
       background-color: #322c59;
     }

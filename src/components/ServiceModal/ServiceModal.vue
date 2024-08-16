@@ -222,7 +222,7 @@ const beforeUpload = (data: any) => {
     .then(response => response.json()).then(response => {
      if (response.status==200) {
        const urlImg = 'http://18.162.112.52:8031/'+response.data.path
-       msgRef.value.innerHTML =  `<img  src="${urlImg}" width="200" height="140" />`;
+       msgRef.value.innerHTML =  urlImg;
        sendMsg()
      }
     })
