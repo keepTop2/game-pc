@@ -13,7 +13,7 @@
           <n-flex align="center" class="input_top">
             <span>添加类型</span>
             <n-flex class="input_box">
-              <n-input clearable/>
+              <n-input v-model:value="addForm.title" clearable/>
               <span class="add_icon"></span>
             </n-flex>
           </n-flex>
@@ -28,10 +28,10 @@
             <div class="table_body">
               <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
                 <n-flex justify="center" class="list_lx">
-                  <n-input v-model:value="item.content" placeholder="可直接修改类别，保存后生效" style="text-align: left"/>
+                  <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效" style="text-align: left"/>
                 </n-flex>
                 <span class="list_kjy">
-                  88
+                  {{item?.num || 0}}
                 </span>
                 <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
                   删除
@@ -43,7 +43,7 @@
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
             <n-flex align="center" justify="center" @click="closeWin" class="button">关闭</n-flex>
-            <n-flex align="center" justify="center" class="button">保存</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addCateQuick">保存</n-flex>
           </n-flex>
 
         </div>
@@ -54,16 +54,15 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
 // import { NetPacket } from '@/netBase/NetPacket';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
-// import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
-import { Dialog } from "@/utils/discreteApi";
+import {Dialog, Message} from "@/utils/discreteApi";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -71,21 +70,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  quickPhrasesCateList: {
+    type: Array,
+    default: [],
+  }
 });
-const emit = defineEmits(['update:visible']);
+const emit = defineEmits(['update:visible', 'addModifyCateQuick']);
 
-const dataList: any = ref(
-  [
-    { type: 'deposit', content: '充值' },
-    { type: 'withdraw', content: '12e2' },
-    { type: 'deposit', content: '充值6565' },
-    { type: 'bet', content: '77878' },
-    { type: 'deposit', content: '77878' },
-    { type: 'agent', content: '77878' },
-    { type: 'visit', content: '77878' },
-    { type: 'withdraw', content: '77878' },
-  ]
-);
+const addForm = ref({
+  title: ''
+});
+const dataList: any = ref([]);
 
 const isShow = computed({
   get: function () {
@@ -101,7 +96,6 @@ const closeWin = () => {
 }
 // 删除
 const removeList = (item: any) => {
-  console.log(item);
   Dialog.warning({
     showIcon: false,
     title: t('paymentManagement_page_tips'),
@@ -110,12 +104,45 @@ const removeList = (item: any) => {
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
       console.log('---', item)
+      const curP = {
+        ...item,
+        mType: 22, // 20 新增，21 修改，22 删除
+      }
+      doActionCateQuick(curP);
     },
     onNegativeClick: () => {
 
     },
   })
 };
+
+// 新增快捷语
+const addCateQuick = () => {
+  const curP = {
+    title: addForm.value.title,
+    mType: 20, // 20 新增，21 修改，22 删除
+  }
+  if (!curP.title) {
+    return Message.error(t('内容不能为空'));
+  }
+  console.log(addForm.value.title)
+  doActionCateQuick(curP)
+}
+// 新增编辑删除快捷语
+const doActionCateQuick = (data: any) => {
+  const params = {
+    mType: data?.mType,
+    id: data?.id,
+    title: data?.title || '',
+  }
+  emit('addModifyCateQuick', params)
+}
+
+watch(() => props.quickPhrasesCateList, (n) => {
+  if (n.length) {
+    dataList.value = n;
+  }
+})
 
 </script>
 <style lang="less" scoped>

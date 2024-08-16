@@ -97,7 +97,7 @@
         </div>
       </div>
       <!-- 快捷语设置 -->
-      <categoryList v-model:visible="visibleSetting"/>
+<!--      <categoryList v-model:visible="visibleSetting"/>-->
 
     </n-card>
   </n-modal>
@@ -105,7 +105,7 @@
 
 <script setup lang="ts">
 import {computed, ref} from 'vue';
-import categoryList from './categoryList.vue';
+// import categoryList from './categoryList.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -115,7 +115,6 @@ import categoryList from './categoryList.vue';
 // import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
 import {Dialog, Message} from "@/utils/discreteApi";
-import {i} from "vite/dist/node/types.d-aGj9QkWt";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -124,8 +123,8 @@ const props = defineProps({
     default: false,
   },
 });
-const visibleSetting = ref(false) // 类别
-const emit = defineEmits(['update:visible', 'addModifyQuick']);
+// const visibleSetting = ref(false) // 类别
+const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']);
 
 const addForm = ref({
   title: ''
@@ -177,7 +176,8 @@ const isShow = computed({
 });
 // 打开类别设置
 const showSetting = () => {
-  visibleSetting.value = true
+  // visibleSetting.value = true
+  emit('showCateSetting')
 }
 const clickTab = (e: any) => {
   curTab.value = e;
