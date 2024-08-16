@@ -81,7 +81,7 @@
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div id="message-input" ref="msgRef" @keydown.enter="sendMsg"  v-html="initMessage(testMsg)" contenteditable="true" spellcheck="false"
+            <div id="message-input" ref="msgRef"   v-html="initMessage(testMsg)" contenteditable="true" spellcheck="false"
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
@@ -299,7 +299,7 @@ const settingClick = (item: any)=>{
 // 发送消息
 const sendMsg = () => {
   testMsg.value = msgRef.value.innerHTML
-  if (testMsg.value !== '') {
+  if (testMsg.value != '') {
     const type = 6; // 给用户发消息
     state.requestid++;
     const requestid = state.requestid;
@@ -308,7 +308,7 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-
+    console.log(222222222,testMsg.value)
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -350,7 +350,7 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: state.deviceID })
+    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name:'' })
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
     msgRef.value.innerHTML = ''
