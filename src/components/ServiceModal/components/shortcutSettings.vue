@@ -21,22 +21,22 @@
             <n-flex class="input_box">
               <!-- 下拉选择-->
               <div v-show="showSelect" class="select_list">
-                <n-flex align="center" justify="center" :class="`select_item ${ite.value === curType ? 'active' : ''}`"
-                        @click="clickSelect(ite.value)"
-                        v-for="(ite, idx) in typeArr"
+                <n-flex align="center" justify="center" :class="`select_item ${ite.id === curType ? 'active' : ''}`"
+                        @click="clickSelect(ite.id)"
+                        v-for="(ite, idx) in dataCateList"
                         :key="idx">
-                  {{ite.label}}
+                  {{ite.title}}
                 </n-flex>
               </div>
               <n-flex align="center" justify="center" class="n_select" @click="clickShowSelect">
-                {{typeArr.find((item: any) => item.value === curType)?.label}}
+                {{dataCateList.find((item: any) => item.id === curType)?.title}}
                 <i :class="`n-base-icon n-base-suffix__arrow ${showSelect ? 'selectIcon' : ''}`">
                   <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.14645 5.64645C3.34171 5.45118 3.65829 5.45118 3.85355 5.64645L8 9.79289L12.1464 5.64645C12.3417 5.45118 12.6583 5.45118 12.8536 5.64645C13.0488 5.84171 13.0488 6.15829 12.8536 6.35355L8.35355 10.8536C8.15829 11.0488 7.84171 11.0488 7.64645 10.8536L3.14645 6.35355C2.95118 6.15829 2.95118 5.84171 3.14645 5.64645Z" fill="currentColor"></path>
                   </svg>
                 </i>
               </n-flex>
-              <n-input clearable/>
-              <span class="add_icon"></span>
+              <n-input v-model:value="addForm.title" clearable/>
+              <span class="add_icon button" @click="addNewLine"></span>
             </n-flex>
             <span @click="showSetting" class="button" style="color: #c0c2db">管理类型</span>
           </n-flex>
@@ -51,61 +51,68 @@
               <span>操作</span>
             </n-flex>
             <div class="table_body">
-              <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
-                <n-flex justify="center" class="list_lx">
-                  <!-- 下拉选择-->
-                  <div v-show="item.showSelect" class="select_list">
-                    <n-flex align="center" justify="center" :class="`select_item ${ite.value === item.type ? 'active' : ''}`"
-                            @click="clickSelectList(ite.value, index)"
-                            v-for="(ite, idx) in typeArr"
-                            :key="idx">
-                      {{ite.label}}
+              <div class="nodata" v-if="!dataList.length">
+                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <div>{{ t('home_page_nomore_data') }}</div>
+              </div>
+              <div v-else>
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
+                  <n-flex justify="center" class="list_lx">
+                    <!-- 下拉选择-->
+                    <div v-show="item.showSelect" class="select_list">
+                      <n-flex align="center" justify="center" :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
+                              @click="clickSelectList(ite.id, index)"
+                              v-for="(ite, idx) in dataCateList"
+                              :key="idx">
+                        {{ite.title}}
+                      </n-flex>
+                    </div>
+                    <n-flex align="center" justify="center" class="n_select n_select_list" @click="clickShowSelectList(index)">
+                      {{dataCateList.find((ite: any) => ite.id === item.qhcid)?.title}}
+                      <i :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.14645 5.64645C3.34171 5.45118 3.65829 5.45118 3.85355 5.64645L8 9.79289L12.1464 5.64645C12.3417 5.45118 12.6583 5.45118 12.8536 5.64645C13.0488 5.84171 13.0488 6.15829 12.8536 6.35355L8.35355 10.8536C8.15829 11.0488 7.84171 11.0488 7.64645 10.8536L3.14645 6.35355C2.95118 6.15829 2.95118 5.84171 3.14645 5.64645Z" fill="currentColor"></path>
+                        </svg>
+                      </i>
                     </n-flex>
-                  </div>
-                  <n-flex align="center" justify="center" class="n_select n_select_list" @click="clickShowSelectList(index)">
-                    {{typeArr.find((ite: any) => ite.value === item.type)?.label}}
-                    <i :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
-                      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.14645 5.64645C3.34171 5.45118 3.65829 5.45118 3.85355 5.64645L8 9.79289L12.1464 5.64645C12.3417 5.45118 12.6583 5.45118 12.8536 5.64645C13.0488 5.84171 13.0488 6.15829 12.8536 6.35355L8.35355 10.8536C8.15829 11.0488 7.84171 11.0488 7.64645 10.8536L3.14645 6.35355C2.95118 6.15829 2.95118 5.84171 3.14645 5.64645Z" fill="currentColor"></path>
-                      </svg>
-                    </i>
                   </n-flex>
-                </n-flex>
-                <span class="list_kjy">
+                  <span class="list_kjy">
                    <n-input v-model:value="item.content" placeholder="此处修改快捷语" style="text-align: left" clearable/>
                 </span>
-                <n-flex class="list_item" justify="center">
-                   <n-switch class="switch" v-model:value="item.isPin">
-                  </n-switch>
-                </n-flex>
-                <n-flex class="list_item" justify="center">
-                  <n-switch class="switch" v-model:value="item.isAutomatic">
-                  </n-switch>
-                </n-flex>
-                <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
+                  <n-flex class="list_item" justify="center">
+                    <n-switch class="switch" v-model:value="item.istop">
+                    </n-switch>
+                  </n-flex>
+                  <n-flex class="list_item" justify="center">
+                    <n-switch class="switch" v-model:value="item.isautorsp">
+                    </n-switch>
+                  </n-flex>
+                  <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
                   删除
                 </span>
-              </n-flex>
+                </n-flex>
+              </div>
+
             </div>
 
           </div>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
             <n-flex align="center" justify="center" class="button">修改</n-flex>
-            <n-flex align="center" justify="center" class="button">保存</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addQuick">保存</n-flex>
           </n-flex>
 
         </div>
       </div>
       <!-- 快捷语设置 -->
-      <categoryList v-model:visible="visibleSetting"/>
+<!--      <categoryList v-model:visible="visibleSetting"/>-->
 
     </n-card>
   </n-modal>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
-import categoryList from './categoryList.vue';
+import {computed, ref, watch} from 'vue';
+// import categoryList from './categoryList.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -114,7 +121,7 @@ import categoryList from './categoryList.vue';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
-import { Dialog } from "@/utils/discreteApi";
+import {Dialog, Message} from "@/utils/discreteApi";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -122,10 +129,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  quickPhrasesCateList: {
+    type: Array,
+    default: [],
+  }
 });
-const visibleSetting = ref(false) // 类别
-const emit = defineEmits(['update:visible']);
+// const visibleSetting = ref(false) // 类别
+const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']);
 
+const addForm = ref({
+  title: ''
+});
 const curTab: any = ref('0')
 // tag: 所在标签
 const tabArr: any = ref(
@@ -139,27 +153,19 @@ const tabArr: any = ref(
   ]
 );
 const showSelect = ref(false);
-const curType: any = ref('deposit')
-const typeArr: any = ref(
-  [
-    { label: '充值', value: 'deposit' },
-    { label: '提款', value: 'withdraw' },
-    { label: '投注', value: 'bet' },
-    { label: '代理', value: 'agent' },
-    { label: '活动', value: 'promo' },
-    { label: '来访', value: 'visit' },
-  ]
-);
+const curType: any = ref('');
+const isLoading = ref(false);
+const dataCateList: any = ref([]); // 快捷语分类列表
 const dataList: any = ref(
   [
-    { type: 'deposit', content: '充值', isPin: false, isAutomatic: false },
-    { type: 'withdraw', content: '12e2', isPin: true, isAutomatic: false },
-    { type: 'deposit', content: '充值6565', isPin: true, isAutomatic: true },
-    { type: 'bet', content: '77878', isPin: false, isAutomatic: true },
-    { type: 'deposit', content: '77878', isPin: false, isAutomatic: true },
-    { type: 'agent', content: '77878', isPin: false, isAutomatic: true },
-    { type: 'visit', content: '77878', isPin: false, isAutomatic: true },
-    { type: 'withdraw', content: '77878', isPin: false, isAutomatic: true },
+    // { type: 'deposit', content: '充值', isPin: false, isAutomatic: false },
+    // { type: 'withdraw', content: '12e2', isPin: true, isAutomatic: false },
+    // { type: 'deposit', content: '充值6565', isPin: true, isAutomatic: true },
+    // { type: 'bet', content: '77878', isPin: false, isAutomatic: true },
+    // { type: 'deposit', content: '77878', isPin: false, isAutomatic: true },
+    // { type: 'agent', content: '77878', isPin: false, isAutomatic: true },
+    // { type: 'visit', content: '77878', isPin: false, isAutomatic: true },
+    // { type: 'withdraw', content: '77878', isPin: false, isAutomatic: true },
   ]
 );
 
@@ -173,7 +179,8 @@ const isShow = computed({
 });
 // 打开类别设置
 const showSetting = () => {
-  visibleSetting.value = true
+  // visibleSetting.value = true
+  emit('showCateSetting')
 }
 const clickTab = (e: any) => {
   curTab.value = e;
@@ -195,7 +202,7 @@ const clickSelectList = (e: any, index: any) => {
   dataList.value[index].showSelect = false;
 }
 // 删除
-const removeList = (item: any) => {
+const removeList = (item: any, index: number) => {
   console.log(item);
   Dialog.warning({
     showIcon: false,
@@ -205,12 +212,80 @@ const removeList = (item: any) => {
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
       console.log('---', item)
+      // 接口的数据，需要调接口
+      if (item.id) {
+        const curP = {
+          ...item,
+          mType: 18, // 16 新增，17 修改，18 删除
+        }
+        doActionQuick(curP);
+      } else { // 前端添加的数据，直接删除
+        dataList.value.splice(index, 1)
+      }
+
     },
     onNegativeClick: () => {
 
     },
   })
 };
+// 新增一行
+const addNewLine = () => {
+  const obj = {
+    content: addForm.value.title,
+    mType: 16, // 16 新增，17 修改，18 删除
+    qhcid: curType.value, // 分类id
+    istop: 2, //1为置顶 其余值不置顶
+    isautorsp: 1, //是否是自动回复 前端用的
+  }
+  if (!obj.content) {
+    return Message.error(t('内容不能为空'));
+  }
+  dataList.value.push(obj)
+  addForm.value.title = ''; // 清空
+}
+// 新增快捷语
+const addQuick = () => {
+  if (isLoading.value) return
+
+  isLoading.value = true;
+  dataList.value.map((item: any) => {
+    // 这是编辑的数据
+    if (item.id) {
+      console.log('编辑快捷语哈哈哈--')
+      const curP = {
+        ...item,
+        mType: 17, // 16 新增，17 修改，18 删除
+      }
+      doActionQuick(curP)
+    } else {  // 这是新增的数据
+      console.log('新增快捷语啊啊啊--')
+      const curP = {
+        ...item,
+        mType: 16, // 16 新增，17 修改，18 删除
+      }
+      doActionQuick(curP)
+    }
+  })
+  console.log(dataList.value)
+  setTimeout(() => {
+    isLoading.value = false
+  }, 5 * 1000)
+}
+// 新增编辑删除快捷语
+const doActionQuick = (data: any) => {
+  const params = {
+   ...data
+  }
+  emit('addModifyQuick', params)
+}
+
+watch(() => props.quickPhrasesCateList, (n) => {
+  if (n.length) {
+    dataCateList.value = n;
+    curType.value = dataCateList.value[0]?.id; // 默认第一条
+  }
+})
 
 </script>
 <style lang="less" scoped>

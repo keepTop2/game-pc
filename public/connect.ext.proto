@@ -295,20 +295,20 @@ message KfRoleIdGetReq {
 }
 //快捷语 增删改 请求协议
 message QuickPhrasesModifyReq {
-  int64 id = 1; //
-  int64 qhcid = 2; //
-  int64 deviceid = 3; //
-  int32 istop = 4; //
-  int32 sort = 5; //
-  int32 isautorsp = 6; //
-  string content = 7; //
+  int64 id = 1; //快捷语id只有删除和修改的时候传，新增的时候不传
+  int64 qhcid = 2; //分类id
+  int64 deviceid = 3; //用户id
+  int32 istop = 4; //1为置顶 其余值不置顶
+  int32 sort = 5; //排序，这个需要前端自己定义数字
+  int32 isautorsp = 6; //是否是自动回复 前端用的
+  string content = 7; //快捷语的内容
 }
 //快捷语类型 增删改 请求协议
 message QuickPhrasesCModifyReq {
-  int64 id = 1; //
-  int64 deviceid = 2; //
-  int32 sort = 3; //
-  string title = 4; //
+  int64 id = 1; // id只有删除和修改的时候传，新增的时候不传
+  int64 deviceid = 2; //用户id
+  int32 sort = 3; //排序，这个需要前端自己定义数字
+  string title = 4; //分类的标题
 }
 //快捷语列表 请求协议
 message QuickPhrasesListReq {
@@ -347,6 +347,7 @@ message QuickPhrasesC {
   int64 deviceid = 2; //
   int32 sort = 3; //
   string title = 4; //
+  int32 num = 5; //快捷语数量
 }
 //禁言解禁请求
 message MuteReq {

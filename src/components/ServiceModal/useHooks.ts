@@ -9,8 +9,11 @@ const state_data: any = reactive({
   chatitemList: [], // 聊天列表
   groupChatitemList: [], // 分组聊天列表
 
-  groupList:[] ,   // 分组列表
-  groupItem:''    // 选中分组
+  groupList: [],   // 分组列表
+  groupItem: '',    // 选中分组
+
+  quickPhrasesCateList: [],  // 快捷语分类列表
+  quickPhrasesList: [],  // 快捷语列表
 });
 
 const usechatHooks = (state?: any) => {
@@ -24,25 +27,25 @@ const usechatHooks = (state?: any) => {
     }
   };
   // 解析消息体
-const decodeContent = (data: any, name: string) => {
-  let MessageOutputeItem = state.root.lookupType(name)
-  const buffer1 = new Uint8Array(data);
-  const decodedMessage2 = MessageOutputeItem.decode(buffer1);
+  const decodeContent = (data: any, name: string) => {
+    let MessageOutputeItem = state.root.lookupType(name)
+    const buffer1 = new Uint8Array(data);
+    const decodedMessage2 = MessageOutputeItem.decode(buffer1);
 
-  return MessageOutputeItem.toObject(decodedMessage2);
-}
+    return MessageOutputeItem.toObject(decodedMessage2);
+  }
 
 
 
   // 获取聊天列表
-  const getChatlist = (item?:any) => {
+  const getChatlist = (item?: any) => {
     state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     state.requestid++;
     const requestid = state.requestid;
     const type = 13; //
     var payload = {
       deviceid: state.deviceID,
-      groupid: item?item.id:0,
+      groupid: item ? item.id : 0,
       page: 1,
       pagesize: 1000,
     };
@@ -84,16 +87,15 @@ const decodeContent = (data: any, name: string) => {
     //先解析出消息体
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
-      if (state_data.groupItem&&state_data.groupItem.id) {
+      if (state_data.groupItem && state_data.groupItem.id) {
         state_data.groupChatitemList = decodeobj00.chatitem;
-      }else{
+      } else {
         state_data.chatitemList = decodeobj00.chatitem;
         const item = state_data.chatitemList[0];
         if (item?.iskf != 1) {
           getKfChat();
         }
       }
-      console.log(3333333, state_data.chatitemList);
       //如果没有官方的历史聊天记录需要获取一下
     } else {
       getKfChat();
@@ -190,12 +192,11 @@ const decodeContent = (data: any, name: string) => {
     const encodedRequest = encodeInput(type, requestid, decodedata);
     IWebsocket.sendMessageHandler(encodedRequest);
   };
-    //  获取分组列表
-    const getChatMsg12 = (decodeobj1: any) => {
-      const decodeobj00 = decodeContent(decodeobj1.data, 'GroupListRsp');
-      state_data.groupList = decodeobj00.groupitem
-      console.log(3333333,state_data.groupList)
-    };
+  //  获取分组列表
+  const getChatMsg12 = (decodeobj1: any) => {
+    const decodeobj00 = decodeContent(decodeobj1.data, 'GroupListRsp');
+    state_data.groupList = decodeobj00.groupitem
+  };
 
   //处理聊天数据表情
   const initMessage = (text: any) => {
@@ -220,14 +221,120 @@ const decodeContent = (data: any, name: string) => {
   };
 
   // 编码发送参数
-const encodeParams = (params: any, name: string) => {
-  let item = state.root.lookupType(name)
-  const errMsg = item.verify(params);
-  if (errMsg) throw new Error(errMsg);
-  const message = item.create(params);
-  const buffer = item.encode(message).finish();
-  return buffer;
-}
+  const encodeParams = (params: any, name: string) => {
+    let item = state.root.lookupType(name)
+    const errMsg = item.verify(params);
+    if (errMsg) throw new Error(errMsg);
+    const message = item.create(params);
+    const buffer = item.encode(message).finish();
+    return buffer;
+  }
+  // 获取快捷语--分类列表
+  const getShortcutCatelist = () => {
+    const sendReq = state.root.lookupType('QuickPhrasesCListListReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 23; //
+    const payload = {
+      deviceid: state.deviceID,
+      page: 1,
+      pagesize: 200,
+    };
+    //编码消息体
+    const errMsg2 = sendReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+  // 接收快捷语--分类列表
+  const getShortcutCateMsg = (decodeobj1: any) => {
+    console.log('快捷语分类解析前--', decodeobj1)
+    if (decodeobj1.data) {
+      const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesCListRsp');
+      state_data.quickPhrasesCateList = decodeobj00.quickphrasec;
+      console.log('快捷语分类解析后==', state_data.quickPhrasesCateList);
+    }
+  };
+  // 获取快捷语列表
+  const getShortcutlist = () => {
+    const sendReq = state.root.lookupType('QuickPhrasesListReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 19; //
+    const payload = {
+      deviceid: state.deviceID,
+      page: 1,
+      pagesize: 200,
+    };
+    //编码消息体
+    const errMsg2 = sendReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+  // 接收快捷语列表
+  const getShortcutMsg = (decodeobj1: any) => {
+    console.log('快捷语解析前--', decodeobj1)
+    if (decodeobj1.data) {
+      const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
+      console.log('-----***', decodeobj00)
+      state_data.quickPhrasesList = decodeobj00.chatitem;
+      console.log('快捷语解析后==', state_data.quickPhrasesList);
+    }
+  };
+  // 发送添加快捷语列表数据请求
+  const sendShortcutList = (data: any) => {
+    const sendReq = state.root.lookupType('QuickPhrasesModifyReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = data?.mType; // type: 16 新增快捷语, 17 修改， 18 删除
+    const payload = {
+      id: data?.id ,//快捷语id只有删除和修改的时候传，新增的时候不传
+      qhcid: data?.qhcid || '', //分类id
+      deviceid: state.deviceID, //用户id
+      istop: data?.istop || 2, //1为置顶 其余值不置顶
+      sort: data?.sort || 1, //排序，这个需要前端自己定义数字
+      isautorsp: data?.isautorsp || 6, //是否是自动回复 前端用的
+      content: data?.content || '', // 快捷语的内容
+    };
+    console.log('添加快捷语请求--', payload)
+    //编码消息体
+    const errMsg2 = sendReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+  // 发送添加快捷语--分类请求
+  const sendShortcutCateList = (data: any) => {
+    const sendReq = state.root.lookupType('QuickPhrasesCModifyReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = data?.mType; // type: 20 新增, 21 修改， 22 删除
+    const payload = {
+      deviceid: state.deviceID, //用户id
+      id: data?.id, // id只有删除和修改的时候传，新增的时候不传
+      sort: data?.sort || 1, //排序，这个需要前端自己定义数字
+      title: data?.title || '', //分类的标题
+    };
+    console.log('添加快捷语分类请求--', type, payload)
+    //编码消息体
+    const errMsg2 = sendReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
 
 // 编辑聊天列表
 const editchat = (item: any, decodeobj00: any,setType?:any) => {//
@@ -269,7 +376,14 @@ const itemSet = (o:any,item:any)=>{
     encodeInput,
     decodeContent,
     itemSet,
-    editchat
+    editchat,
+
+    getShortcutCatelist,
+    getShortcutCateMsg,
+    getShortcutlist,
+    getShortcutMsg,
+    sendShortcutList,
+    sendShortcutCateList,
   };
 };
 export default usechatHooks;
