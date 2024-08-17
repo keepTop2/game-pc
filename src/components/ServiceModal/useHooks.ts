@@ -269,6 +269,7 @@ const usechatHooks = (state?: any) => {
       page: 1,
       pagesize: 200,
     };
+    console.log('获取快捷语列表参数--', payload)
     //编码消息体
     const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);
@@ -284,7 +285,7 @@ const usechatHooks = (state?: any) => {
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
       console.log('-----***', decodeobj00)
-      state_data.quickPhrasesList = decodeobj00.chatitem;
+      state_data.quickPhrasesList = decodeobj00.quickphrase;
       console.log('快捷语解析后==', state_data.quickPhrasesList);
     }
   };
@@ -298,12 +299,12 @@ const usechatHooks = (state?: any) => {
       id: data?.id ,//快捷语id只有删除和修改的时候传，新增的时候不传
       qhcid: data?.qhcid || '', //分类id
       deviceid: state.deviceID, //用户id
-      istop: data?.istop || 2, //1为置顶 其余值不置顶
+      istop: data?.istop || 2, // 1为置顶 2不置顶 其余值不置顶
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
-      isautorsp: data?.isautorsp || 6, //是否是自动回复 前端用的
+      isautorsp: data?.isautorsp || 2, //1 自动回复，2 不自动回复，是否是自动回复 前端用的
       content: data?.content || '', // 快捷语的内容
     };
-    console.log('添加快捷语请求--', payload)
+    console.log('添加快捷语请求参数--', payload)
     //编码消息体
     const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);

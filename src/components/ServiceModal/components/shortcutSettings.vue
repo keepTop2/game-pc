@@ -1,5 +1,4 @@
 <template>
-  <!-- 客服聊天弹窗 -->
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <n-card class="shortcut_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
@@ -11,9 +10,9 @@
         </h4>
         <div class="main_body">
           <n-flex align="center" class="tab_top">
-            <a :class="`tab_item tab_item_${item.value} ${curTab === item.value ? 'active' : ''}`" v-for="(item, index) in tabArr"
-               :key="index" @click="clickTab(item.value)">
-              {{ t(item.label) }}
+            <a :class="`tab_item tab_item_${item.id} ${curTab === item.id ? 'active' : ''}`" v-for="(item, index) in tabArr"
+               :key="index" @click="clickTab(item.id)">
+              {{ item.title }}
             </a>
           </n-flex>
           <n-flex align="center" class="input_top">
@@ -79,14 +78,24 @@
                    <n-input v-model:value="item.content" placeholder="此处修改快捷语" style="text-align: left" clearable/>
                 </span>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch" v-model:value="item.istop">
+                    <n-switch class="switch"
+                              v-model:value="item.istop"
+                              :checked-value="1"
+                              :unchecked-value="2"
+                              @update:value="(e: any) => {handleUpdateValue(e, 'istop', index)}"
+                    >
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch" v-model:value="item.isautorsp">
+                    <n-switch class="switch"
+                              v-model:value="item.isautorsp"
+                              :checked-value="1"
+                              :unchecked-value="2"
+                              @update:value="(e: any) => {handleUpdateValue(e, 'isautorsp', index)}"
+                    >
                     </n-switch>
                   </n-flex>
-                  <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
+                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
                   删除
                 </span>
                 </n-flex>
@@ -132,7 +141,11 @@ const props = defineProps({
   quickPhrasesCateList: {
     type: Array,
     default: [],
-  }
+  },
+  quickPhrasesList: {
+    type: Array,
+    default: [],
+  },
 });
 // const visibleSetting = ref(false) // 类别
 const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']);
@@ -140,34 +153,24 @@ const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']
 const addForm = ref({
   title: ''
 });
-const curTab: any = ref('0')
+const curTab: any = ref('0');
 // tag: 所在标签
 const tabArr: any = ref(
   [
-    { label: 'promo_page_all', value: '0' },
-    { label: '来访', value: 'visit' },
-    { label: '充值类', value: 'deposit' },
-    { label: '提款类', value: 'withdraw' },
-    { label: '投注类', value: 'bet' },
-    { label: '代理类', value: 'agent' },
+    // { title: 'promo_page_all', id: '0' },
+    // { title: '来访', id: 'visit' },
+    // { title: '充值类', id: 'deposit' },
+    // { title: '提款类', id: 'withdraw' },
+    // { title: '投注类', id: 'bet' },
+    // { title: '代理类', id: 'agent' },
   ]
 );
 const showSelect = ref(false);
 const curType: any = ref('');
 const isLoading = ref(false);
 const dataCateList: any = ref([]); // 快捷语分类列表
-const dataList: any = ref(
-  [
-    // { type: 'deposit', content: '充值', isPin: false, isAutomatic: false },
-    // { type: 'withdraw', content: '12e2', isPin: true, isAutomatic: false },
-    // { type: 'deposit', content: '充值6565', isPin: true, isAutomatic: true },
-    // { type: 'bet', content: '77878', isPin: false, isAutomatic: true },
-    // { type: 'deposit', content: '77878', isPin: false, isAutomatic: true },
-    // { type: 'agent', content: '77878', isPin: false, isAutomatic: true },
-    // { type: 'visit', content: '77878', isPin: false, isAutomatic: true },
-    // { type: 'withdraw', content: '77878', isPin: false, isAutomatic: true },
-  ]
-);
+const dataListOrigin: any = ref([]);
+const dataList: any = ref([]);
 
 const isShow = computed({
   get: function () {
@@ -183,7 +186,9 @@ const showSetting = () => {
   emit('showCateSetting')
 }
 const clickTab = (e: any) => {
+  console.log('*****', e)
   curTab.value = e;
+  dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e)
 }
 const clickShowSelect = () => {
   showSelect.value = !showSelect.value
@@ -200,6 +205,11 @@ const clickShowSelectList = (index: any) => {
 const clickSelectList = (e: any, index: any) => {
   dataList.value[index].type = e;
   dataList.value[index].showSelect = false;
+}
+// 开关
+const handleUpdateValue = (e: any, type: any, index: number) => {
+  console.log('++++++', e, type, index)
+  dataList.value[index][type] = e;
 }
 // 删除
 const removeList = (item: any, index: number) => {
@@ -235,13 +245,13 @@ const addNewLine = () => {
     content: addForm.value.title,
     mType: 16, // 16 新增，17 修改，18 删除
     qhcid: curType.value, // 分类id
-    istop: 2, //1为置顶 其余值不置顶
-    isautorsp: 1, //是否是自动回复 前端用的
+    istop: 2, //1 为置顶 其余值不置顶
+    isautorsp: 2, //是否是自动回复 前端用的
   }
   if (!obj.content) {
     return Message.error(t('内容不能为空'));
   }
-  dataList.value.push(obj)
+  dataList.value.unshift(obj)
   addForm.value.title = ''; // 清空
 }
 // 新增快捷语
@@ -283,9 +293,21 @@ const doActionQuick = (data: any) => {
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
     dataCateList.value = n;
+
+    tabArr.value = [
+      { title: t('promo_page_all'), id: '0' },
+      ...n
+    ];
     curType.value = dataCateList.value[0]?.id; // 默认第一条
   }
 })
+watch(() => props.quickPhrasesList, (n) => {
+  if (n.length) {
+    dataList.value = n;
+    dataListOrigin.value = n;
+  }
+})
+
 
 </script>
 <style lang="less" scoped>

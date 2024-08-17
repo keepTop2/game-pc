@@ -65,11 +65,11 @@
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <div v-for="item in shortList" :key="item.id">
+            <div v-for="item in quickPhrasesCateList" :key="item.id">
               <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
                   <div class="short_wrap_item">
-                    <span>{{ item.name }}</span>
+                    <span>{{ item.title }}</span>
                   </div>
                 </template>
                 <div class="short_wrap_list">
@@ -265,13 +265,13 @@ const selectList = [
   { name: '移动分组到', id: 4 }
 ]
 
-const shortList = [
-  { name: '充值', role: 'proxy', id: 1 },
-  { name: '提款', role: 'user', id: 2 },
-  { name: '投注', role: 'user', id: 3 },
-  { name: '代理', role: 'user', id: 4 },
-  { name: '活动', role: 'proxy', id: 5 },
-]
+// const shortList = [
+//   { name: '充值', role: 'proxy', id: 1 },
+//   { name: '提款', role: 'user', id: 2 },
+//   { name: '投注', role: 'user', id: 3 },
+//   { name: '代理', role: 'user', id: 4 },
+//   { name: '活动', role: 'proxy', id: 5 },
+// ]
 const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
 
 const settingList = [
