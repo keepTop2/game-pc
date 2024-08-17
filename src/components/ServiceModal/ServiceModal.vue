@@ -6,11 +6,13 @@
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
-      <i>
-        <n-switch v-model:value="active" />
+      <div class="forbidden">
+        <div class="forbidden_btn" @click="visibleForbidden = true">
+          禁言
+        </div>
+        <n-switch v-if="false" v-model:value="active" />
         <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-      </i>
-
+      </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
@@ -51,7 +53,7 @@
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
-                <div >
+                <div>
                   {{ selectList[3].name }}
                 </div>
               </div>
@@ -88,7 +90,7 @@
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif"  :show-file-list="false">
+              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
               <n-upload @before-upload="beforeUpload" accept=".mp4,.avi,.mov,.wmv" :show-file-list="false">
@@ -126,13 +128,18 @@
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting" @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList" :quickPhrasesList="quickPhrasesList"/>
+    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting"
+      @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList"
+      :quickPhrasesList="quickPhrasesList" />
     <!-- 快捷语--分类设置 -->
-    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick" :quickPhrasesCateList="quickPhrasesCateList"/>
+    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick"
+      :quickPhrasesCateList="quickPhrasesCateList" />
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
+    <!-- 禁言弹窗 -->
+    <forbiddenSpeech v-model:visible="visibleForbidden" />
   </div>
 
 </template>
@@ -153,12 +160,13 @@ import shortcutSettings from './components/shortcutSettings.vue';
 import categoryList from './components/categoryList.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
+import forbiddenSpeech from './components/forbiddenSpeech.vue'
 import usechatHooks from './useHooks';
 import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-import axios from 'axios';
+
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -208,36 +216,36 @@ const state: any = reactive({
 const beforeUpload = (data: any) => {
   console.log(data.file.file)
   const file = data.file.file
-  const type = file.type.includes('image')?'image':file.type.includes('video')?'video':''
-  
-  if (file && file.size > 1024 * 1024 * 2&&type=='image') { // 2MB限制
+  const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
+
+  if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
     return;
   }
-  if (file && file.size > 1024 * 1024 * 100&&type=='video') { // 100MB限制
+  if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
     Message.error('文件大小不能超过100MB！')
     return;
   }
   const formData = new FormData();
   formData.append(type, file);
   formData.append('device_id', state.deviceID);
-  fetch(`http://18.162.112.52:8031/api/upload/${type=='image'?'img':'video'}`, {
+  fetch(`http://18.162.112.52:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
     method: 'POST',
     body: formData,
   })
     .then(response => response.json()).then(response => {
-     if (response.status==200) {
-       const urlImg = 'http://18.162.112.52:8031/'+response.data.path
-       msgRef.value.innerHTML =  urlImg;
-       sendMsg()
-     }
+      if (response.status == 200) {
+        const urlImg = 'http://18.162.112.52:8031/' + response.data.path
+        msgRef.value.innerHTML = urlImg;
+        sendMsg()
+      }
     })
 }
 
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent
+  decodeContent,itemSet
 }: any = usechatHooks(state)
 
 
@@ -257,6 +265,7 @@ const tab_list = [
 const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
+
 
 const selectList = [
   { name: '置顶', id: 1 },
@@ -294,6 +303,7 @@ const visibleTransfor = ref(false)
 const visibleSetting = ref(false) // 快捷语设置
 const visibleCateSetting = ref(false) // 快捷语分类设置
 const visibleGroup = ref(false) // 管理分组弹窗
+const visibleForbidden = ref(false) // 禁言弹窗
 
 // 转账
 const sendMoney = () => {
@@ -606,14 +616,21 @@ onMounted(async () => {
         #3a2786 28%,
         #3c279a 0%);
 
-    >i {
+    >.forbidden {
       position: absolute;
-      top: 15px;
+      top: 0px;
       right: 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
+
+      .forbidden_btn {
+        width: 100px;
+        background: url(/img/serviceModal/speech_btn.webp) no-repeat;
+        background-size: 100% 112%;
+        color: #fff;
+      }
     }
 
     &:deep(.n-switch--active .n-switch__rail) {
