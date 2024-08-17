@@ -119,7 +119,9 @@
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" @addModifyQuick="addModifyQuick" />
+    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting" @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList" :quickPhrasesList="quickPhrasesList"/>
+    <!-- 快捷语--分类设置 -->
+    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick" :quickPhrasesCateList="quickPhrasesCateList"/>
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
     <!-- 转账弹窗 -->
@@ -141,6 +143,7 @@ import 'vue3-emoji-picker/css'
 import protobuf from 'protobufjs';
 import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
+import categoryList from './components/categoryList.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
 import usechatHooks from './useHooks';
@@ -191,12 +194,11 @@ const state: any = reactive({
   activeId: null,
 })
 
-
-
-
-
-
-const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams, getShortcutlist, getShortcutMsg, sendShortcutList, decodeContent }: any = usechatHooks(state)
+const {
+  getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
+  getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
+  decodeContent
+}: any = usechatHooks(state)
 
 
 const emit = defineEmits(['update:visible']);
@@ -250,6 +252,7 @@ function onSelectEmoji(emoji: any) {
 
 const visibleTransfor = ref(false)
 const visibleSetting = ref(false) // 快捷语设置
+const visibleCateSetting = ref(false) // 快捷语分类设置
 const visibleGroup = ref(false) // 管理分组弹窗
 
 // 转账
@@ -278,6 +281,11 @@ const manageClick = () => {
 const showSetting = () => {
   visibleSetting.value = true
 }
+// 打开快捷语分类设置
+const showCateSetting = () => {
+  visibleCateSetting.value = true
+}
+
 // 选择用户聊天
 const selectUser = (item: any) => {
   state.chatMessagesList = []
@@ -480,24 +488,27 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
   }
+
+  // 新增，修改，删除快捷语，重新请求列表
+  else if ([16, 17, 18].includes(decodeobj1.type)) {
+    console.log('----更新快捷语')
+    getShortcutlist();
+  }
   // 快捷语列表
-  else if (decodeobj1.type == 19) {
+  else if ([19].includes(decodeobj1.type)) {
+    console.log('----获取快捷语')
     getShortcutMsg(decodeobj1)
   }
-  // 新增快捷语
-  else if (decodeobj1.type == 16) {
-    console.log('----新增快捷语')
-    getShortcutMsg(decodeobj1)
+  // 快捷语--分类列表，重新请求列表
+  else if ([20, 21, 22].includes(decodeobj1.type)) {
+    console.log('----更新快捷语分类')
+    Message.success(t('proxy_page_caoZuo'));
+    getShortcutCatelist();
   }
-  // 编辑快捷语
-  else if (decodeobj1.type == 17) {
-    console.log('----编辑快捷语')
-    getShortcutMsg(decodeobj1)
-  }
-  // 删除快捷语
-  else if (decodeobj1.type == 18) {
-    console.log('----删除快捷语')
-    getShortcutMsg(decodeobj1)
+  // 快捷语--分类列表，重新请求列表
+  else if ([23].includes(decodeobj1.type)) {
+    console.log('----获取快捷语分类')
+    getShortcutCateMsg(decodeobj1);
   }
 
 }
@@ -509,6 +520,15 @@ const addModifyQuick = (data: any) => {
   }
   sendShortcutList(data)
 }
+// 快捷语--分类增删改查
+const addModifyCateQuick = (data: any) => {
+  console.log('***==', data)
+  if (!data.mType) {
+    return
+  }
+  sendShortcutCateList(data)
+}
+
 
 onMounted(async () => {
   IWebsocket.conectWebsocket()
@@ -516,6 +536,8 @@ onMounted(async () => {
   onOpen()
   IWebsocket.resgisterHandler(onMessage)
   getChatlist()
+
+  getShortcutCatelist()
   getShortcutlist()
   // synchistorymsg()
   state.firstIn = true
