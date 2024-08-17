@@ -96,7 +96,6 @@ const usechatHooks = (state?: any) => {
           getKfChat();
         }
       }
-      console.log(3333333, state_data.chatitemList);
       //如果没有官方的历史聊天记录需要获取一下
     } else {
       getKfChat();
@@ -197,7 +196,6 @@ const usechatHooks = (state?: any) => {
   const getChatMsg12 = (decodeobj1: any) => {
     const decodeobj00 = decodeContent(decodeobj1.data, 'GroupListRsp');
     state_data.groupList = decodeobj00.groupitem
-    console.log(3333333, state_data.groupList)
   };
 
   //处理聊天数据表情
@@ -338,6 +336,28 @@ const usechatHooks = (state?: any) => {
     IWebsocket.sendMessageHandler(encodedRequest);
   };
 
+// 编辑聊天列表
+const editchat = (item: any, decodeobj00: any,setType?:any) => {//
+  const requestid = state.requestid;
+  const type = 14; // 消息同步触发
+  var payload = {
+    id: item.id,
+    deviceid: state.deviceID,
+    chatgroupid: decodeobj00.id||0,
+    sort: 6,
+    istop: setType&&setType.id==1?1:6,
+    enableflag: setType&&setType.id==3?1:6,
+  }
+  const decodedata = encodeParams(payload, 'ChatItemModifyReq')
+  const encodedRequest = encodeInput(type, requestid, decodedata);
+  IWebsocket.sendMessageHandler(encodedRequest);
+}
+
+// 置顶 禁言，移动分组
+const itemSet = (o:any,item:any)=>{
+  editchat(item,item,o)
+}
+
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     // state_data.Input = state.root.lookupType('Input');
@@ -355,6 +375,8 @@ const usechatHooks = (state?: any) => {
     encodeParams,
     encodeInput,
     decodeContent,
+    itemSet,
+    editchat,
 
     getShortcutCatelist,
     getShortcutCateMsg,
