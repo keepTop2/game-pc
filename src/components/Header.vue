@@ -39,7 +39,7 @@
         <n-popover trigger="hover" :show-arrow="false" v-for="(item, i) in state.icons" :key="i">
           <template #trigger>
             <span class="menu" :style="item.bg" @click="iconClick(item)">
-              <n-badge :value="item.url == 'kf' ? page.unread : ''" :dot="item.icon == 'youxiang' && myEmail.hasNoRead">
+              <n-badge :dot="item.icon == 'youxiang' && myEmail.hasNoRead">
                 <iconpark-icon :icon-id="item.icon" size="1rem"></iconpark-icon>
               </n-badge>
             </span>

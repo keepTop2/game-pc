@@ -123,7 +123,7 @@ const emit = defineEmits(['update:visible']);
 const step = ref(1)
 const groupName = ref('')
 const editGroupItem = ref()
-const { groupList, encodeInput, encodeParams, decodeContent, getChatlist, groupChatitemList }: any = usechatHooks(props.stateData)
+const { groupList, encodeInput, encodeParams, decodeContent, getChatlist, groupChatitemList,editchat }: any = usechatHooks(props.stateData)
 const stepTitle: any = {
   1: '创建分组',
   2: '分组管理',
@@ -209,23 +209,7 @@ const delGroup = (item: any) => {
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest);
 }
-// 编辑聊天列表
-const editchat = (item: any, decodeobj00: any) => {//
-  const state = props.stateData
-  const requestid = state.requestid;
-  const type = 14; // 消息同步触发
-  var payload = {
-    id: item.id,
-    deviceid: state.deviceID,
-    chatgroupid: decodeobj00.id,
-    sort: 6,
-    istop: 6,
-    enableflag: 6,
-  }
-  const decodedata = encodeParams(payload, 'ChatItemModifyReq')
-  const encodedRequest = encodeInput(type, requestid, decodedata);
-  IWebsocket.sendMessageHandler(encodedRequest);
-}
+
 
 //分组列表保存回执处理
 const getChatMsg9 = (decodeobj1: any) => {

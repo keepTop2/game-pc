@@ -45,12 +45,15 @@
               </div>
               <span>{{ item.TUsername }}</span>
             </div>
-            <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
+            <n-popover trigger="hover" placement="bottom-start" :show-arrow="false">
               <template #trigger>
                 <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
               </template>
               <div class="select_wrap">
-                <div v-for="o in selectList" :key="o.id">{{ o.name }}</div>
+                <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
+                <div >
+                  {{ selectList[3].name }}
+                </div>
               </div>
             </n-popover>
           </div>
@@ -85,8 +88,12 @@
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-              <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
-              <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
+              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif"  :show-file-list="false">
+                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
+              </n-upload>
+              <n-upload @before-upload="beforeUpload" accept=".mp4,.avi,.mov,.wmv" :show-file-list="false">
+                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
+              </n-upload>
               <n-popover trigger="hover" :show-arrow="false" placement="top-end">
                 <template #trigger>
                   <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
@@ -151,6 +158,7 @@ import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
+import axios from 'axios';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -193,6 +201,38 @@ const state: any = reactive({
   userData: '',
   activeId: null,
 })
+
+
+
+// 上传图片视频
+const beforeUpload = (data: any) => {
+  console.log(data.file.file)
+  const file = data.file.file
+  const type = file.type.includes('image')?'image':file.type.includes('video')?'video':''
+  
+  if (file && file.size > 1024 * 1024 * 2&&type=='image') { // 2MB限制
+    Message.error('文件大小不能超过2MB！')
+    return;
+  }
+  if (file && file.size > 1024 * 1024 * 100&&type=='video') { // 100MB限制
+    Message.error('文件大小不能超过100MB！')
+    return;
+  }
+  const formData = new FormData();
+  formData.append(type, file);
+  formData.append('device_id', state.deviceID);
+  fetch(`http://18.162.112.52:8031/api/upload/${type=='image'?'img':'video'}`, {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json()).then(response => {
+     if (response.status==200) {
+       const urlImg = 'http://18.162.112.52:8031/'+response.data.path
+       msgRef.value.innerHTML =  urlImg;
+       sendMsg()
+     }
+    })
+}
 
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
@@ -318,7 +358,6 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-    console.log(222222222, testMsg.value)
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -475,10 +514,6 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 11) {
     getListGroup()
     Message.success('操作成功')
-  }
-  // 获取分组列表
-  else if (decodeobj1.type == 12) {
-    getChatMsg12(decodeobj1)
   }
   // 获取分组列表
   else if (decodeobj1.type == 12) {
@@ -753,6 +788,16 @@ onMounted(async () => {
       height: 24px;
       width: 24px;
       cursor: pointer;
+    }
+  }
+
+  &:deep(.n-upload) {
+    display: flex;
+    align-items: center;
+
+    .n-upload-trigger {
+      display: flex;
+      align-items: center;
     }
   }
 }
