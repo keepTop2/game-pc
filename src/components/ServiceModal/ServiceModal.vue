@@ -89,10 +89,10 @@
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-              <n-upload @before-upload="beforeUpload" :show-file-list="false">
+              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif"  :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
-              <n-upload @before-upload="beforeUpload" :show-file-list="false">
+              <n-upload @before-upload="beforeUpload" accept=".mp4,.avi,.mov,.wmv" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
               </n-upload>
               <n-popover trigger="hover" :show-arrow="false" placement="top-end">
@@ -208,14 +208,20 @@ const { getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, 
 const beforeUpload = (data: any) => {
   console.log(data.file.file)
   const file = data.file.file
-  if (file && file.size > 1024 * 1024 * 2) { // 2MB限制
+  const type = file.type.includes('image')?'image':file.type.includes('video')?'video':''
+  
+  if (file && file.size > 1024 * 1024 * 2&&type=='image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
     return;
   }
+  if (file && file.size > 1024 * 1024 * 100&&type=='video') { // 100MB限制
+    Message.error('文件大小不能超过100MB！')
+    return;
+  }
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append(type, file);
   formData.append('device_id', state.deviceID);
-  fetch('http://18.162.112.52:8031/api/upload/img', {
+  fetch(`http://18.162.112.52:8031/api/upload/${type=='image'?'img':'video'}`, {
     method: 'POST',
     body: formData,
   })
