@@ -12,6 +12,7 @@ const state_data: any = reactive({
   groupList: [],   // 分组列表
   groupItem: '',    // 选中分组
 
+  quickPhrasesCateList: [],  // 快捷语分类列表
   quickPhrasesList: [],  // 快捷语列表
 });
 
@@ -230,53 +231,108 @@ const usechatHooks = (state?: any) => {
     const buffer = item.encode(message).finish();
     return buffer;
   }
-
-  // 获取快捷语列表
-  const getShortcutlist = () => {
-    const quickListReq = state.root.lookupType('QuickPhrasesListReq');
+  // 获取快捷语--分类列表
+  const getShortcutCatelist = () => {
+    const sendReq = state.root.lookupType('QuickPhrasesCListListReq');
     state.requestid++;
     const requestid = state.requestid;
-    const type = 19; //
-    var payload = {
+    const type = 23; //
+    const payload = {
       deviceid: state.deviceID,
       page: 1,
       pagesize: 200,
     };
     //编码消息体
-    const errMsg2 = quickListReq.verify(payload);
+    const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);
-    const decodedata = quickListReq.encode(
-      quickListReq.create(payload),
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+  // 接收快捷语--分类列表
+  const getShortcutCateMsg = (decodeobj1: any) => {
+    console.log('快捷语分类解析前--', decodeobj1)
+    if (decodeobj1.data) {
+      const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesCListRsp');
+      state_data.quickPhrasesCateList = decodeobj00.quickphrasec;
+      console.log('快捷语分类解析后==', state_data.quickPhrasesCateList);
+    }
+  };
+  // 获取快捷语列表
+  const getShortcutlist = () => {
+    const sendReq = state.root.lookupType('QuickPhrasesListReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = 19; //
+    const payload = {
+      deviceid: state.deviceID,
+      page: 1,
+      pagesize: 200,
+    };
+    //编码消息体
+    const errMsg2 = sendReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
     ).finish();
     const encodedRequest = encodeInput(type, requestid, decodedata);
     IWebsocket.sendMessageHandler(encodedRequest);
   };
   // 接收快捷语列表
   const getShortcutMsg = (decodeobj1: any) => {
-    console.log('快捷语--', decodeobj1)
+    console.log('快捷语解析前--', decodeobj1)
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
+      console.log('-----***', decodeobj00)
       state_data.quickPhrasesList = decodeobj00.chatitem;
-      console.log('快捷语==', state_data.quickPhrasesList);
+      console.log('快捷语解析后==', state_data.quickPhrasesList);
     }
   };
-  // 发送添加快捷语请求
+  // 发送添加快捷语列表数据请求
   const sendShortcutList = (data: any) => {
-    const quickModifyReq = state.root.lookupType('QuickPhrasesCModifyReq');
+    const sendReq = state.root.lookupType('QuickPhrasesModifyReq');
     state.requestid++;
     const requestid = state.requestid;
     const type = data?.mType; // type: 16 新增快捷语, 17 修改， 18 删除
-    var payload = {
-      deviceid: state.deviceID,
-      id: data?.data || 1,
-      sort: data?.sort || 1,
-      title: data?.sort || '',
+    const payload = {
+      id: data?.id ,//快捷语id只有删除和修改的时候传，新增的时候不传
+      qhcid: data?.qhcid || '', //分类id
+      deviceid: state.deviceID, //用户id
+      istop: data?.istop || 2, //1为置顶 其余值不置顶
+      sort: data?.sort || 1, //排序，这个需要前端自己定义数字
+      isautorsp: data?.isautorsp || 6, //是否是自动回复 前端用的
+      content: data?.content || '', // 快捷语的内容
     };
+    console.log('添加快捷语请求--', payload)
     //编码消息体
-    const errMsg2 = quickModifyReq.verify(payload);
+    const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);
-    const decodedata = quickModifyReq.encode(
-      quickModifyReq.create(payload),
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
+    ).finish();
+    const encodedRequest = encodeInput(type, requestid, decodedata);
+    IWebsocket.sendMessageHandler(encodedRequest);
+  };
+  // 发送添加快捷语--分类请求
+  const sendShortcutCateList = (data: any) => {
+    const sendReq = state.root.lookupType('QuickPhrasesCModifyReq');
+    state.requestid++;
+    const requestid = state.requestid;
+    const type = data?.mType; // type: 20 新增, 21 修改， 22 删除
+    const payload = {
+      deviceid: state.deviceID, //用户id
+      id: data?.id, // id只有删除和修改的时候传，新增的时候不传
+      sort: data?.sort || 1, //排序，这个需要前端自己定义数字
+      title: data?.title || '', //分类的标题
+    };
+    console.log('添加快捷语分类请求--', type, payload)
+    //编码消息体
+    const errMsg2 = sendReq.verify(payload);
+    if (errMsg2) throw new Error(errMsg2);
+    const decodedata = sendReq.encode(
+      sendReq.create(payload),
     ).finish();
     const encodedRequest = encodeInput(type, requestid, decodedata);
     IWebsocket.sendMessageHandler(encodedRequest);
@@ -299,9 +355,13 @@ const usechatHooks = (state?: any) => {
     encodeParams,
     encodeInput,
     decodeContent,
+
+    getShortcutCatelist,
+    getShortcutCateMsg,
     getShortcutlist,
     getShortcutMsg,
     sendShortcutList,
+    sendShortcutCateList,
   };
 };
 export default usechatHooks;
