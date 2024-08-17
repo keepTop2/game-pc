@@ -299,9 +299,9 @@ const usechatHooks = (state?: any) => {
       id: data?.id ,//快捷语id只有删除和修改的时候传，新增的时候不传
       qhcid: data?.qhcid || '', //分类id
       deviceid: state.deviceID, //用户id
-      istop: data?.istop || 2, // 1为置顶 2不置顶 其余值不置顶
+      istop: data?.istop || 2, // 1为置顶 2不置顶
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
-      isautorsp: data?.isautorsp || 2, //1 自动回复，2 不自动回复，是否是自动回复 前端用的
+      isautorsp: data?.isautorsp || 2, // 1 自动回复，2 不自动回复，是否是自动回复 前端用的
       content: data?.content || '', // 快捷语的内容
     };
     console.log('添加快捷语请求参数--', payload)
