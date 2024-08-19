@@ -39,7 +39,7 @@
         <n-popover trigger="hover" :show-arrow="false" v-for="(item, i) in state.icons" :key="i">
           <template #trigger>
             <span class="menu" :style="item.bg" @click="iconClick(item)">
-              <n-badge :dot="item.icon == 'youxiang' && myEmail.hasNoRead">
+              <n-badge :value="item.url == 'kf' ? page.unread : ''" :dot="item.icon == 'youxiang' && myEmail.hasNoRead">
                 <iconpark-icon :icon-id="item.icon" size="1rem"></iconpark-icon>
               </n-badge>
             </span>
@@ -250,6 +250,15 @@ const openLink = (item: any) => {
     handleOpenLink(item.url)
   }
 
+}
+
+// wait页面跳转来的逻辑处理
+const agent_level = location.href.split('?agent_level=')[1]
+if (agent_level) { // agent_level
+  localStorage.setItem('agent_level', agent_level)
+  visible.value = true
+} else {
+  localStorage.setItem('agent_level', '')
 }
 const iconClick = async (item: any) => {
   console.log(item)
