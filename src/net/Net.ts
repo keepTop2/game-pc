@@ -37,6 +37,11 @@ export const getSetting = async () => {
 
     await Page(pinia).setSettings(settings)
     await Page(pinia).setAdminI18n(adminI18n)
+    // 获取未读数量
+    Page(pinia).getUnread(true)
+    setInterval(() => {
+        Page(pinia).getUnread(false)
+    }, 10000)
     // await Page(pinia).setBannerArr(bannerArr)
     // await Page(pinia).setTextAnnouncement(textAnnouncement)
     return settings
