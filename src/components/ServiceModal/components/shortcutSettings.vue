@@ -90,7 +90,7 @@
                     <n-switch class="switch" v-model:value="item.isautorsp">
                     </n-switch>
                   </n-flex>
-                  <span class="list_item button" @click="removeList(item)" style="color: #ff2424">
+                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
                     删除
                   </span>
                 </n-flex>
