@@ -84,6 +84,7 @@ const usechatHooks = (state?: any) => {
   // 1代表直属下级
   // 大于1代表 非直属下级
   const getChatMsg13 = (decodeobj1: any) => {
+    state_data.chatitemList = []
     //先解析出消息体
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
@@ -118,6 +119,7 @@ const usechatHooks = (state?: any) => {
       id: 99999,
     };
     state_data.chatitemList.unshift(obj);
+
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {

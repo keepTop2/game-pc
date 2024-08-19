@@ -35,7 +35,7 @@
             </div>
           </n-flex>
           <n-input v-model:value="search" placeholder="查找聊天列表" />
-          <div class="manage_group" @click="manageClick">管理分组</div>
+          <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
         <div class="user_list">
           <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']" v-for="item in chatitemList"
@@ -47,14 +47,21 @@
               </div>
               <span>{{ item.TUsername }}</span>
             </div>
-            <n-popover trigger="hover" placement="bottom-start" :show-arrow="false">
+            <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
               <template #trigger>
                 <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
                 <div>
-                  {{ selectList[3].name }}
+                  <n-popover trigger="click" placement="right" :show-arrow="false">
+                    <template #trigger>
+                      <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
+                    </template>
+                    <div class="select_wrap_two">
+                      <div v-for="o in groupList" :key="o.id" @click="editchat(item,o)">{{ o.name }}</div>
+                    </div>
+                  </n-popover>
                 </div>
               </div>
             </n-popover>
@@ -139,7 +146,7 @@
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
     <!-- 禁言弹窗 -->
-    <forbiddenSpeech v-model:visible="visibleForbidden" />
+    <forbiddenSpeech v-model:visible="visibleForbidden" :stateData="state" />
   </div>
 
 </template>
@@ -166,10 +173,6 @@ import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-
-// import { MessageEvent2 } from '@/net/MessageEvent2';
-// import { NetMsgType } from '@/netBase/NetMsgType';
-// import { Message } from '@/utils/discreteApi';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -214,7 +217,6 @@ const state: any = reactive({
 
 // 上传图片视频
 const beforeUpload = (data: any) => {
-  console.log(data.file.file)
   const file = data.file.file
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
 
@@ -237,6 +239,7 @@ const beforeUpload = (data: any) => {
       if (response.status == 200) {
         const urlImg = 'http://18.162.112.52:8031/' + response.data.path
         msgRef.value.innerHTML = urlImg;
+        state.messagetype = type == 'image' ? 3 : 4
         sendMsg()
       }
     })
@@ -245,7 +248,7 @@ const beforeUpload = (data: any) => {
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent,itemSet
+  decodeContent, itemSet,groupList,editchat
 }: any = usechatHooks(state)
 
 
@@ -413,6 +416,7 @@ const sendMsg = () => {
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
     msgRef.value.innerHTML = ''
+    state.mtype = 1
   }
 }
 
@@ -584,10 +588,8 @@ onMounted(async () => {
 
   getShortcutCatelist()
   getShortcutlist()
+  getListGroup()
   // synchistorymsg()
-  state.firstIn = true
-
-
 })
 </script>
 <style lang="less" scoped>
@@ -752,6 +754,7 @@ onMounted(async () => {
     .high_proxy {
       cursor: pointer;
       font-size: 12px;
+ 
       color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
@@ -838,7 +841,7 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.select_wrap {
+.select_wrap,.select_wrap_two {
   width: 118px;
 
   div {
@@ -848,6 +851,9 @@ onMounted(async () => {
     cursor: pointer;
     color: #8E82C2;
     padding-left: 19px;
+    &:last-child{
+      padding-left: 0px;
+    }
 
     &:hover {
       background-color: #1154FF;
@@ -857,6 +863,11 @@ onMounted(async () => {
     &:last-child {
       border: unset;
     }
+  }
+}
+.select_wrap_two{
+  div{
+    padding-left: 19px !important;
   }
 }
 
