@@ -34,7 +34,13 @@
               {{ t(tab.label) }}
             </div>
           </n-flex>
-          <n-input v-model:value="search" placeholder="查找聊天列表" />
+          <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
+          <n-input v-model:value="state.search" placeholder="查找聊天列表" :allow-input="onlyAllowNumber">
+            <template #suffix>
+              <div class="new_btn" @click="searchuser">发起新聊天</div>
+            </template>
+          </n-input>
+          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
           <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
         <div class="user_list">
@@ -47,19 +53,19 @@
               </div>
               <span>{{ item.TUsername }}</span>
             </div>
-            <n-popover trigger="click" placement="bottom-start" :show-arrow="false">
+            <n-popover trigger="hover" placement="bottom-start" :show-arrow="false">
               <template #trigger>
                 <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
                 <div>
-                  <n-popover trigger="click" placement="right" :show-arrow="false">
+                  <n-popover trigger="hover" placement="right" :show-arrow="false">
                     <template #trigger>
                       <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
                     </template>
                     <div class="select_wrap_two">
-                      <div v-for="o in groupList" :key="o.id" @click="editchat(item,o)">{{ o.name }}</div>
+                      <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
                     </div>
                   </n-popover>
                 </div>
@@ -198,19 +204,20 @@ const deepObj: any = {
   '0': '官方客服',
 
 }
-
+const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: roleInfo.value.id,// roleInfo.value.id, //
+  deviceID:2654917,   //roleInfo.value.id,// roleInfo.value.id, //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
   userData: '',
   activeId: null,
+  search: ''   // 查询用户
 })
 
 
@@ -245,16 +252,26 @@ const beforeUpload = (data: any) => {
     })
 }
 
+
+// 选择用户聊天
+const selectUser = (item: any) => {
+  state.chatMessagesList = []
+  state.userData = item
+  state.activeId = item.id
+  state.todeviceid = item.Tdeviceid
+  // 获取聊天记录
+  synchistorymsg()
+}
+
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent, itemSet,groupList,editchat
-}: any = usechatHooks(state)
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15
+}: any = usechatHooks(state,selectUser)
 
 
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
-const search = ref('')
 const testMsg = ref('')
 
 const active = ref(true)  // 禁言
@@ -339,15 +356,6 @@ const showCateSetting = () => {
   visibleCateSetting.value = true
 }
 
-// 选择用户聊天
-const selectUser = (item: any) => {
-  state.chatMessagesList = []
-  state.userData = item
-  state.activeId = item.id
-  state.todeviceid = item.Tdeviceid
-  // 获取聊天记录
-  synchistorymsg()
-}
 
 // 设置按钮
 const settingClick = (item: any) => {
@@ -384,7 +392,7 @@ const sendMsg = () => {
       mtype: state.messagetype,//文字类型消息
       data: msginputdata,
     };
-
+   console.log(66666666,msgcontent)
     //编码消息体
     let MessageInputeItem = state.root.lookupType('MessageInpute')
     const errMsg2 = MessageInputeItem.verify(msgcontent);
@@ -445,7 +453,7 @@ const onOpen = () => {
 const getChatMsgPublic = (data: any) => {
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
 
-  console.log("onMessage/MessageOutpute output2 ", decodeobj2)
+  // console.log("onMessage/MessageOutpute output2 ", decodeobj2)
   let obj: any = {
     1: 'MessageTextContent',//文字消息
     2: 'MessageMoContent',//表情消息
@@ -455,19 +463,22 @@ const getChatMsgPublic = (data: any) => {
   }
 
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
-  console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-  const messageObj = {
-    date: decodeobj2.sendtime,   // 时间
-    role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
-    content: decodeobj3.data,   //消息
-    name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
+  // console.log("onMessage/MessageTextContent output3 ", decodeobj3)
+  if (data.cstatus == 1) {
+    const messageObj = {
+      cstatus: data.cstatus,  // 1; // 通过 显示   等于0或者没有这个字段  就不能显示
+      msgtype: data.msgtype,
+      date: decodeobj2.sendtime,   // 时间
+      role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
+      content: decodeobj3.data,   //消息
+      name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
+    }
+    if (state.messageType == 4) {    //获取到新消息
+      state.chatMessagesList.push(messageObj)
+    } else {    // 聊天记录
+      state.chatMessagesList.unshift(messageObj)
+    }
   }
-  if (state.messageType == 4) {    //获取到新消息
-    state.chatMessagesList.push(messageObj)
-  } else {    // 聊天记录
-    state.chatMessagesList.unshift(messageObj)
-  }
-
 }
 
 // 收到对方发来的消息
@@ -532,6 +543,10 @@ const onMessage: any = async (buffer: any) => {
   // 获取分组列表
   else if (decodeobj1.type == 12) {
     getChatMsg12(decodeobj1)
+  }
+  // 发起新聊天
+  else if (decodeobj1.type == 15) {
+    getChatMsg15(decodeobj1)
   }
   // 获取客服聊天列表
   else if (decodeobj1.type == 24) {
@@ -655,8 +670,28 @@ onMounted(async () => {
 
       &:deep(.n-input__placeholder) {
 
-        text-align: center;
+        // text-align: center;
 
+      }
+
+      .mark {
+        margin-bottom: 18px;
+        width: 260px;
+        height: 36px;
+        background-color: #372771;
+        border-radius: 10px;
+        border: 1px solid #5a47b2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:deep(.n-input) {
+          .n-input__suffix {
+            color: #ffffff
+          }
+
+
+        }
       }
     }
 
@@ -722,6 +757,8 @@ onMounted(async () => {
 }
 
 .user_list {
+  height: 420px;
+  overflow: auto;
   .list_item {
     height: 70px;
     padding: 0 10px;
@@ -754,7 +791,7 @@ onMounted(async () => {
     .high_proxy {
       cursor: pointer;
       font-size: 12px;
- 
+
       color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
@@ -841,7 +878,8 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.select_wrap,.select_wrap_two {
+.select_wrap,
+.select_wrap_two {
   width: 118px;
 
   div {
@@ -851,7 +889,8 @@ onMounted(async () => {
     cursor: pointer;
     color: #8E82C2;
     padding-left: 19px;
-    &:last-child{
+
+    &:last-child {
       padding-left: 0px;
     }
 
@@ -865,8 +904,9 @@ onMounted(async () => {
     }
   }
 }
-.select_wrap_two{
-  div{
+
+.select_wrap_two {
+  div {
     padding-left: 19px !important;
   }
 }
@@ -954,5 +994,10 @@ onMounted(async () => {
   padding: 10px;
   padding-right: 135px;
   overflow-y: auto;
+}
+
+.new_btn {
+  color: #ffffff;
+  cursor: pointer;
 }
 </style>
