@@ -137,7 +137,7 @@ const addNewLine = () => {
   if (!obj.title) {
     return Message.error(t('内容不能为空'));
   }
-  dataCateList.value.push(obj)
+  dataCateList.value.unshift(obj)
   addForm.value.title = ''; // 清空
 }
 // 新增快捷语

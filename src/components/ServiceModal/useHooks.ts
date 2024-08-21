@@ -16,7 +16,7 @@ const state_data: any = reactive({
   quickPhrasesList: [], // 快捷语列表
 });
 
-const usechatHooks = (state?: any,selectUser?: any) => {
+const usechatHooks = (state?: any, selectUser?: any) => {
   const getchatId = () => {
     if (state.deviceID > state.todeviceid) {
       return state.deviceID + '-' + state.todeviceid; //大的在前小的在后
@@ -267,6 +267,7 @@ const usechatHooks = (state?: any,selectUser?: any) => {
       page: 1,
       pagesize: 200,
     };
+    console.log('获取快捷语列表参数--', payload)
     //编码消息体
     const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);
@@ -279,8 +280,8 @@ const usechatHooks = (state?: any,selectUser?: any) => {
     console.log('快捷语解析前--', decodeobj1);
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
-      console.log('-----***', decodeobj00);
-      state_data.quickPhrasesList = decodeobj00.chatitem;
+      console.log('-----***', decodeobj00)
+      state_data.quickPhrasesList = decodeobj00.quickphrase;
       console.log('快捷语解析后==', state_data.quickPhrasesList);
     }
   };
@@ -294,12 +295,13 @@ const usechatHooks = (state?: any,selectUser?: any) => {
       id: data?.id, //快捷语id只有删除和修改的时候传，新增的时候不传
       qhcid: data?.qhcid || '', //分类id
       deviceid: state.deviceID, //用户id
-      istop: data?.istop || 2, //1为置顶 其余值不置顶
+      istop: data?.istop || 2, // 1为置顶 2不置顶
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
-      isautorsp: data?.isautorsp || 6, //是否是自动回复 前端用的
+      isautorsp: data?.isautorsp || 2, // 1 自动回复，2 不自动回复，是否是自动回复 前端用的
       content: data?.content || '', // 快捷语的内容
     };
-    console.log('添加快捷语请求--', payload);
+
+    console.log('添加快捷语请求参数--', payload)
     //编码消息体
     const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);
@@ -350,7 +352,7 @@ const usechatHooks = (state?: any,selectUser?: any) => {
   const itemSet = (o: any, item: any) => {
     editchat(item, item, o);
   };
- // 发起新聊天
+  // 发起新聊天
   const searchuser = () => {
     if (!state.search) {
       return;
@@ -359,32 +361,32 @@ const usechatHooks = (state?: any,selectUser?: any) => {
     const requestid = state.requestid;
     const type = 15; // 查询用户
     var payload = {
-      roleid: state.search*1,
+      roleid: state.search * 1,
       deviceid: state.deviceID,
     };
-    console.log(333333,payload)
+    console.log(333333, payload)
     //编码消息体
     const decodedata = encodeParams(payload, 'UserRoleReq');
     const encodedRequest = encodeInput(type, requestid, decodedata);
     IWebsocket.sendMessageHandler(encodedRequest);
   };
 
-    //  发起新聊天回执
-    const getChatMsg15 = (decodeobj1: any) => {
-      const decodeobj00 = decodeContent(decodeobj1.data, 'UserRolesRsp');
-      let ids = state_data.chatitemList.map((item:any)=>item.roleid)
-      if (decodeobj00&&decodeobj00.roles&&!ids.includes(decodeobj00.roles[0].roleid)) {
-        const params = {
-          ...decodeobj00.roles[0],
-          TUsername:decodeobj00.roles[0].username,
-          Tdeviceid:decodeobj00.roles[0].roleid,
-        }
-        state_data.chatitemList = [...state_data.chatitemList,params]
-        selectUser(params)
-
+  //  发起新聊天回执
+  const getChatMsg15 = (decodeobj1: any) => {
+    const decodeobj00 = decodeContent(decodeobj1.data, 'UserRolesRsp');
+    let ids = state_data.chatitemList.map((item: any) => item.roleid)
+    if (decodeobj00 && decodeobj00.roles && !ids.includes(decodeobj00.roles[0].roleid)) {
+      const params = {
+        ...decodeobj00.roles[0],
+        TUsername: decodeobj00.roles[0].username,
+        Tdeviceid: decodeobj00.roles[0].roleid,
       }
-      // state_data.groupList = decodeobj00.groupitem;
-    };
+      state_data.chatitemList = [...state_data.chatitemList, params]
+      selectUser(params)
+
+    }
+    // state_data.groupList = decodeobj00.groupitem;
+  };
 
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
