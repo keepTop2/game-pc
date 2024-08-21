@@ -6,11 +6,13 @@
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
-      <i>
-        <n-switch v-model:value="active" />
+      <div class="forbidden">
+        <div class="forbidden_btn" @click="visibleForbidden = true">
+          禁言
+        </div>
+        <n-switch v-if="false" v-model:value="active" />
         <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-      </i>
-
+      </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
@@ -32,8 +34,14 @@
               {{ t(tab.label) }}
             </div>
           </n-flex>
-          <n-input v-model:value="search" placeholder="查找聊天列表" />
-          <div class="manage_group" @click="manageClick">管理分组</div>
+          <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
+          <n-input v-model:value="state.search" placeholder="查找聊天列表" :allow-input="onlyAllowNumber">
+            <template #suffix>
+              <div class="new_btn" @click="searchuser">发起新聊天</div>
+            </template>
+          </n-input>
+          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
+          <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
         <div class="user_list">
           <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']" v-for="item in chatitemList"
@@ -51,8 +59,15 @@
               </template>
               <div class="select_wrap">
                 <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
-                <div >
-                  {{ selectList[3].name }}
+                <div>
+                  <n-popover trigger="hover" placement="right" :show-arrow="false">
+                    <template #trigger>
+                      <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
+                    </template>
+                    <div class="select_wrap_two">
+                      <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
+                    </div>
+                  </n-popover>
                 </div>
               </div>
             </n-popover>
@@ -90,7 +105,7 @@
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif"  :show-file-list="false">
+              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
               <n-upload @before-upload="beforeUpload" accept=".mp4,.avi,.mov,.wmv" :show-file-list="false">
@@ -128,13 +143,18 @@
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting" @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList" :quickPhrasesList="quickPhrasesList"/>
+    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting"
+      @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList"
+      :quickPhrasesList="quickPhrasesList" />
     <!-- 快捷语--分类设置 -->
-    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick" :quickPhrasesCateList="quickPhrasesCateList"/>
+    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick"
+      :quickPhrasesCateList="quickPhrasesCateList" />
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
+    <!-- 禁言弹窗 -->
+    <forbiddenSpeech v-model:visible="visibleForbidden" :stateData="state" />
   </div>
 
 </template>
@@ -155,15 +175,12 @@ import shortcutSettings from './components/shortcutSettings.vue';
 import categoryList from './components/categoryList.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
+import forbiddenSpeech from './components/forbiddenSpeech.vue'
 import usechatHooks from './useHooks';
 import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-import axios from 'axios';
-// import { MessageEvent2 } from '@/net/MessageEvent2';
-// import { NetMsgType } from '@/netBase/NetMsgType';
-// import { Message } from '@/utils/discreteApi';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -189,63 +206,74 @@ const deepObj: any = {
   '0': '官方客服',
 
 }
-
+const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: roleInfo.value.id,// roleInfo.value.id, //
+  deviceID:2654917,   //roleInfo.value.id,// roleInfo.value.id, //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
   userData: '',
   activeId: null,
+  search: ''   // 查询用户
 })
 
 
 
 // 上传图片视频
 const beforeUpload = (data: any) => {
-  console.log(data.file.file)
   const file = data.file.file
-  const type = file.type.includes('image')?'image':file.type.includes('video')?'video':''
-  
-  if (file && file.size > 1024 * 1024 * 2&&type=='image') { // 2MB限制
+  const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
+
+  if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
     return;
   }
-  if (file && file.size > 1024 * 1024 * 100&&type=='video') { // 100MB限制
+  if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
     Message.error('文件大小不能超过100MB！')
     return;
   }
   const formData = new FormData();
   formData.append(type, file);
   formData.append('device_id', state.deviceID);
-  fetch(`http://18.162.112.52:8031/api/upload/${type=='image'?'img':'video'}`, {
+  fetch(`http://18.162.112.52:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
     method: 'POST',
     body: formData,
   })
     .then(response => response.json()).then(response => {
-     if (response.status==200) {
-       const urlImg = 'http://18.162.112.52:8031/'+response.data.path
-       msgRef.value.innerHTML =  urlImg;
-       sendMsg()
-     }
+      if (response.status == 200) {
+        const urlImg = 'http://18.162.112.52:8031/' + response.data.path
+        msgRef.value.innerHTML = urlImg;
+        state.messagetype = type == 'image' ? 3 : 4
+        sendMsg()
+      }
     })
+}
+
+
+// 选择用户聊天
+const selectUser = (item: any) => {
+  state.chatMessagesList = []
+  state.userData = item
+  state.activeId = item.id
+  state.todeviceid = item.Tdeviceid
+  // 获取聊天记录
+  synchistorymsg()
 }
 
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent
-}: any = usechatHooks(state)
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15
+}: any = usechatHooks(state,selectUser)
 
 
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
-const search = ref('')
 const testMsg = ref('')
 
 const active = ref(true)  // 禁言
@@ -259,6 +287,7 @@ const tab_list = [
 const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
+
 
 const selectList = [
   { name: '置顶', id: 1 },
@@ -296,6 +325,7 @@ const visibleTransfor = ref(false)
 const visibleSetting = ref(false) // 快捷语设置
 const visibleCateSetting = ref(false) // 快捷语分类设置
 const visibleGroup = ref(false) // 管理分组弹窗
+const visibleForbidden = ref(false) // 禁言弹窗
 
 // 转账
 const sendMoney = () => {
@@ -328,15 +358,6 @@ const showCateSetting = () => {
   visibleCateSetting.value = true
 }
 
-// 选择用户聊天
-const selectUser = (item: any) => {
-  state.chatMessagesList = []
-  state.userData = item
-  state.activeId = item.id
-  state.todeviceid = item.Tdeviceid
-  // 获取聊天记录
-  synchistorymsg()
-}
 
 // 设置按钮
 const settingClick = (item: any) => {
@@ -373,7 +394,7 @@ const sendMsg = () => {
       mtype: state.messagetype,//文字类型消息
       data: msginputdata,
     };
-
+   console.log(66666666,msgcontent)
     //编码消息体
     let MessageInputeItem = state.root.lookupType('MessageInpute')
     const errMsg2 = MessageInputeItem.verify(msgcontent);
@@ -405,6 +426,7 @@ const sendMsg = () => {
     IWebsocket.sendMessageHandler(encodedRequest);
     testMsg.value = ''
     msgRef.value.innerHTML = ''
+    state.mtype = 1
   }
 }
 
@@ -433,7 +455,7 @@ const onOpen = () => {
 const getChatMsgPublic = (data: any) => {
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
 
-  console.log("onMessage/MessageOutpute output2 ", decodeobj2)
+  // console.log("onMessage/MessageOutpute output2 ", decodeobj2)
   let obj: any = {
     1: 'MessageTextContent',//文字消息
     2: 'MessageMoContent',//表情消息
@@ -443,19 +465,22 @@ const getChatMsgPublic = (data: any) => {
   }
 
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
-  console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-  const messageObj = {
-    date: decodeobj2.sendtime,   // 时间
-    role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
-    content: decodeobj3.data,   //消息
-    name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
+  // console.log("onMessage/MessageTextContent output3 ", decodeobj3)
+  if (data.cstatus == 1) {
+    const messageObj = {
+      cstatus: data.cstatus,  // 1; // 通过 显示   等于0或者没有这个字段  就不能显示
+      msgtype: data.msgtype,
+      date: decodeobj2.sendtime,   // 时间
+      role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
+      content: decodeobj3.data,   //消息
+      name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
+    }
+    if (state.messageType == 4) {    //获取到新消息
+      state.chatMessagesList.push(messageObj)
+    } else {    // 聊天记录
+      state.chatMessagesList.unshift(messageObj)
+    }
   }
-  if (state.messageType == 4) {    //获取到新消息
-    state.chatMessagesList.push(messageObj)
-  } else {    // 聊天记录
-    state.chatMessagesList.unshift(messageObj)
-  }
-
 }
 
 // 收到对方发来的消息
@@ -521,6 +546,10 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 12) {
     getChatMsg12(decodeobj1)
   }
+  // 发起新聊天
+  else if (decodeobj1.type == 15) {
+    getChatMsg15(decodeobj1)
+  }
   // 获取客服聊天列表
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
@@ -578,10 +607,8 @@ onMounted(async () => {
 
   getShortcutCatelist()
   getShortcutlist()
+  getListGroup()
   // synchistorymsg()
-  state.firstIn = true
-
-
 })
 </script>
 <style lang="less" scoped>
@@ -610,14 +637,21 @@ onMounted(async () => {
         #3a2786 28%,
         #3c279a 0%);
 
-    >i {
+    >.forbidden {
       position: absolute;
-      top: 15px;
+      top: 0px;
       right: 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
+
+      .forbidden_btn {
+        width: 100px;
+        background: url(/img/serviceModal/speech_btn.webp) no-repeat;
+        background-size: 100% 112%;
+        color: #fff;
+      }
     }
 
     &:deep(.n-switch--active .n-switch__rail) {
@@ -640,8 +674,28 @@ onMounted(async () => {
 
       &:deep(.n-input__placeholder) {
 
-        text-align: center;
+        // text-align: center;
 
+      }
+
+      .mark {
+        margin-bottom: 18px;
+        width: 260px;
+        height: 36px;
+        background-color: #372771;
+        border-radius: 10px;
+        border: 1px solid #5a47b2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:deep(.n-input) {
+          .n-input__suffix {
+            color: #ffffff
+          }
+
+
+        }
       }
     }
 
@@ -707,6 +761,8 @@ onMounted(async () => {
 }
 
 .user_list {
+  height: 420px;
+  overflow: auto;
   .list_item {
     height: 70px;
     padding: 0 10px;
@@ -739,6 +795,7 @@ onMounted(async () => {
     .high_proxy {
       cursor: pointer;
       font-size: 12px;
+
       color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
@@ -825,7 +882,8 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.select_wrap {
+.select_wrap,
+.select_wrap_two {
   width: 118px;
 
   div {
@@ -836,6 +894,10 @@ onMounted(async () => {
     color: #8E82C2;
     padding-left: 19px;
 
+    &:last-child {
+      padding-left: 0px;
+    }
+
     &:hover {
       background-color: #1154FF;
       color: #ffffff;
@@ -844,6 +906,12 @@ onMounted(async () => {
     &:last-child {
       border: unset;
     }
+  }
+}
+
+.select_wrap_two {
+  div {
+    padding-left: 19px !important;
   }
 }
 
@@ -944,5 +1012,10 @@ onMounted(async () => {
   padding: 10px;
   padding-right: 135px;
   overflow-y: auto;
+}
+
+.new_btn {
+  color: #ffffff;
+  cursor: pointer;
 }
 </style>
