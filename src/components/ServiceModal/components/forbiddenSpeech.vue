@@ -19,7 +19,7 @@
           </n-radio>
         </n-radio-group>
         <div class="btn_group">
-            <div class="btn_close" isShow = false >取消</div>
+            <div class="btn_close"@click="isShow = false">取消</div>
             <div class="btn_save" @click="saveClick" >保存</div>
           </div>
       </div>

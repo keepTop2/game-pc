@@ -81,14 +81,14 @@
         <div class="setting_wrap">
           <div class="short_wrap">
             <div v-for="item in quickPhrasesCateList" :key="item.id">
-              <n-popover trigger="hover" placement="top" :show-arrow="false">
+              <n-popover trigger="click" placement="top" :show-arrow="false">
                 <template #trigger>
                   <div class="short_wrap_item">
                     <span>{{ item.title }}</span>
                   </div>
                 </template>
                 <div class="short_wrap_list">
-                  <span v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
+                  <span class="short_wrap_title" v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
                         @click="chooseQuick(op)"
                         :key="op">{{ op.content }}</span>
                 </div>
@@ -212,7 +212,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: roleInfo.value.id,//2654917,  //
+  deviceID:2654917,   // roleInfo.value.id,,  //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
@@ -296,14 +296,7 @@ const selectList = [
   { name: '移动分组到', id: 4 }
 ]
 
-// const shortList = [
-//   { name: '充值', role: 'proxy', id: 1 },
-//   { name: '提款', role: 'user', id: 2 },
-//   { name: '投注', role: 'user', id: 3 },
-//   { name: '代理', role: 'user', id: 4 },
-//   { name: '活动', role: 'proxy', id: 5 },
-// ]
-// const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
+
 
 const settingList = [
   { name: '全部对话', img: 'zuocweidy01', id: 1 },
@@ -582,8 +575,12 @@ const onMessage: any = async (buffer: any) => {
 
 }
 
+
+// 快捷语选择
+
 const chooseQuick = (data: any) => {
-  console.log('选择快捷语&&&', data)
+  msgRef.value.innerHTML = data.content
+  sendMsg()
 }
 // 快捷语增删改查
 const addModifyQuick = (data: any) => {
@@ -975,11 +972,19 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   color: #ffffff;
-  padding: 16px;
-  gap: 10px;
+  min-width: 110px;
+  // padding: 16px 0px;
+  // gap: 10px;
 
   span {
     cursor: pointer;
+    text-align: left;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    &:hover{
+      background-color: #1154FF;
+    }
   }
 }
 
