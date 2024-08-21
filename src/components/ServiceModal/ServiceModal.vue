@@ -210,7 +210,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID:2654917,   //roleInfo.value.id,// roleInfo.value.id, //
+  deviceID: roleInfo.value.id,//2654917,  //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
@@ -267,7 +267,7 @@ const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
   decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15
-}: any = usechatHooks(state,selectUser)
+}: any = usechatHooks(state, selectUser)
 
 
 const emit = defineEmits(['update:visible']);
@@ -419,11 +419,7 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
     IWebsocket.sendMessageHandler(encodedRequest);
-    testMsg.value = ''
-    msgRef.value.innerHTML = ''
-    state.mtype = 1
   }
 }
 
@@ -515,6 +511,14 @@ const onMessage: any = async (buffer: any) => {
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
     console.log(decodeobj1)
+    // 没返回错误码正常可发送
+    if (!decodeobj1.code) {
+      var datatime = getDateFromat()
+      state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
+      testMsg.value = ''
+      msgRef.value.innerHTML = ''
+      state.messagetype = 1
+    }
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
@@ -758,6 +762,7 @@ onMounted(async () => {
 .user_list {
   height: 420px;
   overflow: auto;
+
   .list_item {
     height: 70px;
     padding: 0 10px;
