@@ -392,7 +392,6 @@ const sendMsg = () => {
       mtype: state.messagetype,//文字类型消息
       data: msginputdata,
     };
-   console.log(66666666,msgcontent)
     //编码消息体
     let MessageInputeItem = state.root.lookupType('MessageInpute')
     const errMsg2 = MessageInputeItem.verify(msgcontent);

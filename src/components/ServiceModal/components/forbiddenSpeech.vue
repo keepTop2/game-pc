@@ -46,7 +46,7 @@ const props = defineProps({
   }
 });
 const onlyAllowNumber =  (value: string) => !value || /^\d+$/.test(value)
-const { encodeInput, encodeParams, decodeContent,}: any = usechatHooks(props.stateData)
+const { encodeInput, encodeParams}: any = usechatHooks(props.stateData)
 
 const list = ref([
   { label: '禁言用户', id: 1, day: '' },
