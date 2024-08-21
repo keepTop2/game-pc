@@ -10,18 +10,19 @@
       </h4>
       <div class="main_body">
         <n-radio-group v-model:value="choose" name="radiogroup">
-          <n-radio v-for="(item,index) in list" :key="item.id" :value="item.id">
+          <n-radio v-for="(item, index) in list" :key="item.id" :value="item.id">
             <div class="radio_item">
-              <span class="label">{{item.label}}</span>
-              <n-input v-model:value="list[index].day" placeholder="" style="width:85%" :allow-input="onlyAllowNumber" />
+              <span class="label">{{ item.label }}</span>
+              <n-input v-model:value="list[index].day" placeholder="" style="width:85%"
+                :allow-input="onlyAllowNumber" />
               <span>天</span>
             </div>
           </n-radio>
         </n-radio-group>
         <div class="btn_group">
-            <div class="btn_close" isShow = false >取消</div>
-            <div class="btn_save" @click="saveClick" >保存</div>
-          </div>
+          <div class="btn_close" isShow=false>取消</div>
+          <div class="btn_save" @click="saveClick">保存</div>
+        </div>
       </div>
     </div>
   </n-modal>
@@ -45,8 +46,8 @@ const props = defineProps({
     default: () => ({}),
   }
 });
-const onlyAllowNumber =  (value: string) => !value || /^\d+$/.test(value)
-const { encodeInput, encodeParams, decodeContent,}: any = usechatHooks(props.stateData)
+const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
+const { encodeInput, encodeParams }: any = usechatHooks(props.stateData)
 
 const list = ref([
   { label: '禁言用户', id: 1, day: '' },
@@ -58,21 +59,21 @@ const choose = ref()
 const emit = defineEmits(['update:visible']);
 
 // 禁言保存
-const saveClick = ()=>{
-//   //禁言解禁请求
-// message MuteReq {
-//   int64 deviceid = 1; // 设备id
-//   string ip = 2; // ip
-//   int32 mtype = 3; // 操作类型 1 禁言用户 2禁言ip   3解封用户 4解封ip
-//   int32 days = 4; // 天数
-// }
-// //解封解封请求
-// message ForbidReq {
-//   int64 deviceid = 1; // 设备id
-//   string ip = 2; // ip
-//   int32 mtype = 3; // 操作类型 1 封禁用户 2封禁ip   3解封用户 4解封ip
-//   int32 days = 4; // 天数
-// }
+const saveClick = () => {
+  //   //禁言解禁请求
+  // message MuteReq {
+  //   int64 deviceid = 1; // 设备id
+  //   string ip = 2; // ip
+  //   int32 mtype = 3; // 操作类型 1 禁言用户 2禁言ip   3解封用户 4解封ip
+  //   int32 days = 4; // 天数
+  // }
+  // //解封解封请求
+  // message ForbidReq {
+  //   int64 deviceid = 1; // 设备id
+  //   string ip = 2; // ip
+  //   int32 mtype = 3; // 操作类型 1 封禁用户 2封禁ip   3解封用户 4解封ip
+  //   int32 days = 4; // 天数
+  // }
 
   if (!choose.value) {
     Message.error('请先选择')
@@ -84,11 +85,11 @@ const saveClick = ()=>{
   var payload = {
     deviceid: state.deviceID,
     id: state.userData.id,
-    days: list.value[choose.value-1].day,
-    mtype:choose.value
+    days: list.value[choose.value - 1].day,
+    mtype: choose.value
   }
-  console.log(44444444,payload)
-  const actionType = choose.value<3?'MuteReq':'ForbidReq'
+  console.log(44444444, payload)
+  const actionType = choose.value < 3 ? 'MuteReq' : 'ForbidReq'
   const decodedata = encodeParams(payload, actionType)
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest)
@@ -97,7 +98,7 @@ const saveClick = ()=>{
 const isShow = computed({
   get: function () {
     choose.value = ''
-    list.value.forEach(item=>item.day='')
+    list.value.forEach(item => item.day = '')
     return props.visible;
   },
   set: function (value) {
@@ -149,13 +150,15 @@ const isShow = computed({
 
   &:deep(.n-radio-group) {
     width: 100%;
-    .n-radio{
+
+    .n-radio {
       display: flex;
       align-items: center;
       width: 100%;
       margin-bottom: 20px;
     }
-    .n-radio-input{
+
+    .n-radio-input {
       width: 20px;
     }
 
@@ -173,8 +176,9 @@ const isShow = computed({
   gap: 6px;
   color: #ffffff;
   width: 100%;
+
   // margin-bottom: 12px;
-  .label{
+  .label {
     display: inline-block;
     width: 80px;
   }
