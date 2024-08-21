@@ -80,15 +80,17 @@
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <div v-for="item in shortList" :key="item.id">
+            <div v-for="item in quickPhrasesCateList" :key="item.id">
               <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
                   <div class="short_wrap_item">
-                    <span>{{ item.name }}</span>
+                    <span>{{ item.title }}</span>
                   </div>
                 </template>
                 <div class="short_wrap_list">
-                  <span v-for="op in short_options" :key="op">{{ op }}</span>
+                  <span v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
+                        @click="chooseQuick(op)"
+                        :key="op">{{ op.content }}</span>
                 </div>
               </n-popover>
             </div>
@@ -294,14 +296,14 @@ const selectList = [
   { name: '移动分组到', id: 4 }
 ]
 
-const shortList = [
-  { name: '充值', role: 'proxy', id: 1 },
-  { name: '提款', role: 'user', id: 2 },
-  { name: '投注', role: 'user', id: 3 },
-  { name: '代理', role: 'user', id: 4 },
-  { name: '活动', role: 'proxy', id: 5 },
-]
-const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
+// const shortList = [
+//   { name: '充值', role: 'proxy', id: 1 },
+//   { name: '提款', role: 'user', id: 2 },
+//   { name: '投注', role: 'user', id: 3 },
+//   { name: '代理', role: 'user', id: 4 },
+//   { name: '活动', role: 'proxy', id: 5 },
+// ]
+// const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
 
 const settingList = [
   { name: '全部对话', img: 'zuocweidy01', id: 1 },
@@ -579,9 +581,12 @@ const onMessage: any = async (buffer: any) => {
   }
 
 }
+
+const chooseQuick = (data: any) => {
+  console.log('选择快捷语&&&', data)
+}
 // 快捷语增删改查
 const addModifyQuick = (data: any) => {
-  console.log('-----===', data)
   if (!data.mType) {
     return
   }
@@ -589,7 +594,6 @@ const addModifyQuick = (data: any) => {
 }
 // 快捷语--分类增删改查
 const addModifyCateQuick = (data: any) => {
-  console.log('***==', data)
   if (!data.mType) {
     return
   }
@@ -923,6 +927,7 @@ onMounted(async () => {
     cursor: pointer;
     margin-top: 6px;
     padding: 0 23px;
+    width: 150px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -936,9 +941,22 @@ onMounted(async () => {
 
 .short_wrap {
   display: flex;
+  max-width: 700px;
+  overflow-x: scroll;
+  overflow-y: hidden;
   gap: 10px;
-  margin-bottom: 12px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
   margin-top: 12px;
+
+  &::-webkit-scrollbar {
+    display: block;
+    height: 3px
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #3c279a;
+    border-radius: 8px
+  }
 
   .short_wrap_item {
     width: 98px;
