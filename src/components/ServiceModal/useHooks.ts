@@ -320,7 +320,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
       title: data?.title || '', //分类的标题
     };
-    console.log('添加快捷语分类请求--', type, payload);
+    console.log('添加快捷语分类请求参数--', type, payload);
     //编码消息体
     const errMsg2 = sendReq.verify(payload);
     if (errMsg2) throw new Error(errMsg2);

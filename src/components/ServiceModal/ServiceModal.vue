@@ -509,11 +509,11 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
-  const decodeobj1 = decodeContent(buffer, 'Output');;
+  const decodeobj1 = decodeContent(buffer, 'Output');
   console.log("onMessage/Output output0 ", decodeobj1)
   state.messageType = decodeobj1.type
-  if (decodeobj1.code > 10000) {
-    alert(decodeobj1.message)
+  if (decodeobj1.code && decodeobj1.code > 1000) {
+    Message.error(t(decodeobj1.code));
     return;
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
