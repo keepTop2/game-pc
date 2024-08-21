@@ -19,11 +19,12 @@ import { Net } from '@/net/Net';
 import { Message } from "@/utils/discreteApi";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
+import useWalletInfo from "@/views/wallet/walletInfo/useWalletInfo.ts";
 
 const { t } = useI18n();
 const walletInfo = Wallet(pinia);
 const { showRedeemCode } = storeToRefs(walletInfo);
-
+const { getNewMon } = useWalletInfo();
 const formRef = ref();
 const updateFormRef = (ref: any) => formRef.value = ref;
 
@@ -65,11 +66,23 @@ const handleSubmit = () => {
 };
 // result： 1 成功，2 失败
 const handleExchange = (res: any) => {
-  if (res.result === 2) {
-    Message.error(t('redeemCode_page_errorCode'))
-  } else {
+  const type_str: any = {
+    0: 'proxy_page_caoZuo',
+    1: 'invalid_ID',
+    2: 'redeem_cannot_be_swap',
+    3: 'exceeded_daily_limit',
+    4: 'activity_not_open',
+    5: 'code_does_not_exist',
+    6: 'code_already_used',
+    7: 'code_exceeded_limit',
+    8: 'code_can_only_used_once',
+  }
+  if (res.result === 0) {
+    getNewMon();
     onClose();
     Message.success(t('redeemCode_page_success'))
+  } else {
+    Message.error(t(type_str[res.result]))
   }
 }
 onMounted(() => {

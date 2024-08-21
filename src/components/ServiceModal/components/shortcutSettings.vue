@@ -190,7 +190,7 @@ const showSetting = () => {
   emit('showCateSetting')
 }
 const clickTab = (e: any) => {
-  console.log('*****', e)
+  // console.log('*****', e)
   curTab.value = e;
   dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e)
 }
