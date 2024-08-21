@@ -512,7 +512,7 @@ const onMessage: any = async (buffer: any) => {
   const decodeobj1 = decodeContent(buffer, 'Output');
   console.log("onMessage/Output output0 ", decodeobj1)
   state.messageType = decodeobj1.type
-  if (decodeobj1.code && decodeobj1.code > 10000) {
+  if (decodeobj1.code && decodeobj1.code > 1000) {
     Message.error(t(decodeobj1.code));
     return;
   }
