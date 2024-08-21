@@ -300,7 +300,6 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       isautorsp: data?.isautorsp || 2, // 1 自动回复，2 不自动回复，是否是自动回复 前端用的
       content: data?.content || '', // 快捷语的内容
     };
-
     console.log('添加快捷语请求参数--', payload)
     //编码消息体
     const errMsg2 = sendReq.verify(payload);
