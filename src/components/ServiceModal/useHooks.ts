@@ -76,7 +76,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
       if (state_data.groupItem && state_data.groupItem.id) {
-        state_data.groupChatitemList = decodeobj00.chatitem;
+        state_data.groupChatitemList = decodeobj00.chatitem||[];
       } else {
         state_data.chatitemList = decodeobj00.chatitem;
         const item = state_data.chatitemList[0];

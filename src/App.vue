@@ -91,8 +91,6 @@ const themeOverrides: GlobalThemeOverrides = {
 
 // 角色详情
 const handleRoleInfo = async (data: any) => {
-  console.log(33333333, data)
-  console.log(33333333, settings)
   await getAgentLevel(data)
   await User(pinia).getRoleInfo(data)
 }

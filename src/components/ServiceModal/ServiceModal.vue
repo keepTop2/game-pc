@@ -17,12 +17,25 @@
     <div class="main_body">
       <!-- 左侧设置 -->
       <div class="left_setting">
-        <div class="set_item" v-for="item in settingList" :key="item.id" @click="settingClick(item)">
-          <n-badge :value="5" :max="15" class="set_item" :show="item.id == 1" :offset="[-17]">
-            <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
-            <img :src="`/img/serviceModal/${item.img}`" alt="">
-            <span>{{ item.name }}</span>
+        <div class="set_item " @click="groupClick('all')">
+          <n-badge :value="5" :max="15" class="set_item" :offset="[-17]">
+            <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
+              size="1.8rem"></iconpark-icon>
+            <!-- <img :src="`/img/serviceModal/${item.img}`" alt=""> -->
+            <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">全部对话</span>
           </n-badge>
+        </div>
+        <!-- 分组 -->
+        <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
+          <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
+            size="1.8rem"></iconpark-icon>
+          <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
+        </div>
+        <!-- 编辑 -->
+        <div class="set_item" @click="groupClick('edit')">
+          <iconpark-icon icon-id="zuocweidy03" :color="state.groupType == 'edit' ? '#fff' : '#8D84C5'"
+            size="1.8rem"></iconpark-icon>
+          <span :style="{ color: state.groupType == 'edit' ? '#fff' : '#8D84C5' }">编辑</span>
         </div>
       </div>
       <!-- 左侧菜单 -->
@@ -44,8 +57,9 @@
           <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
         <div class="user_list">
-          <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']" v-for="item in chatitemList"
-            :key="item.id" @click="selectUser(item)">
+          <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
+            v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
+            @click="selectUser(item)">
             <div class="item_left">
               <div class="avatar">
                 <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
@@ -88,9 +102,9 @@
                   </div>
                 </template>
                 <div class="short_wrap_list">
-                  <span class="short_wrap_title" v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
-                        @click="chooseQuick(op)"
-                        :key="op">{{ op.content }}</span>
+                  <span class="short_wrap_title"
+                    v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)" @click="chooseQuick(op)"
+                    :key="op">{{ op.content }}</span>
                 </div>
               </n-popover>
             </div>
@@ -121,23 +135,6 @@
               </n-popover>
             </div>
           </div>
-          <!-- <n-input v-model:value="testMsg" type="textarea" rows="2">
-            <template #suffix>
-              <div class="send_icon">
-                <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
-                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
-                <n-popover trigger="hover" :show-arrow="false" placement="top-end">
-                  <template #trigger>
-                    <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
-                  </template>
-                  <div class="emoji">
-                    <EmojiPicker :native="true" @select="onSelectEmoji" />
-                  </div>
-                </n-popover>
-              </div>
-            </template>
-          </n-input> -->
           <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
@@ -164,11 +161,6 @@ import { computed, ref, onMounted, reactive } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
-// import btn from './btn.vue';
-// import Common from '@/utils/common';
-// import { Net } from '@/net/Net';
-// import { NetPacket } from '@/netBase/NetPacket';
-// import ReconnectingWebSocket from 'reconnecting-websocket';
 import protobuf from 'protobufjs';
 import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
@@ -212,14 +204,15 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID:2654917,   // roleInfo.value.id,,  //
+  deviceID: 2654917,   // roleInfo.value.id,,  //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
   userData: '',
   activeId: null,
-  search: ''   // 查询用户
+  search: '',   // 查询用户
+  groupType: 'all',
 })
 
 
@@ -268,7 +261,7 @@ const selectUser = (item: any) => {
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList
 }: any = usechatHooks(state, selectUser)
 
 
@@ -295,16 +288,6 @@ const selectList = [
   { name: '屏蔽', id: 3 },
   { name: '移动分组到', id: 4 }
 ]
-
-
-
-const settingList = [
-  { name: '全部对话', img: 'zuocweidy01', id: 1 },
-  { name: '工作', img: 'zuocweidy02', id: 2 },
-  { name: '编辑', img: 'zuocweidy03', id: 3 },
-]
-
-
 // 添加表情
 
 function onSelectEmoji(emoji: any) {
@@ -352,10 +335,15 @@ const showCateSetting = () => {
 }
 
 
-// 设置按钮
-const settingClick = (item: any) => {
-  if (item.id == 3) {
+// 分组点击
+const groupClick = (item: any) => {
+  state.groupType = item
+  if (item == 'edit') {
     manageClick()
+  } else if (item == 'all') {
+    getChatlist()
+  } else {
+    getChatlist(item)
   }
 
 }
@@ -505,7 +493,6 @@ const onMessage: any = async (buffer: any) => {
     return;
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
-    console.log(decodeobj1)
     // 没返回错误码正常可发送
     if (!decodeobj1.code) {
       var datatime = getDateFromat()
@@ -527,10 +514,16 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
   }
+  // 移动好友到分组成功
+  else if (decodeobj1.type == 14) {
+    Message.success('操作成功')
+  }
+
   //分组列表保存回执
   else if (decodeobj1.type == 9) {
     Message.success('操作成功')
     groupRef.value.getChatMsg9(decodeobj1)
+    getListGroup()
 
   }
   //分组列表删除回执
@@ -713,6 +706,11 @@ onMounted(async () => {
         flex-direction: column;
         align-items: center;
         cursor: pointer;
+
+        span {
+          padding: 0 6px;
+          text-align: center
+        }
 
         img {
           width: 32px;
@@ -950,6 +948,7 @@ onMounted(async () => {
     display: block;
     height: 3px
   }
+
   &::-webkit-scrollbar-thumb {
     background: #3c279a;
     border-radius: 8px
@@ -982,7 +981,8 @@ onMounted(async () => {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 4px;
-    &:hover{
+
+    &:hover {
       background-color: #1154FF;
     }
   }
