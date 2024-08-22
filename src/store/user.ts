@@ -20,7 +20,8 @@ interface UserState {
   VIPinfo: TVIPInfo; // vip详情
   myEmail: any; // 邮箱列表
   loadingEnd: boolean;
-  wsOpen: boolean
+  wsOpen: boolean,
+  kefuVisible:boolean
 }
 
 export const User = defineStore('userInfo', {
@@ -36,6 +37,7 @@ export const User = defineStore('userInfo', {
     hasLogin: false,
     info: {},
     loginInfo: null,
+    kefuVisible:false,
     VIPinfo: {},
 
     roleInfo: {
@@ -105,6 +107,7 @@ export const User = defineStore('userInfo', {
       this.roleInfo = roleInfo
       Local.set('roleInfo', roleInfo)
     },
+
 
   }
 });

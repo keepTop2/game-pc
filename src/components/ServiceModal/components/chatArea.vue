@@ -14,7 +14,7 @@
             </div>
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
               @click="showImg(item.content)">
-              <div v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1"></div>
+              <div class=" " v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1"></div>
               <!-- 图片视频 -->
               <div v-else>
                 <n-image v-if="item.content.includes('storage/uploads/image')" width="140" :src="item.content"
@@ -199,5 +199,13 @@ onMounted(() => {
       }
     }
   }
+}
+.item_column{
+  display: flex;
+  flex-direction: column;
+}
+.item_center{
+   display: flex;
+  justify-content: center;
 }
 </style>
