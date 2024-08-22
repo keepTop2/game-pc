@@ -88,7 +88,7 @@
                   </div>
                 </template>
                 <div class="short_wrap_list">
-                  <span v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
+                  <span class="short_wrap_title" v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
                         @click="chooseQuick(op)"
                         :key="op">{{ op.content }}</span>
                 </div>
@@ -212,7 +212,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID:2654917,   //roleInfo.value.id,// roleInfo.value.id, //
+  deviceID:2654917,   // roleInfo.value.id,,  //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
@@ -269,7 +269,7 @@ const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
   decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15
-}: any = usechatHooks(state,selectUser)
+}: any = usechatHooks(state, selectUser)
 
 
 const emit = defineEmits(['update:visible']);
@@ -296,14 +296,7 @@ const selectList = [
   { name: '移动分组到', id: 4 }
 ]
 
-// const shortList = [
-//   { name: '充值', role: 'proxy', id: 1 },
-//   { name: '提款', role: 'user', id: 2 },
-//   { name: '投注', role: 'user', id: 3 },
-//   { name: '代理', role: 'user', id: 4 },
-//   { name: '活动', role: 'proxy', id: 5 },
-// ]
-// const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
+
 
 const settingList = [
   { name: '全部对话', img: 'zuocweidy01', id: 1 },
@@ -394,7 +387,6 @@ const sendMsg = () => {
       mtype: state.messagetype,//文字类型消息
       data: msginputdata,
     };
-   console.log(66666666,msgcontent)
     //编码消息体
     let MessageInputeItem = state.root.lookupType('MessageInpute')
     const errMsg2 = MessageInputeItem.verify(msgcontent);
@@ -422,11 +414,7 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
     IWebsocket.sendMessageHandler(encodedRequest);
-    testMsg.value = ''
-    msgRef.value.innerHTML = ''
-    state.mtype = 1
   }
 }
 
@@ -518,6 +506,14 @@ const onMessage: any = async (buffer: any) => {
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
     console.log(decodeobj1)
+    // 没返回错误码正常可发送
+    if (!decodeobj1.code) {
+      var datatime = getDateFromat()
+      state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
+      testMsg.value = ''
+      msgRef.value.innerHTML = ''
+      state.messagetype = 1
+    }
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
@@ -579,8 +575,12 @@ const onMessage: any = async (buffer: any) => {
 
 }
 
+
+// 快捷语选择
+
 const chooseQuick = (data: any) => {
-  console.log('选择快捷语&&&', data)
+  msgRef.value.innerHTML = data.content
+  sendMsg()
 }
 // 快捷语增删改查
 const addModifyQuick = (data: any) => {
@@ -763,6 +763,7 @@ onMounted(async () => {
 .user_list {
   height: 420px;
   overflow: auto;
+
   .list_item {
     height: 70px;
     padding: 0 10px;
@@ -971,11 +972,19 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   color: #ffffff;
-  padding: 16px;
-  gap: 10px;
+  min-width: 110px;
+  // padding: 16px 0px;
+  // gap: 10px;
 
   span {
     cursor: pointer;
+    text-align: left;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    &:hover{
+      background-color: #1154FF;
+    }
   }
 }
 

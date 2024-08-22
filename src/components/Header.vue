@@ -297,6 +297,7 @@ const menuClick = async (item: any, j: number) => {
       negativeText: t('home_page_cancel'),
       onPositiveClick: async () => {
         Local.remove('user')
+        Local.remove('roleInfo')
         await User(pinia).setHasLogin(false)
         location.href = '/'
       },

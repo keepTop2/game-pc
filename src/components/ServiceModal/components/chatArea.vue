@@ -4,7 +4,8 @@
       <div v-if="chatList.length">
         <div class="chat_item" v-for="item in (chatList as any)" :key="item.date"
           :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }">
-          <img v-if="item.role == '2'" :src="`/img/serviceModal/avatar.webp`" alt="">
+          {{ item.THeadPhoto }}
+          <img v-if="item.role == '2'" :src="`/img/head_icons/${item.THeadPhoto||'1001'}.webp`" alt="">
           <div class="chat_main">
             <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
               <span>{{ item.name }}</span>
