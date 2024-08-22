@@ -31,7 +31,7 @@ import { Net } from "@/net/Net";
 const userInfo = User(pinia);
 const page = Page(pinia);
 const { roleInfo, myEmail } = storeToRefs(userInfo);
-const { lang } = storeToRefs(page);
+const { lang, settings } = storeToRefs(page);
 const Language: any = {
   en: {
     global: enUS,
@@ -91,8 +91,10 @@ const themeOverrides: GlobalThemeOverrides = {
 
 // 角色详情
 const handleRoleInfo = async (data: any) => {
+  console.log(33333333, data)
+  console.log(33333333, settings)
+  await getAgentLevel(data)
   await User(pinia).getRoleInfo(data)
-
 }
 // 角色VIP详情
 const handleVipInfo = async (data: any) => {
@@ -102,6 +104,19 @@ const handleVipInfo = async (data: any) => {
 const handleUserInfo = async (data: any) => {
   await User(pinia).getInfo(data)
   await User(pinia).setHasLogin(true)
+}
+//获取用户角色
+async function getAgentLevel(roleInfo:any) {
+  if (settings.value.customer_server) {
+    // 获取角色
+    fetch(settings.value.customer_server + `/api/user/info?device_id=${roleInfo.id}`)
+      .then(response => {
+        return response.json(); // 将响应解析为 JSON
+      })
+      .then(res => {
+        roleInfo.agent_level = res?.data?.agent_level 
+      })
+  }
 }
 
 const emailList: any = []

@@ -81,7 +81,7 @@
         <div class="setting_wrap">
           <div class="short_wrap">
             <div v-for="item in quickPhrasesCateList" :key="item.id">
-              <n-popover trigger="click" placement="top" :show-arrow="false">
+              <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
                   <div class="short_wrap_item">
                     <span>{{ item.title }}</span>

@@ -82,7 +82,6 @@ export const User = defineStore('userInfo', {
     },
 
     async setEmailList(info: any) {
-      console.log(333333333, info)
       this.myEmail = info;
       // this.emailList = info
     },
@@ -104,6 +103,7 @@ export const User = defineStore('userInfo', {
     },
     async getRoleInfo(roleInfo: TRoleInfo) {
       this.roleInfo = roleInfo
+      Local.set('roleInfo', roleInfo)
     },
 
   }
