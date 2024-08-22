@@ -18,7 +18,7 @@
       <!-- 左侧设置 -->
       <div class="left_setting">
         <div class="set_item " @click="groupClick('all')">
-          <n-badge :value="5" :max="15" class="set_item" :offset="[-17]">
+          <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
               size="1.8rem"></iconpark-icon>
             <!-- <img :src="`/img/serviceModal/${item.img}`" alt=""> -->
@@ -62,7 +62,9 @@
             @click="selectUser(item)">
             <div class="item_left">
               <div class="avatar">
-                <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                <n-badge :value="item.unreadnums" :show="item.unreadnums>0" :max="9999" class="set_item" :offset="[-14, 8]">
+                  <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                </n-badge>
                 <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
               </div>
               <span>{{ item.TUsername }}</span>
@@ -256,12 +258,14 @@ const selectUser = (item: any) => {
   state.todeviceid = item.Tdeviceid
   // 获取聊天记录
   synchistorymsg()
+  allRead()
+  state.userData.unreadnums = 0  // 清掉未读消息
 }
 
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList,allRead
 }: any = usechatHooks(state, selectUser)
 
 
@@ -307,6 +311,16 @@ const visibleForbidden = ref(false) // 禁言弹窗
 const sendMoney = () => {
   visibleTransfor.value = true
 }
+// 所有未读消息数量
+const allUnReadNum = computed(()=>{
+  let total = 0
+  chatitemList.value.forEach((item:any)=>{
+    if (item.unreadnums&&item.unreadnums>0) {
+      total = total + item.unreadnums
+    }
+  })
+return total
+})
 
 
 const isShow = computed({
@@ -430,8 +444,6 @@ const onOpen = () => {
 }
 const getChatMsgPublic = (data: any) => {
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
-
-  // console.log("onMessage/MessageOutpute output2 ", decodeobj2)
   let obj: any = {
     1: 'MessageTextContent',//文字消息
     2: 'MessageMoContent',//表情消息
@@ -451,8 +463,14 @@ const getChatMsgPublic = (data: any) => {
       content: decodeobj3.data,   //消息
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
-    if (state.messageType == 4) {    //获取到新消息
-      state.chatMessagesList.push(messageObj)
+    if (state.messageType == 4) {    //获取到新消息如果是当前用户直接显示
+      if (state.userData.todeviceid==decodeobj2.fromdeviceid) {
+        state.chatMessagesList.push(messageObj)
+      }else{   // 不是当前用户则未读消息加1
+        const todeviceItem = chatitemList.value.find((item:any)=>item.todeviceid==decodeobj2.fromdeviceid)
+        todeviceItem&&todeviceItem.unreadnums++
+      }
+    
     } else {    // 聊天记录
       state.chatMessagesList.unshift(messageObj)
     }
@@ -508,6 +526,10 @@ const onMessage: any = async (buffer: any) => {
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
   else if (decodeobj1.type == 2) {
+    getChatMsg2(decodeobj1, 'SyncResp')
+  }
+  //消息同步触发,或者是历史消息 也是使用type等于2下发的
+  else if (decodeobj1.type == 8) {
     getChatMsg2(decodeobj1, 'SyncResp')
   }
   // 保存分组成功
@@ -777,6 +799,7 @@ onMounted(async () => {
       .avatar {
         display: flex;
         flex-direction: column;
+        position: relative;
 
         .img1 {
           height: 50px;
@@ -786,7 +809,9 @@ onMounted(async () => {
 
         .img2 {
           height: 21px;
-          margin-top: -15px;
+          position: absolute;
+          bottom: -6px;
+          // margin-top: -15px;
         }
       }
     }

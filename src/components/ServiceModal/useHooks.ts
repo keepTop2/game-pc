@@ -326,6 +326,16 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     // state_data.groupList = decodeobj00.groupitem;
   };
 
+  //消息同步（可以看未读消息和历史消息）
+  const allRead = ()=>{
+		const type = 27; // 消息回应
+		var payload = {
+      deviceid:state.deviceID,
+      chatid:getchatId()
+		}
+    wsReqSend(type, payload, 'ReadChatItemReq');
+	}
+
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
     // state_data.Input = state.root.lookupType('Input');
@@ -354,6 +364,8 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     getShortcutMsg,
     sendShortcutList,
     sendShortcutCateList,
+
+    allRead
   };
 };
 export default usechatHooks;

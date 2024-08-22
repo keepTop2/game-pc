@@ -32,6 +32,7 @@ enum PackageType {
 	PT_MESSAGE_GETKF = 24; // 获取客服deviceid
 	PT_MESSAGE_MUTE = 25; // 禁言解禁操作
 	PT_MESSAGE_FORBID = 26; // 禁止解除禁止的操作
+	PT_MESSAGE_READMSG = 27; // 已读操作
 
 }
 
@@ -366,4 +367,9 @@ message ForbidReq {
   string ip = 2; // ip
   int32 mtype = 3; // 操作类型 1 封禁用户 2封禁ip   3解封用户 4解封ip
   int32 days = 4; // 天数
+}
+//聊天列表 已读聊天
+message ReadChatItemReq {
+  int64 deviceid = 1; // 用户id
+  string chatid = 2; // 消息id
 }
