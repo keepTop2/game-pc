@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang='ts' name="Header">
-import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch, ref } from 'vue';
+import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -130,7 +130,7 @@ const { menuActive, settings, lang } = storeToRefs(page);
 
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
-const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail,kefuVisible } = storeToRefs(userInfo);
+const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail, kefuVisible } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 
@@ -266,7 +266,7 @@ const iconClick = async (item: any) => {
       // 客服
       case 'kf':
         // visible.value = true
-         handleOpenLink(settings.value.serviceTelegram)
+        handleOpenLink(settings.value.serviceTelegram)
         break;
       case 'dw':
         handleOpenLink(settings.value.appDownTipList.app_down_url)
