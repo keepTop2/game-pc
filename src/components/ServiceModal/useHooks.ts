@@ -76,7 +76,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'GroupChatListRsp');
       if (state_data.groupItem && state_data.groupItem.id) {
-        state_data.groupChatitemList = decodeobj00.chatitem||[];
+        state_data.groupChatitemList = decodeobj00.chatitem || [];
       } else {
         state_data.chatitemList = decodeobj00.chatitem;
         const item = state_data.chatitemList[0];
@@ -260,7 +260,6 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     };
 
     wsReqSend(type, payload, 'QuickPhrasesModifyReq');
-   
   };
   // 发送添加快捷语--分类请求
   const sendShortcutCateList = (data: any) => {
@@ -271,7 +270,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
       title: data?.title || '', //分类的标题
     };
-   
+
     wsReqSend(type, payload, 'QuickPhrasesCModifyReq');
   };
 
@@ -283,7 +282,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       deviceid: state.deviceID,
       chatgroupid: decodeobj00.id || 0,
       sort: 6,
-      istop: setType && setType.id == 1 ? 1 : 6,
+      istop: setType && setType.id == 1 &&item.istop == 1 ? 6 : 1,
       enableflag: setType && setType.id == 3 ? 1 : 6,
     };
     wsReqSend(type, payload, 'ChatItemModifyReq');
@@ -292,6 +291,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
   // 置顶 禁言，移动分组
   const itemSet = (o: any, item: any) => {
     editchat(item, item, o);
+    if (o.id == 1) { // 置顶
+      item.istop = item.istop == 1 ? 6 : 1;
+    }
   };
   // 发起新聊天
   const searchuser = () => {
@@ -327,14 +329,14 @@ const usechatHooks = (state?: any, selectUser?: any) => {
   };
 
   //消息同步（可以看未读消息和历史消息）
-  const allRead = ()=>{
-		const type = 27; // 消息回应
-		var payload = {
-      deviceid:state.deviceID,
-      chatid:getchatId()
-		}
+  const allRead = () => {
+    const type = 27; // 消息回应
+    var payload = {
+      deviceid: state.deviceID,
+      chatid: getchatId(),
+    };
     wsReqSend(type, payload, 'ReadChatItemReq');
-	}
+  };
 
   onMounted(() => {
     // state_data.ChatGroupListReq = state.root.lookupType('ChatGroupListReq');
@@ -365,7 +367,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     sendShortcutList,
     sendShortcutCateList,
 
-    allRead
+    allRead,
   };
 };
 export default usechatHooks;

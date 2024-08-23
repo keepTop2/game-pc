@@ -56,10 +56,11 @@
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
           <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
-        <div class="user_list">
+        <div class="list_wrap">
+          <div class="user_list">
           <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
             v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
-            @click="selectUser(item)">
+            @click="selectUser(item)" :style="{order:item.istop||10}">
             <div class="item_left">
               <div class="avatar">
                 <n-badge :value="item.unreadnums" :show="item.unreadnums>0" :max="9999" class="set_item" :offset="[-14, 8]">
@@ -74,7 +75,10 @@
                 <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
               </template>
               <div class="select_wrap">
-                <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
+                <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)"  >
+                <span v-if="o.id==1">{{ item.istop==1?'取消置顶':'置顶' }}</span>
+                <span v-else> {{ o.name }}</span>
+                </div>
                 <div>
                   <n-popover trigger="hover" placement="right" :show-arrow="false">
                     <template #trigger>
@@ -88,6 +92,7 @@
               </div>
             </n-popover>
           </div>
+        </div>
         </div>
       </div>
       <!-- 右侧聊天区域 -->
@@ -779,13 +784,18 @@ onMounted(async () => {
     color: #fff;
   }
 }
-
-.user_list {
+.list_wrap{
   height: 420px;
   overflow: auto;
 
+}
+.user_list {
+  display: flex;
+  flex-direction: column;
+  // gap: 20px;
+
   .list_item {
-    height: 70px;
+    height: 72px;
     padding: 0 10px;
     cursor: pointer;
     display: flex;
