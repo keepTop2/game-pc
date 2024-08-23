@@ -255,7 +255,7 @@ const openLink = (item: any) => {
 const agent_level = location.href.split('?agent_level=')[1]
 if (agent_level) { // agent_level
   localStorage.setItem('agent_level', agent_level)
-  visible.value = true
+  kefuVisible.value = true
 } else {
   localStorage.setItem('agent_level', '')
 }
@@ -265,7 +265,6 @@ const iconClick = async (item: any) => {
     switch (item.url) {
       // 客服
       case 'kf':
-        // visible.value = true
         handleOpenLink(settings.value.serviceTelegram)
         break;
       case 'dw':
