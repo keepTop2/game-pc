@@ -812,7 +812,9 @@ const handleBindOrModifyWithdrawPassword = (res: any) => {
         findWithdrawPassword.formData.title = 'home_page_changeFundPassword'
         findWithdrawPassword.formData.buttonText = 'home_page_modifyNow'
         Message.success(t(res.message))
-        needLoginApi()
+        // needLoginApi()
+        let req_user_info = NetPacket.req_user_info();
+        Net.instance.sendRequest(req_user_info);
         setTimeout(() => {
             FormRef.value.closeDialog()
         }, 2000);
