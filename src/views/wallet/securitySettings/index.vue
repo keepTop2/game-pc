@@ -1,11 +1,11 @@
 <template>
     <div class="security_settings">
-        <n-flex vertical class="items" v-for="(items, i) in  state.list " :key="i">
+        <n-flex vertical class="items" v-for="(items, i) in state.list " :key="i">
             <span>{{ t(items.text) }}</span>
             <div v-if="items.btns">
                 <span>{{ info[items.value] }}</span>
                 <div v-if="items.btns.length > 0">
-                    <span class="bind_btn" v-for="(item, j) in  items.btns " :id="items.text" :key="j"
+                    <span class="bind_btn" v-for="(item, j) in items.btns " :id="items.text" :key="j"
                         @click="itemClick(items)">
                         <iconpark-icon :icon-id="item.icon" size="1rem"></iconpark-icon>
                         {{ t(item.text) }}</span>
@@ -43,6 +43,7 @@ const PopForm = defineAsyncComponent(() => import('@/components/PopForm.vue'));
 const userInfo = User(pinia);
 const FormRef = ref()
 const { info, roleInfo } = storeToRefs(userInfo);
+
 
 const state: any = reactive({
     first: 1,
@@ -769,7 +770,6 @@ const handleModifyWithdrawPassword = (res: any) => {
     let findWithdrawPassword = state.list.find((e: any) => e.type == 10)
     // { text: '修改', icon: 'Group39376', value: 1 }
     if (res.code == 1) {
-
         findWithdrawPassword.formData.formParams.operate_type = 2
         findWithdrawPassword.btns = [{ text: 'home_page_modify', icon: 'Group39376', value: 1 }]
         findWithdrawPassword.formData.list.old_withdrawPwd.show = true
@@ -804,6 +804,13 @@ const handleModifyAccount = (res: any) => {
 }
 const handleBindOrModifyWithdrawPassword = (res: any) => {
     if (res.code == 1) {
+        let findWithdrawPassword = state.list.find((e: any) => e.type == 10)
+        findWithdrawPassword.value = 'hideString'
+        findWithdrawPassword.formData.formParams.operate_type = 2
+        findWithdrawPassword.btns = [{ text: 'home_page_modify', icon: 'Group39376', value: 1 }]
+        findWithdrawPassword.formData.list.old_withdrawPwd.show = true
+        findWithdrawPassword.formData.title = 'home_page_changeFundPassword'
+        findWithdrawPassword.formData.buttonText = 'home_page_modifyNow'
         Message.success(t(res.message))
         needLoginApi()
         setTimeout(() => {
