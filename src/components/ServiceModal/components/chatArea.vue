@@ -4,7 +4,8 @@
       <div v-if="chatList.length">
         <div class="chat_item" v-for="item in (chatList as any)" :key="item.date"
           :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }">
-          <img v-if="item.role == '2'" :src="`/img/serviceModal/avatar.webp`" alt="">
+          {{ item.THeadPhoto }}
+          <img v-if="item.role == '2'" :src="`/img/head_icons/${item.THeadPhoto||'1001'}.webp`" alt="">
           <div class="chat_main">
             <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
               <span>{{ item.name }}</span>
@@ -13,7 +14,7 @@
             </div>
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
               @click="showImg(item.content)">
-              <div v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1"></div>
+              <div class=" " v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1"></div>
               <!-- 图片视频 -->
               <div v-else>
                 <n-image v-if="item.content.includes('storage/uploads/image')" width="140" :src="item.content"
@@ -198,5 +199,13 @@ onMounted(() => {
       }
     }
   }
+}
+.item_column{
+  display: flex;
+  flex-direction: column;
+}
+.item_center{
+   display: flex;
+  justify-content: center;
 }
 </style>

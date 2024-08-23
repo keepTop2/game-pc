@@ -24,9 +24,9 @@
     </div>
   </n-modal>
   <!-- 客服弹窗 -->
-  <n-modal :show="visible" :mask-closable="false">
+  <n-modal :show="kefuVisible" :mask-closable="false">
     <div>
-      <ServiceModal v-model:visible="visible" />
+      <ServiceModal v-model:visible="kefuVisible" />
     </div>
   </n-modal>
   <header class="header">
@@ -130,11 +130,10 @@ const { menuActive, settings, lang } = storeToRefs(page);
 
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
-const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail } = storeToRefs(userInfo);
+const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail,kefuVisible } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 
-const visible = ref(false) // 打开客服
 
 const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
 const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
@@ -266,8 +265,8 @@ const iconClick = async (item: any) => {
     switch (item.url) {
       // 客服
       case 'kf':
-        visible.value = true
-        // handleOpenLink(settings.value.serviceTelegram)
+        // visible.value = true
+         handleOpenLink(settings.value.serviceTelegram)
         break;
       case 'dw':
         handleOpenLink(settings.value.appDownTipList.app_down_url)
@@ -297,6 +296,7 @@ const menuClick = async (item: any, j: number) => {
       negativeText: t('home_page_cancel'),
       onPositiveClick: async () => {
         Local.remove('user')
+        Local.remove('roleInfo')
         await User(pinia).setHasLogin(false)
         location.href = '/'
       },
@@ -305,7 +305,7 @@ const menuClick = async (item: any, j: number) => {
       },
     })
   } else if (item.url == 'kf') {
-    handleOpenLink(settings.value.serviceTelegram)
+    kefuVisible.value = true
   }
   else {
     await page.setMenuActive(j, item.name)

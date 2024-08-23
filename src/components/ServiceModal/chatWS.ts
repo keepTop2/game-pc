@@ -40,7 +40,7 @@ class IWebsocket {
     }
     // 发送消息
     sendMessageHandler(data: any) {
-        console.log(333333, data)
+        // console.log(333333, data)
         this.instance?.send(data);
     }
     // 消息事件监听

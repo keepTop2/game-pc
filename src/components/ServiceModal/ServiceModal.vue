@@ -6,21 +6,36 @@
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
-      <i>
-        <n-switch v-model:value="active" />
+      <div class="forbidden">
+        <div class="forbidden_btn" @click="visibleForbidden = true">
+          禁言
+        </div>
+        <n-switch v-if="false" v-model:value="active" />
         <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-      </i>
-
+      </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
       <div class="left_setting">
-        <div class="set_item" v-for="item in settingList" :key="item.id" @click="settingClick(item)">
-          <n-badge :value="5" :max="15" class="set_item" :show="item.id == 1" :offset="[-17]">
-            <iconpark-icon :icon-id="item.img" color="#fff" size="1.8rem"></iconpark-icon>
-            <img :src="`/img/serviceModal/${item.img}`" alt="">
-            <span>{{ item.name }}</span>
+        <div class="set_item " @click="groupClick('all')">
+          <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
+            <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
+              size="1.8rem"></iconpark-icon>
+            <!-- <img :src="`/img/serviceModal/${item.img}`" alt=""> -->
+            <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">全部对话</span>
           </n-badge>
+        </div>
+        <!-- 分组 -->
+        <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
+          <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
+            size="1.8rem"></iconpark-icon>
+          <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
+        </div>
+        <!-- 编辑 -->
+        <div class="set_item" @click="groupClick('edit')">
+          <iconpark-icon icon-id="zuocweidy03" :color="state.groupType == 'edit' ? '#fff' : '#8D84C5'"
+            size="1.8rem"></iconpark-icon>
+          <span :style="{ color: state.groupType == 'edit' ? '#fff' : '#8D84C5' }">编辑</span>
         </div>
       </div>
       <!-- 左侧菜单 -->
@@ -32,15 +47,25 @@
               {{ t(tab.label) }}
             </div>
           </n-flex>
-          <n-input v-model:value="search" placeholder="查找聊天列表" />
-          <div class="manage_group" @click="manageClick">管理分组</div>
+          <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
+          <n-input v-model:value="state.search" placeholder="查找聊天列表" :allow-input="onlyAllowNumber">
+            <template #suffix>
+              <div class="new_btn" @click="searchuser">发起新聊天</div>
+            </template>
+          </n-input>
+          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
+          <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
-        <div class="user_list">
-          <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']" v-for="item in chatitemList"
-            :key="item.id" @click="selectUser(item)">
+        <div class="list_wrap">
+          <div class="user_list">
+          <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
+            v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
+            @click="selectUser(item)" :style="{order:item.istop||10}">
             <div class="item_left">
               <div class="avatar">
-                <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                <n-badge :value="item.unreadnums" :show="item.unreadnums>0" :max="9999" class="set_item" :offset="[-14, 8]">
+                  <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                </n-badge>
                 <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
               </div>
               <span>{{ item.TUsername }}</span>
@@ -50,13 +75,24 @@
                 <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
               </template>
               <div class="select_wrap">
-                <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">{{ o.name }}</div>
-                <div >
-                  {{ selectList[3].name }}
+                <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)"  >
+                <span v-if="o.id==1">{{ item.istop==1?'取消置顶':'置顶' }}</span>
+                <span v-else> {{ o.name }}</span>
+                </div>
+                <div>
+                  <n-popover trigger="hover" placement="right" :show-arrow="false">
+                    <template #trigger>
+                      <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
+                    </template>
+                    <div class="select_wrap_two">
+                      <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
+                    </div>
+                  </n-popover>
                 </div>
               </div>
             </n-popover>
           </div>
+        </div>
         </div>
       </div>
       <!-- 右侧聊天区域 -->
@@ -65,15 +101,17 @@
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <div v-for="item in shortList" :key="item.id">
+            <div v-for="item in quickPhrasesCateList" :key="item.id">
               <n-popover trigger="hover" placement="top" :show-arrow="false">
                 <template #trigger>
                   <div class="short_wrap_item">
-                    <span>{{ item.name }}</span>
+                    <span>{{ item.title }}</span>
                   </div>
                 </template>
                 <div class="short_wrap_list">
-                  <span v-for="op in short_options" :key="op">{{ op }}</span>
+                  <span class="short_wrap_title"
+                    v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)" @click="chooseQuick(op)"
+                    :key="op">{{ op.content }}</span>
                 </div>
               </n-popover>
             </div>
@@ -88,7 +126,7 @@
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif"  :show-file-list="false">
+              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
               <n-upload @before-upload="beforeUpload" accept=".mp4,.avi,.mov,.wmv" :show-file-list="false">
@@ -104,35 +142,23 @@
               </n-popover>
             </div>
           </div>
-          <!-- <n-input v-model:value="testMsg" type="textarea" rows="2">
-            <template #suffix>
-              <div class="send_icon">
-                <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
-                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
-                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
-                <n-popover trigger="hover" :show-arrow="false" placement="top-end">
-                  <template #trigger>
-                    <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
-                  </template>
-                  <div class="emoji">
-                    <EmojiPicker :native="true" @select="onSelectEmoji" />
-                  </div>
-                </n-popover>
-              </div>
-            </template>
-          </n-input> -->
           <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting" @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList" :quickPhrasesList="quickPhrasesList"/>
+    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting"
+      @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList"
+      :quickPhrasesList="quickPhrasesList" />
     <!-- 快捷语--分类设置 -->
-    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick" :quickPhrasesCateList="quickPhrasesCateList"/>
+    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick"
+      :quickPhrasesCateList="quickPhrasesCateList" />
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
+    <!-- 禁言弹窗 -->
+    <forbiddenSpeech v-model:visible="visibleForbidden" :stateData="state" />
   </div>
 
 </template>
@@ -142,26 +168,18 @@ import { computed, ref, onMounted, reactive } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
-// import btn from './btn.vue';
-// import Common from '@/utils/common';
-// import { Net } from '@/net/Net';
-// import { NetPacket } from '@/netBase/NetPacket';
-// import ReconnectingWebSocket from 'reconnecting-websocket';
 import protobuf from 'protobufjs';
 import chatArea from './components/chatArea.vue';
 import shortcutSettings from './components/shortcutSettings.vue';
 import categoryList from './components/categoryList.vue';
 import manageGroup from './components/manageGroup.vue'
 import sendMoneyModal from './components/sendMoneyModal.vue'
+import forbiddenSpeech from './components/forbiddenSpeech.vue'
 import usechatHooks from './useHooks';
 import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
-import axios from 'axios';
-// import { MessageEvent2 } from '@/net/MessageEvent2';
-// import { NetMsgType } from '@/netBase/NetMsgType';
-// import { Message } from '@/utils/discreteApi';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -187,63 +205,77 @@ const deepObj: any = {
   '0': '官方客服',
 
 }
-
+const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: roleInfo.value.id,// roleInfo.value.id, //
+  deviceID: 2654917,   // roleInfo.value.id,,  //
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
   userData: '',
   activeId: null,
+  search: '',   // 查询用户
+  groupType: 'all',
 })
 
 
 
 // 上传图片视频
 const beforeUpload = (data: any) => {
-  console.log(data.file.file)
   const file = data.file.file
-  const type = file.type.includes('image')?'image':file.type.includes('video')?'video':''
-  
-  if (file && file.size > 1024 * 1024 * 2&&type=='image') { // 2MB限制
+  const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
+
+  if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
     return;
   }
-  if (file && file.size > 1024 * 1024 * 100&&type=='video') { // 100MB限制
+  if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
     Message.error('文件大小不能超过100MB！')
     return;
   }
   const formData = new FormData();
   formData.append(type, file);
   formData.append('device_id', state.deviceID);
-  fetch(`http://18.162.112.52:8031/api/upload/${type=='image'?'img':'video'}`, {
+  fetch(`http://18.162.112.52:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
     method: 'POST',
     body: formData,
   })
     .then(response => response.json()).then(response => {
-     if (response.status==200) {
-       const urlImg = 'http://18.162.112.52:8031/'+response.data.path
-       msgRef.value.innerHTML =  urlImg;
-       sendMsg()
-     }
+      if (response.status == 200) {
+        const urlImg = 'http://18.162.112.52:8031/' + response.data.path
+        msgRef.value.innerHTML = urlImg;
+        state.messagetype = type == 'image' ? 3 : 4
+        sendMsg()
+      }
     })
+}
+
+
+// 选择用户聊天
+const selectUser = (item: any) => {
+  state.chatMessagesList = []
+  state.userData = item
+  state.activeId = item.id
+  state.todeviceid = item.Tdeviceid
+  // 获取聊天记录
+  synchistorymsg()
+  allRead()
+  state.userData.unreadnums = 0  // 清掉未读消息
 }
 
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent
-}: any = usechatHooks(state)
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList,allRead
+}: any = usechatHooks(state, selectUser)
 
 
 const emit = defineEmits(['update:visible']);
 const active_id = ref(1);
-const search = ref('')
 const testMsg = ref('')
 
 const active = ref(true)  // 禁言
@@ -258,29 +290,13 @@ const tabClick = (tab: tabType) => {
   active_id.value = tab.id;
 };
 
+
 const selectList = [
   { name: '置顶', id: 1 },
   { name: '未读', id: 2 },
   { name: '屏蔽', id: 3 },
   { name: '移动分组到', id: 4 }
 ]
-
-const shortList = [
-  { name: '充值', role: 'proxy', id: 1 },
-  { name: '提款', role: 'user', id: 2 },
-  { name: '投注', role: 'user', id: 3 },
-  { name: '代理', role: 'user', id: 4 },
-  { name: '活动', role: 'proxy', id: 5 },
-]
-const short_options = ['1.USDT如何充值？', '2.越南盾如何充值？', '3.越南盾和USDT的汇率', '4.充值不到账', '5.解绑银行卡']
-
-const settingList = [
-  { name: '全部对话', img: 'zuocweidy01', id: 1 },
-  { name: '工作', img: 'zuocweidy02', id: 2 },
-  { name: '编辑', img: 'zuocweidy03', id: 3 },
-]
-
-
 // 添加表情
 
 function onSelectEmoji(emoji: any) {
@@ -294,11 +310,22 @@ const visibleTransfor = ref(false)
 const visibleSetting = ref(false) // 快捷语设置
 const visibleCateSetting = ref(false) // 快捷语分类设置
 const visibleGroup = ref(false) // 管理分组弹窗
+const visibleForbidden = ref(false) // 禁言弹窗
 
 // 转账
 const sendMoney = () => {
   visibleTransfor.value = true
 }
+// 所有未读消息数量
+const allUnReadNum = computed(()=>{
+  let total = 0
+  chatitemList.value.forEach((item:any)=>{
+    if (item.unreadnums&&item.unreadnums>0) {
+      total = total + item.unreadnums
+    }
+  })
+return total
+})
 
 
 const isShow = computed({
@@ -326,20 +353,16 @@ const showCateSetting = () => {
   visibleCateSetting.value = true
 }
 
-// 选择用户聊天
-const selectUser = (item: any) => {
-  state.chatMessagesList = []
-  state.userData = item
-  state.activeId = item.id
-  state.todeviceid = item.Tdeviceid
-  // 获取聊天记录
-  synchistorymsg()
-}
 
-// 设置按钮
-const settingClick = (item: any) => {
-  if (item.id == 3) {
+// 分组点击
+const groupClick = (item: any) => {
+  state.groupType = item
+  if (item == 'edit') {
     manageClick()
+  } else if (item == 'all') {
+    getChatlist()
+  } else {
+    getChatlist(item)
   }
 
 }
@@ -371,7 +394,6 @@ const sendMsg = () => {
       mtype: state.messagetype,//文字类型消息
       data: msginputdata,
     };
-
     //编码消息体
     let MessageInputeItem = state.root.lookupType('MessageInpute')
     const errMsg2 = MessageInputeItem.verify(msgcontent);
@@ -399,10 +421,7 @@ const sendMsg = () => {
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
-    state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
     IWebsocket.sendMessageHandler(encodedRequest);
-    testMsg.value = ''
-    msgRef.value.innerHTML = ''
   }
 }
 
@@ -430,8 +449,6 @@ const onOpen = () => {
 }
 const getChatMsgPublic = (data: any) => {
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
-
-  console.log("onMessage/MessageOutpute output2 ", decodeobj2)
   let obj: any = {
     1: 'MessageTextContent',//文字消息
     2: 'MessageMoContent',//表情消息
@@ -441,19 +458,28 @@ const getChatMsgPublic = (data: any) => {
   }
 
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
-  console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-  const messageObj = {
-    date: decodeobj2.sendtime,   // 时间
-    role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
-    content: decodeobj3.data,   //消息
-    name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
+  // console.log("onMessage/MessageTextContent output3 ", decodeobj3)
+  if (data.cstatus == 1) {
+    const messageObj = {
+      cstatus: data.cstatus,  // 1; // 通过 显示   等于0或者没有这个字段  就不能显示
+      msgtype: data.msgtype,
+      date: decodeobj2.sendtime,   // 时间
+      role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2,   //角色1 我方消息 2 对方消息
+      content: decodeobj3.data,   //消息
+      name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
+    }
+    if (state.messageType == 4) {    //获取到新消息如果是当前用户直接显示
+      if (state.userData.todeviceid==decodeobj2.fromdeviceid) {
+        state.chatMessagesList.push(messageObj)
+      }else{   // 不是当前用户则未读消息加1
+        const todeviceItem = chatitemList.value.find((item:any)=>item.todeviceid==decodeobj2.fromdeviceid)
+        todeviceItem&&todeviceItem.unreadnums++
+      }
+    
+    } else {    // 聊天记录
+      state.chatMessagesList.unshift(messageObj)
+    }
   }
-  if (state.messageType == 4) {    //获取到新消息
-    state.chatMessagesList.push(messageObj)
-  } else {    // 聊天记录
-    state.chatMessagesList.unshift(messageObj)
-  }
-
 }
 
 // 收到对方发来的消息
@@ -482,15 +508,22 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
 }
 //收到消息
 const onMessage: any = async (buffer: any) => {
-  const decodeobj1 = decodeContent(buffer, 'Output');;
+  const decodeobj1 = decodeContent(buffer, 'Output');
   console.log("onMessage/Output output0 ", decodeobj1)
   state.messageType = decodeobj1.type
-  if (decodeobj1.code > 10000) {
-    alert(decodeobj1.message)
+  if (decodeobj1.code && decodeobj1.code > 1000) {
+    Message.error(t(decodeobj1.code));
     return;
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
-    console.log(decodeobj1)
+    // 没返回错误码正常可发送
+    if (!decodeobj1.code) {
+      var datatime = getDateFromat()
+      state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
+      testMsg.value = ''
+      msgRef.value.innerHTML = ''
+      state.messagetype = 1
+    }
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
@@ -500,14 +533,24 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 2) {
     getChatMsg2(decodeobj1, 'SyncResp')
   }
+  //消息同步触发,或者是历史消息 也是使用type等于2下发的
+  else if (decodeobj1.type == 8) {
+    getChatMsg2(decodeobj1, 'SyncResp')
+  }
   // 保存分组成功
   else if (decodeobj1.type == 13) {
     getChatMsg13(decodeobj1)
   }
+  // 移动好友到分组成功
+  else if (decodeobj1.type == 14) {
+    Message.success('操作成功')
+  }
+
   //分组列表保存回执
   else if (decodeobj1.type == 9) {
     Message.success('操作成功')
     groupRef.value.getChatMsg9(decodeobj1)
+    getListGroup()
 
   }
   //分组列表删除回执
@@ -518,6 +561,10 @@ const onMessage: any = async (buffer: any) => {
   // 获取分组列表
   else if (decodeobj1.type == 12) {
     getChatMsg12(decodeobj1)
+  }
+  // 发起新聊天
+  else if (decodeobj1.type == 15) {
+    getChatMsg15(decodeobj1)
   }
   // 获取客服聊天列表
   else if (decodeobj1.type == 24) {
@@ -547,9 +594,16 @@ const onMessage: any = async (buffer: any) => {
   }
 
 }
+
+
+// 快捷语选择
+
+const chooseQuick = (data: any) => {
+  msgRef.value.innerHTML = data.content
+  sendMsg()
+}
 // 快捷语增删改查
 const addModifyQuick = (data: any) => {
-  console.log('-----===', data)
   if (!data.mType) {
     return
   }
@@ -557,7 +611,6 @@ const addModifyQuick = (data: any) => {
 }
 // 快捷语--分类增删改查
 const addModifyCateQuick = (data: any) => {
-  console.log('***==', data)
   if (!data.mType) {
     return
   }
@@ -574,10 +627,8 @@ onMounted(async () => {
 
   getShortcutCatelist()
   getShortcutlist()
+  getListGroup()
   // synchistorymsg()
-  state.firstIn = true
-
-
 })
 </script>
 <style lang="less" scoped>
@@ -606,14 +657,21 @@ onMounted(async () => {
         #3a2786 28%,
         #3c279a 0%);
 
-    >i {
+    >.forbidden {
       position: absolute;
-      top: 15px;
+      top: 0px;
       right: 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
+
+      .forbidden_btn {
+        width: 100px;
+        background: url(/img/serviceModal/speech_btn.webp) no-repeat;
+        background-size: 100% 112%;
+        color: #fff;
+      }
     }
 
     &:deep(.n-switch--active .n-switch__rail) {
@@ -636,8 +694,28 @@ onMounted(async () => {
 
       &:deep(.n-input__placeholder) {
 
-        text-align: center;
+        // text-align: center;
 
+      }
+
+      .mark {
+        margin-bottom: 18px;
+        width: 260px;
+        height: 36px;
+        background-color: #372771;
+        border-radius: 10px;
+        border: 1px solid #5a47b2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:deep(.n-input) {
+          .n-input__suffix {
+            color: #ffffff
+          }
+
+
+        }
       }
     }
 
@@ -655,6 +733,11 @@ onMounted(async () => {
         flex-direction: column;
         align-items: center;
         cursor: pointer;
+
+        span {
+          padding: 0 6px;
+          text-align: center
+        }
 
         img {
           width: 32px;
@@ -701,10 +784,18 @@ onMounted(async () => {
     color: #fff;
   }
 }
+.list_wrap{
+  height: 420px;
+  overflow: auto;
 
+}
 .user_list {
+  display: flex;
+  flex-direction: column;
+  // gap: 20px;
+
   .list_item {
-    height: 70px;
+    height: 72px;
     padding: 0 10px;
     cursor: pointer;
     display: flex;
@@ -718,6 +809,7 @@ onMounted(async () => {
       .avatar {
         display: flex;
         flex-direction: column;
+        position: relative;
 
         .img1 {
           height: 50px;
@@ -727,7 +819,9 @@ onMounted(async () => {
 
         .img2 {
           height: 21px;
-          margin-top: -15px;
+          position: absolute;
+          bottom: -6px;
+          // margin-top: -15px;
         }
       }
     }
@@ -735,6 +829,7 @@ onMounted(async () => {
     .high_proxy {
       cursor: pointer;
       font-size: 12px;
+
       color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
@@ -821,7 +916,8 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.select_wrap {
+.select_wrap,
+.select_wrap_two {
   width: 118px;
 
   div {
@@ -831,6 +927,10 @@ onMounted(async () => {
     cursor: pointer;
     color: #8E82C2;
     padding-left: 19px;
+
+    &:last-child {
+      padding-left: 0px;
+    }
 
     &:hover {
       background-color: #1154FF;
@@ -843,6 +943,12 @@ onMounted(async () => {
   }
 }
 
+.select_wrap_two {
+  div {
+    padding-left: 19px !important;
+  }
+}
+
 .setting_wrap {
   display: flex;
   justify-content: space-between;
@@ -851,6 +957,7 @@ onMounted(async () => {
     cursor: pointer;
     margin-top: 6px;
     padding: 0 23px;
+    width: 150px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -864,9 +971,23 @@ onMounted(async () => {
 
 .short_wrap {
   display: flex;
+  max-width: 700px;
+  overflow-x: scroll;
+  overflow-y: hidden;
   gap: 10px;
-  margin-bottom: 12px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
   margin-top: 12px;
+
+  &::-webkit-scrollbar {
+    display: block;
+    height: 3px
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #3c279a;
+    border-radius: 8px
+  }
 
   .short_wrap_item {
     width: 98px;
@@ -885,11 +1006,20 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   color: #ffffff;
-  padding: 16px;
-  gap: 10px;
+  min-width: 110px;
+  // padding: 16px 0px;
+  // gap: 10px;
 
   span {
     cursor: pointer;
+    text-align: left;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #1154FF;
+    }
   }
 }
 
@@ -926,5 +1056,10 @@ onMounted(async () => {
   padding: 10px;
   padding-right: 135px;
   overflow-y: auto;
+}
+
+.new_btn {
+  color: #ffffff;
+  cursor: pointer;
 }
 </style>

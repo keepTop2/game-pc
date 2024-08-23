@@ -16,10 +16,12 @@ import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 import { handleOpenLink } from "@/utils/others";
 import { useI18n } from "vue-i18n";
-
+import { User } from '@/store/user';
 const { t } = useI18n()
 const page = Page(pinia);
+const userInfo = User(pinia);
 const { menuActive, settings } = storeToRefs(page);
+const { kefuVisible } = storeToRefs(userInfo);
 const router = useRouter();
 
 const state: any = reactive({
@@ -94,9 +96,12 @@ const state: any = reactive({
 })
 
 const itemClick = async (item: any, i: number) => {
-
     await page.setMenuActive(i, item.name)
     let str = item.url.substring(0, 4);
+    if (item.name == 'home_page_onlineService') {
+        kefuVisible.value = true
+        return
+    }
     if (str === "http" || str === "www.") {
         handleOpenLink(item.url)
     }
