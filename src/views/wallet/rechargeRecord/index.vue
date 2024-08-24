@@ -104,7 +104,9 @@ const resultHandle = (rs: any) => { // 数据处理
         loading.value = false
     }, 300)
     result.total_page = rs.total_page || 0
-    result.list = rs.recharge_record_list || []
+    result.list = (rs.recharge_record_list || []).sort((a: any, b: any) => {
+        return Date.parse(convertObjectToDateString(b.pay_time)) - Date.parse(convertObjectToDateString(a.pay_time))
+    })
 }
 const wayMap: any = ref({})
 const rowHandle = (row: any, key: string) => { // 格子数据处理
