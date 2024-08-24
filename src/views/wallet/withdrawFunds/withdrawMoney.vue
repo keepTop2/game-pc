@@ -18,21 +18,25 @@
               <n-input size="large" disabled v-model:value="form.maxValue" />
             </n-form-item>
 
-            <n-form-item :label="t('walletInfo_page_selectBank')">
-              <div class="selectBank">
-                <div class="bankName">
-                  <div class="icon">
-                    <img :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`" :alt="backItemInfo.bank_name" />
+            <n-flex align="center">
+              <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
+                <div class="selectBank">
+                  <div class="bankName">
+                    <div class="icon">
+                      <img :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`" :alt="backItemInfo.bank_name" />
+                    </div>
+                    <span>{{ backItemInfo.bank_name }}</span>
                   </div>
-                  <span>{{ backItemInfo.bank_name }}</span>
+                  <div class="mantissa">
+                  <span>
+                    {{ t('walletInfo_page_tailNumber') }}：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
+                    backItemInfo.account_number.length) }}
+                  </span>
+                  </div>
                 </div>
-                <div class="mantissa">
-                  <span>{{ t('walletInfo_page_tailNumber') }}：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
-    backItemInfo.account_number.length) }}</span>
-                </div>
-              </div>
+              </n-form-item>
               <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay') }}</n-button>
-            </n-form-item>
+            </n-flex>
 
             <n-form-item :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
@@ -81,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { CSSProperties, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import {CSSProperties, nextTick, onMounted, onUnmounted, ref} from 'vue';
 import { useI18n } from "vue-i18n";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
@@ -177,8 +181,9 @@ const chooseMoneyArr = [
 const openModal = () => {
   showSecModal.value = !showSecModal.value;
   nextTick(() => {
-    getInfo();
     form.value = {...baseObj}
+    initReq(); // 获取可提现金额
+    getInfo();
   })
 }
 
@@ -189,11 +194,9 @@ const onCloseSec = () => {
 const onSubmit = () => {
   formRef.value?.validate((errors: any) => {
     if (!errors) {
-
       if (!form.value.bank) {
         return Message.error(t('paymentManagement_page_chBank'))
       }
-
       if (form.value.amount < props.myBankList.min_withdraw_money) {
         return Message.error(t('withdraw_page_minAmount', { minAmount: props.myBankList.min_withdraw_money }))
       }
@@ -202,9 +205,6 @@ const onSubmit = () => {
       }
       form.value.address = props.myBankList.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
       handleSubmit()
-
-
-
     } else {
       console.log(errors);
     }
@@ -214,8 +214,8 @@ const onSubmit = () => {
 const handleSubmit = () => {
   const req = NetPacket.req_apply_withdraw();
   req.money = form.value.amount;
-  req.bank_card_id = form.value.address;
-  req.bank_id = form.value.bank || 0;
+  req.bank_card_id = form.value.address; // 卡号
+  req.bank_id = form.value.bank || 0; // 银行 id
   req.passwd = form.value.password;
   req.way = 1; // 1 银行卡，2 USTD
   Net.instance.sendRequest(req);
@@ -223,12 +223,18 @@ const handleSubmit = () => {
 
 // 0=>申请成功, 1=>申请失败
 const handleWithDrawSubmit = (res: any) => {
-  openModal();
-  if (res.result === 1) {
-    Message.error(t('withdraw_page_subFail'))
+  const codeTxt: any = {
+    0: t('withdraw_page_subSucces'),
+    1: t('withdraw_page_fail_tips1'),
+    2: t('withdraw_page_fail_tips2'),
+    3: t('withdraw_page_fail_tips3'),
+    4: t('withdraw_page_fail_tips4'),
+  }
+  if (res.result === 0) {
+    openModal();
+    Message.success(codeTxt[res.result])
   } else {
-    Message.success(t('withdraw_page_subSucces'))
-
+    Message.error(codeTxt[res.result])
   }
 }
 
@@ -240,29 +246,18 @@ const chooseFastMon = (e: any) => {
 const isCanWithdraw = ref(false)
 const handleCanWithdraw = (res: any) => {
   isCanWithdraw.value = !res.rlt;
-  setCanWithDrawMon();
+  setCanWithDrawMon(res);
 };
 
 // 设置可提现金额
-const setCanWithDrawMon = () => {
-
-  console.log(setCanWithDrawMon, '--setCanWithDrawMon--');
-
-  // if (isCanWithdraw.value) {
-  //   form.value.maxValue = roleInfo.value.bank_money + ''
-  // } else { // 不可以提现，可提现金额置为 0
-  //   form.value.maxValue = '0'
-  // }
-
-
+const setCanWithDrawMon = (data: any) => {
+  console.log('--setCanWithDrawMon--', data);
   if (isCanWithdraw.value) {
-    form.value.maxValue = roleInfo.value.bank_money.toString()
+    form.value.maxValue = data.can_withdraw.toString()
   } else { // 不可以提现，可提现金额置为 0
     form.value.maxValue = '0';
   }
-
 }
-
 
 const backItemInfo = ref({
   bank_name: '',
@@ -273,6 +268,7 @@ const backItemInfo = ref({
 const getInfo = () => {
   let bankListItem = props.myBankList.bank_card_info_list[0]
   myBankName.value = props.myBankList.cardholder_name || ''
+  console.log('===当前选择的提款银行信息--', bankListItem)
   form.value.bank = bankListItem.bank_id || 0
   backItemInfo.value.bank_name = bankListItem.bank_name || ''
   backItemInfo.value.account_number = bankListItem.account_number || 'xxxxxxx'
@@ -287,34 +283,15 @@ const checkBankInfo = (item: any) => {
   backItemInfo.value.bank_id = bank_id || 0
 }
 
-
-
-
-// const myBankNameList = ref()
-
-// const handleMyBankList = (res: any) => {
-//   myBankNameList.value = res.cardholder_name || '';
-//   myBankNameList.value = res.bank_card_info_list.map((item: any) => (
-//     {
-//       ...item,
-//       bankImgURL: '/img/payment/mockBank.webp',
-//     }
-//   ))
-// }
-
-
 const initReq = () => {
   form.value.maxValue = roleInfo.value.bank_money.toString()
   Net.instance.sendRequest(NetPacket.req_can_withdraw());
 };
 
 onMounted(() => {
-
-  setTimeout(() => initReq(), 600);
-
+  // setTimeout(() => initReq(), 600);
   // 可提现金额
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, handleCanWithdraw);
-
   // 提款提交监听
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, handleWithDrawSubmit);
 
@@ -327,8 +304,6 @@ onUnmounted(() => {
 defineExpose({
   openModal
 });
-
-
 
 const railStyle = ({ focused, checked }: {
   focused: boolean
@@ -346,14 +321,8 @@ const railStyle = ({ focused, checked }: {
       style.boxShadow = '0 0 0 2px #2080f040'
     }
   }
-
   return style
 }
-
-
-
-
-
 </script>
 
 <style lang="less" scoped>

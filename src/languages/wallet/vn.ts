@@ -288,6 +288,10 @@ export default {
   withdraw_page_subFail: 'Rút tiền thất bại',
   withdraw_page_subSucces: 'Rút tiền thành công',
   withdraw_page_CantWithdraw: 'Không có số tiền có thể rút',
+  withdraw_page_fail_tips1: "Thông tin thẻ ngân hàng hoặc chủ thẻ không tồn tại",
+  withdraw_page_fail_tips2: "Không đáp ứng được yêu cầu về lưu lượng",
+  withdraw_page_fail_tips3: "Số tiền rút vượt quá phạm vi rút",
+  withdraw_page_fail_tips4: "Mật khẩu rút tiền sai",
 
   // transfer
   transfer_page_from: 'Từ',

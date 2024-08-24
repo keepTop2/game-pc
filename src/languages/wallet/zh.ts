@@ -288,6 +288,10 @@ export default {
   withdraw_page_subFail: "提款失败",
   withdraw_page_subSucces: "提款成功",
   withdraw_page_CantWithdraw: "没有可提现金额",
+  withdraw_page_fail_tips1: "银行卡或持卡人信息不存在",
+  withdraw_page_fail_tips2: "流水要求不符合",
+  withdraw_page_fail_tips3: "提款金额超出提款范围",
+  withdraw_page_fail_tips4: "取款密码错误",
 
   // transfer
   transfer_page_from: '从',
