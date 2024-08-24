@@ -292,6 +292,9 @@ export default {
   withdraw_page_fail_tips2: "流水要求不符合",
   withdraw_page_fail_tips3: "提款金额超出提款范围",
   withdraw_page_fail_tips4: "取款密码错误",
+  withdraw_page_fail_tips5: "中心钱包余额不足",
+  withdraw_page_fail_tips6: "有未完成的提现记录",
+  withdraw_page_fail_wait: "待订单完成",
 
   // transfer
   transfer_page_from: '从',

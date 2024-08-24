@@ -15,6 +15,7 @@
         <div class="body vertical center t_md body_sec">
           <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
             <n-form-item :label="t('walletInfo_page_availableMount')">
+              <n-flex justify="center" align="center" class="wit_not_finish" v-if="isHasOrder"> {{t('withdraw_page_fail_wait')}} </n-flex>
               <n-input size="large" disabled v-model:value="form.maxValue" />
             </n-form-item>
 
@@ -125,6 +126,8 @@ const baseObj =  {
 const form: any = ref( // 存款表单提交
   {...baseObj}
 );
+const isCanWithdraw = ref(false); // 是否可提现
+const isHasOrder = ref(false); // 是否存在未审核的提现订单
 
 const rules = {
   amount: [
@@ -142,9 +145,9 @@ const rules = {
     }
   ]
 }
-
 const bankListInfoRef = ref()
 const bankListInfoShow = ref(false)
+
 const openBankListInfo = () => {
   bankListInfoShow.value = true
   nextTick(() => {
@@ -192,6 +195,10 @@ const onCloseSec = () => {
 }
 
 const onSubmit = () => {
+  // 有未审核提现记录
+  if (isHasOrder.value) {
+    return Message.error(t('withdraw_page_fail_tips6'))
+  }
   formRef.value?.validate((errors: any) => {
     if (!errors) {
       if (!form.value.bank) {
@@ -229,6 +236,8 @@ const handleWithDrawSubmit = (res: any) => {
     2: t('withdraw_page_fail_tips2'),
     3: t('withdraw_page_fail_tips3'),
     4: t('withdraw_page_fail_tips4'),
+    5: t('withdraw_page_fail_tips5'),
+    6: t('withdraw_page_fail_tips6'),
   }
   if (res.result === 0) {
     openModal();
@@ -243,9 +252,9 @@ const chooseFastMon = (e: any) => {
   form.value.amount = e.toString()
 }
 
-const isCanWithdraw = ref(false)
 const handleCanWithdraw = (res: any) => {
-  isCanWithdraw.value = !res.rlt;
+  isCanWithdraw.value = !res.rlt; // rlt: 0 可提现，1 不可提现，2 存在未审核的提现订单
+  isHasOrder.value = res.rlt === 2;
   setCanWithDrawMon(res);
 };
 
@@ -339,6 +348,15 @@ const railStyle = ({ focused, checked }: {
   .body {
     gap: 15px !important;
 
+    .wit_not_finish {
+      position: absolute;
+      z-index: 9;
+      color: #fff;
+      background: rgba(0, 0, 0, .7);
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
     .item-list {
       width: 536px;
       height: 96px;

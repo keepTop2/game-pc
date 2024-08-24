@@ -292,6 +292,9 @@ export default {
   withdraw_page_fail_tips2: "Không đáp ứng được yêu cầu về lưu lượng",
   withdraw_page_fail_tips3: "Số tiền rút vượt quá phạm vi rút",
   withdraw_page_fail_tips4: "Mật khẩu rút tiền sai",
+  withdraw_page_fail_tips5: "Số dư ví trung tâm không đủ",
+  withdraw_page_fail_tips6: "Có hồ sơ rút tiền chưa hoàn thành",
+  withdraw_page_fail_wait: "Đang chờ đơn hàng được hoàn thành",
 
   // transfer
   transfer_page_from: 'Từ',

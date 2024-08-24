@@ -202,6 +202,7 @@ const resultHandleClaim = (res: any) => {
   }, 300)
   if (res.result === 1) {
     Message.success(`${t('level_page_getScu')} ${res.money}`)
+    levelDataAll.value.daily_rebate = 0; //领取成功重置奖励
   } else {
     Message.error(t('level_page_getFail'))
   }
@@ -275,7 +276,7 @@ const refreshMon = () => {
     }, 1 * 1000)
   }
 }
-// 领取返水奖励 ， 是哪个接口
+// 领取返水奖励
 const getRebate = () => {
   if (levelDataAll.value.daily_rebate === 0) {
     return Message.error(t('level_page_notAward'))

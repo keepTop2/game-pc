@@ -292,6 +292,9 @@ export default {
   withdraw_page_fail_tips2: "The turnover requirements are not met",
   withdraw_page_fail_tips3: "The withdrawal amount exceeds the withdrawal range",
   withdraw_page_fail_tips4: "Wrong withdrawal password",
+  withdraw_page_fail_tips5: "Insufficient central wallet balance",
+  withdraw_page_fail_tips6: "There is an unfinished withdrawal record",
+  withdraw_page_fail_wait: "Waiting for order to be completed",
 
   // transfer
   transfer_page_from: 'From',
