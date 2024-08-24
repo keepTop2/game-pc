@@ -9,8 +9,9 @@
     </n-flex>
     <div class="attention">
       <span>{{ t('7_days') }}</span>
-      <btn :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">{{ active_id == 1 ?
-        t('all_read') : (received_all ? '已全部领取' : t('one_click_claim')) }}</btn>
+      <btn @click="allClick" v-if="active_id == 1 && myEmail.hasNoRead">{{ t('all_read') }}</btn>
+      <btn v-if="active_id == 2" :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">
+        {{ received_all ? '已全部领取' : t('one_click_claim') }}</btn>
     </div>
     <div class="list" v-if="myEmail[active_id == 1 ? 'list' : 'rewardList'].length > 0">
       <div class="list-item" v-for="item in myEmail[active_id == 1 ? 'list' : 'rewardList']" :key="item">
