@@ -91,7 +91,7 @@
               <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.network_type" :options="netWorkArr" />
             </n-form-item>
             <!-- 银行卡充值独有 -->
-            <n-form-item v-if="curDepositWay.payname.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
+            <n-form-item v-if="curDepositWay.payname?.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
               <n-flex class="choose-bank">
                 <n-flex align="center" class="choose-bank-l">
                   <n-flex class="bank_cicon" v-if="chooseBank.value"> <img
@@ -186,7 +186,8 @@ const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
-const curDiscount = ref({ limit: 0, ratio: 0, require: 0, restrict: '' }); // 优惠
+const baseDis = { limit: 0, ratio: 0, require: 0, restrict: '' }
+const curDiscount = ref({...baseDis}); // 优惠
 
 // 充值提交参数
 const dataParams = {
@@ -260,13 +261,18 @@ const countUsdtMon = () => {
 const openChooseBank = () => {
   chooseBankModal.value.onCloseBank();
 }
-// 重置
-const resetData = () => {
+// 参数重置
+const resetParams = () => {
+  curDiscount.value = {...baseDis}
   curDepositWay.value = { payname: '' }
   form.value = { ...dataParams }
+  chooseBank.value = { label: '', value: '' }
+}
+// 重置
+const resetData = () => {
+  resetParams();
   mtdList.value = [{ ...baseMtdList }]
   dcList.value = [{ ...baseDcList }]
-  chooseBank.value = { label: '', value: '' }
   form.value.discount = curDiscountData?.id; // 从我的优惠带过来已选择的优惠
 }
 // 获取充值信息
@@ -340,7 +346,7 @@ const onCloseSec = () => {
 
 // 去充值
 const goToDeposit = () => {
-  if (!curDepositWay.value.payname) {
+  if (!curDepositWay.value?.payname) {
     return Message.error(t('method_error'));
   }
   onClose();
@@ -452,6 +458,14 @@ const handleDepositBank = (res: any) => {
   bankAllList.value = res.pay_name_list.map((item: any) => { return { value: item.pay_id, label: item.pay_name } });
 }
 
+watch(
+  () => showSecModal.value,
+  (n) => {
+    if (!n) {
+      resetParams()
+    }
+  }
+)
 // 切换充值方式
 watch(
   () => form.value.method,
