@@ -15,7 +15,6 @@ export const RechagreStatusMap: any = {
  * @description: 取款状态
  */
 export const WithdrawStatusMap: any = {
-    '0': t('withdraw_status_map_0'),
     '1': t('withdraw_status_map_1'),
     '2': t('withdraw_status_map_2'),
     '3': t('withdraw_status_map_3'),
