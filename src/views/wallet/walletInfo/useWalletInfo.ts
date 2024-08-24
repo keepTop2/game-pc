@@ -37,7 +37,7 @@ const useWalletInfo = () => {
   const updateAuto = ref<boolean>(false);
   const timerRe = ref();
   const refreshFlag = ref(false);
-  const eyeOpen = ref(false);
+  const eyeOpen = ref(true);
   const currencyList: Array<{ label: string, key: number }> = [
     { label: 'VND', key: 1 },
     { label: 'USDT', key: 2 }
@@ -209,12 +209,18 @@ const useWalletInfo = () => {
   }
 
   const handleCurrencyChange = (key: number) => {
+    console.log('#####---')
     Local.set('currency', key);
     currencyUnit.value = key;
     gameMoney.value = getCurrencyValue(Number(roleInfo.value.money));
     bankMoney.value = getCurrencyValue(Number(roleInfo.value.bank_money));
     totalMoney.value = gameMoney.value + bankMoney.value;
-    totalMoneyTxt.value = totalMoney.value;
+    // totalMoneyTxt.value = totalMoney.value;
+    if (eyeOpen.value) {
+      totalMoneyTxt.value = totalMoney.value
+    } else {
+      totalMoneyTxt.value = '******'
+    }
     // target.value.bet_money = getCurrencyValue(target_bet_money.value);
   };
 
@@ -233,6 +239,7 @@ const useWalletInfo = () => {
 
   const refreshWallet = () => {
     if (!refreshFlag.value) {
+      console.log('----', eyeOpen.value)
       clearTimeout(timerRe.value);
       refreshFlag.value = true;
       getNewMon();
@@ -244,9 +251,9 @@ const useWalletInfo = () => {
   // 金额显示隐藏
   const moneyShow = () => {
     if (eyeOpen.value) {
-      totalMoneyTxt.value = totalMoney.value
-    } else {
       totalMoneyTxt.value = '******'
+    } else {
+      totalMoneyTxt.value = totalMoney.value
     }
     eyeOpen.value = !eyeOpen.value
   }

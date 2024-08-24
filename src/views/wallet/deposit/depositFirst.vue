@@ -87,7 +87,7 @@
                 <div>{{ t('deposit_page_venues') }}：{{ curDiscount.restrict }}</div>
               </div>
             </n-form-item>
-            <n-form-item v-if="['usdt'].includes(curDepositWay.payname)" class="yh_item" :label="t('deposit_page_netWork')">
+            <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" class="yh_item" :label="t('deposit_page_netWork')">
               <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.network_type" :options="netWorkArr" />
             </n-form-item>
             <!-- 银行卡充值独有 -->
@@ -108,7 +108,7 @@
                   <a class="refresh_icon"></a>
                 </template>
               </n-input>
-              <n-flex v-if="['usdt'].includes(curDepositWay.payname)" justify="space-between" class="flex usdt_box">
+              <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between" class="flex usdt_box">
                 <span>USDT: {{countUsdtMon()}}</span>
                 <span class="button" @click="showModal = true">{{t('deposit_page_toExchange')}}</span>
               </n-flex>
@@ -376,7 +376,7 @@ const onSubmit = () => {
   const curObj = mtdList.value.find((item: any) => item.value === form.value.method)
   console.log('&&&&&', curObj)
   // usdt 充值方式
-  if (curObj.payname === 'usdt') {
+  if (curObj.payname?.toLowerCase() === 'usdt') {
     // minDepositObj.value = {
     //   show: true,
     //   mon: Number(curObj.minrecharge) * usdtObj.value.rate
@@ -428,6 +428,7 @@ const handleDepositSubmit = (res: any) => {
     Local.remove('curDiscountData'); // 重置
     if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
       setTimeout(() => {
+        onCloseSec(); // 关闭窗口
         window.open(res.url);
       }, 1000)
     }

@@ -113,14 +113,16 @@
                       <n-input clearable size="large" v-model:value="formInfo.phone" :placeholder="t('home_page_enterPhoneNumber')"></n-input>
                     </n-form-item>
 
-
-                    <n-form-item :label="t('home_page_smsCode')" path="phoneCode">
-                      <n-input clearable size="large" v-model:value="formInfo.phoneCode"
-                        :placeholder="t('home_page_enterVerificationCode')"></n-input>
+                    <n-flex justify="space-between" align="center">
+                      <n-form-item :label="t('home_page_smsCode')" path="phoneCode" style="flex: 1;">
+                        <n-input clearable size="large" v-model:value="formInfo.phoneCode"
+                                 :placeholder="t('home_page_enterVerificationCode')"></n-input>
+                      </n-form-item>
                       <n-button :bordered="false" :loading="phoneCodeLoading" @click="submitSendPhoneCode" class="btn"
-                        :disabled="phoneCodeDisabled">{{ phoneCodeText }}
+                                :disabled="phoneCodeDisabled">{{ phoneCodeText }}
                       </n-button>
-                    </n-form-item>
+                    </n-flex>
+
                   </n-form>
                   <!--                  <div class="cz_btn">-->
                   <!--                    <a @click="submitPhone"> 确认 </a>-->
@@ -320,7 +322,7 @@ const handleSMSback = (res: any) => {
     if (res.message) {
       Message.success(t(res.message));
     }
-    let timer = 60;
+    let timer = 180;
     phoneCodeDisabled.value = true;
     phoneCodeText.value = timer;
     let timeInterval = setInterval(() => {

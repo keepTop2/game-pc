@@ -81,7 +81,7 @@
             <n-popover trigger="hover" display-directive="show">
               <template #trigger>
                 <span>
-                  <img @error="avatarLoadError" :src="roleInfo.head_photo || '/img/home/avatar.webp'" alt="">
+                  <img @error="avatarLoadError" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" alt="">
                   <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
                 </span>
               </template>

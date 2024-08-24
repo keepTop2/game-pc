@@ -1,6 +1,7 @@
 <template>
   <AddBank v-if="showAddBankRef" @getMyBindBankList="getMyBankList" :myBankName="myBankName" :myBankList="myBankList" />
   <n-spin :show="loading">
+    <div class="num_tips">{{ t('paymentManagement_page_max_bank', { num: myBankList?.length || 0 }) }}</div>
     <div class="flex payment_management">
       <div class="rel bank" v-for="(item, index) in myBankList" :key="index">
         <span v-if="index !== 0" class="abs pointer center close">

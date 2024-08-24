@@ -25,7 +25,7 @@
                   <p class="size2">{{ totalMoneyTxt }}</p>
                   <img :class="`pointer ${refreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
                     @click="refreshWallet">
-                  <img v-if="eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt="" @click="moneyShow">
+                  <img v-if="!eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt="" @click="moneyShow">
                   <img v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow">
                 </div>
                 <!-- <n-dropdown trigger="click" :options="currencyList" @select="handleCurrencyChange">
