@@ -40,7 +40,7 @@
       <n-spin v-show="loading" />
     </div>
     <!-- 查看详情弹窗 -->
-    <infoModal v-model:visible="visible" :data="itemInfo" :active_id="active_id" :receive_email_id="receive_email_id">
+    <infoModal v-model:visible="visible" :data="itemInfo" :active_id="active_id" :receive_email_ids="receive_email_ids">
     </infoModal>
   </n-flex>
 </template>
@@ -67,7 +67,6 @@ const store = User(pinia);
 const { myEmail } = storeToRefs(store);
 
 const active_id = ref(1);
-const receive_email_id = ref();
 const visible = ref(false);
 const is_click_all = ref(false);
 const itemInfo = ref();
@@ -143,9 +142,8 @@ const resultAttachments = (rs: any) => {
   setTimeout(() => {
     btnLoading2.value = false
   }, 3000)
-  receive_email_id.value = rs.email_id
-  receive_email_ids.value.push(rs.email_id)
   if (rs.email_id) {
+    receive_email_ids.value.push(rs.email_id)
     // 从列表移除
     const list = myEmail.value.rewardList
     const index = list.findIndex((item: any) => rs.email_id == item.email_id)
