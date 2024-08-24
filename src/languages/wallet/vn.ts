@@ -218,6 +218,7 @@ export default {
   addBank_page_getCode: 'Lấy mã',
   addBank_page_notPhone: 'Bạn chưa liên kết số điện thoại, vui lòng liên kết trước',
   addBank_page_bank_wh: 'Đang bảo trì',
+  addBank_page_bankPay_wh: 'Kênh này đang được bảo trì',
 
   // 充值 Deposit
   deposit_page_deposit: 'Nạp tiền',

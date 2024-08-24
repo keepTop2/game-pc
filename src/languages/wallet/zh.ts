@@ -218,6 +218,7 @@ export default {
   addBank_page_getCode: '获取',
   addBank_page_notPhone: '您尚未绑定手机号码，请先绑定手机号',
   addBank_page_bank_wh: '维护中',
+  addBank_page_bankPay_wh: '该渠道维护中',
 
   // 充值 Deposit
   deposit_page_deposit: '充值',

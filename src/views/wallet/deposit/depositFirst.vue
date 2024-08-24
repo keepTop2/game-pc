@@ -12,8 +12,12 @@
         <div class="body vertical center t_md">
           <!-- 充值列表选择 -->
           <n-flex justify="space-between" align="center"
-            :class="`item_list ${curDepositWay.payname === item.payname ? 'active' : ''}`"
+            :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curDepositWay.payname === item.payname ? 'active' : ''}`"
             v-for="(item, index) in usdtRecharge" :key="index">
+            <div v-if="item.status === 0" class="bank_wh">
+              <img src="/img/payment/wh_bank.webp" />
+              <span>{{t('addBank_page_bankPay_wh')}}</span>
+            </div>
             <n-flex align="center" class="item_list_l">
               <div class="bank_icon">
                 <img :src="`/img/payment/icon/icon_${item.payname}.webp`" />
@@ -518,6 +522,7 @@ defineExpose({
     gap: 15px !important;
 
     .item_list {
+      position: relative;
       width: 536px;
       height: 96px;
       padding: 0 17px 10px;
@@ -526,6 +531,25 @@ defineExpose({
 
       &.active {
         background-image: url(/img/payment/listBg_active.webp);
+      }
+      &.wh_item {
+        pointer-events: none;
+      }
+      .bank_wh {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        background: rgba(0, 0, 0, .7);
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        top: -3px;
+        left: -3px;
+        img {
+          width: 50px;
+          margin-right: 5px;
+        }
       }
 
       .item_list_l {
