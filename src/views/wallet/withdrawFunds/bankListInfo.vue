@@ -402,6 +402,7 @@ defineExpose({
     gap: 15px !important;
 
     .bank_list {
+      width: 100%;
       margin: 0 auto 30px;
       flex-wrap: nowrap !important;
       border-radius: 16px;
