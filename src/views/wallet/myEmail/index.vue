@@ -118,6 +118,7 @@ const resultRead_email = (rs: any) => {
   if (!myEmail.value.email_readed.includes(email_id)) {
     myEmail.value.email_readed.push(email_id);
   }
+
   const sb = new Set(myEmail.value.email_readed);
   myEmail.value.hasNoRead = myEmail.value.email_id_list.some((x: any) => !sb.has(x))
 };
@@ -145,6 +146,17 @@ const resultAttachments = (rs: any) => {
   receive_email_id.value = rs.email_id
   receive_email_ids.value.push(rs.email_id)
   if (rs.email_id) {
+    // 从列表移除
+    const list = myEmail.value.rewardList
+    const index = list.findIndex((item: any) => rs.email_id == item.email_id)
+    if (index >= 0) {
+      list.splice(index, 1);
+      User(pinia).setEmailList({
+        ...myEmail.value,
+        rewardList: list
+      });
+    }
+
     //全部领取
     if (is_click_all.value) {
       isReadTotal.value++
@@ -175,8 +187,8 @@ const allClick = () => {
   }
   if (list && list.length > 0) {
     for (const item of list) {
-      //全部已读
       if (active_id.value == 1) {
+        //全部已读
         const query = NetPacket.req_read_email();
         query.email_id = item.email_id;
         Net.instance.sendRequest(query);
