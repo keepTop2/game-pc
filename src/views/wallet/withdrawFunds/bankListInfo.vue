@@ -12,7 +12,7 @@
 
         <div class="body vertical center t_md">
           <n-flex justify="space-between" align="center" class="w_full" vertical>
-            <div class="bank_list" v-for="(item, index) in bankList" :key="index">
+            <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank_item">
                 <div class="bank_l_icon">
                   <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
@@ -23,7 +23,7 @@
                       <span>{{ item.bankName }}</span>
                       <span>{{ item.name }}</span>
                     </p>
-                    <p>{{ item.bankCode }}</p>
+                    <p class="p_account">{{ item.bankCode }}</p>
                   </div>
                   <div class="utilization-bank">
                     <n-button @click="bankCheck(index, 'isUse')"
@@ -59,7 +59,7 @@
               <n-form-item :label="t('addBank_page_pChooseBank')">
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
-                    <span class="bank_cicon">
+                    <span v-show="chooseBank.value" class="bank_cicon">
                       <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                     </span>
                     <span class="bank_cname"> {{ chooseBank.label }} </span>
@@ -396,20 +396,25 @@ defineExpose({
 
 .deposit_modal {
   font-size: 16px;
-  width: 650px !important;
+  width: 494px !important;
 
   .body {
     gap: 15px !important;
 
     .bank_list {
-      min-width: 492px;
+      width: 100%;
       margin: 0 auto 30px;
       flex-wrap: nowrap !important;
+      border-radius: 16px;
+      border: 2px solid #5A47B2;
 
+      &.bank_used {
+        border-color: #0cc41e;
+      }
       .bank_item {
         cursor: pointer;
         font-size: 14px;
-        width: 403px;
+        width: 100%;
         padding: 0 18px 0 18px;
         height: 90px;
         background: url(/img/payment/bankBg.webp) center no-repeat;
@@ -419,10 +424,12 @@ defineExpose({
         .bank_l_icon {
           width: 54px;
           height: 54px;
-
+          line-height: 54px;
+          text-align: center;
+          flex: none;
           img {
-            width: 54px;
-            height: 54px;
+            width: 40px;
+            transform: translateY(7px);
           }
 
           //background-color: #ef1111;
@@ -433,7 +440,7 @@ defineExpose({
           display: flex;
           justify-content: space-between;
           width: 100%;
-          margin-left: 45px;
+          margin-left: 20px;
 
           .utilization-bank {
             display: flex;
@@ -486,6 +493,11 @@ defineExpose({
               text-align: right;
               font-size: 18px;
               font-weight: 600;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
           }
 
@@ -497,7 +509,7 @@ defineExpose({
     .bank_list_add {
       cursor: pointer;
       font-size: 14px;
-      width: 403px;
+      width: 374px;
       padding: 0 18px 0 18px;
       gap: 8px 12px;
       height: 90px;
@@ -510,6 +522,7 @@ defineExpose({
         display: flex;
         width: 100%;
         height: 100%;
+        align-items: center;
         justify-content: center;
         flex-direction: column;
 
@@ -527,7 +540,6 @@ defineExpose({
     }
 
     .bank-add-form {
-      width: 403px;
       padding: 17px 19px;
       //gap: 8px 12px;
       background-color: rgba(29, 14, 74, 1);
@@ -551,18 +563,21 @@ defineExpose({
         gap: 10px !important;
 
         .choose-bank-l {
-          width: 250px;
-          height: 38px;
-          background: url(/img/payment/inputBg.webp) center no-repeat;
-          background-size: 100%;
+          width: 235px !important;
+          background-image: url(/img/payment/inputBgSmall.webp) !important;
 
           .bank_cicon {
             width: 24px;
             height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #D6CDFF;
+            img {
+              width: 22px;
+            }
           }
 
           .bank_cname {
-            width: 220px;
             line-height: 16px;
           }
         }
@@ -724,18 +739,21 @@ defineExpose({
       gap: 10px !important;
 
       .choose-bank-l {
-        width: 270px;
-        height: 38px;
-        background: url(/img/payment/inputBg.webp) center no-repeat;
-        background-size: 100%;
+        width: 235px !important;
+        background-image: url(/img/payment/inputBgSmall.webp) !important;
 
         .bank_cicon {
           width: 24px;
           height: 24px;
+          border-radius: 50%;
+          background: #fff;
+          border: 2px solid #D6CDFF;
+          img {
+            width: 22px;
+          }
         }
 
         .bank_cname {
-          width: 220px;
           line-height: 16px;
         }
       }
@@ -779,8 +797,8 @@ defineExpose({
           margin-left: 8px;
 
           img {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            transform: translateY(2px);
           }
         }
       }

@@ -37,9 +37,9 @@
         </n-flex>
 
         <div class="level_info_vip_all">
-          <n-flex class="level_info_vip_l">
+          <n-flex id="scroll_box" class="level_info_vip_l">
             <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
-              :key="index" @click="clickTab(item.key)">
+              :key="index" @click="(e: any) => {clickTab(e, item.key)}">
               <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
                    <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
               <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
@@ -101,6 +101,7 @@ import { useI18n } from "vue-i18n";
 import { storeToRefs } from "pinia";
 import pinia from "@/store";
 import { User } from '@/store/user';
+
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo } = storeToRefs(UserStore);
@@ -202,6 +203,7 @@ const resultHandleClaim = (res: any) => {
   }, 300)
   if (res.result === 1) {
     Message.success(`${t('level_page_getScu')} ${res.money}`)
+    levelDataAll.value.daily_rebate = 0; // 领取成功重置奖励
   } else {
     Message.error(t('level_page_getFail'))
   }
@@ -221,7 +223,6 @@ const openModal = () => {
     NetMsgType.msgType.msg_notify_vip_claim_status,
     resultHandleClaim,
   );
-
 }
 
 // 打开等级规则弹窗
@@ -275,7 +276,7 @@ const refreshMon = () => {
     }, 1 * 1000)
   }
 }
-// 领取返水奖励 ， 是哪个接口
+// 领取返水奖励
 const getRebate = () => {
   if (levelDataAll.value.daily_rebate === 0) {
     return Message.error(t('level_page_notAward'))
@@ -285,8 +286,23 @@ const getRebate = () => {
   Net.instance.sendRequest(query);
 
 }
-const clickTab = (e: any) => {
-  curTab.value = e;
+const clickTab = (e: any, key: any) => {
+  curTab.value = key;
+  // 添加点击滚动
+  const winWidth = document.documentElement.clientWidth / 2; // 视窗宽度的一半
+  const curBoxW = e.target.offsetWidth; // 当前容器宽度
+  const curClientX = e.clientX;
+  const targetBox: any = document.getElementById('scroll_box');
+  let scrollLeft = -curBoxW; // 向右滚动
+  // 需要向左滚动
+  if (curClientX > winWidth - curBoxW / 2) {
+    scrollLeft = curBoxW;
+  }
+  targetBox.scrollBy({
+    top: 0,
+    left: scrollLeft, // 向右滚动的距离
+    behavior: 'smooth' // 平滑滚动
+  });
 }
 
 // 已关闭窗口

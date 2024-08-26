@@ -13,16 +13,16 @@
           <span> {{ t('level_page_pBet') }} </span>
           <span> {{ t('level_page_bonus') }} </span>
           <span> {{ t('level_page_monGift') }} </span>
-          <span> {{ t('level_page_method') }} </span>
+<!--          <span> {{ t('level_page_method') }} </span>-->
         </n-flex>
         <n-flex align="center" class="le_l_content">
           <div class="le_l_l le_l_l_sec">
             <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
               <span> VIP{{ item.level }} </span>
               <span> {{ item.target_bet_money }} </span>
-              <span> {{ item.promotional_reward_status.money || '-' }} </span>
-              <span> {{ item.gift_money_amount || '-' }} </span>
-              <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>
+              <span> {{ item.promotional_reward_status.money || '0' }} </span>
+              <span> {{ item.gift_money_amount || '0' }} </span>
+<!--              <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>-->
             </n-flex>
           </div>
         </n-flex>
@@ -64,12 +64,12 @@
       <div class="level_tip_content">
         {{ t('level_page_rule_sec_1') }}<br>
         {{ t('level_page_rule_sec_2') }}<br>
-        {{ t('level_page_rule_sec_3') }}<br>
-        {{ t('level_page_rule_sec_4') }}<br>
-        {{ t('level_page_rule_sec_5') }}<br>
+        <span>{{ t('level_page_rule_sec_3') }}</span><br>
+        <span>{{ t('level_page_rule_sec_4') }}</span><br>
+        <span>{{ t('level_page_rule_sec_5') }}</span><br>
         {{ t('level_page_rule_sec_6') }}<br>
         {{ t('level_page_rule_sec_7') }}<br>
-        {{ t('level_page_rule_sec_8') }}<br>
+        <span>{{ t('level_page_rule_sec_8') }}</span><br>
         {{ t('level_page_rule_sec_9') }}<br>
         {{ t('level_page_rule_sec_10') }}
       </div>
@@ -303,6 +303,11 @@ watch(
   .level_tip_content {
     font-size: 16px;
     line-height: 30px;
+
+    span {
+      display: inline-block;
+      text-indent: 20px;
+    }
   }
 
 }
