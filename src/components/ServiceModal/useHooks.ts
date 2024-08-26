@@ -114,6 +114,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       id: 99999,
     };
     state_data.chatitemList.unshift(obj);
+    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername')
+    
+    state_data.friendList = list
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {

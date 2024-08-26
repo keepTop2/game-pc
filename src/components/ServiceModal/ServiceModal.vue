@@ -6,7 +6,7 @@
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
-      <div class="forbidden">
+      <div class="forbidden" v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
         <div class="forbidden_btn" @click="visibleForbidden = true">
           禁言
         </div>
@@ -16,7 +16,7 @@
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
-      <div class="left_setting">
+      <div class="left_setting" v-if="agentInfo.user_type&&agentInfo.user_type>0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -142,7 +142,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="setting" @click="showSetting">快捷语设置</div>
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type&&agentInfo.user_type>0">快捷语设置</div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
@@ -151,7 +151,7 @@
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
-              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.moneyauth==1" />
               <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
@@ -168,7 +168,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{agentInfo.user_type}}</div>
         </div>
       </div>
     </div>
@@ -215,7 +215,7 @@ interface tabType {
 }
 import { useI18n } from 'vue-i18n';
 const userInfo = User(pinia);
-const { roleInfo } = storeToRefs(userInfo);
+const { roleInfo,agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
 const groupRef: any = ref(null)
 const { t } = useI18n();
@@ -237,7 +237,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: 2654917,  // roleInfo.value.id,  //2654917
+  deviceID: roleInfo.value.id,  //2654917
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
