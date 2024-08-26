@@ -1,4 +1,5 @@
 export default {
+    'verification_code_sending_interval_is_less_than_60_seconds': '验证码发送间隔小于60秒',
     "hello": "您好！",
     "love_msg": "#0 爱上了 #1",
     "set_label_guest": "游客",

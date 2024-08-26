@@ -1,4 +1,5 @@
 export default {
+    verification_code_sending_interval_is_less_than_60_seconds: 'verification code sending interval is less than 60 seconds',
     "hello": "hello",
     "love_msg": "#0 love #1",
     "set_label_guest": "Guest",

@@ -1,4 +1,5 @@
 export default {
+  verification_code_sending_interval_is_less_than_60_seconds: 'khoảng thời gian gửi mã xác minh nhỏ hơn 60 giây',
   hello: 'vietnamhello',
   love_msg: '#0 vietman #1',
   set_label_guest: 'Du khách',
