@@ -272,7 +272,8 @@ const state: any = reactive({
             if (verifyWithdrawPwd(rule, value)) {
               return true
             } else {
-              return new Error(t('home_page_accountFormatIncorrect'))
+              return true
+              // return new Error(t('home_page_accountFormatIncorrect'))
             }
         },
 

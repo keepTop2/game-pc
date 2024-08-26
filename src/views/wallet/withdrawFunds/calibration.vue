@@ -57,7 +57,7 @@
                       </n-input>
                     </n-form-item>
                     <n-form-item :label="t('addBank_page_name')" path="accountName">
-                      <n-input size="large" :disabled="!!props.myBankList.cardholder_name"
+                      <n-input size="large" :disabled="!!mySecBankList.cardholder_name"
                         v-model:value="formBank.accountName" :placeholder="t('paymentManagement_page_enterBank')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
@@ -190,7 +190,7 @@
               </div>
 
 
-              <div class="cz_btn">
+              <div class="cz_btn with_btn">
                 <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? t('paymentManagement_page_finish') : t('home_page_next') }} </a>
               </div>
 
@@ -204,14 +204,13 @@
     </n-card>
   </n-modal>
 
-
   <!-- 选择银行弹窗 -->
   <ChooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
 
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import {defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
@@ -223,7 +222,6 @@ import { Message } from '@/utils/discreteApi.ts';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store';
 import { User } from '@/store/user';
-
 import { aaa, bbb, getDeviceId, getRandomSign } from '@/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
@@ -236,7 +234,6 @@ import { Page } from '@/store/page';
 const { bankListInfo } = storeToRefs(Page(pinia));
 
 const chooseBankModal = ref();
-
 const props = defineProps({
   myBankList: {
     type: Object,
@@ -247,18 +244,16 @@ const props = defineProps({
 
 const { t } = useI18n();
 const showModal = ref(false);
-
 const stepTuple = ref({
   step: 1,
   stepUi: [1, 2, 3],
-
 }); // 步骤
 
 
 // 银行列表
 const bkList = ref<TTabList>([...bankListInfo.value]);
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
-
+const mySecBankList = ref(props.myBankList);
 
 const openModal = () => {
   showModal.value = !showModal.value;
@@ -269,7 +264,6 @@ const openModal = () => {
 const onClose = () => {
   showModal.value = false;
 };
-
 
 const formBank = ref( // 存款表单提交
   {
@@ -291,7 +285,6 @@ const formCapital = ref({
   capitalPinAgain: '',
 });
 
-
 const codeOptions = [
   {
     label: '84',
@@ -300,9 +293,7 @@ const codeOptions = [
 ];
 const valueChange = (item: any) => {
   console.log(item);
-
 };
-
 
 const phoneCodeLoading = ref(false);
 const phoneCodeDisabled = ref(true);
@@ -338,40 +329,30 @@ const handleSMSback = (res: any) => {
   }
 };
 
-
 // 下一步按钮
 const submitContent = () => {
-
   // 判断是否绑定银行卡
-
   if (stepTuple.value.step === 3 && capitalError.value) {
     Message.success(t('paymentManagement_page_withCompleted'));
   }
-
   if (bankError.value) {
     stepTuple.value.step = 2;
   } else {
     return submitBank();
   }
-
   if (phoneError.value) {
     stepTuple.value.step = 3;
   } else {
     return submitPhone();
   }
-
-
   if (capitalError.value) {
     openModal();
   } else {
     return submitCapital();
   }
-
-
 };
 
 const bankError = ref(false);
-
 // 添加银行信息
 const formBankRef = ref();
 const submitBank = () => {
@@ -390,16 +371,15 @@ const submitBank = () => {
 };
 
 // result: 2 // 1 成功，2 失败
-const handleAddBank = (res: any) => {
-  if (res.result === 1) {
-    bankError.value = true;
-    stepTuple.value.step = 2;
-    Message.success(t('paymentManagement_page_addBankSuc'));
-  } else {
-    Message.error(t('paymentManagement_page_addBankFail'));
-  }
-};
-
+// const handleAddBank = (res: any) => {
+//   if (res.result === 1) {
+//     bankError.value = true;
+//     stepTuple.value.step = 2;
+//     Message.success(t('paymentManagement_page_addBankSuc'));
+//   } else {
+//     Message.error(t('paymentManagement_page_addBankFail'));
+//   }
+// };
 
 // 字符串判断
 const formatNumberString = (input: string): string => {
@@ -638,16 +618,13 @@ const selectBank = (e: any) => {
   chooseBank.value = e;
 };
 
-
 // 获取已绑定的银行账号
 const getInfo = () => {
-
-  console.log(props.myBankList.cardholder_name, '---props.myBankList--');
-  formBank.value.accountName = props.myBankList.cardholder_name || '';
-
+  console.log(mySecBankList.value.cardholder_name, '---props.myBankList--');
+  formBank.value.accountName = mySecBankList.value.cardholder_name || '';
   // 未绑定银行卡跳转到绑定银行卡`
-  if (props.myBankList.bank_card_info_list && props.myBankList.bank_card_info_list.length) {
-    const { account_number, bank_id } = props.myBankList.bank_card_info_list[0];
+  if (mySecBankList.value.bank_card_info_list && mySecBankList.value.bank_card_info_list.length) {
+    const { account_number, bank_id } = mySecBankList.value.bank_card_info_list[0];
     formBank.value.bank = bank_id;
     formBank.value.cardNo = account_number;
     // formBank.value.accountName = bank_name
@@ -655,43 +632,30 @@ const getInfo = () => {
     let bankInfoItem = (bkList.value || []).find(item => item.value === bank_id);
     formBank.value.bankName = bankInfoItem?.label || '';
   }
-
   formInfo.value.phone = userInfo.value.mobile || '';
-
   phoneError.value = Boolean(userInfo.value.mobile);
-
-
   capitalError.value = Boolean(roleInfo.value.withdraw_pwd);
-
 };
 
-
+watch(() => props.myBankList, (n) => {
+  console.log('银行列表有更新===', n)
+  mySecBankList.value = n;
+})
 onMounted(() => {
-
-
   // 绑定手机号
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_modify_email, handleChangeEmail);
-
   // 发送验证码
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, handleSMSback);
-
   // 绑定资金密码
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_or_modify_withdraw_password, handleBindOrModifyWithdrawPassword);
-
   // 绑定银行卡
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
-
-
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
 });
 
-
 onUnmounted(() => {
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_modify_email, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_or_modify_withdraw_password, null);
-
 });
 
 defineExpose({

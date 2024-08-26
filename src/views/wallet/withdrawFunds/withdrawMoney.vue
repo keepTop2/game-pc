@@ -1,7 +1,7 @@
 <template>
 
   <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName"
-    :myBankList="props.myBankList" />
+    :myBankList="mySecBankList" />
 
   <n-modal class="deposit_modal" :show="showSecModal" :mask-closable="false">
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import {CSSProperties, nextTick, onMounted, onUnmounted, ref} from 'vue';
+import {CSSProperties, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import { useI18n } from "vue-i18n";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
@@ -128,6 +128,7 @@ const form: any = ref( // 存款表单提交
 );
 const isCanWithdraw = ref(false); // 是否可提现
 const isHasOrder = ref(false); // 是否存在未审核的提现订单
+const mySecBankList = ref(props.myBankList);
 
 const rules = {
   amount: [
@@ -204,13 +205,13 @@ const onSubmit = () => {
       if (!form.value.bank) {
         return Message.error(t('paymentManagement_page_chBank'))
       }
-      if (form.value.amount < props.myBankList.min_withdraw_money) {
-        return Message.error(t('withdraw_page_minAmount', { minAmount: props.myBankList.min_withdraw_money }))
+      if (form.value.amount < mySecBankList.value.min_withdraw_money) {
+        return Message.error(t('withdraw_page_minAmount', { minAmount: mySecBankList.value.min_withdraw_money }))
       }
-      if (form.value.amount > props.myBankList.max_withdraw_money) {
-        return Message.error(t('withdraw_page_maxAmount', { maxAmount: props.myBankList.max_withdraw_money }))
+      if (form.value.amount > mySecBankList.value.max_withdraw_money) {
+        return Message.error(t('withdraw_page_maxAmount', { maxAmount: mySecBankList.value.max_withdraw_money }))
       }
-      form.value.address = props.myBankList.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
+      form.value.address = mySecBankList.value.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
       handleSubmit()
     } else {
       console.log(errors);
@@ -241,7 +242,7 @@ const handleWithDrawSubmit = (res: any) => {
   }
   if (res.result === 0) {
     openModal();
-    Message.success(codeTxt[res.result])
+    // Message.success(codeTxt[res.result]); // 提款成功不需要弹出弹窗
   } else {
     Message.error(codeTxt[res.result])
   }
@@ -275,8 +276,8 @@ const backItemInfo = ref({
 })
 
 const getInfo = () => {
-  let bankListItem = props.myBankList.bank_card_info_list[0]
-  myBankName.value = props.myBankList.cardholder_name || ''
+  let bankListItem = mySecBankList.value.bank_card_info_list[0]
+  myBankName.value = mySecBankList.value.cardholder_name || ''
   console.log('===当前选择的提款银行信息--', bankListItem)
   form.value.bank = bankListItem.bank_id || 0
   backItemInfo.value.bank_name = bankListItem.bank_name || ''
@@ -297,6 +298,10 @@ const initReq = () => {
   Net.instance.sendRequest(NetPacket.req_can_withdraw());
 };
 
+watch(() => props.myBankList, (n) => {
+  console.log('银行列表有更新--', n)
+  mySecBankList.value = n;
+})
 onMounted(() => {
   // setTimeout(() => initReq(), 600);
   // 可提现金额
@@ -332,6 +337,7 @@ const railStyle = ({ focused, checked }: {
   }
   return style
 }
+
 </script>
 
 <style lang="less" scoped>

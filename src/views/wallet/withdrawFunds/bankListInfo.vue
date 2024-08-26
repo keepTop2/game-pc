@@ -10,7 +10,7 @@
         </div>
 
 
-        <div class="body vertical center t_md">
+        <div class="body vertical center t_md bank_sec_list">
           <n-flex justify="space-between" align="center" class="w_full" vertical>
             <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank_item">
@@ -103,7 +103,7 @@
               <!--              </n-form-item>-->
 
 
-              <div class="cz_btn">
+              <div class="cz_btn with_sec_btn">
                 <a @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
                 <!--                <a @click="goToDeposit"> 确认 </a>-->
               </div>
@@ -119,7 +119,6 @@
 
           <div class="tips">
             <img src="/img/wallet/bankTips.webp" alt="">
-            <!--            bankList-->
             <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
           </div>
         </div>
@@ -164,7 +163,7 @@
 
 <script setup lang="ts">
 
-import { onMounted, onUnmounted, ref } from 'vue';
+import {onMounted, onUnmounted, ref, watch} from 'vue';
 import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
@@ -176,6 +175,7 @@ import pinia from '@/store';
 import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
 import { Page } from '@/store/page';
+import useWalletInfo from "@/views/wallet/walletInfo/useWalletInfo.ts";
 
 const { bankListInfo } = storeToRefs(Page(pinia));
 
@@ -191,23 +191,19 @@ const props = defineProps({
     default: ''
   }
 })
-
+const { getMyBankList } = useWalletInfo()
 const { t } = useI18n();
-
-
-const form = ref({
-  bank: '',
+const baseObj = {
+  bank_id: '',
   bankCode: '',
   bankName: '',
   accountName: props.myBankName,
-
-})
-
-
+}
+const form = ref({...baseObj})
 
 const formRef = ref()
 const submit = () => {
-  if (!form.value.bank) {
+  if (!form.value.bank_id) {
     return Message.error(t('paymentManagement_page_chBank'))
   }
 
@@ -219,7 +215,7 @@ const submit = () => {
     return Message.error(t('paymentManagement_page_chName'))
   }
   const req = NetPacket.req_new_bank_card_info();
-  req.bank_id = form.value.bank;
+  req.bank_id = form.value.bank_id;
   req.account_number = form.value.bankCode;
   req.cardholder_name = form.value.accountName;
   Net.instance.sendRequest(req);
@@ -227,19 +223,20 @@ const submit = () => {
 
 // result: 2 // 1 成功，2 失败
 const handleAddBankRef = (res: any) => {
+  console.log('&&&&&&&==', res)
   if (res.result === 1) {
     Message.success(t('paymentManagement_page_addBankSuc'))
-    bankList.value.push({ ...form.value, name: '******' })
+    getMyBankList(); // 更新银行列表
+    // bankList.value.push({ ...form.value, name: '******' })
+    chooseBank.value = {...baseChObj}; // 重置
+    form.value = {...baseObj}; // 重置
     flagBank(false)
   } else {
     Message.error(t('paymentManagement_page_addBankFail'))
   }
 }
 
-
-
 const bankList = ref<any[]>([]);
-
 const setBankList = (res: any) => {
   let data = res.bank_card_info_list.map((item: any, index: number) => {
     item.bankCode = item.account_number
@@ -252,14 +249,11 @@ const setBankList = (res: any) => {
       item.isDefault = false
       item.isUse = false
     }
-
     return item
   })
-
   bankList.value = [...data]
 
 }
-
 
 const bankCheck = (index: number, key: string) => {
   let data: any = bankList.value;
@@ -276,7 +270,6 @@ const bankCheck = (index: number, key: string) => {
   } else {
     handleBankId(data[index])
   }
-
   // console.log(data[index], '--data[index][key]-');
 };
 
@@ -291,10 +284,8 @@ const defaultBankId = (res: any) => {
     Message.error(t('paymentManagement_page_setDefaulted'))
   } else {
     Message.success(t('paymentManagement_page_setError'))
-
   }
 }
-
 
 const showBankListModal = ref(false);
 const openModal = () => {
@@ -304,18 +295,12 @@ const onClose = () => {
   showBankListModal.value = false;
 };
 
-
-
 const addBankFlag = ref<Boolean>(false)
 const flagBank = (flag: Boolean) => {
   addBankFlag.value = flag
 };
 
-
-
-
 const showBankModal = ref(false);
-
 // 银行列表
 const bkList = ref<TTabList>([...bankListInfo.value]);
 const originBkList = ref<TTabList>([...bankListInfo.value]);
@@ -346,41 +331,32 @@ const handleInput = (v: string) => {
 const showChangeBank = () => {
   onCloseBank()
 }
-
-
-
-
-
-const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
+const baseChObj = { label: '', value: '' }
+const chooseBank = ref({...baseChObj}); // 选择的银行卡
 // 选择银行
 const selectBank = (e: any) => {
-  form.value.bank = e.value;
+  form.value.bank_id = e.value;
   chooseBank.value = e;
   form.value.bankName = e.label;
   onCloseBank()
 }
 
-
+watch(() => props.myBankList, (n) => {
+  console.log('需要更新当前银行列表---', n)
+  setBankList(n);
+})
 
 onMounted(() => {
-
   setBankList(props.myBankList)
-
-
   // 绑定银行卡
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
-
   // 设置默认
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
 })
 
 onUnmounted(() => {
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
-
-
 })
 
 
