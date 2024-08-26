@@ -112,7 +112,7 @@ async function getAgentLevel(roleInfo:any) {
         return response.json(); // 将响应解析为 JSON
       })
       .then(res => {
-        roleInfo.agent_level = res?.data?.agent_level 
+        roleInfo.user_type = res?.data?.user_type   //0 玩家   1 客服  2 代理
       })
   }
 }
