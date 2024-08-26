@@ -822,6 +822,8 @@ const handleBindOrModifyWithdrawPassword = (res: any) => {
     }
 }
 onMounted(async () => {
+    let req_user_info = NetPacket.req_user_info();
+    Net.instance.sendRequest(req_user_info);
 
     MessageEvent2.addMsgEvent(
         NetMsgType.msgType.msg_notify_open_or_close_withdraw_password,
