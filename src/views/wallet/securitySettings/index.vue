@@ -457,7 +457,7 @@ const itemClick = (item: any) => {
                 trigger: "blur",
                 validator: (rule: any, value: string) => {
                     if (!value) {
-                        return new Error(t('home_page_enterPassword'))
+                        return new Error(t('home_page_enterNewPassword'))
                     } else
                         if (verifyPassword(rule, value)) {
                             return true
