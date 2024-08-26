@@ -806,12 +806,20 @@ const handleModifyAccount = (res: any) => {
 const handleBindOrModifyWithdrawPassword = (res: any) => {
     if (res.code == 1) {
         let findWithdrawPassword = state.list.find((e: any) => e.type == 10)
+        findWithdrawPassword = JSON.parse(JSON.stringify(findWithdrawPassword))
+        let index = state.list.findIndex((e: any) => e.type == 10)
         findWithdrawPassword.value = 'hideString'
         findWithdrawPassword.formData.formParams.operate_type = 2
         findWithdrawPassword.btns = [{ text: 'home_page_modify', icon: 'Group39376', value: 1 }]
         findWithdrawPassword.formData.list.old_withdrawPwd.show = true
         findWithdrawPassword.formData.title = 'home_page_changeFundPassword'
         findWithdrawPassword.formData.buttonText = 'home_page_modifyNow'
+
+        // 清空
+        for (let key in findWithdrawPassword.formData.list) {
+            findWithdrawPassword.formData.formParams[key] = ''
+        }
+        state.list[index] = findWithdrawPassword
         Message.success(t(res.message))
         // needLoginApi()
         let req_user_info = NetPacket.req_user_info();
