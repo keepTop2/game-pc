@@ -97,7 +97,9 @@ const resultHandle = (rs: any) => { // 数据处理
         loading.value = false
     }, 300)
     result.total_page = rs.total_page || 0
-    result.list = rs.record_list || []
+    result.list = (rs.record_list || []).sort((a: any, b: any) => {
+        return Date.parse(convertObjectToDateString(b.create_time)) - Date.parse(convertObjectToDateString(a.create_time))
+    })
 
     // 把id放到平台id里
     rs.record_list.forEach((item: any) => {

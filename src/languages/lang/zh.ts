@@ -2007,9 +2007,8 @@ export default {
     'rechagre_status_map_1': '已完成',
     'rechagre_status_map_2': '回调成功',
     // 取款状态
-    'withdraw_status_map_0': '等待审核',
-    'withdraw_status_map_1': '打款中',
-    'withdraw_status_map_2': '已完成',
+    'withdraw_status_map_1': '审核中',
+    'withdraw_status_map_2': '交易完成',
     'withdraw_status_map_3': '审核异常',
     // 转账类型
     'account_type_map_1': '提现',
