@@ -111,6 +111,14 @@ export default {
   auditRecord_page_audit: '稽核记录',
   auditRecord_page_auditMon: '稽核金额',
   auditRecord_page_auditProgress: '稽核进度',
+  Title_Basic_recharge: "基础充值",
+  Backend_recharge: "系统优惠",
+  VIP_promotion_reward: "VIP晋级奖励",
+  K_VIP_monthly_gift_money: "Vip月礼金",
+  Saving_money: "复活金",
+  Sign_in: "注册奖励",
+  Other_reward: "其他奖励",
+
   auditRecord_page_state: '状态',
   auditRecord_page_startTime: '开始时间',
 

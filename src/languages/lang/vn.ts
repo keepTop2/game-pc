@@ -2073,7 +2073,7 @@ export default {
   receive_no: 'Không thể thu thập',
   nomore_data: 'Không có dữ liệu',
   activity_no_list: 'Hiện tại chưa có hoạt động nào để tham gia',
-  Title_Basic_recharge: 'Basic recharge',
+  Title_Basic_recharge: 'Nạp tiền cơ bản',
   email_tip: 'Email đã được gửi, vui lòng kiểm tra nhé!',
   phone_tip: 'Tin nhắn đã được gửi đi, bạn kiểm tra nhé!',
   message_center: 'Trung tâm tin nhắn',

@@ -111,6 +111,14 @@ export default {
   auditRecord_page_audit: 'Bản ghi kiểm toán',
   auditRecord_page_auditMon: 'Số tiền kiểm toán',
   auditRecord_page_auditProgress: 'Tiến độ kiểm toán',
+  Title_Basic_recharge: "Nạp tiền cơ bản",
+  Backend_recharge: "Ưu đãi hệ thống",
+  VIP_promotion_reward: "Thưởng lên cấp VIP",
+  K_VIP_monthly_gift_money: "Thưởng VIP tháng",
+  Saving_money: "Vàng phục sinh",
+  Sign_in: "Đăng ký thưởng",
+  Other_reward: "Phần thưởng khác",
+
   auditRecord_page_state: 'Trạng thái',
   auditRecord_page_startTime: 'Thời gian bắt đầu',
 

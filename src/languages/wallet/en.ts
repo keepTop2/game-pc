@@ -111,6 +111,14 @@ export default {
   auditRecord_page_audit: 'Audit Record',
   auditRecord_page_auditMon: 'Audit Amount',
   auditRecord_page_auditProgress: 'Audit Progress',
+  Title_Basic_recharge: "Basic recharge",
+  Backend_recharge: "System discount",
+  VIP_promotion_reward: "Vip promotion reward",
+  K_VIP_monthly_gift_money: "Monthly reward",
+  Saving_money: "Resurrection gold",
+  Sign_in: "Sign-up Bonus",
+  Other_reward: "Other reward",
+
   auditRecord_page_state: 'Status',
   auditRecord_page_startTime: 'Start Time',
 
