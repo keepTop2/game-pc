@@ -435,7 +435,7 @@ const handleSMSback = (res: any) => {
       Message.success(t(res.message))
     }
     state.formData.list.phoneCode.disabled = true
-    state.formData.list.phoneCode.timeText = 60
+    state.formData.list.phoneCode.timeText = 180
     state.formData.list.phoneCode.timer = setInterval(() => {
       state.formData.list.phoneCode.timeText--
       if (state.formData.list.phoneCode.timeText <= 0) {
