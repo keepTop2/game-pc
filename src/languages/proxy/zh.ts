@@ -27,7 +27,7 @@ export default {
   proxy_page_nextCs: '下级总业绩',
   proxy_page_nextZs: '直属下级业绩的有效流水抽成',
   proxy_page_partner: '合伙人',
-  proxy_page_player: '玩家',
+  proxy_page_player: '直属玩家',
   proxy_page_winLose: '输赢流水',
   proxy_page_wan: '万',
   proxy_page_gjMaster: '高级厅主',

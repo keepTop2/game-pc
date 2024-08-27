@@ -33,11 +33,6 @@
                 <div class="name">BOSS</div>
             </n-flex>
             <n-flex class="model_box_content">
-                <n-flex class="item item_margin" style="width:100%">
-                    <span class="item_title">
-                        输赢流水：</span>
-                    <span>1,000,000</span>
-                </n-flex>
                 <n-flex class="item " style="width:100%">
                     <span class="item_title">{{ t('proxy_page_team') }}：</span>
                     <span>{{ t('proxy_page_turnover') }} 300,000 *（0.65%-0.525%）=3,750</span>
@@ -98,7 +93,7 @@
                 <n-flex vertical class="model_box_content content_2">
                     <n-flex class="item item_margin" style="justify-content:center">
                         <span class="item_title">{{ t('proxy_page_winLose') }}：</span>
-                        <span>100 {{ t('proxy_page_wan') }}</span>
+                        <span>100,000,000</span>
                     </n-flex>
                     <!-- <n-flex class="item">
                             <span class="item_title">团队总业绩：</span>
@@ -116,7 +111,7 @@
                 <n-flex vertical class="model_box_content content_2">
                     <n-flex class="item item_margin" style="justify-content:center">
                         <span class="item_title">{{ t('proxy_page_winLose') }}：</span>
-                        <span>100 {{ t('proxy_page_wan') }}</span>
+                        <span>100,000,000</span>
                     </n-flex>
                     <!-- <n-flex class="item">
                             <span class="item_title">团队总业绩：</span>
@@ -146,7 +141,7 @@
                         </n-flex>
                         <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
                             <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
-                            <div class="name">{{ t('proxy_page_gjPlayer') }} C2</div>
+                            <div class="name">{{ t('proxy_page_player') }} C2</div>
                         </n-flex>
                     </n-flex>
                 </div>
@@ -172,7 +167,7 @@
                 <n-flex vertical class="model_box_content content_4">
                     <n-flex class="item">
                         <span class="item_title">{{ t('proxy_page_winLose') }}：</span>
-                        <span>100 {{ t('proxy_page_wan') }}</span>
+                        <span>100,000,000</span>
                     </n-flex>
                     <!-- <n-flex class="item">
                             <span class="item_title">团队总业绩：</span>
@@ -190,7 +185,7 @@
                 <n-flex vertical class="model_box_content content_4">
                     <n-flex class="item">
                         <span class="item_title">{{ t('proxy_page_winLose') }}：</span>
-                        <span>100 {{ t('proxy_page_wan') }}</span>
+                        <span>100,000,000</span>
                     </n-flex>
                     <!-- <n-flex class="item">
                             <span class="item_title">团队总业绩：</span>
