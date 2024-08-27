@@ -71,15 +71,8 @@ export function isPascalCase(str: string): boolean {
   return regex.test(str);
 }
 export function verifyPassword(_rule: any, val: string): boolean {
-  // false: 密码不正确
-  if (
-    !/^[a-zA-Z0-9,./!@#$%^&*()_+=\-;':"[\]{}\\|]{6,16}$/.test(
-      val
-    )
-  )
-    return false;
-  // true: 密码正确
-  else return true;
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d,./!@#$%^&*()_+=\-;':"]{6,16}$/;
+  return regex.test(val);
 }
 export function verifyEmail(_rule: any, val: string) {
   // false: 邮箱不正确
