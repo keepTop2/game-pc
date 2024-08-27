@@ -22,7 +22,7 @@
                     <span class="orange">{{ (proxyInfo.personal_money + proxyInfo.team_money) || '--' }}</span>
                 </div>
                 <div class="item item_margin">
-                    <div class="btn" style="margin-left:0" @click="router.push({ name: 'accountsRecord' })">
+                    <div class="btn" style="margin-left:0" @click="router.push({ name: 'proxyRecord' })">
                         <span>{{ t('mine_myaudit') }}</span>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
         <!-- 推广链接 -->
         <n-flex class="link_box" justify="center" align="center">
             <span>{{ t('proxy_page_url') }}：</span>
-            <a v-if="proxyInfo.s_link" :href="proxyInfo.s_link" target="_blank">{{ proxyInfo.s_link}}</a>
+            <a v-if="proxyInfo.s_link" :href="proxyInfo.s_link" target="_blank">{{ proxyInfo.s_link }}</a>
             <span v-else> -- </span>
             <div class="btn link_btn" @click="copyToClipboard(proxyInfo.s_link)">{{ t('proxy_page_copy') }}</div>
             <div class="btn link_btn" @click="openIntro">{{ t('proxy_page_agentRule') }}</div>
