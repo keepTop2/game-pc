@@ -79,7 +79,7 @@ import pinia from '@/store/index';
 // import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { Message } from '@/utils/discreteApi'
-import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyWithdrawPwd } from "@/utils/is";
+import { verifyAccount, verifyCaptcha, verifyEmail, verifyMobile, verifyPassword } from "@/utils/is";
 import { useI18n } from 'vue-i18n';
 import { IP } from "@/utils/others";
 import { useRoute } from "vue-router";
@@ -269,7 +269,7 @@ const state: any = reactive({
           if (!value) {
             return new Error(t('home_page_enterAccount'))
           } else
-            if (verifyWithdrawPwd(rule, value)) {
+            if (verifyAccount(rule, value)) {
               return true
             } else {
               return true
