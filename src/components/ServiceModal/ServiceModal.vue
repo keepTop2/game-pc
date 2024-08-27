@@ -6,8 +6,8 @@
     <h4 class="top_title">
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
-      <div class="forbidden" v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
-        <div class="forbidden_btn" @click="visibleForbidden = true">
+      <div class="forbidden">
+        <div class="forbidden_btn" @click="visibleForbidden = true"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
