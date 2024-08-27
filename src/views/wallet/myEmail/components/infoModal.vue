@@ -187,7 +187,7 @@ const isShow = computed({
   }
 
   .item-title {
-    height: 40px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -199,6 +199,7 @@ const isShow = computed({
     box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     border: solid 1px #322c59;
     background-color: #1d0e4a;
+    word-break: break-all;
 
     .item-title-left {
       display: flex;
