@@ -18,6 +18,7 @@ export default {
   proxy_page_copyZd: '代理制度',
   proxy_page_account: '会员账号',
   proxy_page_zsCommission: '直属玩家佣金',
+  proxy_page_groupWater: "团队有效流水抽成",
   proxy_page_agentCj: '代理层级',
   proxy_page_team: '团队贡献',
   proxy_page_turnover: '团队输赢流水',

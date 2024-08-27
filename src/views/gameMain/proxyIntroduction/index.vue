@@ -15,7 +15,7 @@
         <div class="table shadow_table">
             <n-flex class="tr th">
                 <div class="td">{{ t('proxy_page_agentCj') }}</div>
-                <div class="td">{{ t('proxy_page_zsCommission') }}</div>
+                <div class="td">{{ t('proxy_page_groupWater') }}</div>
             </n-flex>
             <n-flex class="tr" v-for="(item, i) in proxyConfig" :key="i">
                 <div class="td">{{ item.name }}</div>

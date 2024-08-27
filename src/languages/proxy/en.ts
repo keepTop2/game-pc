@@ -18,6 +18,7 @@ export default {
   proxy_page_copyZd: 'Proxy system',
   proxy_page_account: 'Member account',
   proxy_page_zsCommission: 'direct player commission',
+  proxy_page_groupWater: "Team effective turnover commission",
   proxy_page_agentCj: 'Agent level',
   proxy_page_team: 'Team contribution',
   proxy_page_turnover: 'Team winning and losing turnover',

@@ -39,6 +39,9 @@ export default {
   promo_page_fuHuo: 'Vàng phục hồi',
   promo_page_fuHuoNot: 'Chưa đạt yêu cầu',
 
+  // 代理账变记录
+  accountsRecord: "Hồ sơ thay đổi tài khoản đại lý",
+
   // 账变记录 accountsRecord
   accountsRecord_page_type: 'Loại thay đổi tài khoản',
   accountsRecord_page_hb: 'Loại tiền tệ',

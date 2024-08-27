@@ -39,6 +39,9 @@ export default {
   promo_page_fuHuo: '复活金',
   promo_page_fuHuoNot: '未达标',
 
+  // 代理账变记录
+  accountsRecord: "代理账变记录",
+
   // 账变记录 accountsRecord
   accountsRecord_page_type: '账变类型',
   accountsRecord_page_hb: '货币类型',
