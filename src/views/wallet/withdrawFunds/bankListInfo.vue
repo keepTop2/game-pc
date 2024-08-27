@@ -10,9 +10,9 @@
         </div>
 
 
-        <div class="body vertical center t_md">
+        <div class="body vertical center t_md bank_sec_list">
           <n-flex justify="space-between" align="center" class="w_full" vertical>
-            <div class="bank_list" v-for="(item, index) in bankList" :key="index">
+            <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank_item">
                 <div class="bank_l_icon">
                   <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
@@ -23,7 +23,7 @@
                       <span>{{ item.bankName }}</span>
                       <span>{{ item.name }}</span>
                     </p>
-                    <p>{{ item.bankCode }}</p>
+                    <p class="p_account">{{ item.bankCode }}</p>
                   </div>
                   <div class="utilization-bank">
                     <n-button @click="bankCheck(index, 'isUse')"
@@ -59,7 +59,7 @@
               <n-form-item :label="t('addBank_page_pChooseBank')">
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
-                    <span class="bank_cicon">
+                    <span v-show="chooseBank.value" class="bank_cicon">
                       <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                     </span>
                     <span class="bank_cname"> {{ chooseBank.label }} </span>
@@ -103,7 +103,7 @@
               <!--              </n-form-item>-->
 
 
-              <div class="cz_btn">
+              <div class="cz_btn with_sec_btn">
                 <a @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
                 <!--                <a @click="goToDeposit"> 确认 </a>-->
               </div>
@@ -119,7 +119,6 @@
 
           <div class="tips">
             <img src="/img/wallet/bankTips.webp" alt="">
-            <!--            bankList-->
             <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
           </div>
         </div>
@@ -164,7 +163,7 @@
 
 <script setup lang="ts">
 
-import { onMounted, onUnmounted, ref } from 'vue';
+import {onMounted, onUnmounted, ref, watch} from 'vue';
 import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
@@ -176,6 +175,7 @@ import pinia from '@/store';
 import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
 import { Page } from '@/store/page';
+import useWalletInfo from "@/views/wallet/walletInfo/useWalletInfo.ts";
 
 const { bankListInfo } = storeToRefs(Page(pinia));
 
@@ -191,23 +191,19 @@ const props = defineProps({
     default: ''
   }
 })
-
+const { getMyBankList } = useWalletInfo()
 const { t } = useI18n();
-
-
-const form = ref({
-  bank: '',
+const baseObj = {
+  bank_id: '',
   bankCode: '',
   bankName: '',
   accountName: props.myBankName,
-
-})
-
-
+}
+const form = ref({...baseObj})
 
 const formRef = ref()
 const submit = () => {
-  if (!form.value.bank) {
+  if (!form.value.bank_id) {
     return Message.error(t('paymentManagement_page_chBank'))
   }
 
@@ -219,7 +215,7 @@ const submit = () => {
     return Message.error(t('paymentManagement_page_chName'))
   }
   const req = NetPacket.req_new_bank_card_info();
-  req.bank_id = form.value.bank;
+  req.bank_id = form.value.bank_id;
   req.account_number = form.value.bankCode;
   req.cardholder_name = form.value.accountName;
   Net.instance.sendRequest(req);
@@ -227,19 +223,20 @@ const submit = () => {
 
 // result: 2 // 1 成功，2 失败
 const handleAddBankRef = (res: any) => {
+  console.log('&&&&&&&==', res)
   if (res.result === 1) {
     Message.success(t('paymentManagement_page_addBankSuc'))
-    bankList.value.push({ ...form.value, name: '******' })
+    getMyBankList(); // 更新银行列表
+    // bankList.value.push({ ...form.value, name: '******' })
+    chooseBank.value = {...baseChObj}; // 重置
+    form.value = {...baseObj}; // 重置
     flagBank(false)
   } else {
     Message.error(t('paymentManagement_page_addBankFail'))
   }
 }
 
-
-
 const bankList = ref<any[]>([]);
-
 const setBankList = (res: any) => {
   let data = res.bank_card_info_list.map((item: any, index: number) => {
     item.bankCode = item.account_number
@@ -252,14 +249,11 @@ const setBankList = (res: any) => {
       item.isDefault = false
       item.isUse = false
     }
-
     return item
   })
-
   bankList.value = [...data]
 
 }
-
 
 const bankCheck = (index: number, key: string) => {
   let data: any = bankList.value;
@@ -276,7 +270,6 @@ const bankCheck = (index: number, key: string) => {
   } else {
     handleBankId(data[index])
   }
-
   // console.log(data[index], '--data[index][key]-');
 };
 
@@ -291,10 +284,8 @@ const defaultBankId = (res: any) => {
     Message.error(t('paymentManagement_page_setDefaulted'))
   } else {
     Message.success(t('paymentManagement_page_setError'))
-
   }
 }
-
 
 const showBankListModal = ref(false);
 const openModal = () => {
@@ -304,18 +295,12 @@ const onClose = () => {
   showBankListModal.value = false;
 };
 
-
-
 const addBankFlag = ref<Boolean>(false)
 const flagBank = (flag: Boolean) => {
   addBankFlag.value = flag
 };
 
-
-
-
 const showBankModal = ref(false);
-
 // 银行列表
 const bkList = ref<TTabList>([...bankListInfo.value]);
 const originBkList = ref<TTabList>([...bankListInfo.value]);
@@ -346,41 +331,32 @@ const handleInput = (v: string) => {
 const showChangeBank = () => {
   onCloseBank()
 }
-
-
-
-
-
-const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
+const baseChObj = { label: '', value: '' }
+const chooseBank = ref({...baseChObj}); // 选择的银行卡
 // 选择银行
 const selectBank = (e: any) => {
-  form.value.bank = e.value;
+  form.value.bank_id = e.value;
   chooseBank.value = e;
   form.value.bankName = e.label;
   onCloseBank()
 }
 
-
+watch(() => props.myBankList, (n) => {
+  console.log('需要更新当前银行列表---', n)
+  setBankList(n);
+})
 
 onMounted(() => {
-
   setBankList(props.myBankList)
-
-
   // 绑定银行卡
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
-
   // 设置默认
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
 })
 
 onUnmounted(() => {
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
-
-
 })
 
 
@@ -396,20 +372,25 @@ defineExpose({
 
 .deposit_modal {
   font-size: 16px;
-  width: 650px !important;
+  width: 494px !important;
 
   .body {
     gap: 15px !important;
 
     .bank_list {
-      min-width: 492px;
+      width: 100%;
       margin: 0 auto 30px;
       flex-wrap: nowrap !important;
+      border-radius: 16px;
+      border: 2px solid #5A47B2;
 
+      &.bank_used {
+        border-color: #0cc41e;
+      }
       .bank_item {
         cursor: pointer;
         font-size: 14px;
-        width: 403px;
+        width: 100%;
         padding: 0 18px 0 18px;
         height: 90px;
         background: url(/img/payment/bankBg.webp) center no-repeat;
@@ -419,10 +400,12 @@ defineExpose({
         .bank_l_icon {
           width: 54px;
           height: 54px;
-
+          line-height: 54px;
+          text-align: center;
+          flex: none;
           img {
-            width: 54px;
-            height: 54px;
+            width: 40px;
+            transform: translateY(7px);
           }
 
           //background-color: #ef1111;
@@ -433,7 +416,7 @@ defineExpose({
           display: flex;
           justify-content: space-between;
           width: 100%;
-          margin-left: 45px;
+          margin-left: 20px;
 
           .utilization-bank {
             display: flex;
@@ -486,6 +469,11 @@ defineExpose({
               text-align: right;
               font-size: 18px;
               font-weight: 600;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
           }
 
@@ -497,7 +485,7 @@ defineExpose({
     .bank_list_add {
       cursor: pointer;
       font-size: 14px;
-      width: 403px;
+      width: 374px;
       padding: 0 18px 0 18px;
       gap: 8px 12px;
       height: 90px;
@@ -510,6 +498,7 @@ defineExpose({
         display: flex;
         width: 100%;
         height: 100%;
+        align-items: center;
         justify-content: center;
         flex-direction: column;
 
@@ -527,7 +516,6 @@ defineExpose({
     }
 
     .bank-add-form {
-      width: 403px;
       padding: 17px 19px;
       //gap: 8px 12px;
       background-color: rgba(29, 14, 74, 1);
@@ -551,18 +539,21 @@ defineExpose({
         gap: 10px !important;
 
         .choose-bank-l {
-          width: 250px;
-          height: 38px;
-          background: url(/img/payment/inputBg.webp) center no-repeat;
-          background-size: 100%;
+          width: 235px !important;
+          background-image: url(/img/payment/inputBgSmall.webp) !important;
 
           .bank_cicon {
             width: 24px;
             height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #D6CDFF;
+            img {
+              width: 22px;
+            }
           }
 
           .bank_cname {
-            width: 220px;
             line-height: 16px;
           }
         }
@@ -724,18 +715,21 @@ defineExpose({
       gap: 10px !important;
 
       .choose-bank-l {
-        width: 270px;
-        height: 38px;
-        background: url(/img/payment/inputBg.webp) center no-repeat;
-        background-size: 100%;
+        width: 235px !important;
+        background-image: url(/img/payment/inputBgSmall.webp) !important;
 
         .bank_cicon {
           width: 24px;
           height: 24px;
+          border-radius: 50%;
+          background: #fff;
+          border: 2px solid #D6CDFF;
+          img {
+            width: 22px;
+          }
         }
 
         .bank_cname {
-          width: 220px;
           line-height: 16px;
         }
       }
@@ -779,8 +773,8 @@ defineExpose({
           margin-left: 8px;
 
           img {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            transform: translateY(2px);
           }
         }
       }

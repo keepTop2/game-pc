@@ -1,4 +1,5 @@
 export default {
+    verification_code_sending_interval_is_less_than_60_seconds: 'verification code sending interval is less than 60 seconds',
     "hello": "hello",
     "love_msg": "#0 love #1",
     "set_label_guest": "Guest",
@@ -2010,9 +2011,8 @@ export default {
     'rechagre_status_map_1': 'completed',
     'rechagre_status_map_2': 'Callback success',
     // 取款状态
-    'withdraw_status_map_0': 'Moderated',
-    'withdraw_status_map_1': 'Payment in progress',
-    'withdraw_status_map_2': 'completed',
+    'withdraw_status_map_1': 'Under review',
+    'withdraw_status_map_2': 'Transaction completed',
     'withdraw_status_map_3': 'Audit exception',
     // 转账类型
     'account_type_map_1': 'withdraw',

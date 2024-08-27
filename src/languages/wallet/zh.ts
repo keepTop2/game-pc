@@ -111,6 +111,14 @@ export default {
   auditRecord_page_audit: '稽核记录',
   auditRecord_page_auditMon: '稽核金额',
   auditRecord_page_auditProgress: '稽核进度',
+  Title_Basic_recharge: "基础充值",
+  Backend_recharge: "系统优惠",
+  VIP_promotion_reward: "VIP晋级奖励",
+  K_VIP_monthly_gift_money: "Vip月礼金",
+  Saving_money: "复活金",
+  Sign_in: "注册奖励",
+  Other_reward: "其他奖励",
+
   auditRecord_page_state: '状态',
   auditRecord_page_startTime: '开始时间',
 
@@ -252,7 +260,8 @@ export default {
   deposit_page_upperLimit: '优惠上限',
   deposit_page_giftRatio: '赠送比列',
   deposit_page_multiple: '流水倍数',
-  deposit_page_venues: '限定场馆',
+  deposit_page_minimum: '最低参与金额',
+  deposit_page_giftAmount: '赠送金额',
   deposit_page_netWork: '网络',
   deposit_page_chooseNetWork: '选择网络',
   deposit_page_pleChooseNetWork: '请选择充值网络',
@@ -288,6 +297,13 @@ export default {
   withdraw_page_subFail: "提款失败",
   withdraw_page_subSucces: "提款成功",
   withdraw_page_CantWithdraw: "没有可提现金额",
+  withdraw_page_fail_tips1: "银行卡或持卡人信息不存在",
+  withdraw_page_fail_tips2: "流水要求不符合",
+  withdraw_page_fail_tips3: "提款金额超出提款范围",
+  withdraw_page_fail_tips4: "取款密码错误",
+  withdraw_page_fail_tips5: "中心钱包余额不足",
+  withdraw_page_fail_tips6: "有未完成的提现记录",
+  withdraw_page_fail_wait: "待订单完成",
 
   // transfer
   transfer_page_from: '从',

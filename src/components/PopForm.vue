@@ -126,6 +126,7 @@ const resetInputHide = () => {
 
 const submitNext = () => {
   console.log(formRef.value);
+  debugger
   // 效验
   if (state.type == 3) {
     if (state.formData.step == 1) {
@@ -138,12 +139,18 @@ const submitNext = () => {
       emit('submitData', state.formData.formParams, state.type);
 
     } else {
-      emit('submitData', state.formData.formParams, state.type);
+      formRef.value?.validate((errors: any) => {
+        if (!errors) {
+          emit('submitData', state.formData.formParams, state.type);
+        }
+      });
+
 
     }
   } else {
     //常规修改密码
     formRef.value?.validate((errors: any) => {
+      debugger
       if (!errors) {
         emit('submitData', state.formData.formParams, state.type);
       }

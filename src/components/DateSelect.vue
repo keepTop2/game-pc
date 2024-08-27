@@ -63,10 +63,12 @@ const timeObj = reactive({ // 选择的时间对象
 })
 
 const submit = () => { // 提交结果
-    emits('submit', {
-        start_time: convertDateToObject(timeObj.range[0]),
-        end_time: convertDateToObject(timeObj.range[1]),
-    })
+    setTimeout(() => {
+        emits('submit', {
+            start_time: convertDateToObject(timeObj.range[0]),
+            end_time: convertDateToObject(timeObj.range[1]),
+        })
+    }, 0)
 }
 
 

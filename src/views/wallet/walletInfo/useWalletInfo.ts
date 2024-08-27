@@ -69,11 +69,8 @@ const useWalletInfo = () => {
 
 
   const handleMyBankList = (res: any) => {
-    console.log(userInfo.value, '--------', res)
+    console.log('bankList--------', res, userInfo.value)
     myBankList.value = res;
-    console.log('=====', roleInfo.value)
-
-
     // // 未绑定银行卡跳转到绑定银行卡
     if (!myBankList.value.bank_card_info_list || myBankList.value.bank_card_info_list.length == 0) {
       // router.push('/wallet/paymentManagement')
@@ -94,7 +91,6 @@ const useWalletInfo = () => {
     }
     withdrawMoneyRef.value.openModal();
     // showWithdrawModal(true)
-
   }
 
   // 取款需要判断是否绑定银行卡，绑定手机号码，提现密码
@@ -193,9 +189,10 @@ const useWalletInfo = () => {
     if (VIPinfo.value?.vip_level_reward_config && VIPinfo.value?.vip_level_reward_config.length) {
       // const targetLevel: TVIPLevelReward = VIPinfo.value.vip_level_reward_config?.filter((item: TVIPLevelReward) => item.level == (Number(VIPinfo.value.current_vip_level) + 1))[0]
 
-      const targetLevel: TVIPLevelReward = VIPinfo.value?.vip_level_reward_config[Number(VIPinfo.value.current_vip_level) + 1]
+      const targetLevel: TVIPLevelReward = VIPinfo.value?.vip_level_reward_config[Number(VIPinfo.value.current_vip_level)]
 
       const { level, gift_money_amount } = targetLevel || { target_bet_money: 0, level: 1, gift_money_amount: 0 };
+      console.log('-----===&&&', targetLevel)
       if (targetLevel?.target_bet_money != null) {
         target_bet_money.value = targetLevel?.target_bet_money
       }
@@ -203,7 +200,8 @@ const useWalletInfo = () => {
         progress: (Number(VIPinfo.value.total_bet_money) / Number(target_bet_money.value)) * 100,
         level,
         gift_money_amount,
-        bet_money: target_bet_money.value - Number(VIPinfo.value.total_bet_money) // 所需投注， aa=vip等级的投注额-当前投注
+        // bet_money: target_bet_money.value - Number(VIPinfo.value.total_bet_money) // 所需投注， aa=vip等级的投注额-当前投注
+        bet_money: target_bet_money.value || '-'  // 所需投注， aa=vip等级的投注额
       }
     }
   }
@@ -397,6 +395,7 @@ const useWalletInfo = () => {
     calibrationRef,
     withdrawMoneyRef,
     getNewMon,
+    getMyBankList,
   };
 }
 

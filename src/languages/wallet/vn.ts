@@ -111,6 +111,14 @@ export default {
   auditRecord_page_audit: 'Bản ghi kiểm toán',
   auditRecord_page_auditMon: 'Số tiền kiểm toán',
   auditRecord_page_auditProgress: 'Tiến độ kiểm toán',
+  Title_Basic_recharge: "Nạp tiền cơ bản",
+  Backend_recharge: "Ưu đãi hệ thống",
+  VIP_promotion_reward: "Thưởng lên cấp VIP",
+  K_VIP_monthly_gift_money: "Thưởng VIP tháng",
+  Saving_money: "Vàng phục sinh",
+  Sign_in: "Đăng ký thưởng",
+  Other_reward: "Phần thưởng khác",
+
   auditRecord_page_state: 'Trạng thái',
   auditRecord_page_startTime: 'Thời gian bắt đầu',
 
@@ -252,7 +260,8 @@ export default {
   deposit_page_upperLimit: 'Giới hạn ưu đãi tối đa',
   deposit_page_giftRatio: 'Tỷ lệ quà tặng',
   deposit_page_multiple: 'Số lần cược',
-  deposit_page_venues: 'Giới hạn địa điểm',
+  deposit_page_minimum: 'Số tiền tham gia tối thiểu',
+  deposit_page_giftAmount: 'Số tiền quà tặng',
   deposit_page_netWork: 'mạng',
   deposit_page_chooseNetWork: 'Chọn mạng',
   deposit_page_pleChooseNetWork: 'Vui lòng chọn mạng nạp tiền',
@@ -288,6 +297,13 @@ export default {
   withdraw_page_subFail: 'Rút tiền thất bại',
   withdraw_page_subSucces: 'Rút tiền thành công',
   withdraw_page_CantWithdraw: 'Không có số tiền có thể rút',
+  withdraw_page_fail_tips1: "Thông tin thẻ ngân hàng hoặc chủ thẻ không tồn tại",
+  withdraw_page_fail_tips2: "Không đáp ứng được yêu cầu về lưu lượng",
+  withdraw_page_fail_tips3: "Số tiền rút vượt quá phạm vi rút",
+  withdraw_page_fail_tips4: "Mật khẩu rút tiền sai",
+  withdraw_page_fail_tips5: "Số dư ví trung tâm không đủ",
+  withdraw_page_fail_tips6: "Có hồ sơ rút tiền chưa hoàn thành",
+  withdraw_page_fail_wait: "Đang chờ đơn hàng được hoàn thành",
 
   // transfer
   transfer_page_from: 'Từ',

@@ -9,8 +9,9 @@
     </n-flex>
     <div class="attention">
       <span>{{ t('7_days') }}</span>
-      <btn :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">{{ active_id == 1 ?
-        t('all_read') : (received_all ? '已全部领取' : t('one_click_claim')) }}</btn>
+      <btn @click="allClick" v-if="active_id == 1 && myEmail.hasNoRead">{{ t('all_read') }}</btn>
+      <btn v-if="active_id == 2" :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">
+        {{ received_all ? '已全部领取' : t('one_click_claim') }}</btn>
     </div>
     <div class="list" v-if="myEmail[active_id == 1 ? 'list' : 'rewardList'].length > 0">
       <div class="list-item" v-for="item in myEmail[active_id == 1 ? 'list' : 'rewardList']" :key="item">
@@ -39,7 +40,7 @@
       <n-spin v-show="loading" />
     </div>
     <!-- 查看详情弹窗 -->
-    <infoModal v-model:visible="visible" :data="itemInfo" :active_id="active_id" :receive_email_id="receive_email_id">
+    <infoModal v-model:visible="visible" :data="itemInfo" :active_id="active_id" :receive_email_ids="receive_email_ids">
     </infoModal>
   </n-flex>
 </template>
@@ -66,7 +67,6 @@ const store = User(pinia);
 const { myEmail } = storeToRefs(store);
 
 const active_id = ref(1);
-const receive_email_id = ref();
 const visible = ref(false);
 const is_click_all = ref(false);
 const itemInfo = ref();
@@ -117,6 +117,7 @@ const resultRead_email = (rs: any) => {
   if (!myEmail.value.email_readed.includes(email_id)) {
     myEmail.value.email_readed.push(email_id);
   }
+
   const sb = new Set(myEmail.value.email_readed);
   myEmail.value.hasNoRead = myEmail.value.email_id_list.some((x: any) => !sb.has(x))
 };
@@ -141,9 +142,19 @@ const resultAttachments = (rs: any) => {
   setTimeout(() => {
     btnLoading2.value = false
   }, 3000)
-  receive_email_id.value = rs.email_id
-  receive_email_ids.value.push(rs.email_id)
   if (rs.email_id) {
+    receive_email_ids.value.push(rs.email_id)
+    // 从列表移除
+    const list = myEmail.value.rewardList
+    const index = list.findIndex((item: any) => rs.email_id == item.email_id)
+    if (index >= 0) {
+      list.splice(index, 1);
+      User(pinia).setEmailList({
+        ...myEmail.value,
+        rewardList: list
+      });
+    }
+
     //全部领取
     if (is_click_all.value) {
       isReadTotal.value++
@@ -174,8 +185,8 @@ const allClick = () => {
   }
   if (list && list.length > 0) {
     for (const item of list) {
-      //全部已读
       if (active_id.value == 1) {
+        //全部已读
         const query = NetPacket.req_read_email();
         query.email_id = item.email_id;
         Net.instance.sendRequest(query);

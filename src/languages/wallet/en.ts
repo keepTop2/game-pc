@@ -111,6 +111,14 @@ export default {
   auditRecord_page_audit: 'Audit Record',
   auditRecord_page_auditMon: 'Audit Amount',
   auditRecord_page_auditProgress: 'Audit Progress',
+  Title_Basic_recharge: "Basic recharge",
+  Backend_recharge: "System discount",
+  VIP_promotion_reward: "Vip promotion reward",
+  K_VIP_monthly_gift_money: "Monthly reward",
+  Saving_money: "Resurrection gold",
+  Sign_in: "Sign-up Bonus",
+  Other_reward: "Other reward",
+
   auditRecord_page_state: 'Status',
   auditRecord_page_startTime: 'Start Time',
 
@@ -252,7 +260,8 @@ export default {
   deposit_page_upperLimit: 'Promo Upper Limit',
   deposit_page_giftRatio: 'Gift Ratio',
   deposit_page_multiple: 'Turnover Multiple',
-  deposit_page_venues: 'Limited Venues',
+  deposit_page_minimum: 'Minimum participation amount',
+  deposit_page_giftAmount: 'Gift amount',
   deposit_page_netWork: 'network',
   deposit_page_chooseNetWork: 'Select network',
   deposit_page_pleChooseNetWork: 'Please select a recharge network',
@@ -288,6 +297,13 @@ export default {
   withdraw_page_subFail: "Withdrawal Fail",
   withdraw_page_subSucces: "Withdrawal Success",
   withdraw_page_CantWithdraw: "No Available Withdrawal Amount",
+  withdraw_page_fail_tips1: "Bank card or cardholder information does not exist",
+  withdraw_page_fail_tips2: "The turnover requirements are not met",
+  withdraw_page_fail_tips3: "The withdrawal amount exceeds the withdrawal range",
+  withdraw_page_fail_tips4: "Wrong withdrawal password",
+  withdraw_page_fail_tips5: "Insufficient central wallet balance",
+  withdraw_page_fail_tips6: "There is an unfinished withdrawal record",
+  withdraw_page_fail_wait: "Waiting for order to be completed",
 
   // transfer
   transfer_page_from: 'From',

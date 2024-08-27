@@ -45,6 +45,7 @@ const FormRef = ref()
 const { info, roleInfo } = storeToRefs(userInfo);
 
 
+
 const state: any = reactive({
     first: 1,
     checkPhoneOremail: false,
@@ -456,7 +457,7 @@ const itemClick = (item: any) => {
                 trigger: "blur",
                 validator: (rule: any, value: string) => {
                     if (!value) {
-                        return new Error(t('home_page_enterPassword'))
+                        return new Error(t('home_page_enterNewPassword'))
                     } else
                         if (verifyPassword(rule, value)) {
                             return true
@@ -805,12 +806,20 @@ const handleModifyAccount = (res: any) => {
 const handleBindOrModifyWithdrawPassword = (res: any) => {
     if (res.code == 1) {
         let findWithdrawPassword = state.list.find((e: any) => e.type == 10)
+        findWithdrawPassword = JSON.parse(JSON.stringify(findWithdrawPassword))
+        let index = state.list.findIndex((e: any) => e.type == 10)
         findWithdrawPassword.value = 'hideString'
         findWithdrawPassword.formData.formParams.operate_type = 2
         findWithdrawPassword.btns = [{ text: 'home_page_modify', icon: 'Group39376', value: 1 }]
         findWithdrawPassword.formData.list.old_withdrawPwd.show = true
         findWithdrawPassword.formData.title = 'home_page_changeFundPassword'
         findWithdrawPassword.formData.buttonText = 'home_page_modifyNow'
+
+        // 清空
+        for (let key in findWithdrawPassword.formData.list) {
+            findWithdrawPassword.formData.formParams[key] = ''
+        }
+        state.list[index] = findWithdrawPassword
         Message.success(t(res.message))
         // needLoginApi()
         let req_user_info = NetPacket.req_user_info();
@@ -821,6 +830,8 @@ const handleBindOrModifyWithdrawPassword = (res: any) => {
     }
 }
 onMounted(async () => {
+    let req_user_info = NetPacket.req_user_info();
+    Net.instance.sendRequest(req_user_info);
 
     MessageEvent2.addMsgEvent(
         NetMsgType.msgType.msg_notify_open_or_close_withdraw_password,

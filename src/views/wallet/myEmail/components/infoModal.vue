@@ -17,26 +17,27 @@
           <div class="form-item">
             <span>{{ t('email_content') }}</span>
             <div class="item_content">
-              <div v-html="data?.content" class="content_wrap"</div>
-            </div>
-          </div>
-          <div class="form-item" v-if="active_id == 2">
-            <span>{{ t('attachment') }}</span>
-            <div class="item-title">
-              <div class="item-title-left">
-                <img src="/img/email/majesticon.svg" alt="" />
-                <span>{{
-    Common.thousands(data?.attachments[0].award_value)
-  }}</span>
+              <div v-html="data?.content" class="content_wrap" </div>
               </div>
-              <btn :width="90" @click="getAward" v-if="!receive_email_id">{{ t('vip_collect') }}</btn>
-              <span v-else class="is-receive">{{ t('received') }}</span>
             </div>
+            <div class="form-item" v-if="active_id == 2">
+              <span>{{ t('attachment') }}</span>
+              <div class="item-title">
+                <div class="item-title-left">
+                  <img src="/img/email/majesticon.svg" alt="" />
+                  <span>{{
+                    Common.thousands(data?.attachments[0].award_value)
+                    }}</span>
+                </div>
+                <btn :width="90" @click="getAward" v-if="!receive_email_ids.includes(props.data.email_id)">{{
+                  t('vip_collect') }}</btn>
+                <span v-else class="is-receive">{{ t('received') }}</span>
+              </div>
+            </div>
+            <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn>
           </div>
-          <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn>
         </div>
       </div>
-    </div>
   </n-modal>
 </template>
 
@@ -69,7 +70,7 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
-  receive_email_id: {
+  receive_email_ids: {
     type: String,
     default: '',
   },
@@ -215,12 +216,13 @@ const isShow = computed({
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border: solid 1px #322c59;
   background-color: #1d0e4a;
-  .content_wrap{
+
+  .content_wrap {
     min-height: 150px;
     max-height: 300px;
-   word-break: break-all;
-   overflow-y: auto;
-   padding: 3px 8px;
+    word-break: break-all;
+    overflow-y: auto;
+    padding: 3px 8px;
   }
 }
 
