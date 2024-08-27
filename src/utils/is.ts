@@ -100,6 +100,13 @@ export function verifyCaptcha(_rule: any, val: string) {
   // true: 图片验证码正确
   else return true;
 }
+export function verifyAccount(_rule: any, val: string) {
+  // false: 账号不正确
+  if (!/^[0-9a-zA-Z]{6,16}$/.test(val))
+    return false;
+  // true: 账号正确
+  else return true;
+}
 export function verifyWithdrawPwd(_rule: any, val: string) {
   // false: 资金密码不正确
   if (!/^[0-9]{6,16}$/.test(val))

@@ -81,7 +81,8 @@
             <n-popover trigger="hover" display-directive="show">
               <template #trigger>
                 <span>
-                  <img @error="avatarLoadError" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" alt="">
+                  <img @error="avatarLoadError"
+                    :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" alt="">
                   <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
                 </span>
               </template>
@@ -296,6 +297,8 @@ const menuClick = async (item: any, j: number) => {
       onPositiveClick: async () => {
         Local.remove('user')
         Local.remove('roleInfo')
+        Local.set('menuActive', '')
+        Local.set('menuName', '')
         await User(pinia).setHasLogin(false)
         location.href = '/'
       },
