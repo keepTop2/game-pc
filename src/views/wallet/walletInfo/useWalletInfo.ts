@@ -67,7 +67,6 @@ const useWalletInfo = () => {
     Net.instance.sendRequest(req);
   }
 
-
   const handleMyBankList = (res: any) => {
     console.log('bankList--------', res)
     console.log('userInfo--------', userInfo.value)

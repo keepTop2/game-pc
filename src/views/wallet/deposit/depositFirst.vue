@@ -106,12 +106,12 @@
                   }} </n-button>
               </n-flex>
             </n-form-item>
-            <n-form-item :label="t('rechargeRecord_page_amount')">
-              <n-input size="large" v-model:value="form.amount" :placeholder="t('deposit_page_enterMon')">
+            <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
+              <n-input-number size="large" v-model:value="form.amount" :placeholder="t('deposit_page_enterMon')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
-              </n-input>
+              </n-input-number>
               <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between" class="flex usdt_box">
                 <span>USDT: {{countUsdtMon()}}</span>
                 <span class="button" @click="showModal = true">{{t('deposit_page_toExchange')}}</span>
@@ -129,7 +129,7 @@
               @click="onSubmit">{{t('deposit_page_rechargeNow') }}</n-button>
           </div>
           <div class="cz_tips">
-            <div v-show="form.amount" class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
+            <div v-show="form.amount" class="txt"> {{ t('deposit_page_arrival') }}：{{ arriveAmount }} </div>
             <n-flex justify="center" class="tip">
               <span class="icon"></span>
               <span> {{ t('deposit_page_depositTips') }} </span>
@@ -203,7 +203,7 @@ const dataParams = {
   // country: 1,
   method: -1,
   discount: 0, // 优惠
-  amount: '',
+  amount: 0,
   bank: null, // 银行
   bankMethod: 100, // 银行支付方式，对应传给后端参数 type
   network_type: 0, // usdt 独有
@@ -221,6 +221,7 @@ const baseDcList = { label: t('deposit_page_notOffer'), value: 0 }
 const dcList = ref<any>([{ ...baseDcList }]);
 const discountList = ref<any>([]);
 const loading = ref(false);// 是否提交中
+const arriveAmount = ref<any>(0); // 到账金额
 
 const chooseMoneyArr = [
   { label: '100,000', value: 100000 },
@@ -258,6 +259,26 @@ const exchangeArr = [
 
 const openWin = (url: any) => {
   window.open(url)
+}
+
+// 计算预计到账金额
+const countArriveMon = () => {
+  let zsMon = 0; // 赠送的金额
+  if (!curDiscount.value) {
+    arriveAmount.value = Number(form.value.amount) + zsMon;
+    return
+  }
+  // 按比例赠送金额
+  if (curDiscount.value.ratio > 0) {
+    zsMon = Number(form.value.amount) < curDiscount.value.threshold ? 0 : Number(form.value.amount) * (curDiscount.value.ratio / 100)
+    // 最高赠送金额
+    if (zsMon > curDiscount.value.limit) {
+      zsMon = curDiscount.value.limit;
+    }
+  } else { // 按金额
+    zsMon = Number(form.value.amount) < curDiscount.value.threshold ? 0 : curDiscount.value.limit
+  }
+  arriveAmount.value = Number(form.value.amount) + Number(zsMon);
 }
 // 计算usdt 金额
 const countUsdtMon = () => {
@@ -433,7 +454,7 @@ const handleDepositSubmit = (res: any) => {
     Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
   } else { // code 0 成功
     // Message.success(t('deposit_page_depSuccess'))
-    form.value.amount = ''; // 重置
+    form.value.amount = 0; // 重置
     Local.remove('curDiscountData'); // 重置
     if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
       setTimeout(() => {
@@ -446,7 +467,7 @@ const handleDepositSubmit = (res: any) => {
 }
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
-  form.value.amount = e.toString()
+  form.value.amount = e
 }
 // 更换银行弹窗
 const showChangeBank = () => {
@@ -489,9 +510,17 @@ watch(
   (n) => {
     curDiscount.value = discountList.value.find((item: any) => item.discount_ID === n)
     // console.log('-----', n, curDiscount.value)
+    countArriveMon();
   }
 )
-
+watch(
+  () => form.value.amount,
+  (n) => {
+    if (n) {
+      countArriveMon();
+    }
+  }
+)
 
 onMounted(() => {
   setTimeout(() => {
@@ -640,6 +669,22 @@ defineExpose({
   }
 
   .body_sec {
+
+    .money_input {
+      ::v-deep(.n-input-number) {
+        width: 100%;
+        .n-input {
+          .n-input__input-el {
+            height: 100%;
+          }
+          .n-input__suffix {
+            button {
+              display: none;
+            }
+          }
+        }
+      }
+    }
 
     .kjje_div {
       gap: 20px !important;
