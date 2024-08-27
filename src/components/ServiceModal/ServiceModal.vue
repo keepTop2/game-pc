@@ -7,7 +7,7 @@
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
       <div class="forbidden">
-        <div class="forbidden_btn" @click="visibleForbidden = true">
+        <div class="forbidden_btn" @click="visibleForbidden = true"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
@@ -16,7 +16,7 @@
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
-      <div class="left_setting">
+      <div class="left_setting" v-if="agentInfo.user_type&&agentInfo.user_type>0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -57,42 +57,68 @@
           <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
         <div class="list_wrap">
-          <div class="user_list">
-          <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
-            v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
-            @click="selectUser(item)" :style="{order:item.istop||10}">
-            <div class="item_left">
-              <div class="avatar">
-                <n-badge :value="item.unreadnums" :show="item.unreadnums>0" :max="9999" class="set_item" :offset="[-14, 8]">
-                  <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
-                </n-badge>
-                <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+        <!-- 聊天列表 -->
+          <div class="user_list" v-if="active_id == 1">
+            <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
+              v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
+              @click="selectUser(item)" :style="{ order: item.istop || 10 }">
+              <div class="item_left">
+                <div class="avatar">
+                  <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
+                    :offset="[-14, 8]">
+                    <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                      class="img1">
+                  </n-badge>
+                  <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                </div>
+                <span>{{ item.TUsername }}</span>
               </div>
-              <span>{{ item.TUsername }}</span>
+              <n-popover trigger="hover" placement="bottom-start" :show-arrow="false">
+                <template #trigger>
+                  <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
+                    deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
+                </template>
+                <div class="select_wrap">
+                  <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">
+                    <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
+                    <span v-else> {{ o.name }}</span>
+                  </div>
+                  <div>
+                    <n-popover trigger="hover" placement="right" :show-arrow="false">
+                      <template #trigger>
+                        <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
+                      </template>
+                      <div class="select_wrap_two">
+                        <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
+                      </div>
+                    </n-popover>
+                  </div>
+                </div>
+              </n-popover>
             </div>
-            <n-popover trigger="hover" placement="bottom-start" :show-arrow="false">
-              <template #trigger>
-                <div class="high_proxy">{{ deepObj[item.deep] || '直属玩家' }}</div>
-              </template>
-              <div class="select_wrap">
-                <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)"  >
-                <span v-if="o.id==1">{{ item.istop==1?'取消置顶':'置顶' }}</span>
-                <span v-else> {{ o.name }}</span>
-                </div>
-                <div>
-                  <n-popover trigger="hover" placement="right" :show-arrow="false">
-                    <template #trigger>
-                      <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
-                    </template>
-                    <div class="select_wrap_two">
-                      <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
-                    </div>
-                  </n-popover>
-                </div>
-              </div>
-            </n-popover>
           </div>
-        </div>
+          <!-- 好友列表 -->
+          <div v-else>
+            <div v-for="item in friendList" :key="item.title">
+              <div style="margin: 16px 0px 5px 10px;">{{ item.title }}</div>
+              <div :class="['list_item', state.activeId == i.id ? 'item_active' : '']" v-for="i in item.list"
+                :key="i.id" @click="selectUser(i)">
+                <div class="item_left">
+                  <div class="avatar">
+                    <n-badge :value="i.unreadnums" :show="i.unreadnums > 0" :max="9999" class="set_item"
+                      :offset="[-14, 8]">
+                      <img :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                    </n-badge>
+                    <img :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip">
+                  </div>
+                  <span>{{ i.TUsername }}</span>
+                </div>
+
+                <div class="high_proxy" :style="{ background: deepObj[i.deep] ? deepObj[i.deep].color : '' }">{{
+                  deepObj[i.deep] && deepObj[i.deep].label || '直属玩家' }}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 右侧聊天区域 -->
@@ -116,7 +142,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="setting" @click="showSetting">快捷语设置</div>
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type&&agentInfo.user_type>0">快捷语设置</div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
@@ -125,7 +151,7 @@
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
-              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" />
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.moneyauth==1" />
               <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
@@ -142,7 +168,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{agentInfo.user_type}}</div>
         </div>
       </div>
     </div>
@@ -189,7 +215,7 @@ interface tabType {
 }
 import { useI18n } from 'vue-i18n';
 const userInfo = User(pinia);
-const { roleInfo } = storeToRefs(userInfo);
+const { roleInfo,agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
 const groupRef: any = ref(null)
 const { t } = useI18n();
@@ -200,9 +226,9 @@ const props = defineProps({
   },
 });
 const deepObj: any = {
-  '-1': '上级代理',
-  '1': '下级代理',
-  '0': '官方客服',
+  '-1': { label: '上级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
+  '1': { label: '下级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
+  '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
 const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
@@ -211,7 +237,7 @@ const state: any = reactive({
   messagetype: 1,//消息类型
   seqnumber: '',
   chatMessagesList: [], // 聊天消息
-  deviceID: 2654917,   // roleInfo.value.id,,  //
+  deviceID: roleInfo.value.id,  //2654917
   requestid: 5000, //对方ID
   todeviceid: 10086, //对方设备ID
   firstIn: false,
@@ -270,7 +296,7 @@ const selectUser = (item: any) => {
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList,allRead
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList, allRead, friendList
 }: any = usechatHooks(state, selectUser)
 
 
@@ -317,14 +343,14 @@ const sendMoney = () => {
   visibleTransfor.value = true
 }
 // 所有未读消息数量
-const allUnReadNum = computed(()=>{
+const allUnReadNum = computed(() => {
   let total = 0
-  chatitemList.value.forEach((item:any)=>{
-    if (item.unreadnums&&item.unreadnums>0) {
+  chatitemList.value.forEach((item: any) => {
+    if (item.unreadnums && item.unreadnums > 0) {
       total = total + item.unreadnums
     }
   })
-return total
+  return total
 })
 
 
@@ -469,13 +495,13 @@ const getChatMsgPublic = (data: any) => {
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
     if (state.messageType == 4) {    //获取到新消息如果是当前用户直接显示
-      if (state.userData.todeviceid==decodeobj2.fromdeviceid) {
+      if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj)
-      }else{   // 不是当前用户则未读消息加1
-        const todeviceItem = chatitemList.value.find((item:any)=>item.todeviceid==decodeobj2.fromdeviceid)
-        todeviceItem&&todeviceItem.unreadnums++
+      } else {   // 不是当前用户则未读消息加1
+        const todeviceItem = chatitemList.value.find((item: any) => item.todeviceid == decodeobj2.fromdeviceid)
+        todeviceItem && todeviceItem.unreadnums++
       }
-    
+
     } else {    // 聊天记录
       state.chatMessagesList.unshift(messageObj)
     }
@@ -784,17 +810,20 @@ onMounted(async () => {
     color: #fff;
   }
 }
-.list_wrap{
+
+.list_wrap {
   height: 420px;
   overflow: auto;
 
 }
+
 .user_list {
   display: flex;
   flex-direction: column;
-  // gap: 20px;
+  // gap: 20px
 
-  .list_item {
+}
+.list_item {
     height: 72px;
     padding: 0 10px;
     cursor: pointer;
@@ -833,15 +862,14 @@ onMounted(async () => {
       color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
-      background-image: radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776);
+      background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
+
     }
   }
 
   .item_active {
     background-color: #422299
   }
-
-}
 
 .send_message {
   //height: 52px;

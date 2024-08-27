@@ -33,7 +33,8 @@ export type TRoleInfo = {
     sex?: number,
     signature?: string,
     withdraw_pwd?: string,
-    withdraw_pwd_status?: number
+    withdraw_pwd_status?: number,
+    user_type?:number
 };
 
 // VIP相关数据类型

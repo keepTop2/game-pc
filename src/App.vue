@@ -104,15 +104,15 @@ const handleUserInfo = async (data: any) => {
   await User(pinia).setHasLogin(true)
 }
 //获取用户角色
-async function getAgentLevel(roleInfo:any) {
+async function getAgentLevel(roleInfo: any) {
   if (settings.value.customer_server) {
     // 获取角色
     fetch(settings.value.customer_server + `/api/user/info?device_id=${roleInfo.id}`)
       .then(response => {
         return response.json(); // 将响应解析为 JSON
       })
-      .then(res => {
-        roleInfo.agent_level = res?.data?.agent_level 
+      .then(async res => {
+        await User(pinia).setAgentInfo(res?.data)
       })
   }
 }

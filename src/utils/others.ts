@@ -148,3 +148,37 @@ export const toFixedNumber = (value: any, l = 2) => {
     const str1 = str[1] ? str[1].substr(0, l).padEnd(l, '0') : ''.padEnd(l, '0');
     return str[0] + '.' + str1;
 }
+
+
+/**
+ * 将对象数组 按字母顺序排序 
+ * @param arr 对象数组；prop：要排序的对象属性key名
+ * @returns: nut-elevator list格式
+*/
+export function sortAndGroupByLetter(arr:any, prop:string) {
+    // 按prop属性排序
+    const sorted = arr?.sort((a:any, b:any) => a[prop]?.localeCompare(b[prop], 'en'));
+    // 根据首字母分组
+    const grouped = sorted.reduce((grouped:any, item:any) => {
+      const firstChar = item[prop]&&item[prop][0]?.toUpperCase() ||"*" ;
+      grouped[firstChar] = grouped[firstChar] || [];
+      grouped[firstChar].push(item);
+      return grouped;
+    }, {});
+    let list: any = []
+    Object.keys(grouped).forEach(key => {
+      let item = { title: key, list: <any>[] }
+      console.log(key, grouped[key]);
+      grouped[key].map((it: any) => {
+        item.list.push(it)
+      })
+      list.push(item)
+    })
+   
+    // 获取分组的字母数组
+    const letters = Object.keys(grouped).sort();
+   
+    // 返回分组后的对象，包含字母数组和对应的分组数组
+    return { list, letters, grouped };
+  }
+  

@@ -1,4 +1,5 @@
 import { reactive, onMounted, toRefs } from 'vue';
+import {sortAndGroupByLetter}  from '../../utils/others'
 import IWebsocket from './chatWS';
 const state_data: any = reactive({
   ChatGroupListReq: '',
@@ -8,6 +9,7 @@ const state_data: any = reactive({
   page: 1,
   chatitemList: [], // 聊天列表
   groupChatitemList: [], // 分组聊天列表
+  friendList: [], // 好友列表
 
   groupList: [], // 分组列表
   groupItem: '', // 选中分组
@@ -89,6 +91,10 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       state_data.chatitemList = [];
       getKfChat();
     }
+    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername')
+    state_data.friendList = list
+
+
     console.log('聊天列表', state_data.chatitemList);
   };
   //  获取客服信息
@@ -108,6 +114,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       id: 99999,
     };
     state_data.chatitemList.unshift(obj);
+    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername')
+    
+    state_data.friendList = list
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {

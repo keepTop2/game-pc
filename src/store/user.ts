@@ -20,12 +20,12 @@ interface UserState {
   VIPinfo: TVIPInfo; // vip详情
   myEmail: any; // 邮箱列表
   loadingEnd: boolean;
-  wsOpen: boolean,
-  kefuVisible:boolean
+  wsOpen: boolean;
+  kefuVisible: boolean;
+  agentInfo: any;
 }
 
 export const User = defineStore('userInfo', {
-
   state: (): UserState => ({
     wsOpen: false,
     isLogin: false,
@@ -37,8 +37,14 @@ export const User = defineStore('userInfo', {
     hasLogin: false,
     info: {},
     loginInfo: null,
-    kefuVisible:false,
+    kefuVisible: false,
     VIPinfo: {},
+    agentInfo: {
+      moneyauth: 0,   // 是否有转账权限
+      muteuser: 0,    // 是否有禁言权限
+      user_level: 1,
+      user_type: 0,  //0 玩家   1 客服  2 代理
+    },
 
     roleInfo: {
       nickname: '',
@@ -46,7 +52,7 @@ export const User = defineStore('userInfo', {
       bank_money: 0,
       head_photo: '',
       vip_lv: 0,
-      id: ''
+      id: '',
     },
     myEmail: {
       email_id_list: [],
@@ -58,29 +64,32 @@ export const User = defineStore('userInfo', {
   }),
   actions: {
     async setWsOpen(value: boolean) {
-      this.wsOpen = value
+      this.wsOpen = value;
     },
     // 获取标签下拉选择框数据
     async setLogin(value: boolean) {
-      this.isLogin = value
+      this.isLogin = value;
     },
     async setLoadingEnd(value: boolean) {
-      this.loadingEnd = value
+      this.loadingEnd = value;
     },
     async setReg(value: boolean) {
-      this.isReg = value
+      this.isReg = value;
     },
     async setForget(value: boolean) {
-      this.isForget = value
+      this.isForget = value;
     },
     async setNotice(value: boolean) {
-      this.isNotice = value
+      this.isNotice = value;
     },
     async setNoticeList(value: boolean) {
-      this.noticeList = value
+      this.noticeList = value;
     },
     async setHasLogin(value: boolean) {
-      this.hasLogin = value
+      this.hasLogin = value;
+    },
+    async setAgentInfo(info: any) {
+      this.agentInfo = info;
     },
 
     async setEmailList(info: any) {
@@ -89,25 +98,23 @@ export const User = defineStore('userInfo', {
     },
     async getUserLoginInfo(info: any) {
       if (info) {
-        Local.set('user', info)
-        this.loginInfo = info
+        Local.set('user', info);
+        this.loginInfo = info;
       } else {
-        this.loginInfo = Local.get('user')
+        this.loginInfo = Local.get('user');
       }
     },
 
     async getInfo(userInfo: TUserInfo) {
-      this.info = userInfo
-      this.info.hideString = '******'
+      this.info = userInfo;
+      this.info.hideString = '******';
     },
     async getVIPInfo(userInfo: TVIPInfo) {
-      this.VIPinfo = userInfo
+      this.VIPinfo = userInfo;
     },
     async getRoleInfo(roleInfo: TRoleInfo) {
-      this.roleInfo = roleInfo
-      Local.set('roleInfo', roleInfo)
+      this.roleInfo = roleInfo;
+      Local.set('roleInfo', roleInfo);
     },
-
-
-  }
+  },
 });
