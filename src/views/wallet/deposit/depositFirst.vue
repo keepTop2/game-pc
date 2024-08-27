@@ -85,10 +85,10 @@
               <n-select v-model:value="form.discount" :options="dcList" />
               <!-- 选择优惠后 -->
               <div v-if="form.discount" class="choose-yh">
-                <div>{{ t('deposit_page_upperLimit') }}：{{ curDiscount.limit }}</div>
-                <div>{{ t('deposit_page_giftRatio') }}：{{ curDiscount.ratio }}%</div>
+                <div>{{ curDiscount.ratio > 0 ? t('deposit_page_upperLimit') : t('deposit_page_giftAmount') }}：{{ curDiscount.limit }}</div>
+                <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio') }}：{{ curDiscount.ratio }}%</div>
                 <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
-                <div>{{ t('deposit_page_venues') }}：{{ curDiscount.restrict }}</div>
+                <div>{{ t('deposit_page_minimum') }}：{{ curDiscount.threshold }}</div>
               </div>
             </n-form-item>
             <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" class="yh_item" :label="t('deposit_page_netWork')">
@@ -190,7 +190,12 @@ const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
-const baseDis = { limit: 0, ratio: 0, require: 0, restrict: '' }
+const baseDis = {
+  limit: 0,
+  ratio: 0,
+  require: 0,
+  threshold: 0
+}
 const curDiscount = ref({...baseDis}); // 优惠
 
 // 充值提交参数
