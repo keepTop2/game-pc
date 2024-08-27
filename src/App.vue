@@ -175,7 +175,13 @@ const handleUpdateMoney = async (data: any) => {
 // 余额变化
 const handleUpdateRoleInfo = async (data: any) => {
   if (data?.id) {
-    await User(pinia).getRoleInfo(data)
+    console.log('update-roleInfo---', data)
+    // 因为这里返回的数据缺少了很多字段，所以需要这样处理
+    const newData = {
+      ...roleInfo.value,
+      ...data
+    }
+    await User(pinia).getRoleInfo(newData)
   }
 }
 // 充值成功，弹出提示
