@@ -74,6 +74,10 @@ export function verifyPassword(_rule: any, val: string): boolean {
   const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d,./!@#$%^&*()_+=\-;':"]{6,16}$/;
   return regex.test(val);
 }
+export function verifyAccount(_rule: any, val: string) {
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,16}$/;
+  return regex.test(val);
+}
 export function verifyEmail(_rule: any, val: string) {
   // false: 邮箱不正确
   if (
