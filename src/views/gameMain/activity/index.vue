@@ -1,8 +1,12 @@
 <template>
     <div class="activity">
         <div class="activity_img">
-            <img @click="popDetail(item)" v-for="(item, i) in activityTitleList[state.name]" :key="i"
-                :src="t(String(activityDetail(String(item.name))))" alt="">
+            <div v-for="(item, i) in activityTitleList[state.name]" :key="i">
+                <img @click="popDetail(item)" :src="activityDetail(String(item.name))"
+                    v-if="activityDetail(String(item.name))" alt="">
+
+            </div>
+
         </div>
         <n-modal v-model:show="state.showModal">
             <n-card :title="t('activity_page_detail')" closable @close="state.showModal = false" :bordered="false"
@@ -27,11 +31,16 @@ const { t } = useI18n();
 const route = useRoute();
 const activityDetail = (item: string) => {
     let str1 = item.split('_')
-    let str2
+    let str2 = ''
     if (str1.length > 0) {
         str2 = str1[0] + '_pc_' + str1[1] + '_' + str1[2]
     }
-    return str2
+    if (t(str2).indexOf('http') != -1) {
+        return t(str2)
+    } else {
+        return ''
+    }
+
 }
 
 const state: any = reactive({
@@ -67,7 +76,7 @@ watch(
     .activity_img {
         margin-top: 20px;
 
-        >img {
+        img {
             width: 1200px;
             height: 200px;
             margin-bottom: 20px;
