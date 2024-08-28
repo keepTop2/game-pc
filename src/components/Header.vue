@@ -356,6 +356,7 @@ const onHander_system_notice = async (message: any) => {
       return b.priority - a.priority
     })
     if (list.length) {
+      await getSetting() // 获取最新翻译文案
       await User(pinia).setNoticeList(list)
       User(pinia).setNotice(true)
     }
