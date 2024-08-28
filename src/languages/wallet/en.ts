@@ -98,7 +98,7 @@ export default {
   "bType76": "Referrer's Commission Reward",
   "bType77": "Exchange Code Experience Gold",
   "bType78": "Buy VIP",
-  "bType80": "Get by Email",
+  "bType80": "Resurrection Gold",
   "bType82": "Level 2 Agent Sales Reward",
   "bType84": "Level 3 Agent Sales Reward",
   "bType85": "Level 3 Agent Referrer's Sales Reward",

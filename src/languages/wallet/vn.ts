@@ -98,7 +98,7 @@ export default {
   'bType76': 'Phần thưởng hoa hồng của người giới thiệu',
   'bType77': 'Mã trao đổi vàng trải nghiệm',
   'bType78': 'Mua VIP',
-  'bType80': 'Nhận qua email',
+  'bType80': 'vàng phục sinh',
   'bType82': 'Phần thưởng doanh số đại lý cấp 2',
   'bType84': 'Phần thưởng doanh số đại lý cấp 3',
   'bType85': 'Phần thưởng doanh số của người giới thiệu đại lý cấp 3',
