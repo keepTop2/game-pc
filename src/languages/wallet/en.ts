@@ -39,6 +39,9 @@ export default {
   promo_page_fuHuo: 'Revival Gold',
   promo_page_fuHuoNot: 'Not Met',
 
+  // 代理账变记录
+  accountsRecord: "Agent account change record",
+
   // 账变记录 accountsRecord
   accountsRecord_page_type: 'Account Change Type',
   accountsRecord_page_hb: 'Currency Type',

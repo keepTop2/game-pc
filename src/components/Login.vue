@@ -7,7 +7,7 @@
     <div class="login_form">
       <div class="tab">
         <span :class="state.active == i ? 'active' : ''" v-for="(tab, i) in tabList" :key="i" @click="changeTab(i)">{{
-        t(tab.name) }}</span>
+          t(tab.name) }}</span>
       </div>
       <n-form :model="state.login" :rules="state.loginRules" :show-label="false" ref="loginFormRef">
         <template v-for="item in state.loginList">
@@ -79,7 +79,7 @@ import pinia from '@/store/index';
 // import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { Message } from '@/utils/discreteApi'
-import { verifyAccount, verifyCaptcha, verifyEmail, verifyMobile, verifyPassword } from "@/utils/is";
+import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyAccount } from "@/utils/is";
 import { useI18n } from 'vue-i18n';
 import { IP } from "@/utils/others";
 import { useRoute } from "vue-router";

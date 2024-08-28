@@ -58,7 +58,7 @@ import pinia from '@/store/index';
 import { User } from '@/store/user';
 import { Page } from '@/store/page';
 import { Local, needLoginApi } from "@/utils/storage";
-import { verifyCaptcha, verifyEmail, verifyPassword } from "@/utils/is";
+import { verifyCaptcha, verifyEmail, verifyPassword, verifyAccount } from "@/utils/is";
 import { useI18n } from "vue-i18n";
 import { Message } from '@/utils/discreteApi'
 import { IP } from "@/utils/others";
@@ -262,7 +262,13 @@ const state: any = reactive({
         required: !0,
         message: t('home_page_accountFormatIncorrect'),
         trigger: "blur",
-      }
+      },
+      {
+        required: !0,
+        validator: verifyAccount,
+        message: t('input_tips_account'),
+        trigger: "blur",
+      },
     ],
     email: [
       {

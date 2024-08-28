@@ -18,6 +18,7 @@ export default {
   proxy_page_copyZd: 'Hệ thống proxy',
   proxy_page_account: 'Tài khoản thành viên',
   proxy_page_zsCommission: 'Hoa hồng người chơi trực tiếp',
+  proxy_page_groupWater: "Doanh thu nhóm hiệu quả",
   proxy_page_agentCj: 'Cấp đại lý',
   proxy_page_team: 'Đóng góp của nhóm',
   proxy_page_turnover: 'Đội thắng và đội thua',

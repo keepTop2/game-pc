@@ -119,6 +119,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/wallet/accountsRecord/index.vue'),
       },
       {
+        path: 'proxyRecord',
+        name: 'proxyRecord',
+        meta: { title: 'proxyRecord' },
+        component: () => import('@/views/wallet/proxyRecord/index.vue'),
+      },
+      {
         path: 'betRecord',
         name: 'betRecord',
         meta: { title: 'betRecord' },

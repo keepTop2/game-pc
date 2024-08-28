@@ -28,6 +28,14 @@ export const WithdrawStatusColorMap: any = {
 
 
 /**
+ * @description: 代理账变类型
+ */
+export const ProxyAccountTypeMap: any = {
+    '1': '提现',
+    '2': '转账',
+}
+
+/**
  * @description: 转账类型
  */
 export const AccountTypeMap: any = {
