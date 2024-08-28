@@ -19,7 +19,7 @@
             <div class="model_box_content content_box">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_commission') }}：</span>
-                    <span class="orange">{{ (proxyInfo.personal_money + proxyInfo.team_money) || '--' }}</span>
+                    <span class="orange">{{ (proxyInfo.personal_money + proxyInfo.team_money) || '0' }}</span>
                 </div>
                 <div class="item item_margin">
                     <div class="btn" style="margin-left:0" @click="router.push({ name: 'proxyRecord' })">
@@ -29,12 +29,12 @@
                 <div class="item item_margin">
                     <!-- <span class="item_title">{{ t('proxy_page_clubCommission') }}：</span> -->
                     <span class="item_title">{{ t('Direct commission') }}：</span>
-                    <span class="orange">{{ proxyInfo.personal_money || '--' }}</span>
+                    <span class="orange">{{ proxyInfo.personal_money || '0' }}</span>
                 </div>
                 <div class="item">
                     <!-- <span class="item_title">{{ t('proxy_page_dcCommission') }}：</span> -->
                     <span class="item_title">{{ t('Team commission') }}：</span>
-                    <span class="orange">{{ proxyInfo.team_money || '--' }}</span>
+                    <span class="orange">{{ proxyInfo.team_money || '0' }}</span>
                 </div>
 
                 <!-- 按钮们 -->
