@@ -175,6 +175,9 @@ export default {
   paymentManagement_page_setFinish: 'Setup completed',
   paymentManagement_page_finish: 'Complete',
   paymentManagement_page_withCompleted: 'Withdrawal information has been completed',
+  paymentManagement_page_acc_already: 'Account information already exists',
+  paymentManagement_page_hasAdd: 'This address has been added',
+  paymentManagement_page_errorAdd: 'The address format is incorrect',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',

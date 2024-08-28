@@ -621,7 +621,7 @@ const selectBank = (e: any) => {
 // 获取已绑定的银行账号
 const getInfo = () => {
   console.log(mySecBankList.value.cardholder_name, '---props.myBankList--');
-  formBank.value.accountName = mySecBankList.value.cardholder_name || '';
+  formBank.value.accountName = mySecBankList.value.cardholder_name?.toUpperCase() || '';
   // 未绑定银行卡跳转到绑定银行卡`
   if (mySecBankList.value.bank_card_info_list && mySecBankList.value.bank_card_info_list.length) {
     const { account_number, bank_id } = mySecBankList.value.bank_card_info_list[0];

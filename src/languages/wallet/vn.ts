@@ -175,6 +175,9 @@ export default {
   paymentManagement_page_setFinish: 'Hoàn tất thiết lập',
   paymentManagement_page_finish: 'Hoàn thành',
   paymentManagement_page_withCompleted: 'Thông tin rút tiền đã được hoàn tất',
+  paymentManagement_page_acc_already: 'Thông tin tài khoản đã tồn tại',
+  paymentManagement_page_hasAdd: 'Địa chỉ đã được thêm',
+  paymentManagement_page_errorAdd: 'Định dạng địa chỉ không chính xác',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Loại tiền tệ',

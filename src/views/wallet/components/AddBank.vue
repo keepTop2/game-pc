@@ -146,12 +146,17 @@ const handleSubmit = () => {
 };
 // result: 2 // 1 成功，2 失败
 const handleAddBank = (res: any) => {
+  const tips: any = {
+    1: 'paymentManagement_page_addBankSuc',
+    2: 'paymentManagement_page_addBankFail',
+    3: 'paymentManagement_page_acc_already',
+  }
   if (res.result === 1) {
     showAddBankModal(false)
     emit('getMyBindBankList'); // 刷新列表
-    Message.success(t('paymentManagement_page_addBankSuc'))
+    Message.success(t(tips[res.result]))
   } else {
-    Message.error(t('paymentManagement_page_addBankFail'))
+    Message.error(t(tips[res.result]))
   }
 }
 const setBaseData = () => {

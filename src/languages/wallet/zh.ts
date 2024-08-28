@@ -175,6 +175,9 @@ export default {
   paymentManagement_page_setFinish: '设置完成',
   paymentManagement_page_finish: '完成',
   paymentManagement_page_withCompleted: '取款信息已完善',
+  paymentManagement_page_acc_already: '账号信息已存在',
+  paymentManagement_page_hasAdd: '该地址已添加',
+  paymentManagement_page_errorAdd: '地址格式不正确',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',

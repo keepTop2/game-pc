@@ -19,7 +19,7 @@
                 <template #trigger>
                   <span class="item_title"> {{ item.name ? t(item.name) : '-' }} </span>
                 </template>
-                {{ item.content }}
+                {{ t(item.name) }}
               </n-tooltip>
 
             </div>

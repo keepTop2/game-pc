@@ -99,7 +99,6 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 
-
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
@@ -135,7 +134,12 @@ const rules = {
     {
       required: true,
       message: t('amount_error'),
-      trigger: 'blur'
+      trigger: 'blur',
+      validator: () => {
+        // 正整数
+        const reg = /^[1-9]\d*$/;
+        return reg.test(form.value.amount);
+      }
     }
   ],
   password: [
@@ -281,7 +285,7 @@ const backItemInfo = ref({
 
 const getInfo = () => {
   let bankListItem = mySecBankList.value.bank_card_info_list[0]
-  myBankName.value = mySecBankList.value.cardholder_name || ''
+  myBankName.value = mySecBankList.value.cardholder_name?.toUpperCase() || ''
   console.log('===当前选择的提款银行信息--', bankListItem)
   form.value.bank = bankListItem.bank_id || 0
   backItemInfo.value.bank_name = bankListItem.bank_name || ''

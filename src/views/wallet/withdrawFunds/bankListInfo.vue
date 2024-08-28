@@ -222,16 +222,20 @@ const submit = () => {
 
 // result: 2 // 1 成功，2 失败
 const handleAddBankRef = (res: any) => {
-  console.log('&&&&&&&==', res)
+  const tips: any = {
+    1: 'paymentManagement_page_addBankSuc',
+    2: 'paymentManagement_page_addBankFail',
+    3: 'paymentManagement_page_acc_already',
+  }
   if (res.result === 1) {
-    Message.success(t('paymentManagement_page_addBankSuc'))
+    Message.success(t(tips[res.result]))
     getMyBankList(); // 更新银行列表
     // bankList.value.push({ ...form.value, name: '******' })
     chooseBank.value = {...baseChObj}; // 重置
     form.value = {...baseObj}; // 重置
     flagBank(false)
   } else {
-    Message.error(t('paymentManagement_page_addBankFail'))
+    Message.error(t(tips[res.result]))
   }
 }
 // 获取已绑定的银行账号
