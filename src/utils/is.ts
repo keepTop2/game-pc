@@ -73,7 +73,7 @@ export function isPascalCase(str: string): boolean {
 export function verifyPassword(_rule: any, val: string): boolean {
   // false: 密码不正确
   if (
-    !/^[a-zA-Z0-9,./!@#$%^&*()_+=\-;':"[\]{}\\|]{6,16}$/.test(
+    !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d,./!@#$%^&*()_+=\-;':"{}\[\]\\|]{6,16}$/.test(
       val
     )
   )
