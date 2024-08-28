@@ -485,7 +485,6 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_roleinfo_with_id, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_check_version, null);
 
 });

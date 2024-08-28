@@ -134,7 +134,7 @@
 
         <!-- 金额区域 -->
         <div class="money-all-div">
-          <n-flex justify="space-between" class="money-input">
+          <n-flex justify="space-between" class="money_input">
             <n-input-number v-model:value="tranMoney" :placeholder="t('walletInfo_page_tranferTxt')" clearable />
             <a class="btn-ch" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
           </n-flex>
@@ -236,11 +236,9 @@ const haveBankList = (e: any) => {
   haveBank.value = e
 }
 
-
 const withdrawMoneyShow = ref(false)
 
 const goCalibration = () => {
-
   withdrawMoneyShow.value = true
   nextTick(() => {
     goToWithdraw()
@@ -270,7 +268,6 @@ onUnmounted(() => {
   // 取消监听
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
 });
-
 
 
 const {

@@ -183,12 +183,15 @@ const chooseMoneyArr = [
 ];
 
 const openModal = () => {
-  showSecModal.value = !showSecModal.value;
+  showSecModal.value = true;
   nextTick(() => {
-    form.value = {...baseObj}
-    initReq(); // 获取可提现金额
-    getInfo();
+    getBaseData();
   })
+}
+const getBaseData = () => {
+  form.value = {...baseObj}
+  initReq(); // 获取可提现金额
+  getInfo();
 }
 
 const onCloseSec = () => {
@@ -241,7 +244,8 @@ const handleWithDrawSubmit = (res: any) => {
     6: t('withdraw_page_fail_tips6'),
   }
   if (res.result === 0) {
-    openModal();
+    onCloseSec();
+    getBaseData();
     // Message.success(codeTxt[res.result]); // 提款成功不需要弹出弹窗
   } else {
     Message.error(codeTxt[res.result])

@@ -175,7 +175,6 @@ import pinia from '@/store';
 import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
 import { Page } from '@/store/page';
-import useWalletInfo from "@/views/wallet/walletInfo/useWalletInfo.ts";
 
 const { bankListInfo } = storeToRefs(Page(pinia));
 
@@ -191,7 +190,7 @@ const props = defineProps({
     default: ''
   }
 })
-const { getMyBankList } = useWalletInfo()
+
 const { t } = useI18n();
 const baseObj = {
   bank_id: '',
@@ -234,6 +233,11 @@ const handleAddBankRef = (res: any) => {
   } else {
     Message.error(t('paymentManagement_page_addBankFail'))
   }
+}
+// 获取已绑定的银行账号
+const getMyBankList = () => {
+  const req = NetPacket.req_bank_card_info_list();
+  Net.instance.sendRequest(req);
 }
 
 const bankList = ref<any[]>([]);
