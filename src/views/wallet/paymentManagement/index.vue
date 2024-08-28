@@ -64,7 +64,7 @@ const handleMyBankList = (res: any) => {
   setTimeout(() => {
     loading.value = false
   }, 300)
-  myBankName.value = res.cardholder_name?.toUpperCase() || '';
+  myBankName.value = res.cardholder_name || '';
   showAddBankRef.value = true;
   myBankList.value = res.bank_card_info_list.map((item: any) => (
     {

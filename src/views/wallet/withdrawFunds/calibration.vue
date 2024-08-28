@@ -371,15 +371,20 @@ const submitBank = () => {
 };
 
 // result: 2 // 1 成功，2 失败
-// const handleAddBank = (res: any) => {
-//   if (res.result === 1) {
-//     bankError.value = true;
-//     stepTuple.value.step = 2;
-//     Message.success(t('paymentManagement_page_addBankSuc'));
-//   } else {
-//     Message.error(t('paymentManagement_page_addBankFail'));
-//   }
-// };
+const handleAddBank = (res: any) => {
+  const tips: any = {
+    1: 'paymentManagement_page_addBankSuc',
+    2: 'paymentManagement_page_addBankFail',
+    3: 'paymentManagement_page_acc_already',
+  }
+  if (res.result === 1) {
+    bankError.value = true;
+    stepTuple.value.step = 2;
+    Message.success(t(tips[res.result]));
+  } else {
+    Message.error(t(tips[res.result]));
+  }
+};
 
 // 字符串判断
 const formatNumberString = (input: string): string => {
@@ -390,10 +395,8 @@ const formatNumberString = (input: string): string => {
 
   // 移除所有非数字字符
   const digitsOnly = input.replace(/\D/g, '');
-
   // 计算星号的数量，确保至少有4组
   const starsCount = 4 - Math.ceil(digitsOnly.length / 4);
-
   // 生成星号字符串
   const stars = '****'.repeat(starsCount);
 
@@ -621,7 +624,7 @@ const selectBank = (e: any) => {
 // 获取已绑定的银行账号
 const getInfo = () => {
   console.log(mySecBankList.value.cardholder_name, '---props.myBankList--');
-  formBank.value.accountName = mySecBankList.value.cardholder_name?.toUpperCase() || '';
+  formBank.value.accountName = mySecBankList.value.cardholder_name || '';
   // 未绑定银行卡跳转到绑定银行卡`
   if (mySecBankList.value.bank_card_info_list && mySecBankList.value.bank_card_info_list.length) {
     const { account_number, bank_id } = mySecBankList.value.bank_card_info_list[0];
@@ -637,6 +640,15 @@ const getInfo = () => {
   capitalError.value = Boolean(roleInfo.value.withdraw_pwd);
 };
 
+watch(() => showModal.value, (n) => {
+  // 打开
+  if (n) {
+    // 绑定银行卡
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
+  } else {
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+  }
+})
 watch(() => props.myBankList, (n) => {
   console.log('银行列表有更新===', n)
   mySecBankList.value = n;

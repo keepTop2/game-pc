@@ -50,7 +50,6 @@
 
 
             <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
-
               <div class="add-bank-text">
                 <p>{{ t('paymentManagement_page_add_one_bank') }}</p>
                 <img src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)">
@@ -75,7 +74,6 @@
                   </template>
                 </n-input>
               </n-form-item>
-
 
               <n-form-item :label="t('addBank_page_name')" path="accountName">
                 <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
@@ -349,6 +347,15 @@ const selectBank = (e: any) => {
   onCloseBank()
 }
 
+watch(() => showBankListModal.value, (n) => {
+  // 打开
+  if (n) {
+    // 绑定银行卡
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
+  } else {
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+  }
+})
 watch(() => props.myBankList, (n) => {
   console.log('需要更新当前银行列表---', n)
   setBankList(n);
@@ -357,13 +364,13 @@ watch(() => props.myBankList, (n) => {
 onMounted(() => {
   setBankList(props.myBankList)
   // 绑定银行卡
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
   // 设置默认
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
 })
 
 onUnmounted(() => {
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
 })
 

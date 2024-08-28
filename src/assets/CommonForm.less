@@ -36,6 +36,22 @@
       gap: 20px;
       padding: 40px 60px;
 
+      .money_input {
+        ::v-deep(.n-input-number) {
+          width: 100%;
+          .n-input {
+            .n-input__input-el {
+              height: 100%;
+            }
+            .n-input__suffix {
+              button {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
       .tab {
         border-radius: 12px;
         background-color: var(--c-bg-3);

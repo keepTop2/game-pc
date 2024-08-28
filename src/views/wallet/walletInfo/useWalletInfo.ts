@@ -274,6 +274,7 @@ const useWalletInfo = () => {
 
   // 转账类型切换
   const changeTranType = (type: any) => {
+    tranMoney.value = 0; // 重置为 0
     tranType.value = type;
   }
   // 选择全部金额

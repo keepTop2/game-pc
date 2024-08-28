@@ -670,22 +670,6 @@ defineExpose({
 
   .body_sec {
 
-    .money_input {
-      ::v-deep(.n-input-number) {
-        width: 100%;
-        .n-input {
-          .n-input__input-el {
-            height: 100%;
-          }
-          .n-input__suffix {
-            button {
-              display: none;
-            }
-          }
-        }
-      }
-    }
-
     .kjje_div {
       gap: 20px !important;
 

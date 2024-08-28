@@ -39,7 +39,7 @@
               <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay') }}</n-button>
             </n-flex>
 
-            <n-form-item :label="t('walletInfo_page_withdrawalMon')" path="amount">
+            <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
               <n-input clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
@@ -285,7 +285,7 @@ const backItemInfo = ref({
 
 const getInfo = () => {
   let bankListItem = mySecBankList.value.bank_card_info_list[0]
-  myBankName.value = mySecBankList.value.cardholder_name?.toUpperCase() || ''
+  myBankName.value = mySecBankList.value.cardholder_name || ''
   console.log('===当前选择的提款银行信息--', bankListItem)
   form.value.bank = bankListItem.bank_id || 0
   backItemInfo.value.bank_name = bankListItem.bank_name || ''
