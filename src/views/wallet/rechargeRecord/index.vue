@@ -27,9 +27,17 @@
                 <div class="td" v-for="(item, i) in tableHeader" :key="i">{{ item.title }}</div>
             </n-flex>
 
-            <n-flex class="tr" v-for="(row, index) in result.list" :key="index">
-                <div class="td" v-for="(item, i) in tableHeader" :key="i" v-html="rowHandle(row, item.key)"></div>
-            </n-flex>
+            <template v-for="(row) in result.list">
+                <n-flex class="tr">
+                    <div class="td" v-for="(item, i) in tableHeader" :key="i" v-html="rowHandle(row, item.key, false)">
+                    </div>
+                </n-flex>
+                <n-flex class="tr" v-if="row.bonus">
+                    <div class="td" v-for="(item, i) in tableHeader" :key="i" v-html="rowHandle(row, item.key, true)">
+                    </div>
+                </n-flex>
+            </template>
+
 
             <div class="nodata" v-if="!result.list.length && !loading">
                 <img src="/img/wallet/nodata.webp" alt="nodata">
@@ -109,12 +117,16 @@ const resultHandle = (rs: any) => { // 数据处理
     })
 }
 const wayMap: any = ref({})
-const rowHandle = (row: any, key: string) => { // 格子数据处理
+const rowHandle = (row: any, key: string, subRow: boolean) => { // 格子数据处理
     let rs = ''
     let val = row[key]
     switch (key) {
         case "way_id":
-            rs = (val && wayMap[val]) ? t(wayMap[val]) : val
+            if (subRow) {
+                rs = t('deposit_page_discount')
+            } else {
+                rs = (val && wayMap[val]) ? t(wayMap[val]) : val
+            }
             break
         case "order_status":
             rs = RechagreStatusMap[val]
@@ -123,7 +135,11 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = CurrencyMap[1]
             break
         case "pay_money":
-            rs = Number(val).toLocaleString()
+            if (subRow) {
+                rs = Number(row['bonus']).toLocaleString()
+            } else {
+                rs = Number(val).toLocaleString()
+            }
             break
         case "pay_time":
             rs = convertObjectToDateString(val)
