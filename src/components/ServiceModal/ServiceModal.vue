@@ -11,7 +11,7 @@
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem" style="margin-top: 6px;"></iconpark-icon>
       </div>
     </h4>
     <div class="main_body">
@@ -272,7 +272,7 @@ const beforeUpload = (data: any) => {
   })
     .then(response => response.json()).then(response => {
       if (response.status == 200) {
-        const urlImg = 'http://18.162.112.52:8031/' + response.data.path
+        const urlImg = response.data.path
         msgRef.value.innerHTML = urlImg;
         state.messagetype = type == 'image' ? 3 : 4
         sendMsg()
