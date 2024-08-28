@@ -338,6 +338,7 @@ const registerSuccess = async (message: any) => {
 const loginSuccess = async (message: any) => {
   // 注册成功 关闭弹窗
   User(pinia).setReg(false)
+  localStorage.setItem('readed_notice_ids', '[]')
   if (message.code == 4444) {
     return;
   }

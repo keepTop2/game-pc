@@ -365,6 +365,7 @@ const handleCaptchaReceive = (captcha: any) => {
 
 const loginSuccess = async (message: any) => {
   state.loading = false
+  localStorage.setItem('readed_notice_ids', '[]')
   if (message.code == 4444) {
     return;
   }
