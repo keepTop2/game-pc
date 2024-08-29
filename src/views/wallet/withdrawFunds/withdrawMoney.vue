@@ -42,7 +42,7 @@
             <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-              <n-input clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
+              <n-input @input="validateInput" clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
@@ -118,7 +118,7 @@ const baseObj =  {
   // country: 1,
   maxValue: '0', // 可提现金额
   password: '',
-  amount: '', // 充值金额
+  amount: null, // 充值金额
   bank: 0, // 银行
   address: '', // 银行卡号
 }
@@ -153,6 +153,10 @@ const rules = {
 const bankListInfoRef = ref()
 const bankListInfoShow = ref(false)
 
+// 限制只能输入 正整数
+const validateInput = () => {
+  form.value.amount = form.value.amount.replace(/[^0-9]/g, '');
+}
 const openBankListInfo = () => {
   bankListInfoShow.value = true
   nextTick(() => {
@@ -258,7 +262,8 @@ const handleWithDrawSubmit = (res: any) => {
 
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
-  form.value.amount = e.toString()
+  if (!form.value.amount) {form.value.amount = 0}
+  form.value.amount = Number(form.value.amount) + e;
 }
 
 const handleCanWithdraw = (res: any) => {

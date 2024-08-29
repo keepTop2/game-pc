@@ -1,21 +1,23 @@
 <template>
   <n-flex vertical class="promo_info record_page">
     <n-flex align="center" class="tab_top">
-      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
-        :key="index" @click="clickTab(item.key)">
-        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount" dot/>
+      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`"
+         v-for="(item, index) in tabArr"
+         :key="index" @click="clickTab(item.key)">
+        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount"
+                 dot />
         {{ t(item.title) }}
       </a>
     </n-flex>
     <n-spin :show="loading">
       <div class="promo_list">
         <div :class="`list_item ${(item.volume || item.award) ? 'list_item_b' : ''}`"
-          v-for="(item, index) in listData.list" :key="index">
+             v-for="(item, index) in listData.list" :key="index">
           <n-flex justify="space-between" class="item_top">
             <div class="item_l">
               <!--              <span v-if="('1,2,3,4,5').includes(item.have_save)" class="item_name"> {{ t('promo_page_fuHuo') }} </span>-->
               <span class="item_name"> {{ tabArr.find((item_1: any) => item_1.key == item.tag) ?
-        t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
+                t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <span class="item_title"> {{ item.name ? t(item.name) : '-' }} </span>
@@ -39,7 +41,8 @@
           <div v-if="item.volume || item.award" class="item_bottom">
             <n-flex align="center" class="item_jd">
               <span> {{ t('promo_page_pro') }}： </span>
-              <div class="item_pro"> <span class="pro_inner" :style="`width: ${item.schedule}%`"> </span> </div>
+              <div class="item_pro"><span class="pro_inner"
+                                          :style="`width: ${item.schedule}%`"> </span></div>
             </n-flex>
             <n-flex justify="space-between">
               <div class="item_bottom_l">
@@ -60,8 +63,9 @@
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-      :item-count="listData.total_page" v-show="listData.total_page" />
+    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange"
+                  v-model:page="params.page"
+                  :item-count="listData.total_page" v-show="listData.total_page" />
 
   </n-flex>
 
@@ -69,22 +73,22 @@
 
 <script setup lang='ts'>
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { NetPacket } from "@/netBase/NetPacket";
-import { Net } from "@/net/Net";
-import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
-import { useI18n } from "vue-i18n";
-import { Message } from "@/utils/discreteApi";
-import { useRouter } from "vue-router";
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { useI18n } from 'vue-i18n';
+import { Message } from '@/utils/discreteApi';
+import { useRouter } from 'vue-router';
 import { Local } from '@/utils/storage';
 
 const router = useRouter();
 const { t } = useI18n();
-const loading = ref(false)
+const loading = ref(false);
 const params: any = reactive({ // 参数
   page: 1,
-})
-const curTab: any = ref('0')
+});
+const curTab: any = ref('0');
 // tag: 所在标签, 0：无限制, 1:by专属, 2：体育, 3：真人, 4：老虎机, 5：俱乐部专属，6 系统优惠，如果有多个，用_连接
 const tabArr: any = ref(
   [
@@ -93,7 +97,7 @@ const tabArr: any = ref(
     { title: 'promo_page_depositZen', key: 'deposit' }, // 存款赠送
     { title: 'promo_page_system', key: 'System' }, // 系统优惠
     { title: 'promo_page_vipZen', key: 'VIP_related' }, // vip奖励
-  ]
+  ],
 );
 // 应有未读提示标识的活动
 const needShowCount = ['System', 'VIP_related'];
@@ -106,84 +110,82 @@ const listData: any = ref(
       // { name: '真人视讯', content: '每日首存送10%彩金', schedule: '', volume: '', award: '' },
       // { name: '系统优惠', content: '新人送999越南盾', schedule: '', volume: '', award: '' },
       // { name: '真人视讯', content: '投注有好礼，最高送888', schedule: '70', volume: '8000', award: '90' },
-    ]
-  }
+    ],
+  },
 );
-const originListData: any = ref([])
+const originListData: any = ref([]);
 
 const clickTab = (e: any) => {
   curTab.value = e;
   filterData();
-}
+};
 // 过滤数据
 const filterData = () => {
-  listData.value.list = curTab.value === '0' ? [...originListData.value] : originListData.value.filter((item: any) => item.tag === curTab.value)
-  listData.value.total_page = listData.value.list.length || 0
-}
+  listData.value.list = curTab.value === '0' ? [...originListData.value] : originListData.value.filter((item: any) => item.tag === curTab.value);
+  listData.value.total_page = listData.value.list.length || 0;
+};
 // 切换页码
 const pageChange = (page: number) => {
-  params.page = page
-  queryData()
-}
+  params.page = page;
+  queryData();
+};
 // 获取数据
 const queryData = () => {
-  loading.value = true
+  loading.value = true;
   const query = NetPacket.req_activites();
   // {int, show} % 0所有活动，1自己可以参与的
   query.show = 1;
   query.page = params.page;
   // console.log('=======', query)
   Net.instance.sendRequest(query);
-}
+};
 // 数据处理
 const resultHandle = (rs: any) => {
 
   setTimeout(() => {
-    loading.value = false
-  }, 300)
+    loading.value = false;
+  }, 300);
   // 添加未读标识--开始
   tabArr.value.forEach((item: any) => {
     item.hasCount = 0;
     rs.promo.map((item_1: any) => {
       if (item.key === item_1.tag) {
-        item.hasCount ++
+        item.hasCount++;
       }
-    })
-  })
-  console.log('--tabArr', tabArr)
+    });
+  });
+  console.log('--tabArr', tabArr);
   // 添加未读标识--结束
   originListData.value = rs.promo || [];
   filterData();
-  console.log(listData.value.list.length, 'promo-data--------', listData.value.list)
-}
+  console.log(listData.value.list.length, 'promo-data--------', listData.value.list);
+};
 
 const applyBouns = (data: any) => {
   // 全部
   if (['System', 'VIP_related'].includes(data.tag)) {
-    loading.value = true
+    loading.value = true;
     const query = NetPacket.req_get_email_attachments();
     query.email_id = data.id;
     Net.instance.sendRequest(query);
   } else {
     Local.set('curDiscountData', data); // 当前选择的优惠，需要带到充值页面
-    router.push('/wallet/walletInfo?openDialogType=deposit')
+    router.push('/wallet/walletInfo?openDialogType=deposit');
   }
-}
+};
 
 const applyBounsHandle = (res: any) => {
   setTimeout(() => {
-    loading.value = false
-  }, 300)
-  console.log('--领取优惠成功--', res)
-  queryData(); // 刷新数据
-  Message.success(t('promo_page_applySuc'))
-  // if (res.result === 1) {
-  //   queryData(); // 刷新数据
-  //   Message.success(t('promo_page_applySuc'))
-  // } else {
-  //   Message.error(t('promo_page_applyFail'))
-  // }
-}
+    loading.value = false;
+  }, 300);
+  if (res.email_id.includes('#')) {
+    Message.error(t('promo_page_applyFail'))
+  } else { // 成功
+    console.log('--领取优惠成功--', res);
+    queryData(); // 刷新数据
+    Message.success(t('promo_page_applySuc'));
+  }
+};
 
 onUnmounted(() => {
   // 取消监听
@@ -203,9 +205,9 @@ onMounted(() => {
       NetMsgType.msgType.msg_notify_get_email_attachments,
       applyBounsHandle,
     );
-  }, 500)
+  }, 500);
 
-})
+});
 
 
 </script>
@@ -237,6 +239,7 @@ onMounted(() => {
         top: 1px;
         right: 1px;
       }
+
       &.active {
         height: 46px;
         line-height: 30px;
@@ -244,6 +247,7 @@ onMounted(() => {
         color: #ebefff;
         background: url(/img/promo/tabBtn.webp) center no-repeat;
         background-size: 84%;
+
         :deep(.n-badge) {
           top: 2px;
           right: 12px;

@@ -479,7 +479,8 @@ const handleDepositSubmit = (res: any) => {
 }
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
-  form.value.amount = e
+  if (!form.value.amount) {form.value.amount = 0}
+  form.value.amount = Number(form.value.amount) + e;
 }
 // 更换银行弹窗
 const showChangeBank = () => {

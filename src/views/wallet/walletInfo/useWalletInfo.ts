@@ -196,7 +196,7 @@ const useWalletInfo = () => {
       const targetLevel: TVIPLevelReward = VIPinfo.value?.vip_level_reward_config[Number(VIPinfo.value.current_vip_level)]
 
       const { level, gift_money_amount } = targetLevel || { target_bet_money: 0, level: 1, gift_money_amount: 0 };
-      console.log('-----===&&&', targetLevel)
+
       if (targetLevel?.target_bet_money != null) {
         target_bet_money.value = targetLevel?.target_bet_money
       }
@@ -205,7 +205,7 @@ const useWalletInfo = () => {
         level,
         gift_money_amount,
         // bet_money: target_bet_money.value - Number(VIPinfo.value.total_bet_money) // 所需投注， aa=vip等级的投注额-当前投注
-        bet_money: target_bet_money.value || '-'  // 所需投注， aa=vip等级的投注额
+        bet_money: target_bet_money.value - Number(VIPinfo.value.total_bet_money) || '-'  // 所需投注， aa=vip等级的投注额
       }
     }
   }
@@ -287,7 +287,8 @@ const useWalletInfo = () => {
   }
   // 选择快捷金额
   const chooseFastMon = (e: any) => {
-    tranMoney.value = e
+    if (!tranMoney.value) {tranMoney.value = 0}
+    tranMoney.value = Number(tranMoney.value) + e;
   }
   // 金额拖动
   const formatTooltip = (value: any) => {

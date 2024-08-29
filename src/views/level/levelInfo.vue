@@ -235,8 +235,7 @@ const countNeedBet = () => {
     // const targetArr = levelDataAll.value.vip_level_reward_config?.filter((item: any) => item.level == (Number(levelDataAll.value.current_vip_level) + 1))
     // const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
     const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)]
-    const targetMon = targetArr.target_bet_money;
-    // return targetMon - Number(levelDataAll.value.total_bet_money) || 0;
+    const targetMon = targetArr.target_bet_money - Number(levelDataAll.value.total_bet_money);
     return targetMon || '-';
   } else {
     return '';
