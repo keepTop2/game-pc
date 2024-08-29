@@ -147,7 +147,7 @@ const handleSubmit = () => {
   const req = NetPacket.req_new_bank_card_info();
   req.bank_id = form.data.bank;
   req.account_number = form.data.cardNo;
-  req.cardholder_name = form.data.name?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
+  req.cardholder_name = props.myBankName ? props.myBankName : form.data.name?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
   Net.instance.sendRequest(req);
 };
 // result: 2 // 1 成功，2 失败

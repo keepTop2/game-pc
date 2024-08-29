@@ -59,6 +59,7 @@ const useWalletInfo = () => {
     { label: '10,000,000', value: 10000000 },
   ];
   const slideStr = ref<any>('0%');
+  const slideValue = ref<any>(0); // 滑动条的值，范围 0-100
   const myBankList = ref(); // 已绑定的银行列表
 
   // 获取已绑定的银行账号
@@ -276,6 +277,7 @@ const useWalletInfo = () => {
   const changeTranType = (type: any) => {
     tranMoney.value = 0; // 重置为 0
     tranType.value = type;
+    countMonRate();
   }
   // 选择全部金额
   const allTranferMon = () => {
@@ -284,11 +286,13 @@ const useWalletInfo = () => {
     } else {
       tranMoney.value = bankMoney.value
     }
+    countMonRate();
   }
   // 选择快捷金额
   const chooseFastMon = (e: any) => {
     if (!tranMoney.value) {tranMoney.value = 0}
     tranMoney.value = Number(tranMoney.value) + e;
+    countMonRate();
   }
   // 金额拖动
   const formatTooltip = (value: any) => {
@@ -300,7 +304,25 @@ const useWalletInfo = () => {
     slideStr.value = `${value}%`
     return slideStr.value
   }
+  // 输入或者点击计算拖动比例
+  const countMonRate = () => {
+    if (tranType.value === 'in') {
+      slideValue.value = parseInt(String((tranMoney.value / gameMoney.value) * 100))
+    } else {
+      slideValue.value = parseInt(String((tranMoney.value / bankMoney.value) * 100))
+    }
+    slideStr.value = slideValue.value > 100 ? `100%` : `${slideValue.value}%`;
+  }
 
+  // 滑动条处理
+  watch(
+    () => tranMoney.value,
+    (n) => {
+      if (!n) {
+        countMonRate();
+      }
+    }
+  );
   watch(
     () => updateAuto.value,
     () => Net.instance.sendRequest(NetPacket.req_update_auto())
@@ -396,11 +418,13 @@ const useWalletInfo = () => {
     formatTooltip,
     handleSubmit,
     slideStr,
+    slideValue,
     chooseFastMon,
     calibrationRef,
     withdrawMoneyRef,
     getNewMon,
     getMyBankList,
+    countMonRate,
   };
 }
 

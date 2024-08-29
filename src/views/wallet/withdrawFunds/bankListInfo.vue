@@ -214,7 +214,7 @@ const submit = () => {
   const req = NetPacket.req_new_bank_card_info();
   req.bank_id = form.value.bank_id;
   req.account_number = form.value.bankCode;
-  req.cardholder_name = form.value.accountName;
+  req.cardholder_name = props.myBankName ? props.myBankName : form.value.accountName?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
   Net.instance.sendRequest(req);
 }
 

@@ -362,7 +362,7 @@ const submitBank = () => {
       const req = NetPacket.req_new_bank_card_info();
       req.bank_id = formBank.value.bank;
       req.account_number = formBank.value.cardNo;
-      req.cardholder_name = formBank.value.accountName;
+      req.cardholder_name = formBank.value.accountName?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
       Net.instance.sendRequest(req);
     } else {
       console.log(errors);

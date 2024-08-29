@@ -135,12 +135,12 @@
         <!-- 金额区域 -->
         <div class="money-all-div">
           <n-flex justify="space-between" class="money_input">
-            <n-input-number @update:value="formatter" v-model:value="tranMoney"
+            <n-input-number @input="countMonRate" @update:value="formatter" v-model:value="tranMoney"
               :placeholder="t('walletInfo_page_tranferTxt')" clearable />
             <a class="btn-ch" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
           </n-flex>
           <div class="slider-div">
-            <n-slider :default-value="0" :step="10" :format-tooltip="formatTooltip">
+            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :format-tooltip="formatTooltip">
               <template #thumb>
                 <n-icon-wrapper class="n-slider-handle">
                   {{ slideStr }}
@@ -312,9 +312,11 @@ const {
   formatTooltip,
   handleSubmit,
   slideStr,
+  slideValue,
   chooseFastMon,
   calibrationRef,
-  withdrawMoneyRef
+  withdrawMoneyRef,
+  countMonRate,
 } = useWalletInfo()
 
 
