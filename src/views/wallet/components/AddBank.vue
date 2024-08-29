@@ -16,7 +16,6 @@ import { Wallet } from '@/store/wallet';
 import { testBankCard, testBankName } from '@/utils/is';
 
 import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import { TForm } from '@/utils/types/formTypes';
 import { useI18n } from "vue-i18n";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
@@ -66,7 +65,7 @@ const dataParams = {
   cardNo: '',
   code: '',
 }
-const form: TForm = reactive({
+const form: any = reactive({
   fields: {
     // currency: {
     //   name: 'currency',
