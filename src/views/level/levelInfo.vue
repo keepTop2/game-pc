@@ -43,10 +43,15 @@
               <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
                    <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
               <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
+
+
             </div>
           </n-flex>
         </div>
         <div class="level_list_sec">
+          <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
+            <span>升级解锁后，即可享受该特权</span>
+          </div>
           <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
             <div class="list_item_l">
               <div class="title_big"> {{ t(item.title) }} </div>
@@ -535,6 +540,9 @@ onUnmounted(() => {
         width: 168px;
         height: 42px;
         transition: .3s;
+        position: relative;
+
+
 
         img {
           width: 100%;
@@ -561,6 +569,22 @@ onUnmounted(() => {
 
 
   .level_list_sec {
+    position: relative;
+
+    .vip_top_disabled {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
     .list_item {
       position: relative;
       height: 120px;
