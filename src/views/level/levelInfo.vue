@@ -39,7 +39,7 @@
         <div class="level_info_vip_all">
           <n-flex id="scroll_box" class="level_info_vip_l">
             <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
-              :key="index" @click="(e: any) => {clickTab(e, item.key)}">
+              :key="index" @click="(e: any) => { clickTab(e, item.key) }">
               <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
                    <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
               <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
@@ -236,8 +236,8 @@ const countNeedBet = () => {
     // const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
     const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)]
     const targetMon = targetArr.target_bet_money;
-    // return targetMon - Number(levelDataAll.value.total_bet_money) || 0;
-    return targetMon || '-';
+    return targetMon - Number(levelDataAll.value.total_bet_money) || 0;
+    // return targetMon || '-';
   } else {
     return '';
   }
