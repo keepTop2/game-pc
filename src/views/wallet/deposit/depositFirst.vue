@@ -86,7 +86,7 @@
               <!-- 选择优惠后 -->
               <div v-if="form.discount" class="choose-yh">
                 <div>{{ curDiscount.ratio > 0 ? t('deposit_page_upperLimit') : t('deposit_page_giftAmount') }}：{{
-                  curDiscount.limit }}</div>
+    curDiscount.limit }}</div>
                 <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio') }}：{{ curDiscount.ratio }}%</div>
                 <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
                 <div>{{ t('deposit_page_minimum') }}：{{ curDiscount.threshold }}</div>
@@ -132,7 +132,7 @@
           <div class="btn_zone flex w_full">
             <n-button :bordered="false" class="submit_btn  weight_5 center pointer" :disabled="loading" block
               @click="onSubmit">{{
-                t('deposit_page_rechargeNow') }}</n-button>
+    t('deposit_page_rechargeNow') }}</n-button>
           </div>
           <div class="cz_tips">
             <div v-show="form.amount" class="txt"> {{ t('deposit_page_arrival') }}：{{ arriveAmount }} </div>

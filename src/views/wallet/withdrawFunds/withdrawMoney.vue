@@ -39,7 +39,7 @@
               <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay') }}</n-button>
             </n-flex>
 
-            <n-form-item :label="t('walletInfo_page_withdrawalMon')" path="amount">
+            <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
               <n-input clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
@@ -99,7 +99,6 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 
-
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
@@ -135,7 +134,12 @@ const rules = {
     {
       required: true,
       message: t('amount_error'),
-      trigger: 'blur'
+      trigger: 'blur',
+      validator: () => {
+        // 正整数
+        const reg = /^[1-9]\d*$/;
+        return reg.test(form.value.amount);
+      }
     }
   ],
   password: [

@@ -3,6 +3,7 @@
     <n-flex align="center" class="tab_top">
       <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
         :key="index" @click="clickTab(item.key)">
+        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount" dot/>
         {{ t(item.title) }}
       </a>
     </n-flex>
@@ -19,7 +20,7 @@
                 <template #trigger>
                   <span class="item_title"> {{ item.name ? t(item.name) : '-' }} </span>
                 </template>
-                {{ item.content }}
+                {{ t(item.name) }}
               </n-tooltip>
 
             </div>
@@ -88,18 +89,14 @@ const curTab: any = ref('0')
 const tabArr: any = ref(
   [
     { title: 'promo_page_all', key: '0' },
-    // { title: 'promo_page_system', key: '6' },
-    // { title: 'promo_page_club', key: '5' },
-    // { title: 'promo_page_live', key: '3' },
-    // { title: 'promo_page_slot', key: '4' },
-    // { title: 'promo_page_fish', key: '1' },
-    // { title: 'promo_page_sport', key: '2' },
     { title: 'promo_page_guDing', key: 'constant' }, // 固定赠送
     { title: 'promo_page_depositZen', key: 'deposit' }, // 存款赠送
     { title: 'promo_page_system', key: 'System' }, // 系统优惠
     { title: 'promo_page_vipZen', key: 'VIP_related' }, // vip奖励
   ]
 );
+// 应有未读提示标识的活动
+const needShowCount = ['System', 'VIP_related'];
 const listData: any = ref(
   {
     total_page: 0,
@@ -116,7 +113,11 @@ const originListData: any = ref([])
 
 const clickTab = (e: any) => {
   curTab.value = e;
-  listData.value.list = e === '0' ? [...originListData.value] : originListData.value.filter((item: any) => item.tag === e)
+  filterData();
+}
+// 过滤数据
+const filterData = () => {
+  listData.value.list = curTab.value === '0' ? [...originListData.value] : originListData.value.filter((item: any) => item.tag === curTab.value)
   listData.value.total_page = listData.value.list.length || 0
 }
 // 切换页码
@@ -140,9 +141,19 @@ const resultHandle = (rs: any) => {
   setTimeout(() => {
     loading.value = false
   }, 300)
-  originListData.value = rs.promo || []
-  listData.value.list = rs.promo || []
-  listData.value.total_page = listData.value.list.length || 0
+  // 添加未读标识--开始
+  tabArr.value.forEach((item: any) => {
+    item.hasCount = 0;
+    rs.promo.map((item_1: any) => {
+      if (item.key === item_1.tag) {
+        item.hasCount ++
+      }
+    })
+  })
+  console.log('--tabArr', tabArr)
+  // 添加未读标识--结束
+  originListData.value = rs.promo || [];
+  filterData();
   console.log(listData.value.list.length, 'promo-data--------', listData.value.list)
 }
 
@@ -151,7 +162,7 @@ const applyBouns = (data: any) => {
   if (['System', 'VIP_related'].includes(data.tag)) {
     loading.value = true
     const query = NetPacket.req_get_email_attachments();
-    query.email_id = data.have_save === '0' ? data.id : data.have_save;
+    query.email_id = data.id;
     Net.instance.sendRequest(query);
   } else {
     Local.set('curDiscountData', data); // 当前选择的优惠，需要带到充值页面
@@ -163,7 +174,7 @@ const applyBounsHandle = (res: any) => {
   setTimeout(() => {
     loading.value = false
   }, 300)
-  console.log(res)
+  console.log('--领取优惠成功--', res)
   queryData(); // 刷新数据
   Message.success(t('promo_page_applySuc'))
   // if (res.result === 1) {
@@ -173,7 +184,6 @@ const applyBounsHandle = (res: any) => {
   //   Message.error(t('promo_page_applyFail'))
   // }
 }
-
 
 onUnmounted(() => {
   // 取消监听
@@ -211,6 +221,7 @@ onMounted(() => {
     gap: 8px 10px !important;
 
     .tab_item {
+      position: relative;
       height: 36px;
       min-width: 75px;
       text-align: center;
@@ -221,6 +232,11 @@ onMounted(() => {
       border: solid 1.4px #5a47b2;
       background-color: #372771;
 
+      :deep(.n-badge) {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+      }
       &.active {
         height: 46px;
         line-height: 30px;
@@ -228,6 +244,10 @@ onMounted(() => {
         color: #ebefff;
         background: url(/img/promo/tabBtn.webp) center no-repeat;
         background-size: 84%;
+        :deep(.n-badge) {
+          top: 2px;
+          right: 12px;
+        }
       }
 
       &.tab_item_0 {
