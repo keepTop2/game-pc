@@ -178,6 +178,9 @@ export default {
   paymentManagement_page_acc_already: 'Account information already exists',
   paymentManagement_page_hasAdd: 'This address has been added',
   paymentManagement_page_errorAdd: 'The address format is incorrect',
+  paymentManagement_page_tip1: 'Please enter the correct account number!',
+  paymentManagement_page_tip2: 'Add successfully!',
+  paymentManagement_page_tip3: 'Already exists!',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',

@@ -35,6 +35,16 @@ export {
 } from 'lodash-es';
 const toString = Object.prototype.toString;
 
+// 银行卡正则, 大于等于7位的数字
+export const testBankCard = (val: any) => {
+  const regex = /^\d{7,}$/;
+  return regex.test(val)
+}
+// 绑定银行卡用户名正则, 只能英文字符和空格组成
+export const testBankName = (val: any) => {
+  const regex = /^[a-zA-Z\s]+$/;
+  return regex.test(val)
+}
 export function is(val: unknown, type: string) {
   return toString.call(val) === `[object ${type}]`;
 }

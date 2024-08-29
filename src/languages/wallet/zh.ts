@@ -178,6 +178,9 @@ export default {
   paymentManagement_page_acc_already: '账号信息已存在',
   paymentManagement_page_hasAdd: '该地址已添加',
   paymentManagement_page_errorAdd: '地址格式不正确',
+  paymentManagement_page_tip1: '请输入正确的账号!',
+  paymentManagement_page_tip2: '新增成功!',
+  paymentManagement_page_tip3: '已经存在!',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',

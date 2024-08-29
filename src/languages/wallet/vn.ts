@@ -178,6 +178,9 @@ export default {
   paymentManagement_page_acc_already: 'Thông tin tài khoản đã tồn tại',
   paymentManagement_page_hasAdd: 'Địa chỉ đã được thêm',
   paymentManagement_page_errorAdd: 'Định dạng địa chỉ không chính xác',
+  paymentManagement_page_tip1: 'Vui lòng nhập đúng số tài khoản!',
+  paymentManagement_page_tip2: 'Thêm thành công!',
+  paymentManagement_page_tip3: 'Đã tồn tại!',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Loại tiền tệ',

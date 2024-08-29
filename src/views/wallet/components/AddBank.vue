@@ -13,6 +13,7 @@ import pinia from '@/store/index';
 import { User } from '@/store/user';
 import { Page } from '@/store/page';
 import { Wallet } from '@/store/wallet';
+import { testBankCard, testBankName } from '@/utils/is';
 
 import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { TForm } from '@/utils/types/formTypes';
@@ -49,9 +50,8 @@ const showMyBank = ref({
   show: true,
   length: props.myBankList.length
 });
-
 const chooseBankModal = ref();
-
+const curBankName: any = ref(props.myBankName);
 
 // 币种列表
 // const currencyList: TTabList = [
@@ -118,7 +118,7 @@ const form: TForm = reactive({
 const onClose = () => walletInfo.setShowAddBank(false);
 const onSubmit = () => {
   // 第二次绑定银行卡需要验证是否已绑定手机号
-  // if (!userInfo.value.mobile && props.myBankName) {
+  // if (!userInfo.value.mobile && curBankName.value) {
   //   return Message.error(t('addBank_page_notPhone'))
   // }
   if (!form.data.bank) {
@@ -127,11 +127,17 @@ const onSubmit = () => {
   if (!form.data.cardNo) {
     return Message.error(t('paymentManagement_page_chCardNo'))
   }
+  if (!testBankCard(form.data.cardNo)) {
+    return Message.error(t('paymentManagement_page_tip1'))
+  }
   if (!form.data.name) {
     return Message.error(t('paymentManagement_page_chName'))
   }
+  if (!testBankName(form.data.name)) {
+    return Message.error(t('paymentManagement_page_chName'))
+  }
   // 第二次绑定银行卡需要验证是否输入验证码
-  // if (!form.data.code && props.myBankName) {
+  // if (!form.data.code && curBankName.value) {
   //   return Message.error(t('home_page_enterVerificationCode'))
   // }
   handleSubmit()
@@ -141,7 +147,7 @@ const handleSubmit = () => {
   const req = NetPacket.req_new_bank_card_info();
   req.bank_id = form.data.bank;
   req.account_number = form.data.cardNo;
-  req.cardholder_name = form.data.name;
+  req.cardholder_name = form.data.name?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
   Net.instance.sendRequest(req);
 };
 // result: 2 // 1 成功，2 失败
@@ -161,11 +167,11 @@ const handleAddBank = (res: any) => {
 }
 const setBaseData = () => {
   // 已经有绑定过银行卡，需要验证手机验证码
-  // if (props.myBankName) {
+  // if (curBankName.value) {
   //   form.fields.code.showRight = true
   // }
-  form.fields.name.disabled = !!props.myBankName;
-  form.data.name = props.myBankName;
+  form.fields.name.disabled = !!curBankName.value;
+  form.data.name = curBankName.value;
 }
 
 const onSubmitSec = (item: any) => {
@@ -230,6 +236,12 @@ const handleBankList = async (res: any) => {
   await Page(pinia).setBankListInfo(res.bank_name_list, res.status_list)
 };
 
+watch(
+  () => props.myBankName,
+  (n) => {
+    curBankName.value = n;
+  }
+)
 watch(
   () => showAddBank.value,
   (n) => {
