@@ -363,7 +363,7 @@ const onHander_system_notice = async (message: any) => {
 
     // 轮播公告
     paomaList.forEach((item: any) => {
-      page.setTextAnnouncementMore(t(item.content))
+      page.setTextAnnouncementMore(t(item.title) + ' - ' + t(item.content))
     })
   }
 }
