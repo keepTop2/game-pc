@@ -220,6 +220,7 @@ import { Net } from '@/net/Net';
 import {
   testBankCard,
   testBankName,
+  replaceChinese,
   verifyMobile,
   verifyPhoneCaptcha,
   verifyWithdrawPwd,
@@ -375,6 +376,7 @@ const submitBank = () => {
     return Message.error(t('paymentManagement_page_chName'))
   }
   if (!testBankName(formBank.value.accountName)) {
+    formBank.value.accountName = replaceChinese(formBank.value.accountName);
     return Message.error(t('paymentManagement_page_chName'))
   }
   formBankRef.value?.validate((errors: any) => {

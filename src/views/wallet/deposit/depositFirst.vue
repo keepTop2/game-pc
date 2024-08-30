@@ -375,6 +375,7 @@ const handleShopInfoRes = (rs: TShopInfo) => {
         paymenttype: 100 + index, // 银行转账 100,  网银直连 101， 扫码支付 102
         paymethod: item, // 没有用到
         payname: `bankcard_${index}`,
+        status: bankNewObj.status,
       });
     });
   }
@@ -400,6 +401,7 @@ const handleShopInfoRes = (rs: TShopInfo) => {
         payname: item.payname,
         label: t(`api_${item.payname}`),
         value: item.paymenttype,
+        status: item.status,
       },
     );
   });
@@ -452,6 +454,9 @@ const onSubmit = () => {
   // 获取到当前支付方式的最低最高充值金额
   const curObj = mtdList.value.find((item: any) => item.value === form.value.method);
   console.log('&&&&&', curObj);
+  if (curObj.value == '-1') {
+    return Message.error(t('deposit_page_chooseWay'));
+  }
   // usdt 充值方式
   if (curObj.payname?.toLowerCase() === 'usdt') {
     // minDepositObj.value = {
