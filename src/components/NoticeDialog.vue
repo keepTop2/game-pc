@@ -20,7 +20,7 @@
         </div>
 
         <!-- 按钮 -->
-        <div class="notice_btn" @click="closeDialog">{{ t('home_page_confirm') }}</div>
+        <!-- <div class="notice_btn" @click="closeDialog">{{ t('home_page_confirm') }}</div> -->
         <div class="notice_readed">
             <n-checkbox v-model:checked="readed">
                 <span>{{ t('home_page_notice_donttip') }}</span>
