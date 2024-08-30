@@ -81,12 +81,14 @@
 </template>
 
 <script setup lang='ts' name="levelRule">
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import pinia from "@/store";
 import { User } from '@/store/user';
 import { storeToRefs } from "pinia";
 import { toFixedNumber } from '@/utils/others';
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 
 const { t } = useI18n();
 // const showModal =  ref(false);
@@ -103,103 +105,17 @@ const baseVipLevelRewardConfig = [ // 基本数据
     "gift_money_amount": 0,
     "ratio": "0.004, 0.006, 0.004, 0.0005, 0.006, 0.004"
   },
-  {
-    "level": 2,
-    "target_bet_money": 12500000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 28000
-    },
-    "gift_money_amount": 38000,
-    "ratio": "0.004, 0.007, 0.004, 0.0005, 0.007, 0.004"
-  },
-  {
-    "level": 3,
-    "target_bet_money": 50000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 100000
-    },
-    "gift_money_amount": 150000,
-    "ratio": "0.0045, 0.0075, 0.0045, 0.0005, 0.008, 0.0045"
-  },
-  {
-    "level": 4,
-    "target_bet_money": 150000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 300000
-    },
-    "gift_money_amount": 380000,
-    "ratio": "0.005, 0.008, 0.005, 0.001, 0.0085, 0.005"
-  },
-  {
-    "level": 5,
-    "target_bet_money": 500000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 880000
-    },
-    "gift_money_amount": 1280000,
-    "ratio": "0.0055, 0.0085, 0.0055, 0.001, 0.009, 0.0055"
-  },
-  {
-    "level": 6,
-    "target_bet_money": 2000000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 3380000
-    },
-    "gift_money_amount": 4680000,
-    "ratio": "0.006, 0.009, 0.006, 0.001, 0.0095, 0.006"
-  },
-  {
-    "level": 7,
-    "target_bet_money": 8000000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 13800000
-    },
-    "gift_money_amount": 15000000,
-    "ratio": "0.0065, 0.01, 0.0065, 0.0015, 0.01, 0.0065"
-  },
-  {
-    "level": 8,
-    "target_bet_money": 16000000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 26000000
-    },
-    "gift_money_amount": 28000000,
-    "ratio": "0.007, 0.0105, 0.007, 0.0015, 0.0105, 0.007"
-  },
-  {
-    "level": 9,
-    "target_bet_money": 32000000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 50000000
-    },
-    "gift_money_amount": 53800000,
-    "ratio": "0.0075, 0.0105, 0.0075, 0.002, 0.011, 0.0075"
-  },
-  {
-    "level": 10,
-    "target_bet_money": 150000000000,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 238000000
-    },
-    "gift_money_amount": 258000000,
-    "ratio": "0.008, 0.012, 0.008, 0.002, 0.012, 0.008"
-  }
 ]
 const vipLevelRewardConfig = ref(VIPinfo.value?.vip_level_reward_config || [...baseVipLevelRewardConfig]);
 
-// const openModal = () => {
-//   showModal.value = !showModal.value
-// }
-
+// 获取等级数据
+const queryData = () => {
+  const query = NetPacket.req_vip_info();
+  Net.instance.sendRequest(query);
+}
+onMounted(() => {
+  queryData();
+})
 watch(
   () => VIPinfo.value,
   (n) => {

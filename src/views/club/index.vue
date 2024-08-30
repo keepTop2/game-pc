@@ -264,8 +264,6 @@
 import { ref, watch } from 'vue';
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
-import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -279,7 +277,7 @@ const showModal = ref(false);
 const showJoinModal = ref(false);
 const showCreateModal = ref(false);
 const switchActive = ref(false);
-const clubDataAll = ref({});
+// const clubDataAll = ref({});
 const loading = ref(false);
 const curTitle = ref('俱乐部');
 const curTab = ref('club'); // club, clubJoin
@@ -340,24 +338,18 @@ const queryData = () => {
 }
 
 // 数据处理
-const resultHandle = (rs: any) => {
-  console.log('level-data--------', rs)
-  setTimeout(() => {
-    loading.value = false
-  }, 300)
-  clubDataAll.value = rs;
-}
+// const resultHandle = (rs: any) => {
+//   console.log('level-data--------', rs)
+//   setTimeout(() => {
+//     loading.value = false
+//   }, 300)
+//   clubDataAll.value = rs;
+// }
 
 const openModal = () => {
   showModal.value = !showModal.value;
   queryData();
-  // 回执监听
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_vip_info,
-    resultHandle,
-  );
 }
-
 
 const clickTab = (e: any) => {
   curTab.value = e;
@@ -891,4 +883,3 @@ defineExpose({
 
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType

@@ -216,8 +216,8 @@ const resultHandleClaim = (res: any) => {
 
 const openModal = () => {
   // showModal.value = !showModal.value;
+  queryData();
   resultHandle('');
-  // queryData();
   // // 回执监听
   // MessageEvent2.addMsgEvent(
   //   NetMsgType.msgType.msg_notify_vip_info,
@@ -339,12 +339,6 @@ onMounted(() => {
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_claim_status, null);
 })
-
-
-// defineExpose({
-//   openModal
-// });
-
 </script>
 
 <style lang='less' scoped>
@@ -680,4 +674,3 @@ onUnmounted(() => {
   }
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType
