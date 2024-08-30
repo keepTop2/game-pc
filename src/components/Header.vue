@@ -173,11 +173,11 @@ const menu = [
     url: '/wallet/auditRecord',
   },
 
-  {
-    icon: 'diannaodenglujilu1',
-    name: 'home_page_loginRecord',
-    url: '/wallet/loginRecord',
-  },
+  // {
+  //   icon: 'diannaodenglujilu1',
+  //   name: 'home_page_loginRecord',
+  //   url: '/wallet/loginRecord',
+  // },
   {
     icon: 'Group39346',
     name: 'home_page_paymentManagement',
@@ -363,7 +363,7 @@ const onHander_system_notice = async (message: any) => {
 
     // 轮播公告
     paomaList.forEach((item: any) => {
-      page.setTextAnnouncementMore(t(item.content))
+      page.setTextAnnouncementMore(t(item.title) + ' - ' + t(item.content))
     })
   }
 }
@@ -416,6 +416,9 @@ MessageEvent2.addMsgEvent(
   NetMsgType.msgType.msg_notify_repeat_login,
   async () => {
     Local.remove('user')
+    Local.remove('roleInfo')
+    Local.set('menuActive', '')
+    Local.set('menuName', '')
     await User(pinia).setHasLogin(false)
     Dialog.warning({
       showIcon: false,

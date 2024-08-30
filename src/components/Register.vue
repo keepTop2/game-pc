@@ -98,6 +98,7 @@ const refresh_captcha = async () => {
 };
 const onEmailRequest = () => {
   if (emailLoadingCount.value) return
+  if (!verifyEmail({}, state.register.email)) return Message.warning(t('home_page_accountFormatIncorrect'))
   const req_get_email = NetPacket.req_get_email_verification_code();
   req_get_email.operate_type = 1;
   req_get_email.email = state.register.email;
@@ -180,6 +181,9 @@ const activeTab = ref<number>(1);
 
 const changeTab = (tabId: number) => {
   activeTab.value = tabId;
+  state.register.password = ''
+  state.register.confirm = ''
+  state.register.captcha = ''
   setTimeout(() => {
     registerFormRef.value.restoreValidation()
   }, 200)
