@@ -5,7 +5,7 @@
     </template>-->
   <div class="level_content">
     <div class="level_rules">
-      <div class="level_tip"> {{ t('level_page_pRule') }} </div>
+      <div class="level_tip"> {{ t('level_page_pRule') }}</div>
 
       <div class="level_list">
         <n-flex justify="space-around" class="le_l_header">
@@ -13,16 +13,17 @@
           <span> {{ t('level_page_pBet') }} </span>
           <span> {{ t('level_page_bonus') }} </span>
           <span> {{ t('level_page_monGift') }} </span>
-<!--          <span> {{ t('level_page_method') }} </span>-->
+          <!--          <span> {{ t('level_page_method') }} </span>-->
         </n-flex>
         <n-flex align="center" class="le_l_content">
           <div class="le_l_l le_l_l_sec">
-            <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
+            <n-flex justify="space-around" class="le_l_l_tr"
+                    v-for="(item, index) in vipLevelRewardConfig" :key="index">
               <span> VIP{{ item.level }} </span>
               <span> {{ item.target_bet_money }} </span>
               <span> {{ item.promotional_reward_status.money || '0' }} </span>
               <span> {{ item.gift_money_amount || '0' }} </span>
-<!--              <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>-->
+              <!--              <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>-->
             </n-flex>
           </div>
         </n-flex>
@@ -38,7 +39,7 @@
         {{ t('level_page_rule_6') }}
       </div>
 
-      <div class="level_tip level_tip_sec"> {{ t('level_page_mAward') }} </div>
+      <div class="level_tip level_tip_sec"> {{ t('level_page_mAward') }}</div>
       <div class="level_list level_list_sec">
         <n-flex justify="space-around" class="le_l_header">
           <span> {{ t('level_page_member') }} </span>
@@ -51,7 +52,8 @@
         </n-flex>
         <n-flex align="center" class="le_l_content">
           <div class="le_l_l le_l_l_sec">
-            <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
+            <n-flex justify="space-around" class="le_l_l_tr"
+                    v-for="(item, index) in vipLevelRewardConfig" :key="index">
               <span> VIP{{ item.level }} </span>
               <template v-for="(item_1) in item.ratio.split(',')">
                 <span> {{ toFixedNumber(Number(item_1) * 100) + '%' }} </span>
@@ -82,13 +84,13 @@
 
 <script setup lang='ts' name="levelRule">
 import { onMounted, ref, watch } from 'vue';
-import { useI18n } from "vue-i18n";
-import pinia from "@/store";
+import { useI18n } from 'vue-i18n';
+import pinia from '@/store';
 import { User } from '@/store/user';
-import { storeToRefs } from "pinia";
+import { storeToRefs } from 'pinia';
 import { toFixedNumber } from '@/utils/others';
-import { NetPacket } from "@/netBase/NetPacket";
-import { Net } from "@/net/Net";
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
 
 const { t } = useI18n();
 // const showModal =  ref(false);
@@ -96,33 +98,33 @@ const UserStore = User(pinia);
 const { VIPinfo } = storeToRefs(UserStore);
 const baseVipLevelRewardConfig = [ // 基本数据
   {
-    "level": 1,
-    "target_bet_money": 0,
-    "promotional_reward_status": {
-      "status": 0,
-      "money": 0
+    'level': 1,
+    'target_bet_money': 0,
+    'promotional_reward_status': {
+      'status': 0,
+      'money': 0,
     },
-    "gift_money_amount": 0,
-    "ratio": "0.004, 0.006, 0.004, 0.0005, 0.006, 0.004"
+    'gift_money_amount': 0,
+    'ratio': '0.004, 0.006, 0.004, 0.0005, 0.006, 0.004',
   },
-]
+];
 const vipLevelRewardConfig = ref(VIPinfo.value?.vip_level_reward_config || [...baseVipLevelRewardConfig]);
 
 // 获取等级数据
 const queryData = () => {
   const query = NetPacket.req_vip_info();
   Net.instance.sendRequest(query);
-}
+};
 onMounted(() => {
   queryData();
-})
+});
 watch(
   () => VIPinfo.value,
   (n) => {
     if (n) {
       vipLevelRewardConfig.value = n.vip_level_reward_config;
     }
-  }
+  },
 );
 
 // defineExpose({

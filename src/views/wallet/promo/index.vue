@@ -178,8 +178,9 @@ const applyBounsHandle = (res: any) => {
   setTimeout(() => {
     loading.value = false;
   }, 300);
+  console.log('==领取优惠==', res);
   if (res.email_id.includes('#')) {
-    Message.error(t('promo_page_applyFail'))
+    Message.error(t('promo_page_applyFail'));
   } else { // 成功
     console.log('--领取优惠成功--', res);
     queryData(); // 刷新数据
@@ -208,7 +209,6 @@ onMounted(() => {
   }, 500);
 
 });
-
 
 </script>
 
@@ -271,7 +271,6 @@ onMounted(() => {
           background-size: 84%;
         }
       }
-
     }
   }
 
@@ -360,7 +359,6 @@ onMounted(() => {
           }
         }
       }
-
 
     }
   }

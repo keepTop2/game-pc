@@ -10,20 +10,22 @@
       <n-spin :show="loading">
         <div class="level_info_pross">
           <n-flex class="level_info_vip" justify="space-between">
-            <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }} </div>
-            <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }} </div>
+            <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }}</div>
+            <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }}
+            </div>
           </n-flex>
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
-              :style="`width: ${vipProcss().rateStr}`"> </span> </div>
+                                       :style="`width: ${vipProcss().rateStr}`"> </span></div>
           <n-flex class="level_info_txt" justify="space-between">
-            <div> {{ t('level_page_needBet') }} {{ countNeedBet() }} </div>
+            <div> {{ t('level_page_needBet') }} {{ countNeedBet() }}</div>
             <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
           </n-flex>
         </div>
 
         <n-flex justify="space-between" align="center" class="level_info_jl">
           <n-flex align="center" class="level_info_jl_l">
-            <span class="jl_amount"> <span> {{ t('level_page_rebate') }} </span> {{ levelDataAll.daily_rebate || 0 }}
+            <span class="jl_amount"> <span> {{ t('level_page_rebate')
+              }} </span> {{ levelDataAll.daily_rebate || 0 }}
             </span>
             <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
           </n-flex>
@@ -38,8 +40,9 @@
 
         <div class="level_info_vip_all">
           <n-flex id="scroll_box" class="level_info_vip_l">
-            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
-              :key="index" @click="(e: any) => { clickTab(e, item.key) }">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`"
+                 v-for="(item, index) in levelListData"
+                 :key="index" @click="(e: any) => { clickTab(e, item.key) }">
               <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
                    <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
               <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
@@ -52,16 +55,18 @@
           <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
             <span>升级解锁后，即可享受该特权</span>
           </div>
-          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
+          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData"
+                  :key="index">
             <div class="list_item_l">
-              <div class="title_big"> {{ t(item.title) }} </div>
-              <div> {{ item.titleSec }} </div>
+              <div class="title_big"> {{ t(item.title) }}</div>
+              <div> {{ item.titleSec }}</div>
             </div>
             <n-flex class="list_item_r">
-              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
+              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child"
+                   :key="index + index_1">
                 <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
-                  <div class="item_img"> <img :src="`/img/level/${item_1.icon}.webp`"> </div>
-                  <div> {{ t(item_1.name) }} </div>
+                  <div class="item_img"><img :src="`/img/level/${item_1.icon}.webp`"></div>
+                  <div> {{ t(item_1.name) }}</div>
                 </div>
               </div>
             </n-flex>
@@ -81,13 +86,14 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('level_page_paiTitle') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff"
+                           size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center">
-          <div class="list-tip"> {{ t('level_page_paiRule_1') }} </div>
-          <div class="list-tip"> {{ t('level_page_paiRule_2') }} </div>
-          <div class="list-tip"> {{ t('level_page_paiRule_3') }} </div>
+          <div class="list-tip"> {{ t('level_page_paiRule_1') }}</div>
+          <div class="list-tip"> {{ t('level_page_paiRule_2') }}</div>
+          <div class="list-tip"> {{ t('level_page_paiRule_3') }}</div>
         </div>
       </div>
     </n-card>
@@ -97,14 +103,14 @@
 
 <script setup lang='ts' name="levelInfo">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { NetPacket } from "@/netBase/NetPacket";
-import { Net } from "@/net/Net";
-import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
-import { Message } from "@/utils/discreteApi.ts";
-import { useI18n } from "vue-i18n";
-import { storeToRefs } from "pinia";
-import pinia from "@/store";
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { Message } from '@/utils/discreteApi.ts';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import pinia from '@/store';
 import { User } from '@/store/user';
 
 // 从 store 获取 vipinfo 数据
@@ -137,7 +143,7 @@ const levelListData = ref(
     { level: 'VIP6', key: 8 },
     { level: 'VIP6', key: 9 },
     { level: 'VIP6', key: 10 },
-  ]
+  ],
 );
 const levelDyData = ref(
   [
@@ -145,18 +151,38 @@ const levelDyData = ref(
       key: 'vip', title: 'level_page_vip', titleSec: 'VIP GIFT MONEY',
       child: [
         { name: 'level_page_bonus', icon: 'level_js', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-      ]
+        {
+          name: 'level_page_month_gift',
+          icon: 'level_lj',
+          levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        },
+      ],
     },
     {
       key: 'chip', title: 'level_page_code', titleSec: 'CHIP DISCOUNT',
       child: [
-        { name: 'level_page_live_bet', icon: 'level_live', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: 'level_page_slot_bet', icon: 'level_game', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: 'level_page_sport_bet', icon: 'level_sport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+        {
+          name: 'level_page_live_bet',
+          icon: 'level_live',
+          levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        },
+        {
+          name: 'level_page_slot_bet',
+          icon: 'level_game',
+          levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        },
+        {
+          name: 'level_page_sport_bet',
+          icon: 'level_sport',
+          levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        },
         { name: 'level_page_zm_bet', icon: 'level_zm', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-        { name: 'level_page_esport', icon: 'level_esport', levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
-      ]
+        {
+          name: 'level_page_esport',
+          icon: 'level_esport',
+          levelArr: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        },
+      ],
     },
     {
       key: 'enjoy', title: 'level_page_privileges', titleSec: 'ENJOY PRIVILEGES',
@@ -165,7 +191,7 @@ const levelDyData = ref(
         { name: 'level_page_manager', icon: 'level_vip', levelArr: [4, 5, 6, 7, 8, 9, 10] },
         { name: 'level_page_access', icon: 'level_deposit', levelArr: [4, 5, 6, 7, 8, 9, 10] },
         { name: 'level_page_activity', icon: 'level_promo', levelArr: [4, 5, 6, 7, 8, 9, 10] },
-      ]
+      ],
     },
     {
       key: 'tq', title: 'level_page_private', titleSec: 'PRIVATE PRIVILEGES',
@@ -173,46 +199,46 @@ const levelDyData = ref(
         { name: 'level_page_secretary', icon: 'level_sw', levelArr: [8, 9, 10] },
         { name: 'level_page_reception', icon: 'level_gb', levelArr: [8, 9, 10] },
         { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [8, 9, 10] },
-      ]
+      ],
     },
 
-  ]
+  ],
 );
 
 // 获取等级数据
 const queryData = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
-    loading.value = false
-  }, 300)
+    loading.value = false;
+  }, 300);
   const query = NetPacket.req_vip_info();
   Net.instance.sendRequest(query);
-}
+};
 
 // 数据处理
 const resultHandle = (res: any) => {
-  console.log('level-data--------', res, VIPinfo.value)
+  console.log('level-data--------', res, VIPinfo.value);
   setTimeout(() => {
-    loading.value = false
-  }, 300)
+    loading.value = false;
+  }, 300);
   // levelDataAll.value = res;
   if (Object.keys(VIPinfo.value).length > 0) {
     levelDataAll.value = VIPinfo.value;
     curTab.value = levelDataAll.value.current_vip_level;
   }
-}
+};
 // money: 0, result: 2 // 1 成功，2 失败
 const resultHandleClaim = (res: any) => {
   setTimeout(() => {
-    loading.value = false
-  }, 300)
+    loading.value = false;
+  }, 300);
   if (res.result === 1) {
-    Message.success(`${t('level_page_getScu')} ${res.money}`)
+    Message.success(`${t('level_page_getScu')} ${res.money}`);
     levelDataAll.value.daily_rebate = 0; // 领取成功重置奖励
   } else {
-    Message.error(t('level_page_getFail'))
+    Message.error(t('level_page_getFail'));
   }
-}
+};
 
 const openModal = () => {
   // showModal.value = !showModal.value;
@@ -228,18 +254,18 @@ const openModal = () => {
     NetMsgType.msgType.msg_notify_vip_claim_status,
     resultHandleClaim,
   );
-}
+};
 
 // 打开等级规则弹窗
 const openLevelRule = () => {
   ruleModal.value = true;
-}
+};
 // 计算所需投注
 const countNeedBet = () => {
   if (levelDataAll.value.vip_level_reward_config.length) {
     // const targetArr = levelDataAll.value.vip_level_reward_config?.filter((item: any) => item.level == (Number(levelDataAll.value.current_vip_level) + 1))
     // const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
-    const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)]
+    const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)];
     const targetMon = targetArr.target_bet_money;
     return targetMon - Number(levelDataAll.value.total_bet_money) || 0;
     // return targetMon || '-';
@@ -247,30 +273,30 @@ const countNeedBet = () => {
     return '';
   }
 
-}
+};
 // 计算vip 等级进度
 const vipProcss = () => {
   if (levelDataAll.value.vip_level_reward_config.length) {
     // levelDataAll.value.total_bet_money = 2654000;
     // const targetArr = levelDataAll.value.vip_level_reward_config?.filter((item: any) => item.level == (Number(levelDataAll.value.current_vip_level) + 1))
     // const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
-    const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)]
+    const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)];
     const targetMon = targetArr.target_bet_money;
     const rate = (Number(levelDataAll.value.total_bet_money) / targetMon) * 100;
     const obj = {
       rate: rate,
-      rateStr: `${rate}%`
-    }
+      rateStr: `${rate}%`,
+    };
     // console.log('-----', rate, levelDataAll.value.total_bet_money)
     return obj;
   } else {
     return {
       rate: 0,
-      rateStr: `0%`
-    }
+      rateStr: `0%`,
+    };
   }
 
-}
+};
 // 刷新奖励额度
 const refreshMon = () => {
   if (!refreshFlag.value) {
@@ -278,20 +304,20 @@ const refreshMon = () => {
     refreshFlag.value = true;
     queryData();
     timerRe.value = setTimeout(() => {
-      refreshFlag.value = false
-    }, 1 * 1000)
+      refreshFlag.value = false;
+    }, 1 * 1000);
   }
-}
+};
 // 领取返水奖励
 const getRebate = () => {
   if (levelDataAll.value.daily_rebate === 0) {
-    return Message.error(t('level_page_notAward'))
+    return Message.error(t('level_page_notAward'));
   }
-  loading.value = true
+  loading.value = true;
   const query = NetPacket.req_vip_daily_claim();
   Net.instance.sendRequest(query);
 
-}
+};
 const clickTab = (e: any, key: any) => {
   curTab.value = key;
   // 添加点击滚动
@@ -307,9 +333,9 @@ const clickTab = (e: any, key: any) => {
   targetBox.scrollBy({
     top: 0,
     left: scrollLeft, // 向右滚动的距离
-    behavior: 'smooth' // 平滑滚动
+    behavior: 'smooth', // 平滑滚动
   });
-}
+};
 
 // 已关闭窗口
 // watch(
@@ -330,15 +356,15 @@ watch(
     if (n) {
       levelDataAll.value = n;
     }
-  }
+  },
 );
 
 onMounted(() => {
   openModal();
-})
+});
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_claim_status, null);
-})
+});
 </script>
 
 <style lang='less' scoped>
@@ -363,7 +389,7 @@ onUnmounted(() => {
       width: 98.5%;
       margin-left: 12px;
 
-      >div {
+      > div {
         position: relative;
         font-size: 14px;
         width: 70px;
@@ -535,7 +561,6 @@ onUnmounted(() => {
         height: 42px;
         transition: .3s;
         position: relative;
-
 
 
         img {

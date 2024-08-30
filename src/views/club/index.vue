@@ -1,15 +1,17 @@
 <template>
   <n-modal class="level_modal" v-model:show="showModal" preset="card">
     <template #header>
-      <div :class="`level_title ${props.openType === 'clubJoin' ? 'level_title_join' : ''}`">{{ curTitle }}</div>
+      <div :class="`level_title ${props.openType === 'clubJoin' ? 'level_title_join' : ''}`">
+        {{ curTitle }}
+      </div>
     </template>
     <div class="club_content">
       <div class="club_info">
         <!-- 俱乐部头部 -->
         <div v-if="curTab === 'club'" class="club_top">
           <div class="club_top_top">
-            <div class="club_top_av"> <img src="/img/home/avatar.webp" alt="avatar"> </div>
-            <div class="club_title_1"> BY88俱乐部-驻马尼拉分部 </div>
+            <div class="club_top_av"><img src="/img/home/avatar.webp" alt="avatar"></div>
+            <div class="club_title_1"> BY88俱乐部-驻马尼拉分部</div>
             <n-flex class="club_title_2" align="center" justify="center">
               <span class="club_icon"></span>
               <span> 2323 {{ t('club_page_ren') }}</span>
@@ -18,12 +20,15 @@
 
           <n-flex class="club_top_center" align="center">
             <div class="club_top_cen_l">
-              <div> <span class="name_1"> {{ t('club_page_id') }}： </span> <span> 1234324 </span> </div>
-              <div> <span class="name_1"> {{ t('club_page_sf') }}： </span> <span> {{ t('club_page_cheny') }} </span>
+              <div><span class="name_1"> {{ t('club_page_id') }}： </span> <span> 1234324 </span>
+              </div>
+              <div><span class="name_1"> {{ t('club_page_sf') }}： </span>
+                <span> {{ t('club_page_cheny') }} </span>
               </div>
             </div>
             <div class="club_top_cen_r">
-              <div> <span class="name_1"> {{ t('club_page_csbl') }}： </span> <span class="name_bl"> 1.0% </span> </div>
+              <div><span class="name_1"> {{ t('club_page_csbl') }}： </span> <span class="name_bl"> 1.0% </span>
+              </div>
               <n-flex>
                 <span class="name_1"> {{ t('club_page_xsmz') }}： </span>
                 <div class="club_switch">
@@ -33,14 +38,16 @@
             </div>
           </n-flex>
           <n-flex class="club_top_bottom" justify="space-between">
-            <a class="btn_join" @click="() => { showJoinModal = true }"> {{ t('club_page_jrjlb') }} </a>
-            <a class="btn_creat" @click="() => { showCreateModal = true }"> {{ t('club_page_cjjlb') }}</a>
+            <a class="btn_join" @click="() => { showJoinModal = true }"> {{ t('club_page_jrjlb')
+              }} </a>
+            <a class="btn_creat" @click="() => { showCreateModal = true }"> {{ t('club_page_cjjlb')
+              }}</a>
           </n-flex>
         </div>
 
         <!-- 已创建 俱乐部头部 -->
         <div v-if="curTab === 'clubJoin'" class="club_join_top">
-          <div class="club_join_title"> {{ t('club_page_srxq') }}：$ </div>
+          <div class="club_join_title"> {{ t('club_page_srxq') }}：$</div>
           <n-flex class="club_join_con">
             <div class="club_join_con_l">
               <div class="con_l_item">
@@ -85,8 +92,9 @@
 
         <!-- 俱乐部切换类别 -->
         <n-flex class="club_tab" justify="space-between">
-          <a :class="`btn_join ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr" :key="index"
-            @click="clickTab(item.key)">
+          <a :class="`btn_join ${curTab === item.key ? 'active' : ''}`"
+             v-for="(item, index) in tabArr" :key="index"
+             @click="clickTab(item.key)">
             {{ item.title }}
           </a>
         </n-flex>
@@ -94,24 +102,26 @@
         <!-- 俱乐部--列表 -->
         <div v-if="curTab === 'club'" class="club_list">
           <n-flex class="club_list_tab" align="center">
-            <a :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`" v-for="(item, index) in curGmaeArr"
-              :key="index" @click="clickTabGame(item.key)">
+            <a :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`"
+               v-for="(item, index) in curGmaeArr"
+               :key="index" @click="clickTabGame(item.key)">
               {{ item.title }}
             </a>
           </n-flex>
           <div class="club_list_content">
             <n-flex>
-              <n-flex class="club_list_item" v-for="(item, index) in gameListData" :key="index" align="center"
-                justify="space-around">
+              <n-flex class="club_list_item" v-for="(item, index) in gameListData" :key="index"
+                      align="center"
+                      justify="space-around">
                 <div class="item_l">
-                  <div class="mb_rr"> {{ item.name }} </div>
+                  <div class="mb_rr"> {{ item.name }}</div>
                   <n-flex align="center" class="item_l_bottom">
                     <span class="mon_icon"></span>
                     <span> {{ item.minBet }} $</span>
                   </n-flex>
                 </div>
                 <div class="item_center">
-                  <div class="type_name mb_rr"> {{ item.type }} </div>
+                  <div class="type_name mb_rr"> {{ item.type }}</div>
                   <n-flex align="center" justify="center" class="item_c_bottom">
                     <span class="mon_icon_sec"></span>
                     <span> {{ item.rate }}</span>
@@ -203,7 +213,8 @@
         <div class="header">
           <span class="title">{{ t('club_page_jrjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
+                           size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -232,7 +243,8 @@
         <div class="header">
           <span class="title">{{ t('club_page_cjjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff"
+                           size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -241,10 +253,12 @@
               <n-input v-model:value="createParams.name" :placeholder="t('club_page_qsr')" />
             </n-form-item>
             <n-form-item :label="t('club_page_jlbcs')">
-              <n-input type="number" v-model:value="createParams.rate" :placeholder="t('club_page_qsr')" />
+              <n-input type="number" v-model:value="createParams.rate"
+                       :placeholder="t('club_page_qsr')" />
             </n-form-item>
             <n-form-item :label="t('club_page_jlbjj')">
-              <n-input type="textarea" v-model:value="createParams.dec" :placeholder="t('club_page_qsr')" />
+              <n-input type="textarea" v-model:value="createParams.dec"
+                       :placeholder="t('club_page_qsr')" />
             </n-form-item>
           </n-form>
 
@@ -262,17 +276,17 @@
 
 <script setup lang='ts' name="clubInfo">
 import { ref, watch } from 'vue';
-import { NetPacket } from "@/netBase/NetPacket";
-import { Net } from "@/net/Net";
-import { useI18n } from "vue-i18n";
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const props = defineProps({
   openType: {
     type: String,
-    default: () => 'club'
-  }
-})
+    default: () => 'club',
+  },
+});
 const showModal = ref(false);
 const showJoinModal = ref(false);
 const showCreateModal = ref(false);
@@ -285,7 +299,7 @@ const tabArr: any = ref(
   [
     { title: t('club_page_yjr'), key: 'club' },
     { title: t('club_page_ycj'), key: 'clubJoin' },
-  ]
+  ],
 );
 const curGmaeType = ref('dz');
 const curGmaeArr = [
@@ -300,42 +314,139 @@ const curGmaeArr = [
 
 const gameListData = ref(
   [
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-    { name: '经典德州-1860', type: '【美元桌】', minBet: 25, icon: 'avatar', rate: '0.25/0.50', count: '3/8' },
-  ]
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+    {
+      name: '经典德州-1860',
+      type: '【美元桌】',
+      minBet: 25,
+      icon: 'avatar',
+      rate: '0.25/0.50',
+      count: '3/8',
+    },
+  ],
 );
 const clubListData = ref(
   [
-    { create: 'fsf898', name: '俱乐部-分部名称', id: 23233, todayEarn: 79898, todayBet: 898, online: 825, todayOnline: 98, betCount: 88 },
-    { create: 'fsf898', name: '俱乐部-分部名称', id: 23233, todayEarn: 79898, todayBet: 898, online: 825, todayOnline: 98, betCount: 88 },
-    { create: 'fsf898', name: '俱乐部-分部名称', id: 23233, todayEarn: 79898, todayBet: 898, online: 825, todayOnline: 98, betCount: 88 },
-  ]
+    {
+      create: 'fsf898',
+      name: '俱乐部-分部名称',
+      id: 23233,
+      todayEarn: 79898,
+      todayBet: 898,
+      online: 825,
+      todayOnline: 98,
+      betCount: 88,
+    },
+    {
+      create: 'fsf898',
+      name: '俱乐部-分部名称',
+      id: 23233,
+      todayEarn: 79898,
+      todayBet: 898,
+      online: 825,
+      todayOnline: 98,
+      betCount: 88,
+    },
+    {
+      create: 'fsf898',
+      name: '俱乐部-分部名称',
+      id: 23233,
+      todayEarn: 79898,
+      todayBet: 898,
+      online: 825,
+      todayOnline: 98,
+      betCount: 88,
+    },
+  ],
 );
 // 加入俱乐部表单提交
 const joinParams = ref({
-  id: ''
-})
+  id: '',
+});
 // 创建俱乐部表单提交
 const createParams = ref({
   name: '',
   rate: '',
   dec: '',
-})
+});
 
 // 获取等级数据
 const queryData = () => {
-  loading.value = true
+  loading.value = true;
   const query = NetPacket.req_vip_info();
   Net.instance.sendRequest(query);
-}
+};
 
 // 数据处理
 // const resultHandle = (rs: any) => {
@@ -349,51 +460,51 @@ const queryData = () => {
 const openModal = () => {
   showModal.value = !showModal.value;
   queryData();
-}
+};
 
 const clickTab = (e: any) => {
   curTab.value = e;
-  curTitle.value = e === 'club' ? t('club_page_club') : t('club_page_ycj')
-}
+  curTitle.value = e === 'club' ? t('club_page_club') : t('club_page_ycj');
+};
 
 const clickTabGame = (e: any) => {
   curGmaeType.value = e;
-}
+};
 // 关闭加入俱乐部弹窗
 const onClose = () => {
-  showJoinModal.value = false
-}
+  showJoinModal.value = false;
+};
 // 加入俱乐部提交
 const onSubmit = () => {
-  console.log('----------', joinParams)
-}
+  console.log('----------', joinParams);
+};
 // 搜索俱乐部
 const searchClub = () => {
-  console.log('搜索---')
-}
+  console.log('搜索---');
+};
 // 关闭创建俱乐部弹窗
 const onCloseCreate = () => {
-  showCreateModal.value = false
-}
+  showCreateModal.value = false;
+};
 // 创建俱乐部提交
 const onSubmitCreate = () => {
-  console.log('----------', createParams)
-}
+  console.log('----------', createParams);
+};
 
 watch(
   () => props.openType,
   (n) => {
     curTab.value = n;
-    curTitle.value = n === 'club' ? t('club_page_club') : t('club_page_ycj')
+    curTitle.value = n === 'club' ? t('club_page_club') : t('club_page_ycj');
   },
   {
     deep: true,
-  }
-)
+  },
+);
 
 
 defineExpose({
-  openModal
+  openModal,
 });
 
 </script>
@@ -573,7 +684,7 @@ defineExpose({
       background-size: 100%;
       gap: 0 !important;
 
-      >div {
+      > div {
         flex: 1;
 
         .club_switch {
@@ -787,6 +898,7 @@ defineExpose({
   }
 
   /* 已创建俱乐部 */
+
   .club_join_top {
 
     .club_join_con {
@@ -797,7 +909,7 @@ defineExpose({
       background: url(/img/club/club_join_bg_1.webp) center no-repeat;
       background-size: 100%;
 
-      >div {
+      > div {
         flex: 1;
       }
 
@@ -869,7 +981,7 @@ defineExpose({
         background: url(/img/club/club_join_bg_2.webp) center no-repeat;
         background-size: 100%;
 
-        >div {
+        > div {
           flex: 1;
         }
 
