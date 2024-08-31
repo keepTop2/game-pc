@@ -44,4 +44,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang='less' scoped></style>@/netBase/NetPacket@/netBase/NetMsgType
+<style lang='less' scoped></style>

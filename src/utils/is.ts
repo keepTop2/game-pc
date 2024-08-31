@@ -45,6 +45,12 @@ export const testBankName = (val: any) => {
   const regex = /^[a-zA-Z\s]+$/;
   return regex.test(val)
 }
+// 替换中文，标点符号为空
+export const replaceChinese = (str: any) => {
+  // 匹配中文字符和标点符号
+  const regex = /[\u4e00-\u9fa5，。！？；：“”‘’]/g;
+  return str.replace(regex, '');
+}
 export function is(val: unknown, type: string) {
   return toString.call(val) === `[object ${type}]`;
 }

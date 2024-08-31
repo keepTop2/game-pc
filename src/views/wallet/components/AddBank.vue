@@ -13,7 +13,7 @@ import pinia from '@/store/index';
 import { User } from '@/store/user';
 import { Page } from '@/store/page';
 import { Wallet } from '@/store/wallet';
-import { testBankCard, testBankName } from '@/utils/is';
+import { testBankCard, testBankName, replaceChinese } from '@/utils/is';
 
 import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
@@ -133,6 +133,7 @@ const onSubmit = () => {
     return Message.error(t('paymentManagement_page_chName'))
   }
   if (!testBankName(form.data.name)) {
+    form.data.name = replaceChinese(form.data.name);
     return Message.error(t('paymentManagement_page_chName'))
   }
   // 第二次绑定银行卡需要验证是否输入验证码

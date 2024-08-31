@@ -307,9 +307,9 @@ const useWalletInfo = () => {
   // 输入或者点击计算拖动比例
   const countMonRate = () => {
     if (tranType.value === 'in') {
-      slideValue.value = parseInt(String((tranMoney.value / gameMoney.value) * 100))
+      slideValue.value = gameMoney.value ? parseInt(String((tranMoney.value / gameMoney.value) * 100)) : 0
     } else {
-      slideValue.value = parseInt(String((tranMoney.value / bankMoney.value) * 100))
+      slideValue.value = bankMoney.value ? parseInt(String((tranMoney.value / bankMoney.value) * 100)) : 0
     }
     slideStr.value = slideValue.value > 100 ? `100%` : `${slideValue.value}%`;
   }

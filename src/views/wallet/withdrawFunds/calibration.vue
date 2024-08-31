@@ -217,7 +217,14 @@ import { NetMsgType } from '@/netBase/NetMsgType';
 import { TTabList } from '@/utils/types';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
-import { verifyMobile, verifyPhoneCaptcha, verifyWithdrawPwd } from '@/utils/is.ts';
+import {
+  testBankCard,
+  testBankName,
+  replaceChinese,
+  verifyMobile,
+  verifyPhoneCaptcha,
+  verifyWithdrawPwd,
+} from '@/utils/is.ts';
 import { Message } from '@/utils/discreteApi.ts';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store';
@@ -356,13 +363,28 @@ const bankError = ref(false);
 // 添加银行信息
 const formBankRef = ref();
 const submitBank = () => {
-  if (!formBank.value.bank) return Message.error(t('paymentManagement_page_chBank'));
+  if (!formBank.value.bank) {
+    return Message.error(t('paymentManagement_page_chBank'))
+  }
+  if (!formBank.value.cardNo) {
+    return Message.error(t('paymentManagement_page_chCardNo'))
+  }
+  if (!testBankCard(formBank.value.cardNo)) {
+    return Message.error(t('paymentManagement_page_tip1'))
+  }
+  if (!formBank.value.accountName) {
+    return Message.error(t('paymentManagement_page_chName'))
+  }
+  if (!testBankName(formBank.value.accountName)) {
+    formBank.value.accountName = replaceChinese(formBank.value.accountName);
+    return Message.error(t('paymentManagement_page_chName'))
+  }
   formBankRef.value?.validate((errors: any) => {
     if (!errors) {
       const req = NetPacket.req_new_bank_card_info();
       req.bank_id = formBank.value.bank;
       req.account_number = formBank.value.cardNo;
-      req.cardholder_name = formBank.value.accountName?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
+      req.cardholder_name = mySecBankList.value.cardholder_name ? mySecBankList.value.cardholder_name : formBank.value.accountName?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
       Net.instance.sendRequest(req);
     } else {
       console.log(errors);

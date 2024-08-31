@@ -166,7 +166,7 @@ const applyBouns = (data: any) => {
   if (['System', 'VIP_related'].includes(data.tag)) {
     loading.value = true;
     const query = NetPacket.req_get_email_attachments();
-    query.email_id = data.id;
+    query.email_id = data.details; // 这个 details 才是领取的 id
     Net.instance.sendRequest(query);
   } else {
     Local.set('curDiscountData', data); // 当前选择的优惠，需要带到充值页面
@@ -178,10 +178,10 @@ const applyBounsHandle = (res: any) => {
   setTimeout(() => {
     loading.value = false;
   }, 300);
-  if (res.email_id.includes('#')) {
-    Message.error(t('promo_page_applyFail'))
+  console.log('==领取优惠==', res);
+  if (res.email_id.includes('#') || res.email_id === '-0') {
+    Message.error(t('promo_page_applyFail'));
   } else { // 成功
-    console.log('--领取优惠成功--', res);
     queryData(); // 刷新数据
     Message.success(t('promo_page_applySuc'));
   }
@@ -208,7 +208,6 @@ onMounted(() => {
   }, 500);
 
 });
-
 
 </script>
 
@@ -271,7 +270,6 @@ onMounted(() => {
           background-size: 84%;
         }
       }
-
     }
   }
 
@@ -360,7 +358,6 @@ onMounted(() => {
           }
         }
       }
-
 
     }
   }

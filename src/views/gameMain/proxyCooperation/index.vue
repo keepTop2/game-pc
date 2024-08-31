@@ -283,4 +283,3 @@ const copyToClipboard = (text: string) => {
     }
 }
 </style>
-@/netBase/NetPacket@/netBase/NetMsgType
