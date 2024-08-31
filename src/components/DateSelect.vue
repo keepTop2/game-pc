@@ -5,8 +5,8 @@
                 v-for="(val, key) in showOptions" :key="key">{{ val }}
             </div>
         </n-flex>
-        <n-date-picker class="date_select_box" :format="'yyyy/MM/dd'" :on-confirm="chooseTime"
-            v-model:value="timeObj.range" type="daterange">
+        <n-date-picker :is-date-disabled="disabledDate" input-readonly class="date_select_box" :format="'yyyy/MM/dd'"
+            :on-confirm="chooseTime" v-model:value="timeObj.range" type="daterange">
             <template #separator>
                 <span style="color: #8D84C5;">-</span>
             </template>
@@ -56,6 +56,21 @@ const changeTime = (key: number | string) => { // 切换快捷选项
 const chooseTime = () => { // 手动选择时间
     active.value = '0' // 清除快捷选项
     submit()
+}
+
+const now = new Date();
+const disabledDate = (d: any) => {
+    // 获取今天的日期
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // 获取今天24:00 (即明天的0:00) 的时间戳
+    const endOfToday = today.getTime() + 48 * 60 * 60 * 1000;
+
+    // 获取90天前的时间戳
+    const ninetyDaysAgo = now.getTime() - 90 * 24 * 60 * 60 * 1000;
+
+    // 判断是否在今天24:00之前且在90天以内
+    return !(d < endOfToday && d >= ninetyDaysAgo);
 }
 
 const timeObj = reactive({ // 选择的时间对象

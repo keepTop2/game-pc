@@ -45,7 +45,7 @@
 import { reactive, computed, onUnmounted, ref } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
-import { AccountTypeMap, WalletTypeMap } from "@/enums/walletEnum"
+import { WalletTypeMap } from "@/enums/walletEnum"
 import DateSelect from "@/components/DateSelect.vue"
 import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";
@@ -63,11 +63,15 @@ const tableHeader = computed(() => {
     ]
 })
 
-const optionsStatus = computed(() => { // 类型
-    const options = Object.keys(AccountTypeMap).map((key: string) => {
-        return {
-            label: AccountTypeMap[key],
-            value: Number(key)
+const allList: any = ref([])
+const optionsStatus = computed(() => { // 状态
+    const options: any = []
+    allList.value.map((item: any) => {
+        if (!options.find((a: any) => a.value == item.b_type)) {
+            options.push({
+                label: t('bType' + (item.b_type > 100 ? 101 : item.b_type)),
+                value: Number(item.b_type)
+            })
         }
     })
     options.unshift({ value: 0, label: t('accountsRecord_page_allType') })
@@ -92,7 +96,10 @@ const resultHandle = (rs: any) => { // 数据处理
     result.list = (rs.record_list || []).sort((a: any, b: any) => {
         return Date.parse(convertObjectToDateString(b.create_time)) - Date.parse(convertObjectToDateString(a.create_time))
     })
-
+    // 保存类型
+    if (params.type == 0) {
+        allList.value = result.list
+    }
 }
 const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
