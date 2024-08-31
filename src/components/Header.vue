@@ -179,6 +179,11 @@ const menu = [
   //   url: '/wallet/loginRecord',
   // },
   {
+    icon: 'diannaodenglujilu1',
+    name: 'home_page_waterRecord',
+    url: '/wallet/waterRecord',
+  },
+  {
     icon: 'Group39346',
     name: 'home_page_paymentManagement',
     url: '/wallet/paymentManagement',

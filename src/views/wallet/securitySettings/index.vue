@@ -590,6 +590,21 @@ const itemClick = (item: any) => {
 
     }
     item.formData.rules = rules
+
+    if (item.type == 3) {
+        if (!info.value.mobile) {
+            let mobileIndex = item.formData.tabList.findIndex((e: any) => e.value == 1)
+            if (mobileIndex != -1) {
+                item.formData.tabList.splice(mobileIndex, 1)
+            }
+        }
+        if (!info.value.email) {
+            let emailIndex = item.formData.tabList.findIndex((e: any) => e.value == 2)
+            if (emailIndex != -1) {
+                item.formData.tabList.splice(emailIndex, 1)
+            }
+        }
+    }
     state.formData = item.formData
     FormRef.value.openDialog(item.formData, item.type)
 }
