@@ -127,7 +127,7 @@
               <n-input-number @update:value="formatter" size="large" v-model:value="form.amount"
                               :placeholder="t('deposit_page_enterMon')">
                 <template #suffix>
-                  <a class="refresh_icon"></a>
+                  <a @click="form.amount = 0" class="refresh_icon"></a>
                 </template>
               </n-input-number>
               <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
@@ -227,6 +227,7 @@ const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
 const baseDis = {
+  discount_ID: 0,
   limit: 0,
   ratio: 0,
   require: 0,
@@ -306,8 +307,13 @@ const openWin = (url: any) => {
 // 计算预计到账金额
 const countArriveMon = () => {
   let zsMon = 0; // 赠送的金额
-  if (!curDiscount.value) {
-    arriveAmount.value = Number(form.value.amount) + zsMon;
+  if (!curDiscount.value || !curDiscount.value?.discount_ID) {
+    // 未选择优惠，刮刮卡充值方式，只到账 80%
+    if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('scratchcard') > -1) {
+      arriveAmount.value = Number(form.value.amount) * 0.8 + zsMon;
+    } else {
+      arriveAmount.value = Number(form.value.amount) + zsMon;
+    }
     return;
   }
   // 按比例赠送金额
@@ -729,7 +735,13 @@ defineExpose({
   }
 
   .body_sec {
-
+    .refresh_icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url(/img/payment/Vector.webp) center no-repeat;
+      background-size: 100%;
+    }
     .money_input {
       ::v-deep(.n-input-number) {
         width: 100%;

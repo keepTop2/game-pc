@@ -136,7 +136,7 @@ const rowHandle = (row: any, key: string, subRow: boolean) => { // 格子数据�
             break
         case "pay_money":
             if (subRow) {
-                rs = Number(row['bonus']).toLocaleString()
+                rs = Number(row['bonus']) > 0 ? Number(row['bonus']).toLocaleString() : '0'
             } else {
                 rs = Number(val).toLocaleString()
             }
