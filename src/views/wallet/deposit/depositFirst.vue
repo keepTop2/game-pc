@@ -26,7 +26,7 @@
               <div class="bank_txt">
                 <n-flex class="bank_name">
                   {{ t(`api_${item.payname}`) }}
-                  <a class="wh_icon" @click="onCloseSm"></a>
+                  <a class="wh_icon" @click="onCloseSm(item)"></a>
                 </n-flex>
                 <div class="bank_limit">{{ item.minrecharge }} ~ {{ item.maxrecharge }}</div>
               </div>
@@ -49,16 +49,21 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('deposit_page_instructions') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onCloseSm" icon-id="Group39368" color="#fff"
+            <iconpark-icon @click="showSmModal = false" icon-id="Group39368" color="#fff"
                            size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md">
-          <n-flex align="center" justify="center" class="sm-txt">
-            <span>占位图</span>
+          <n-flex align="center" justify="center" class="sm_txt">
+            <div class="sm_content">
+              <img :src="`/img/payment/sm/sm_${curWay.payname}.webp`" />
+            </div>
           </n-flex>
           <n-flex justify="space-between" class="bank_list_item">
-            <a v-for="(item, index) in usdtRecharge" :key="index">
+            <a :class="`${curWay.payname === item.payname ? 'active' : ''}`"
+               v-for="(item, index) in usdtRecharge"
+               @click="chooseSmWay(item)"
+               :key="index">
               <img :src="`/img/payment/icon/icon_${item.payname}.webp`" />
             </a>
           </n-flex>
@@ -225,6 +230,7 @@ const showSmModal = ref(false);
 const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
+const curWay = ref({payname: ''});
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
 const baseDis = {
   discount_ID: 0,
@@ -408,6 +414,7 @@ const handleShopInfoRes = (rs: TShopInfo) => {
         label: t(`api_${item.payname}`),
         value: item.paymenttype,
         status: item.status,
+        disabled: !item.status,
       },
     );
   });
@@ -422,7 +429,9 @@ const openModal = () => {
 const onClose = () => {
   showMyModal.value = false;
 };
-const onCloseSm = () => {
+const onCloseSm = (data: any) => {
+  curWay.value = data;
+  Local.set('curExplainWay', data);
   showSmModal.value = !showSmModal.value;
 };
 const onCloseSec = () => {
@@ -551,6 +560,11 @@ const handleDepositBank = (res: any) => {
     return { value: item.pay_id, label: item.pay_name };
   });
 };
+// 选择方式
+const chooseSmWay = (data: any) => {
+  Local.set('curExplainWay', data);
+  curWay.value = data;
+}
 
 watch(
   () => showSecModal.value,
@@ -714,21 +728,33 @@ defineExpose({
 .deposit_sm_modal {
 
   .body {
-    .sm-txt {
+    .sm_txt {
       font-size: 24px;
       width: 375px;
-      height: 250px;
+      min-height: 300px;
+      max-height: 600px;
       margin: 0 auto;
-      background: #17a1fb;
+      overflow-y: auto;
+
+      .sm_content {
+        img {
+          width: 100%;
+        }
+      }
     }
 
     .bank_list_item {
       width: 100%;
-
+      gap: initial !important;
       a {
         img {
           width: 30px;
           height: 30px;
+        }
+        &.active {
+          img {
+            transform: scale(1.2);
+          }
         }
       }
     }
