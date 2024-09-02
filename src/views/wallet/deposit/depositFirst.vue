@@ -212,7 +212,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
-import { Message } from '@/utils/discreteApi';
+import { Dialog, Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType } from '@/utils/others';
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
@@ -305,6 +305,8 @@ const exchangeArr = [
   { label: 'OKX', value: 'https://www.okx.com/zh-hans/price/tether-usdt' },
   { label: 'HTX', value: 'https://www.htx.com/zh-cn/fiat-crypto/one-trade/buy-usdt-vnd' },
 ];
+// const successModal = ref(false);
+const depositResult = ref({url: ''});
 
 const openWin = (url: any) => {
   window.open(url);
@@ -529,12 +531,27 @@ const handleDepositSubmit = (res: any) => {
     // Message.success(t('deposit_page_depSuccess'))
     form.value.amount = 0; // 重置
     Local.remove('curDiscountData'); // 重置
-    if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
-      setTimeout(() => {
-        onCloseSec(); // 关闭窗口
-        window.open(res.url);
-      }, 1000);
-    }
+    depositResult.value = res;
+    // successModal.value = true;
+    // if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
+    //   setTimeout(() => {
+    //     onCloseSec(); // 关闭窗口
+    //     window.open(res.url);
+    //   }, 1000);
+    // }
+    Dialog.warning({
+      showIcon: false,
+      title: t('paymentManagement_page_tips'),
+      content: t('deposit_page_goToDeposit'),
+      positiveText: t('home_page_confirm'),
+      // negativeText: t('home_page_cancel'),
+      onPositiveClick: () => {
+        openNewPage();
+      },
+      onNegativeClick: () => {
+
+      },
+    })
 
   }
 };
@@ -570,6 +587,14 @@ const handleDepositBank = (res: any) => {
 const chooseSmWay = (data: any) => {
   Local.set('curExplainWay', data);
   curWay.value = data;
+}
+const openNewPage = () => {
+  const res = depositResult.value;
+  if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
+    onCloseSec(); // 关闭窗口
+    window.open(res.url);
+    // successModal.value = false;
+  }
 }
 
 watch(

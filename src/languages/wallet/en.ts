@@ -277,6 +277,7 @@ export default {
   deposit_page_exchange: 'Exchange',
   deposit_page_toExchange: 'Visit the exchange',
   deposit_page_minDeposit: 'Minimum recharge',
+  deposit_page_goToDeposit: 'Are you sure to recharge?',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Redeem Now',

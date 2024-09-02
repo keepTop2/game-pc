@@ -277,6 +277,7 @@ export default {
   deposit_page_exchange: 'Trao đổi',
   deposit_page_toExchange: 'Truy cập vào sàn giao dịch',
   deposit_page_minDeposit: 'Nạp tiền tối thiểu',
+  deposit_page_goToDeposit: 'Bạn có chắc chắn đã nạp tiền không?',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Đổi ngay',
