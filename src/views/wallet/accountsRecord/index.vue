@@ -124,7 +124,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = t('accountsRecord_page_dong')
             break
         case "pay_money":
-            rs = (row.type == 1 ? '+' : '-') + Number(val).toLocaleString()
+            rs = (row.type == 2 ? '-' : '+') + Number(val).toLocaleString()
             break
         case "create_time":
             rs = convertObjectToDateString(val)
