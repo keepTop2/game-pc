@@ -311,6 +311,7 @@ const openWin = (url: any) => {
 };
 
 // 计算预计到账金额
+// 刮刮卡：比如这里充100000，按80%到账就是到账8w，再按8w参与优惠, 优惠是赠送100%  也就是再送8w
 const countArriveMon = () => {
   let zsMon = 0; // 赠送的金额
   if (!curDiscount.value || !curDiscount.value?.discount_ID) {
@@ -322,17 +323,22 @@ const countArriveMon = () => {
     }
     return;
   }
+  let czMount = Number(form.value.amount); // 输入的充值金额
+  // 刮刮卡充值方式，只到账 80%
+  if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('scratchcard') > -1) {
+    czMount = czMount * 0.8;
+  }
   // 按比例赠送金额
   if (curDiscount.value.ratio > 0) {
-    zsMon = Number(form.value.amount) < curDiscount.value.threshold ? 0 : Number(form.value.amount) * (curDiscount.value.ratio / 100);
+    zsMon = czMount < curDiscount.value.threshold ? 0 : czMount * (curDiscount.value.ratio / 100);
     // 最高赠送金额
     if (zsMon > curDiscount.value.limit) {
       zsMon = curDiscount.value.limit;
     }
   } else { // 按金额
-    zsMon = Number(form.value.amount) < curDiscount.value.threshold ? 0 : curDiscount.value.limit;
+    zsMon = czMount < curDiscount.value.threshold ? 0 : curDiscount.value.limit;
   }
-  arriveAmount.value = Number(form.value.amount) + Number(zsMon);
+  arriveAmount.value = czMount + Number(zsMon);
 };
 // 计算usdt 金额
 const countUsdtMon = () => {
