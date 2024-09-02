@@ -13,37 +13,29 @@ import { i18n } from '@/languages/index';
 import pinia from '@/store/index';
 import { Page } from '@/store/page';
 import { User } from "@/store/user";
-export const getSetting = async () => {
-    const settingsRes = await fetch('/settings.json?' + new Date().getTime())
-    const settings = await settingsRes.json()
-    const adminI18nRes = await fetch(settings.admin_i18n_add_url)
+
+export const getLocale = async () => { // Page(pinia).$state.settings
+    const adminI18nRes = await fetch(Page(pinia).$state.settings.admin_i18n_add_url + new Date().getTime())
     const adminI18n = await adminI18nRes.json()
+
     i18n.global.mergeLocaleMessage('zh', adminI18n.zh)
     i18n.global.mergeLocaleMessage('vn', adminI18n.vn)
     i18n.global.mergeLocaleMessage('en', adminI18n.en)
-    // let lang = Local.get('lang')
-    // let keys = Object.keys(adminI18n[lang])
-    // let bannerArr: Array<string> = []
-    // let textAnnouncement: Array<string> = []
-    // keys.map((e: string) => {
-    //     if (e.indexOf('pc_admin_banner_list') != -1) {
-    //         bannerArr.push(e)
-    //     }
-    //     if (e.indexOf('system_notice_title') != -1) {
-    //         textAnnouncement.push(e)
-    //     }
-    // })
-    // console.log(bannerArr);
-
-    await Page(pinia).setSettings(settings)
     await Page(pinia).setAdminI18n(adminI18n)
+}
+export const getSetting = async () => {
+    const settingsRes = await fetch('/settings.json?' + new Date().getTime())
+    const settings = await settingsRes.json()
+    await Page(pinia).setSettings(settings)
+    const homeGameDataRes = await fetch(settings.home_game_data + new Date().getTime())
+    const homeGameData = await homeGameDataRes.json()
+    await Page(pinia).setHomePageGameData(homeGameData)
+    await getLocale()
     // 获取未读数量
     Page(pinia).getUnread(true)
     setInterval(() => {
         Page(pinia).getUnread(false)
     }, 10000)
-    // await Page(pinia).setBannerArr(bannerArr)
-    // await Page(pinia).setTextAnnouncement(textAnnouncement)
     return settings
 }
 const settings = await getSetting()
