@@ -30,6 +30,7 @@ export default {
     home_page_rechargeRecord: 'Bản ghi nạp tiền',
     home_page_withdrawRecord: 'Hồ sơ rút tiền',
     home_page_accountsRecord: 'Hồ sơ thay đổi tài khoản',
+    proxyRecord: 'Hồ sơ thay đổi tài khoản đại lý',
     home_page_betRecord: 'Kỷ lục cá cược',
     home_page_auditRecord: 'Hồ sơ kiểm tra',
     home_page_loginRecord: 'Bản ghi đăng nhập',

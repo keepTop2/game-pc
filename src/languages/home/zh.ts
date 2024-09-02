@@ -31,6 +31,7 @@ export default {
     home_page_rechargeRecord: '充值记录',
     home_page_withdrawRecord: '取款记录',
     home_page_accountsRecord: '账变记录',
+    proxyRecord: '代理账变记录',
     home_page_betRecord: '投注记录',
     home_page_auditRecord: '稽核记录',
     home_page_loginRecord: '登录记录',

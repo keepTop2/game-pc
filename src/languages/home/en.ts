@@ -29,6 +29,7 @@ export default {
     home_page_rechargeRecord: 'Recharge record',
     home_page_withdrawRecord: 'Withdraw record',
     home_page_accountsRecord: 'Accounts record',
+    proxyRecord: 'Agent account change record',
     home_page_betRecord: 'Bet record',
     home_page_auditRecord: 'Audit record',
     home_page_loginRecord: 'Login record',
