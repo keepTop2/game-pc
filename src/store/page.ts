@@ -74,9 +74,7 @@ export const Page = defineStore('page', {
             this.menuActive = value
             this.menuName = name
         },
-        async setBannerArr(arr: Array<string>) {
-            this.bannerArr = arr
-        },
+
         async setHomePageGameData(data: any) {
             this.homeGameData = data
         },
@@ -137,9 +135,7 @@ export const Page = defineStore('page', {
             console.log(this.activityTitleList);
 
         },
-        async setTextAnnouncement(arr: Array<string>) {
-            this.textAnnouncement = arr
-        },
+
         async setTextAnnouncementMore(str: string) {
             this.textAnnouncement.push(str)
             this.textAnnouncement.splice(0, 0)

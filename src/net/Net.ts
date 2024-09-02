@@ -24,20 +24,6 @@ export const getSetting = async () => {
     i18n.global.mergeLocaleMessage('zh', adminI18n.zh)
     i18n.global.mergeLocaleMessage('vn', adminI18n.vn)
     i18n.global.mergeLocaleMessage('en', adminI18n.en)
-    // let lang = Local.get('lang')
-    // let keys = Object.keys(adminI18n[lang])
-    // let bannerArr: Array<string> = []
-    // let textAnnouncement: Array<string> = []
-    // keys.map((e: string) => {
-    //     if (e.indexOf('pc_admin_banner_list') != -1) {
-    //         bannerArr.push(e)
-    //     }
-    //     if (e.indexOf('system_notice_title') != -1) {
-    //         textAnnouncement.push(e)
-    //     }
-    // })
-    // console.log(bannerArr);
-
     await Page(pinia).setSettings(settings)
     await Page(pinia).setAdminI18n(adminI18n)
     // 获取未读数量
@@ -45,8 +31,6 @@ export const getSetting = async () => {
     setInterval(() => {
         Page(pinia).getUnread(false)
     }, 10000)
-    // await Page(pinia).setBannerArr(bannerArr)
-    // await Page(pinia).setTextAnnouncement(textAnnouncement)
     return settings
 }
 const settings = await getSetting()
