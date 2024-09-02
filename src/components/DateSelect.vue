@@ -61,16 +61,19 @@ const chooseTime = () => { // 手动选择时间
 const now = new Date();
 const disabledDate = (d: any) => {
     // 获取今天的日期
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    // 获取今天24:00 (即明天的0:00) 的时间戳
-    const endOfToday = today.getTime() + 48 * 60 * 60 * 1000;
+    const dayOfWeek = now.getDay();
+    // 计算本周一的日期
+    const distanceToMonday = (dayOfWeek + 6) % 7;  // 计算从今天到上一个星期一的天数
+    const thisMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - distanceToMonday, 0, 0, 0);
+    // 计算下周一的日期
+    const nextMonday = new Date(thisMonday.getFullYear(), thisMonday.getMonth(), thisMonday.getDate() + 8, 0, 0, 0);
 
     // 获取90天前的时间戳
     const ninetyDaysAgo = now.getTime() - 90 * 24 * 60 * 60 * 1000;
 
     // 判断是否在今天24:00之前且在90天以内
-    return !(d < endOfToday && d >= ninetyDaysAgo);
+    return !(d < nextMonday && d >= ninetyDaysAgo);
 }
 
 const timeObj = reactive({ // 选择的时间对象
