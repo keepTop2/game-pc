@@ -365,7 +365,11 @@ const handleCaptchaReceive = (captcha: any) => {
 
 const loginSuccess = async (message: any) => {
   state.loading = false
-  localStorage.setItem('readed_notice_ids', '[]')
+  const last_user_id = localStorage.getItem('last_user_id')
+  if (last_user_id != message.user_id) {
+    localStorage.setItem('readed_notice_ids', '[]')
+  }
+  localStorage.setItem('last_user_id', message.user_id)
   if (message.code == 4444) {
     return;
   }
