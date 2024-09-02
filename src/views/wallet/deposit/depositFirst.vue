@@ -159,8 +159,8 @@
             </n-button>
           </div>
           <div class="cz_tips">
-            <div v-show="form.amount" class="txt"> {{ t('deposit_page_arrival') }}：{{ arriveAmount
-              }}
+            <div v-show="form.amount" class="txt">
+              {{ t('deposit_page_arrival') }}：{{ arriveAmount}} {{t('accountsRecord_page_dong')}}
             </div>
             <n-flex justify="center" class="tip">
               <span class="icon"></span>
