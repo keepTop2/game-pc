@@ -123,7 +123,7 @@ import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
-import { Net, getSetting } from '@/net/Net';
+import { Net, getLocale } from '@/net/Net';
 import ServiceModal from './ServiceModal/ServiceModal.vue'
 const { t } = useI18n()
 const page = Page(pinia);
@@ -361,7 +361,7 @@ const onHander_system_notice = async (message: any) => {
       return b.priority - a.priority
     })
     if (list.length) {
-      await getSetting() // 获取最新翻译文案
+      await getLocale() // 获取最新翻译文案
       await User(pinia).setNoticeList(list)
       User(pinia).setNotice(true)
     }
@@ -398,7 +398,7 @@ const onHandler_system_msg = async (m: any) => {
           priority: m.priority,
           type: m.type,
         }]
-        await getSetting() // 获取最新翻译文案
+        await getLocale() // 获取最新翻译文案
         await User(pinia).setNoticeList(list)
         User(pinia).setNotice(true)
       }
