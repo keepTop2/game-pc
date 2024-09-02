@@ -72,6 +72,7 @@ const useWalletInfo = () => {
     console.log('bankList--------', res)
     console.log('userInfo--------', userInfo.value)
     console.log('roleInfo--------', roleInfo.value)
+    res.bank_card_info_list = res.bank_card_info_list.reverse(); // 反转，需要跟支付管理那里一致
     myBankList.value = res;
     // // 未绑定银行卡跳转到绑定银行卡
     if (!myBankList.value.bank_card_info_list || myBankList.value.bank_card_info_list.length == 0) {

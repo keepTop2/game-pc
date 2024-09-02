@@ -279,9 +279,9 @@ const bankCheck = (index: number, key: string) => {
   // console.log(data[index], '--data[index][key]-');
 };
 
-const handleBankId = (params: any) => {
+const handleBankId = (item: any) => {
   const req = NetPacket.req_set_default_bankcard();
-  req.bankcard = params.bank_id
+  req.bankcard = `${item.bank_id}_${item.account_number}`;
   Net.instance.sendRequest(req);
 }
 
@@ -346,6 +346,16 @@ const selectBank = (e: any) => {
   form.value.bankName = e.label;
   onCloseBank()
 }
+// 设置默认银行
+const handleDefaultBank = (res: any) => {
+  if (res.rlt === 0) {
+    Message.success(t('proxy_page_caoZuo'))
+    getMyBankList();
+    onClose(); // 关闭窗口
+  } else {
+    Message.error(t('proxy_page_caoZuoFail'))
+  }
+}
 
 watch(() => showBankListModal.value, (n) => {
   // 打开
@@ -367,11 +377,13 @@ onMounted(() => {
   // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
   // 设置默认
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, handleDefaultBank);
 })
 
 onUnmounted(() => {
   // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, null);
 })
 
 
