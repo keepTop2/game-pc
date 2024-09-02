@@ -8,11 +8,11 @@
                     <n-select class="search_select" @update:value="statusChange" v-model:value="params.status"
                         :options="optionsStatus" />
                 </n-flex>
-                <n-flex style="margin-left:80px" :wrap="false" :align="'center'">
+                <!-- <n-flex style="margin-left:80px" :wrap="false" :align="'center'">
                     <div>{{ t('rechargeRecord_page_currency') }}</div>
                     <n-select class="search_select" @update:value="currencyChange" v-model:value="params.currency"
                         :options="optionsCurrency" />
-                </n-flex>
+                </n-flex> -->
             </n-flex>
 
             <n-flex class="search_row" :align="'center'">
@@ -50,7 +50,7 @@
 import { reactive, computed, onUnmounted, ref } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
-import { WithdrawStatusMap, CurrencyMap, WithdrawStatusColorMap } from "@/enums/walletEnum"
+import { WithdrawStatusMap, WithdrawStatusColorMap } from "@/enums/walletEnum"
 import DateSelect from "@/components/DateSelect.vue"
 import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";
@@ -78,16 +78,16 @@ const optionsStatus = computed(() => { // 状态
     options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
     return options
 })
-const optionsCurrency = computed(() => { // 法币
-    const options = Object.keys(CurrencyMap).map((key: string) => {
-        return {
-            label: CurrencyMap[key],
-            value: Number(key)
-        }
-    })
-    options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
-    return options
-})
+// const optionsCurrency = computed(() => { // 法币
+//     const options = Object.keys(CurrencyMap).map((key: string) => {
+//         return {
+//             label: CurrencyMap[key],
+//             value: Number(key)
+//         }
+//     })
+//     options.unshift({ value: 0, label: t('rechargeRecord_page_allHb') })
+//     return options
+// })
 
 const params: any = reactive({ // 参数
     page: 1,
@@ -154,10 +154,10 @@ const statusChange = (value: string) => { // 切换状态
     params.status = value
     queryData()
 }
-const currencyChange = (value: string) => { // 切换货币
-    params.currency = value
-    queryData()
-}
+// const currencyChange = (value: string) => { // 切换货币
+//     params.currency = value
+//     queryData()
+// }
 const queryData = () => { // 查询
     result.total_page = 0
     result.list = []
