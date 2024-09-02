@@ -16,8 +16,11 @@ import { User } from "@/store/user";
 export const getSetting = async () => {
     const settingsRes = await fetch('/settings.json?' + new Date().getTime())
     const settings = await settingsRes.json()
-    const adminI18nRes = await fetch(settings.admin_i18n_add_url)
+    const adminI18nRes = await fetch(settings.admin_i18n_add_url + new Date().getTime())
     const adminI18n = await adminI18nRes.json()
+    const homeGameDataRes = await fetch(settings.home_game_data + new Date().getTime())
+    const homeGameData = await homeGameDataRes.json()
+    await Page(pinia).setHomePageGameData(homeGameData)
     i18n.global.mergeLocaleMessage('zh', adminI18n.zh)
     i18n.global.mergeLocaleMessage('vn', adminI18n.vn)
     i18n.global.mergeLocaleMessage('en', adminI18n.en)

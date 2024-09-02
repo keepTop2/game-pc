@@ -20,6 +20,7 @@ interface PageState {
     adminI18n: any,
     lang: string;
     unread: number,
+    homeGameData: any
 }
 const languages: any = {
     zh: 'zh',
@@ -43,6 +44,7 @@ export const Page = defineStore('page', {
         adminI18n: null,
         lang: 'zh',
         unread: 0,
+        homeGameData: null
     }),
     actions: {
         // 获取未读消息数量
@@ -74,6 +76,9 @@ export const Page = defineStore('page', {
         },
         async setBannerArr(arr: Array<string>) {
             this.bannerArr = arr
+        },
+        async setHomePageGameData(data: any) {
+            this.homeGameData = data
         },
         async setSettings(value: any) {
             this.settings = value
