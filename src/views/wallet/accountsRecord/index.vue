@@ -106,7 +106,11 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let val = row[key]
     switch (key) {
         case "b_type":
-            rs = t('bType' + (val > 100 ? 101 : val))
+            if (row['remark'] && t('bType' + row['remark']) && t('bType' + row['remark']) != ('bType' + row['remark'])) {
+                rs = t('bType' + row['remark'])
+            } else {
+                rs = t('bType' + (val > 100 ? 101 : val))
+            }
             break
         case "item":
             if (val == 3) {
