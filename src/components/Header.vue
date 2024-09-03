@@ -361,6 +361,8 @@ const onHander_system_notice = async (message: any) => {
       return b.priority - a.priority
     })
     if (list.length) {
+      console.log(1111);
+
       await getLocale() // 获取最新翻译文案
       await User(pinia).setNoticeList(list)
       User(pinia).setNotice(true)
@@ -399,6 +401,8 @@ const onHandler_system_msg = async (m: any) => {
           type: m.type,
         }]
         await getLocale() // 获取最新翻译文案
+        console.log(2222);
+
         await User(pinia).setNoticeList(list)
         User(pinia).setNotice(true)
       }
