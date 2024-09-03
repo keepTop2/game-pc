@@ -74,6 +74,7 @@ export default {
     home_page_more: 'Hơn',
     // 登录弹窗
     home_page_accountLogin: 'Đăng nhập tài khoản',
+    home_page_loginSuccess: 'Đăng nhập thành công',
     home_page_emailLogin: 'Email đăng nhập',
     home_page_phoneNumberLogin: 'Đăng nhập bằng số điện thoại di động',
     home_page_rememberPassword: 'Ghi nhớ mật khẩu',

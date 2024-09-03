@@ -7,7 +7,7 @@
     <div class="login_form">
       <div class="tab">
         <span :class="state.active == i ? 'active' : ''" v-for="(tab, i) in tabList" :key="i" @click="changeTab(i)">{{
-          t(tab.name) }}</span>
+        t(tab.name) }}</span>
       </div>
       <n-form :model="state.login" :rules="state.loginRules" :show-label="false" ref="loginFormRef">
         <template v-for="item in state.loginList">
@@ -375,7 +375,7 @@ const loginSuccess = async (message: any) => {
   }
   if (message.code == 1) {
     if (message.message) {
-      Message.success(t(message.message))
+      Message.success(t('home_page_loginSuccess'))
     }
     // if (state.rememberPassword && state.active == 0) {
     //   Local.set('userName', state.login.email)

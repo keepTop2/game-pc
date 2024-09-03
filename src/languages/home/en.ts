@@ -73,6 +73,7 @@ export default {
     home_page_more: 'More',
     // 登录弹窗
     home_page_accountLogin: 'Account login',
+    home_page_loginSuccess: 'Login successful',
     home_page_emailLogin: 'Email login',
     home_page_phoneNumberLogin: 'Phone number login',
     home_page_rememberPassword: 'Remember password',

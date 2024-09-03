@@ -77,6 +77,7 @@ export default {
 
     // 登录弹窗
     home_page_accountLogin: '账号登录',
+    home_page_loginSuccess: '登录成功',
     home_page_emailLogin: '邮箱登录',
     home_page_phoneNumberLogin: '手机号登录',
     home_page_rememberPassword: '记住密码',
