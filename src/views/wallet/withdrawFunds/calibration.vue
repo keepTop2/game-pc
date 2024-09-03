@@ -156,20 +156,19 @@
 
                 <div class="capitalForm" v-if="!capitalError">
                   <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w_full choose-bank">
-                    <!-- 银行卡充值独有 -->
                     <n-form-item :label="t('paymentManagement_page_setPwd')" path="capitalPin">
-                      <n-input size="large" v-model:value="formCapital.capitalPin" :placeholder="t('paymentManagement_page_plSetPayPwd')">
+                      <n-input size="large" v-model:value="formCapital.capitalPin" :type="changeRightInfo.pwd1.type" :placeholder="t('paymentManagement_page_plSetPayPwd')">
                         <template #suffix>
-                          <a class="refresh_icon"></a>
+                          <iconpark-icon @click="iconClick('pwd1')" :icon-id="changeRightInfo.pwd1.icon" color="#8e82c2"
+                                         size="1.5em"></iconpark-icon>
                         </template>
                       </n-input>
                     </n-form-item>
-
-
                     <n-form-item :label="t('paymentManagement_page_repPwd')" path="capitalPinAgain">
-                      <n-input size="large" v-model:value="formCapital.capitalPinAgain" :placeholder="t('home_page_secPwd')">
+                      <n-input size="large" v-model:value="formCapital.capitalPinAgain" :type="changeRightInfo.pwd2.type" :placeholder="t('home_page_secPwd')">
                         <template #suffix>
-                          <a class="refresh_icon"></a>
+                          <iconpark-icon @click="iconClick('pwd2')" :icon-id="changeRightInfo.pwd2.icon" color="#8e82c2"
+                                         size="1.5em"></iconpark-icon>
                         </template>
                       </n-input>
                     </n-form-item>
@@ -261,6 +260,25 @@ const stepTuple = ref({
 const bkList = ref<TTabList>([...bankListInfo.value]);
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 const mySecBankList = ref(props.myBankList);
+const changeRightInfo: any = ref({
+  pwd1: {
+    icon: 'Group39364',
+    type: 'password'
+  },
+  pwd2: {
+    icon: 'Group39364',
+    type: 'password'
+  }
+})
+const iconClick = (type: any) => {
+  if (changeRightInfo.value[type].icon == "Group39364") {
+    changeRightInfo.value[type].type = "text"
+    changeRightInfo.value[type].icon = "Group39365"
+  } else {
+    changeRightInfo.value[type].type = "password"
+    changeRightInfo.value[type].icon = "Group39364"
+  }
+}
 
 const openModal = () => {
   showModal.value = !showModal.value;

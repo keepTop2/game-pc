@@ -277,6 +277,7 @@ export default {
   deposit_page_exchange: '交易所',
   deposit_page_toExchange: '访问交易所',
   deposit_page_minDeposit: '最低充值',
+  deposit_page_goToDeposit: '确定充值？',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',

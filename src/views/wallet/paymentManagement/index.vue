@@ -8,9 +8,9 @@
           <iconpark-icon @click="() => removeBank(item)" icon-id="Group39368" color="#fff" size="0.7em"></iconpark-icon>
         </span>
 
-        <n-flex justify="space-between" class="abs number">
+        <n-flex justify="space-between" align="flex-end" class="abs number">
           <div class="">
-            <!--          <div>{{maskNameString(myBankName)}}</div>-->
+            <div>{{item.bank_name}}</div>
             {{maskString(item.account_number)}}
           </div>
           <n-flex class="list_item_r">

@@ -159,8 +159,8 @@
             </n-button>
           </div>
           <div class="cz_tips">
-            <div v-show="form.amount" class="txt"> {{ t('deposit_page_arrival') }}：{{ arriveAmount
-              }}
+            <div v-show="form.amount" class="txt">
+              {{ t('deposit_page_arrival') }}：{{ arriveAmount}} {{t('accountsRecord_page_dong')}}
             </div>
             <n-flex justify="center" class="tip">
               <span class="icon"></span>
@@ -212,7 +212,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
-import { Message } from '@/utils/discreteApi';
+import { Dialog, Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType } from '@/utils/others';
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
@@ -305,12 +305,15 @@ const exchangeArr = [
   { label: 'OKX', value: 'https://www.okx.com/zh-hans/price/tether-usdt' },
   { label: 'HTX', value: 'https://www.htx.com/zh-cn/fiat-crypto/one-trade/buy-usdt-vnd' },
 ];
+// const successModal = ref(false);
+const depositResult = ref({url: ''});
 
 const openWin = (url: any) => {
   window.open(url);
 };
 
 // 计算预计到账金额
+// 刮刮卡：比如这里充100000，按80%到账就是到账8w，再按8w参与优惠, 优惠是赠送100%  也就是再送8w
 const countArriveMon = () => {
   let zsMon = 0; // 赠送的金额
   if (!curDiscount.value || !curDiscount.value?.discount_ID) {
@@ -322,17 +325,22 @@ const countArriveMon = () => {
     }
     return;
   }
+  let czMount = Number(form.value.amount); // 输入的充值金额
+  // 刮刮卡充值方式，只到账 80%
+  if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('scratchcard') > -1) {
+    czMount = czMount * 0.8;
+  }
   // 按比例赠送金额
   if (curDiscount.value.ratio > 0) {
-    zsMon = Number(form.value.amount) < curDiscount.value.threshold ? 0 : Number(form.value.amount) * (curDiscount.value.ratio / 100);
+    zsMon = czMount < curDiscount.value.threshold ? 0 : czMount * (curDiscount.value.ratio / 100);
     // 最高赠送金额
     if (zsMon > curDiscount.value.limit) {
       zsMon = curDiscount.value.limit;
     }
   } else { // 按金额
-    zsMon = Number(form.value.amount) < curDiscount.value.threshold ? 0 : curDiscount.value.limit;
+    zsMon = czMount < curDiscount.value.threshold ? 0 : curDiscount.value.limit;
   }
-  arriveAmount.value = Number(form.value.amount) + Number(zsMon);
+  arriveAmount.value = czMount + Number(zsMon);
 };
 // 计算usdt 金额
 const countUsdtMon = () => {
@@ -523,12 +531,27 @@ const handleDepositSubmit = (res: any) => {
     // Message.success(t('deposit_page_depSuccess'))
     form.value.amount = 0; // 重置
     Local.remove('curDiscountData'); // 重置
-    if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
-      setTimeout(() => {
-        onCloseSec(); // 关闭窗口
-        window.open(res.url);
-      }, 1000);
-    }
+    depositResult.value = res;
+    // successModal.value = true;
+    // if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
+    //   setTimeout(() => {
+    //     onCloseSec(); // 关闭窗口
+    //     window.open(res.url);
+    //   }, 1000);
+    // }
+    Dialog.warning({
+      showIcon: false,
+      title: t('paymentManagement_page_tips'),
+      content: t('deposit_page_goToDeposit'),
+      positiveText: t('home_page_confirm'),
+      // negativeText: t('home_page_cancel'),
+      onPositiveClick: () => {
+        openNewPage();
+      },
+      onNegativeClick: () => {
+
+      },
+    })
 
   }
 };
@@ -564,6 +587,14 @@ const handleDepositBank = (res: any) => {
 const chooseSmWay = (data: any) => {
   Local.set('curExplainWay', data);
   curWay.value = data;
+}
+const openNewPage = () => {
+  const res = depositResult.value;
+  if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
+    onCloseSec(); // 关闭窗口
+    window.open(res.url);
+    // successModal.value = false;
+  }
 }
 
 watch(
