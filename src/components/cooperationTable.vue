@@ -145,9 +145,9 @@ const result: any = reactive({ // 结果
 const getTotal = (key: string) => { // 获取总数
     let total = 0
     result.list.forEach((item: any) => {
-        if (userInfo.value.full_name != item.username) {
+        // if (userInfo.value.full_name != item.username) {
             total += Number(item[key])
-        }
+        // }
     })
     if (isNaN(total)) return '-'
     return Number(total).toLocaleString()

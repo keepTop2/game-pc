@@ -28,7 +28,7 @@
                   {{ t(`api_${item.payname}`) }}
                   <a class="wh_icon" @click="onCloseSm(item)"></a>
                 </n-flex>
-                <div class="bank_limit">{{ item.minrecharge }} ~ {{ item.maxrecharge }}</div>
+                <div class="bank_limit">{{ verifyNumberComma(String(item.minrecharge)) }} ~ {{ verifyNumberComma(String(item.maxrecharge)) }}</div>
               </div>
             </n-flex>
             <div class="item_list_r">
@@ -95,15 +95,16 @@
               <!-- 选择优惠后 -->
               <div v-if="form.discount" class="choose-yh">
                 <div>
-                  {{ curDiscount.ratio > 0 ? t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
-                  }}：{{
-                    curDiscount.limit }}
+                  {{ curDiscount.ratio > 0 ?
+                  t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
+                  }}
+                  ：{{ verifyNumberComma(String(curDiscount.limit)) }}
                 </div>
                 <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio')
                   }}：{{ curDiscount.ratio }}%
                 </div>
                 <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
-                <div>{{ t('deposit_page_minimum') }}：{{ curDiscount.threshold }}</div>
+                <div>{{ t('deposit_page_minimum') }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}</div>
               </div>
             </n-form-item>
             <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
@@ -160,7 +161,7 @@
           </div>
           <div class="cz_tips">
             <div v-show="form.amount" class="txt">
-              {{ t('deposit_page_arrival') }}：{{ arriveAmount}} {{t('accountsRecord_page_dong')}}
+              {{ t('deposit_page_arrival') }}：{{ verifyNumberComma(String(arriveAmount), false)}} {{t('accountsRecord_page_dong')}}
             </div>
             <n-flex justify="center" class="tip">
               <span class="icon"></span>
@@ -213,7 +214,7 @@ import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Dialog, Message } from '@/utils/discreteApi';
-import { bankPayMethods, bankPayType } from '@/utils/others';
+import { bankPayMethods, bankPayType, verifyNumberComma } from '@/utils/others';
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 

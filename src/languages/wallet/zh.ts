@@ -180,7 +180,7 @@ export default {
   paymentManagement_page_errorAdd: '地址格式不正确',
   paymentManagement_page_tip1: '请输入正确的账号!',
   paymentManagement_page_tip2: '新增成功!',
-  paymentManagement_page_tip3: '已经存在!',
+  paymentManagement_page_tip3: '银行卡已被绑定',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',

@@ -7,7 +7,7 @@ export default {
   level_page_getScu: '领取成功',
   level_page_getFail: '领取失败',
   level_page_notAward: '没有可领取奖励',
-  level_page_pRule: '会以下货币单位为VND',
+  level_page_pRule: '以下货币单位为VND',
   level_page_pBet: '投注',
   level_page_bRequire: '保级要求',
   level_page_wu: '无',

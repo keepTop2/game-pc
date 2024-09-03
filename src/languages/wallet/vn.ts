@@ -180,7 +180,7 @@ export default {
   paymentManagement_page_errorAdd: 'Định dạng địa chỉ không chính xác',
   paymentManagement_page_tip1: 'Vui lòng nhập đúng số tài khoản!',
   paymentManagement_page_tip2: 'Thêm thành công!',
-  paymentManagement_page_tip3: 'Đã tồn tại!',
+  paymentManagement_page_tip3: 'Thẻ ngân hàng đã bị ràng buộc',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Loại tiền tệ',
