@@ -47,7 +47,8 @@ const onClose = () => walletInfo.setShowRedeemCode(false);
 const onSubmit = () => {
   formRef.value?.validate((err: any) => {
     if (!err) {
-      if (!form.data.code) {
+      const code =String (form.data.code).trim()
+      if (!code) {
         return Message.error(t('redeemCode_page_enterCode'))
       }
       handleSubmit();
