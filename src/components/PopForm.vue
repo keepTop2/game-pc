@@ -40,7 +40,7 @@
                   </template>
                 </n-input>
                 <n-button :bordered="false" :loading="item.loading" @click="submitSend(item)"
-                  v-if="item.slot && item.type == 'code'" class="btn" :disabled="item.disabled">{{
+                  v-if="item.slot && item.type == 'code'" class="btn" :disabled="item.btnDisabled">{{
     isNaN(item.timeText) ? t(item.timeText) : item.timeText
 
   }}</n-button>

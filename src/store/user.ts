@@ -79,6 +79,7 @@ export const User = defineStore('userInfo', {
     async setForget(value: boolean) {
       this.isForget = value;
     },
+
     async setNotice(value: boolean) {
       this.isNotice = value;
     },

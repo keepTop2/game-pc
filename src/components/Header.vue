@@ -47,7 +47,7 @@
           <div v-if="item.url == 'sq'">
             <p v-for="(v, j) in settings.community_list" :key="j" class="community_box" @click="openLink(v)">
               <iconpark-icon :icon-id="v.icon" color="#fff" size="1rem"></iconpark-icon>
-              <span>{{ v.name_key }}</span>
+              <span>{{ t(v.name_key) }}</span>
             </p>
           </div>
           <span v-else class="text_color">{{ t(item.tips) }}</span>
