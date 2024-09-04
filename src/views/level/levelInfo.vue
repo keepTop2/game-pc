@@ -198,7 +198,7 @@ const levelDyData = ref(
       child: [
         { name: 'level_page_secretary', icon: 'level_sw', levelArr: [8, 9, 10] },
         { name: 'level_page_reception', icon: 'level_gb', levelArr: [8, 9, 10] },
-        { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [8, 9, 10] },
+        // { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [8, 9, 10] },
       ],
     },
 

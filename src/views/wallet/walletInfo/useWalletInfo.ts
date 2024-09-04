@@ -12,7 +12,7 @@ import { Net } from '@/net/Net';
 import { TVIPLevelReward } from '@/utils/types';
 import { watch } from 'vue';
 import { Local } from '@/utils/storage';
-import { getCurrencyValue } from '@/utils/others';
+import { getCurrencyValue, verifyNumberComma } from '@/utils/others';
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 // import { useRoute } from 'vue-router';
@@ -46,7 +46,7 @@ const useWalletInfo = () => {
   const gameMoney = ref<number>(Number(roleInfo.value.money)); // 我的钱包余额
   const bankMoney = ref<number>(Number(roleInfo.value.bank_money)); // 保险柜余额
   const totalMoney = ref<number>(gameMoney.value + bankMoney.value);
-  const totalMoneyTxt = ref<any>(totalMoney.value);
+  const totalMoneyTxt = ref<any>(verifyNumberComma(String(totalMoney.value)));
   const target_bet_money = ref(0);
   const target: any = ref({ bet_money: 0 })
   const tranType = ref('out'); // 转账类型 out, in
@@ -220,7 +220,7 @@ const useWalletInfo = () => {
     totalMoney.value = gameMoney.value + bankMoney.value;
     // totalMoneyTxt.value = totalMoney.value;
     if (eyeOpen.value) {
-      totalMoneyTxt.value = totalMoney.value
+      totalMoneyTxt.value = verifyNumberComma(String(totalMoney.value))
     } else {
       totalMoneyTxt.value = '******'
     }
@@ -256,7 +256,7 @@ const useWalletInfo = () => {
     if (eyeOpen.value) {
       totalMoneyTxt.value = '******'
     } else {
-      totalMoneyTxt.value = totalMoney.value
+      totalMoneyTxt.value = verifyNumberComma(String(totalMoney.value))
     }
     eyeOpen.value = !eyeOpen.value
   }

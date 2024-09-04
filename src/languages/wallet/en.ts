@@ -180,7 +180,7 @@ export default {
   paymentManagement_page_errorAdd: 'The address format is incorrect',
   paymentManagement_page_tip1: 'Please enter the correct account number!',
   paymentManagement_page_tip2: 'Add successfully!',
-  paymentManagement_page_tip3: 'Already exists!',
+  paymentManagement_page_tip3: 'The bank card has been bound',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',

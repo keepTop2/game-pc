@@ -70,7 +70,7 @@
         <n-progress class="processBar" type="line" :color="themeVars.warningColor" :percentage="target.progress"
           :show-indicator="false" :indicator-text-color="themeVars.warningColor" />
         <div class="processFooter">
-          <p class="size3">{{ t('walletInfo_page_needBet') + ': ' + target.bet_money }}</p>
+          <p class="size3">{{ t('walletInfo_page_needBet') + ': ' + verifyNumberComma(String(target.bet_money)) }}</p>
           <!--<p class="size3"><a @click="openLevelRule"><u>{{ t('walletInfo_page_rule') }}</u></a></p>-->
         </div>
       </div>
@@ -99,7 +99,7 @@
             <n-flex justify="space-between" class="top_mon_box">
               <n-flex class="top_mon_box_l">
                 <span class="icon"></span>
-                <span class="m-txt"> {{ gameMoney }} </span>
+                <span class="m-txt"> {{ verifyNumberComma(String(gameMoney)) }} </span>
               </n-flex>
               <!--              <n-flex class="top_mon_box_r">
                 <div class="automatic">
@@ -123,7 +123,7 @@
             <n-flex justify="space-between" class="top_mon_box">
               <n-flex class="top_mon_box_l">
                 <span class="icon icon_bxg"></span>
-                <span class="m-txt"> {{ bankMoney }} </span>
+                <span class="m-txt"> {{ verifyNumberComma(String(bankMoney)) }} </span>
               </n-flex>
               <n-flex class="top_mon_box_r">
 
@@ -212,6 +212,7 @@ import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import pinia from '@/store';
 import { Page } from '@/store/page';
+import { verifyNumberComma } from '@/utils/others.ts';
 
 // import Transfer from '@/views/wallet/components/transfer/index.vue';
 const formatter = (value: any) => {
