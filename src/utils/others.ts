@@ -181,3 +181,8 @@ export function sortAndGroupByLetter(arr:any, prop:string) {
     // 返回分组后的对象，包含字母数组和对应的分组数组
     return { list, letters, grouped };
   }
+
+// 去除千位符
+export const removeComma = (val: any) => {
+  return val ? Number(val.replaceAll(",", "")) : 0;
+}

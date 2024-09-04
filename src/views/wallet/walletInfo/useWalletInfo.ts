@@ -12,7 +12,7 @@ import { Net } from '@/net/Net';
 import { TVIPLevelReward } from '@/utils/types';
 import { watch } from 'vue';
 import { Local } from '@/utils/storage';
-import { getCurrencyValue, verifyNumberComma } from '@/utils/others';
+import { getCurrencyValue, verifyNumberComma, removeComma } from '@/utils/others';
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 // import { useRoute } from 'vue-router';
@@ -105,16 +105,17 @@ const useWalletInfo = () => {
   }
 
   const handleSubmit = () => {
-    if (!tranMoney.value) {
+    const numMon = removeComma(tranMoney.value);
+    if (!numMon) {
       return Message.error(t('transfer_page_inputAmount'))
     }
     // 转入
     if (tranType.value === 'in') {
-      if (tranMoney.value > gameMoney.value) {
+      if (numMon > gameMoney.value) {
         return Message.error(t('transfer_page_notEnough'))
       }
     } else {
-      if (tranMoney.value > bankMoney.value) {
+      if (numMon > bankMoney.value) {
         return Message.error(t('transfer_page_notEnough'))
       }
     }
@@ -130,7 +131,7 @@ const useWalletInfo = () => {
   // 中心钱包转账到游戏钱包
   const centerToGame = () => {
     const req = NetPacket.req_bank_take();
-    req.money = tranMoney.value;
+    req.money = removeComma(tranMoney.value);
     Net.instance.sendRequest(req);
   }
   const handleCenterToGame = (res: any) => {
@@ -138,7 +139,7 @@ const useWalletInfo = () => {
       loading.value = false;
     }, 300)
     if (res.is_success === 1) {
-      tranMoney.value = 0 // 清空金额
+      tranMoney.value = '' // 清空金额
       Message.success(t('proxy_page_caoZuo'))
     } else {
       Message.error(t('proxy_page_caoZuoFail'))
@@ -147,7 +148,7 @@ const useWalletInfo = () => {
   // 游戏钱包转账到中心钱包
   const GameToCenter = () => {
     const req = NetPacket.req_bank_save();
-    req.money = tranMoney.value;
+    req.money = removeComma(tranMoney.value);
     Net.instance.sendRequest(req);
   }
   const handleGameToCenter = (res: any) => {
@@ -155,7 +156,7 @@ const useWalletInfo = () => {
       loading.value = false;
     }, 300)
     if (res.is_success === 1) {
-      tranMoney.value = 0 // 清空金额
+      tranMoney.value = '' // 清空金额
       Message.success(t('proxy_page_caoZuo'))
     } else {
       Message.error(t('proxy_page_caoZuoFail'))
@@ -276,42 +277,48 @@ const useWalletInfo = () => {
 
   // 转账类型切换
   const changeTranType = (type: any) => {
-    tranMoney.value = 0; // 重置为 0
+    tranMoney.value = ''; // 重置为 0
     tranType.value = type;
     countMonRate();
   }
   // 选择全部金额
   const allTranferMon = () => {
     if (tranType.value === 'in') {
-      tranMoney.value = gameMoney.value
+      tranMoney.value = verifyNumberComma(String(gameMoney.value))
     } else {
-      tranMoney.value = bankMoney.value
+      tranMoney.value = verifyNumberComma(String(bankMoney.value))
     }
     countMonRate();
   }
   // 选择快捷金额
   const chooseFastMon = (e: any) => {
     if (!tranMoney.value) {tranMoney.value = 0}
-    tranMoney.value = Number(tranMoney.value) + e;
+    tranMoney.value = removeComma(tranMoney.value) + e;
+    tranMoney.value = verifyNumberComma(String(tranMoney.value))
     countMonRate();
   }
   // 金额拖动
   const formatTooltip = (value: any) => {
     if (tranType.value === 'in') {
-      tranMoney.value = parseInt(String((gameMoney.value * value) / 100))
+      tranMoney.value = verifyNumberComma(String((gameMoney.value * value) / 100))
     } else {
-      tranMoney.value = parseInt(String((bankMoney.value * value) / 100))
+      tranMoney.value = verifyNumberComma(String((bankMoney.value * value) / 100))
     }
     slideStr.value = `${value}%`
     return slideStr.value
   }
+  const inputBlur = () => {
+    tranMoney.value = verifyNumberComma(String(tranMoney.value))
+  }
   // 输入或者点击计算拖动比例
   const countMonRate = () => {
+    tranMoney.value = removeComma(tranMoney.value)
     if (tranType.value === 'in') {
       slideValue.value = gameMoney.value ? parseInt(String((tranMoney.value / gameMoney.value) * 100)) : 0
     } else {
       slideValue.value = bankMoney.value ? parseInt(String((tranMoney.value / bankMoney.value) * 100)) : 0
     }
+    tranMoney.value = verifyNumberComma(String(tranMoney.value))
     slideStr.value = slideValue.value > 100 ? `100%` : `${slideValue.value}%`;
   }
 
@@ -426,6 +433,7 @@ const useWalletInfo = () => {
     getNewMon,
     getMyBankList,
     countMonRate,
+    inputBlur,
   };
 }
 
