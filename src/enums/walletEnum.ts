@@ -4,20 +4,24 @@ const t = i18n.global.t;
 /**
  * @description: 充值状态
  */
-export const RechagreStatusMap: any = {
-    '0': t('rechagre_status_map_0'),
-    '-1': t('rechagre_status_map__1'),
-    '1': t('rechagre_status_map_1'),
-    '2': t('rechagre_status_map_2'),
+export const RechagreStatusMap: any = () => {
+    return {
+        '0': t('rechagre_status_map_0'),
+        '-1': t('rechagre_status_map__1'),
+        '1': t('rechagre_status_map_1'),
+        '2': t('rechagre_status_map_2'),
+    }
 }
 
 /**
  * @description: 取款状态
  */
-export const WithdrawStatusMap: any = {
-    '1': t('withdraw_status_map_1'),
-    '2': t('withdraw_status_map_2'),
-    '3': t('withdraw_status_map_3'),
+export const WithdrawStatusMap: any = () => {
+    return {
+        '1': t('withdraw_status_map_1'),
+        '2': t('withdraw_status_map_2'),
+        '3': t('withdraw_status_map_3'),
+    }
 }
 export const WithdrawStatusColorMap: any = {
     '0': '#FABB2D',
@@ -30,41 +34,49 @@ export const WithdrawStatusColorMap: any = {
 /**
  * @description: 代理账变类型
  */
-export const ProxyAccountTypeMap: any = {
-    '1': '提现',
-    '2': '转账',
+export const ProxyAccountTypeMap: any = () => {
+    return {
+        '1': t('mine_withdraw'),
+        '2': t('Transfer'),
+    }
 }
 
 /**
  * @description: 转账类型
  */
 export const AccountTypeMap: any = {
-    '80': '邮件获取',
-    '90': '保险柜-携带钱包',
-    '91': '携带钱包-保险柜'
+    '80': t('emailGet'),
+    '90': t('bType12'),
+    '91': t('bType13')
 }
 /**
  * @description: 洗码记录类型
  */
-export const WashTypeMap: any = {
-    '-1': t('wash_type_map__1'),
-    '9999': t('wash_type_map_9999'),
+export const WashTypeMap: any = () => {
+    return {
+        '-1': t('wash_type_map__1'),
+        '9999': t('wash_type_map_9999'),
+    }
 }
 /**
  * @description: 钱包类型
  */
-export const WalletTypeMap: any = {
-    '1': t('wallet_type_map_1'),
-    '2': t('wallet_type_map_2'),
-    '3_0': t('wallet_type_map_3_0'),
-    '3_1': t('wallet_type_map_3_1'),
+export const WalletTypeMap: any = () => {
+    return {
+        '1': t('wallet_type_map_1'),
+        '2': t('wallet_type_map_2'),
+        '3_0': t('wallet_type_map_3_0'),
+        '3_1': t('wallet_type_map_3_1'),
+    }
 }
 
 /**
  * @description: 货币
  */
-export const CurrencyMap: any = {
-    '1': t('vietnamese_dong'),
+export const CurrencyMap: any = () => {
+    return {
+        '1': t('vietnamese_dong'),
+    }
 }
 
 /**
@@ -145,9 +157,11 @@ export const PlatformValueMap: any = {
 /**
  * @description: 稽核状态
  */
-export const AuditStatusMap: any = {
-    '1': t('audit_status_map_1'),
-    '2': t('audit_status_map_2'),
+export const AuditStatusMap: any = () => {
+    return {
+        '1': t('audit_status_map_1'),
+        '2': t('audit_status_map_2'),
+    }
 }
 
 export const ETransfer: any = {

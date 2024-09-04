@@ -77,9 +77,9 @@ const tableHeader = computed(() => {
 })
 
 const optionsStatus = computed(() => { // 状态
-    const options = Object.keys(RechagreStatusMap).map((key: string) => {
+    const options = Object.keys(RechagreStatusMap()).map((key: string) => {
         return {
-            label: RechagreStatusMap[key],
+            label: RechagreStatusMap()[key],
             value: Number(key)
         }
     })
@@ -87,9 +87,9 @@ const optionsStatus = computed(() => { // 状态
     return options
 })
 const optionsCurrency = computed(() => { // 法币
-    const options = Object.keys(CurrencyMap).map((key: string) => {
+    const options = Object.keys(CurrencyMap()).map((key: string) => {
         return {
-            label: CurrencyMap[key],
+            label: CurrencyMap()[key],
             value: Number(key)
         }
     })
@@ -129,10 +129,10 @@ const rowHandle = (row: any, key: string, subRow: boolean) => { // 格子数据�
             }
             break
         case "order_status":
-            rs = RechagreStatusMap[val]
+            rs = RechagreStatusMap()[val]
             break
         case "currency":
-            rs = CurrencyMap[1]
+            rs = CurrencyMap()[1]
             break
         case "pay_money":
             if (subRow) {
