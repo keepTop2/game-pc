@@ -145,7 +145,6 @@ const phoneCodeMap: any = {
 };
 export function verifyMobile(code: any, val: string) {
   let regExp = phoneCodeMap[code].regExp
-
   // false: 图片验证码不正确
   if (
     !regExp.test(
