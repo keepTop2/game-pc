@@ -161,5 +161,12 @@ export default {
     home_page_notice_donttip: 'Không hiển thị lại',
 
     // 活动详情
-    activity_page_detail: 'chi tiết hoạt động'
+    activity_page_detail: 'chi tiết hoạt động',
+    // header
+    'Facebook Home page': 'Facebook',
+    'Facebook group': 'Facebook Group',
+    'Telegram Channel': 'Telegram Channel',
+    'Youtube Channel': 'Youtube Channel',
+    'messenger': 'Messenger',
+    'telegram': 'Telegram',
 }

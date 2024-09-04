@@ -164,5 +164,12 @@ export default {
     home_page_notice_donttip: '不再显示',
 
     // 活动详情
-    activity_page_detail: '活动详情'
+    activity_page_detail: '活动详情',
+    // header
+    'Facebook Home page': 'Facebook',
+    'Facebook group': 'Facebook群组',
+    'Telegram Channel': 'Telegram频道',
+    'Youtube Channel': 'Youtube频道',
+    'messenger': 'messenger',
+    'telegram': '小飞机',
 }
