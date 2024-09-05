@@ -53,7 +53,7 @@
         </div>
         <div class="level_list_sec">
           <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
-            <span>升级解锁后，即可享受该特权</span>
+            <span>{{ t('level_page_unlock') }}</span>
           </div>
           <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData"
                   :key="index">

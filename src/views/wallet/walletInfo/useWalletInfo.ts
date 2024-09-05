@@ -46,7 +46,8 @@ const useWalletInfo = () => {
   const gameMoney = ref<number>(Number(roleInfo.value.money)); // 我的钱包余额
   const bankMoney = ref<number>(Number(roleInfo.value.bank_money)); // 保险柜余额
   const totalMoney = ref<number>(gameMoney.value + bankMoney.value);
-  const totalMoneyTxt = ref<any>(verifyNumberComma(String(totalMoney.value)));
+  // const totalMoneyTxt = ref<any>(verifyNumberComma(String(totalMoney.value)));
+  const totalMoneyTxt = ref<any>(verifyNumberComma(String(gameMoney.value)));
   const target_bet_money = ref(0);
   const target: any = ref({ bet_money: 0 })
   const tranType = ref('out'); // 转账类型 out, in
@@ -219,9 +220,9 @@ const useWalletInfo = () => {
     gameMoney.value = getCurrencyValue(Number(roleInfo.value.money));
     bankMoney.value = getCurrencyValue(Number(roleInfo.value.bank_money));
     totalMoney.value = gameMoney.value + bankMoney.value;
-    // totalMoneyTxt.value = totalMoney.value;
     if (eyeOpen.value) {
-      totalMoneyTxt.value = verifyNumberComma(String(totalMoney.value))
+      // totalMoneyTxt.value = verifyNumberComma(String(totalMoney.value))
+      totalMoneyTxt.value = verifyNumberComma(String(gameMoney.value))
     } else {
       totalMoneyTxt.value = '******'
     }
@@ -257,7 +258,8 @@ const useWalletInfo = () => {
     if (eyeOpen.value) {
       totalMoneyTxt.value = '******'
     } else {
-      totalMoneyTxt.value = verifyNumberComma(String(totalMoney.value))
+      // totalMoneyTxt.value = verifyNumberComma(String(totalMoney.value))
+      totalMoneyTxt.value = verifyNumberComma(String(gameMoney.value))
     }
     eyeOpen.value = !eyeOpen.value
   }
