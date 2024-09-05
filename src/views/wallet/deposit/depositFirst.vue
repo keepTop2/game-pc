@@ -28,7 +28,14 @@
                   {{ t(`api_${item.payname}`) }}
                   <a class="wh_icon" @click="onCloseSm(item)"></a>
                 </n-flex>
-                <div class="bank_limit">{{ verifyNumberComma(String(item.minrecharge)) }} ~ {{ verifyNumberComma(String(item.maxrecharge)) }}</div>
+                <div class="bank_limit">
+                  <template v-if="['usdt'].includes(item.payname?.toLowerCase())">
+                    {{ verifyNumberComma(String(item.minrecharge * usdtObj.rate)) }} ~ {{ verifyNumberComma(String(item.maxrecharge * usdtObj.rate)) }}
+                  </template>
+                  <template v-else>
+                    {{ verifyNumberComma(String(item.minrecharge)) }} ~ {{ verifyNumberComma(String(item.maxrecharge)) }}
+                  </template>
+                </div>
               </div>
             </n-flex>
             <div class="item_list_r">
@@ -143,6 +150,7 @@
                 <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
                   }}</span>
               </n-flex>
+              <span v-show="isShowError" style="color: #d03050">{{t('deposit_page_minDeposit')}}: {{verifyNumberComma(String(countMinMax().min))}}</span>
             </n-form-item>
             <n-flex class="kjje_div">
               <a class="kj_item" v-for="(item, index) in chooseMoneyArr"
@@ -236,6 +244,10 @@ const baseDis = {
   threshold: 0,
 };
 const curDiscount = ref({ ...baseDis }); // 优惠
+const usdtObj = ref({
+  rate: 26540, // usdt 汇率,
+});
+const isShowError = ref(false)
 
 // 充值提交参数
 const dataParams = {
@@ -279,9 +291,6 @@ const chooseMoneyArr = [
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 const bankAllList = ref([]); // 充值银行选择列表
 
-const usdtObj = ref({
-  rate: 26540, // usdt 汇率,
-});
 // const minDepositObj = ref({
 //   show: false,
 //   mon: 0, // 最低充值金额
@@ -305,6 +314,8 @@ const exchangeArr = [
 const depositResult = ref({url: ''});
 
 const inputBlur = () => {
+  // 显示最低充值金额提示
+  isShowError.value = form.value.amount < countMinMax().min;
   form.value.amount = verifyNumberComma(String(form.value.amount))
 }
 // 限制只能输入 正整数
@@ -359,6 +370,7 @@ const openChooseBank = () => {
 };
 // 参数重置
 const resetParams = () => {
+  isShowError.value = false
   curDiscount.value = { ...baseDis };
   curDepositWay.value = { payname: '' };
   form.value = { ...dataParams };
@@ -378,6 +390,7 @@ const getShopInfo = () => {
 };
 const handleShopInfoRes = (rs: TShopInfo) => {
   resetData();
+  usdtObj.value.rate = rs.usdt_viet_rate;
   // 匹配出银行的支付方式
   const newArr = [...rs.rechargelist_by_paymenttype].filter((item: any) => bankPayMethods.includes(item.paymenttype));
   // 为了赋值 payname 字段
@@ -469,6 +482,21 @@ const chooseWay = (data: any) => {
   // curDepositWay.value = data
 };
 
+// 计算最低最高充值金额
+const countMinMax = () => {
+  const curObj = mtdList.value.find((item: any) => item.value === form.value.method);
+  console.log('*****--', curObj);
+  const monObj = {
+    min: curObj.minrecharge,
+    max: curObj.maxrecharge,
+  }
+  if (curObj.payname?.toLowerCase() === 'usdt') {
+    monObj.min = Number(curObj.minrecharge) * usdtObj.value.rate
+    monObj.max = Number(curObj.maxrecharge) * usdtObj.value.rate
+  }
+  return monObj;
+}
+
 const onSubmit = () => {
   // 如果是银行卡方式，需要选择银行
   if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 && !form.value.bank) {
@@ -485,29 +513,11 @@ const onSubmit = () => {
     return Message.error(t('deposit_page_chooseWay'));
   }
   const numMon = removeComma(form.value.amount);
-  // usdt 充值方式
-  if (curObj.payname?.toLowerCase() === 'usdt') {
-    // minDepositObj.value = {
-    //   show: true,
-    //   mon: Number(curObj.minrecharge) * usdtObj.value.rate
-    // };
-    if (numMon < Number(curObj.minrecharge) * usdtObj.value.rate) {
-      return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
-    }
-    if (numMon > Number(curObj.maxrecharge) * usdtObj.value.rate) {
-      return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
-    }
-  } else { // 其他
-    // minDepositObj.value = {
-    //   show: true,
-    //   mon: curObj.minrecharge
-    // };
-    if (numMon < curObj.minrecharge) {
-      return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
-    }
-    if (numMon > curObj.maxrecharge) {
-      return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
-    }
+  if (numMon < countMinMax().min) {
+    return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
+  }
+  if (numMon > countMinMax().max) {
+    return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
   }
   // minDepositObj.value.show = false;
   loading.value = true;

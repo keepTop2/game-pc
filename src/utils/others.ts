@@ -73,6 +73,7 @@ export function verifyNumberIntegerAndFloat(val: string) {
  * 金额用 `,` 区分开
  * @param val 当前值字符串
  * @returns 返回处理后的字符串
+ * isDecimal 是否需要舍弃小数，不需要舍弃 true, 需要舍弃 false
  */
 export function verifyNumberComma(val: string, isDecimal: boolean = true ): any {
     // 调用小数或整数(不可以负数)方法

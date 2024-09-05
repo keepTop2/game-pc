@@ -294,19 +294,31 @@ const useWalletInfo = () => {
   }
   // 选择快捷金额
   const chooseFastMon = (e: any) => {
+    let avMon = 0; // 可转换的最高金额
+    if (tranType.value === 'in') {
+      avMon = gameMoney.value
+    } else {
+      avMon = bankMoney.value
+    }
     if (!tranMoney.value) {tranMoney.value = 0}
-    tranMoney.value = removeComma(tranMoney.value) + e;
+    const curTranMon = removeComma(tranMoney.value);
+    // 最高金额不能超过可转换的金额
+    if (curTranMon + e > avMon) {
+      tranMoney.value = avMon
+    } else {
+      tranMoney.value = curTranMon + e;
+    }
     tranMoney.value = verifyNumberComma(String(tranMoney.value))
     countMonRate();
   }
   // 金额拖动
   const formatTooltip = (value: any) => {
     if (tranType.value === 'in') {
-      tranMoney.value = verifyNumberComma(String((gameMoney.value * value) / 100))
+      tranMoney.value = verifyNumberComma(String((gameMoney.value * value) / 100), false)
     } else {
-      tranMoney.value = verifyNumberComma(String((bankMoney.value * value) / 100))
+      tranMoney.value = verifyNumberComma(String((bankMoney.value * value) / 100), false)
     }
-    slideStr.value = `${value}%`
+    slideStr.value = `${value}%`;
     return slideStr.value
   }
   const inputBlur = () => {
@@ -320,7 +332,7 @@ const useWalletInfo = () => {
     } else {
       slideValue.value = bankMoney.value ? parseInt(String((tranMoney.value / bankMoney.value) * 100)) : 0
     }
-    tranMoney.value = verifyNumberComma(String(tranMoney.value))
+    tranMoney.value = verifyNumberComma(String(tranMoney.value), false) // 取整
     slideStr.value = slideValue.value > 100 ? `100%` : `${slideValue.value}%`;
   }
 
