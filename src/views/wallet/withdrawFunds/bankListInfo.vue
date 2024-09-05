@@ -68,7 +68,7 @@
               </n-form-item>
 
               <n-form-item :label="t('addBank_page_bankCard')" path="bankCode">
-                <n-input size="large" v-model:value="form.bankCode" :placeholder="t('paymentManagement_page_chCardNo')">
+                <n-input size="large" type="number" v-model:value="form.bankCode" :placeholder="t('paymentManagement_page_chCardNo')">
                   <template #suffix>
                     <a class="refresh_icon"></a>
                   </template>
@@ -173,6 +173,7 @@ import pinia from '@/store';
 import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
 import { Page } from '@/store/page';
+import { testBankCard } from '@/utils/is.ts';
 
 const { bankListInfo } = storeToRefs(Page(pinia));
 
@@ -207,7 +208,9 @@ const submit = () => {
   if (!form.value.bankCode) {
     return Message.error(t('paymentManagement_page_chCardNo'))
   }
-
+  if (!testBankCard(form.value.bankCode)) {
+    return Message.error(t('paymentManagement_page_tip1'))
+  }
   if (!form.value.accountName) {
     return Message.error(t('paymentManagement_page_chName'))
   }

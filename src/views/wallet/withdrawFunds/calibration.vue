@@ -50,7 +50,7 @@
                     </n-form-item>
 
                     <n-form-item :label="t('addBank_page_bankCard')" path="cardNo">
-                      <n-input size="large" v-model:value="formBank.cardNo" :placeholder="t('paymentManagement_page_chCardNo')">
+                      <n-input size="large" type="number" v-model:value="formBank.cardNo" :placeholder="t('paymentManagement_page_chCardNo')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
                         </template>
