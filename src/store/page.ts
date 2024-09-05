@@ -117,7 +117,9 @@ export const Page = defineStore('page', {
             let obj: any = {}
 
             value.map((e: any) => {
-                list.push(e.tag)
+                if (i18n.global.t(e.pic_link).indexOf('http') != -1) {
+                    list.push(e.tag)
+                }
             })
             let newList = Array.from(new Set(list))
 
