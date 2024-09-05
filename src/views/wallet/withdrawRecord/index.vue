@@ -69,9 +69,9 @@ const tableHeader = computed(() => {
 })
 
 const optionsStatus = computed(() => { // 状态
-    const options = Object.keys(WithdrawStatusMap).map((key: string) => {
+    const options = Object.keys(WithdrawStatusMap()).map((key: string) => {
         return {
-            label: WithdrawStatusMap[key],
+            label: WithdrawStatusMap()[key],
             value: Number(key)
         }
     })
@@ -125,7 +125,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = Number(val).toLocaleString()
             break
         case "order_status":
-            rs = `<span style="color:${WithdrawStatusColorMap[val]}">${WithdrawStatusMap[val]}</span>`
+            rs = `<span style="color:${WithdrawStatusColorMap[val]}">${WithdrawStatusMap()[val]}</span>`
             break
         case "pay_time":
             rs = convertObjectToDateString(val)

@@ -108,6 +108,7 @@ export default {
   "bType92": "Balance Overflow",
   "bType100": "Registration Gift",
   "bType101": "Game Bet",
+  emailGet: "Email Acquisition",
   // 稽核记录 auditRecord
   auditRecord_page_time: 'Account Change Time',
   auditRecord_page_timeTips: 'Current system supports querying records for the past 3 months',

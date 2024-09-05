@@ -64,9 +64,9 @@ const tableHeader = computed(() => {
 })
 
 const optionsStatus = computed(() => { // 类型
-    const options = Object.keys(WashTypeMap).map((key: string) => {
+    const options = Object.keys(WashTypeMap()).map((key: string) => {
         return {
-            label: WashTypeMap[key],
+            label: WashTypeMap()[key],
             value: Number(key)
         }
     })

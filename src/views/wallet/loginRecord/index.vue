@@ -76,7 +76,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let val = row[key]
     switch (key) {
         case "type":
-            rs = AuditStatusMap[val]
+            rs = AuditStatusMap()[val]
             break
         case "amount":
             rs = Number(val).toLocaleString()

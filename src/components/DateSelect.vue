@@ -35,16 +35,18 @@ const active = ref('2') // 当前激活快捷项
 type FasterOptionsType = {
     [key: string]: any;
 };
-const fasterOptions: FasterOptionsType = reactive({ // 快捷选项
-    '1': t('home_page_yesToday'),
-    '2': t('home_page_today'),
-    '3': t('home_page_thisWeek'),
-    '4': t('home_page_month')
+const fasterOptions: FasterOptionsType = computed(() => {
+    return { // 快捷选项
+        '1': t('home_page_yesToday'),
+        '2': t('home_page_today'),
+        '3': t('home_page_thisWeek'),
+        '4': t('home_page_month')
+    }
 })
 const showOptions = computed(() => {
     const obj: FasterOptionsType = {}
     props.fasters.forEach(key => {
-        obj[key] = fasterOptions[key]
+        obj[key] = fasterOptions.value[key]
     })
     return obj
 })

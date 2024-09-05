@@ -108,6 +108,7 @@ export default {
   "bType92": "余额溢出",
   "bType100": "注册送金",
   "bType101": "游戏投注",
+  emailGet: "邮件获取",
   // 稽核记录 auditRecord
   auditRecord_page_time: '账变时间',
   auditRecord_page_timeTips: '当前系统支持查询近3个月额度记录',
