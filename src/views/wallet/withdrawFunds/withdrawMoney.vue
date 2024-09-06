@@ -50,7 +50,7 @@
             </n-form-item>
 
             <div class="switchVisible">
-              <n-form-item :label="t('withdraw_page_payPwd')" path="password">
+              <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible?'password':''">
                 <n-input clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
                   @keydown.enter.prevent>
                   <template #suffix>
