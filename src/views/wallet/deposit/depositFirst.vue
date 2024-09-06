@@ -28,7 +28,7 @@
                   {{ t(`api_${item.payname}`) }}
                   <a class="wh_icon" @click="onCloseSm(item)"></a>
                 </n-flex>
-                <div class="bank_limit">{{ item.minrecharge }} ~ {{ item.maxrecharge }}</div>
+                <div class="bank_limit">{{ verifyNumberComma(String(item.minrecharge)) }} ~ {{ verifyNumberComma(String(item.maxrecharge)) }}</div>
               </div>
             </n-flex>
             <div class="item_list_r">
@@ -95,15 +95,16 @@
               <!-- 选择优惠后 -->
               <div v-if="form.discount" class="choose-yh">
                 <div>
-                  {{ curDiscount.ratio > 0 ? t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
-                  }}：{{
-                    curDiscount.limit }}
+                  {{ curDiscount.ratio > 0 ?
+                  t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
+                  }}
+                  ：{{ verifyNumberComma(String(curDiscount.limit)) }}
                 </div>
                 <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio')
                   }}：{{ curDiscount.ratio }}%
                 </div>
                 <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
-                <div>{{ t('deposit_page_minimum') }}：{{ curDiscount.threshold }}</div>
+                <div>{{ t('deposit_page_minimum') }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}</div>
               </div>
             </n-form-item>
             <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
@@ -129,12 +130,12 @@
               </n-flex>
             </n-form-item>
             <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
-              <n-input-number @update:value="formatter" size="large" v-model:value="form.amount"
+              <n-input @blur="inputBlur" @input="validateInput" size="large" v-model:value="form.amount"
                               :placeholder="t('deposit_page_enterMon')">
                 <template #suffix>
-                  <a @click="form.amount = 0" class="refresh_icon"></a>
+                  <a @click="form.amount = ''" class="refresh_icon"></a>
                 </template>
-              </n-input-number>
+              </n-input>
               <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
                       justify="space-between"
                       class="flex usdt_box">
@@ -160,7 +161,7 @@
           </div>
           <div class="cz_tips">
             <div v-show="form.amount" class="txt">
-              {{ t('deposit_page_arrival') }}：{{ arriveAmount}} {{t('accountsRecord_page_dong')}}
+              {{ t('deposit_page_arrival') }}：{{ verifyNumberComma(String(arriveAmount), false)}} {{t('accountsRecord_page_dong')}}
             </div>
             <n-flex justify="center" class="tip">
               <span class="icon"></span>
@@ -213,15 +214,10 @@ import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Dialog, Message } from '@/utils/discreteApi';
-import { bankPayMethods, bankPayType } from '@/utils/others';
+import { bankPayMethods, bankPayType, removeComma, verifyNumberComma } from '@/utils/others';
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
-const formatter = (value: any) => {
-  setTimeout(() => {
-    form.value.amount = (value ? Number(value.toString().replace(/\D/g, '')) : '') as number;
-  }, 0);
-};
 const emit = defineEmits(['haveBankList']);
 const chooseBankModal = ref();
 const { t } = useI18n();
@@ -246,7 +242,7 @@ const dataParams = {
   // country: 1,
   method: -1,
   discount: 0, // 优惠
-  amount: 0,
+  amount: '',
   bank: null, // 银行
   bankMethod: 100, // 银行支付方式，对应传给后端参数 type
   network_type: 0, // usdt 独有
@@ -308,6 +304,13 @@ const exchangeArr = [
 // const successModal = ref(false);
 const depositResult = ref({url: ''});
 
+const inputBlur = () => {
+  form.value.amount = verifyNumberComma(String(form.value.amount))
+}
+// 限制只能输入 正整数
+const validateInput = () => {
+  form.value.amount = form.value.amount.replace(/[^0-9]/g, '');
+}
 const openWin = (url: any) => {
   window.open(url);
 };
@@ -315,17 +318,18 @@ const openWin = (url: any) => {
 // 计算预计到账金额
 // 刮刮卡：比如这里充100000，按80%到账就是到账8w，再按8w参与优惠, 优惠是赠送100%  也就是再送8w
 const countArriveMon = () => {
+  let czMount = removeComma(form.value.amount); // 输入的充值金额
   let zsMon = 0; // 赠送的金额
   if (!curDiscount.value || !curDiscount.value?.discount_ID) {
     // 未选择优惠，刮刮卡充值方式，只到账 80%
     if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('scratchcard') > -1) {
-      arriveAmount.value = Number(form.value.amount) * 0.8 + zsMon;
+      arriveAmount.value = czMount * 0.8 + zsMon;
     } else {
-      arriveAmount.value = Number(form.value.amount) + zsMon;
+      arriveAmount.value = czMount + zsMon;
     }
     return;
   }
-  let czMount = Number(form.value.amount); // 输入的充值金额
+
   // 刮刮卡充值方式，只到账 80%
   if (legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('scratchcard') > -1) {
     czMount = czMount * 0.8;
@@ -345,7 +349,7 @@ const countArriveMon = () => {
 // 计算usdt 金额
 const countUsdtMon = () => {
   if (!usdtObj.value.rate) return;
-  const num = Number(form.value.amount) / usdtObj.value.rate;
+  const num = removeComma(form.value.amount) / usdtObj.value.rate;
   return num.toFixed(2);
 };
 
@@ -480,16 +484,17 @@ const onSubmit = () => {
   if (curObj.value == '-1') {
     return Message.error(t('deposit_page_chooseWay'));
   }
+  const numMon = removeComma(form.value.amount);
   // usdt 充值方式
   if (curObj.payname?.toLowerCase() === 'usdt') {
     // minDepositObj.value = {
     //   show: true,
     //   mon: Number(curObj.minrecharge) * usdtObj.value.rate
     // };
-    if (Number(form.value.amount) < Number(curObj.minrecharge) * usdtObj.value.rate) {
+    if (numMon < Number(curObj.minrecharge) * usdtObj.value.rate) {
       return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
     }
-    if (Number(form.value.amount) > Number(curObj.maxrecharge) * usdtObj.value.rate) {
+    if (numMon > Number(curObj.maxrecharge) * usdtObj.value.rate) {
       return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
     }
   } else { // 其他
@@ -497,10 +502,10 @@ const onSubmit = () => {
     //   show: true,
     //   mon: curObj.minrecharge
     // };
-    if (form.value.amount < curObj.minrecharge) {
+    if (numMon < curObj.minrecharge) {
       return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
     }
-    if (form.value.amount > curObj.maxrecharge) {
+    if (numMon > curObj.maxrecharge) {
       return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
     }
   }
@@ -512,7 +517,7 @@ const onSubmit = () => {
 // 充值提交
 const handleSubmit = () => {
   const req = NetPacket.req_recharge_from_third();
-  req.amount = form.value.amount;
+  req.amount = removeComma(form.value.amount);
   req.channel_type = form.value.method; // 接口返回的 paymenttype 值乘以100
   // req.bank_channel_type = legalRecharge.value.find((item: any) => item.paymenttype === form.value.method)?.payname.indexOf('bankcard') > -1 ? form.value.bank : 0; // 只有选择银行的时候才有，usdt 是 0
   req.bank_channel_type = 3; // 目前看h5 的全部是 3
@@ -529,7 +534,7 @@ const handleDepositSubmit = (res: any) => {
     Message.error(t(res.msg)); // 如 recharge_channel_type_is_not_supported
   } else { // code 0 成功
     // Message.success(t('deposit_page_depSuccess'))
-    form.value.amount = 0; // 重置
+    form.value.amount = ''; // 重置
     Local.remove('curDiscountData'); // 重置
     depositResult.value = res;
     // successModal.value = true;
@@ -558,9 +563,10 @@ const handleDepositSubmit = (res: any) => {
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
   if (!form.value.amount) {
-    form.value.amount = 0;
+    form.value.amount = '0';
   }
-  form.value.amount = Number(form.value.amount) + e;
+  form.value.amount = removeComma(form.value.amount) + e;
+  form.value.amount = verifyNumberComma(String(form.value.amount))
 };
 // 更换银行弹窗
 const showChangeBank = () => {

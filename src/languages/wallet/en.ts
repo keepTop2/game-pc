@@ -181,7 +181,7 @@ export default {
   paymentManagement_page_errorAdd: 'The address format is incorrect',
   paymentManagement_page_tip1: 'Please enter the correct account number!',
   paymentManagement_page_tip2: 'Add successfully!',
-  paymentManagement_page_tip3: 'Already exists!',
+  paymentManagement_page_tip3: 'The bank card has been bound',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',
@@ -203,8 +203,8 @@ export default {
   walletInfo_page_game: 'Game Wallet',
   walletInfo_page_follow: 'Auto Follow',
   walletInfo_page_recovery: 'One-Click Recovery to Central Wallet',
-  walletInfo_page_in: 'Transfer In',
-  walletInfo_page_out: 'Transfer Out',
+  walletInfo_page_in: 'Deposit',
+  walletInfo_page_out: 'take out',
   walletInfo_page_notMoney: 'No Operable Balance',
   walletInfo_page_tranferTxt: 'Please Click or Drag to Select Amount',
   walletInfo_page_tranferTips: 'Friendly Reminder: Withdrawals need to be transferred to the safe first',

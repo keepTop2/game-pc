@@ -19,10 +19,10 @@
           <div class="le_l_l le_l_l_sec">
             <n-flex justify="space-around" class="le_l_l_tr"
                     v-for="(item, index) in vipLevelRewardConfig" :key="index">
-              <span> VIP{{ item.level }} </span>
-              <span> {{ item.target_bet_money }} </span>
-              <span> {{ item.promotional_reward_status.money || '0' }} </span>
-              <span> {{ item.gift_money_amount || '0' }} </span>
+              <span> {{ item.level }} </span>
+              <span> {{ verifyNumberComma(String(item.target_bet_money)) }} </span>
+              <span> {{ verifyNumberComma(String(item.promotional_reward_status.money)) || '0' }} </span>
+              <span> {{ verifyNumberComma(String(item.gift_money_amount)) || '0' }} </span>
               <!--              <span> {{ item.target_bet_money ? t('level_page_promo') : t('level_page_wu') }} </span>-->
             </n-flex>
           </div>
@@ -88,7 +88,7 @@ import { useI18n } from 'vue-i18n';
 import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
-import { toFixedNumber } from '@/utils/others';
+import { toFixedNumber, verifyNumberComma } from '@/utils/others';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 

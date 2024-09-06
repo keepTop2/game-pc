@@ -42,7 +42,7 @@
             <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-              <n-input @input="validateInput" clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
+              <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
@@ -98,6 +98,7 @@ import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
 import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
+import { verifyNumberComma, removeComma } from '@/utils/others.ts';
 
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
@@ -118,7 +119,7 @@ const baseObj =  {
   // country: 1,
   maxValue: '0', // 可提现金额
   password: '',
-  amount: null, // 充值金额
+  amount: '', // 金额
   bank: 0, // 银行
   address: '', // 银行卡号
 }
@@ -137,7 +138,7 @@ const rules = {
       trigger: 'blur',
       validator: () => {
         // 正整数
-        const reg = /^[1-9]\d*$/;
+        const reg = /^[1-9]\d*[\w,]*$/;
         return reg.test(form.value.amount);
       }
     }
@@ -153,6 +154,9 @@ const rules = {
 const bankListInfoRef = ref()
 const bankListInfoShow = ref(false)
 
+const inputBlur = () => {
+  form.value.amount = verifyNumberComma(String(form.value.amount))
+}
 // 限制只能输入 正整数
 const validateInput = () => {
   form.value.amount = form.value.amount.replace(/[^0-9]/g, '');
@@ -213,13 +217,14 @@ const onSubmit = () => {
   }
   formRef.value?.validate((errors: any) => {
     if (!errors) {
+      const numMon = removeComma(form.value.amount);
       if (!form.value.bank) {
         return Message.error(t('paymentManagement_page_chBank'))
       }
-      if (form.value.amount < mySecBankList.value.min_withdraw_money) {
+      if (numMon < mySecBankList.value.min_withdraw_money) {
         return Message.error(t('withdraw_page_minAmount', { minAmount: mySecBankList.value.min_withdraw_money }))
       }
-      if (form.value.amount > mySecBankList.value.max_withdraw_money) {
+      if (numMon > mySecBankList.value.max_withdraw_money) {
         return Message.error(t('withdraw_page_maxAmount', { maxAmount: mySecBankList.value.max_withdraw_money }))
       }
       form.value.address = mySecBankList.value.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
@@ -232,7 +237,7 @@ const onSubmit = () => {
 
 const handleSubmit = () => {
   const req = NetPacket.req_apply_withdraw();
-  req.money = form.value.amount;
+  req.money = removeComma(form.value.amount);
   req.bank_card_id = form.value.address; // 卡号
   req.bank_id = form.value.bank || 0; // 银行 id
   req.passwd = form.value.password;
@@ -262,8 +267,9 @@ const handleWithDrawSubmit = (res: any) => {
 
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
-  if (!form.value.amount) {form.value.amount = 0}
-  form.value.amount = Number(form.value.amount) + e;
+  if (!form.value.amount) {form.value.amount = '0'}
+  form.value.amount = removeComma(form.value.amount) + e;
+  form.value.amount = verifyNumberComma(String(form.value.amount))
 }
 
 const handleCanWithdraw = (res: any) => {
@@ -276,7 +282,7 @@ const handleCanWithdraw = (res: any) => {
 const setCanWithDrawMon = (data: any) => {
   console.log('--setCanWithDrawMon--', data);
   if (isCanWithdraw.value) {
-    form.value.maxValue = data.can_withdraw.toString()
+    form.value.maxValue = verifyNumberComma(String(data.can_withdraw))
   } else { // 不可以提现，可提现金额置为 0
     form.value.maxValue = '0';
   }
@@ -307,7 +313,7 @@ const checkBankInfo = (item: any) => {
 }
 
 const initReq = () => {
-  form.value.maxValue = roleInfo.value.bank_money.toString()
+  form.value.maxValue = verifyNumberComma(String(roleInfo.value.bank_money))
   Net.instance.sendRequest(NetPacket.req_can_withdraw());
 };
 

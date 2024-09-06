@@ -181,7 +181,7 @@ export default {
   paymentManagement_page_errorAdd: '地址格式不正确',
   paymentManagement_page_tip1: '请输入正确的账号!',
   paymentManagement_page_tip2: '新增成功!',
-  paymentManagement_page_tip3: '已经存在!',
+  paymentManagement_page_tip3: '银行卡已被绑定',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',
@@ -203,8 +203,8 @@ export default {
   walletInfo_page_game: '游戏钱包',
   walletInfo_page_follow: '自动跟随',
   walletInfo_page_recovery: '一键回收至中心钱包',
-  walletInfo_page_in: '转入',
-  walletInfo_page_out: '转出',
+  walletInfo_page_in: '存入',
+  walletInfo_page_out: '取出',
   walletInfo_page_notMoney: '没有可操作余额',
   walletInfo_page_tranferTxt: '请点击或拖动选择金额',
   walletInfo_page_tranferTips: '温馨提示:提款需先将金额转入保险柜',

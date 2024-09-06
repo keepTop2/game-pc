@@ -157,5 +157,12 @@ export default {
     home_page_notice_systitle: 'System notification',
 
     // 活动详情
-    activity_page_detail: 'Event Details'
+    activity_page_detail: 'Event Details',
+    // header
+    'Facebook Home page': 'Facebook',
+    'Facebook group': 'Facebook Group',
+    'Telegram Channel': 'Telegram Channel',
+    'Youtube Channel': 'Youtube Channel',
+    'messenger': 'Messenger',
+    'telegram': 'Telegram',
 }

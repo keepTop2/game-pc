@@ -180,7 +180,7 @@ export default {
   paymentManagement_page_errorAdd: 'Định dạng địa chỉ không chính xác',
   paymentManagement_page_tip1: 'Vui lòng nhập đúng số tài khoản!',
   paymentManagement_page_tip2: 'Thêm thành công!',
-  paymentManagement_page_tip3: 'Đã tồn tại!',
+  paymentManagement_page_tip3: 'Thẻ ngân hàng đã bị ràng buộc',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Loại tiền tệ',
@@ -202,8 +202,8 @@ export default {
   walletInfo_page_game: 'Ví trò chơi',
   walletInfo_page_follow: 'Tự động theo dõi',
   walletInfo_page_recovery: 'Thu hồi về ví trung tâm bằng một cú nhấp chuột',
-  walletInfo_page_in: 'Chuyển vào',
-  walletInfo_page_out: 'Chuyển ra',
+  walletInfo_page_in: 'Tiền gửi',
+  walletInfo_page_out: 'lấy ra',
   walletInfo_page_notMoney: 'Không có số dư khả dụng',
   walletInfo_page_tranferTxt: 'Vui lòng nhấp hoặc kéo để chọn số tiền',
   walletInfo_page_tranferTips: 'Lưu ý: Rút tiền cần chuyển số tiền vào két sắt trước',
