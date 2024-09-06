@@ -146,7 +146,7 @@ export default {
     // footer
     home_page_footerTips: 'The platform has legal licenses issued by the European Malta Gaming Authority (MGA) and the Philippine Government Gaming Commission (PAGCOR). Registered in the British Virgin Islands, it is a legal gaming company recognized by the International Gaming Association. Please make sure you are over 18 years old before registering and having fun! ',
     // dateSelect
-    home_page_yesToday: 'yesterday',
+    home_page_yesToday: 'Yesterday',
     home_page_today: 'Today',
     home_page_thisWeek: 'This week',
     home_page_month: 'Last 30 days',
