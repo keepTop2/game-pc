@@ -190,6 +190,7 @@ export default {
   rechargeRecord_page_allHb: 'Tất cả các loại tiền tệ',
 
   // walletInfo
+  walletInfo_page_code_input: 'Enter the redemption code and receive the reward',
   walletInfo_page_code: 'Mã đổi thưởng',
   walletInfo_page_rule: 'Quy tắc cấp thành viên',
   walletInfo_page_needBet: 'Số tiền cược cần thiết',
