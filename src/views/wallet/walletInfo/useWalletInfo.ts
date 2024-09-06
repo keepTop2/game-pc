@@ -312,7 +312,8 @@ const useWalletInfo = () => {
     countMonRate();
   }
   // 金额拖动
-  const formatTooltip = (value: any) => {
+  const formatTooltip = () => {
+    const value = slideValue.value
     if (tranType.value === 'in') {
       tranMoney.value = verifyNumberComma(String((gameMoney.value * value) / 100), false)
     } else {
