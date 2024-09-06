@@ -35,7 +35,7 @@ export default {
   proxy_page_jxMaster: 'Trainee Hall Master',
   proxy_page_master: 'hall master',
   proxy_page_report: 'Total report',
-  proxy_page_directly: 'direct subordinate',
+  proxy_page_directly: 'Direct reports',
   proxy_page_teamReport: 'Team Report',
   proxy_page_search: 'Search',
   proxy_page_total: 'Total',

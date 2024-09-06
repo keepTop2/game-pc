@@ -35,7 +35,7 @@ export default {
   proxy_page_jxMaster: '见习厅主',
   proxy_page_master: '厅主',
   proxy_page_report: '总报表',
-  proxy_page_directly: '直属下级',
+  proxy_page_directly: '直属报表',
   proxy_page_teamReport: '团队报表',
   proxy_page_search: '搜索',
   proxy_page_total: '总计',
