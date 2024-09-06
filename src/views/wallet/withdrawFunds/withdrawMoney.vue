@@ -51,7 +51,7 @@
 
             <div class="switchVisible">
               <n-form-item :label="t('withdraw_page_payPwd')" path="password">
-                <n-input clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
+                <n-input ref="inputRef" clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
                   @keydown.enter.prevent>
                   <template #suffix>
                     <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
@@ -60,9 +60,7 @@
                 </n-input>
               </n-form-item>
               <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
-
             </div>
-
 
             <n-flex class="kjje_div">
               <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
@@ -72,7 +70,7 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w_full">
-            <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}</div>
+            <div class="submit_btn  weight_5 center pointer" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}</div>
           </div>
           <div v-show="form.amount" class="cz_tips">
             <div class="txt"> {{ t('deposit_page_arrival') }}：{{form.amount}} </div>
@@ -112,6 +110,7 @@ const props = defineProps({
 
 const myBankName = ref(''); // 如果有已经绑定的银行卡姓名，下次绑定需要一致
 const { t } = useI18n();
+const inputRef: any = ref(null);
 const showSecModal = ref(false);
 const switchVisible = ref(true)
 const formRef = ref()
@@ -173,15 +172,13 @@ const changeRightInfo = ref({
   type: 'password'
 })
 const iconClick = () => {
+  inputRef.value.blur(); // 防止光标回到首位
   if (changeRightInfo.value.icon == "Group39364") {
-
     changeRightInfo.value.type = "text"
     changeRightInfo.value.icon = "Group39365"
-    // state.rememberPassword = false
   } else {
     changeRightInfo.value.type = "password"
     changeRightInfo.value.icon = "Group39364"
-    // state.rememberPassword = true
   }
 }
 

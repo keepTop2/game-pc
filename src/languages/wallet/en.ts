@@ -191,6 +191,7 @@ export default {
   rechargeRecord_page_allHb: 'All Currencies',
 
   // walletInfo
+  walletInfo_page_code_input: 'Nhập mã đổi quà và nhận phần thưởng',
   walletInfo_page_code: 'Exchange Code',
   walletInfo_page_rule: 'Membership Level Rules',
   walletInfo_page_needBet: 'Required Bet',

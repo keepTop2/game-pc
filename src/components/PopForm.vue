@@ -125,8 +125,6 @@ const resetInputHide = () => {
 
 
 const submitNext = () => {
-  console.log(formRef.value);
-  debugger
   // 效验
   if (state.type == 3) {
     if (state.formData.step == 1) {
@@ -150,7 +148,6 @@ const submitNext = () => {
   } else {
     //常规修改密码
     formRef.value?.validate((errors: any) => {
-      debugger
       if (!errors) {
         emit('submitData', state.formData.formParams, state.type);
       }
@@ -161,7 +158,7 @@ const submitNext = () => {
 // 手机验证码协议
 const sendMobileSmsCode = () => {
   state.itemClick.loading = true
-  debugger
+
   SmsCodeRef.value.closeDialog()
   const req = NetPacket.req_get_mobile_sms_code()
   req.mobile = state.formData.formParams.codeValue + state.formData.formParams.mobile
@@ -178,15 +175,39 @@ const submitSend = (item: any) => {
   state.itemClick = item
   // 1 为手机  2 为邮箱 
   if (state.formData.active == 1) {
-    SmsCodeRef.value.openDialog()
+    formRef.value?.validate(
+      (errors: any) => {
+        if (errors) {
+          console.log(errors)
+        } else {
+          SmsCodeRef.value.openDialog()
+        }
+      },
+      (rule: any) => {
+        return rule?.key === 'phone'
+      }
+    )
+
 
 
   }
   if (state.formData.active == 2) {
-    item.loading = true
-    const req = NetPacket.req_get_email_verification_code()
-    req.email = state.formData.formParams.email
-    Net.instance.sendRequest(req)
+    formRef.value?.validate(
+      (errors: any) => {
+        if (errors) {
+          console.log(errors)
+        } else {
+          item.loading = true
+          const req = NetPacket.req_get_email_verification_code()
+          req.email = state.formData.formParams.email
+          Net.instance.sendRequest(req)
+        }
+      },
+      (rule: any) => {
+        return rule?.key === 'email'
+      }
+    )
+
   }
 };
 
