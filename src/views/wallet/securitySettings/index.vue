@@ -383,6 +383,7 @@ const itemClick = (item: any) => {
     let rules = {
         mobile: [
             {
+                key: 'mobile',
                 required: !0,
                 trigger: "input",
                 validator: (_rule: any, value: string) => {
@@ -418,6 +419,7 @@ const itemClick = (item: any) => {
         ],
         email: [
             {
+                key: 'email',
                 required: !0,
                 trigger: "input",
                 validator: (rule: any, value: string) => {
