@@ -191,6 +191,7 @@ export default {
   rechargeRecord_page_allHb: '全部货币',
 
   // walletInfo
+  walletInfo_page_code_input: '输入兑换码，领取奖励',
   walletInfo_page_code: '兑换码',
   walletInfo_page_rule: '会员等级规则',
   walletInfo_page_needBet: '所需投注',
