@@ -141,8 +141,15 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
         case "balance_time":
             rs = convertObjectToDateString(val)
             break
+        case "game_type":
+            rs = row.platform_id + '_' + str[1]
+            if (str[2]) {
+                rs = rs + '_' + str[2]
+            }
+            rs = t(rs)
+            break
         default:
-            rs = t(row.platform_id + '_' + str[1])
+            rs = val || '--'
     }
     return rs
 
