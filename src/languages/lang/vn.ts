@@ -2087,4 +2087,41 @@ export default {
   received: 'đã nhận',
   confirm: 'xác nhận',
   one_click_claim: 'Thu thập tất cả',
+  "home_notice_mixtext": "{user} đã nhận được phần thưởng tiền vàng {money} trong {game}!",
+  // 充值状态
+  'rechagre_status_map_0': 'thất bại',
+  'rechagre_status_map__1': 'đang tiến hành',
+  'rechagre_status_map_1': 'Hoàn thành',
+  'rechagre_status_map_2': 'Gọi lại thành công',
+  // 取款状态
+  'withdraw_status_map_1': 'Đang xem xét',
+  'withdraw_status_map_2': 'giao dịch đã hoàn tất',
+  'withdraw_status_map_3': 'Kiểm tra ngoại lệ',
+  // 转账类型
+  'account_type_map_1': 'Rút tiền mặt',
+  'account_type_map_2': 'chuyển khoản',
+  // 洗码记录类型
+  'wash_type_map__1': 'Tóm tắt theo nền tảng',
+  'wash_type_map_9999': 'Nền tảng hiện tại',
+  // 钱包类型
+  'wallet_type_map_1': 'mang theo ví',
+  'wallet_type_map_2': 'ví an toàn',
+  'wallet_type_map_3_0': 'Giảm giá hệ thống',
+  'wallet_type_map_3_1': 'Điều chỉnh hệ thống',
+  // 平台
+  'platform_map_2': 'câu cá',
+  'platform_map_3': 'máy đánh bạc',
+  'platform_map_4': 'Băng hình',
+  'platform_map_5': 'cờ vua và bài',
+  'platform_map_6': 'giáo dục thể chất',
+  'platform_map_7': 'Xổ số',
+  // 稽核状态
+  'audit_status_map_1': 'đang tiến hành',
+  'audit_status_map_2': 'Hoàn thành',
+  // 赌场身份
+  'identity_map_1': 'Thạc sĩ hội trường thực tập sinh',
+  'identity_map_2': 'Chủ hội trường',
+  'identity_map_3': 'Trưởng phòng cao cấp',
+  'identity_map_4': 'Cộng sự',
+  'identity_map_5': 'BOSS',
 };

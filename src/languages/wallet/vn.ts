@@ -108,6 +108,7 @@ export default {
   'bType92': 'Số dư vượt mức',
   'bType100': 'Quà tặng đăng ký',
   'bType101': 'Cược trò chơi',
+  emailGet: "Thu thập email",
   // 稽核记录 auditRecord
   auditRecord_page_time: 'Thời gian thay đổi tài khoản',
   auditRecord_page_timeTips: 'Hệ thống hiện tại hỗ trợ truy vấn các bản ghi trong vòng 3 tháng qua',
