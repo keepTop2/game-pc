@@ -26,12 +26,12 @@
                 <div class="td" v-for="(item, i) in tableHeader" :key="i">{{ item.title }}</div>
             </n-flex>
 
-            <n-flex class="tr" v-for="(row, index) in result.list" :key="index">
+            <n-flex class="tr" v-for="(row, index) in resultList" :key="index">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i"
-                    @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
+                  @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
-            <n-flex class="tr tt" v-if="result.list.length">
+            <n-flex class="tr tt" v-if="resultList.length">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i">
                     <template v-if="i == 0">
                         <span>{{ t('proxy_page_total') }}</span>
@@ -45,7 +45,7 @@
                 </div>
             </n-flex>
 
-            <div class="nodata" v-if="!result.list.length && !loading">
+            <div class="nodata" v-if="!resultList.length && !loading">
                 <img src="/img/wallet/nodata.webp" alt="nodata">
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
@@ -57,7 +57,7 @@
 
         <!-- 分页 -->
         <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-            :item-count="result.total_page" v-show="result.total_page" />
+          :item-count="result.total_page" v-show="result.total_page" />
 
 
         <!-- 等级管理 -->
@@ -142,9 +142,19 @@ const result: any = reactive({ // 结果
     total_page: 0,
     list: []
 })
+const resultList = computed(() => {
+    let arr:any = []
+    result.list.map((item: any) => {
+        if (activeTab.value == 1) arr.push(item)
+        if (activeTab.value == 2 && item.level === 0) arr.push(item)
+        if (activeTab.value == 3 && item.level !== 0) arr.push(item)
+    })
+    return arr
+})
+
 const getTotal = (key: string) => { // 获取总数
     let total = 0
-    result.list.forEach((item: any) => {
+    resultList.value.forEach((item: any) => {
         if (userInfo.value.full_name != item.username) {
             total += Number(item[key])
         }
@@ -160,19 +170,6 @@ const resultHandle = (rs: any) => { // 数据处理
     }, 300)
     result.total_page = rs.total || 0
     result.list = rs.records || []
-    // 模拟数据
-    // result.list = [
-    //     {
-    //         role_id: 1,
-    //         level: 1,
-    //         team_num: 10,
-    //         personal_bet: 10000,
-    //         team_bet: 99999,
-    //         personal_return: 99,
-    //         team_return: 1100,
-    //         username: 'aaaa'
-    //     },
-    // ]
 }
 const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs: any = ''
