@@ -520,10 +520,14 @@ const onSubmit = () => {
   }
   const numMon = removeComma(form.value.amount);
   if (numMon < countMinMax().min) {
-    return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
+    return Message.error(t('deposit_page_minAmount', { minAmount: verifyNumberComma(String(curObj.minrecharge)) }));
   }
   if (numMon > countMinMax().max) {
-    return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
+    return Message.error(t('deposit_page_maxAmount', { maxAmount: verifyNumberComma(String(curObj.maxrecharge)) }));
+  }
+  // 已选择优惠的情况下，充值金额不能小于优惠参与金额
+  if (form.value.discount && numMon < curDiscount.value.threshold) {
+    return Message.error(t('deposit_page_min_discount', { minDis: verifyNumberComma(String(curDiscount.value.threshold)) }))
   }
   // minDepositObj.value.show = false;
   loading.value = true;

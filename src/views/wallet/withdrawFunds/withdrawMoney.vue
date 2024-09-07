@@ -97,7 +97,9 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 import { verifyNumberComma, removeComma } from '@/utils/others.ts';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
@@ -256,6 +258,7 @@ const handleWithDrawSubmit = (res: any) => {
   if (res.result === 0) {
     onCloseSec();
     getBaseData();
+    router.push('/wallet/withdrawRecord')
     // Message.success(codeTxt[res.result]); // 提款成功不需要弹出弹窗
   } else {
     Message.error(codeTxt[res.result])

@@ -280,6 +280,7 @@ export default {
   deposit_page_toExchange: '访问交易所',
   deposit_page_minDeposit: '最低充值',
   deposit_page_goToDeposit: '确定充值？',
+  deposit_page_min_discount: '充值大于{minDis}才可享受此优惠活动',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',

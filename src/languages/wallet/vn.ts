@@ -156,11 +156,11 @@ export default {
   paymentManagement_page_new_bank: 'Thêm thẻ ngân hàng mới',
   paymentManagement_page_default_bank: 'Thẻ mặc định',
   paymentManagement_page_delete: 'Xóa',
-  paymentManagement_page_set_default: 'Đặt làm mặc định',
+  paymentManagement_page_set_default: 'Mặc định',
   paymentManagement_page_set_xw_default: 'Xác nhận đặt làm thẻ ngân hàng mặc định?',
   paymentManagement_page_setDefaulted: 'Đã được đặt làm mặc định',
   paymentManagement_page_inUse: 'Đang sử dụng',
-  PaymentManager_page_choose: 'chọn',
+  paymentManagement_page_choose: 'chọn',
   paymentManagement_page_enterBank: 'Vui lòng nhập tên tài khoản ngân hàng của bạn',
   paymentManagement_page_confirm: 'Xác nhận',
   paymentManagement_page_setError: 'Thiết lập không thành công',
@@ -190,7 +190,7 @@ export default {
   rechargeRecord_page_allHb: 'Tất cả các loại tiền tệ',
 
   // walletInfo
-  walletInfo_page_code_input: 'Enter the redemption code and receive the reward',
+  walletInfo_page_code_input: 'Nhập mã đổi quà và nhận phần thưởng',
   walletInfo_page_code: 'Mã đổi thưởng',
   walletInfo_page_rule: 'Quy tắc cấp thành viên',
   walletInfo_page_needBet: 'Số tiền cược cần thiết',
@@ -279,6 +279,7 @@ export default {
   deposit_page_toExchange: 'Truy cập vào sàn giao dịch',
   deposit_page_minDeposit: 'Nạp tiền tối thiểu',
   deposit_page_goToDeposit: 'Bạn có chắc chắn đã nạp tiền không?',
+  deposit_page_min_discount: 'Chỉ những khoản nạp lớn hơn {minDis} mới có thể tận hưởng khuyến mãi này',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Đổi ngay',

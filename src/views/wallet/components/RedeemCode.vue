@@ -32,8 +32,8 @@ const form: TForm = reactive({
   fields: {
     code: {
       name: 'code',
-      label: t('walletInfo_page_code_input'),
-      placeholder: t('addBank_page_pInput')
+      label: 'walletInfo_page_code_input',
+      placeholder: 'addBank_page_pInput'
     },
 
   },
