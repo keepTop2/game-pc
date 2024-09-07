@@ -252,7 +252,7 @@ export default {
   deposit_page_bankPay: 'Phương thức thanh toán ngân hàng',
   deposit_page_rate: 'Tỷ giá',
   method_error: 'Vui lòng chọn phương thức thanh toán',
-  amount_error: 'Vui lòng nhập số tiền',
+  amount_error: 'Vui lòng nhập đúng số tiền rút',
   deposit_page_minAmount: 'Số tiền nạp tối thiểu là {minAmount}',
   deposit_page_maxAmount: 'Số tiền nạp vượt quá giới hạn {maxAmount}',
   deposit_page_use: 'Sử dụng',

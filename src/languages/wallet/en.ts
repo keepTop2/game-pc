@@ -252,7 +252,7 @@ export default {
   deposit_page_bankPay: 'Bank Payment Method',
   deposit_page_rate: 'Exchange Rate',
   method_error: 'Please Choose Payment Method',
-  amount_error: 'Please Enter Amount',
+  amount_error: 'Please enter the correct withdrawal amount',
   deposit_page_minAmount: 'Minimum Deposit Amount is {minAmount}',
   deposit_page_maxAmount: 'Deposit Exceeds Limit {maxAmount}',
   deposit_page_use: 'Use',

@@ -252,7 +252,7 @@ export default {
   deposit_page_bankPay: '银行支付方式',
   deposit_page_rate: '汇率',
   method_error: '请选择支付方式',
-  amount_error: '请输入金额',
+  amount_error: '请输入正确提款金额',
   deposit_page_minAmount: '最低充值金额为{minAmount}',
   deposit_page_maxAmount: '充值超过限额{maxAmount}',
   deposit_page_use: '使用',
