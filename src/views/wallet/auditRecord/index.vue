@@ -87,6 +87,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = AuditStatusMap()[val]
             break
         case "amount":
+        case "progess":
             rs = Number(val).toLocaleString()
             break
         case "create_time":
