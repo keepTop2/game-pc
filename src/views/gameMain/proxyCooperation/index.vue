@@ -8,18 +8,20 @@
             <div class="model_box_content content_box" style="border-bottom:1px solid #322C59;padding-bottom: 12px">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_casino') }}：</span>
-                    <span>{{ IdentityMap[proxyInfo.level] || '--' }}</span>
+                    <span>{{ proxyInfo.level == 0 ? t('wanjia') : IdentityMap[proxyInfo.level] }}</span>
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
-                    <span>{{ proxyInfo.ratio ? `${proxyInfo.ratio * 100}%` :
-                        '0%' }} (VND)</span>
+                    <span>{{ proxyInfo.level ? '--' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` :
+                        '0%(VND)' }} </span>
                 </div>
             </div>
             <div class="model_box_content content_box">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_commission') }}：</span>
-                    <span class="orange">{{ (proxyInfo.personal_money + proxyInfo.team_money) || '0' }}</span>
+                    <span class="orange">{{ proxyInfo.level ? '--' : ((proxyInfo.personal_money + proxyInfo.team_money)
+                        ||
+                        '0') }}</span>
                 </div>
                 <div class="item item_margin">
                     <div class="btn" style="margin-left:0" @click="toProxyRecord">
@@ -29,12 +31,12 @@
                 <div class="item item_margin">
                     <!-- <span class="item_title">{{ t('proxy_page_clubCommission') }}：</span> -->
                     <span class="item_title">{{ t('Direct commission') }}：</span>
-                    <span class="orange">{{ proxyInfo.personal_money || '0' }}</span>
+                    <span class="orange">{{ proxyInfo.level ? '--' : (proxyInfo.personal_money || '0') }}</span>
                 </div>
                 <div class="item">
                     <!-- <span class="item_title">{{ t('proxy_page_dcCommission') }}：</span> -->
                     <span class="item_title">{{ t('Team commission') }}：</span>
-                    <span class="orange">{{ proxyInfo.team_money || '0' }}</span>
+                    <span class="orange">{{ proxyInfo.level ? '--' : (proxyInfo.team_money || '0') }}</span>
                 </div>
 
                 <!-- 按钮们 -->
@@ -70,7 +72,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import cooperationTable from "@/components/cooperationTable.vue"
 import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";

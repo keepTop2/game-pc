@@ -54,4 +54,5 @@ export default {
   proxy_page_caoZuo: 'Operation successful',
   proxy_page_caoZuoFail: 'Operation failed',
   proxy_page_notAgent: 'You are not an agent, please contact your superior',
+  wanjia: "Player",
 }

@@ -54,4 +54,5 @@ export default {
   proxy_page_caoZuo: 'Thao tác thành công',
   proxy_page_caoZuoFail: 'Thao tác không thành công',
   proxy_page_notAgent: 'Bạn không phải là đại lý, vui lòng liên hệ cấp trên',
+  wanjia: "Người chơi",
 }
