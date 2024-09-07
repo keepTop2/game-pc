@@ -155,6 +155,7 @@ export default {
     home_page_notice_title: 'General Announcements',
     home_page_notice_fixtitle: 'Maintenance Notice',
     home_page_notice_systitle: 'System notification',
+    home_page_notice_donttip: "Don't show again",
 
     // 活动详情
     activity_page_detail: 'Event Details',
