@@ -22,7 +22,7 @@
                     <span class="orange">{{ (proxyInfo.personal_money + proxyInfo.team_money) || '0' }}</span>
                 </div>
                 <div class="item item_margin">
-                    <div class="btn" style="margin-left:0" @click="router.push({ name: 'proxyRecord' })">
+                    <div class="btn" style="margin-left:0" @click="toProxyRecord">
                         <span>{{ t('mine_myaudit') }}</span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, onUnmounted } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import cooperationTable from "@/components/cooperationTable.vue"
 import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";
@@ -114,6 +114,7 @@ const resultHandle = (rs: any) => {
 
 // 提款
 const claim = () => {
+    if (!agentTip()) return
     const query = NetPacket.req_daily_return_claim()
     Net.instance.sendRequest(query);
 }
@@ -141,7 +142,21 @@ onUnmounted(() => {
 
 });
 
+// 非下级代理时 提示：您还不是代理，请联系上级
+const agentTip = () => {
+    if (proxyInfo.value.level !== 0) {
+        Message.error(t('proxy_page_notAgent'))
+        return false
+    }
+    return true
+}
+const toProxyRecord = () => {
+    if (!agentTip()) return
+    router.push({ name: 'proxyRecord' })
+}
+
 const copyToClipboard = (text: string) => {
+    if (!agentTip()) return
     // 检查浏览器是否支持 Clipboard API
     if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => {

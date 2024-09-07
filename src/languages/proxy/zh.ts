@@ -53,4 +53,5 @@ export default {
   proxy_page_modify: '立即修改',
   proxy_page_caoZuo: '操作成功',
   proxy_page_caoZuoFail: '操作失败',
+  proxy_page_notAgent: '您还不是代理，请联系上级',
 }
