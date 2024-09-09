@@ -17,7 +17,7 @@
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
                                        :style="`width: ${vipProcss().rateStr}`"> </span></div>
           <n-flex class="level_info_txt" justify="space-between">
-            <div> {{ t('level_page_needBet') }} {{ countNeedBet() }}</div>
+            <div> {{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</div>
             <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
           </n-flex>
         </div>
@@ -25,7 +25,7 @@
         <n-flex justify="space-between" align="center" class="level_info_jl">
           <n-flex align="center" class="level_info_jl_l">
             <span class="jl_amount"> <span> {{ t('level_page_rebate')
-              }} </span> {{ levelDataAll.daily_rebate || 0 }}
+              }} </span> {{ verifyNumberComma(String(levelDataAll.daily_rebate || 0)) }}
             </span>
             <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
           </n-flex>
@@ -112,6 +112,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store';
 import { User } from '@/store/user';
+import { verifyNumberComma } from '@/utils/others.ts';
 
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
