@@ -35,7 +35,7 @@ export default {
   proxy_page_jxMaster: 'Trainee Hall Master',
   proxy_page_master: 'hall master',
   proxy_page_report: 'Total report',
-  proxy_page_directly: 'direct subordinate',
+  proxy_page_directly: 'Direct reports',
   proxy_page_teamReport: 'Team Report',
   proxy_page_search: 'Search',
   proxy_page_total: 'Total',
@@ -53,4 +53,6 @@ export default {
   proxy_page_modify: 'Modify now',
   proxy_page_caoZuo: 'Operation successful',
   proxy_page_caoZuoFail: 'Operation failed',
+  proxy_page_notAgent: 'You are not an agent, please contact your superior',
+  wanjia: "Player",
 }
