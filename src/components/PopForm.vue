@@ -123,7 +123,6 @@ const resetInputHide = () => {
   }
 }
 
-
 const submitNext = () => {
   // 效验
   if (state.type == 3) {
