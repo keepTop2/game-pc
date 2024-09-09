@@ -10,8 +10,8 @@
     <div class="attention">
       <span>{{ t('7_days') }}</span>
       <btn @click="allClick" v-if="active_id == 1 && myEmail.hasNoRead">{{ t('all_read') }}</btn>
-      <btn v-if="active_id == 2" :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">
-        {{ received_all ? '已全部领取' : t('one_click_claim') }}</btn>
+      <btn :width="180" v-if="active_id == 2" :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">
+        {{ received_all ? t('received_all') : t('one_click_claim') }}</btn>
     </div>
     <div class="list" v-if="myEmail[active_id == 1 ? 'list' : 'rewardList'].length > 0">
       <div class="list-item" v-for="item in myEmail[active_id == 1 ? 'list' : 'rewardList']" :key="item">
@@ -158,13 +158,13 @@ const resultAttachments = (rs: any) => {
     //全部领取
     if (is_click_all.value) {
       isReadTotal.value++
-      isReadTotal.value == 1 && Message.success('领取成功')
+      isReadTotal.value == 1 && Message.success(t('receive_ok'))
       setTimeout(() => {
         is_click_all.value = false
         isReadTotal.value = 0
       }, 1000);
     } else {
-      Message.success('领取成功')
+      Message.success(t('receive_ok'))
     }
 
   }

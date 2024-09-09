@@ -2003,6 +2003,7 @@ export default {
     "attachment": "attachment",
     "received": "Received",
     "confirm": "confirm",
+    "received_all": "All received",
     "one_click_claim": "One click claim",
     "home_notice_mixtext": "{user} received {money} coins reward in {game}!",
     // 充值状态
