@@ -157,9 +157,9 @@ export default {
   paymentManagement_page_new_bank: 'Add New Bank Card',
   paymentManagement_page_default_bank: 'Default Card',
   paymentManagement_page_delete: 'Delete',
-  paymentManagement_page_set_default: 'Set as Default',
-  paymentManagement_page_set_xw_default: 'Confirm Set as Default Bank Card?',
-  paymentManagement_page_setDefaulted: 'Already set as default',
+  paymentManagement_page_set_default: 'Make default',
+  paymentManagement_page_set_xw_default: 'Confirm Make default Bank Card?',
+  paymentManagement_page_setDefaulted: 'Already Make default',
   paymentManagement_page_inUse: 'In use',
   paymentManagement_page_choose: 'choose',
   paymentManagement_page_enterBank: 'Please enter your bank account name',
@@ -191,7 +191,7 @@ export default {
   rechargeRecord_page_allHb: 'All Currencies',
 
   // walletInfo
-  walletInfo_page_code_input: 'Nhập mã đổi quà và nhận phần thưởng',
+  walletInfo_page_code_input: 'Enter the redemption code and receive the reward',
   walletInfo_page_code: 'Exchange Code',
   walletInfo_page_rule: 'Membership Level Rules',
   walletInfo_page_needBet: 'Required Bet',
@@ -280,6 +280,7 @@ export default {
   deposit_page_toExchange: 'Visit the exchange',
   deposit_page_minDeposit: 'Minimum recharge',
   deposit_page_goToDeposit: 'Are you sure to recharge?',
+  deposit_page_min_discount: 'Chỉ những khoản nạp lớn hơn {minDis} mới có thể tận hưởng khuyến mãi này',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Redeem Now',

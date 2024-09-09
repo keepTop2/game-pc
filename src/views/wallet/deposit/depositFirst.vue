@@ -30,10 +30,12 @@
                 </n-flex>
                 <div class="bank_limit">
                   <template v-if="['usdt'].includes(item.payname?.toLowerCase())">
-                    {{ verifyNumberComma(String(item.minrecharge * usdtObj.rate)) }} ~ {{ verifyNumberComma(String(item.maxrecharge * usdtObj.rate)) }}
+                    {{ verifyNumberComma(String(item.minrecharge * usdtObj.rate)) }} ~
+                    {{ verifyNumberComma(String(item.maxrecharge * usdtObj.rate)) }}
                   </template>
                   <template v-else>
-                    {{ verifyNumberComma(String(item.minrecharge)) }} ~ {{ verifyNumberComma(String(item.maxrecharge)) }}
+                    {{ verifyNumberComma(String(item.minrecharge)) }} ~
+                    {{ verifyNumberComma(String(item.maxrecharge)) }}
                   </template>
                 </div>
               </div>
@@ -111,7 +113,9 @@
                   }}：{{ curDiscount.ratio }}%
                 </div>
                 <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
-                <div>{{ t('deposit_page_minimum') }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}</div>
+                <div>{{ t('deposit_page_minimum')
+                  }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}
+                </div>
               </div>
             </n-form-item>
             <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
@@ -137,8 +141,9 @@
               </n-flex>
             </n-form-item>
             <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
-              <n-input @blur="inputBlur" @input="validateInput" size="large" v-model:value="form.amount"
-                              :placeholder="t('deposit_page_enterMon')">
+              <n-input @blur="inputBlur" @input="validateInput" size="large"
+                       v-model:value="form.amount"
+                       :placeholder="t('deposit_page_enterMon')">
                 <template #suffix>
                   <a @click="form.amount = ''" class="refresh_icon"></a>
                 </template>
@@ -150,7 +155,7 @@
                 <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
                   }}</span>
               </n-flex>
-              <span v-show="isShowError" style="color: #d03050">{{t('deposit_page_minDeposit')}}: {{verifyNumberComma(String(countMinMax().min))}}</span>
+              <span v-show="isShowError" style="color: #d03050">{{ t('deposit_page_minDeposit') }}: {{ verifyNumberComma(String(countMinMax().min)) }}</span>
             </n-form-item>
             <n-flex class="kjje_div">
               <a class="kj_item" v-for="(item, index) in chooseMoneyArr"
@@ -169,7 +174,8 @@
           </div>
           <div class="cz_tips">
             <div v-show="form.amount" class="txt">
-              {{ t('deposit_page_arrival') }}：{{ verifyNumberComma(String(arriveAmount), false)}} {{t('accountsRecord_page_dong')}}
+              {{ t('deposit_page_arrival') }}：{{ verifyNumberComma(String(arriveAmount), false) }}
+              {{ t('accountsRecord_page_dong') }}
             </div>
             <n-flex justify="center" class="tip">
               <span class="icon"></span>
@@ -221,7 +227,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
-import { Dialog, Message } from '@/utils/discreteApi';
+import { Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType, removeComma, verifyNumberComma } from '@/utils/others';
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
@@ -234,7 +240,7 @@ const showSmModal = ref(false);
 const showSecModal = ref(false);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
-const curWay = ref({payname: ''});
+const curWay = ref({ payname: '' });
 const curDepositWay = ref({ payname: '' }); // 当前选择的充值方式
 const baseDis = {
   discount_ID: 0,
@@ -247,7 +253,7 @@ const curDiscount = ref({ ...baseDis }); // 优惠
 const usdtObj = ref({
   rate: 26540, // usdt 汇率,
 });
-const isShowError = ref(false)
+const isShowError = ref(false);
 
 // 充值提交参数
 const dataParams = {
@@ -310,18 +316,18 @@ const exchangeArr = [
   { label: 'OKX', value: 'https://www.okx.com/zh-hans/price/tether-usdt' },
   { label: 'HTX', value: 'https://www.htx.com/zh-cn/fiat-crypto/one-trade/buy-usdt-vnd' },
 ];
-// const successModal = ref(false);
-const depositResult = ref({url: ''});
+
+const depositResult = ref({ url: '' });
 
 const inputBlur = () => {
   // 显示最低充值金额提示
   isShowError.value = form.value.amount < countMinMax().min;
-  form.value.amount = verifyNumberComma(String(form.value.amount))
-}
+  form.value.amount = verifyNumberComma(String(form.value.amount));
+};
 // 限制只能输入 正整数
 const validateInput = () => {
   form.value.amount = form.value.amount.replace(/[^0-9]/g, '');
-}
+};
 const openWin = (url: any) => {
   window.open(url);
 };
@@ -370,7 +376,7 @@ const openChooseBank = () => {
 };
 // 参数重置
 const resetParams = () => {
-  isShowError.value = false
+  isShowError.value = false;
   curDiscount.value = { ...baseDis };
   curDepositWay.value = { payname: '' };
   form.value = { ...dataParams };
@@ -489,13 +495,13 @@ const countMinMax = () => {
   const monObj = {
     min: curObj.minrecharge,
     max: curObj.maxrecharge,
-  }
+  };
   if (curObj.payname?.toLowerCase() === 'usdt') {
-    monObj.min = Number(curObj.minrecharge) * usdtObj.value.rate
-    monObj.max = Number(curObj.maxrecharge) * usdtObj.value.rate
+    monObj.min = Number(curObj.minrecharge) * usdtObj.value.rate;
+    monObj.max = Number(curObj.maxrecharge) * usdtObj.value.rate;
   }
   return monObj;
-}
+};
 
 const onSubmit = () => {
   // 如果是银行卡方式，需要选择银行
@@ -514,10 +520,14 @@ const onSubmit = () => {
   }
   const numMon = removeComma(form.value.amount);
   if (numMon < countMinMax().min) {
-    return Message.error(t('deposit_page_minAmount', { minAmount: curObj.minrecharge }));
+    return Message.error(t('deposit_page_minAmount', { minAmount: verifyNumberComma(String(curObj.minrecharge)) }));
   }
   if (numMon > countMinMax().max) {
-    return Message.error(t('deposit_page_maxAmount', { maxAmount: curObj.maxrecharge }));
+    return Message.error(t('deposit_page_maxAmount', { maxAmount: verifyNumberComma(String(curObj.maxrecharge)) }));
+  }
+  // 已选择优惠的情况下，充值金额不能小于优惠参与金额
+  if (form.value.discount && numMon < curDiscount.value.threshold) {
+    return Message.error(t('deposit_page_min_discount', { minDis: verifyNumberComma(String(curDiscount.value.threshold)) }))
   }
   // minDepositObj.value.show = false;
   loading.value = true;
@@ -547,26 +557,24 @@ const handleDepositSubmit = (res: any) => {
     form.value.amount = ''; // 重置
     Local.remove('curDiscountData'); // 重置
     depositResult.value = res;
-    // successModal.value = true;
-    // if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
-    //   setTimeout(() => {
-    //     onCloseSec(); // 关闭窗口
-    //     window.open(res.url);
-    //   }, 1000);
-    // }
-    Dialog.warning({
-      showIcon: false,
-      title: t('paymentManagement_page_tips'),
-      content: t('deposit_page_goToDeposit'),
-      positiveText: t('home_page_confirm'),
-      // negativeText: t('home_page_cancel'),
-      onPositiveClick: () => {
-        openNewPage();
-      },
-      onNegativeClick: () => {
 
-      },
-    })
+    setTimeout(() => {
+      openNewPage();
+    }, 1000);
+
+    // Dialog.warning({
+    //   showIcon: false,
+    //   title: t('paymentManagement_page_tips'),
+    //   content: t('deposit_page_goToDeposit'),
+    //   positiveText: t('home_page_confirm'),
+    //   // negativeText: t('home_page_cancel'),
+    //   onPositiveClick: () => {
+    //     openNewPage();
+    //   },
+    //   onNegativeClick: () => {
+    //
+    //   },
+    // })
 
   }
 };
@@ -576,7 +584,7 @@ const chooseFastMon = (e: any) => {
     form.value.amount = '0';
   }
   form.value.amount = removeComma(form.value.amount) + e;
-  form.value.amount = verifyNumberComma(String(form.value.amount))
+  form.value.amount = verifyNumberComma(String(form.value.amount));
 };
 // 更换银行弹窗
 const showChangeBank = () => {
@@ -603,15 +611,14 @@ const handleDepositBank = (res: any) => {
 const chooseSmWay = (data: any) => {
   Local.set('curExplainWay', data);
   curWay.value = data;
-}
+};
 const openNewPage = () => {
   const res = depositResult.value;
   if (res.url.indexOf('http') > -1 || res.url.indexOf('https') > -1) {
     onCloseSec(); // 关闭窗口
     window.open(res.url);
-    // successModal.value = false;
   }
-}
+};
 
 watch(
   () => showSecModal.value,
@@ -793,11 +800,13 @@ defineExpose({
     .bank_list_item {
       width: 100%;
       gap: initial !important;
+
       a {
         img {
           width: 30px;
           height: 30px;
         }
+
         &.active {
           img {
             transform: scale(1.2);
@@ -815,6 +824,7 @@ defineExpose({
       background: url(/img/payment/Vector.webp) center no-repeat;
       background-size: 100%;
     }
+
     .money_input {
       ::v-deep(.n-input-number) {
         width: 100%;

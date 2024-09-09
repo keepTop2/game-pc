@@ -140,7 +140,7 @@
             <a class="btn-ch" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
           </n-flex>
           <div class="slider-div">
-            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :format-tooltip="formatTooltip">
+            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :tooltip="false" :on-dragend="formatTooltip">
               <template #thumb>
                 <n-icon-wrapper class="n-slider-handle">
                   {{ slideStr }}

@@ -76,8 +76,8 @@ const form: any = reactive({
     // },
     bank: {
       name: 'bank',
-      label: t('addBank_page_pChooseBank'),
-      placeholder: t('addBank_page_pChoose'),
+      label: 'addBank_page_pChooseBank',
+      placeholder: 'addBank_page_pChoose',
       // hasPop: true,
       // opts: bkList.value,
       inputFilter: true, // 是否输入过滤
@@ -87,14 +87,14 @@ const form: any = reactive({
     },
     cardNo: {
       name: 'cardNo',
-      label: t('addBank_page_bankCard'),
-      placeholder: t('addBank_page_pInput'),
+      label: 'addBank_page_bankCard',
+      placeholder: 'addBank_page_pInput',
       type: 'number'
     },
     name: {
       name: 'name',
-      label: t('addBank_page_name'),
-      placeholder: t('addBank_page_pInput'),
+      label: 'addBank_page_name',
+      placeholder: 'addBank_page_pInput',
     },
     // code: {
     //   name: 'code',

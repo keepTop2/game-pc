@@ -26,9 +26,9 @@
                     <p class="p_account">{{ item.bankCode }}</p>
                   </div>
                   <div class="utilization-bank">
-                    <n-button @click="bankCheck(index, 'isUse')"
+                    <n-button v-if="!item.isUse"
                       :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
-                      {{ item.isUse ? t('paymentManagement_page_inUse') : t('paymentManagement_page_choose') }}
+                      {{t('paymentManagement_page_choose') }}
                     </n-button>
                     <n-button @click="bankCheck(index, 'isDefault')"
                       :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
@@ -446,7 +446,7 @@ defineExpose({
           display: flex;
           justify-content: space-between;
           width: 100%;
-          margin-left: 20px;
+          margin-left: 15px;
 
           .utilization-bank {
             display: flex;
@@ -456,13 +456,13 @@ defineExpose({
             margin-left: 8px;
 
             .btn-bank {
-              width: 75px;
+              min-width: 75px;
               height: 22px;
+              padding: 0 5px;
               border: none !important;
               font-size: 12px;
               color: rgba(192, 194, 219, 1);
               background-color: rgba(33, 16, 81, 1);
-
             }
 
             .btn-bank-use {
