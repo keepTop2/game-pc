@@ -134,7 +134,7 @@
                     <div class="line_box"></div>
                     <div class="text_box">{{ t('proxy_page_nextCs') }}0.125%+<br />{{ t('proxy_page_nextZs') }}
                     </div>
-                    <n-flex class="icons_box" justify="space-between" align="stretch">
+                    <n-flex class="icons_box level2" justify="space-between" align="stretch">
                         <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
                             <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
                             <div class="name">{{ t('proxy_page_gjMaster') }} C1</div>
@@ -270,7 +270,7 @@
             <div class="content">BOSS直属玩家贡献 = BOSS有效流水 * BOSS有效流水抽成 + 直属玩家有效流水 * BOSS有效流水抽成 = 100W * 0.65% + 100W *
                 0.65% = 13,000<div class="br"></div>
                 BOSS团队佣金 =（B1+C1+C2）有效流水 *（BOSS有效流水抽成 - 合伙人有效流水抽成）=（100w+100W+100W）*（0.65% - 0.525%）= 3,750<div
-                    class="br">
+                  class="br">
                 </div>BOSS总佣金 = BOSS直属玩家贡献 + 下级代理贡献 = 13,000 + 3750 = 16,750
             </div>
         </div>
@@ -475,7 +475,7 @@ const proxyConfig = ref([
 
             .text_box {
                 position: absolute;
-                width: 75%;
+                width: 70%;
                 left: 50%;
                 transform: translateX(-50%);
                 top: 0;
@@ -501,6 +501,20 @@ const proxyConfig = ref([
                     left: 50%;
                     background-color: #fff;
                     transform: translateX(-50%);
+                }
+            }
+
+            .icons_box.level2 {
+                .icon_box {
+                    width: 100px;
+                    min-height: 100px;
+
+                    .name {
+                        width: 100px;
+                        top: 30px;
+                        white-space: pre-wrap;
+                        text-align: center;
+                    }
                 }
             }
         }

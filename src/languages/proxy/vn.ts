@@ -35,7 +35,7 @@ export default {
   proxy_page_jxMaster: 'Chủ hội trường tập sự',
   proxy_page_master: 'chủ sảnh',
   proxy_page_report: 'Tổng số báo cáo',
-  proxy_page_directly: 'cấp dưới trực tiếp',
+  proxy_page_directly: 'Báo cáo trực tiếp',
   proxy_page_teamReport: 'Báo cáo nhóm',
   proxy_page_search: 'Tìm kiếm',
   proxy_page_total: 'Tổng cộng',
@@ -53,4 +53,6 @@ export default {
   proxy_page_modify: 'Sửa đổi ngay',
   proxy_page_caoZuo: 'Thao tác thành công',
   proxy_page_caoZuoFail: 'Thao tác không thành công',
+  proxy_page_notAgent: 'Bạn không phải là đại lý, vui lòng liên hệ cấp trên',
+  wanjia: "Người chơi",
 }
