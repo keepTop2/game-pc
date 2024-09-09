@@ -110,19 +110,23 @@ const state: any = reactive({
     rules: {
       mobile: [
         {
+          key: 'mobile',
           required: !0,
           validator: () => {
+            if (!state.formData.formParams.mobile) {
+                        return new Error(t('home_page_enterPhoneNumber'))
+                    } else
             if (verifyMobile(state.formData.formParams.codeValue, state.formData.formParams.mobile)) {
 
               state.formData.list.phoneCode.disabled = false
               return true
             } else {
               state.formData.list.phoneCode.disabled = true
-              return false
+              return new Error(t('home_page_phoneNumberFormatIncorrect'))
             }
 
           },
-          message: t('home_page_phoneNumberFormatIncorrect'),
+          // message: t('home_page_phoneNumberFormatIncorrect'),
           trigger: "input",
         },
       ],
@@ -136,17 +140,22 @@ const state: any = reactive({
       ],
       email: [
         {
+          key: 'email',
           required: !0,
+         
           validator: () => {
+            if (!state.formData.formParams.email) {
+                        return new Error(t('home_page_enterEmail'))
+                    } else
             if (verifyEmail({}, state.formData.formParams.email)) {
               state.formData.list.emailCode.disabled = false
               return true
             } else {
               state.formData.list.emailCode.disabled = true
-              return false
+              return  new Error(t('home_page_emailIncorrect'))
             }
           },
-          message: t('home_page_emailIncorrect'),
+          // message: t('home_page_emailIncorrect'),
           trigger: "input",
         },
       ],
@@ -393,13 +402,36 @@ const submitSend = (item: any) => {
   state.itemClick = item
   // 1 为手机  2 为邮箱 
   if (state.formData.active == 1) {
-    SmsCodeRef.value.openDialog()
+    formRef.value?.validate(
+      (errors: any) => {
+        if (errors) {
+          console.log(errors)
+        } else {
+          SmsCodeRef.value.openDialog()
+        }
+      },
+      (rule: any) => {
+        return rule?.key === 'mobile'
+      }
+    )
   }
   if (state.formData.active == 2) {
-    item.loading = true
-    const req = NetPacket.req_get_email_verification_code()
-    req.email = state.formData.formParams.email
-    Net.instance.sendRequest(req)
+    formRef.value?.validate(
+      (errors: any) => {
+        if (errors) {
+          console.log(errors)
+        } else {
+          item.loading = true
+          const req = NetPacket.req_get_email_verification_code()
+          req.email = state.formData.formParams.email
+          Net.instance.sendRequest(req)
+        }
+      },
+      (rule: any) => {
+        return rule?.key === 'email'
+      }
+    )
+
   }
 };
 

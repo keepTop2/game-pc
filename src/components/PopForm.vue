@@ -134,7 +134,11 @@ const submitNext = () => {
         }
       });
     } else if (state.formData.step == 2) {
-      emit('submitData', state.formData.formParams, state.type);
+      formRef.value?.validate((errors: any) => {
+        if (!errors) {
+          emit('submitData', state.formData.formParams, state.type);
+        }
+      });
 
     } else {
       formRef.value?.validate((errors: any) => {
