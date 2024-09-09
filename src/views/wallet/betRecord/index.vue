@@ -123,6 +123,8 @@ const platformHandle = (rs: any) => { // 平台数据处理
         return { value: item, label: t(key) }
     })
 }
+
+const noNameList: any = ['SBO', 'CMD368', 'IM', 'VR', 'TCG', 'SABA', 'DG']
 const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
     let str = row.game_type.split('_')
@@ -141,8 +143,19 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
         case "balance_time":
             rs = convertObjectToDateString(val)
             break
+        case "game_type":
+            if (noNameList.includes(str[0]) && !str[1]) {
+                rs = str[0]
+            } else {
+                rs = row.platform_id + '_' + str[1]
+                if (str[2]) {
+                    rs = rs + '_' + str[2]
+                }
+                rs = t(rs)
+            }
+            break
         default:
-            rs = t(row.platform_id + '_' + str[1])
+            rs = val || '--'
     }
     return rs
 

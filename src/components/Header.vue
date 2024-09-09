@@ -32,7 +32,7 @@
   <header class="header">
     <div>
       <div class="logo_box">
-        <img src="/logo.png" alt="logo" class="logo" @click="router.push('/')" />
+        <Imgt src="/logo.png" class="logo" @click="router.push('/')" />
       </div>
       <div class="user_box">
 
@@ -125,6 +125,7 @@ import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import ServiceModal from './ServiceModal/ServiceModal.vue'
+import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings, lang } = storeToRefs(page);
@@ -516,6 +517,8 @@ watch(
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .header-bg-img {
   background-blend-mode: color-burn;
 }
@@ -560,7 +563,8 @@ watch(
   height: 80px;
   background-color: #2d1769;
   box-shadow: inset 0 0 4px 0 rgba(7, 144, 242, 0.2), 0 2px 4px 0 #131421;
-  background: linear-gradient(rgba(2, 4, 109, 0.9)20%, rgba(30, 11, 86, 0.9)) 90%, url('/img/home/header.webp') no-repeat 0% 20%/cover;
+  background: linear-gradient(rgba(2, 4, 109, 0.9)20%, rgba(30, 11, 86, 0.9)) 90%,
+  url('/img/home/header.webp?t=@{timestamp}') no-repeat 0% 20%/cover;
   border-bottom: 2px solid #5a47b2;
   position: fixed;
   z-index: 100;
