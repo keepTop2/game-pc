@@ -2,19 +2,20 @@
     <div class="bg-color">
         <div class="box">
             <p class="text">
-                {{t('home_page_footerTips')}}
+                {{ t('home_page_footerTips') }}
             </p>
             <n-divider />
             <div class="imgs">
-                <img src="/img/footer/f-1.webp" alt="f-1" />
-                <img src="/img/footer/f-2.webp" alt="f-2" />
-                <img src="/img/footer/f-3.webp" alt="f-3" />
+                <Imgt src="/img/footer/f-1.webp" alt="f-1" />
+                <Imgt src="/img/footer/f-2.webp" alt="f-2" />
+                <Imgt src="/img/footer/f-3.webp" alt="f-3" />
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts" name="footer">
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 </script>

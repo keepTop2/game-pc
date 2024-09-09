@@ -7,21 +7,23 @@
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
       <div class="forbidden">
-        <div class="forbidden_btn" @click="visibleForbidden = true"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
+        <div class="forbidden_btn" @click="visibleForbidden = true"
+          v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem" style="margin-top: 6px;"></iconpark-icon>
+        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"
+          style="margin-top: 6px;"></iconpark-icon>
       </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
-      <div class="left_setting" v-if="agentInfo.user_type&&agentInfo.user_type>0">
+      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
               size="1.8rem"></iconpark-icon>
-            <!-- <img :src="`/img/serviceModal/${item.img}`" alt=""> -->
+            <!-- <Imgt :src="`/img/serviceModal/${item.img}`" alt=""> -->
             <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">全部对话</span>
           </n-badge>
         </div>
@@ -57,7 +59,7 @@
           <div class="manage_group" @click.stop="manageClick">分组管理</div>
         </div>
         <div class="list_wrap">
-        <!-- 聊天列表 -->
+          <!-- 聊天列表 -->
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
@@ -66,10 +68,10 @@
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
                     :offset="[-14, 8]">
-                    <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
-                      class="img1">
+                    <Imgt :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                      class="img1" />
                   </n-badge>
-                  <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                  <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
@@ -107,9 +109,9 @@
                   <div class="avatar">
                     <n-badge :value="i.unreadnums" :show="i.unreadnums > 0" :max="9999" class="set_item"
                       :offset="[-14, 8]">
-                      <img :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                      <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
-                    <img :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip">
+                    <Imgt :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip" />
                   </div>
                   <span>{{ i.TUsername }}</span>
                 </div>
@@ -142,7 +144,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="setting" @click="showSetting" v-if="agentInfo.user_type&&agentInfo.user_type>0">快捷语设置</div>
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">快捷语设置</div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
@@ -151,7 +153,8 @@
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
-              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.moneyauth==1" />
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"
+                v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.moneyauth == 1" />
               <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
@@ -168,7 +171,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{agentInfo.user_type}}</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{ agentInfo.user_type }}</div>
         </div>
       </div>
     </div>
@@ -206,6 +209,7 @@ import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
+import Imgt from '@/components/Imgt.vue';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -215,7 +219,7 @@ interface tabType {
 }
 import { useI18n } from 'vue-i18n';
 const userInfo = User(pinia);
-const { roleInfo,agentInfo } = storeToRefs(userInfo);
+const { roleInfo, agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
 const groupRef: any = ref(null)
 const { t } = useI18n();
@@ -823,53 +827,54 @@ onMounted(async () => {
   // gap: 20px
 
 }
+
 .list_item {
-    height: 72px;
-    padding: 0 10px;
-    cursor: pointer;
+  height: 72px;
+  padding: 0 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .item_left {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
-    .item_left {
+    .avatar {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      position: relative;
 
-      .avatar {
-        display: flex;
-        flex-direction: column;
-        position: relative;
+      .img1 {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+      }
 
-        .img1 {
-          height: 50px;
-          width: 50px;
-          margin-right: 10px;
-        }
-
-        .img2 {
-          height: 21px;
-          position: absolute;
-          bottom: -6px;
-          // margin-top: -15px;
-        }
+      .img2 {
+        height: 21px;
+        position: absolute;
+        bottom: -6px;
+        // margin-top: -15px;
       }
     }
-
-    .high_proxy {
-      cursor: pointer;
-      font-size: 12px;
-
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: 6px;
-      background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
-
-    }
   }
 
-  .item_active {
-    background-color: #422299
+  .high_proxy {
+    cursor: pointer;
+    font-size: 12px;
+
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
+
   }
+}
+
+.item_active {
+  background-color: #422299
+}
 
 .send_message {
   //height: 52px;

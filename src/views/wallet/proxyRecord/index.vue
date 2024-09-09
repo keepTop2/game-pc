@@ -27,7 +27,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -53,6 +53,7 @@ import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 import { Page } from '@/store/page';
 import pinia from '@/store/index';
+import Imgt from '@/components/Imgt.vue';
 
 const page = Page(pinia);
 

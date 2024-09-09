@@ -3,7 +3,7 @@
         <Sidebar />
         <div class="content">
             <div class="head">
-                <img src="/img/home/back.webp" alt="" @click="router.go(-1)">
+                <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />
                 <span>{{ t(state.title) }}</span>
             </div>
             <router-view></router-view>
@@ -17,6 +17,7 @@ import { onMounted, reactive, watch } from 'vue';
 import Sidebar from '@/components/Sidebar.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 

@@ -45,8 +45,9 @@
             <div class="list_item" v-for="item in chatitemIdList" :key="item.id">
               <div class="user_info">
                 <div class="avatar">
-                  <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt="" class="img1">
-                  <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                  <Imgt :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                    class="img1" />
+                  <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                 </div>
                 <span>{{ item.TUsername }}</span>
                 <div class="high_proxy">上级代理</div>
@@ -70,9 +71,9 @@
                 <div class="list_item">
                   <div class="user_info">
                     <div class="avatar">
-                      <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
-                        class="img1">
-                      <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                      <Imgt :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                        class="img1" />
+                      <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                     </div>
                     <span>{{ item.TUsername }}</span>
                   </div>
@@ -95,6 +96,7 @@
 import { computed, ref } from 'vue';
 import usechatHooks from '../useHooks';
 import IWebsocket from '../chatWS'
+import Imgt from '@/components/Imgt.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -123,7 +125,7 @@ const emit = defineEmits(['update:visible']);
 const step = ref(1)
 const groupName = ref('')
 const editGroupItem = ref()
-const { groupList, encodeInput, encodeParams, decodeContent, getChatlist, groupChatitemList,editchat }: any = usechatHooks(props.stateData)
+const { groupList, encodeInput, encodeParams, decodeContent, getChatlist, groupChatitemList, editchat }: any = usechatHooks(props.stateData)
 const stepTitle: any = {
   1: '创建分组',
   2: '分组管理',

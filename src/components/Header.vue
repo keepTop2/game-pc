@@ -57,7 +57,7 @@
             <n-popselect v-model:value="lang" :render-label="renderLabel" :options="settings.lang_list"
               @update:value="valueChange" trigger="click">
               <span>
-                <img :src="`/img/home/${lang}.png`" alt="country">
+                <Imgt :src="`/img/home/${lang}.png`" alt="country" />
                 <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </n-popselect>
@@ -73,7 +73,7 @@
         <div v-else class="user_info">
           <p class="user_info_mon">
             <span>
-              <img src="/img/home/coin.webp" alt="">
+              <Imgt src="/img/home/coin.webp" />
               <span>{{ verifyNumberComma(String(roleInfo.money + roleInfo?.bank_money)) }}</span>
             </span>
           </p>
@@ -81,8 +81,8 @@
             <n-popover trigger="hover" display-directive="show">
               <template #trigger>
                 <span>
-                  <img @error="avatarLoadError"
-                    :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" alt="">
+                  <Imgt @error="avatarLoadError"
+                    :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" />
                   <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
                 </span>
               </template>

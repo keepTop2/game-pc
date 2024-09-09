@@ -26,7 +26,7 @@
           </n-input>
           <template v-if="item.name === 'captcha'">
             <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
-              <img :src="captchaURL" alt="captchaURL">
+              <Imgt :src="captchaURL" alt="captchaURL" />
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
             </span>
             <span v-if="activeTab === 2">
@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from "vue";
+import Imgt from '@/components/Imgt.vue';
 
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";

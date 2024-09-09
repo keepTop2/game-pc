@@ -38,7 +38,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -62,6 +62,7 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { PlatformValueMap } from "@/enums/walletEnum"
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const tableHeader = computed(() => {

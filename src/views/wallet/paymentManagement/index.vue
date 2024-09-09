@@ -10,21 +10,21 @@
 
         <n-flex justify="space-between" align="flex-end" class="abs number">
           <div class="">
-            <div>{{item.bank_name}}</div>
-            {{maskString(item.account_number)}}
+            <div>{{ item.bank_name }}</div>
+            {{ maskString(item.account_number) }}
           </div>
           <n-flex class="list_item_r">
-            <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex >
+            <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
             <template v-else>
               <n-flex class="set_box mr_color button" @click="doDefaultBank(item)">
-                {{t('paymentManagement_page_set_default') }}
+                {{ t('paymentManagement_page_set_default') }}
               </n-flex>
             </template>
           </n-flex>
         </n-flex>
-        <img class="abs bank_img" :src="item.bankImgURL" :alt="item.bank_name">
+        <Imgt class="abs bank_img" :src="item.bankImgURL" :alt="item.bank_name" />
         <span v-if="index === 0" class="icon_tip">
-          <span class="skew_text">{{t('paymentManagement_page_inUse')}}</span>
+          <span class="skew_text">{{ t('paymentManagement_page_inUse') }}</span>
         </span>
       </div>
       <div v-if="myBankList?.length < 6" class="bank add_bank pointer center" @click="() => showAddBankModal(true)">
@@ -44,6 +44,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { Dialog, Message } from "@/utils/discreteApi";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const { showAddBankModal } = usePaymentManagement();

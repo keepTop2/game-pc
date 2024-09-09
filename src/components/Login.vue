@@ -1,13 +1,13 @@
 <template>
   <div class="login_from_box">
-    <img src="/img/login/silder.webp" alt="" />
+    <Imgt src="/img/login/silder.webp" alt="" />
     <span class="close">
       <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
     </span>
     <div class="login_form">
       <div class="tab">
         <span :class="state.active == i ? 'active' : ''" v-for="(tab, i) in tabList" :key="i" @click="changeTab(i)">{{
-        t(tab.name) }}</span>
+          t(tab.name) }}</span>
       </div>
       <n-form :model="state.login" :rules="state.loginRules" :show-label="false" ref="loginFormRef">
         <template v-for="item in state.loginList">
@@ -34,7 +34,7 @@
               </template>
             </n-input>
             <span v-if="item.slot && item.name == 'captcha'" @click="refresh_captcha" class="btn">
-              <img :src="captchaURL" alt="captchaURL">
+              <Imgt :src="captchaURL" alt="captchaURL" />
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
             </span>
           </n-form-item>
@@ -59,6 +59,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, } from "vue";
+import Imgt from '@/components/Imgt.vue';
 // import {
 //   NAvatar,
 //   NText,
