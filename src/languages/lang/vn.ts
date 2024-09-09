@@ -2079,6 +2079,7 @@ export default {
   message_center: 'Trung tâm tin nhắn',
   reward_email: 'email thưởng',
   all_read: 'Đọc tất cả',
+  "received_all": "Tất cả đã nhận được",
   view_details: 'Xem chi tiết',
   '7_days': 'Lưu ý: Tất cả email chỉ được lưu giữ trong 7 ngày và sẽ tự động bị xóa sau 7 ngày',
   email_title: 'Tiêu đề email',

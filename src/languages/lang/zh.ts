@@ -2001,6 +2001,7 @@ export default {
     "received": "已领取",
     "confirm": "确认",
     "one_click_claim": "一键领取",
+    "received_all": "已全部领取",
     "home_notice_mixtext": "{user} 在 {game} 获得 {money} 金币奖励！",
     // 充值状态
     'rechagre_status_map_0': '失败',
