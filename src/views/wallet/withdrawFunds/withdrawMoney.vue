@@ -66,8 +66,7 @@
             <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-              <n-input @input="validateInput" clearable autocomplete="off" size="large" v-model:value="form.amount"
-                :placeholder="t('walletInfo_page_withdrawalMon')">
+              <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
@@ -76,7 +75,7 @@
 
             <div class="switchVisible">
               <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
-                <n-input clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
+                <n-input ref="inputRef"  clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
                   :type="changeRightInfo.type" @keydown.enter.prevent>
                   <template #suffix>
                     <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
@@ -95,9 +94,7 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w_full">
-            <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{
-              t('walletInfo_page_immediatelyMon') }}
-            </div>
+            <div class="submit_btn  weight_5 center pointer" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}</div>
           </div>
           <div v-show="form.amount" class="cz_tips">
             <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
@@ -294,8 +291,9 @@ const handleWithDrawSubmit = (res: any) => {
 
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
-  if (!form.value.amount) { form.value.amount = 0 }
-  form.value.amount = Number(form.value.amount) + e;
+  if (!form.value.amount) {form.value.amount = '0'}
+  form.value.amount = removeComma(form.value.amount) + e;
+  form.value.amount = verifyNumberComma(String(form.value.amount))
 }
 
 const handleCanWithdraw = (res: any) => {
@@ -448,7 +446,6 @@ const railStyle = ({ focused, checked }: {
         border-bottom: 1px solid #3C3671;
       }
 
-      .text {}
     }
 
     .item-list {
