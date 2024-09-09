@@ -77,13 +77,17 @@ const tableHeader = computed(() => {
 type OptionListType = { value: number, label: string }[];
 const platformList = ref<OptionListType>([]);
 const optionsPlat = computed(() => { // 平台
-    const options = platformList.value
+    const options = JSON.parse(JSON.stringify(platformList.value))
     options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
 const gameList = ref<OptionListType>([]);
 const optionsGame = computed(() => { // 游戏
-    const options = gameList.value
+    const options = JSON.parse(JSON.stringify(gameList.value.map((item: any) => {
+        item.label = t(item.key)
+        return item
+    })))
+    console.error(options)
     options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
@@ -117,10 +121,13 @@ const platformHandle = (rs: any) => { // 平台数据处理
         let key = item
         try {
             key = PlatformValueMap[item.split('_')[0]] + '_' + item.split('_')[1]
+            if (item.split('_')[2]) {
+                key = key + '_' + item.split('_')[2]
+            }
         } catch {
 
         }
-        return { value: item, label: t(key) }
+        return { value: item, key: key }
     })
 }
 
