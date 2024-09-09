@@ -309,6 +309,7 @@ const flagBank = (flag: Boolean) => {
   addBankFlag.value = flag
 };
 
+// 测试一下
 const showBankModal = ref(false);
 // 银行列表
 const bkList = ref<TTabList>([...bankListInfo.value]);
