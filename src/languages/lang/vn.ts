@@ -2125,10 +2125,4 @@ export default {
   // 稽核状态
   'audit_status_map_1': 'đang tiến hành',
   'audit_status_map_2': 'Hoàn thành',
-  // 赌场身份
-  'identity_map_1': 'Thạc sĩ hội trường thực tập sinh',
-  'identity_map_2': 'Chủ hội trường',
-  'identity_map_3': 'Trưởng phòng cao cấp',
-  'identity_map_4': 'Cộng sự',
-  'identity_map_5': 'BOSS',
 };
