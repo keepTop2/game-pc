@@ -2,8 +2,8 @@
     <div class="activity">
         <div class="activity_img">
             <div v-for="(item, i) in activityTitleList[state.name]" :key="i">
-                <img @click="popDetail(item)" :src="activityDetail(String(item.name))"
-                    v-if="activityDetail(String(item.name))" alt="">
+                <Imgt @click="popDetail(item)" :src="activityDetail(String(item.name))"
+                    v-if="activityDetail(String(item.name))" />
 
             </div>
 
@@ -11,7 +11,7 @@
         <n-modal v-model:show="state.showModal">
             <n-card :title="t('activity_page_detail')" closable @close="state.showModal = false" :bordered="false"
                 size="huge" role="dialog" aria-modal="true">
-                <img v-if="state.detailImg" :src="t(state.detailImg)" alt="">
+                <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />
             </n-card>
         </n-modal>
     </div>
@@ -19,7 +19,7 @@
 
 <script setup lang='ts'>
 import { onMounted, reactive, watch } from 'vue';
-
+import Imgt from '@/components/Imgt.vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { Page } from '@/store/page';

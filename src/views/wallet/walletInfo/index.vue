@@ -17,24 +17,26 @@
       <div class="process">
         <div class="userInfo">
           <div class="usrProfile">
-            <img :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar" alt="">
+            <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar"
+              alt="" />
             <div class="userName">
               <p class="size1">{{ userInfo.full_name || userInfo.real_name || roleInfo.nickname }}</p>
               <div class="mount">
                 <div class="flex">
                   <p class="size2">{{ totalMoneyTxt }}</p>
-                  <img :class="`pointer ${refreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
-                    @click="refreshWallet">
-                  <img v-if="!eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt="" @click="moneyShow">
-                  <img v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow">
+                  <Imgt :class="`pointer ${refreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
+                    @click="refreshWallet" />
+                  <Imgt v-if="!eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt=""
+                    @click="moneyShow" />
+                  <Imgt v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow" />
                 </div>
                 <!-- <n-dropdown trigger="click" :options="currencyList" @select="handleCurrencyChange">
                                     <n-button>
                                         <div class="usdBtn" block>
-                                            <img src="/img/payment/T.webp" class="T" alt="">
+                                            <Imgt src="/img/payment/T.webp" class="T" />
                                             <p class="size4">{{ currencyList.filter((cur) => cur.key ===
                                                 currencyUnit)[0].label }}</p>
-                                            <img src="/img/payment/down.webp" class="down" alt="">
+                                            <Imgt src="/img/payment/down.webp" class="down" />
                                         </div>
                                     </n-button>
                                 </n-dropdown>-->
@@ -60,11 +62,11 @@
         <div class="vip">
           <div class="vip1">
             <p class="size3">VIP{{ Number(VIPinfo.current_vip_level) }}</p>
-            <img src="/img/payment/king.webp" class="king" alt="">
+            <Imgt src="/img/payment/king.webp" class="king" />
           </div>
           <div class="vip1">
             <p class="size3">VIP{{ Number(VIPinfo.current_vip_level) + 1 || 1 }}</p>
-            <img src="/img/payment/king.webp" class="king" alt="">
+            <Imgt src="/img/payment/king.webp" class="king" />
           </div>
         </div>
         <n-progress class="processBar" type="line" :color="themeVars.warningColor" :percentage="target.progress"
@@ -140,7 +142,8 @@
             <a class="btn-ch" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
           </n-flex>
           <div class="slider-div">
-            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :tooltip="false" :on-dragend="formatTooltip">
+            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :tooltip="false"
+              :on-dragend="formatTooltip">
               <template #thumb>
                 <n-icon-wrapper class="n-slider-handle">
                   {{ slideStr }}
@@ -213,6 +216,7 @@ import { Net } from '@/net/Net.ts';
 import pinia from '@/store';
 import { Page } from '@/store/page';
 import { verifyNumberComma } from '@/utils/others.ts';
+import Imgt from '@/components/Imgt.vue';
 
 // const formatter = (value: any) => {
 //   setTimeout(() => {

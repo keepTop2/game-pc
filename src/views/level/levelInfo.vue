@@ -15,7 +15,7 @@
             </div>
           </n-flex>
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
-                                       :style="`width: ${vipProcss().rateStr}`"> </span></div>
+              :style="`width: ${vipProcss().rateStr}`"> </span></div>
           <n-flex class="level_info_txt" justify="space-between">
             <div> {{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</div>
             <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
@@ -25,7 +25,7 @@
         <n-flex justify="space-between" align="center" class="level_info_jl">
           <n-flex align="center" class="level_info_jl_l">
             <span class="jl_amount"> <span> {{ t('level_page_rebate')
-              }} </span> {{ verifyNumberComma(String(levelDataAll.daily_rebate || 0)) }}
+                }} </span> {{ levelDataAll.daily_rebate || 0 }}
             </span>
             <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
           </n-flex>
@@ -40,12 +40,11 @@
 
         <div class="level_info_vip_all">
           <n-flex id="scroll_box" class="level_info_vip_l">
-            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`"
-                 v-for="(item, index) in levelListData"
-                 :key="index" @click="(e: any) => { clickTab(e, item.key) }">
-              <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
-                   <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
-              <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
+              :key="index" @click="(e: any) => { clickTab(e, item.key) }">
+              <!--   <Imgt v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
+                   <Imgt v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip" />-->
+              <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
 
 
             </div>
@@ -55,17 +54,17 @@
           <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
             <span>{{ t('level_page_unlock') }}</span>
           </div>
-          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData"
-                  :key="index">
+          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
             <div class="list_item_l">
               <div class="title_big"> {{ t(item.title) }}</div>
               <div> {{ item.titleSec }}</div>
             </div>
             <n-flex class="list_item_r">
-              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child"
-                   :key="index + index_1">
+              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
                 <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
-                  <div class="item_img"><img :src="`/img/level/${item_1.icon}.webp`"></div>
+                  <div class="item_img">
+                    <Imgt :src="`/img/level/${item_1.icon}.webp`" />
+                  </div>
                   <div> {{ t(item_1.name) }}</div>
                 </div>
               </div>
@@ -86,8 +85,7 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('level_page_paiTitle') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff"
-                           size="1rem"></iconpark-icon>
+            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center">
@@ -113,6 +111,7 @@ import { storeToRefs } from 'pinia';
 import pinia from '@/store';
 import { User } from '@/store/user';
 import { verifyNumberComma } from '@/utils/others.ts';
+import Imgt from '@/components/Imgt.vue';
 
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
@@ -390,7 +389,7 @@ onUnmounted(() => {
       width: 98.5%;
       margin-left: 12px;
 
-      > div {
+      >div {
         position: relative;
         font-size: 14px;
         width: 70px;
@@ -524,7 +523,7 @@ onUnmounted(() => {
 
         .lq_icon {
           width: 16px;
-          heighth: 16px;
+          height: 16px;
           background: url(/img/level/q_icon.webp) center no-repeat;
           background-size: 100%;
 

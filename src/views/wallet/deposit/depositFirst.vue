@@ -6,22 +6,21 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
-                           size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md">
           <!-- 充值列表选择 -->
           <n-flex justify="space-between" align="center"
-                  :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curDepositWay.payname === item.payname ? 'active' : ''}`"
-                  v-for="(item, index) in usdtRecharge" :key="index">
+            :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curDepositWay.payname === item.payname ? 'active' : ''}`"
+            v-for="(item, index) in usdtRecharge" :key="index">
             <div v-if="item.status === 0" class="bank_wh">
-              <img src="/img/payment/wh_bank.webp" />
+              <Imgt src="/img/payment/wh_bank.webp" />
               <span>{{ t('addBank_page_bankPay_wh') }}</span>
             </div>
             <n-flex align="center" class="item_list_l">
               <div class="bank_icon">
-                <img :src="`/img/payment/icon/icon_${item.payname}.webp`" />
+                <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
               </div>
               <div class="bank_txt">
                 <n-flex class="bank_name">
@@ -58,22 +57,19 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('deposit_page_instructions') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="showSmModal = false" icon-id="Group39368" color="#fff"
-                           size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="showSmModal = false" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md">
           <n-flex align="center" justify="center" class="sm_txt">
             <div class="sm_content">
-              <img :src="`/img/payment/sm/sm_${curWay.payname}.webp`" />
+              <Imgt :src="`/img/payment/sm/sm_${curWay.payname}.webp`" />
             </div>
           </n-flex>
           <n-flex justify="space-between" class="bank_list_item">
-            <a :class="`${curWay.payname === item.payname ? 'active' : ''}`"
-               v-for="(item, index) in usdtRecharge"
-               @click="chooseSmWay(item)"
-               :key="index">
-              <img :src="`/img/payment/icon/icon_${item.payname}.webp`" />
+            <a :class="`${curWay.payname === item.payname ? 'active' : ''}`" v-for="(item, index) in usdtRecharge"
+              @click="chooseSmWay(item)" :key="index">
+              <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
             </a>
           </n-flex>
         </div>
@@ -86,18 +82,16 @@
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
-          <!--          <span class="icon_back button"><img src="/img/home/back.webp" alt="" @click="goBackList"></span>-->
+          <!--          <span class="icon_back button"><Imgt src="/img/home/back.webp" alt="" @click="goBackList" /></span>-->
           <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff"
-                           size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md body_sec">
           <n-form ref="formRef" class="w_full">
             <n-form-item :label="t('rechargeRecord_page_method')">
-              <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.method"
-                        :options="mtdList" />
+              <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.method" :options="mtdList" />
             </n-form-item>
             <n-form-item class="yh-item" :label="t('level_page_code')">
               <n-select v-model:value="form.discount" :options="dcList" />
@@ -105,7 +99,7 @@
               <div v-if="form.discount" class="choose-yh">
                 <div>
                   {{ curDiscount.ratio > 0 ?
-                  t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
+                    t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
                   }}
                   ：{{ verifyNumberComma(String(curDiscount.limit)) }}
                 </div>
@@ -118,20 +112,18 @@
                 </div>
               </div>
             </n-form-item>
-            <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
-                         class="yh_item"
-                         :label="t('deposit_page_netWork')">
+            <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" class="yh_item"
+              :label="t('deposit_page_netWork')">
               <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.network_type"
-                        :options="netWorkArr" />
+                :options="netWorkArr" />
             </n-form-item>
             <!-- 银行卡充值独有 -->
-            <n-form-item v-if="curDepositWay.payname?.indexOf('bankcard') > -1"
-                         :label="t('addBank_page_pChooseBank')">
+            <n-form-item v-if="curDepositWay.payname?.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
               <n-flex class="choose-bank">
                 <n-flex align="center" class="choose-bank-l">
-                  <n-flex class="bank_cicon" v-if="chooseBank.value"><img
-                    :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`"
-                    :alt="chooseBank.label" /></n-flex>
+                  <n-flex class="bank_cicon" v-if="chooseBank.value">
+                    <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
+                  </n-flex>
                   <span class="bank_cname"> {{ chooseBank.label }} </span>
                 </n-flex>
                 <n-button :bordered="false" class="change-btn" @click="showChangeBank">
@@ -141,34 +133,31 @@
               </n-flex>
             </n-form-item>
             <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
-              <n-input @blur="inputBlur" @input="validateInput" size="large"
-                       v-model:value="form.amount"
-                       :placeholder="t('deposit_page_enterMon')">
+              <n-input @blur="inputBlur" @input="validateInput" size="large" v-model:value="form.amount"
+                :placeholder="t('deposit_page_enterMon')">
                 <template #suffix>
                   <a @click="form.amount = ''" class="refresh_icon"></a>
                 </template>
               </n-input>
-              <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())"
-                      justify="space-between"
-                      class="flex usdt_box">
+              <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between"
+                class="flex usdt_box">
                 <span>USDT: {{ countUsdtMon() }}</span>
                 <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
                   }}</span>
               </n-flex>
-              <span v-show="isShowError" style="color: #d03050">{{ t('deposit_page_minDeposit') }}: {{ verifyNumberComma(String(countMinMax().min)) }}</span>
+              <span v-show="isShowError" style="color: #d03050">{{ t('deposit_page_minDeposit') }}: {{
+                verifyNumberComma(String(countMinMax().min)) }}</span>
             </n-form-item>
             <n-flex class="kjje_div">
-              <a class="kj_item" v-for="(item, index) in chooseMoneyArr"
-                 @click="chooseFastMon(item.value)"
-                 :key="index">
+              <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+                :key="index">
                 {{ item.label }}
               </a>
             </n-flex>
           </n-form>
           <div class="btn_zone flex w_full">
-            <n-button :bordered="false" class="submit_btn  weight_5 center pointer"
-                      :disabled="loading" block
-                      @click="onSubmit">{{
+            <n-button :bordered="false" class="submit_btn  weight_5 center pointer" :disabled="loading" block
+              @click="onSubmit">{{
                 t('deposit_page_rechargeNow') }}
             </n-button>
           </div>
@@ -194,15 +183,14 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('deposit_page_exchange') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="showModal = false" icon-id="Group39368" color="#fff"
-                           size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="showModal = false" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body center t_md exchange_list body_sec">
           <div class="ex_list_item button" v-for="(item, index) in exchangeArr" :key="index"
-               @click="openWin(item.value)">
+            @click="openWin(item.value)">
             <div class="icon">
-              <img :src="`/img/payment/usdt/logo${index + 1}.webp`" />
+              <Imgt :src="`/img/payment/usdt/logo${index + 1}.webp`" />
             </div>
             <span>{{ item.label }}</span>
           </div>
@@ -211,9 +199,8 @@
     </n-card>
   </n-modal>
   <!-- 选择银行弹窗 -->
-  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList"
-                    ref="chooseBankModal"
-                    @selectBank="selectBank" />
+  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList" ref="chooseBankModal"
+    @selectBank="selectBank" />
 
 </template>
 
@@ -229,6 +216,7 @@ import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType, removeComma, verifyNumberComma } from '@/utils/others';
+import Imgt from '@/components/Imgt.vue';
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
@@ -896,7 +884,7 @@ defineExpose({
         background: url(/img/payment/yh_bg.webp) center no-repeat;
         background-size: 100%;
 
-        > div {
+        >div {
           margin-bottom: 10px;
         }
       }

@@ -1,18 +1,16 @@
 <template>
   <n-flex vertical class="promo_info record_page">
     <n-flex align="center" class="tab_top">
-      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`"
-         v-for="(item, index) in tabArr"
-         :key="index" @click="clickTab(item.key)">
-        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount"
-                 dot />
+      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
+        :key="index" @click="clickTab(item.key)">
+        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount" dot />
         {{ t(item.title) }}
       </a>
     </n-flex>
     <n-spin :show="loading">
       <div class="promo_list">
         <div :class="`list_item ${(item.volume || item.award) ? 'list_item_b' : ''}`"
-             v-for="(item, index) in listData.list" :key="index">
+          v-for="(item, index) in listData.list" :key="index">
           <n-flex justify="space-between" class="item_top">
             <div class="item_l">
               <!--              <span v-if="('1,2,3,4,5').includes(item.have_save)" class="item_name"> {{ t('promo_page_fuHuo') }} </span>-->
@@ -41,8 +39,7 @@
           <div v-if="item.volume || item.award" class="item_bottom">
             <n-flex align="center" class="item_jd">
               <span> {{ t('promo_page_pro') }}： </span>
-              <div class="item_pro"><span class="pro_inner"
-                                          :style="`width: ${item.schedule}%`"> </span></div>
+              <div class="item_pro"><span class="pro_inner" :style="`width: ${item.schedule}%`"> </span></div>
             </n-flex>
             <n-flex justify="space-between">
               <div class="item_bottom_l">
@@ -58,14 +55,13 @@
         </div>
       </div>
       <div class="nodata" v-if="!listData.list.length && !loading">
-        <img src="/img/wallet/nodata.webp" alt="nodata">
+        <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
         <div>{{ t('home_page_nomore_data') }}</div>
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange"
-                  v-model:page="params.page"
-                  :item-count="listData.total_page" v-show="listData.total_page" />
+    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
+      :item-count="listData.total_page" v-show="listData.total_page" />
 
   </n-flex>
 
@@ -81,6 +77,7 @@ import { useI18n } from 'vue-i18n';
 import { Message } from '@/utils/discreteApi';
 import { useRouter } from 'vue-router';
 import { Local } from '@/utils/storage';
+import Imgt from '@/components/Imgt.vue';
 
 const router = useRouter();
 const { t } = useI18n();

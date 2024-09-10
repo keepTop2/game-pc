@@ -28,7 +28,7 @@
 
             <n-flex class="tr" v-for="(row, index) in resultList" :key="index">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i"
-                  @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
+                    @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
             <n-flex class="tr tt" v-if="resultList.length">
@@ -46,7 +46,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!resultList.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
 
@@ -57,7 +57,7 @@
 
         <!-- 分页 -->
         <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-          :item-count="result.total_page" v-show="result.total_page" />
+            :item-count="result.total_page" v-show="result.total_page" />
 
 
         <!-- 等级管理 -->
@@ -78,6 +78,7 @@ import { useI18n } from "vue-i18n";
 import { storeToRefs } from 'pinia';
 import pinia from "@/store";
 import { User } from '@/store/user';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n()
 const UserStore = User(pinia);
@@ -143,7 +144,7 @@ const result: any = reactive({ // 结果
     list: []
 })
 const resultList = computed(() => {
-    let arr:any = []
+    let arr: any = []
     result.list.map((item: any) => {
         if (activeTab.value == 1) arr.push(item)
         if (activeTab.value == 2 && item.level === 0) arr.push(item)

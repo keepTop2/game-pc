@@ -4,7 +4,7 @@
     <div class="content">
       <div class="announcement">
         <n-carousel draggable v-if="bannerArr">
-          <img class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)">
+          <Imgt class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)" />
         </n-carousel>
         <p style="height: 40px;">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
@@ -28,8 +28,8 @@
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
             show-arrow>
-            <img @click="platformItemClick(item)" class="game_img" :src="`/img/cards/${v}.png`"
-              v-for="(v, j) in [0, 1, 2, 3, 4]" :key="j">
+            <Imgt @click="platformItemClick(item)" class="game_img" :src="`/img/cards/${v}.png`"
+              v-for="(v, j) in [0, 1, 2, 3, 4]" :key="j" />
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -50,6 +50,7 @@
 <script setup lang="ts" name="home">
 import Sidebar from '@/components/Sidebar.vue';
 import { onMounted, onUnmounted, reactive } from 'vue';
+import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
 

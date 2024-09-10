@@ -24,10 +24,10 @@
               <span>{{ t('attachment') }}</span>
               <div class="item-title">
                 <div class="item-title-left">
-                  <img src="/img/email/majesticon.svg" alt="" />
+                  <Imgt src="/img/email/majesticon.svg" alt="" />
                   <span>{{
                     Common.thousands(data?.attachments[0].award_value)
-                    }}</span>
+                  }}</span>
                 </div>
                 <btn :width="90" @click="getAward" v-if="!receive_email_ids.includes(props.data.email_id)">{{
                   t('vip_collect') }}</btn>
@@ -47,6 +47,7 @@ import btn from './btn.vue';
 import Common from '@/utils/common';
 import { Net } from '@/net/Net';
 import { NetPacket } from '@/netBase/NetPacket';
+import Imgt from '@/components/Imgt.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';

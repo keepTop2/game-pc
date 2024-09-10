@@ -13,7 +13,7 @@
                     <div v-if="tabList?.length && curShowTab" class="tab center">
                         <span :class="activeTab === value ? 'pointer active' : 'pointer'"
                             v-for="({ label, value }) in tabList" :key="value" @click="emits('changeTab', value)">
-                          {{label}}
+                            {{ label }}
                         </span>
                     </div>
                     <n-form :model="form.data" :rules="form.rules" :show-label="true" ref="formRef" class="w_full">
@@ -32,9 +32,10 @@
 
                                 <n-flex v-if="!item.hasPop && item.name === 'bank'" align="center"
                                     class="choose-bank-l">
-                                    <span class="bank-cicon" v-if="item.chooseBank.value"> <img
-                                            :src="`/img/bankIcon/bank_logo_${item.chooseBank.value}.webp`"
-                                            :alt="item.chooseBank.label" /> </span>
+                                    <span class="bank-cicon" v-if="item.chooseBank.value">
+                                        <Imgt :src="`/img/bankIcon/bank_logo_${item.chooseBank.value}.webp`"
+                                            :alt="item.chooseBank.label" />
+                                    </span>
                                     <span class="bank-cname"> {{ item.chooseBank.label }} </span>
                                 </n-flex>
 
@@ -57,13 +58,13 @@
                             }}</div>
                         <div :class="!!cancel && 'fixed_bg'" class="button submit_btn t-lg weight_5 center pointer"
                             block @click="emits('onSubmit')">
-                            {{submitText }}
+                            {{ submitText }}
                         </div>
                     </div>
 
                     <n-flex v-if="showMyBank?.show" align="center" class="bottom-tip">
                         <span class="gth-icon"></span>
-                        {{ t('paymentManagement_page_max_bank', {num: showMyBank.length || 0}) }}
+                        {{ t('paymentManagement_page_max_bank', { num: showMyBank.length || 0 }) }}
                     </n-flex>
 
                 </div>
@@ -76,6 +77,7 @@
 import { TForm, TTabList } from '@/utils/types/formTypes';
 import { onMounted, ref } from 'vue';
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const props = defineProps<{
     title: string;

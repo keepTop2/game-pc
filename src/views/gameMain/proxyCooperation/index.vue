@@ -41,7 +41,7 @@
 
                 <!-- 按钮们 -->
                 <div class="btns">
-                    <img class="line" src="/img/proxy/line.webp" alt="line">
+                    <Imgt class="line" src="/img/proxy/line.webp" alt="line" />
                     <div>
                         <div class="btn" style="margin-bottom:10px;" @click="claim">
                             <iconpark-icon class="icon" name="Group39373" size="1rem"></iconpark-icon>
@@ -82,6 +82,7 @@ import { IdentityMap } from "@/enums/proxyEnum";
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n()
 const router = useRouter();

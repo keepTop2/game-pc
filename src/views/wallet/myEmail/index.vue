@@ -10,7 +10,8 @@
     <div class="attention">
       <span>{{ t('7_days') }}</span>
       <btn @click="allClick" v-if="active_id == 1 && myEmail.hasNoRead">{{ t('all_read') }}</btn>
-      <btn :width="180" v-if="active_id == 2" :class="{ 'received_all': active_id == 2 && received_all }" @click="allClick">
+      <btn :width="180" v-if="active_id == 2" :class="{ 'received_all': active_id == 2 && received_all }"
+        @click="allClick">
         {{ received_all ? t('received_all') : t('one_click_claim') }}</btn>
     </div>
     <div class="list" v-if="myEmail[active_id == 1 ? 'list' : 'rewardList'].length > 0">
@@ -19,7 +20,7 @@
           <div class="item-badge">
 
             <n-badge :dot="isDot(item)">
-              <img
+              <Imgt
                 :src="myEmail.email_readed.includes(item.email_id) ? '/img/email/email_icon.png' : '/img/email/email_icon1.png'"
                 alt="" />
             </n-badge>
@@ -33,7 +34,7 @@
       </div>
     </div>
     <div v-else class="no-data">
-      <img src="/img/wallet/nodata.webp" alt="" />
+      <Imgt src="/img/wallet/nodata.webp" alt="" />
       <div>{{ t('home_page_nomore_data') }}</div>
     </div>
     <div class="t_loading">
@@ -58,6 +59,7 @@ import { storeToRefs } from 'pinia';
 import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
 import pinia from '@/store/index';
+import Imgt from '@/components/Imgt.vue';
 interface tabType {
   label: string;
   id: number;

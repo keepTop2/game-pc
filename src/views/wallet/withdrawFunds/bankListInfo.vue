@@ -15,7 +15,7 @@
             <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
               <n-flex align="center" class=" bank_item">
                 <div class="bank_l_icon">
-                  <img :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
+                  <Imgt :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
                 </div>
                 <div class="bank_l_name">
                   <div class="info-text">
@@ -26,13 +26,13 @@
                     <p class="p_account">{{ item.bankCode }}</p>
                   </div>
                   <div class="utilization-bank">
-                    <n-button v-if="!item.isUse"
-                      :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
-                      {{t('paymentManagement_page_choose') }}
+                    <n-button v-if="!item.isUse" :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
+                      {{ t('paymentManagement_page_choose') }}
                     </n-button>
                     <n-button @click="bankCheck(index, 'isDefault')"
                       :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
-                      {{ item.isDefault ? t('paymentManagement_page_default_bank') : t('paymentManagement_page_set_default') }}
+                      {{ item.isDefault ? t('paymentManagement_page_default_bank') :
+                        t('paymentManagement_page_set_default') }}
                     </n-button>
                   </div>
                 </div>
@@ -42,7 +42,7 @@
             <div v-if="!(bankList.length >= 6)">
               <div class="bank_list_add" v-show="!addBankFlag">
                 <div class="center" @click="flagBank(true)">
-                  <img src="/img/wallet/bankAdd.webp" alt="nodata">
+                  <Imgt src="/img/wallet/bankAdd.webp" alt="nodata" />
                   <span>{{ t('paymentManagement_page_new_bank') }}</span>
                 </div>
               </div>
@@ -52,14 +52,14 @@
             <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
               <div class="add-bank-text">
                 <p>{{ t('paymentManagement_page_add_one_bank') }}</p>
-                <img src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)">
+                <Imgt src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)" />
               </div>
 
               <n-form-item :label="t('addBank_page_pChooseBank')">
                 <n-flex class="choose-bank">
                   <n-flex align="center" class="choose-bank-l">
                     <span v-show="chooseBank.value" class="bank_cicon">
-                      <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
+                      <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                     </span>
                     <span class="bank_cname"> {{ chooseBank.label }} </span>
                   </n-flex>
@@ -68,7 +68,8 @@
               </n-form-item>
 
               <n-form-item :label="t('addBank_page_bankCard')" path="bankCode">
-                <n-input size="large" type="number" v-model:value="form.bankCode" :placeholder="t('paymentManagement_page_chCardNo')">
+                <n-input size="large" type="number" v-model:value="form.bankCode"
+                  :placeholder="t('paymentManagement_page_chCardNo')">
                   <template #suffix>
                     <a class="refresh_icon"></a>
                   </template>
@@ -106,7 +107,7 @@
                 <!--                <a @click="goToDeposit"> 确认 </a>-->
               </div>
               <!--              <div class="error">-->
-              <!--                <img src="/img/wallet/tipsWarning.webp" alt="nodata">-->
+              <!--                <Imgt src="/img/wallet/tipsWarning.webp" alt="nodata" />-->
               <!--                <span>输入信息错误</span>-->
               <!--                </div>-->
 
@@ -116,7 +117,7 @@
           <!-- 充值列表选择 -->
 
           <div class="tips">
-            <img src="/img/wallet/bankTips.webp" alt="">
+            <Imgt src="/img/wallet/bankTips.webp" />
             <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
           </div>
         </div>
@@ -146,7 +147,7 @@
             <n-flex align="center" class="bank_item" v-for="(item, index) in bkList" @click="selectBank(item)"
               :key="index">
               <span class="bank_l_icon">
-                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
+                <Imgt :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
               </span>
               <span class="bank_l_name"> {{ item.label }} </span>
             </n-flex>
@@ -161,7 +162,7 @@
 
 <script setup lang="ts">
 
-import {onMounted, onUnmounted, ref, watch} from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
@@ -174,6 +175,7 @@ import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
 import { Page } from '@/store/page';
 import { testBankCard } from '@/utils/is.ts';
+import Imgt from '@/components/Imgt.vue';
 
 const { bankListInfo } = storeToRefs(Page(pinia));
 
@@ -197,7 +199,7 @@ const baseObj = {
   bankName: '',
   accountName: props.myBankName,
 }
-const form = ref({...baseObj})
+const form = ref({ ...baseObj })
 
 const formRef = ref()
 const submit = () => {
@@ -232,8 +234,8 @@ const handleAddBankRef = (res: any) => {
     Message.success(t(tips[res.result]))
     getMyBankList(); // 更新银行列表
     // bankList.value.push({ ...form.value, name: '******' })
-    chooseBank.value = {...baseChObj}; // 重置
-    form.value = {...baseObj}; // 重置
+    chooseBank.value = { ...baseChObj }; // 重置
+    form.value = { ...baseObj }; // 重置
     flagBank(false)
   } else {
     Message.error(t(tips[res.result]))
@@ -342,7 +344,7 @@ const showChangeBank = () => {
   onCloseBank()
 }
 const baseChObj = { label: '', value: '' }
-const chooseBank = ref({...baseChObj}); // 选择的银行卡
+const chooseBank = ref({ ...baseChObj }); // 选择的银行卡
 // 选择银行
 const selectBank = (e: any) => {
   form.value.bank_id = e.value;
@@ -418,6 +420,7 @@ defineExpose({
       &.bank_used {
         border-color: #0cc41e;
       }
+
       .bank_item {
         cursor: pointer;
         font-size: 14px;
@@ -434,6 +437,7 @@ defineExpose({
           line-height: 54px;
           text-align: center;
           flex: none;
+
           img {
             width: 40px;
             transform: translateY(7px);
@@ -579,6 +583,7 @@ defineExpose({
             border-radius: 50%;
             background: #fff;
             border: 2px solid #D6CDFF;
+
             img {
               width: 22px;
             }
@@ -755,6 +760,7 @@ defineExpose({
           border-radius: 50%;
           background: #fff;
           border: 2px solid #D6CDFF;
+
           img {
             width: 22px;
           }

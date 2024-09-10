@@ -10,7 +10,9 @@
         <!-- 俱乐部头部 -->
         <div v-if="curTab === 'club'" class="club_top">
           <div class="club_top_top">
-            <div class="club_top_av"><img src="/img/home/avatar.webp" alt="avatar"></div>
+            <div class="club_top_av">
+              <Imgt src="/img/home/avatar.webp" alt="avatar" />
+            </div>
             <div class="club_title_1"> BY88俱乐部-驻马尼拉分部</div>
             <n-flex class="club_title_2" align="center" justify="center">
               <span class="club_icon"></span>
@@ -92,9 +94,8 @@
 
         <!-- 俱乐部切换类别 -->
         <n-flex class="club_tab" justify="space-between">
-          <a :class="`btn_join ${curTab === item.key ? 'active' : ''}`"
-             v-for="(item, index) in tabArr" :key="index"
-             @click="clickTab(item.key)">
+          <a :class="`btn_join ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr" :key="index"
+            @click="clickTab(item.key)">
             {{ item.title }}
           </a>
         </n-flex>
@@ -102,17 +103,15 @@
         <!-- 俱乐部--列表 -->
         <div v-if="curTab === 'club'" class="club_list">
           <n-flex class="club_list_tab" align="center">
-            <a :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`"
-               v-for="(item, index) in curGmaeArr"
-               :key="index" @click="clickTabGame(item.key)">
+            <a :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`" v-for="(item, index) in curGmaeArr"
+              :key="index" @click="clickTabGame(item.key)">
               {{ item.title }}
             </a>
           </n-flex>
           <div class="club_list_content">
             <n-flex>
-              <n-flex class="club_list_item" v-for="(item, index) in gameListData" :key="index"
-                      align="center"
-                      justify="space-around">
+              <n-flex class="club_list_item" v-for="(item, index) in gameListData" :key="index" align="center"
+                justify="space-around">
                 <div class="item_l">
                   <div class="mb_rr"> {{ item.name }}</div>
                   <n-flex align="center" class="item_l_bottom">
@@ -129,7 +128,7 @@
                 </div>
                 <div class="item_r">
                   <div class="item_r_top mb_rr">
-                    <img src="/img/home/avatar.webp" alt="avatar">
+                    <Imgt src="/img/home/avatar.webp" alt="avatar" />
                   </div>
                   <n-flex align="center" justify="center" class="item_r_bottom">
                     <span class="ren_icon"></span>
@@ -151,7 +150,7 @@
           <div class="clubJoin_list_item" v-for="(item, index) in clubListData" :key="index">
             <div class="list_left_av">
               <div class="list_av_icon">
-                <img src="/img/home/avatar.webp" alt="avatar">
+                <Imgt src="/img/home/avatar.webp" alt="avatar" />
               </div>
               <div class="av_txt">
                 {{ t('club_page_cjz') }}
@@ -213,8 +212,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_jrjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
-                           size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -243,8 +241,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_cjjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff"
-                           size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -253,12 +250,10 @@
               <n-input v-model:value="createParams.name" :placeholder="t('club_page_qsr')" />
             </n-form-item>
             <n-form-item :label="t('club_page_jlbcs')">
-              <n-input type="number" v-model:value="createParams.rate"
-                       :placeholder="t('club_page_qsr')" />
+              <n-input type="number" v-model:value="createParams.rate" :placeholder="t('club_page_qsr')" />
             </n-form-item>
             <n-form-item :label="t('club_page_jlbjj')">
-              <n-input type="textarea" v-model:value="createParams.dec"
-                       :placeholder="t('club_page_qsr')" />
+              <n-input type="textarea" v-model:value="createParams.dec" :placeholder="t('club_page_qsr')" />
             </n-form-item>
           </n-form>
 
@@ -279,6 +274,7 @@ import { ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -684,7 +680,7 @@ defineExpose({
       background-size: 100%;
       gap: 0 !important;
 
-      > div {
+      >div {
         flex: 1;
 
         .club_switch {
@@ -909,7 +905,7 @@ defineExpose({
       background: url(/img/club/club_join_bg_1.webp) center no-repeat;
       background-size: 100%;
 
-      > div {
+      >div {
         flex: 1;
       }
 
@@ -981,7 +977,7 @@ defineExpose({
         background: url(/img/club/club_join_bg_2.webp) center no-repeat;
         background-size: 100%;
 
-        > div {
+        >div {
           flex: 1;
         }
 

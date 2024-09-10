@@ -10,8 +10,8 @@
         </h4>
         <div class="main_body">
           <n-flex align="center" class="tab_top">
-            <a :class="`tab_item tab_item_${item.id} ${curTab === item.id ? 'active' : ''}`" v-for="(item, index) in tabArr"
-               :key="index" @click="clickTab(item.id)">
+            <a :class="`tab_item tab_item_${item.id} ${curTab === item.id ? 'active' : ''}`"
+              v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
               {{ item.title }}
             </a>
           </n-flex>
@@ -52,7 +52,7 @@
             </n-flex>
             <div class="table_body">
               <div class="nodata" v-if="!dataList.length">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
@@ -82,26 +82,18 @@
                     <n-input v-model:value="item.content" placeholder="此处修改快捷语" style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch"
-                              v-model:value="item.istop"
-                              :checked-value="1"
-                              :unchecked-value="2"
-                              @update:value="(e: any) => {handleUpdateValue(e, 'istop', index)}"
-                    >
+                    <n-switch class="switch" v-model:value="item.istop" :checked-value="1" :unchecked-value="2"
+                      @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch"
-                              v-model:value="item.isautorsp"
-                              :checked-value="1"
-                              :unchecked-value="2"
-                              @update:value="(e: any) => {handleUpdateValue(e, 'isautorsp', index)}"
-                    >
+                    <n-switch class="switch" v-model:value="item.isautorsp" :checked-value="1" :unchecked-value="2"
+                      @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
                   <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
-                  删除
-                </span>
+                    删除
+                  </span>
                 </n-flex>
               </div>
 
@@ -125,6 +117,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import Imgt from '@/components/Imgt.vue';
 // import categoryList from './categoryList.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
@@ -358,7 +351,7 @@ watch(() => props.quickPhrasesList, (n) => {
       .tab_top {
         width: 732px;
         height: 46px;
-        flex-flow:nowrap !important;
+        flex-flow: nowrap !important;
         overflow-x: scroll;
         overflow-y: hidden;
         //padding: 0 42px 6px 6px;
@@ -370,10 +363,12 @@ watch(() => props.quickPhrasesList, (n) => {
           display: block;
           height: 3px
         }
+
         &::-webkit-scrollbar-thumb {
           background: #3c279a;
           border-radius: 8px
         }
+
         a {
           display: flex;
           flex: none;
