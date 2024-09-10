@@ -3,8 +3,8 @@
         <Sidebar />
         <div class="content">
             <div class="head">
-                <img src="/img/home/back.webp" alt="" @click="router.go(-1)">
-                <span>{{ t(state.title) }}</span>
+                <img src="/img/home/back.webp" alt="" @click="router.push('/')">
+                <span>{{ getTitle }}</span>
             </div>
             <router-view></router-view>
 
@@ -13,21 +13,26 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, reactive, watch } from 'vue';
+import { computed, onMounted, reactive, watch } from 'vue';
 import Sidebar from '@/components/Sidebar.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import { Page } from '@/store/page';
+import pinia from '@/store';
 
 const { t } = useI18n();
-
+const { lang } = storeToRefs(Page(pinia));
 const router = useRouter();
 const route = useRoute();
 const state: any = reactive({
-    title: '',
+    titles: {},
 })
 onMounted(async () => {
-    if (route.query.name) {
-        state.title = route.query.name
+    const { data } = route.query
+    const query = JSON.parse(decodeURIComponent(data as string))
+    if (Object.keys(query.name).length) {
+        state.titles = query.name
     }
 });
 watch(
@@ -38,6 +43,15 @@ watch(
         }
     }
 )
+
+const getTitle = computed(() => {
+    const langs: any = {
+        zh: 'zh-CN',
+        vn: 'vi-VN',
+        en: 'en-US',
+    };
+    return state.titles[langs[lang.value]]
+})
 </script>
 
 <style lang='less' scoped>

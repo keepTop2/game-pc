@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <div class="game_records">
+        <!-- <div class="game_records">
             <div
                 @click="router.push({ path: '/gameMain/gameRecords', query: { name: 'home_page_recentGameHistory' } })">
                 <iconpark-icon icon-id="Group39319" color="#fff" size="1.5em"></iconpark-icon>
@@ -8,7 +8,7 @@
             </div>
 
             <span class=""> 0</span>
-        </div>
+        </div> -->
         <!-- <div class="sidebar_public" v-for="(item, i) in state.clubList" :key="i">
             <p> {{ t(item.title) }} </p>
             <div :class="`club_box${g}`" v-for="(game, g) in item.list" :key="g" @click="itemClick(game)">

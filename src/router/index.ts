@@ -1,5 +1,3 @@
-
-
 import { Local } from '@/utils/storage';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
@@ -14,7 +12,6 @@ const routes: RouteRecordRaw[] = [
     name: 'home',
     meta: { title: 'home' },
     component: () => import('@/views/home/index.vue'),
-
   },
   {
     path: '/gameMain',
@@ -70,8 +67,14 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'levelRule' },
         component: () => import('@/views/level/rules.vue'),
       },
-    ]
+    ],
   },
+  // {
+  //   path: '/openGame',
+  //   name: 'openGame',
+  //   meta: { title: 'openGame' },
+  //   component: () => import('@/views/openGame/index.vue'),
+  // },
   // {
   //   path: '/proxy',
   //   name: 'proxy',

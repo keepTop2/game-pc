@@ -1,5 +1,8 @@
 import { EncodeUtils } from './EncodeUtils'
 import { NetMsgType } from '@/netBase/NetMsgType';
+import pinia from '@/store';
+import { User } from '@/store/user';
+import { Local } from '@/utils/storage';
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 const getRandomNum = (start: number, end: number) => {
@@ -326,4 +329,11 @@ export {
     aaa,
     bbb,
     device_model
+}
+// 判断登录
+export const needLogin = () => {
+    if (!Local.get('user')) {
+        User(pinia).setLogin(true)
+        return
+    }
 }

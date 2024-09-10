@@ -27,9 +27,9 @@
             <span class="more" @click="allPlatForm(item)">{{ t('home_page_more') }}</span>
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
-            show-arrow>
-            <img @click="platformItemClick(item)" class="game_img" :src="`/img/cards/${v}.png`"
-              v-for="(v, j) in [0, 1, 2, 3, 4]" :key="j">
+            show-arrow :show-dots="false">
+            <img @click="platformItemClick(v, i)" class="game_img" src="/img/cards/0.png"
+              v-for="(v, j) in item.value?.three_platform" :key="j">
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -49,7 +49,7 @@
 </template>
 <script setup lang="ts" name="home">
 import Sidebar from '@/components/Sidebar.vue';
-import { onMounted, onUnmounted, reactive } from 'vue';
+import { computed, onBeforeMount, onMounted, onUnmounted, reactive } from 'vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
 
@@ -58,15 +58,21 @@ import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { Message } from '@/utils/discreteApi';
+import { Local } from '@/utils/storage';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { needLogin } from '@/net/Utils';
 const { t } = useI18n();
 const router = useRouter()
 const page = Page(pinia);
 // const isVisible = ref(0);
-const { bannerArr, textAnnouncement } = storeToRefs(page);
-
+const { bannerArr, textAnnouncement, homeGameData, lang } = storeToRefs(page);
 const state: any = reactive({
   // gameActive: 0,
-  tabs: [
+  tabs: <{}>[
 
     {
       icon: 'Group39096',
@@ -78,13 +84,6 @@ const state: any = reactive({
       icon: 'Group39095',
       name: 'home_page_live',
       color: 'live',
-      value: '',
-    },
-
-    {
-      icon: 'Group39097',
-      name: 'home_page_eSports',
-      color: 'gaming',
       value: '',
     },
     {
@@ -100,6 +99,12 @@ const state: any = reactive({
       value: '',
     },
     {
+      icon: 'Group1556235261',
+      name: 'home_page_pokerGame',
+      color: 'gaming',
+      value: '',
+    },
+    {
       icon: 'Group1556235309',
       name: 'home_page_lotteryGame',
       color: 'lottery',
@@ -107,16 +112,52 @@ const state: any = reactive({
     },
   ],
 })
-const platformItemClick = (item: any) => {
-  console.log(item);
-  router.push({
-    path: '/gameMain/gameDetail',
-    query: {
-      id: 1,
-      name: '首页跳转'
-    }
-  })
 
+onBeforeMount(() => {
+  getHomeData()
+})
+onMounted(() => {
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_3rd_game_login_result,
+    gameUrlResult,
+  );
+})
+onUnmounted(() => {
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
+})
+
+const getHomeData = () => {
+  for (let i in state.tabs) {
+    const item = state.tabs[i]
+    const name = t(item.name, 1, { locale: 'zh' })
+    const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
+    state.tabs[i].value = data
+  }
+}
+
+const platformItemClick = (item: any, i: number) => {
+  let langObj: any = {
+    'en': 3,
+    'vi': 2,
+    'zh': 1
+  }
+  if (item && item.has_next) {
+    router.push({
+      path: '/gameMain/gameDetail',
+      query: {
+        id: i,
+        data: encodeURIComponent(JSON.stringify(item))
+      }
+    })
+  } else {
+    needLogin()
+    let tb = NetPacket.req_3rd_game_login();
+    tb.agentId = item.three_game_kind_id;
+    tb.gameId = item.three_platform_id;
+    tb.kindId = item.venue_id;
+    tb.lang = langObj[lang.value];
+    Net.instance.sendRequest(tb);
+  }
 }
 const allPlatForm = (item: any) => {
   console.log(item);
@@ -128,24 +169,27 @@ const allPlatForm = (item: any) => {
     }
   })
 }
-// const getGameList = (res: any) => {
-//   debugger
-//   console.log(res);
+const getGameList = (res: any) => {
+  console.log(res);
+}
 
-// }
-onMounted(() => {
+// 第三方游戏信息返回
+const gameUrlResult = (message: any) => {
+  if (message.code != 0) {
+    Message.error(message.msg)
+    return
+  }
+  if (message.url.indexOf('<!doctype html>') != -1) {
+    message.url = `data:text/html;charset=utf-8,${encodeURIComponent(
+      String(message.url)
+    )}`
+  }
+  Local.set('gameUrl', message.url)
+  router.push({
+    path: "/openGame",
+  });
 
-
-  // MessageEvent2.addMsgEvent(
-  //   NetMsgType.msgType.msg_notify_platform_gametype_list,
-  //   getGameList
-  // );
-
-
-});
-onUnmounted(() => {
-  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_platform_gametype_list, null);
-});
+}
 </script>
 
 <style lang="less" scoped>
@@ -206,7 +250,6 @@ onUnmounted(() => {
 
 
     .game_img {
-      width: 238px;
       height: 238px;
       object-fit: cover;
     }
