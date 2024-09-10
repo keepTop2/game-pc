@@ -12,13 +12,14 @@
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
-                    <span>{{ !proxyInfo.level ? '0%(VND)' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` : '0%(VND)' }} </span>
+                    <span>{{ proxyInfo.level ? '--' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` :
+                        '0%(VND)' }} </span>
                 </div>
             </div>
             <div class="model_box_content content_box">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_commission') }}：</span>
-                    <span class="orange">{{ !proxyInfo.level ? '--' : ((proxyInfo.personal_money + proxyInfo.team_money)
+                    <span class="orange">{{ proxyInfo.level ? '--' : ((proxyInfo.personal_money + proxyInfo.team_money)
                         ||
                         '0') }}</span>
                 </div>
@@ -30,12 +31,12 @@
                 <div class="item item_margin">
                     <!-- <span class="item_title">{{ t('proxy_page_clubCommission') }}：</span> -->
                     <span class="item_title">{{ t('Direct commission') }}：</span>
-                    <span class="orange">{{ !proxyInfo.level ? '--' : (proxyInfo.personal_money || '0') }}</span>
+                    <span class="orange">{{ proxyInfo.level ? '--' : (proxyInfo.personal_money || '0') }}</span>
                 </div>
                 <div class="item">
                     <!-- <span class="item_title">{{ t('proxy_page_dcCommission') }}：</span> -->
                     <span class="item_title">{{ t('Team commission') }}：</span>
-                    <span class="orange">{{ !proxyInfo.level ? '--' : (proxyInfo.team_money || '0') }}</span>
+                    <span class="orange">{{ proxyInfo.level ? '--' : (proxyInfo.team_money || '0') }}</span>
                 </div>
 
                 <!-- 按钮们 -->
@@ -145,7 +146,7 @@ onUnmounted(() => {
 
 // 非下级代理时 提示：您还不是代理，请联系上级
 const agentTip = () => {
-    if (proxyInfo.value.level == 0) {
+    if (proxyInfo.value.level !== 0) {
         Message.error(t('proxy_page_notAgent'))
         return false
     }
@@ -284,18 +285,27 @@ const copyToClipboard = (text: string) => {
     }
 
     .btn {
-        width: 120px;
-        height: 35px;
+        width: 150px;
         cursor: pointer;
         background: url(/img/home/btnBG.webp) no-repeat;
         background-size: 100% 112%;
         color: #fff;
         justify-content: center;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        text-align: center;
 
         .icon {
             margin-right: 5px;
             font-size: 18px;
         }
+        span{
+            text-align: center;
+        }
+    }
+    .link_btn{
+        line-height: 1;
     }
 }
 </style>

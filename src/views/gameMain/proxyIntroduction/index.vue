@@ -254,24 +254,23 @@
             </div> -->
 
         <div class="intro">
-            <div class="title">详细介绍</div>
-            <div class="subtitle">举例说明如下：</div>
-            <div class="content">赌场返点以有效流水为依据，BOSS最先发现商机，发展了B1和B2，B1向BOSS申请成为合伙人，B1又马上发展C1和C2，C1向合伙人B1申请成为高级厅主
+            <div class="title">{{ t('proxy_page_xiangxijieshao') }}</div>
+            <div class="subtitle">{{ t('proxy_page_juli') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming1') }}{{ t('proxy_page_shuoming2') }}
                 <div class="br"></div>
-                几天后BOSS有效流水100W，合伙人B1有效流水100W，B2流水100W，C1流水100W，C2有效流水100W
+                {{ t('proxy_page_shuoming3') }}
             </div>
-            <div class="subtitle">直属玩家：</div>
-            <div class="content">boss是boss的直属玩家<div class="br"></div>b2是boss的直属玩家<div class="br"></div>c2是合伙人b1的直属玩家
+            <div class="subtitle">{{ t('proxy_page_shuoming5') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming6') }}<div class="br"></div>{{ t('proxy_page_shuoming7') }}<div class="br"></div>{{ t('proxy_page_shuoming8') }}
             </div>
-            <div class="subtitle">下级代理：</div>
-            <div class="content">合伙人b1是boss的下级代理<div class="br"></div>高级厅主c1是b1的下级代理<div class="br"></div>
-                高级厅主c1是boss的下下级代理</div>
-            <div class="subtitle">那么他们之间的收益如下:</div>
-            <div class="content">BOSS直属玩家贡献 = BOSS有效流水 * BOSS有效流水抽成 + 直属玩家有效流水 * BOSS有效流水抽成 = 100W * 0.65% + 100W *
-                0.65% = 13,000<div class="br"></div>
-                BOSS团队佣金 =（B1+C1+C2）有效流水 *（BOSS有效流水抽成 - 合伙人有效流水抽成）=（100w+100W+100W）*（0.65% - 0.525%）= 3,750<div
-                  class="br">
-                </div>BOSS总佣金 = BOSS直属玩家贡献 + 下级代理贡献 = 13,000 + 3750 = 16,750
+            <div class="subtitle">{{ t('proxy_page_shuoming9') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming10') }}<div class="br"></div>{{ t('proxy_page_shuoming11') }}<div class="br"></div>
+            {{ t('proxy_page_shuoming12') }}</div>
+            <div class="subtitle">{{ t('proxy_page_shuoming14') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming15') }}<div class="br"></div>
+            {{ t('proxy_page_shuoming16') }}<div
+                    class="br">
+                </div>{{ t('proxy_page_shuoming17') }}
             </div>
         </div>
     </div>

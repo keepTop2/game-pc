@@ -687,7 +687,7 @@ export default {
   Team_commission: 'Hoa hồng nhóm',
   'Effective flow': 'Dòng chảy hiệu quả',
   'Effective team flow': 'Luồng tiền đội nhóm',
-  'Direct Commission': 'Hoa hồng cấp 1',
+  'Direct commission': 'Hoa hồng cấp 1',
   "Insufficient Commission": "Hoa hồng không đủ có thể được thu thập",
   'Casino draws': 'Hoàn trả sảnh ngoài',
   'General Report': 'Báo cáo tổng hợp',

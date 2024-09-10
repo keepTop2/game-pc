@@ -28,7 +28,7 @@
 
             <n-flex class="tr" v-for="(row, index) in resultList" :key="index">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i"
-                  @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
+                    @click="clickTd(row)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
             <n-flex class="tr tt" v-if="resultList.length">
@@ -143,8 +143,7 @@ const result: any = reactive({ // 结果
     list: []
 })
 const resultList = computed(() => {
-    let arr:any = []
-    // 自己是不是直属
+    let arr: any = []
     if(props.proxyInfo.level == 0) return arr
     result.list.map((item: any) => {
         if(item.role_id == roleInfo.value?.id && activeTab.value != 3) {
@@ -202,11 +201,10 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     return rs
 }
 
-const clickTd = (row: any, key: string) => { // td点击事件
-    if (key != 'operate' || userInfo.value.full_name == row.username) return
+const clickTd = (row: any) => { // td点击事件
+    if (activeTab.value == 1 || userInfo.value.full_name == row.username) return
     levelM.value.openModal(row)
 }
-
 const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
