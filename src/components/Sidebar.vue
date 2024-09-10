@@ -281,6 +281,8 @@ watch(
 )
 </script>
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .sidebar {
     width: 270px;
     box-sizing: border-box;
@@ -298,7 +300,7 @@ watch(
         }
 
         .club_box0 {
-            background: url('/img/home/club1Bg.webp') no-repeat;
+            background: url('/img/home/club1Bg.webp?t=@{timestamp}') no-repeat;
             background-size: contain;
             padding: 0;
             margin: 20px 0 10px;
@@ -310,7 +312,7 @@ watch(
         }
 
         .club_box1 {
-            background: url('/img/home/club2Bg.webp') no-repeat;
+            background: url('/img/home/club2Bg.webp?t=@{timestamp}') no-repeat;
             background-size: contain;
             padding: 0;
 

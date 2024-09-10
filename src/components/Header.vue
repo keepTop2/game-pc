@@ -610,13 +610,13 @@ watch(
           // border: solid 1px #5a47b2;
           // background-color: #402c95;
 
-          border-image: url('/img/home/unactive1.webp') 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url('/img/home/unactive1.webp?t=@{timestamp}') 0 30 0 30 fill / 0px 10px stretch stretch;
           // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url('/img/home/active1.webp') 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url('/img/home/active1.webp?t=@{timestamp}') 0 30 0 30 fill / 0px 10px stretch stretch;
 
         }
       }

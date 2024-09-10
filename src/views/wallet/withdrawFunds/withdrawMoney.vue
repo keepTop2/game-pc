@@ -394,6 +394,7 @@ const railStyle = ({ focused, checked }: {
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 .deposit_modal {
   font-size: 16px;
@@ -455,11 +456,11 @@ const railStyle = ({ focused, checked }: {
       width: 536px;
       height: 96px;
       padding: 15px 17px 10px;
-      background: url(/img/payment/listBg.webp) center no-repeat;
+      background: url('/img/payment/listBg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       &.active {
-        background-image: url(/img/payment/listBg_active.webp);
+        background-image: url('/img/payment/listBg_active.webp?t=@{timestamp}');
       }
 
       .item-list-l {
@@ -478,7 +479,7 @@ const railStyle = ({ focused, checked }: {
             .wh-icon {
               width: 16px;
               height: 16px;
-              background: url(/img/payment/wh.webp) center no-repeat;
+              background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -498,7 +499,7 @@ const railStyle = ({ focused, checked }: {
           width: 90px;
           height: 36px;
           line-height: 36px;
-          background: url(/img/payment/go-btn.webp) center no-repeat;
+          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
         }
       }
@@ -510,7 +511,7 @@ const railStyle = ({ focused, checked }: {
       height: 40px !important;
       width: 90px;
       font-size: 14px;
-      background: url(/img/login/sendBtn.webp) no-repeat;
+      background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
       background-size: contain;
     }
 
@@ -523,7 +524,7 @@ const railStyle = ({ focused, checked }: {
         line-height: 52px;
         text-align: center;
         margin: 20px auto 0;
-        background: url(/img/payment/sub_btn.webp) center no-repeat;
+        background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -595,7 +596,7 @@ const railStyle = ({ focused, checked }: {
         height: 40px;
         line-height: 40px;
         text-align: center;
-        background: url(/img/payment/monBg.webp) center no-repeat;
+        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }

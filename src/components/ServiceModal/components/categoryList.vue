@@ -185,6 +185,8 @@ watch(() => props.quickPhrasesCateList, (n) => {
 
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .shortcut_set {
   :deep(.n-card__content) {
     padding: 0;
@@ -257,7 +259,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
             top: 10px;
             width: 20px;
             height: 20px;
-            background: url(/img/serviceModal/addIcon.webp) center no-repeat;
+            background: url('/img/serviceModal/addIcon.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
           }
         }
@@ -274,7 +276,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
           position: absolute;
           width: 380px;
           height: 66px;
-          background: url(/img/serviceModal/tableTopSec.webp) center no-repeat;
+          background: url('/img/serviceModal/tableTopSec.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
           left: 50%;
           transform: translateX(-50%);
@@ -337,11 +339,11 @@ watch(() => props.quickPhrasesCateList, (n) => {
         >div {
           width: 170px;
           height: 50px;
-          background: url(/img/serviceModal/btnCancel.webp) center no-repeat;
+          background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           &:last-child {
-            background-image: url(/img/serviceModal/btnSave.webp);
+            background-image: url('/img/serviceModal/btnSave.webp?t=@{timestamp}');
           }
         }
       }

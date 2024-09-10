@@ -95,6 +95,8 @@ const isShow = computed({
 });
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .change_card {
   width: 494px;
   border-radius: 14px;
@@ -153,7 +155,7 @@ const isShow = computed({
     color: #fff;
     width: 90px;
     font-size: 14px;
-    background: url(/img/login/sendBtn.webp) no-repeat;
+    background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
     background-size: contain;
   }
 

@@ -209,6 +209,7 @@ const copyToClipboard = (text: string) => {
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
 @import '@/assets/modelBox.less';
+@timestamp: `new Date().getTime()`;
 
 .proxy_coop {
     margin-top: 20px;
@@ -289,7 +290,7 @@ const copyToClipboard = (text: string) => {
         width: 120px;
         height: 35px;
         cursor: pointer;
-        background: url(/img/home/btnBG.webp) no-repeat;
+        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
         justify-content: center;

@@ -100,6 +100,8 @@ onUnmounted(() => {
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .game_title {
     width: 1200px;
     // height: 72px;
@@ -150,7 +152,7 @@ onUnmounted(() => {
 
     .game_active {
         color: #fff;
-        background: url(/img/home/btnBG.webp) no-repeat;
+        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 100%;
     }
 }

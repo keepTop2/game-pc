@@ -240,6 +240,8 @@ const isShow = computed({
 
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .top_title {
   margin: 0;
   width: 100%;
@@ -375,7 +377,7 @@ const isShow = computed({
     justify-content: center;
     align-items: center;
     height: 60px;
-    background: url(/img/serviceModal/tab_btn.webp) no-repeat;
+    background: url('/img/serviceModal/tab_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 100%;
     margin-top: -5px;
     line-height: 40px

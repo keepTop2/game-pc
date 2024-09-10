@@ -9,18 +9,18 @@
         </i>
       </h4>
       <div class="main_body">
-      <div class="amount">
-      <span>可用金额:</span>
-      <span class="amount_total">300,000,000,000</span>
-      </div>
-      <div>
-        <div class="title">转账金额</div>
-        <n-input v-model:value="amount" placeholder="" />
+        <div class="amount">
+          <span>可用金额:</span>
+          <span class="amount_total">300,000,000,000</span>
+        </div>
+        <div>
+          <div class="title">转账金额</div>
+          <n-input v-model:value="amount" placeholder="" />
 
-        <div class="title">备注说明</div>
-        <n-input v-model:value="remarks" placeholder=""  type="textarea" />
-      </div>
-      <div class="btn_save">立即转账</div>
+          <div class="title">备注说明</div>
+          <n-input v-model:value="remarks" placeholder="" type="textarea" />
+        </div>
+        <div class="btn_save">立即转账</div>
       </div>
     </div>
   </n-modal>
@@ -59,6 +59,8 @@ const isShow = computed({
 
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .top_title {
   margin: 0;
   width: 100%;
@@ -84,6 +86,7 @@ const isShow = computed({
     cursor: pointer;
   }
 }
+
 .title {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -98,10 +101,12 @@ const isShow = computed({
   background-color: #231353;
   box-sizing: border-box;
 }
-.amount{
+
+.amount {
   display: flex;
-  color:#8D84C5;
-  .amount_total{
+  color: #8D84C5;
+
+  .amount_total {
     color: #FABB2D;
   }
 
@@ -109,16 +114,16 @@ const isShow = computed({
 
 
 .btn_save {
-    width: 374px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-    background: url(/img/serviceModal/btn_1.webp) no-repeat;
-    background-size: 100% 100%;
-    margin-top: 45px;
-    line-height: 40px;
-    cursor: pointer;
-    
-  }
+  width: 374px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  background: url('/img/serviceModal/btn_1.webp?t=@{timestamp}') no-repeat;
+  background-size: 100% 100%;
+  margin-top: 45px;
+  line-height: 40px;
+  cursor: pointer;
+
+}
 </style>

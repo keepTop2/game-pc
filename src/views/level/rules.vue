@@ -17,8 +17,7 @@
         </n-flex>
         <n-flex align="center" class="le_l_content">
           <div class="le_l_l le_l_l_sec">
-            <n-flex justify="space-around" class="le_l_l_tr"
-                    v-for="(item, index) in vipLevelRewardConfig" :key="index">
+            <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
               <span> {{ item.level }} </span>
               <span> {{ verifyNumberComma(String(item.target_bet_money)) }} </span>
               <span> {{ verifyNumberComma(String(item.promotional_reward_status.money)) || '0' }} </span>
@@ -52,8 +51,7 @@
         </n-flex>
         <n-flex align="center" class="le_l_content">
           <div class="le_l_l le_l_l_sec">
-            <n-flex justify="space-around" class="le_l_l_tr"
-                    v-for="(item, index) in vipLevelRewardConfig" :key="index">
+            <n-flex justify="space-around" class="le_l_l_tr" v-for="(item, index) in vipLevelRewardConfig" :key="index">
               <span> VIP{{ item.level }} </span>
               <template v-for="(item_1) in item.ratio.split(',')">
                 <span> {{ toFixedNumber(Number(item_1) * 100) + '%' }} </span>
@@ -134,6 +132,8 @@ watch(
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .level_rules {
   color: #fff;
   font-size: 16px;
@@ -157,7 +157,7 @@ watch(
       gap: 0 !important;
       position: relative;
       height: 65px;
-      background: url(/img/level/headerBg.webp) center no-repeat;
+      background: url('/img/level/headerBg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
       background-position-y: 15px;
 

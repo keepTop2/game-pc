@@ -235,6 +235,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
+@timestamp: `new Date().getTime()`;
 
 .wallet_recharge_record {
     font-size: 14px;
@@ -260,7 +261,7 @@ onUnmounted(() => {
         }
 
         .active_tab {
-            background: url(/img/wallet/tabBtnBG.webp) no-repeat;
+            background: url('/img/wallet/tabBtnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 112%;
             color: #fff;
         }

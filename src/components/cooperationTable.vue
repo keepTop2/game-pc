@@ -240,6 +240,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
+@timestamp: `new Date().getTime()`;
 
 .coop_table {
     .tabs {
@@ -267,7 +268,7 @@ onUnmounted(() => {
         }
 
         .active_tab {
-            background: url(/img/home/btnBG2.webp) no-repeat;
+            background: url('/img/home/btnBG2.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 125%;
             background-position-y: 20%;
             border: 1.4px solid rgba(90, 71, 178, 0);
@@ -297,7 +298,7 @@ onUnmounted(() => {
         .search_btn {
             width: 150px;
             margin-left: 6px;
-            background: url(/img/home/btnBG.webp) no-repeat;
+            background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 112%;
             color: #fff;
             height: 36px;

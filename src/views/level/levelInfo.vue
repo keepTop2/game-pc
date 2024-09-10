@@ -369,6 +369,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 .level_info {
   color: #fff;
@@ -378,7 +379,7 @@ onUnmounted(() => {
 
   .level_info_top {
     height: 220px;
-    background: url(/img/level/level_bg.webp) center no-repeat;
+    background: url('/img/level/level_bg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
   }
 
@@ -406,7 +407,7 @@ onUnmounted(() => {
           display: inline-block;
           width: 30px;
           height: 26px;
-          background: url(/img/level/level_icon_1.webp) center no-repeat;
+          background: url('/img/level/level_icon_1.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
           left: -12px;
           top: -3px;
@@ -418,7 +419,7 @@ onUnmounted(() => {
           border-color: #322c59;
 
           &::before {
-            background-image: url(/img/level/level_icon_2.webp);
+            background-image: url('/img/level/level_icon_2.webp?t=@{timestamp}');
           }
 
         }
@@ -434,7 +435,7 @@ onUnmounted(() => {
       border-radius: 20px;
       box-shadow: inset 0 0 4px 0 #000;
       background-blend-mode: color-burn, overlay, normal;
-      background: url(/img/level/level_pro_jd.webp) center no-repeat;
+      background: url('/img/level/level_pro_jd.webp?t=@{timestamp}') center no-repeat;
 
       .pro_inner {
         display: inline-block;
@@ -465,7 +466,7 @@ onUnmounted(() => {
 
   .level_info_jl {
     height: 72px;
-    background: url(/img/level/level_pro_bg.webp) center no-repeat;
+    background: url('/img/level/level_pro_bg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
     padding: 0 30px;
 
@@ -482,7 +483,7 @@ onUnmounted(() => {
         display: inline-block;
         width: 16px;
         height: 16px;
-        background: url(/img/level/level_icon_re.webp) center no-repeat;
+        background: url('/img/level/level_icon_re.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         &.active {
@@ -502,7 +503,7 @@ onUnmounted(() => {
         width: 1px;
         height: 36px;
         margin-right: 18px;
-        background: url(/img/line.webp) center no-repeat;
+        background: url('/img/line.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
 
@@ -513,7 +514,7 @@ onUnmounted(() => {
         line-height: 40px;
         gap: 8px 5px !important;
         transition: .3s;
-        background: url(/img/level/level_btn.webp) center no-repeat;
+        background: url('/img/level/level_btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         transition: .3s;
 
@@ -524,7 +525,7 @@ onUnmounted(() => {
         .lq_icon {
           width: 16px;
           height: 16px;
-          background: url(/img/level/q_icon.webp) center no-repeat;
+          background: url('/img/level/q_icon.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
         }
@@ -608,7 +609,7 @@ onUnmounted(() => {
       position: relative;
       height: 120px;
       margin-bottom: 20px;
-      background: url(/img/level/level_l_bg.webp) center no-repeat;
+      background: url('/img/level/level_l_bg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       &::before {
@@ -617,7 +618,7 @@ onUnmounted(() => {
         display: inline-block;
         width: 421px;
         height: 42px;
-        background: url(/img/level/level_1_bg.webp) no-repeat;
+        background: url('/img/level/level_1_bg.webp?t=@{timestamp}') no-repeat;
         background-size: contain;
         left: 240px;
         bottom: 10px;
@@ -625,19 +626,19 @@ onUnmounted(() => {
 
       &:nth-child(2) {
         &::before {
-          background-image: url(/img/level/level_2_bg.webp)
+          background-image: url('/img/level/level_2_bg.webp?t=@{timestamp}')
         }
       }
 
       &:nth-child(3) {
         &::before {
-          background-image: url(/img/level/level_3_bg.webp)
+          background-image: url('/img/level/level_3_bg.webp?t=@{timestamp}')
         }
       }
 
       &:nth-child(4) {
         &::before {
-          background-image: url(/img/level/level_4_bg.webp)
+          background-image: url('/img/level/level_4_bg.webp?t=@{timestamp}')
         }
       }
 
