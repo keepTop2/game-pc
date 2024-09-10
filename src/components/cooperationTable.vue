@@ -82,7 +82,7 @@ import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n()
 const UserStore = User(pinia);
-const { info: userInfo } = storeToRefs(UserStore);
+const { info: userInfo, roleInfo } = storeToRefs(UserStore);
 const props = defineProps({
     proxyInfo: { // 当前代理详情
         type: Object,
@@ -144,11 +144,19 @@ const result: any = reactive({ // 结果
     list: []
 })
 const resultList = computed(() => {
-    let arr: any = []
+    let arr:any = []
+    // 自己是不是直属
+    if(props.proxyInfo.level == 0) return arr
     result.list.map((item: any) => {
-        if (activeTab.value == 1) arr.push(item)
-        if (activeTab.value == 2 && item.level === 0) arr.push(item)
-        if (activeTab.value == 3 && item.level !== 0) arr.push(item)
+        if(item.role_id == roleInfo.value?.id && activeTab.value != 3) {
+            arr.push(item)
+        } else if (activeTab.value == 1) {
+            arr.push(item)
+        } else if (activeTab.value == 2 && item.level === 0) {
+            arr.push(item)
+        } else if (activeTab.value == 3 && item.level !== 0 && item.role_id !== roleInfo.value?.id){
+            arr.push(item)
+        }
     })
     return arr
 })
