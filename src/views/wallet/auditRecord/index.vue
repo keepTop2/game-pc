@@ -20,7 +20,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -44,6 +44,7 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { AuditStatusMap } from '@/enums/walletEnum'
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 
@@ -84,9 +85,10 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = t(val)
             break
         case "type":
-            rs = AuditStatusMap[val]
+            rs = AuditStatusMap()[val]
             break
         case "amount":
+        case "progess":
             rs = Number(val).toLocaleString()
             break
         case "create_time":

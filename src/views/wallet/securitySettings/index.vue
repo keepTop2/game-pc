@@ -34,7 +34,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
 import { Message } from '@/utils/discreteApi';
-import { Local, needLoginApi } from '@/utils/storage';
+import { Local } from '@/utils/storage';
 // import { useRoute } from "vue-router";
 import { IP } from '@/utils/others';
 const { t } = useI18n();
@@ -46,6 +46,8 @@ const { info, roleInfo } = storeToRefs(userInfo);
 
 
 const state: any = reactive({
+    roleInfo: JSON.parse(JSON.stringify(roleInfo.value)),
+    info: JSON.parse(JSON.stringify(info.value)),
     first: 1,
     checkPhoneOremail: false,
     params: null,
@@ -381,6 +383,7 @@ const itemClick = (item: any) => {
     let rules = {
         mobile: [
             {
+                key: 'mobile',
                 required: !0,
                 trigger: "input",
                 validator: (_rule: any, value: string) => {
@@ -416,6 +419,7 @@ const itemClick = (item: any) => {
         ],
         email: [
             {
+                key: 'email',
                 required: !0,
                 trigger: "input",
                 validator: (rule: any, value: string) => {
@@ -620,17 +624,18 @@ const changePassword = (params: any, type: number) => {
         req.operate_type = 2
     }
     if (state.formData.active == 1) {
-        req.mobile_or_email = params.mobile
+        req.username = params.codeValue + params.mobile
+
         req.captcha = params.phoneCode
     }
     if (state.formData.active == 2) {
-        req.mobile_or_email = params.email
+        req.username = params.email
         req.captcha = params.emailCode
     }
 
     req.modify_type = params.modify_type
 
-    req.username = info.value?.full_name
+    // req.username = info.value?.full_name
     req.old_password = params.old_password
     req.new_password = params.new_password
     req.new_password_confirm = params.new_password_confirm
@@ -655,11 +660,13 @@ const changeEmailAndPhoneAndAccount = async (params: any, type: number) => {
         req.email = params.email;
         req.username = info.value?.full_name;
         req.captcha = params.emailCode;
+        state.info.email = params.email
     }
     if (type == 5) {
         req.email = params.codeValue + params.mobile;
         req.username = info.value?.full_name;
         req.captcha = params.phoneCode;
+        state.info.mobile = req.email
     }
 
 
@@ -681,6 +688,7 @@ const changeMoneyPassword = (params: any) => {
     req.new_password = params.new_withdrawPwd
     req.role_id = roleInfo.value?.id
     req.new_password_confirm = params.new_withdrawPwd_confirm
+    state.roleInfo.withdraw_pwd = params.new_withdrawPwd
     Net.instance.sendRequest(req);
 }
 // 某一个表格返回的数据 进行请求操作。
@@ -706,13 +714,14 @@ const changePasswordChangeTab = (tabId: number) => {
         state.formData.list.old_password.show = true
         state.formData.list.new_password.show = true
         state.formData.list.new_password_confirm.show = true
-        state.formData.formParams.modify_type = 2
+        state.formData.formParams.modify_type = 1
         state.formData.buttonText = t('home_page_modifyNow')
         state.formData.step = 0
     }
     if (state.formData.active == 1) {
         state.formData.list.mobile.show = true
         state.formData.list.phoneCode.show = true
+        state.formData.formParams.modify_type = 2
         state.formData.buttonText = t('home_page_next')
         state.formData.step = 1
     }
@@ -774,10 +783,12 @@ const handleChangePassword = async (res: any) => {
 const handleChangeEmail = (res: any) => {
     if (res.code == 1) {
         Message.success(t(res.message))
-        needLoginApi()
+
+        User(pinia).getInfo(state.info)
+
         setTimeout(() => {
             FormRef.value.closeDialog()
-        }, 3000);
+        }, 2000);
     }
 }
 // 返回是否可以进行修改或绑定资金密码
@@ -835,9 +846,7 @@ const handleBindOrModifyWithdrawPassword = (res: any) => {
         }
         state.list[index] = findWithdrawPassword
         Message.success(t(res.message))
-        // needLoginApi()
-        let req_user_info = NetPacket.req_user_info();
-        Net.instance.sendRequest(req_user_info);
+        User(pinia).getRoleInfo(state.roleInfo)
         setTimeout(() => {
             FormRef.value.closeDialog()
         }, 2000);

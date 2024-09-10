@@ -4,12 +4,12 @@
         <n-flex vertical class="main">
             <!-- <n-flex vertical class="user_info">
                 <div class="title size1">
-                    <img src="/img/payment/backBtn.webp" class="back_button" @click="router.push('/')" />
+                    <Imgt src="/img/payment/backBtn.webp" class="back_button" @click="router.push('/')" />
                     <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>
                 </div>
             </n-flex> -->
             <div class="head">
-                <img src="/img/home/back.webp" alt="" @click="router.go(-1)">
+                <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />
                 <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>
             </div>
             <router-view></router-view>
@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang='ts'>
+import Imgt from '@/components/Imgt.vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';

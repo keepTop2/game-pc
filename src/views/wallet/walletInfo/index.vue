@@ -17,24 +17,26 @@
       <div class="process">
         <div class="userInfo">
           <div class="usrProfile">
-            <img :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar" alt="">
+            <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar"
+              alt="" />
             <div class="userName">
               <p class="size1">{{ userInfo.full_name || userInfo.real_name || roleInfo.nickname }}</p>
               <div class="mount">
                 <div class="flex">
                   <p class="size2">{{ totalMoneyTxt }}</p>
-                  <img :class="`pointer ${refreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
-                    @click="refreshWallet">
-                  <img v-if="!eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt="" @click="moneyShow">
-                  <img v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow">
+                  <Imgt :class="`pointer ${refreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
+                    @click="refreshWallet" />
+                  <Imgt v-if="!eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt=""
+                    @click="moneyShow" />
+                  <Imgt v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow" />
                 </div>
                 <!-- <n-dropdown trigger="click" :options="currencyList" @select="handleCurrencyChange">
                                     <n-button>
                                         <div class="usdBtn" block>
-                                            <img src="/img/payment/T.webp" class="T" alt="">
+                                            <Imgt src="/img/payment/T.webp" class="T" />
                                             <p class="size4">{{ currencyList.filter((cur) => cur.key ===
                                                 currencyUnit)[0].label }}</p>
-                                            <img src="/img/payment/down.webp" class="down" alt="">
+                                            <Imgt src="/img/payment/down.webp" class="down" />
                                         </div>
                                     </n-button>
                                 </n-dropdown>-->
@@ -60,17 +62,17 @@
         <div class="vip">
           <div class="vip1">
             <p class="size3">VIP{{ Number(VIPinfo.current_vip_level) }}</p>
-            <img src="/img/payment/king.webp" class="king" alt="">
+            <Imgt src="/img/payment/king.webp" class="king" />
           </div>
           <div class="vip1">
             <p class="size3">VIP{{ Number(VIPinfo.current_vip_level) + 1 || 1 }}</p>
-            <img src="/img/payment/king.webp" class="king" alt="">
+            <Imgt src="/img/payment/king.webp" class="king" />
           </div>
         </div>
         <n-progress class="processBar" type="line" :color="themeVars.warningColor" :percentage="target.progress"
           :show-indicator="false" :indicator-text-color="themeVars.warningColor" />
         <div class="processFooter">
-          <p class="size3">{{ t('walletInfo_page_needBet') + ': ' + target.bet_money }}</p>
+          <p class="size3">{{ t('walletInfo_page_needBet') + ': ' + verifyNumberComma(String(target.bet_money)) }}</p>
           <!--<p class="size3"><a @click="openLevelRule"><u>{{ t('walletInfo_page_rule') }}</u></a></p>-->
         </div>
       </div>
@@ -99,7 +101,7 @@
             <n-flex justify="space-between" class="top_mon_box">
               <n-flex class="top_mon_box_l">
                 <span class="icon"></span>
-                <span class="m-txt"> {{ gameMoney }} </span>
+                <span class="m-txt"> {{ verifyNumberComma(String(gameMoney)) }} </span>
               </n-flex>
               <!--              <n-flex class="top_mon_box_r">
                 <div class="automatic">
@@ -123,7 +125,7 @@
             <n-flex justify="space-between" class="top_mon_box">
               <n-flex class="top_mon_box_l">
                 <span class="icon icon_bxg"></span>
-                <span class="m-txt"> {{ bankMoney }} </span>
+                <span class="m-txt"> {{ verifyNumberComma(String(bankMoney)) }} </span>
               </n-flex>
               <n-flex class="top_mon_box_r">
 
@@ -135,12 +137,13 @@
         <!-- 金额区域 -->
         <div class="money-all-div">
           <n-flex justify="space-between" class="money_input">
-            <n-input-number @input="countMonRate" @update:value="formatter" v-model:value="tranMoney"
+            <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
               :placeholder="t('walletInfo_page_tranferTxt')" clearable />
             <a class="btn-ch" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
           </n-flex>
           <div class="slider-div">
-            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :format-tooltip="formatTooltip">
+            <n-slider :default-value="0" v-model:value="slideValue" :step="1" :tooltip="false"
+              :on-dragend="formatTooltip">
               <template #thumb>
                 <n-icon-wrapper class="n-slider-handle">
                   {{ slideStr }}
@@ -212,13 +215,14 @@ import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import pinia from '@/store';
 import { Page } from '@/store/page';
+import { verifyNumberComma } from '@/utils/others.ts';
+import Imgt from '@/components/Imgt.vue';
 
-// import Transfer from '@/views/wallet/components/transfer/index.vue';
-const formatter = (value: any) => {
-  setTimeout(() => {
-    tranMoney.value = value ? Number(value.toString().replace(/\D/g, '')) : ''
-  }, 0)
-};
+// const formatter = (value: any) => {
+//   setTimeout(() => {
+//     tranMoney.value = value ? Number(value.toString().replace(/\D/g, '')) : ''
+//   }, 0)
+// };
 const { t } = useI18n();
 const route = useRoute();
 // const levelRule = defineAsyncComponent(() => import('@/views/level/rules.vue'));
@@ -317,6 +321,7 @@ const {
   calibrationRef,
   withdrawMoneyRef,
   countMonRate,
+  inputBlur,
 } = useWalletInfo()
 
 

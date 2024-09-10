@@ -27,7 +27,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -53,6 +53,7 @@ import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 import { Page } from '@/store/page';
 import pinia from '@/store/index';
+import Imgt from '@/components/Imgt.vue';
 
 const page = Page(pinia);
 
@@ -70,9 +71,9 @@ const tableHeader = computed(() => {
 })
 
 const optionsStatus = computed(() => { // 类型
-    const options = Object.keys(ProxyAccountTypeMap).map((key: string) => {
+    const options = Object.keys(ProxyAccountTypeMap()).map((key: string) => {
         return {
-            label: ProxyAccountTypeMap[key],
+            label: ProxyAccountTypeMap()[key],
             value: Number(key)
         }
     })
@@ -110,12 +111,12 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
         case "item":
             if (val == 3) {
                 if (row['pay_money'] > 0) {
-                    rs = WalletTypeMap['3_0']
+                    rs = WalletTypeMap()['3_0']
                 } else {
-                    rs = WalletTypeMap['3_1']
+                    rs = WalletTypeMap()['3_1']
                 }
             } else {
-                rs = WalletTypeMap[val]
+                rs = WalletTypeMap()[val]
             }
             break
         // 2就是usdt,其他暂时是越南盾

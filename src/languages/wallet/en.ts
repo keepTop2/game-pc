@@ -108,6 +108,7 @@ export default {
   "bType92": "Balance Overflow",
   "bType100": "Registration Gift",
   "bType101": "Game Bet",
+  emailGet: "Email Acquisition",
   // 稽核记录 auditRecord
   auditRecord_page_time: 'Account Change Time',
   auditRecord_page_timeTips: 'Current system supports querying records for the past 3 months',
@@ -156,9 +157,9 @@ export default {
   paymentManagement_page_new_bank: 'Add New Bank Card',
   paymentManagement_page_default_bank: 'Default Card',
   paymentManagement_page_delete: 'Delete',
-  paymentManagement_page_set_default: 'Set as Default',
-  paymentManagement_page_set_xw_default: 'Confirm Set as Default Bank Card?',
-  paymentManagement_page_setDefaulted: 'Already set as default',
+  paymentManagement_page_set_default: 'Make default',
+  paymentManagement_page_set_xw_default: 'Confirm Make default Bank Card?',
+  paymentManagement_page_setDefaulted: 'Already Make default',
   paymentManagement_page_inUse: 'In use',
   paymentManagement_page_choose: 'choose',
   paymentManagement_page_enterBank: 'Please enter your bank account name',
@@ -180,7 +181,7 @@ export default {
   paymentManagement_page_errorAdd: 'The address format is incorrect',
   paymentManagement_page_tip1: 'Please enter the correct account number!',
   paymentManagement_page_tip2: 'Add successfully!',
-  paymentManagement_page_tip3: 'Already exists!',
+  paymentManagement_page_tip3: 'The bank card has been bound',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',
@@ -190,6 +191,7 @@ export default {
   rechargeRecord_page_allHb: 'All Currencies',
 
   // walletInfo
+  walletInfo_page_code_input: 'Enter the redemption code and receive the reward',
   walletInfo_page_code: 'Exchange Code',
   walletInfo_page_rule: 'Membership Level Rules',
   walletInfo_page_needBet: 'Required Bet',
@@ -202,8 +204,8 @@ export default {
   walletInfo_page_game: 'Game Wallet',
   walletInfo_page_follow: 'Auto Follow',
   walletInfo_page_recovery: 'One-Click Recovery to Central Wallet',
-  walletInfo_page_in: 'Transfer In',
-  walletInfo_page_out: 'Transfer Out',
+  walletInfo_page_in: 'Deposit',
+  walletInfo_page_out: 'take out',
   walletInfo_page_notMoney: 'No Operable Balance',
   walletInfo_page_tranferTxt: 'Please Click or Drag to Select Amount',
   walletInfo_page_tranferTips: 'Friendly Reminder: Withdrawals need to be transferred to the safe first',
@@ -278,6 +280,7 @@ export default {
   deposit_page_toExchange: 'Visit the exchange',
   deposit_page_minDeposit: 'Minimum recharge',
   deposit_page_goToDeposit: 'Are you sure to recharge?',
+  deposit_page_min_discount: 'Chỉ những khoản nạp lớn hơn {minDis} mới có thể tận hưởng khuyến mãi này',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Redeem Now',

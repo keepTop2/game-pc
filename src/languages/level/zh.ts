@@ -7,7 +7,7 @@ export default {
   level_page_getScu: '领取成功',
   level_page_getFail: '领取失败',
   level_page_notAward: '没有可领取奖励',
-  level_page_pRule: '会以下货币单位为VND',
+  level_page_pRule: '以下货币单位为VND',
   level_page_pBet: '投注',
   level_page_bRequire: '保级要求',
   level_page_wu: '无',
@@ -57,4 +57,5 @@ export default {
   level_page_paiRule_1: '1.晋级礼金：用户晋级后，晋级礼金立即发放至【我的优惠】；领取后直接发放至携带钱包；',
   level_page_paiRule_2: '2.每月礼金：每月礼金在下一个月第一次登录发放，在【我的优惠】中领取；领取后直接发放至携带钱包；',
   level_page_paiRule_3: '3.洗码奖励：每天凌晨0:00更新洗码返利，领取后直接发放至携带钱包，在洗码记录中查看领取记录。',
+  level_page_unlock: '升级解锁后，即可享受该特权',
 }

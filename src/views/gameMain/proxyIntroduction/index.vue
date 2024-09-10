@@ -29,7 +29,7 @@
 
             <!-- Boss -->
             <n-flex vertical class="icon_box" :align="'center'">
-                <img style="width:37px" class="icon" src="/img/proxy/level_1.webp" alt="BOSS">
+                <Imgt style="width:37px" class="icon" src="/img/proxy/level_1.webp" alt="BOSS" />
                 <div class="name">BOSS</div>
             </n-flex>
             <n-flex class="model_box_content">
@@ -78,11 +78,11 @@
                 <div class="text_box">{{ t('proxy_page_nextCs') }} 0.125% {{ t('proxy_page_nextZs') }}</div>
                 <n-flex class="icons_box" justify="space-between" align="stretch">
                     <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
-                        <img style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS">
+                        <Imgt style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS" />
                         <div class="name">{{ t('proxy_page_partner') }} B1</div>
                     </n-flex>
                     <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
-                        <img style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS">
+                        <Imgt style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS" />
                         <div class="name">B2 {{ t('proxy_page_player') }}</div>
                     </n-flex>
                 </n-flex>
@@ -136,11 +136,11 @@
                     </div>
                     <n-flex class="icons_box level2" justify="space-between" align="stretch">
                         <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
-                            <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                            <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                             <div class="name">{{ t('proxy_page_gjMaster') }} C1</div>
                         </n-flex>
                         <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
-                            <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                            <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                             <div class="name">{{ t('proxy_page_player') }} C2</div>
                         </n-flex>
                     </n-flex>
@@ -151,11 +151,11 @@
                         <div class="text_box">下级总业绩0.125%+<br />直属下级业绩的有效流水抽成</div>
                         <n-flex class="icons_box" justify="space-between" align="stretch">
                             <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
-                                <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                                <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                                 <div class="name">高级厅主B3</div>
                             </n-flex>
                             <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
-                                <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                                <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                                 <div class="name">高级厅主B4</div>
                             </n-flex>
                         </n-flex>
@@ -280,6 +280,7 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 // import { useRouter } from 'vue-router';
 
 // const router = useRouter();

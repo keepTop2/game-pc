@@ -146,7 +146,7 @@ export default {
     // footer
     home_page_footerTips: 'The platform has legal licenses issued by the European Malta Gaming Authority (MGA) and the Philippine Government Gaming Commission (PAGCOR). Registered in the British Virgin Islands, it is a legal gaming company recognized by the International Gaming Association. Please make sure you are over 18 years old before registering and having fun! ',
     // dateSelect
-    home_page_yesToday: 'yesterday',
+    home_page_yesToday: 'Yesterday',
     home_page_today: 'Today',
     home_page_thisWeek: 'This week',
     home_page_month: 'Last 30 days',
@@ -155,7 +155,15 @@ export default {
     home_page_notice_title: 'General Announcements',
     home_page_notice_fixtitle: 'Maintenance Notice',
     home_page_notice_systitle: 'System notification',
+    home_page_notice_donttip: "Don't show again",
 
     // 活动详情
-    activity_page_detail: 'Event Details'
+    activity_page_detail: 'Event Details',
+    // header
+    'Facebook Home page': 'Facebook',
+    'Facebook group': 'Facebook Group',
+    'Telegram Channel': 'Telegram Channel',
+    'Youtube Channel': 'Youtube Channel',
+    'messenger': 'Messenger',
+    'telegram': 'Telegram',
 }

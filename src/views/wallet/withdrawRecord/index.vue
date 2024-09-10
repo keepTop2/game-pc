@@ -32,7 +32,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -56,6 +56,7 @@ import { Net } from "@/net/Net";
 import { NetPacket } from "@/netBase/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const tableHeader = computed(() => {
@@ -69,9 +70,9 @@ const tableHeader = computed(() => {
 })
 
 const optionsStatus = computed(() => { // 状态
-    const options = Object.keys(WithdrawStatusMap).map((key: string) => {
+    const options = Object.keys(WithdrawStatusMap()).map((key: string) => {
         return {
-            label: WithdrawStatusMap[key],
+            label: WithdrawStatusMap()[key],
             value: Number(key)
         }
     })
@@ -125,7 +126,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = Number(val).toLocaleString()
             break
         case "order_status":
-            rs = `<span style="color:${WithdrawStatusColorMap[val]}">${WithdrawStatusMap[val]}</span>`
+            rs = `<span style="color:${WithdrawStatusColorMap[val]}">${WithdrawStatusMap()[val]}</span>`
             break
         case "pay_time":
             rs = convertObjectToDateString(val)

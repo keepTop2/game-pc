@@ -572,8 +572,8 @@ export default {
     // "select_bank_pay_type": "选择银行支付方式",
     "total_commission": "总佣金:",
     "Direct player commission": "直属玩家佣金:",
-    "Direct commission": "直属佣金:",
-    "Team commission": "团队佣金:",
+    "Direct commission": "直属佣金",
+    "Team commission": "团队佣金",
     "Variable details dynamic": "账变记录",
     "Transfer": "转账",
     "identity": "身份:",
@@ -2001,6 +2001,7 @@ export default {
     "received": "已领取",
     "confirm": "确认",
     "one_click_claim": "一键领取",
+    "received_all": "已全部领取",
     "home_notice_mixtext": "{user} 在 {game} 获得 {money} 金币奖励！",
     // 充值状态
     'rechagre_status_map_0': '失败',

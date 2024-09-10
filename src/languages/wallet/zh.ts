@@ -108,6 +108,7 @@ export default {
   "bType92": "余额溢出",
   "bType100": "注册送金",
   "bType101": "游戏投注",
+  emailGet: "邮件获取",
   // 稽核记录 auditRecord
   auditRecord_page_time: '账变时间',
   auditRecord_page_timeTips: '当前系统支持查询近3个月额度记录',
@@ -180,7 +181,7 @@ export default {
   paymentManagement_page_errorAdd: '地址格式不正确',
   paymentManagement_page_tip1: '请输入正确的账号!',
   paymentManagement_page_tip2: '新增成功!',
-  paymentManagement_page_tip3: '已经存在!',
+  paymentManagement_page_tip3: '银行卡已被绑定',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',
@@ -190,6 +191,7 @@ export default {
   rechargeRecord_page_allHb: '全部货币',
 
   // walletInfo
+  walletInfo_page_code_input: '输入兑换码，领取奖励',
   walletInfo_page_code: '兑换码',
   walletInfo_page_rule: '会员等级规则',
   walletInfo_page_needBet: '所需投注',
@@ -202,8 +204,8 @@ export default {
   walletInfo_page_game: '游戏钱包',
   walletInfo_page_follow: '自动跟随',
   walletInfo_page_recovery: '一键回收至中心钱包',
-  walletInfo_page_in: '转入',
-  walletInfo_page_out: '转出',
+  walletInfo_page_in: '存入',
+  walletInfo_page_out: '取出',
   walletInfo_page_notMoney: '没有可操作余额',
   walletInfo_page_tranferTxt: '请点击或拖动选择金额',
   walletInfo_page_tranferTips: '温馨提示:提款需先将金额转入保险柜',
@@ -278,6 +280,7 @@ export default {
   deposit_page_toExchange: '访问交易所',
   deposit_page_minDeposit: '最低充值',
   deposit_page_goToDeposit: '确定充值？',
+  deposit_page_min_discount: '充值大于{minDis}才可享受此优惠活动',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',

@@ -20,9 +20,8 @@
                   :class="['step-list', stepTuple.step >= item ? 'step-list-active' : '']">
                   <div class="step-indicator"><span>{{ item }}</span></div>
                   <div v-if="item !== 3" class="step-content">
-                    <img
-                      :src="stepTuple.step > item ? '/img/wallet/calibration_step_active.webp' : '/img/wallet/calibration_step.webp'"
-                      alt="">
+                    <Imgt
+                      :src="stepTuple.step > item ? '/img/wallet/calibration_step_active.webp' : '/img/wallet/calibration_step.webp'" />
                   </div>
                 </div>
               </n-flex>
@@ -31,7 +30,7 @@
                 <n-flex class="item-list-tips" justify="space-between" align="center">
                   <p>{{ t('paymentManagement_page_oneBank') }}</p>
                   <div class="tips-icon">
-                    <img :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+                    <Imgt :src="!bankError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" />
                   </div>
                 </n-flex>
 
@@ -41,7 +40,7 @@
                       <n-flex class="choose-bank">
                         <n-flex align="center" class="choose-bank-l">
                           <span class="bank_cicon">
-                            <img :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
+                            <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                           </span>
                           <span class="bank_cname"> {{ chooseBank.label }} </span>
                         </n-flex>
@@ -50,7 +49,8 @@
                     </n-form-item>
 
                     <n-form-item :label="t('addBank_page_bankCard')" path="cardNo">
-                      <n-input size="large" v-model:value="formBank.cardNo" :placeholder="t('paymentManagement_page_chCardNo')">
+                      <n-input size="large" type="number" v-model:value="formBank.cardNo"
+                        :placeholder="t('paymentManagement_page_chCardNo')">
                         <template #suffix>
                           <a class="refresh_icon"></a>
                         </template>
@@ -75,7 +75,7 @@
                   <n-flex class="bank_list" justify="center">
                     <n-flex align="center" class="bank_item" justify="space-between">
                       <div class="bank_l_icon">
-                        <img :src="`/img/bankIcon/bank_logo_${formBank.bank}.webp`" alt="nodata">
+                        <Imgt :src="`/img/bankIcon/bank_logo_${formBank.bank}.webp`" alt="nodata" />
                       </div>
                       <div class="bank_l_name">
                         <p>
@@ -95,7 +95,7 @@
                 <n-flex class="item-list-tips" justify="space-between" align="center">
                   <p>{{ t('paymentManagement_page_bindMobile') }}</p>
                   <div class="tips-icon">
-                    <img :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+                    <Imgt :src="!phoneError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" />
                   </div>
                 </n-flex>
 
@@ -110,16 +110,17 @@
                           <iconpark-icon icon-id="Group39369" color="#8e82c2" size="1rem"></iconpark-icon>
                         </span>
                       </n-popselect>
-                      <n-input clearable size="large" v-model:value="formInfo.phone" :placeholder="t('home_page_enterPhoneNumber')"></n-input>
+                      <n-input clearable size="large" v-model:value="formInfo.phone"
+                        :placeholder="t('home_page_enterPhoneNumber')"></n-input>
                     </n-form-item>
 
                     <n-flex justify="space-between" align="center">
                       <n-form-item :label="t('home_page_smsCode')" path="phoneCode" style="flex: 1;">
                         <n-input clearable size="large" v-model:value="formInfo.phoneCode"
-                                 :placeholder="t('home_page_enterVerificationCode')"></n-input>
+                          :placeholder="t('home_page_enterVerificationCode')"></n-input>
                       </n-form-item>
                       <n-button :bordered="false" :loading="phoneCodeLoading" @click="submitSendPhoneCode" class="btn"
-                                :disabled="phoneCodeDisabled">{{ phoneCodeText }}
+                        :disabled="phoneCodeDisabled">{{ phoneCodeText }}
                       </n-button>
                     </n-flex>
 
@@ -132,7 +133,7 @@
                   <n-flex class="bank_list">
                     <n-flex align="center" class="bank_item">
                       <div class="bank_l_icon">
-                        <img src="/img/wallet/phone.webp" alt="nodata">
+                        <Imgt src="/img/wallet/phone.webp" alt="nodata" />
                       </div>
                       <div class="bank_l_name">
                         <p>
@@ -150,25 +151,27 @@
                 <n-flex class="item-list-tips" justify="space-between" align="center">
                   <p>{{ t('paymentManagement_page_setPayPwd') }}</p>
                   <div class="tips-icon">
-                    <img :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" alt="">
+                    <Imgt :src="!capitalError ? '/img/wallet/addBankClose.webp' : '/img/wallet/fulfillment.webp'" />
                   </div>
                 </n-flex>
 
                 <div class="capitalForm" v-if="!capitalError">
                   <n-form ref="formCapitalRef" :model="formCapital" :rules="rules.capital" class="w_full choose-bank">
                     <n-form-item :label="t('paymentManagement_page_setPwd')" path="capitalPin">
-                      <n-input size="large" v-model:value="formCapital.capitalPin" :type="changeRightInfo.pwd1.type" :placeholder="t('paymentManagement_page_plSetPayPwd')">
+                      <n-input size="large" v-model:value="formCapital.capitalPin" :type="changeRightInfo.pwd1.type"
+                        :placeholder="t('paymentManagement_page_plSetPayPwd')">
                         <template #suffix>
                           <iconpark-icon @click="iconClick('pwd1')" :icon-id="changeRightInfo.pwd1.icon" color="#8e82c2"
-                                         size="1.5em"></iconpark-icon>
+                            size="1.5em"></iconpark-icon>
                         </template>
                       </n-input>
                     </n-form-item>
                     <n-form-item :label="t('paymentManagement_page_repPwd')" path="capitalPinAgain">
-                      <n-input size="large" v-model:value="formCapital.capitalPinAgain" :type="changeRightInfo.pwd2.type" :placeholder="t('home_page_secPwd')">
+                      <n-input size="large" v-model:value="formCapital.capitalPinAgain"
+                        :type="changeRightInfo.pwd2.type" :placeholder="t('home_page_secPwd')">
                         <template #suffix>
                           <iconpark-icon @click="iconClick('pwd2')" :icon-id="changeRightInfo.pwd2.icon" color="#8e82c2"
-                                         size="1.5em"></iconpark-icon>
+                            size="1.5em"></iconpark-icon>
                         </template>
                       </n-input>
                     </n-form-item>
@@ -190,7 +193,9 @@
 
 
               <div class="cz_btn with_btn">
-                <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? t('paymentManagement_page_finish') : t('home_page_next') }} </a>
+                <a @click="submitContent"> {{ stepTuple.step === 3 && capitalError ? t('paymentManagement_page_finish')
+                  :
+                  t('home_page_next') }} </a>
               </div>
 
             </div>
@@ -209,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-import {defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
+import { defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
@@ -231,6 +236,7 @@ import { User } from '@/store/user';
 import { aaa, bbb, getDeviceId, getRandomSign } from '@/net/Utils.ts';
 import { needLoginApi } from '@/utils/storage.ts';
 import { IP } from '@/utils/others.ts';
+import Imgt from '@/components/Imgt.vue';
 
 const ChooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 

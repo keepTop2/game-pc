@@ -73,11 +73,12 @@ export function verifyNumberIntegerAndFloat(val: string) {
  * 金额用 `,` 区分开
  * @param val 当前值字符串
  * @returns 返回处理后的字符串
+ * isDecimal 是否需要舍弃小数，不需要舍弃 true, 需要舍弃 false
  */
-export function verifyNumberComma(val: string) {
+export function verifyNumberComma(val: string, isDecimal: boolean = true ): any {
     // 调用小数或整数(不可以负数)方法
     let v: any = verifyNumberIntegerAndFloat(val);
-
+    v = isDecimal ? v : Math.trunc(v); // 直接舍弃小数
     // 字符串转成数组
     v = v.toString().split('.');
     // \B 匹配非单词边界，两边都是单词字符或者两边都是非单词字符
@@ -181,4 +182,8 @@ export function sortAndGroupByLetter(arr:any, prop:string) {
     // 返回分组后的对象，包含字母数组和对应的分组数组
     return { list, letters, grouped };
   }
-  
+
+// 去除千位符
+export const removeComma = (val: any) => {
+  return val ? Number(val.replaceAll(",", "")) : 0;
+}

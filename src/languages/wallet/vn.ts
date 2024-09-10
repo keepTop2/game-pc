@@ -108,6 +108,7 @@ export default {
   'bType92': 'Số dư vượt mức',
   'bType100': 'Quà tặng đăng ký',
   'bType101': 'Cược trò chơi',
+  emailGet: "Thu thập email",
   // 稽核记录 auditRecord
   auditRecord_page_time: 'Thời gian thay đổi tài khoản',
   auditRecord_page_timeTips: 'Hệ thống hiện tại hỗ trợ truy vấn các bản ghi trong vòng 3 tháng qua',
@@ -156,11 +157,11 @@ export default {
   paymentManagement_page_new_bank: 'Thêm thẻ ngân hàng mới',
   paymentManagement_page_default_bank: 'Thẻ mặc định',
   paymentManagement_page_delete: 'Xóa',
-  paymentManagement_page_set_default: 'Đặt làm mặc định',
+  paymentManagement_page_set_default: 'Mặc định',
   paymentManagement_page_set_xw_default: 'Xác nhận đặt làm thẻ ngân hàng mặc định?',
   paymentManagement_page_setDefaulted: 'Đã được đặt làm mặc định',
   paymentManagement_page_inUse: 'Đang sử dụng',
-  PaymentManager_page_choose: 'chọn',
+  paymentManagement_page_choose: 'chọn',
   paymentManagement_page_enterBank: 'Vui lòng nhập tên tài khoản ngân hàng của bạn',
   paymentManagement_page_confirm: 'Xác nhận',
   paymentManagement_page_setError: 'Thiết lập không thành công',
@@ -180,7 +181,7 @@ export default {
   paymentManagement_page_errorAdd: 'Định dạng địa chỉ không chính xác',
   paymentManagement_page_tip1: 'Vui lòng nhập đúng số tài khoản!',
   paymentManagement_page_tip2: 'Thêm thành công!',
-  paymentManagement_page_tip3: 'Đã tồn tại!',
+  paymentManagement_page_tip3: 'Thẻ ngân hàng đã bị ràng buộc',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Loại tiền tệ',
@@ -190,6 +191,7 @@ export default {
   rechargeRecord_page_allHb: 'Tất cả các loại tiền tệ',
 
   // walletInfo
+  walletInfo_page_code_input: 'Nhập mã đổi quà và nhận phần thưởng',
   walletInfo_page_code: 'Mã đổi thưởng',
   walletInfo_page_rule: 'Quy tắc cấp thành viên',
   walletInfo_page_needBet: 'Số tiền cược cần thiết',
@@ -202,8 +204,8 @@ export default {
   walletInfo_page_game: 'Ví trò chơi',
   walletInfo_page_follow: 'Tự động theo dõi',
   walletInfo_page_recovery: 'Thu hồi về ví trung tâm bằng một cú nhấp chuột',
-  walletInfo_page_in: 'Chuyển vào',
-  walletInfo_page_out: 'Chuyển ra',
+  walletInfo_page_in: 'Tiền gửi',
+  walletInfo_page_out: 'lấy ra',
   walletInfo_page_notMoney: 'Không có số dư khả dụng',
   walletInfo_page_tranferTxt: 'Vui lòng nhấp hoặc kéo để chọn số tiền',
   walletInfo_page_tranferTips: 'Lưu ý: Rút tiền cần chuyển số tiền vào két sắt trước',
@@ -278,6 +280,7 @@ export default {
   deposit_page_toExchange: 'Truy cập vào sàn giao dịch',
   deposit_page_minDeposit: 'Nạp tiền tối thiểu',
   deposit_page_goToDeposit: 'Bạn có chắc chắn đã nạp tiền không?',
+  deposit_page_min_discount: 'Chỉ những khoản nạp lớn hơn {minDis} mới có thể tận hưởng khuyến mãi này',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: 'Đổi ngay',

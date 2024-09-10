@@ -46,7 +46,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!resultList.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
 
@@ -57,7 +57,7 @@
 
         <!-- 分页 -->
         <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-          :item-count="result.total_page" v-show="result.total_page" />
+            :item-count="result.total_page" v-show="result.total_page" />
 
 
         <!-- 等级管理 -->
@@ -78,6 +78,7 @@ import { useI18n } from "vue-i18n";
 import { storeToRefs } from 'pinia';
 import pinia from "@/store";
 import { User } from '@/store/user';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n()
 const UserStore = User(pinia);
