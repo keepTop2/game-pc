@@ -102,7 +102,17 @@ export module NetEnumDef {
         game_type_shuangdan = 44,
         game_type_mjhlsecond = 45,
         game_type_dataosha = 46,
-        game_type_pdk = 47
+        game_type_pdk = 47,
+        game_type_bj = 48,
+        game_type_tx = 49,
+        game_type_sss = 50,
+        game_type_baijiale = 51,
+        game_type_yxx = 52,
+        game_type_omh = 53,
+        game_type_zhajinhua = 54,
+        game_type_lhd = 55,
+        game_type_sedie = 56,
+        game_type_shaibao = 57
     };
     export enum room_type
     {
