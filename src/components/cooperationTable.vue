@@ -28,7 +28,7 @@
 
             <n-flex class="tr" v-for="(row, index) in resultList" :key="index">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i"
-                    @click="clickTd(row)" v-html="rowHandle(row, item.key)"></div>
+                  @click="clickTd(row)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
             <n-flex class="tr tt" v-if="resultList.length">
@@ -144,15 +144,16 @@ const result: any = reactive({ // 结果
 })
 const resultList = computed(() => {
     let arr: any = []
-    if(props.proxyInfo.level == 0) return arr
+    // 自己是不是直属
+    if (props.proxyInfo.level == 0) return arr
     result.list.map((item: any) => {
-        if(item.role_id == roleInfo.value?.id && activeTab.value != 3) {
+        if (item.role_id == roleInfo.value?.id && activeTab.value != 3) {
             arr.push(item)
         } else if (activeTab.value == 1) {
             arr.push(item)
         } else if (activeTab.value == 2 && item.level === 0) {
             arr.push(item)
-        } else if (activeTab.value == 3 && item.level !== 0 && item.role_id !== roleInfo.value?.id){
+        } else if (activeTab.value == 3 && item.level !== 0 && item.role_id !== roleInfo.value?.id) {
             arr.push(item)
         }
     })
