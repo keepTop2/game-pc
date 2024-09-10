@@ -48,13 +48,13 @@
             </div>
           </n-flex>
           <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
-          <n-input v-model:value="state.search" placeholder="查找聊天列表" :allow-input="onlyAllowNumber">
+          <n-input v-model:value="state.search" placeholder="查找聊天列表" >
             <template #suffix>
               <div class="new_btn" @click="searchuser">发起新聊天</div>
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
-          <div class="manage_group" @click.stop="manageClick">分组管理</div>
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理</div>
         </div>
         <div class="list_wrap">
         <!-- 聊天列表 -->
@@ -168,7 +168,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{agentInfo.user_type}}</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
     </div>

@@ -311,7 +311,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     }
     const type = 15; // 查询用户
     var payload = {
-      roleid: state.search * 1,
+      username: state.search,
       deviceid: state.deviceID,
     };
     wsReqSend(type, payload, 'UserRoleReq');
