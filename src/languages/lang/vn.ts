@@ -2087,4 +2087,10 @@ export default {
   received: 'đã nhận',
   confirm: 'xác nhận',
   one_click_claim: 'Thu thập tất cả',
+   // 赌场身份
+   identity_map_1: 'Thạc sĩ hội trường thực tập sinh',
+   identity_map_2: 'Chủ hội trường',
+   identity_map_3: 'Trưởng phòng cao cấp',
+   identity_map_4: 'Cộng sự',
+   identity_map_5: 'BOSS',
 };
