@@ -598,7 +598,7 @@ export default {
     "Account No": "Account No",
     "Hierarchy": "Hierarchy",
     "Effective team flow": "Effective team flow",
-    "Direct Commission": "Direct player",
+    "Direct commission": "Direct player",
     "Insufficient Commission": "Insufficient commission available",
     "Casino draws": "Casino draws",
     "General Report": "General Report",
@@ -2037,9 +2037,9 @@ export default {
     'audit_status_map_1': 'in progress',
     'audit_status_map_2': 'completed',
     // 赌场身份
-    'identity_map_1': '见习厅主',
-    'identity_map_2': '厅主',
-    'identity_map_3': '高级厅主',
-    'identity_map_4': '合伙人',
+    'identity_map_1': 'Trainee Hall Master',
+    'identity_map_2': 'Hall Master',
+    'identity_map_3': 'Senior Hall Master',
+    'identity_map_4': 'Partner',
     'identity_map_5': 'BOSS',
 }

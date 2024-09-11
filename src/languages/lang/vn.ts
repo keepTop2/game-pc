@@ -687,7 +687,7 @@ export default {
   Team_commission: 'Hoa hồng nhóm',
   'Effective flow': 'Dòng chảy hiệu quả',
   'Effective team flow': 'Luồng tiền đội nhóm',
-  'Direct Commission': 'Hoa hồng cấp 1',
+  'Direct commission': 'Hoa hồng cấp 1',
   "Insufficient Commission": "Hoa hồng không đủ có thể được thu thập",
   'Casino draws': 'Hoàn trả sảnh ngoài',
   'General Report': 'Báo cáo tổng hợp',
@@ -2088,6 +2088,12 @@ export default {
   received: 'đã nhận',
   confirm: 'xác nhận',
   one_click_claim: 'Thu thập tất cả',
+   // 赌场身份
+   identity_map_1: 'Thạc sĩ hội trường thực tập sinh',
+   identity_map_2: 'Chủ hội trường',
+   identity_map_3: 'Trưởng phòng cao cấp',
+   identity_map_4: 'Cộng sự',
+   identity_map_5: 'BOSS',
   "home_notice_mixtext": "{user} đã nhận được phần thưởng tiền vàng {money} trong {game}!",
   // 充值状态
   'rechagre_status_map_0': 'thất bại',
@@ -2119,10 +2125,4 @@ export default {
   // 稽核状态
   'audit_status_map_1': 'đang tiến hành',
   'audit_status_map_2': 'Hoàn thành',
-  // 赌场身份
-  'identity_map_1': 'Thạc sĩ hội trường thực tập sinh',
-  'identity_map_2': 'Chủ hội trường',
-  'identity_map_3': 'Trưởng phòng cao cấp',
-  'identity_map_4': 'Cộng sự',
-  'identity_map_5': 'BOSS',
 };

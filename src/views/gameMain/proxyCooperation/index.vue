@@ -286,18 +286,27 @@ const copyToClipboard = (text: string) => {
     }
 
     .btn {
-        width: 120px;
-        height: 35px;
+        width: 150px;
         cursor: pointer;
         background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
         justify-content: center;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        text-align: center;
 
         .icon {
             margin-right: 5px;
             font-size: 18px;
         }
+        span{
+            text-align: center;
+        }
+    }
+    .link_btn{
+        line-height: 1;
     }
 }
 </style>
