@@ -1018,13 +1018,14 @@ onMounted(async () => {
   }
 
   .short_wrap_item {
-    width: 98px;
+    min-width: 98px;
     height: 33px;
     display: flex;
     justify-content: center;
     cursor: pointer;
     align-items: center;
     border-radius: 10px;
+    padding: 0 10px;
     background: url(/img/serviceModal/anniu.webp) no-repeat;
     background-size: 100% 100%;
   }
