@@ -12,34 +12,20 @@
                 <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
                     <p v-for="(v, i) in textAnnouncement" :key="i" style="margin-left: 5px;" class="carousel_span">{{
                         t(v)
-                        }}</p>
+                    }}</p>
                 </n-carousel>
             </p>
         </div>
         <div class="games">
             <div class="game-detail">
-                <div v-if="activeTab == TabType.FAVORITE">
-                    <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
-                        <div class="game-list">
-                            <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGame(v)">
-                                <img class="game-img" :src="`/img/cards/${'1'}.png`" alt="">
-                                <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
-                            </div>
-                        </div>
-                    </n-infinite-scroll>
-                    <div class="nodata" v-else>
-                        <img src="/img/wallet/nodata.webp" alt="nodata">
-                        <div>{{ t('home_page_nomore_data') }}</div>
-                    </div>
-                </div>
-                <div v-else>
+                <div>
                     <div class="nodata" v-if="!result.list.length">
                         <img src="/img/wallet/nodata.webp" alt="nodata">
                         <div>{{ t('home_page_nomore_data') }}</div>
                     </div>
                     <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
                         <div class="game-list">
-                            <div class="item" v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
+                            <div class="item" v-for="(v, i) in result.list" :key="i" @click="platformItemClick(v, i)">
                                 <img class="game-img" :src="`/img/cards/${'1'}.png`" alt="">
                                 <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
                             </div>
@@ -56,7 +42,7 @@ import { onMounted, reactive, ref, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
@@ -72,13 +58,12 @@ const {
 } = storeToRefs(Page(pinia));
 
 const activeTab = ref(0)
-
+const router = useRouter()
 const result: any = reactive({
     list: []
 })
 let initData = reactive<any>({})
 let gameKinds = ref<any>([])
-let favoriteData = ref<any[]>([])
 const langs: any = {
     zh: 'zh-CN',
     vn: 'vi-VN',
@@ -150,21 +135,29 @@ const getHomeData = () => {
     result.list = data.three_platform
 }
 
-const onPlayGame = (v: any) => {
-    needLogin()
+const platformItemClick = (item: any, i: number) => {
     let langObj: any = {
-        'en-US': 3,
-        'vi-VN': 2,
-        'zh-CN': 1
+        'en': 3,
+        'vi': 2,
+        'zh': 1
     }
-    const currentParams = initData.three_game_kind[activeTab.value]
-    const currentType = gameKinds.value[activeTab.value]
-    let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = currentParams.three_platform_id;
-    tb.kindId = currentType.kindId;
-    tb.gameId = v.gameId;
-    tb.lang = langObj[langs[lang.value]]
-    Net.instance.sendRequest(tb);
+    if (item && item.has_next) {
+        router.push({
+            path: '/gameMain/gameDetail',
+            query: {
+                id: i,
+                data: encodeURIComponent(JSON.stringify(item))
+            }
+        })
+    } else {
+        needLogin()
+        let tb = NetPacket.req_3rd_game_login();
+        tb.agentId = item.three_game_kind_id;
+        tb.gameId = item.three_platform_id;
+        tb.kindId = item.venue_id;
+        tb.lang = langObj[lang.value];
+        Net.instance.sendRequest(tb);
+    }
 }
 
 </script>
