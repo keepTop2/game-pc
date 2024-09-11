@@ -11,14 +11,17 @@
 
   <!-- 提款 -->
   <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />
+  <!-- 头像设置 -->
+  <avatarSettings v-model:visible="visibleSetting" />
+
 
   <n-spin :show="loading">
     <n-flex vertical>
       <div class="process">
         <div class="userInfo">
           <div class="usrProfile">
-            <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar"
-              alt="" />
+            <Imgt @click="showAvSetting" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar"
+              alt="" title="点击设置"/>
             <div class="userName">
               <p class="size1">{{ userInfo.full_name || userInfo.real_name || roleInfo.nickname }}</p>
               <div class="mount">
@@ -208,6 +211,7 @@ import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
+import avatarSettings from '../components/avatarSettings.vue';
 import { Message } from "@/utils/discreteApi.ts";
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
@@ -229,7 +233,12 @@ const route = useRoute();
 // const levelModal = ref();
 const depositFirModal = ref();
 const haveBank = ref(false);
+const visibleSetting = ref(false);
 
+// 打开头像设置
+const showAvSetting = () => {
+  visibleSetting.value = true
+}
 // 打开等级规则弹窗
 // const openLevelRule = () => {
 //     levelModal.value.openModal();
