@@ -68,7 +68,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { Page } from '@/store/page';
-import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, } from "@/utils/is";
+import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyPhoneCaptcha, } from "@/utils/is";
 import { useI18n } from 'vue-i18n';
 import { Local } from "@/utils/storage";
 import { Message } from "@/utils/discreteApi";
@@ -130,14 +130,41 @@ const state: any = reactive({
           trigger: "input",
         },
       ],
-      verify_code: [
-        {
-          required: !0,
-          validator: verifyCaptcha,
-          message: t('home_page_verificationCodeFormatIncorrect'),
-          trigger: "blur",
-        },
-      ],
+      phoneCode: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterSmsCode'))
+                    } else
+                        if (verifyPhoneCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_smsCodeFormatIncorrect'))
+                        }
+                },
+
+
+
+            },
+        ],
+        emailCode: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterSmsCode'))
+                    } else
+                        if (verifyCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_smsCodeFormatIncorrect'))
+                        }
+                },
+            },
+        ],
       email: [
         {
           key: 'email',
@@ -346,7 +373,9 @@ const submitNext = () => {
   // 效验
 
   if (state.formData.step == 1) {
+    debugger
     formRef.value?.validate((errors: any) => {
+      debugger
       if (!errors) {
         changePassword(state.formData.formParams, 1)
 

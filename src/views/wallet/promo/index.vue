@@ -242,8 +242,8 @@ onMounted(() => {
         line-height: 30px;
         border: 0;
         color: #ebefff;
-        background: url('/img/promo/tabBtn.webp?t=@{timestamp}') center no-repeat;
-        background-size: 84%;
+        border-image: url('/img/promo/tabBtn.webp?t=@{timestamp}') 0 30 0 30 fill / 0 20px stretch stretch !important;
+
 
         :deep(.n-badge) {
           top: 2px;
