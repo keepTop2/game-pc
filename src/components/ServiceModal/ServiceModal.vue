@@ -858,7 +858,7 @@ onMounted(async () => {
     .high_proxy {
       cursor: pointer;
       font-size: 12px;
-
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
       color: #fff;
       padding: 6px 8px;
       border-radius: 6px;
