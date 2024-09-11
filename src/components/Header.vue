@@ -262,7 +262,8 @@ const openLink = (item: any) => {
 const agent_level = location.href.split('?agent_level=')[1]
 if (agent_level) { // agent_level
   localStorage.setItem('agent_level', agent_level)
-  kefuVisible.value = true
+  // kefuVisible.value = true
+  router.push('/customer')
 } else {
   localStorage.setItem('agent_level', '')
 }
