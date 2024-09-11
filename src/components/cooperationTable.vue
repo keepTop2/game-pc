@@ -57,7 +57,7 @@
 
         <!-- 分页 -->
         <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-            :item-count="result.total_page" v-show="result.total_page" />
+          :item-count="result.total_page" v-show="result.total_page" />
 
 
         <!-- 等级管理 -->
@@ -79,6 +79,7 @@ import { storeToRefs } from 'pinia';
 import pinia from "@/store";
 import { User } from '@/store/user';
 import Imgt from '@/components/Imgt.vue';
+import { Message } from "@/utils/discreteApi";
 
 const { t } = useI18n()
 const UserStore = User(pinia);
@@ -204,8 +205,16 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
 }
 
 const clickTd = (row: any) => { // td点击事件
-    if (activeTab.value == 1 || userInfo.value.full_name == row.username) return
-    levelM.value.openModal(row)
+    if (activeTab.value !== 1 || userInfo.value.full_name != row.username) {
+        // 判断能否修改:见习代理(1)可修改直属报表；任意身份修改团队报表内比自己小一级的时候，需要提示已经是最高等级了
+        if (Number(roleInfo.value.agent_level) == 1 && activeTab.value == 2) {
+            levelM.value.openModal(row)
+        } else if (Number(roleInfo.value.agent_level) - row.level < 2) {
+            Message.error(t('already_max_level'))
+            return
+        }
+        levelM.value.openModal(row)
+    }
 }
 const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
