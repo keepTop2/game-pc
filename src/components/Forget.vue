@@ -37,8 +37,8 @@
 
             <n-button :bordered="false" :loading="item.loading" @click="submitSend(item)"
               v-if="item.slot && item.type == 'code'" class="btn" :disabled="item.btnDisabled">{{
-        item.timeText
-      }}</n-button>
+                item.timeText
+              }}</n-button>
           </n-form-item>
         </template>
       </n-form>
@@ -114,16 +114,16 @@ const state: any = reactive({
           required: !0,
           validator: () => {
             if (!state.formData.formParams.mobile) {
-                        return new Error(t('home_page_enterPhoneNumber'))
-                    } else
-            if (verifyMobile(state.formData.formParams.codeValue, state.formData.formParams.mobile)) {
+              return new Error(t('home_page_enterPhoneNumber'))
+            } else
+              if (verifyMobile(state.formData.formParams.codeValue, state.formData.formParams.mobile)) {
 
-              state.formData.list.phoneCode.disabled = false
-              return true
-            } else {
-              state.formData.list.phoneCode.disabled = true
-              return new Error(t('home_page_phoneNumberFormatIncorrect'))
-            }
+                state.formData.list.phoneCode.disabled = false
+                return true
+              } else {
+                state.formData.list.phoneCode.disabled = true
+                return new Error(t('home_page_phoneNumberFormatIncorrect'))
+              }
 
           },
           // message: t('home_page_phoneNumberFormatIncorrect'),
@@ -142,18 +142,18 @@ const state: any = reactive({
         {
           key: 'email',
           required: !0,
-         
+
           validator: () => {
             if (!state.formData.formParams.email) {
-                        return new Error(t('home_page_enterEmail'))
-                    } else
-            if (verifyEmail({}, state.formData.formParams.email)) {
-              state.formData.list.emailCode.disabled = false
-              return true
-            } else {
-              state.formData.list.emailCode.disabled = true
-              return  new Error(t('home_page_emailIncorrect'))
-            }
+              return new Error(t('home_page_enterEmail'))
+            } else
+              if (verifyEmail({}, state.formData.formParams.email)) {
+                state.formData.list.emailCode.disabled = false
+                return true
+              } else {
+                state.formData.list.emailCode.disabled = true
+                return new Error(t('home_page_emailIncorrect'))
+              }
           },
           // message: t('home_page_emailIncorrect'),
           trigger: "input",
@@ -539,6 +539,8 @@ onUnmounted(() => {
 });
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .login_from_box {
   display: block;
 
@@ -586,7 +588,7 @@ onUnmounted(() => {
   color: #fff;
   width: 90px;
   font-size: 14px;
-  background: url(/img/login/sendBtn.webp) no-repeat;
+  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
   background-size: contain;
 
 }

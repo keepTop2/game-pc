@@ -231,6 +231,7 @@ onUnmounted(() => {
 
 <style lang="less" scoped>
 @import '@/assets/recordPage.less';
+@timestamp: `new Date().getTime()`;
 
 .wallet_recharge_record {
   font-size: 14px;
@@ -259,7 +260,7 @@ onUnmounted(() => {
     }
 
     .active_tab {
-      background: url(/img/wallet/tabBtnBG.webp) no-repeat;
+      background: url('/img/wallet/tabBtnBG.webp?t=@{timestamp}') no-repeat;
       background-size: 100% 112%;
       color: #fff;
     }
@@ -285,7 +286,7 @@ onUnmounted(() => {
     margin: 20px 0;
     padding: 27px 27px 27px 26px;
     border-radius: 14px;
-    background: url(/img/promo/listBg.webp) center no-repeat;
+    background: url('/img/promo/listBg.webp?t=@{timestamp}') center no-repeat;
     background-size: cover;
     display: flex;
     justify-content: space-between;

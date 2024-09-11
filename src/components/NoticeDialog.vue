@@ -92,10 +92,12 @@ const closeDialog = () => { // 关闭弹窗
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .notice_dialog {
     position: relative;
     border-radius: 16px;
-    background-image: url('/img/home/notice_bg_0.png');
+    background-image: url('/img/home/notice_bg_0.png?t=@{timestamp}');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 400px;
@@ -150,7 +152,7 @@ const closeDialog = () => { // 关闭弹窗
         width: 100%;
         height: 45px;
         cursor: pointer;
-        background: url(/img/home/btnBG3.webp) no-repeat;
+        background: url('/img/home/btnBG3.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
         justify-content: center;
@@ -200,10 +202,10 @@ const closeDialog = () => { // 关闭弹窗
 }
 
 .notice_dialog_1 {
-    background-image: url('/img/home/notice_bg_1.png');
+    background-image: url('/img/home/notice_bg_1.png?t=@{timestamp}');
 }
 
 .notice_dialog_2 {
-    background-image: url('/img/home/notice_bg_2.png');
+    background-image: url('/img/home/notice_bg_2.png?t=@{timestamp}');
 }
 </style>

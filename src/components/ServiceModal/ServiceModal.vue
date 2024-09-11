@@ -662,6 +662,8 @@ onMounted(async () => {
 })
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .main {
   // width: 100%;
   border-radius: 14px;
@@ -698,7 +700,7 @@ onMounted(async () => {
 
       .forbidden_btn {
         width: 100px;
-        background: url(/img/serviceModal/speech_btn.webp) no-repeat;
+        background: url('/img/serviceModal/speech_btn.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
       }
@@ -809,7 +811,7 @@ onMounted(async () => {
   }
 
   .active_tab {
-    background: url(/img/serviceModal/tab_btn.webp) no-repeat;
+    background: url('/img/serviceModal/tab_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 112%;
     color: #fff;
   }
@@ -902,7 +904,7 @@ onMounted(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url(/img/serviceModal/send_btn.webp) no-repeat;
+    background: url('/img/serviceModal/send_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 100%;
     color: #fff;
   }
@@ -1030,7 +1032,7 @@ onMounted(async () => {
     cursor: pointer;
     align-items: center;
     border-radius: 10px;
-    background: url(/img/serviceModal/anniu.webp) no-repeat;
+    background: url('/img/serviceModal/anniu.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 100%;
   }
 }

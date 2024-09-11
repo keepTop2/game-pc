@@ -1,5 +1,5 @@
 <template>
-  <div class="btn-style" :style="{ width: width/19.2 + 'rem', height:  height/19.2 + 'rem', }">
+  <div class="btn-style" :style="{ width: width / 19.2 + 'rem', height: height / 19.2 + 'rem', }">
     <slot></slot>
   </div>
 </template>
@@ -20,8 +20,10 @@ defineProps({
 </script>
 
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .btn-style {
-  background: url(/img/wallet/tabBtnBG.webp) no-repeat;
+  background: url('/img/wallet/tabBtnBG.webp?t=@{timestamp}') no-repeat;
   background-size: 100% 112%;
   color: #fff;
   display: flex;

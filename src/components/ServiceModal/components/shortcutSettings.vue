@@ -309,6 +309,8 @@ watch(() => props.quickPhrasesList, (n) => {
 
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .shortcut_set {
   :deep(.n-card__content) {
     padding: 0;
@@ -382,7 +384,7 @@ watch(() => props.quickPhrasesList, (n) => {
           &.active {
             flex: none;
             width: 128px;
-            background: url(/img/serviceModal/tab_btn.webp) center no-repeat;
+            background: url('/img/serviceModal/tab_btn.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
             background-position-y: 3px;
             color: #fff;
@@ -486,7 +488,7 @@ watch(() => props.quickPhrasesList, (n) => {
             top: 10px;
             width: 20px;
             height: 20px;
-            background: url(/img/serviceModal/addIcon.webp) center no-repeat;
+            background: url('/img/serviceModal/addIcon.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
           }
         }
@@ -501,7 +503,7 @@ watch(() => props.quickPhrasesList, (n) => {
           position: absolute;
           width: 735px;
           height: 66px;
-          background: url(/img/serviceModal/tableTop.webp) center no-repeat;
+          background: url('/img/serviceModal/tableTop.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           span {
@@ -593,11 +595,11 @@ watch(() => props.quickPhrasesList, (n) => {
         >div {
           width: 178px;
           height: 54px;
-          background: url(/img/serviceModal/btnCancel.webp) center no-repeat;
+          background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           &:last-child {
-            background-image: url(/img/serviceModal/btnSave.webp);
+            background-image: url('/img/serviceModal/btnSave.webp?t=@{timestamp}');
           }
         }
       }

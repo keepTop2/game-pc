@@ -724,6 +724,7 @@ defineExpose({
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 .deposit_modal {
   font-size: 16px;
@@ -748,7 +749,7 @@ defineExpose({
             font-size: 24px;
             font-weight: 400;
             color: rgba(142, 130, 194, 1);
-            background: url("/img/wallet/calibration_decide.webp") no-repeat;
+            background: url("/img/wallet/calibration_decide.webp?t=@{timestamp}") no-repeat;
             background-size: cover;
           }
 
@@ -759,7 +760,7 @@ defineExpose({
 
         .step-list-active {
           .step-indicator {
-            background: url("/img/wallet/calibration_decide_active.webp") no-repeat;
+            background: url("/img/wallet/calibration_decide_active.webp?t=@{timestamp}") no-repeat;
             background-size: cover;
             color: #ffffff;
           }
@@ -780,7 +781,7 @@ defineExpose({
         .choose-bank-l {
           width: 270px;
           height: 38px;
-          background: url(/img/payment/inputBg.webp) center no-repeat;
+          background: url('/img/payment/inputBg.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           .bank_cicon {
@@ -800,7 +801,7 @@ defineExpose({
           width: 90px;
           height: 36px;
           line-height: 36px;
-          background: url(/img/payment/go-btn.webp) center no-repeat;
+          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
         }
       }
@@ -825,7 +826,7 @@ defineExpose({
             font-size: 14px;
             width: 374px;
             height: 80px;
-            background: url(/img/payment/bankBg.webp) center no-repeat;
+            background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
 
             //&:active {
@@ -883,7 +884,7 @@ defineExpose({
         height: 40px !important;
         width: 90px;
         font-size: 14px;
-        background: url(/img/login/sendBtn.webp) no-repeat;
+        background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
         background-size: contain;
       }
 
@@ -921,7 +922,7 @@ defineExpose({
         line-height: 52px;
         text-align: center;
         margin: 20px auto 0;
-        background: url(/img/payment/sub_btn.webp) center no-repeat;
+        background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }

@@ -323,6 +323,7 @@ const proxyConfig = ref([
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
 @import '@/assets/modelBox.less';
+@timestamp: `new Date().getTime()`;
 
 .proxy_intro {
     width: 1200px;
@@ -415,7 +416,7 @@ const proxyConfig = ref([
         }
 
         .active_tab {
-            background: url(/img/wallet/tabBtnBG.webp) no-repeat;
+            background: url('/img/wallet/tabBtnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 112%;
             color: #fff;
         }

@@ -150,6 +150,8 @@ onUnmounted(() => {
 </script>
 
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .home {
   display: flex;
 
@@ -271,7 +273,7 @@ onUnmounted(() => {
 
       &:hover {
         color: #fff;
-        background: url(/img/dialog/click.webp) no-repeat;
+        background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -323,7 +325,7 @@ onUnmounted(() => {
     .left:hover,
     .right:hover {
       color: #fff;
-      background: url(/img/home/sbtnBG.webp) no-repeat;
+      background: url('/img/home/sbtnBG.webp?t=@{timestamp}') no-repeat;
       background-size: cover;
     }
   }

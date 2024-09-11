@@ -146,6 +146,7 @@ defineExpose({
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 // 选择银行
 .bank_list {
@@ -162,7 +163,7 @@ defineExpose({
     font-size: 14px;
     width: 176px;
     height: 46px;
-    background: url(/img/payment/bankBg.webp) center no-repeat;
+    background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
 
     &:active {

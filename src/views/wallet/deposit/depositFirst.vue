@@ -666,6 +666,7 @@ defineExpose({
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 .deposit_modal {
   font-size: 16px;
@@ -679,11 +680,11 @@ defineExpose({
       width: 536px;
       height: 96px;
       padding: 0 17px 10px;
-      background: url(/img/payment/listBg.webp) center no-repeat;
+      background: url('/img/payment/listBg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       &.active {
-        background-image: url(/img/payment/listBg_active.webp);
+        background-image: url('/img/payment/listBg_active.webp?t=@{timestamp}');
       }
 
       &.wh_item {
@@ -724,7 +725,7 @@ defineExpose({
             .wh_icon {
               width: 16px;
               height: 16px;
-              background: url(/img/payment/wh.webp) center no-repeat;
+              background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -743,7 +744,7 @@ defineExpose({
           width: 90px;
           height: 36px;
           line-height: 36px;
-          background: url(/img/payment/go-btn.webp) center no-repeat;
+          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
         }
       }
@@ -759,7 +760,7 @@ defineExpose({
         line-height: 52px;
         text-align: center;
         margin: 20px auto 0;
-        background: url(/img/payment/sub_btn.webp) center no-repeat;
+        background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -809,7 +810,7 @@ defineExpose({
       display: inline-block;
       width: 16px;
       height: 16px;
-      background: url(/img/payment/Vector.webp) center no-repeat;
+      background: url('/img/payment/Vector.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
     }
 
@@ -839,7 +840,7 @@ defineExpose({
         height: 40px;
         line-height: 40px;
         text-align: center;
-        background: url(/img/payment/monBg.webp) center no-repeat;
+        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -865,7 +866,7 @@ defineExpose({
           display: inline-block;
           width: 12px;
           height: 12px;
-          background: url(/img/payment/error_icon.webp) center no-repeat;
+          background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
         }
       }
@@ -881,7 +882,7 @@ defineExpose({
         color: #8e82c2;
         height: 178px;
         padding: 17px;
-        background: url(/img/payment/yh_bg.webp) center no-repeat;
+        background: url('/img/payment/yh_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         >div {
@@ -918,7 +919,7 @@ defineExpose({
       justify-content: center;
       width: 112px;
       height: 112px;
-      background: url(/img/payment/usdt/itembg.webp) center no-repeat;
+      background: url('/img/payment/usdt/itembg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       &:nth-child(n + 4) {

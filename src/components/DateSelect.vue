@@ -133,6 +133,8 @@ onMounted(() => {
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .date_select {
     .date_item {
         border: 1.4px solid rgba(90, 71, 178, 1);
@@ -151,7 +153,7 @@ onMounted(() => {
 
     .active_item {
         height: 36px;
-        background: url(/img/home/btnBG.webp) no-repeat;
+        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 114%;
         border: 1.4px solid rgba(90, 71, 178, 0);
         color: #fff;
@@ -184,7 +186,7 @@ onMounted(() => {
     }
 
     .active_item {
-        background: url(/img/home/btnBG3.webp) no-repeat;
+        background: url('/img/home/btnBG3.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 125%;
         background-position-y: 20%;
     }

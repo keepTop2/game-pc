@@ -420,6 +420,8 @@ onUnmounted(() => {
 </script>
 
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .login_form {
   padding: 40px 60px;
 
@@ -449,7 +451,7 @@ onUnmounted(() => {
     border: 1px solid linear-gradient(to bottom, #82caff -100%, #646cff, #9266ff);
     border-image-slice: 1;
     border-radius: 16px;
-    background-image: url(/img/login/login.webp);
+    background-image: url('/img/login/login.webp?t=@{timestamp}');
     background-size: cover;
   }
 
@@ -502,7 +504,7 @@ onUnmounted(() => {
   color: #fff;
   width: 94px;
   font-size: 14px;
-  background: url(/img/login/sendBtn.webp) no-repeat;
+  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
   background-size: 100% 100%;
   height: 32px;
   margin-left: 9px;

@@ -210,6 +210,7 @@ onMounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
+@timestamp: `new Date().getTime()`;
 
 .promo_info {
   font-size: 16px;
@@ -241,7 +242,7 @@ onMounted(() => {
         line-height: 30px;
         border: 0;
         color: #ebefff;
-        background: url(/img/promo/tabBtn.webp) center no-repeat;
+        background: url('/img/promo/tabBtn.webp?t=@{timestamp}') center no-repeat;
         background-size: 84%;
 
         :deep(.n-badge) {
@@ -275,11 +276,11 @@ onMounted(() => {
       margin: 20px 0;
       padding: 27px 27px 27px 26px;
       border-radius: 14px;
-      background: url(/img/promo/listBg.webp) center no-repeat;
+      background: url('/img/promo/listBg.webp?t=@{timestamp}') center no-repeat;
       background-size: cover;
 
       &.list_item_b {
-        background-image: url(/img/promo/listBg2.webp);
+        background-image: url('/img/promo/listBg2.webp?t=@{timestamp}');
       }
 
       .item_l {
@@ -296,7 +297,7 @@ onMounted(() => {
           height: 46px;
           padding-top: 6px;
           text-align: center;
-          background: url(/img/promo/nameBg.webp) no-repeat;
+          background: url('/img/promo/nameBg.webp?t=@{timestamp}') no-repeat;
           background-size: cover;
           box-sizing: border-box
         }
@@ -318,7 +319,7 @@ onMounted(() => {
           width: 90px;
           height: 31px;
           line-height: 31px;
-          background: url(/img/promo/applyBtn.webp) no-repeat;
+          background: url('/img/promo/applyBtn.webp?t=@{timestamp}') no-repeat;
           background-size: cover;
           transition: .3s;
 

@@ -506,12 +506,14 @@ defineExpose({
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .level_modal {
   .level_title {
-    background-image: url(/img/club/club_title_bg1.webp);
+    background-image: url('/img/club/club_title_bg1.webp?t=@{timestamp}');
 
     &.level_title_join {
-      background-image: url(/img/club/club_title_bg2.webp);
+      background-image: url('/img/club/club_title_bg2.webp?t=@{timestamp}');
     }
   }
 }
@@ -582,7 +584,7 @@ defineExpose({
         height: 36px;
         line-height: 36px;
         text-align: center;
-        background: url(/img/club/club_diaBtn_sea.webp) center no-repeat;
+        background: url('/img/club/club_diaBtn_sea.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -594,11 +596,11 @@ defineExpose({
         height: 46px;
         line-height: 46px;
         text-align: center;
-        background: url(/img/club/club_diaBtn_1.webp) center no-repeat;
+        background: url('/img/club/club_diaBtn_1.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         &.c_join_btn {
-          background-image: url(/img/club/club_diaBtn_2.webp);
+          background-image: url('/img/club/club_diaBtn_2.webp?t=@{timestamp}');
         }
       }
     }
@@ -613,7 +615,7 @@ defineExpose({
   .club_icon {
     width: 27px;
     height: 22px;
-    background: url(/img/club/club_icon_2.webp) center no-repeat;
+    background: url('/img/club/club_icon_2.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
   }
 
@@ -642,7 +644,7 @@ defineExpose({
       position: relative;
       height: 145px;
       margin-top: 20px;
-      background: url(/img/club/club_top_bg.webp) center no-repeat;
+      background: url('/img/club/club_top_bg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       .club_top_av {
@@ -676,7 +678,7 @@ defineExpose({
       height: 114px;
       margin: 15px auto;
       padding: 0 20px;
-      background: url(/img/club/club_yjr_bg.webp) center no-repeat;
+      background: url('/img/club/club_yjr_bg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
       gap: 0 !important;
 
@@ -688,20 +690,20 @@ defineExpose({
             .n-switch__rail {
               width: 68px;
               height: 22px;
-              background: url(/img/club/club_switch_bg.webp) center no-repeat;
+              background: url('/img/club/club_switch_bg.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
 
               .n-switch__button {
                 width: 32px;
                 height: 18px;
-                background: url(/img/club/club_switch_1.webp) center no-repeat;
+                background: url('/img/club/club_switch_1.webp?t=@{timestamp}') center no-repeat;
               }
             }
 
             &.n-switch.n-switch--active {
               .n-switch__rail {
                 .n-switch__button {
-                  background: url(/img/club/club_switch_2.webp) center no-repeat;
+                  background: url('/img/club/club_switch_2.webp?t=@{timestamp}') center no-repeat;
                 }
               }
             }
@@ -720,7 +722,7 @@ defineExpose({
         height: 44px;
         line-height: 44px;
         text-align: center;
-        background: url(/img/club/club_join_bg.webp) center no-repeat;
+        background: url('/img/club/club_join_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         transition: .3s;
       }
@@ -730,7 +732,7 @@ defineExpose({
 
   .club_tab {
     height: 72px;
-    background: url(/img/club/club_tabs_bg.webp) center no-repeat;
+    background: url('/img/club/club_tabs_bg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
     padding: 0 6px;
 
@@ -744,7 +746,7 @@ defineExpose({
       color: #8D81C1;
 
       &.active {
-        background: url(/img/club/club_yjr_title_bg.webp) center no-repeat;
+        background: url('/img/club/club_yjr_title_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         color: #fff;
       }
@@ -771,7 +773,7 @@ defineExpose({
 
         &.active {
           color: #fff;
-          background: url(/img/club/club_tab_bg.webp) center no-repeat;
+          background: url('/img/club/club_tab_bg.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
           background-position-y: 8px;
         }
@@ -783,7 +785,7 @@ defineExpose({
             display: inline-block;
             width: 1px;
             height: 36px;
-            background: url(/img/line.webp) center no-repeat;
+            background: url('/img/line.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
             left: -8px;
             top: 11px;
@@ -814,7 +816,7 @@ defineExpose({
             .mon_icon {
               width: 22px;
               height: 17px;
-              background: url(/img/club/club_icon_1.webp) center no-repeat;
+              background: url('/img/club/club_icon_1.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -833,7 +835,7 @@ defineExpose({
             .mon_icon_sec {
               width: 17px;
               height: 17px;
-              background: url(/img/club/q_icon.webp) center no-repeat;
+              background: url('/img/club/q_icon.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -863,7 +865,7 @@ defineExpose({
             .ren_icon {
               width: 22px;
               height: 18px;
-              background: url(/img/club/club_icon_2.webp) center no-repeat;
+              background: url('/img/club/club_icon_2.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -881,7 +883,7 @@ defineExpose({
           height: 44px;
           line-height: 44px;
           text-align: center;
-          background: url(/img/club/club_join_btn.webp) center no-repeat;
+          background: url('/img/club/club_join_btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           &:nth-child(n+2) {
@@ -902,7 +904,7 @@ defineExpose({
       padding: 25px;
       height: 198px;
       color: #8E82C2;
-      background: url(/img/club/club_join_bg_1.webp) center no-repeat;
+      background: url('/img/club/club_join_bg_1.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       >div {
@@ -932,7 +934,7 @@ defineExpose({
         left: 5px;
         text-align: center;
         padding: 45px 10px;
-        background: url(/img/club/club_tx_bg.webp) center no-repeat;
+        background: url('/img/club/club_tx_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         .list_av_icon {
@@ -965,7 +967,7 @@ defineExpose({
           height: 36px;
           line-height: 36px;
           text-align: center;
-          background: url(/img/club/club_join_btn.webp) center no-repeat;
+          background: url('/img/club/club_join_btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 96%;
         }
       }
@@ -974,7 +976,7 @@ defineExpose({
         padding: 20px 0 20px 240px;
         height: 156px;
         color: #8E82C2;
-        background: url(/img/club/club_join_bg_2.webp) center no-repeat;
+        background: url('/img/club/club_join_bg_2.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         >div {

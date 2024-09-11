@@ -1,3 +1,5 @@
+@timestamp: `new Date().getTime()`;
+
 // 表格页公共样式
 .record_page {
 
@@ -11,7 +13,7 @@
             margin-bottom: 20px;
 
             .search_btn {
-                background: url(/img/home/btnBG3.webp) no-repeat;
+                background: url('/img/home/btnBG3.webp?t=@{timestamp}') no-repeat;
                 background-size: 100% 112%;
                 color: #fff;
                 cursor: pointer;
@@ -139,7 +141,7 @@
         }
 
         :deep(.n-pagination-item--active) {
-            background: url(/img/home/sbtnBG.webp) no-repeat;
+            background: url('/img/home/sbtnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 100%;
             color: #fff;
         }

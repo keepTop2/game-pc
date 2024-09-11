@@ -904,6 +904,8 @@ onUnmounted(() => {
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .security_settings {
     width: 500px;
     margin: 0 auto;
@@ -943,7 +945,7 @@ onUnmounted(() => {
                     align-items: center;
                     color: #fff;
                     cursor: pointer;
-                    background: url(/img/securitySettings/btnBg.webp) no-repeat;
+                    background: url('/img/securitySettings/btnBg.webp?t=@{timestamp}') no-repeat;
                     background-size: contain;
                 }
             }
