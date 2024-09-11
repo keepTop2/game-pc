@@ -123,7 +123,7 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :userData="state.userData" :deepObj="deepObj"></chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
@@ -231,7 +231,7 @@ const deepObj: any = {
   '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
-const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
+// const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
