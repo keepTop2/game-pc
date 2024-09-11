@@ -174,6 +174,10 @@ const delItem = (item: any) => {
 
 // 保存分组
 const saveGroup = () => {
+if (!groupName.value&&!groupName.value.trim()) {
+  return
+}
+
   const state = props.stateData
   state.requestid++;
   const requestid = state.requestid;

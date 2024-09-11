@@ -50,13 +50,13 @@
             </div>
           </n-flex>
           <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
-          <n-input v-model:value="state.search" placeholder="查找聊天列表" :allow-input="onlyAllowNumber">
+          <n-input v-model:value="state.search" placeholder="查找聊天列表" >
             <template #suffix>
               <div class="new_btn" @click="searchuser">发起新聊天</div>
             </template>
           </n-input>
-          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
-          <div class="manage_group" @click.stop="manageClick">分组管理</div>
+          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理</div>
         </div>
         <div class="list_wrap">
           <!-- 聊天列表 -->
@@ -125,7 +125,7 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :userData="state.userData" :deepObj="deepObj"></chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
@@ -171,7 +171,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{ agentInfo.user_type }}</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
     </div>
@@ -235,7 +235,7 @@ const deepObj: any = {
   '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
-const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
+// const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型

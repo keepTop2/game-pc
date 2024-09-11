@@ -9,7 +9,7 @@
           <div class="chat_main">
             <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
               <span>{{ item.name }}</span>
-              <div class="mark_kf">{{ item.role == '2' ? '官方客服' : '我' }}</div>
+              <div class="mark_kf"  :style="{ background: deepObj[userData.deep]&&item.role == '2' ? deepObj[userData.deep].color : '' }">{{ item.role == '2' ? userRole : '我' }}</div>
               <span class="date">{{ item.date }}</span>
             </div>
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
@@ -65,10 +65,22 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
+  userData: {
+    type: Object,
+    default: () => ({}),
+  },
+  deepObj: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const { initMessage }: any = usechatHooks()
 const newValue = computed(() => {
   return props.chatList.length
+})
+
+const userRole = computed(()=>{
+   return props.deepObj[props.userData.deep] && props.deepObj[props.userData.deep].label || '直属玩家'
 })
 
 function scrollToBottom() {
@@ -150,7 +162,7 @@ onMounted(() => {
         padding: 0 6px;
         font-size: 12px;
         box-sizing: border-box;
-        background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
+       background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
       }
 
       .date {
