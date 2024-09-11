@@ -4,7 +4,8 @@
         <div class="content">
             <div class="head">
                 <img src="/img/home/back.webp" alt="" @click="router.push('/')">
-                <span>{{ getTitle }}</span>
+                <span v-if="state.name">{{ t(state.name) }}</span>
+                <span v-else>{{ getTitle }}</span>
             </div>
             <router-view></router-view>
 
@@ -27,22 +28,19 @@ const router = useRouter();
 const route = useRoute();
 const state: any = reactive({
     titles: {},
+    name: ''
 })
-onMounted(async () => {
-    const { data } = route.query
-    const query = JSON.parse(decodeURIComponent(data as string))
-    if (Object.keys(query.name).length) {
-        state.titles = query.name
-    }
-});
+
 watch(
     () => route.query.name,
-    async (n: any) => {
-        if (n) {
-            state.title = route.query.name
-        }
+    () => {
+        queryTitle()
     }
 )
+
+onMounted(() => {
+    queryTitle()
+});
 
 const getTitle = computed(() => {
     const langs: any = {
@@ -50,8 +48,21 @@ const getTitle = computed(() => {
         vn: 'vi-VN',
         en: 'en-US',
     };
-    return state.titles[langs[lang.value]]
+    const title = state.titles[langs[lang.value]]
+    return title
 })
+
+const queryTitle = () => {
+    const { data, name } = route.query
+    if (name) {
+        state.name = name
+    } else {
+        const query = JSON.parse(decodeURIComponent(data as string))
+        if (Object.keys(query.name).length) {
+            state.titles = query.name
+        }
+    }
+}
 </script>
 
 <style lang='less' scoped>

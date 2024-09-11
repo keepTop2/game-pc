@@ -69,12 +69,12 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  // {
-  //   path: '/openGame',
-  //   name: 'openGame',
-  //   meta: { title: 'openGame' },
-  //   component: () => import('@/views/openGame/index.vue'),
-  // },
+  {
+    path: '/openGame',
+    name: 'openGame',
+    meta: { title: 'openGame' },
+    component: () => import('@/views/openGame/index.vue'),
+  },
   // {
   //   path: '/proxy',
   //   name: 'proxy',

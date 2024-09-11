@@ -23,7 +23,7 @@
             <p> {{ t(state.gameList.title) }} </p>
             <div>
                 <p :class="state.active == game.name ? 'hover' : ''" v-for="(game, g) in state.gameList.list" :key="g"
-                    @click="itemClick(game)">
+                    @click="onClickGame(game, g)">
                     <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
                     <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon>
                     <span>{{ t(game.name) }}</span>
@@ -220,6 +220,15 @@ const activityItemClick = (key: any) => {
             }
         }
     )
+}
+const onClickGame = (item: any, idx: any) => {
+    router.push({
+        path: '/gameMain/gamingPlatform',
+        query: {
+            id: idx,
+            name: item.name
+        }
+    })
 }
 const itemClick = (item: any) => {
     if (item.url) {

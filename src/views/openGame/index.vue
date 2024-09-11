@@ -1,8 +1,8 @@
 <template>
   <div class="iframe_box">
-    <nut-drag class="drag" attract :boundary="{ top: 0, left: 0, bottom: 20, right: 30 }">
+    <!-- <nut-drag class="drag" attract :boundary="{ top: 0, left: 0, bottom: 20, right: 30 }">
       <iconpark-icon name="hoticonhbwvmun01" size="30" @click.stop="onBtnClicked" />
-    </nut-drag>
+    </nut-drag> -->
 
     <iframe id="iframeId" v-if="state.src" :src="state.src" frameborder="0" scrolling="auto" />
   </div>
@@ -12,7 +12,7 @@ import { Local } from '@/utils/storage';
 import { onMounted, reactive } from 'vue'
 
 import { useRouter, useRoute } from 'vue-router'
-const router = useRouter()
+// const router = useRouter()
 const route = useRoute()
 
 const state: any = reactive({
@@ -23,35 +23,31 @@ const state: any = reactive({
   offset: { x: window.innerWidth - 100, y: 45 },
 })
 
-const onBtnClicked = () => {
-  let len = state.rlen - history.length - 1
-  router.go(len)
-}
+// const onBtnClicked = () => {
+//   let len = state.rlen - history.length - 1
+//   router.go(len)
+// }
 onMounted(() => {
   if (route.query.screenOrientation == '1') {
 
   }
   state.src = Local.get('gameUrl')
-
-
-
-
 })
 </script>
 
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .iframe_box {
   bottom: 0;
   height: 100%;
   left: 0;
-  min-height: 0 !important;
+  min-height: 100vh;
   overflow-y: scroll;
   overflow: hidden;
   padding-bottom: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
+  // position: fixed;
+  // right: 0;
+  // top: 0;
   width: 100%;
   z-index: 4000;
 }

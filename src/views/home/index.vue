@@ -14,8 +14,7 @@
           </n-carousel>
         </p>
       </div>
-      <div class="game_detail" v-for="(item, i) in state.tabs" :key="i">
-
+      <div class="game_detail" v-for="(item, idx) in state.tabs" :key="idx">
         <div class="game_list">
           <p class="game_type">
             <span class="text">
@@ -24,11 +23,11 @@
               </b>
               <span>{{ t(item.name) }}</span>
             </span>
-            <span class="more" @click="allPlatForm(item)">{{ t('home_page_more') }}</span>
+            <span class="more" @click="onClickGame(item, idx)">{{ t('home_page_more') }}</span>
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
-            show-arrow :show-dots="false">
-            <img @click="platformItemClick(v, i)" class="game_img" src="/img/cards/0.png"
+            :show-arrow="true" :show-dots="false">
+            <img @click="platformItemClick(v, idx)" class="game_img" src="/img/cards/0.png"
               v-for="(v, j) in item.value?.three_platform" :key="j">
             <template #arrow="{ prev, next }">
               <div class="game_seach">
@@ -36,11 +35,8 @@
                   <iconpark-icon class="left" icon-id="Vector2" size=".8rem" @click="prev"></iconpark-icon>
                   <iconpark-icon class="right" icon-id="Vector" size=".8rem" @click="next"></iconpark-icon>
                 </span>
-
               </div>
-
             </template>
-
           </n-carousel>
         </div>
       </div>
@@ -49,7 +45,7 @@
 </template>
 <script setup lang="ts" name="home">
 import Sidebar from '@/components/Sidebar.vue';
-import { computed, onBeforeMount, onMounted, onUnmounted, reactive } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, reactive } from 'vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
 
@@ -68,12 +64,9 @@ import { needLogin } from '@/net/Utils';
 const { t } = useI18n();
 const router = useRouter()
 const page = Page(pinia);
-// const isVisible = ref(0);
 const { bannerArr, textAnnouncement, homeGameData, lang } = storeToRefs(page);
 const state: any = reactive({
-  // gameActive: 0,
   tabs: <{}>[
-
     {
       icon: 'Group39096',
       name: 'home_page_slot',
@@ -159,18 +152,14 @@ const platformItemClick = (item: any, i: number) => {
     Net.instance.sendRequest(tb);
   }
 }
-const allPlatForm = (item: any) => {
-  console.log(item);
+const onClickGame = (item: any, idx: any) => {
   router.push({
     path: '/gameMain/gamingPlatform',
     query: {
-      id: 1,
+      id: idx,
       name: item.name
     }
   })
-}
-const getGameList = (res: any) => {
-  console.log(res);
 }
 
 // 第三方游戏信息返回

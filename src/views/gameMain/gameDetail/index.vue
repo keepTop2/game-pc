@@ -73,62 +73,16 @@ import { MessageEvent2 } from "@/net/MessageEvent2";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
-const page = Page(pinia);
-// const isVisible = ref(0);
-// const { bannerArr, textAnnouncement } = storeToRefs(page);
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 import { needLogin } from '@/net/Utils';
+import { Message } from '@/utils/discreteApi';
 const { t } = useI18n();
-const state: any = reactive({
-    count: 6,
-    tabs: [
-        {
-            icon: 'Group39096',
-            name: 'home_page_slot',
-            color: 'slot_machine',
-            value: '',
-        },
-        {
-            icon: 'Group39095',
-            name: 'home_page_live',
-            color: 'live',
-            value: '',
-        },
-
-        {
-            icon: 'Group39097',
-            name: 'home_page_eSports',
-            color: 'gaming',
-            value: '',
-        },
-        {
-            icon: 'Group39098',
-            name: 'home_page_fishing',
-            color: 'fish',
-            value: '',
-        },
-        {
-            icon: 'Group39099',
-            name: 'home_page_sportsGame',
-            color: 'sports',
-            value: '',
-        },
-        {
-            icon: 'shoucang11',
-            name: 'home_page_collect',
-            color: 'collect',
-            value: '',
-        },
-    ],
-
-})
-const router = useRouter()
 const route = useRoute()
-
+const router = useRouter()
 const {
     lang
 } = storeToRefs(Page(pinia));
@@ -138,7 +92,6 @@ const queryGame = ref("")
 
 // 加载更多
 const loading = ref(false)
-const refreshing = ref(false)
 const params: any = reactive({ // 参数
     page: 1,
 })
@@ -187,7 +140,10 @@ onMounted(() => {
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
-
+    MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_3rd_game_login_result,
+        gameUrlResult,
+    );
     getFavs()
 })
 onUnmounted(() => {
@@ -308,6 +264,22 @@ const queryData = () => { // 查询
     query.page = params.page
     query.pageSize = pageSize.value
     Net.instance.sendRequest(query);
+}
+
+const gameUrlResult = (message: any) => {
+    if (message.code != 0) {
+        Message.error(message.msg)
+        return
+    }
+    if (message.url.indexOf('<!doctype html>') != -1) {
+        message.url = `data:text/html;charset=utf-8,${encodeURIComponent(
+            String(message.url)
+        )}`
+    }
+    Local.set('gameUrl', message.url)
+    router.push({
+        path: "/openGame",
+    });
 }
 </script>
 
