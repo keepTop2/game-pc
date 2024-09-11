@@ -7,16 +7,18 @@
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
       <div class="forbidden">
-        <div class="forbidden_btn" @click="visibleForbidden = true"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
+        <div class="forbidden_btn" @click="visibleForbidden = true"
+          v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem" style="margin-top: 6px;"></iconpark-icon>
+        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"
+          style="margin-top: 6px;"></iconpark-icon>
       </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
-      <div class="left_setting" v-if="agentInfo.user_type&&agentInfo.user_type>0">
+      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -48,16 +50,17 @@
             </div>
           </n-flex>
           <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
-          <n-input v-model:value="state.search" placeholder="查找聊天列表" >
+          <n-input v-model:value="state.search" placeholder="查找聊天列表">
             <template #suffix>
               <div class="new_btn" @click="searchuser">发起新聊天</div>
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理</div>
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
+          </div>
         </div>
         <div class="list_wrap">
-        <!-- 聊天列表 -->
+          <!-- 聊天列表 -->
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
@@ -142,7 +145,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="setting" @click="showSetting" v-if="agentInfo.user_type&&agentInfo.user_type>0">快捷语设置</div>
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">快捷语设置</div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
@@ -151,7 +154,8 @@
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
-              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.moneyauth==1" />
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"
+                v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.moneyauth == 1" />
               <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
@@ -215,7 +219,7 @@ interface tabType {
 }
 import { useI18n } from 'vue-i18n';
 const userInfo = User(pinia);
-const { roleInfo,agentInfo } = storeToRefs(userInfo);
+const { roleInfo, agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
 const groupRef: any = ref(null)
 const { t } = useI18n();
@@ -823,53 +827,54 @@ onMounted(async () => {
   // gap: 20px
 
 }
+
 .list_item {
-    height: 72px;
-    padding: 0 10px;
-    cursor: pointer;
+  height: 72px;
+  padding: 0 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .item_left {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
-    .item_left {
+    .avatar {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      position: relative;
 
-      .avatar {
-        display: flex;
-        flex-direction: column;
-        position: relative;
+      .img1 {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+      }
 
-        .img1 {
-          height: 50px;
-          width: 50px;
-          margin-right: 10px;
-        }
-
-        .img2 {
-          height: 21px;
-          position: absolute;
-          bottom: -6px;
-          // margin-top: -15px;
-        }
+      .img2 {
+        height: 21px;
+        position: absolute;
+        bottom: -6px;
+        // margin-top: -15px;
       }
     }
-
-    .high_proxy {
-      cursor: pointer;
-      font-size: 12px;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: 6px;
-      background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
-
-    }
   }
 
-  .item_active {
-    background-color: #422299
+  .high_proxy {
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
+
   }
+}
+
+.item_active {
+  background-color: #422299
+}
 
 .send_message {
   //height: 52px;
@@ -1045,6 +1050,12 @@ onMounted(async () => {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 4px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 
     &:hover {
       background-color: #1154FF;
