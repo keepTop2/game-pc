@@ -53,7 +53,7 @@
               <div class="new_btn" @click="searchuser">发起新聊天</div>
             </template>
           </n-input>
-          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
+          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
           <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理</div>
         </div>
         <div class="list_wrap">
