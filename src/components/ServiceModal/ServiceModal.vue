@@ -50,13 +50,14 @@
             </div>
           </n-flex>
           <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
-          <n-input v-model:value="state.search" placeholder="查找聊天列表" >
+          <n-input v-model:value="state.search" placeholder="查找聊天列表">
             <template #suffix>
               <div class="new_btn" @click="searchuser">发起新聊天</div>
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理</div>
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
+          </div>
         </div>
         <div class="list_wrap">
           <!-- 聊天列表 -->
@@ -865,7 +866,7 @@ onMounted(async () => {
   .high_proxy {
     cursor: pointer;
     font-size: 12px;
-
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
     color: #fff;
     padding: 6px 8px;
     border-radius: 6px;
@@ -1025,7 +1026,7 @@ onMounted(async () => {
   }
 
   .short_wrap_item {
-    width: 98px;
+    min-width: 98px;
     height: 33px;
     display: flex;
     justify-content: center;
@@ -1033,6 +1034,7 @@ onMounted(async () => {
     align-items: center;
     border-radius: 10px;
     background: url('/img/serviceModal/anniu.webp?t=@{timestamp}') no-repeat;
+    padding: 0 10px;
     background-size: 100% 100%;
   }
 }
@@ -1051,6 +1053,12 @@ onMounted(async () => {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 4px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 
     &:hover {
       background-color: #1154FF;
