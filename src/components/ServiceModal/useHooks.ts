@@ -80,7 +80,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       if (state_data.groupItem && state_data.groupItem.id) {
         state_data.groupChatitemList = decodeobj00.chatitem || [];
       } else {
-        state_data.chatitemList = decodeobj00.chatitem;
+        state_data.chatitemList = decodeobj00.chatitem.filter((i:any)=>i.TUsername)
         const item = state_data.chatitemList[0];
         if (item?.iskf != 1) {
           getKfChat();

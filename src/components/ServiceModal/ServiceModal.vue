@@ -18,7 +18,7 @@
     </h4>
     <div class="main_body">
       <!-- 左侧设置  v-if="agentInfo.user_type && agentInfo.user_type > 0" -->
-      <div class="left_setting">
+      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -56,7 +56,7 @@
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick">分组管理
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
           </div>
         </div>
         <div class="list_wrap">
@@ -76,12 +76,12 @@
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
-              <n-popover trigger="hover" placement="bottom-start" :show-arrow="false">
+              <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
                   <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
                     deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
                 </template>
-                <div class="select_wrap" v-if="item.deep != '0'">
+                <div class="select_wrap" >
                   <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
                     <span v-else> {{ o.name }}</span>
