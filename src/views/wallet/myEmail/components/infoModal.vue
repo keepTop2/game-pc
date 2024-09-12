@@ -34,7 +34,7 @@
                 <span v-else class="is-receive">{{ t('received') }}</span>
               </div>
             </div>
-            <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn>
+            <!-- <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn> -->
           </div>
         </div>
       </div>
