@@ -28,10 +28,14 @@
                         return response.json(); // 将响应解析为 JSON
                     })
                     .then(res => {
-                        const agent_level = res?.data?.agent_level
-                        // location.href = '/?agent_level=' + agent_level
-                        jump('?agent_level=' + agent_level)
-                        console.error('角色', agent_level)
+                        if (res.data) {
+                            const queryString = Object.keys(res.data)
+                                .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(res.data[key])}`)
+                                .join('&');
+                            jump('?' + queryString)
+                        } else {
+                            jump()
+                        }
                     })
             }
         }
