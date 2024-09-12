@@ -192,9 +192,8 @@ export default {
 
   // walletInfo
   walletInfo_page_code_input: 'Nhập mã đổi quà và nhận phần thưởng',
-  walletInfo_page_code: 'Mã đổi thưởng',
+  walletInfo_page_code: 'Đổi mã',
   walletInfo_page_rule: 'Quy tắc cấp thành viên',
-  walletInfo_page_needBet: 'Số tiền cược cần thiết',
   walletInfo_page_wallet: 'Ví của tôi',
   walletInfo_page_totalA: 'Tổng số dư tài khoản',
   walletInfo_page_depositRecord: 'Lịch sử nạp tiền',

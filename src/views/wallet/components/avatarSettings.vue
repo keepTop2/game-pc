@@ -1,6 +1,6 @@
 <template>
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
-    <n-card class="shortcut_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card class="avatar_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
         <h4 class="top_title">
           <span>{{t('自定义头像')}}</span>
@@ -119,7 +119,7 @@ watch(() => roleInfo.value, (n) => {
 <style lang="less" scoped>
 @timestamp: `new Date().getTime()`;
 
-.shortcut_set {
+.avatar_set {
   :deep(.n-card__content) {
     padding: 0;
   }

@@ -31,7 +31,7 @@
           </n-flex>
           <n-flex align="center" class="level_info_jl_r">
             <span class="line_icon"></span>
-            <n-flex class="lq_btn" justify="center">
+            <n-flex class="lq_btn" justify="center" align="center">
               <span class="lq_icon"></span>
               <span @click="getRebate"> {{ t('level_page_lq') }} </span>
             </n-flex>
