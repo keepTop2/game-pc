@@ -615,7 +615,8 @@ const onMessage: any = async (buffer: any) => {
   // 快捷语--分类列表，重新请求列表
   else if ([20, 21, 22].includes(decodeobj1.type)) {
     console.log('----更新快捷语分类')
-    Message.success(t('proxy_page_caoZuo'));
+    visibleCateSetting.value = false;
+    // Message.success(t('proxy_page_caoZuo'));
     getShortcutCatelist();
   }
   // 快捷语--分类列表，重新请求列表
