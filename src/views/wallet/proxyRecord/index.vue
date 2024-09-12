@@ -62,7 +62,7 @@ page.setMenuActive(-1, 'proxyRecord')
 const { t } = useI18n();
 const tableHeader = computed(() => {
     return [ // 表头
-        { title: t('accountsRecord_page_type'), key: 'item' },
+        { title: t('accountsRecord_page_type'), key: 'type' },
         { title: t('accountsRecord_page_hb'), key: 'currency' },
         { title: t('accountsRecord_page_amount'), key: 'pay_money' },
         { title: t('accountsRecord_page_content'), key: 'item' },
@@ -105,8 +105,19 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
     let val = row[key]
     switch (key) {
-        case "item":
+        case "type":
             rs = t(val == 1 ? 'bType4' : 'Transfer') // 1-提现 2-转账
+            break
+        case "item":
+            if (val == 3) {
+                if (row['pay_money'] > 0) {
+                    rs = WalletTypeMap()['3_0']
+                } else {
+                    rs = WalletTypeMap()['3_1']
+                }
+            } else {
+                rs = WalletTypeMap()[val]
+            }
             break
         // 2就是usdt,其他暂时是越南盾
         case "currency":
