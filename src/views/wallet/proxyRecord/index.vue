@@ -108,17 +108,6 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
         case "item":
             rs = t(val == 1 ? 'bType4' : 'Transfer') // 1-提现 2-转账
             break
-        case "item":
-            if (val == 3) {
-                if (row['pay_money'] > 0) {
-                    rs = WalletTypeMap()['3_0']
-                } else {
-                    rs = WalletTypeMap()['3_1']
-                }
-            } else {
-                rs = WalletTypeMap()[val]
-            }
-            break
         // 2就是usdt,其他暂时是越南盾
         case "currency":
             rs = t('accountsRecord_page_dong')
