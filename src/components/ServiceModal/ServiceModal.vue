@@ -18,7 +18,7 @@
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
-      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
+      <div class="left_setting"  v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -386,13 +386,15 @@ const showCateSetting = () => {
 
 // 分组点击
 const groupClick = (item: any) => {
-  state.groupType = item
   if (item == 'edit') {
     manageClick()
   } else if (item == 'all') {
+    chatitemList.value = []
+    state.groupType = item
     getChatlist()
   } else {
-    getChatlist(item)
+    state.groupType = item
+    groupChatitemList.value = chatitemList.value.filter((o:any)=>o.chatgroupid==item.id)
   }
 
 }
