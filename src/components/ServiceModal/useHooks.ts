@@ -294,7 +294,8 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       istop: setType && setType.id == 1 &&item.istop == 1 ? 6 : 1,
       enableflag: setType && setType.id == 3 ? 1 : 6,
     };
-    wsReqSend(type, payload, 'ChatItemModifyReq');
+    console.log(333333355,payload)
+     wsReqSend(type, payload, 'ChatItemModifyReq');
   };
 
   // 置顶 禁言，移动分组

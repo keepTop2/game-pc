@@ -17,8 +17,8 @@
       </div>
     </h4>
     <div class="main_body">
-      <!-- 左侧设置 -->
-      <div class="left_setting"  v-if="agentInfo.user_type && agentInfo.user_type > 0">
+      <!-- 左侧设置  v-if="agentInfo.user_type && agentInfo.user_type > 0" -->
+      <div class="left_setting">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -56,7 +56,7 @@
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
+          <div class="manage_group" @click.stop="manageClick">分组管理
           </div>
         </div>
         <div class="list_wrap">
@@ -64,7 +64,7 @@
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
-              @click="selectUser(item)" :style="{ order: item.istop || 10 }">
+              @click="selectUser(item)" :style="{ order: item.deep == '0' ? 0 : item.istop || 100 }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -81,7 +81,7 @@
                   <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
                     deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
                 </template>
-                <div class="select_wrap">
+                <div class="select_wrap" v-if="item.deep != '0'">
                   <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
                     <span v-else> {{ o.name }}</span>
@@ -184,7 +184,8 @@
     <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick"
       :quickPhrasesCateList="quickPhrasesCateList" />
 
-    <manageGroup ref="groupRef" v-model:visible="visibleGroup" :stateData="state" :itemList="chatitemList" />
+    <manageGroup ref="groupRef" v-model:visible="visibleGroup" :deepObj="deepObj" :stateData="state"
+      :itemList="chatitemList" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
     <!-- 禁言弹窗 -->
@@ -394,7 +395,7 @@ const groupClick = (item: any) => {
     getChatlist()
   } else {
     state.groupType = item
-    groupChatitemList.value = chatitemList.value.filter((o:any)=>o.chatgroupid==item.id)
+    groupChatitemList.value = chatitemList.value.filter((o: any) => o.chatgroupid == item.id)
   }
 
 }
@@ -576,6 +577,7 @@ const onMessage: any = async (buffer: any) => {
   // 移动好友到分组成功
   else if (decodeobj1.type == 14) {
     Message.success('操作成功')
+    getChatlist()
   }
 
   //分组列表保存回执
@@ -768,7 +770,13 @@ onMounted(async () => {
 
         span {
           padding: 0 6px;
-          text-align: center
+          text-align: center;
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
         }
 
         img {
