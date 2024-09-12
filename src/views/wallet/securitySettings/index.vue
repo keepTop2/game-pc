@@ -262,7 +262,7 @@ const state: any = reactive({
 
         },
         {
-            text: 'home_page_phone',
+            text: 'home_page_phone_number',
             value: 'mobile',
             btns: [
                 { text: 'home_page_bind', icon: 'Group39377', value: 0 },
