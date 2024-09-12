@@ -1,4 +1,5 @@
 @import './global.less';
+@timestamp: `new Date().getTime()`;
 
 ::-webkit-scrollbar {
   display: none;
@@ -214,7 +215,7 @@ input {
       }
 
       .checkbox_click {
-        background: url(/img/login/checkbox.webp) no-repeat;
+        background: url('/img/login/checkbox.webp?t=@{timestamp}') no-repeat;
         background-size: cover;
       }
     }
@@ -241,7 +242,7 @@ input {
     border-radius: 12px;
     border: solid 1px #5a47b2;
     background-color: #402c95;
-    background-image: url(/img/login/close.webp);
+    background-image: url('/img/login/close.webp?t=@{timestamp}');
     background-repeat: no-repeat;
     background-size: cover;
     cursor: pointer;
@@ -256,7 +257,7 @@ input {
     height: 52px;
     font-size: 18px;
     color: #fff;
-    background-image: url(/img/login/login.webp);
+    background-image: url('/img/login/login.webp?t=@{timestamp}');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     cursor: pointer;
@@ -321,7 +322,7 @@ input {
   color: #fff;
   background-size: 100% 100%;
   cursor: pointer;
-  border-image: url('/img/login/login.webp') 0 15 0 15 fill / 0px 15px stretch stretch !important;
+  border-image: url('/img/login/login.webp?t=@{timestamp}') 0 15 0 15 fill / 0px 15px stretch stretch !important;
   box-shadow: 0 2px 4px 0 #241760;
   border-radius: 12px !important;
 }
@@ -398,7 +399,7 @@ input {
       height: 45px;
       border-radius: 12px;
 
-      background: url(/img/dialog/click.webp) no-repeat;
+      background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
       background-size: contain;
 
       .n-button__border {
@@ -408,7 +409,7 @@ input {
 
     .n-button--default-type {
 
-      background: url(/img/dialog/unclick.webp) no-repeat;
+      background: url('/img/dialog/unclick.webp?t=@{timestamp}') no-repeat;
       background-size: cover;
     }
 
@@ -442,7 +443,7 @@ input {
   .n-base-close {
     width: 32px;
     height: 32px;
-    background: url(/img/close.webp) no-repeat;
+    background: url('/img/close.webp?t=@{timestamp}') no-repeat;
     background-size: contain;
 
     &:active {
@@ -466,11 +467,11 @@ input {
     font-stretch: normal;
     font-style: normal;
     color: #fff;
-    background: url(/img/level/levelTopBg.webp) center no-repeat;
+    background: url('/img/level/levelTopBg.webp?t=@{timestamp}') center no-repeat;
     background-size: contain;
 
     &.level_title_sec {
-      background-image: url(/img/level/level_t_bg.webp);
+      background-image: url('/img/level/level_t_bg.webp?t=@{timestamp}');
     }
   }
 }

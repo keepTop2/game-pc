@@ -2,10 +2,10 @@
   <n-config-provider style="width: 100%;" :locale="Language[lang].global" :date-locale="Language[lang].date"
     :theme-overrides="themeOverrides">
     <div class="app">
-      <Header />
+      <Header v-if="!['customer'].includes(route.name)" />
       <div class="hold"></div>
       <router-view></router-view>
-      <Footer />
+      <Footer v-if="!['customer'].includes(route.name)" />
     </div>
   </n-config-provider>
 </template>
@@ -28,6 +28,9 @@ import { useI18n } from "vue-i18n";
 import { Local } from '@/utils/storage';
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
+import { useRoute } from "vue-router"
+
+const route: any = useRoute()
 const userInfo = User(pinia);
 const page = Page(pinia);
 const { roleInfo, myEmail } = storeToRefs(userInfo);

@@ -7,21 +7,23 @@
       <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
 
       <div class="forbidden">
-        <div class="forbidden_btn" @click="visibleForbidden = true"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.muteuser==1">
+        <div class="forbidden_btn" @click="visibleForbidden = true"
+          v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem" style="margin-top: 6px;"></iconpark-icon>
+        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"
+          style="margin-top: 6px;"></iconpark-icon>
       </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置 -->
-      <div class="left_setting" v-if="agentInfo.user_type&&agentInfo.user_type>0">
+      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
               size="1.8rem"></iconpark-icon>
-            <!-- <img :src="`/img/serviceModal/${item.img}`" alt=""> -->
+            <!-- <Imgt :src="`/img/serviceModal/${item.img}`" alt=""> -->
             <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">全部对话</span>
           </n-badge>
         </div>
@@ -48,16 +50,17 @@
             </div>
           </n-flex>
           <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
-          <n-input v-model:value="state.search" placeholder="查找聊天列表" :allow-input="onlyAllowNumber">
+          <n-input v-model:value="state.search" placeholder="查找聊天列表">
             <template #suffix>
               <div class="new_btn" @click="searchuser">发起新聊天</div>
             </template>
           </n-input>
-          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" /> -->
-          <div class="manage_group" @click.stop="manageClick">分组管理</div>
+          <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
+          </div>
         </div>
         <div class="list_wrap">
-        <!-- 聊天列表 -->
+          <!-- 聊天列表 -->
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
@@ -66,10 +69,10 @@
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
                     :offset="[-14, 8]">
-                    <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
-                      class="img1">
+                    <Imgt :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                      class="img1" />
                   </n-badge>
-                  <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                  <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
@@ -107,9 +110,9 @@
                   <div class="avatar">
                     <n-badge :value="i.unreadnums" :show="i.unreadnums > 0" :max="9999" class="set_item"
                       :offset="[-14, 8]">
-                      <img :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                      <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
-                    <img :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip">
+                    <Imgt :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip" />
                   </div>
                   <span>{{ i.TUsername }}</span>
                 </div>
@@ -123,7 +126,7 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :userData="state.userData" :deepObj="deepObj"></chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
@@ -142,7 +145,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="setting" @click="showSetting" v-if="agentInfo.user_type&&agentInfo.user_type>0">快捷语设置</div>
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">快捷语设置</div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
@@ -151,7 +154,8 @@
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
-              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"  v-if="agentInfo.user_type&&agentInfo.user_type==1&&agentInfo.moneyauth==1" />
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"
+                v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.moneyauth == 1" />
               <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
               </n-upload>
@@ -168,7 +172,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送{{agentInfo.user_type}}</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
         </div>
       </div>
     </div>
@@ -206,6 +210,7 @@ import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
+import Imgt from '@/components/Imgt.vue';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -215,7 +220,7 @@ interface tabType {
 }
 import { useI18n } from 'vue-i18n';
 const userInfo = User(pinia);
-const { roleInfo,agentInfo } = storeToRefs(userInfo);
+const { roleInfo, agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
 const groupRef: any = ref(null)
 const { t } = useI18n();
@@ -231,7 +236,7 @@ const deepObj: any = {
   '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
-const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
+// const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
 const state: any = reactive({
   root: null,
   messagetype: 1,//消息类型
@@ -610,7 +615,8 @@ const onMessage: any = async (buffer: any) => {
   // 快捷语--分类列表，重新请求列表
   else if ([20, 21, 22].includes(decodeobj1.type)) {
     console.log('----更新快捷语分类')
-    Message.success(t('proxy_page_caoZuo'));
+    visibleCateSetting.value = false;
+    // Message.success(t('proxy_page_caoZuo'));
     getShortcutCatelist();
   }
   // 快捷语--分类列表，重新请求列表
@@ -658,6 +664,8 @@ onMounted(async () => {
 })
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .main {
   // width: 100%;
   border-radius: 14px;
@@ -694,7 +702,7 @@ onMounted(async () => {
 
       .forbidden_btn {
         width: 100px;
-        background: url(/img/serviceModal/speech_btn.webp) no-repeat;
+        background: url('/img/serviceModal/speech_btn.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
       }
@@ -805,7 +813,7 @@ onMounted(async () => {
   }
 
   .active_tab {
-    background: url(/img/serviceModal/tab_btn.webp) no-repeat;
+    background: url('/img/serviceModal/tab_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 112%;
     color: #fff;
   }
@@ -823,53 +831,54 @@ onMounted(async () => {
   // gap: 20px
 
 }
+
 .list_item {
-    height: 72px;
-    padding: 0 10px;
-    cursor: pointer;
+  height: 72px;
+  padding: 0 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .item_left {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
-    .item_left {
+    .avatar {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      position: relative;
 
-      .avatar {
-        display: flex;
-        flex-direction: column;
-        position: relative;
+      .img1 {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+      }
 
-        .img1 {
-          height: 50px;
-          width: 50px;
-          margin-right: 10px;
-        }
-
-        .img2 {
-          height: 21px;
-          position: absolute;
-          bottom: -6px;
-          // margin-top: -15px;
-        }
+      .img2 {
+        height: 21px;
+        position: absolute;
+        bottom: -6px;
+        // margin-top: -15px;
       }
     }
-
-    .high_proxy {
-      cursor: pointer;
-      font-size: 12px;
-
-      color: #fff;
-      padding: 6px 8px;
-      border-radius: 6px;
-      background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
-
-    }
   }
 
-  .item_active {
-    background-color: #422299
+  .high_proxy {
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
+
   }
+}
+
+.item_active {
+  background-color: #422299
+}
 
 .send_message {
   //height: 52px;
@@ -897,7 +906,7 @@ onMounted(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url(/img/serviceModal/send_btn.webp) no-repeat;
+    background: url('/img/serviceModal/send_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 100%;
     color: #fff;
   }
@@ -1018,14 +1027,15 @@ onMounted(async () => {
   }
 
   .short_wrap_item {
-    width: 98px;
+    min-width: 98px;
     height: 33px;
     display: flex;
     justify-content: center;
     cursor: pointer;
     align-items: center;
     border-radius: 10px;
-    background: url(/img/serviceModal/anniu.webp) no-repeat;
+    background: url('/img/serviceModal/anniu.webp?t=@{timestamp}') no-repeat;
+    padding: 0 10px;
     background-size: 100% 100%;
   }
 }
@@ -1044,6 +1054,12 @@ onMounted(async () => {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 4px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 
     &:hover {
       background-color: #1154FF;

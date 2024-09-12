@@ -38,7 +38,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -62,6 +62,7 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { PlatformValueMap } from "@/enums/walletEnum"
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const tableHeader = computed(() => {
@@ -77,13 +78,17 @@ const tableHeader = computed(() => {
 type OptionListType = { value: number, label: string }[];
 const platformList = ref<OptionListType>([]);
 const optionsPlat = computed(() => { // 平台
-    const options = platformList.value
+    const options = JSON.parse(JSON.stringify(platformList.value))
     options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
 const gameList = ref<OptionListType>([]);
 const optionsGame = computed(() => { // 游戏
-    const options = gameList.value
+    const options = JSON.parse(JSON.stringify(gameList.value.map((item: any) => {
+        item.label = t(item.key)
+        return item
+    })))
+    console.error(options)
     options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
@@ -117,10 +122,13 @@ const platformHandle = (rs: any) => { // 平台数据处理
         let key = item
         try {
             key = PlatformValueMap[item.split('_')[0]] + '_' + item.split('_')[1]
+            if (item.split('_')[2]) {
+                key = key + '_' + item.split('_')[2]
+            }
         } catch {
 
         }
-        return { value: item, label: t(key) }
+        return { value: item, key: key }
     })
 }
 
@@ -227,6 +235,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
+@timestamp: `new Date().getTime()`;
 
 .wallet_recharge_record {
     font-size: 14px;
@@ -252,7 +261,7 @@ onUnmounted(() => {
         }
 
         .active_tab {
-            background: url(/img/wallet/tabBtnBG.webp) no-repeat;
+            background: url('/img/wallet/tabBtnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 112%;
             color: #fff;
         }

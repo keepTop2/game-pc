@@ -29,7 +29,7 @@
 
             <!-- Boss -->
             <n-flex vertical class="icon_box" :align="'center'">
-                <img style="width:37px" class="icon" src="/img/proxy/level_1.webp" alt="BOSS">
+                <Imgt style="width:37px" class="icon" src="/img/proxy/level_1.webp" alt="BOSS" />
                 <div class="name">BOSS</div>
             </n-flex>
             <n-flex class="model_box_content">
@@ -78,11 +78,11 @@
                 <div class="text_box">{{ t('proxy_page_nextCs') }} 0.125% {{ t('proxy_page_nextZs') }}</div>
                 <n-flex class="icons_box" justify="space-between" align="stretch">
                     <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
-                        <img style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS">
+                        <Imgt style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS" />
                         <div class="name">{{ t('proxy_page_partner') }} B1</div>
                     </n-flex>
                     <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
-                        <img style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS">
+                        <Imgt style="width:30px" class="icon" src="/img/proxy/level_2.webp" alt="BOSS" />
                         <div class="name">B2 {{ t('proxy_page_player') }}</div>
                     </n-flex>
                 </n-flex>
@@ -134,13 +134,13 @@
                     <div class="line_box"></div>
                     <div class="text_box">{{ t('proxy_page_nextCs') }}0.125%+<br />{{ t('proxy_page_nextZs') }}
                     </div>
-                    <n-flex class="icons_box" justify="space-between" align="stretch">
+                    <n-flex class="icons_box level2" justify="space-between" align="stretch">
                         <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
-                            <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                            <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                             <div class="name">{{ t('proxy_page_gjMaster') }} C1</div>
                         </n-flex>
                         <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
-                            <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                            <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                             <div class="name">{{ t('proxy_page_player') }} C2</div>
                         </n-flex>
                     </n-flex>
@@ -151,11 +151,11 @@
                         <div class="text_box">下级总业绩0.125%+<br />直属下级业绩的有效流水抽成</div>
                         <n-flex class="icons_box" justify="space-between" align="stretch">
                             <n-flex vertical class="icon_box" style="transform: translateX(-50%)" :align="'center'">
-                                <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                                <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                                 <div class="name">高级厅主B3</div>
                             </n-flex>
                             <n-flex vertical class="icon_box" style="transform: translateX(50%)" :align="'center'">
-                                <img style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS">
+                                <Imgt style="width:34px" class="icon" src="/img/proxy/level_3.webp" alt="BOSS" />
                                 <div class="name">高级厅主B4</div>
                             </n-flex>
                         </n-flex>
@@ -254,24 +254,23 @@
             </div> -->
 
         <div class="intro">
-            <div class="title">详细介绍</div>
-            <div class="subtitle">举例说明如下：</div>
-            <div class="content">赌场返点以有效流水为依据，BOSS最先发现商机，发展了B1和B2，B1向BOSS申请成为合伙人，B1又马上发展C1和C2，C1向合伙人B1申请成为高级厅主
+            <div class="title">{{ t('proxy_page_xiangxijieshao') }}</div>
+            <div class="subtitle">{{ t('proxy_page_juli') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming1') }}{{ t('proxy_page_shuoming2') }}
                 <div class="br"></div>
-                几天后BOSS有效流水100W，合伙人B1有效流水100W，B2流水100W，C1流水100W，C2有效流水100W
+                {{ t('proxy_page_shuoming3') }}
             </div>
-            <div class="subtitle">直属玩家：</div>
-            <div class="content">boss是boss的直属玩家<div class="br"></div>b2是boss的直属玩家<div class="br"></div>c2是合伙人b1的直属玩家
+            <div class="subtitle">{{ t('proxy_page_shuoming5') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming6') }}<div class="br"></div>{{ t('proxy_page_shuoming7') }}<div class="br"></div>{{ t('proxy_page_shuoming8') }}
             </div>
-            <div class="subtitle">下级代理：</div>
-            <div class="content">合伙人b1是boss的下级代理<div class="br"></div>高级厅主c1是b1的下级代理<div class="br"></div>
-                高级厅主c1是boss的下下级代理</div>
-            <div class="subtitle">那么他们之间的收益如下:</div>
-            <div class="content">BOSS直属玩家贡献 = BOSS有效流水 * BOSS有效流水抽成 + 直属玩家有效流水 * BOSS有效流水抽成 = 100W * 0.65% + 100W *
-                0.65% = 13,000<div class="br"></div>
-                BOSS团队佣金 =（B1+C1+C2）有效流水 *（BOSS有效流水抽成 - 合伙人有效流水抽成）=（100w+100W+100W）*（0.65% - 0.525%）= 3,750<div
+            <div class="subtitle">{{ t('proxy_page_shuoming9') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming10') }}<div class="br"></div>{{ t('proxy_page_shuoming11') }}<div class="br"></div>
+            {{ t('proxy_page_shuoming12') }}</div>
+            <div class="subtitle">{{ t('proxy_page_shuoming14') }}</div>
+            <div class="content">{{ t('proxy_page_shuoming15') }}<div class="br"></div>
+            {{ t('proxy_page_shuoming16') }}<div
                     class="br">
-                </div>BOSS总佣金 = BOSS直属玩家贡献 + 下级代理贡献 = 13,000 + 3750 = 16,750
+                </div>{{ t('proxy_page_shuoming17') }}
             </div>
         </div>
     </div>
@@ -281,6 +280,7 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 // import { useRouter } from 'vue-router';
 
 // const router = useRouter();
@@ -322,6 +322,7 @@ const proxyConfig = ref([
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
 @import '@/assets/modelBox.less';
+@timestamp: `new Date().getTime()`;
 
 .proxy_intro {
     width: 1200px;
@@ -414,7 +415,7 @@ const proxyConfig = ref([
         }
 
         .active_tab {
-            background: url(/img/wallet/tabBtnBG.webp) no-repeat;
+            background: url('/img/wallet/tabBtnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 112%;
             color: #fff;
         }
@@ -475,7 +476,7 @@ const proxyConfig = ref([
 
             .text_box {
                 position: absolute;
-                width: 75%;
+                width: 70%;
                 left: 50%;
                 transform: translateX(-50%);
                 top: 0;
@@ -501,6 +502,20 @@ const proxyConfig = ref([
                     left: 50%;
                     background-color: #fff;
                     transform: translateX(-50%);
+                }
+            }
+
+            .icons_box.level2 {
+                .icon_box {
+                    width: 100px;
+                    min-height: 100px;
+
+                    .name {
+                        width: 100px;
+                        top: 30px;
+                        white-space: pre-wrap;
+                        text-align: center;
+                    }
                 }
             }
         }

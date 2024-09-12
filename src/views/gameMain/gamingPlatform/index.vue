@@ -1,11 +1,11 @@
 <template>
     <div class="game-content">
         <!-- <div class="game_platform">
-            <img src="/img/home/banner1.webp" alt="">
+            <Imgt src="/img/home/banner1.webp" alt="" />
         </div> -->
         <div class="announcement">
             <n-carousel autoplay draggable v-if="bannerArr">
-                <img class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)">
+                <Imgt class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)" />
             </n-carousel>
             <p style="height: 40px;">
                 <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
@@ -20,13 +20,13 @@
             <div class="game-detail">
                 <div>
                     <div class="nodata" v-if="!result.list.length">
-                        <img src="/img/wallet/nodata.webp" alt="nodata">
+                        <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                         <div>{{ t('home_page_nomore_data') }}</div>
                     </div>
                     <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
                         <div class="game-list">
                             <div class="item" v-for="(v, i) in result.list" :key="i" @click="platformItemClick(v, i)">
-                                <img class="game-img" :src="`/img/cards/${'1'}.png`" alt="">
+                                <Imgt class="game-img" :src="`/img/cards/${'1'}.png`" alt="" />
                                 <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
                             </div>
                         </div>
@@ -49,6 +49,7 @@ import { Net } from '@/net/Net';
 import { needLogin } from '@/net/Utils';
 const { t } = useI18n();
 const route = useRoute()
+import Imgt from '@/components/Imgt.vue';
 
 const {
     lang,

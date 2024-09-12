@@ -41,9 +41,9 @@
                 </n-input>
                 <n-button :bordered="false" :loading="item.loading" @click="submitSend(item)"
                   v-if="item.slot && item.type == 'code'" class="btn" :disabled="item.btnDisabled">{{
-    isNaN(item.timeText) ? t(item.timeText) : item.timeText
+                    isNaN(item.timeText) ? t(item.timeText) : item.timeText
 
-  }}</n-button>
+                  }}</n-button>
               </n-form-item>
             </template>
           </n-form>
@@ -123,7 +123,6 @@ const resetInputHide = () => {
   }
 }
 
-
 const submitNext = () => {
   // 效验
   if (state.type == 3) {
@@ -134,7 +133,11 @@ const submitNext = () => {
         }
       });
     } else if (state.formData.step == 2) {
-      emit('submitData', state.formData.formParams, state.type);
+      formRef.value?.validate((errors: any) => {
+        if (!errors) {
+          emit('submitData', state.formData.formParams, state.type);
+        }
+      });
 
     } else {
       formRef.value?.validate((errors: any) => {
@@ -302,6 +305,8 @@ defineExpose({
 
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .change_card {
   width: 494px;
   border-radius: 14px;
@@ -359,7 +364,7 @@ defineExpose({
     color: #fff;
     width: 90px;
     font-size: 14px;
-    background: url(/img/login/sendBtn.webp) no-repeat;
+    background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
     background-size: contain;
 
   }

@@ -27,7 +27,7 @@
             </n-flex>
 
             <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
             <div class="t_loading">
@@ -53,6 +53,7 @@ import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 import { Page } from '@/store/page';
 import pinia from '@/store/index';
+import Imgt from '@/components/Imgt.vue';
 
 const page = Page(pinia);
 
@@ -61,7 +62,7 @@ page.setMenuActive(-1, 'proxyRecord')
 const { t } = useI18n();
 const tableHeader = computed(() => {
     return [ // 表头
-        { title: t('accountsRecord_page_type'), key: 'b_type' },
+        { title: t('accountsRecord_page_type'), key: 'item' },
         { title: t('accountsRecord_page_hb'), key: 'currency' },
         { title: t('accountsRecord_page_amount'), key: 'pay_money' },
         { title: t('accountsRecord_page_content'), key: 'item' },
@@ -104,8 +105,8 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs = ''
     let val = row[key]
     switch (key) {
-        case "b_type":
-            rs = t('bType' + (val > 100 ? 101 : val))
+        case "item":
+            rs = t(val == 1 ? 'bType4' : 'Transfer') // 1-提现 2-转账
             break
         case "item":
             if (val == 3) {

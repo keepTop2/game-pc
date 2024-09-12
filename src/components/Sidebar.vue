@@ -13,7 +13,7 @@
             <p> {{ t(item.title) }} </p>
             <div :class="`club_box${g}`" v-for="(game, g) in item.list" :key="g" @click="itemClick(game)">
                 <p>
-                    <img :src="game.icon" alt="" class="float_img" />
+                    <Imgt :src="game.icon" alt="" class="float_img" />
                     <span>{{ t(game.name) }}</span>
                 </p>
             </div>
@@ -24,7 +24,7 @@
             <div>
                 <p :class="state.active == game.name ? 'hover' : ''" v-for="(game, g) in state.gameList.list" :key="g"
                     @click="onClickGame(game, g)">
-                    <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
+                    <Imgt :src="game.icon" alt="" class="float_img" v-if="game.float" />
                     <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon>
                     <span>{{ t(game.name) }}</span>
                 </p>
@@ -40,7 +40,7 @@
                     @click="activityItemClick(g)">
 
 
-                    <img :src="t(String(setIconLink(String(g))))" alt="" class="icon_img" />
+                    <Imgt :src="t(String(setIconLink(String(g))))" alt="" class="icon_img" />
                     <!-- <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon> -->
                     <span>{{ t(g) }}</span>
                 </p>
@@ -51,7 +51,7 @@
             <div>
                 <p :class="state.active == game.name ? 'hover' : ''" v-for="(game, g) in item.list" :key="g"
                     @click="itemClick(game)">
-                    <img :src="game.icon" alt="" class="float_img" v-if="game.float" />
+                    <Imgt :src="game.icon" alt="" class="float_img" v-if="game.float" />
                     <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon>
                     <span>{{ t(game.name) }}</span>
                 </p>
@@ -68,6 +68,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
+import Imgt from '@/components/Imgt.vue';
 // import { User } from '@/store/user';
 
 import { Page } from '@/store/page';
@@ -289,6 +290,8 @@ watch(
 )
 </script>
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .sidebar {
     width: 270px;
     box-sizing: border-box;
@@ -306,7 +309,7 @@ watch(
         }
 
         .club_box0 {
-            background: url('/img/home/club1Bg.webp') no-repeat;
+            background: url('/img/home/club1Bg.webp?t=@{timestamp}') no-repeat;
             background-size: contain;
             padding: 0;
             margin: 20px 0 10px;
@@ -318,7 +321,7 @@ watch(
         }
 
         .club_box1 {
-            background: url('/img/home/club2Bg.webp') no-repeat;
+            background: url('/img/home/club2Bg.webp?t=@{timestamp}') no-repeat;
             background-size: contain;
             padding: 0;
 

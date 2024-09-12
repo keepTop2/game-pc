@@ -14,6 +14,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/home/index.vue'),
   },
   {
+    path: '/customer',
+    name: 'customer',
+    meta: { title: '' },
+    component: () => import('@/views/home/customer.vue'),
+  },
+  {
     path: '/gameMain',
     name: 'gameMain',
     meta: { title: 'gameMain' },

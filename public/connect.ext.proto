@@ -290,9 +290,9 @@ message UserRolesRsp {
 
 //查询用户请求
 message UserRoleReq {
-  int64 roleid = 1; // 设备id
-  int64 deviceid = 2; // 设备id
-
+	int64 roleid = 1; // 设备id
+	int64 deviceid = 2; // 设备id
+	string username = 3; // 用户名
 }
 //查询客服信息
 message KfRoleIdGetReq {
@@ -371,5 +371,5 @@ message ForbidReq {
 //聊天列表 已读聊天
 message ReadChatItemReq {
   int64 deviceid = 1; // 用户id
-  string chatid = 2; // 消息id
+  string chatid = 2; // 消息id 比如10086同10087的聊天 这里应该是10086-10087
 }

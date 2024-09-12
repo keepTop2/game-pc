@@ -112,6 +112,7 @@ defineExpose({
 
 <style lang='less' scoped>
 @import '@/assets/modelBox.less';
+@timestamp: `new Date().getTime()`;
 
 .level_manage {
     width: 500px;
@@ -186,7 +187,7 @@ defineExpose({
 
             .primary_btn {
                 color: #fff;
-                background: url(/img/home/btnBG.webp) no-repeat;
+                background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
                 background-size: 100% 112%;
             }
         }

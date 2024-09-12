@@ -1,7 +1,7 @@
 <!-- 系统公告 -->
 <template>
     <div class="notice_dialog" :class="['notice_dialog_' + noticeList[currentIndex].type]">
-        <img class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X">
+        <Imgt class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X" />
 
         <!-- 头部装饰 -->
         <div class="notice_title">
@@ -40,6 +40,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { useI18n } from "vue-i18n";
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 
@@ -91,10 +92,12 @@ const closeDialog = () => { // 关闭弹窗
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .notice_dialog {
     position: relative;
     border-radius: 16px;
-    background-image: url('/img/home/notice_bg_0.png');
+    background-image: url('/img/home/notice_bg_0.png?t=@{timestamp}');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 400px;
@@ -149,7 +152,7 @@ const closeDialog = () => { // 关闭弹窗
         width: 100%;
         height: 45px;
         cursor: pointer;
-        background: url(/img/home/btnBG3.webp) no-repeat;
+        background: url('/img/home/btnBG3.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
         justify-content: center;
@@ -199,10 +202,10 @@ const closeDialog = () => { // 关闭弹窗
 }
 
 .notice_dialog_1 {
-    background-image: url('/img/home/notice_bg_1.png');
+    background-image: url('/img/home/notice_bg_1.png?t=@{timestamp}');
 }
 
 .notice_dialog_2 {
-    background-image: url('/img/home/notice_bg_2.png');
+    background-image: url('/img/home/notice_bg_2.png?t=@{timestamp}');
 }
 </style>

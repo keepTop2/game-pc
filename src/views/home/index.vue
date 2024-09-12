@@ -4,7 +4,7 @@
     <div class="content">
       <div class="announcement">
         <n-carousel draggable v-if="bannerArr">
-          <img class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)">
+          <Imgt class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)" />
         </n-carousel>
         <p style="height: 40px;">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
@@ -27,8 +27,8 @@
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
             :show-arrow="true" :show-dots="false">
-            <img @click="platformItemClick(v, idx)" class="game_img" src="/img/cards/0.png"
-              v-for="(v, j) in item.value?.three_platform" :key="j">
+            <Imgt @click="platformItemClick(v, idx)" class="game_img" src="/img/cards/0.png"
+              v-for="(v, j) in item.value?.three_platform" :key="j" />
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -46,6 +46,7 @@
 <script setup lang="ts" name="home">
 import Sidebar from '@/components/Sidebar.vue';
 import { onBeforeMount, onMounted, onUnmounted, reactive } from 'vue';
+import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
 
@@ -182,6 +183,8 @@ const gameUrlResult = (message: any) => {
 </script>
 
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .home {
   display: flex;
 
@@ -302,7 +305,7 @@ const gameUrlResult = (message: any) => {
 
       &:hover {
         color: #fff;
-        background: url(/img/dialog/click.webp) no-repeat;
+        background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -354,7 +357,7 @@ const gameUrlResult = (message: any) => {
     .left:hover,
     .right:hover {
       color: #fff;
-      background: url(/img/home/sbtnBG.webp) no-repeat;
+      background: url('/img/home/sbtnBG.webp?t=@{timestamp}') no-repeat;
       background-size: cover;
     }
   }

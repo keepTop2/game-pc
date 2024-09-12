@@ -5,27 +5,30 @@
         <div class="chat_item" v-for="item in (chatList as any)" :key="item.date"
           :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }">
           {{ item.THeadPhoto }}
-          <img v-if="item.role == '2'" :src="`/img/head_icons/${item.THeadPhoto||'1001'}.webp`" alt="">
+          <Imgt v-if="item.role == '2'" :src="`/img/head_icons/${item.THeadPhoto || '1001'}.webp`" />
           <div class="chat_main">
             <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
               <span>{{ item.name }}</span>
-              <div class="mark_kf">{{ item.role == '2' ? '官方客服' : '我' }}</div>
+              <div class="mark_kf"  :style="{ background: deepObj[userData.deep]&&item.role == '2' ? deepObj[userData.deep].color : '' }">{{ item.role == '2' ? userRole : '我' }}</div>
               <span class="date">{{ item.date }}</span>
             </div>
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
               @click="showImg(item.content)">
-              <div class=" " v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1"></div>
+              <div class=" " v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1">
+              </div>
               <!-- 图片视频 -->
               <div v-else>
-                <n-image v-if="item.content.includes('storage/uploads/image')" width="140" :src="'http://18.162.112.52:8031/' +item.content"
+                <n-image v-if="item.content.includes('storage/uploads/image')" width="140"
+                  :src="'http://18.162.112.52:8031/' + item.content"
                   :previewed-img-props="{ style: { border: '8px solid white' } }" />
-                  <video v-else :src="'http://18.162.112.52:8031/' +item.content" controls preload="auto" muted width="240" height="200"></video>
+                <video v-else :src="'http://18.162.112.52:8031/' + item.content" controls preload="auto" muted
+                  width="240" height="200"></video>
               </div>
             </div>
             <!-- 转账 -->
             <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-else class="money">
               <div class="left">
-                <img src="/img/serviceModal/transfer.webp" alt="">
+                <Imgt src="/img/serviceModal/transfer.webp" />
                 <div class="left_info">
                   <span>转账给你</span>
                   <span>300,000,000,000</span>
@@ -36,7 +39,7 @@
               </div>
             </div>
           </div>
-          <img v-if="item.role == 1" :src="`/img/serviceModal/avatar1.webp`" alt="">
+          <Imgt v-if="item.role == 1" :src="`/img/serviceModal/avatar1.webp`" />
         </div>
       </div>
     </div>
@@ -46,6 +49,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue';
 import usechatHooks from '../useHooks';
+import Imgt from '@/components/Imgt.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -61,10 +65,22 @@ const props = defineProps({
     type: Array,
     default: () => ([]),
   },
+  userData: {
+    type: Object,
+    default: () => ({}),
+  },
+  deepObj: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const { initMessage }: any = usechatHooks()
 const newValue = computed(() => {
   return props.chatList.length
+})
+
+const userRole = computed(()=>{
+   return props.deepObj[props.userData.deep] && props.deepObj[props.userData.deep].label || '直属玩家'
 })
 
 function scrollToBottom() {
@@ -146,7 +162,7 @@ onMounted(() => {
         padding: 0 6px;
         font-size: 12px;
         box-sizing: border-box;
-        background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
+       background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
       }
 
       .date {
@@ -200,12 +216,14 @@ onMounted(() => {
     }
   }
 }
-.item_column{
+
+.item_column {
   display: flex;
   flex-direction: column;
 }
-.item_center{
-   display: flex;
+
+.item_center {
+  display: flex;
   justify-content: center;
 }
 </style>

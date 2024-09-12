@@ -3,7 +3,7 @@
         <Sidebar />
         <div class="content">
             <div class="head">
-                <img src="/img/home/back.webp" alt="" @click="router.push('/')">
+                <Imgt src="/img/home/back.webp" alt="" @click="router.push('/')" />
                 <span v-if="state.name">{{ t(state.name) }}</span>
                 <span v-else>{{ getTitle }}</span>
             </div>
@@ -21,6 +21,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 import pinia from '@/store';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const { lang } = storeToRefs(Page(pinia));

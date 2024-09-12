@@ -10,7 +10,9 @@
         <!-- 俱乐部头部 -->
         <div v-if="curTab === 'club'" class="club_top">
           <div class="club_top_top">
-            <div class="club_top_av"><img src="/img/home/avatar.webp" alt="avatar"></div>
+            <div class="club_top_av">
+              <Imgt src="/img/home/avatar.webp" alt="avatar" />
+            </div>
             <div class="club_title_1"> BY88俱乐部-驻马尼拉分部</div>
             <n-flex class="club_title_2" align="center" justify="center">
               <span class="club_icon"></span>
@@ -92,9 +94,8 @@
 
         <!-- 俱乐部切换类别 -->
         <n-flex class="club_tab" justify="space-between">
-          <a :class="`btn_join ${curTab === item.key ? 'active' : ''}`"
-             v-for="(item, index) in tabArr" :key="index"
-             @click="clickTab(item.key)">
+          <a :class="`btn_join ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr" :key="index"
+            @click="clickTab(item.key)">
             {{ item.title }}
           </a>
         </n-flex>
@@ -102,17 +103,15 @@
         <!-- 俱乐部--列表 -->
         <div v-if="curTab === 'club'" class="club_list">
           <n-flex class="club_list_tab" align="center">
-            <a :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`"
-               v-for="(item, index) in curGmaeArr"
-               :key="index" @click="clickTabGame(item.key)">
+            <a :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`" v-for="(item, index) in curGmaeArr"
+              :key="index" @click="clickTabGame(item.key)">
               {{ item.title }}
             </a>
           </n-flex>
           <div class="club_list_content">
             <n-flex>
-              <n-flex class="club_list_item" v-for="(item, index) in gameListData" :key="index"
-                      align="center"
-                      justify="space-around">
+              <n-flex class="club_list_item" v-for="(item, index) in gameListData" :key="index" align="center"
+                justify="space-around">
                 <div class="item_l">
                   <div class="mb_rr"> {{ item.name }}</div>
                   <n-flex align="center" class="item_l_bottom">
@@ -129,7 +128,7 @@
                 </div>
                 <div class="item_r">
                   <div class="item_r_top mb_rr">
-                    <img src="/img/home/avatar.webp" alt="avatar">
+                    <Imgt src="/img/home/avatar.webp" alt="avatar" />
                   </div>
                   <n-flex align="center" justify="center" class="item_r_bottom">
                     <span class="ren_icon"></span>
@@ -151,7 +150,7 @@
           <div class="clubJoin_list_item" v-for="(item, index) in clubListData" :key="index">
             <div class="list_left_av">
               <div class="list_av_icon">
-                <img src="/img/home/avatar.webp" alt="avatar">
+                <Imgt src="/img/home/avatar.webp" alt="avatar" />
               </div>
               <div class="av_txt">
                 {{ t('club_page_cjz') }}
@@ -213,8 +212,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_jrjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
-                           size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -243,8 +241,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_cjjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff"
-                           size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -253,12 +250,10 @@
               <n-input v-model:value="createParams.name" :placeholder="t('club_page_qsr')" />
             </n-form-item>
             <n-form-item :label="t('club_page_jlbcs')">
-              <n-input type="number" v-model:value="createParams.rate"
-                       :placeholder="t('club_page_qsr')" />
+              <n-input type="number" v-model:value="createParams.rate" :placeholder="t('club_page_qsr')" />
             </n-form-item>
             <n-form-item :label="t('club_page_jlbjj')">
-              <n-input type="textarea" v-model:value="createParams.dec"
-                       :placeholder="t('club_page_qsr')" />
+              <n-input type="textarea" v-model:value="createParams.dec" :placeholder="t('club_page_qsr')" />
             </n-form-item>
           </n-form>
 
@@ -279,6 +274,7 @@ import { ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -510,12 +506,14 @@ defineExpose({
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .level_modal {
   .level_title {
-    background-image: url(/img/club/club_title_bg1.webp);
+    background-image: url('/img/club/club_title_bg1.webp?t=@{timestamp}');
 
     &.level_title_join {
-      background-image: url(/img/club/club_title_bg2.webp);
+      background-image: url('/img/club/club_title_bg2.webp?t=@{timestamp}');
     }
   }
 }
@@ -586,7 +584,7 @@ defineExpose({
         height: 36px;
         line-height: 36px;
         text-align: center;
-        background: url(/img/club/club_diaBtn_sea.webp) center no-repeat;
+        background: url('/img/club/club_diaBtn_sea.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -598,11 +596,11 @@ defineExpose({
         height: 46px;
         line-height: 46px;
         text-align: center;
-        background: url(/img/club/club_diaBtn_1.webp) center no-repeat;
+        background: url('/img/club/club_diaBtn_1.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         &.c_join_btn {
-          background-image: url(/img/club/club_diaBtn_2.webp);
+          background-image: url('/img/club/club_diaBtn_2.webp?t=@{timestamp}');
         }
       }
     }
@@ -617,7 +615,7 @@ defineExpose({
   .club_icon {
     width: 27px;
     height: 22px;
-    background: url(/img/club/club_icon_2.webp) center no-repeat;
+    background: url('/img/club/club_icon_2.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
   }
 
@@ -646,7 +644,7 @@ defineExpose({
       position: relative;
       height: 145px;
       margin-top: 20px;
-      background: url(/img/club/club_top_bg.webp) center no-repeat;
+      background: url('/img/club/club_top_bg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       .club_top_av {
@@ -680,11 +678,11 @@ defineExpose({
       height: 114px;
       margin: 15px auto;
       padding: 0 20px;
-      background: url(/img/club/club_yjr_bg.webp) center no-repeat;
+      background: url('/img/club/club_yjr_bg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
       gap: 0 !important;
 
-      > div {
+      >div {
         flex: 1;
 
         .club_switch {
@@ -692,20 +690,20 @@ defineExpose({
             .n-switch__rail {
               width: 68px;
               height: 22px;
-              background: url(/img/club/club_switch_bg.webp) center no-repeat;
+              background: url('/img/club/club_switch_bg.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
 
               .n-switch__button {
                 width: 32px;
                 height: 18px;
-                background: url(/img/club/club_switch_1.webp) center no-repeat;
+                background: url('/img/club/club_switch_1.webp?t=@{timestamp}') center no-repeat;
               }
             }
 
             &.n-switch.n-switch--active {
               .n-switch__rail {
                 .n-switch__button {
-                  background: url(/img/club/club_switch_2.webp) center no-repeat;
+                  background: url('/img/club/club_switch_2.webp?t=@{timestamp}') center no-repeat;
                 }
               }
             }
@@ -724,7 +722,7 @@ defineExpose({
         height: 44px;
         line-height: 44px;
         text-align: center;
-        background: url(/img/club/club_join_bg.webp) center no-repeat;
+        background: url('/img/club/club_join_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         transition: .3s;
       }
@@ -734,7 +732,7 @@ defineExpose({
 
   .club_tab {
     height: 72px;
-    background: url(/img/club/club_tabs_bg.webp) center no-repeat;
+    background: url('/img/club/club_tabs_bg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
     padding: 0 6px;
 
@@ -748,7 +746,7 @@ defineExpose({
       color: #8D81C1;
 
       &.active {
-        background: url(/img/club/club_yjr_title_bg.webp) center no-repeat;
+        background: url('/img/club/club_yjr_title_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         color: #fff;
       }
@@ -775,7 +773,7 @@ defineExpose({
 
         &.active {
           color: #fff;
-          background: url(/img/club/club_tab_bg.webp) center no-repeat;
+          background: url('/img/club/club_tab_bg.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
           background-position-y: 8px;
         }
@@ -787,7 +785,7 @@ defineExpose({
             display: inline-block;
             width: 1px;
             height: 36px;
-            background: url(/img/line.webp) center no-repeat;
+            background: url('/img/line.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
             left: -8px;
             top: 11px;
@@ -818,7 +816,7 @@ defineExpose({
             .mon_icon {
               width: 22px;
               height: 17px;
-              background: url(/img/club/club_icon_1.webp) center no-repeat;
+              background: url('/img/club/club_icon_1.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -837,7 +835,7 @@ defineExpose({
             .mon_icon_sec {
               width: 17px;
               height: 17px;
-              background: url(/img/club/q_icon.webp) center no-repeat;
+              background: url('/img/club/q_icon.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -867,7 +865,7 @@ defineExpose({
             .ren_icon {
               width: 22px;
               height: 18px;
-              background: url(/img/club/club_icon_2.webp) center no-repeat;
+              background: url('/img/club/club_icon_2.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -885,7 +883,7 @@ defineExpose({
           height: 44px;
           line-height: 44px;
           text-align: center;
-          background: url(/img/club/club_join_btn.webp) center no-repeat;
+          background: url('/img/club/club_join_btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           &:nth-child(n+2) {
@@ -906,10 +904,10 @@ defineExpose({
       padding: 25px;
       height: 198px;
       color: #8E82C2;
-      background: url(/img/club/club_join_bg_1.webp) center no-repeat;
+      background: url('/img/club/club_join_bg_1.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
-      > div {
+      >div {
         flex: 1;
       }
 
@@ -936,7 +934,7 @@ defineExpose({
         left: 5px;
         text-align: center;
         padding: 45px 10px;
-        background: url(/img/club/club_tx_bg.webp) center no-repeat;
+        background: url('/img/club/club_tx_bg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         .list_av_icon {
@@ -969,7 +967,7 @@ defineExpose({
           height: 36px;
           line-height: 36px;
           text-align: center;
-          background: url(/img/club/club_join_btn.webp) center no-repeat;
+          background: url('/img/club/club_join_btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 96%;
         }
       }
@@ -978,10 +976,10 @@ defineExpose({
         padding: 20px 0 20px 240px;
         height: 156px;
         color: #8E82C2;
-        background: url(/img/club/club_join_bg_2.webp) center no-repeat;
+        background: url('/img/club/club_join_bg_2.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
-        > div {
+        >div {
           flex: 1;
         }
 
