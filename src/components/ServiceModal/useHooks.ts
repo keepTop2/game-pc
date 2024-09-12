@@ -80,7 +80,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       if (state_data.groupItem && state_data.groupItem.id) {
         state_data.groupChatitemList = decodeobj00.chatitem || [];
       } else {
-        state_data.chatitemList = decodeobj00.chatitem;
+        state_data.chatitemList = decodeobj00.chatitem.filter((i:any)=>i.TUsername)
         const item = state_data.chatitemList[0];
         if (item?.iskf != 1) {
           getKfChat();
@@ -294,7 +294,8 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       istop: setType && setType.id == 1 && item.istop == 1 ? 6 : 1,
       enableflag: setType && setType.id == 3 ? 1 : 6,
     };
-    wsReqSend(type, payload, 'ChatItemModifyReq');
+    console.log(333333355,payload)
+     wsReqSend(type, payload, 'ChatItemModifyReq');
   };
 
   // 置顶 禁言，移动分组
