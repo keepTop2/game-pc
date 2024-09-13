@@ -71,6 +71,9 @@ import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 import { useI18n } from 'vue-i18n';
 import { Dialog, Message } from "@/utils/discreteApi";
+import { User } from '@/store/user.ts';
+import pinia from '@/store';
+import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -84,6 +87,9 @@ const props = defineProps({
   }
 });
 const emit = defineEmits(['update:visible', 'addModifyCateQuick']);
+
+const userInfo = User(pinia);
+const { roleInfo } = storeToRefs(userInfo);
 
 const addForm = ref({
   title: ''
@@ -105,6 +111,11 @@ const closeWin = () => {
 }
 // 删除
 const removeList = (item: any, index: number) => {
+  console.log('删除==', roleInfo.value.id ,item);
+  // 只能删除自己添加的数据
+  if (!item.deviceid || item.deviceid != roleInfo.value.id) {
+    return Message.error('你不能删除此数据')
+  }
   Dialog.warning({
     showIcon: false,
     title: t('paymentManagement_page_tips'),
@@ -176,7 +187,12 @@ const doActionCateQuick = (data: any) => {
   }
   emit('addModifyCateQuick', params)
 }
-
+watch(() => props.visible, (n) => {
+  // 关闭
+  if (!n) {
+    addForm.value.title = ''; // 清空
+  }
+})
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
     dataCateList.value = n;
