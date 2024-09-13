@@ -590,7 +590,11 @@ const onMessage: any = async (buffer: any) => {
     Message.success('操作成功')
     groupRef.value.getChatMsg9(decodeobj1)
     getListGroup()
-
+  }
+    //分组列表保存回执
+    else if (decodeobj1.type == 10) {
+    Message.success('操作成功')
+   
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {
