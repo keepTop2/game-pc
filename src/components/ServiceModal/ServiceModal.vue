@@ -78,7 +78,7 @@
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
-              <n-popover trigger="click" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
+              <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
                   <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
                     deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
@@ -89,7 +89,7 @@
                     <span v-else> {{ o.name }}</span>
                   </div>
                   <div  v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
-                    <n-popover trigger="click" placement="right" :show-arrow="false">
+                    <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
                         <div class="high_proxy select_group"> {{ selectList.find((i:any)=>i.id==4)?.name }}</div>
                       </template>
