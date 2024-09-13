@@ -50,7 +50,7 @@
                   <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                 </div>
                 <span>{{ item.TUsername }}</span>
-                <div class="high_proxy">上级代理</div>
+                <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{ deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
               </div>
               <iconpark-icon icon-id="shanchu" class="pointer" size="0.6rem" @click="delItem(item)" />
             </div>
@@ -67,7 +67,7 @@
           <div class="title">对话</div>
           <div class="user_list">
             <n-checkbox-group v-model:value="chatitemIdList">
-              <n-checkbox :value="item" v-for="item in itemList" :key="item.id">
+              <n-checkbox :value="item" v-for="item in itemList.filter((i:any)=>i.deep!='0')" :key="item.id">
                 <div class="list_item">
                   <div class="user_info">
                     <div class="avatar">
@@ -77,7 +77,7 @@
                     </div>
                     <span>{{ item.TUsername }}</span>
                   </div>
-                  <div class="high_proxy">上级代理</div>
+                  <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{ deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
                 </div>
               </n-checkbox>
             </n-checkbox-group>
@@ -117,6 +117,10 @@ const props = defineProps({
     default: () => ({}),
   },
   itemList: {
+    type: Object,
+    default: () => ([]),
+  },
+  deepObj: {
     type: Object,
     default: () => ([]),
   },
@@ -442,9 +446,21 @@ const isShow = computed({
 }
 
 .avatar {
-  img {
-    height: 50px;
-    width: 50px;
-  }
-}
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      .img1 {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+      }
+
+      .img2 {
+        height: 21px;
+        position: absolute;
+        bottom: -6px;
+        // margin-top: -15px;
+      }
+    }
 </style>

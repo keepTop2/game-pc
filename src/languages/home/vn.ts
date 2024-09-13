@@ -4,9 +4,9 @@ export default {
     home_page_seachGame: 'Tìm kiếm trò chơi',
     home_page_login: 'Đăng nhập',
     home_page_signUp: 'Đăng ký',
-    home_page_vi: 'Việt Nam',
-    home_page_zh: '简体中文',
-    home_page_en: 'English',
+    home_page_vi: 'VN',
+    home_page_zh: 'ZH',
+    home_page_en: 'EN',
     // 退出登录提示语
     home_page_logout: 'Đăng xuất',
     home_page_confirmSignOut: 'Xác nhận thoát? ',
@@ -39,7 +39,7 @@ export default {
     home_page_myPromo: 'Khuyến mãi của tôi',
     home_page_myEmail: 'email của tôi',
     home_page_onlineService: 'Dịch vụ khách hàng trực tuyến',
-    home_page_securitySettings: 'Cài đặt bảo mật',
+    home_page_securitySettings: 'Trung tâm an ninh',
     //导航栏
     home_page_recentGameHistory: 'Kỷ lục trò chơi gần đây',
     home_page_club: 'Câu lạc bộ',
@@ -112,6 +112,7 @@ export default {
     //安全设置页面共用字段
     home_page_name: 'tên',
     home_page_account: 'Tài khoản thành viên',
+    home_page_phone_number: 'Số điện thoại',
     home_page_modifyAccount: 'Sửa đổi tài khoản',
     home_page_modifyNow: 'Sửa đổi ngay',
     home_page_enterAccount1: 'Vui lòng nhập tài khoản thành viên của bạn',

@@ -4,9 +4,9 @@ export default {
     home_page_seachGame: '搜索游戏',
     home_page_login: '登录',
     home_page_signUp: '注册',
-    home_page_vi: 'Việt Nam',
-    home_page_zh: '简体中文',
-    home_page_en: 'English',
+    home_page_vi: 'VN',
+    home_page_zh: 'ZH',
+    home_page_en: 'EN',
     // 退出登录提示语
     home_page_logout: '退出登录',
     home_page_confirmSignOut: '确认要退出吗？',
@@ -40,7 +40,7 @@ export default {
     home_page_myPromo: '我的优惠',
     home_page_myEmail: '我的邮箱',
     home_page_onlineService: '在线客服',
-    home_page_securitySettings: '安全设置',
+    home_page_securitySettings: '安全中心',
     //导航栏
     home_page_recentGameHistory: '近期游戏记录',
     home_page_club: '俱乐部',
@@ -114,6 +114,7 @@ export default {
     home_page_retrieveNow: '立即找回',
     //安全设置页面共用字段
     home_page_name: '姓名',
+    home_page_phone_number: '手机号码',
     home_page_account: '会员账号',
     home_page_modifyAccount: '修改账号',
     home_page_modifyNow: '立即修改',

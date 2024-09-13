@@ -259,9 +259,14 @@ const openLink = (item: any) => {
 }
 
 // wait页面跳转来的逻辑处理
-const agent_level = location.href.split('?agent_level=')[1]
-if (agent_level) { // agent_level
-  localStorage.setItem('agent_level', agent_level)
+const params: any = new URL(location.href).searchParams;
+const paramsObj: any = {};
+params.forEach((value: any, key: any) => {
+  paramsObj[key] = value;
+});
+if (paramsObj.user_level) { // agent_level
+  localStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
+  localStorage.setItem('agent_level', paramsObj.user_level)
   // kefuVisible.value = true
   router.push('/customer')
 } else {
