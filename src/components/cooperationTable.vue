@@ -31,7 +31,7 @@
                   @click="clickTd(row)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
-            <n-flex class="tr tt" v-if="resultList.length">
+            <!-- <n-flex class="tr tt" v-if="resultList.length">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i">
                     <template v-if="i == 0">
                         <span>{{ t('proxy_page_total') }}</span>
@@ -43,8 +43,7 @@
                         <span>-</span>
                     </template>
                 </div>
-            </n-flex>
-
+            </n-flex> -->
             <div class="nodata" v-if="!resultList.length && !loading">
                 <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
@@ -206,8 +205,10 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
 
 const clickTd = (row: any) => { // td点击事件
     if (activeTab.value !== 1 || userInfo.value.full_name != row.username) {
-        // 判断能否修改:见习代理(1)可修改直属报表；任意身份修改团队报表内比自己小一级的时候，需要提示已经是最高等级了
-        if (Number(roleInfo.value.agent_level) == 1 && activeTab.value == 2) {
+        if (userInfo.value.full_name == row.username) {
+            Message.error(t('already_max_level'))
+            return
+        } else if (Number(roleInfo.value.agent_level) == 1 && activeTab.value == 2) {// 判断能否修改:见习代理(1)可修改直属报表；任意身份修改团队报表内比自己小一级的时候，需要提示已经是最高等级了
             levelM.value.openModal(row)
         } else if (Number(roleInfo.value.agent_level) - row.level < 2) {
             Message.error(t('already_max_level'))

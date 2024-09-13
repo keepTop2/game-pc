@@ -61,7 +61,7 @@
             <a v-if="proxyInfo.s_link" :href="proxyInfo.s_link" target="_blank">{{ proxyInfo.s_link }}</a>
             <span v-else> -- </span>
             <div class="btn link_btn" @click="copyToClipboard(proxyInfo.s_link)">{{ t('proxy_page_copy') }}</div>
-            <div class="btn link_btn" @click="openIntro">{{ t('proxy_page_agentRule') }}</div>
+            <div class="btn link_btn" style="width: 140px;" @click="openIntro">{{ t('proxy_page_agentRule') }}</div>
         </n-flex>
 
         <!-- 表格 -->

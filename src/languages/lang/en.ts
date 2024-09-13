@@ -510,7 +510,7 @@ export default {
     "mine_myservice": "Customer Service",
     "mine_code": "Redeem code",
     "mine_mybet": "Betting Record",
-    "mine_myaudit": "Account Record",
+    "mine_myaudit": "Blance change records",
     "mine_myload": "Load Record",
     "mine_mywithdraw": "Withdrawal Record",
     "mine_mypay": "Payment",
