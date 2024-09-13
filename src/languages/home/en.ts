@@ -4,9 +4,9 @@ export default {
     home_page_seachGame: 'Seach game',
     home_page_login: 'Login',
     home_page_signUp: 'Sign up',
-    home_page_vi: 'Việt Nam',
-    home_page_zh: '简体中文',
-    home_page_en: 'English',
+    home_page_vi: 'VN',
+    home_page_zh: 'ZH',
+    home_page_en: 'EN',
     // 退出登录提示语
     home_page_logout: 'Log out',
     home_page_confirmSignOut: 'Are you sure you want to Log out?',
@@ -38,7 +38,7 @@ export default {
     home_page_myPromo: 'myPromo',
     home_page_myEmail: 'my Email',
     home_page_onlineService: 'Online service',
-    home_page_securitySettings: 'Security settings',
+    home_page_securitySettings: 'Security center',
     //导航栏
     home_page_recentGameHistory: 'Recent game history',
     home_page_club: 'Club',
@@ -110,17 +110,18 @@ export default {
     home_page_retrieveNow: 'Retrieve now',
     //安全设置页面共用字段
     home_page_name: 'Name',
-    home_page_account: 'Member account',
+    home_page_account: 'Account No',
+    home_page_phone_number: 'Phone number',
     home_page_modifyAccount: 'Modify account',
     home_page_modifyNow: 'Modify now',
-    home_page_enterAccount1: 'Please enter member account',
+    home_page_enterAccount1: 'Please enter account No',
     home_page_password: 'Password',
     home_page_modify: 'Modify',
     home_page_modifyPassword: 'Change Password',
     home_page_generalModifications: 'General',
     home_page_modifyPhone: 'Phone',
     home_page_modifyEmail: 'Email',
-    home_page_bind: 'binding',
+    home_page_bind: 'Bind',
     home_page_bindNow: 'Bind now',
     home_page_bindEmail: 'Bind email',
     home_page_bindPhone: 'Bind phone',
@@ -146,7 +147,7 @@ export default {
     // footer
     home_page_footerTips: 'The platform has legal licenses issued by the European Malta Gaming Authority (MGA) and the Philippine Government Gaming Commission (PAGCOR). Registered in the British Virgin Islands, it is a legal gaming company recognized by the International Gaming Association. Please make sure you are over 18 years old before registering and having fun! ',
     // dateSelect
-    home_page_yesToday: 'yesterday',
+    home_page_yesToday: 'Yesterday',
     home_page_today: 'Today',
     home_page_thisWeek: 'This week',
     home_page_month: 'Last 30 days',
@@ -155,6 +156,7 @@ export default {
     home_page_notice_title: 'General Announcements',
     home_page_notice_fixtitle: 'Maintenance Notice',
     home_page_notice_systitle: 'System notification',
+    home_page_notice_donttip: "Don't show again",
 
     // 活动详情
     activity_page_detail: 'Event Details',

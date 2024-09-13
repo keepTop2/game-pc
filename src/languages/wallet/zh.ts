@@ -254,7 +254,7 @@ export default {
   deposit_page_bankPay: '银行支付方式',
   deposit_page_rate: '汇率',
   method_error: '请选择支付方式',
-  amount_error: '请输入金额',
+  amount_error: '请输入正确提款金额',
   deposit_page_minAmount: '最低充值金额为{minAmount}',
   deposit_page_maxAmount: '充值超过限额{maxAmount}',
   deposit_page_use: '使用',
@@ -280,6 +280,7 @@ export default {
   deposit_page_toExchange: '访问交易所',
   deposit_page_minDeposit: '最低充值',
   deposit_page_goToDeposit: '确定充值？',
+  deposit_page_min_discount: '充值大于{minDis}才可享受此优惠活动',
 
   // RedeemCode
   redeemCode_page_redeemCodeNow: '立即兑换',
@@ -296,6 +297,10 @@ export default {
   withdraw_page_withdrawUsdt: 'USDT取款',
   withdraw_page_withdrawCoins: '法币取款',
   withdraw_page_canAmount: '可提现金额',
+  withdraw_page_locknAmount: '锁定金额',
+  withdraw_page_needFlowAmount: '还需流水',
+  withdraw_page_cunqu: '存取款',
+  withdraw_page_lockedDetail: '锁定详情',
   withdraw_page_usdtAdd: 'USDT地址',
   withdraw_page_inputMon: '输入金额',
   withdraw_page_payPwd: '资金密码',

@@ -23,7 +23,7 @@
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
               size="1.8rem"></iconpark-icon>
-            <!-- <img :src="`/img/serviceModal/${item.img}`" alt=""> -->
+            <!-- <Imgt :src="`/img/serviceModal/${item.img}`" alt=""> -->
             <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">全部对话</span>
           </n-badge>
         </div>
@@ -71,10 +71,10 @@
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
                     :offset="[-14, 8]">
-                    <img :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
-                      class="img1">
+                    <Imgt :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'}.webp`" alt=""
+                      class="img1" />
                   </n-badge>
-                  <img :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip">
+                  <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
@@ -112,9 +112,9 @@
                   <div class="avatar">
                     <n-badge :value="i.unreadnums" :show="i.unreadnums > 0" :max="9999" class="set_item"
                       :offset="[-14, 8]">
-                      <img :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1">
+                      <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
-                    <img :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip">
+                    <Imgt :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip" />
                   </div>
                   <span>{{ i.TUsername }}</span>
                 </div>
@@ -213,6 +213,7 @@ import { Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
+import Imgt from '@/components/Imgt.vue';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -622,7 +623,8 @@ const onMessage: any = async (buffer: any) => {
   // 快捷语--分类列表，重新请求列表
   else if ([20, 21, 22].includes(decodeobj1.type)) {
     console.log('----更新快捷语分类')
-    Message.success(t('proxy_page_caoZuo'));
+    visibleCateSetting.value = false;
+    // Message.success(t('proxy_page_caoZuo'));
     getShortcutCatelist();
   }
   // 快捷语--分类列表，重新请求列表
@@ -670,6 +672,8 @@ onMounted(async () => {
 })
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .main {
   // width: 100%;
   border-radius: 14px;
@@ -706,7 +710,7 @@ onMounted(async () => {
 
       .forbidden_btn {
         width: 100px;
-        background: url(/img/serviceModal/speech_btn.webp) no-repeat;
+        background: url('/img/serviceModal/speech_btn.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
       }
@@ -823,7 +827,7 @@ onMounted(async () => {
   }
 
   .active_tab {
-    background: url(/img/serviceModal/tab_btn.webp) no-repeat;
+    background: url('/img/serviceModal/tab_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 112%;
     color: #fff;
   }
@@ -916,7 +920,7 @@ onMounted(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url(/img/serviceModal/send_btn.webp) no-repeat;
+    background: url('/img/serviceModal/send_btn.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 100%;
     color: #fff;
   }
@@ -1050,8 +1054,8 @@ onMounted(async () => {
     cursor: pointer;
     align-items: center;
     border-radius: 10px;
+    background: url('/img/serviceModal/anniu.webp?t=@{timestamp}') no-repeat;
     padding: 0 10px;
-    background: url(/img/serviceModal/anniu.webp) no-repeat;
     background-size: 100% 100%;
   }
 }

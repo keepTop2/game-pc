@@ -14,9 +14,30 @@
         </div>
         <div class="body vertical center t_md body_sec">
           <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
-            <n-form-item :label="t('walletInfo_page_availableMount')">
-              <n-flex justify="center" align="center" class="wit_not_finish" v-if="isHasOrder"> {{t('withdraw_page_fail_wait')}} </n-flex>
+            <!-- <n-form-item :label="t('walletInfo_page_availableMount')">
+              <n-flex justify="center" align="center" class="wit_not_finish" v-if="isHasOrder">
+                {{ t('withdraw_page_fail_wait') }} </n-flex>
               <n-input size="large" disabled v-model:value="form.maxValue" />
+            </n-form-item> -->
+            <n-form-item>
+              <div class="item_box">
+                <div class="withdraw_item can_withdraw">
+                  <span class="text"> {{ t('withdraw_page_canAmount') }}：</span>
+                  <span class="amount">{{ form.maxValue }}</span>
+                  <div class="link_positon" @click="onCloseSec"> {{ t('withdraw_page_cunqu') }}</div>
+                </div>
+                <div class="line"></div>
+                <div class="withdraw_item">
+                  <span class="text"> {{ t('withdraw_page_locknAmount') }}：</span>
+                  <span class="amount">{{ withdrawData.canot_withdraw }}</span>
+                  <div class="link_positon" @click="$router.push('auditRecord')"> {{ t('withdraw_page_lockedDetail') }}
+                  </div>
+                </div>
+                <div class="withdraw_item">
+                  <span class="text"> {{ t('withdraw_page_needFlowAmount') }}：</span>
+                  <span class="amount">{{ withdrawData.turnover }}</span>
+                </div>
+              </div>
             </n-form-item>
 
             <n-flex align="center">
@@ -24,25 +45,29 @@
                 <div class="selectBank">
                   <div class="bankName">
                     <div class="icon">
-                      <img :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`" :alt="backItemInfo.bank_name" />
+                      <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
+                        :alt="backItemInfo.bank_name" />
                     </div>
                     <span>{{ backItemInfo.bank_name }}</span>
                   </div>
                   <div class="mantissa">
-                  <span>
-                    {{ t('walletInfo_page_tailNumber') }}：{{ backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
-                    backItemInfo.account_number.length) }}
-                  </span>
+                    <span>
+                      {{ t('walletInfo_page_tailNumber') }}：{{
+                        backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
+                          backItemInfo.account_number.length) }}
+                    </span>
                   </div>
                 </div>
               </n-form-item>
-              <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay') }}</n-button>
+              <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay')
+                }}</n-button>
             </n-flex>
 
             <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
               <!-- 防止记住用户名和密码填充 -->
               <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-              <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large" v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
+              <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large"
+                v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
@@ -50,9 +75,9 @@
             </n-form-item>
 
             <div class="switchVisible">
-              <n-form-item :label="t('withdraw_page_payPwd')" path="password">
-                <n-input clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password" :type="changeRightInfo.type"
-                  @keydown.enter.prevent>
+              <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
+                <n-input ref="inputRef" clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
+                  :type="changeRightInfo.type" @keydown.enter.prevent>
                   <template #suffix>
                     <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
                       size="1.5em"></iconpark-icon>
@@ -60,9 +85,7 @@
                 </n-input>
               </n-form-item>
               <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
-
             </div>
-
 
             <n-flex class="kjje_div">
               <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
@@ -72,10 +95,11 @@
             </n-flex>
           </n-form>
           <div class="btn_zone flex w_full">
-            <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}</div>
+            <div class="submit_btn  weight_5 center pointer" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}
+            </div>
           </div>
           <div v-show="form.amount" class="cz_tips">
-            <div class="txt"> {{ t('deposit_page_arrival') }}：{{form.amount}} </div>
+            <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
           </div>
         </div>
       </div>
@@ -86,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import {CSSProperties, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
+import { CSSProperties, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
@@ -99,7 +123,10 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 import { verifyNumberComma, removeComma } from '@/utils/others.ts';
+import { useRouter } from 'vue-router';
+import Imgt from '@/components/Imgt.vue';
 
+const router = useRouter();
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
@@ -112,10 +139,11 @@ const props = defineProps({
 
 const myBankName = ref(''); // 如果有已经绑定的银行卡姓名，下次绑定需要一致
 const { t } = useI18n();
+const inputRef: any = ref(null);
 const showSecModal = ref(false);
 const switchVisible = ref(true)
 const formRef = ref()
-const baseObj =  {
+const baseObj = {
   // country: 1,
   maxValue: '0', // 可提现金额
   password: '',
@@ -124,7 +152,7 @@ const baseObj =  {
   address: '', // 银行卡号
 }
 const form: any = ref( // 存款表单提交
-  {...baseObj}
+  { ...baseObj }
 );
 const isCanWithdraw = ref(false); // 是否可提现
 const isHasOrder = ref(false); // 是否存在未审核的提现订单
@@ -173,15 +201,13 @@ const changeRightInfo = ref({
   type: 'password'
 })
 const iconClick = () => {
+  inputRef.value.blur(); // 防止光标回到首位
   if (changeRightInfo.value.icon == "Group39364") {
-
     changeRightInfo.value.type = "text"
     changeRightInfo.value.icon = "Group39365"
-    // state.rememberPassword = false
   } else {
     changeRightInfo.value.type = "password"
     changeRightInfo.value.icon = "Group39364"
-    // state.rememberPassword = true
   }
 }
 
@@ -201,7 +227,7 @@ const openModal = () => {
   })
 }
 const getBaseData = () => {
-  form.value = {...baseObj}
+  form.value = { ...baseObj }
   initReq(); // 获取可提现金额
   getInfo();
 }
@@ -259,6 +285,7 @@ const handleWithDrawSubmit = (res: any) => {
   if (res.result === 0) {
     onCloseSec();
     getBaseData();
+    router.push('/wallet/withdrawRecord')
     // Message.success(codeTxt[res.result]); // 提款成功不需要弹出弹窗
   } else {
     Message.error(codeTxt[res.result])
@@ -267,20 +294,26 @@ const handleWithDrawSubmit = (res: any) => {
 
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
-  if (!form.value.amount) {form.value.amount = '0'}
+  if (!form.value.amount) { form.value.amount = '0' }
   form.value.amount = removeComma(form.value.amount) + e;
   form.value.amount = verifyNumberComma(String(form.value.amount))
 }
 
 const handleCanWithdraw = (res: any) => {
+
   isCanWithdraw.value = !res.rlt; // rlt: 0 可提现，1 不可提现，2 存在未审核的提现订单
   isHasOrder.value = res.rlt === 2;
   setCanWithDrawMon(res);
 };
-
+const withdrawData = ref({
+  turnover: 0,
+  canot_withdraw: 0,
+})
 // 设置可提现金额
 const setCanWithDrawMon = (data: any) => {
   console.log('--setCanWithDrawMon--', data);
+  withdrawData.value.turnover = data?.turnover
+  withdrawData.value.canot_withdraw = data?.canot_withdraw
   if (isCanWithdraw.value) {
     form.value.maxValue = verifyNumberComma(String(data.can_withdraw))
   } else { // 不可以提现，可提现金额置为 0
@@ -361,6 +394,7 @@ const railStyle = ({ focused, checked }: {
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 .deposit_modal {
   font-size: 16px;
@@ -370,6 +404,7 @@ const railStyle = ({ focused, checked }: {
     position: absolute;
     opacity: 0;
   }
+
   .body {
     gap: 15px !important;
 
@@ -382,15 +417,50 @@ const railStyle = ({ focused, checked }: {
       height: 100%;
       border-radius: 12px;
     }
+
+    .item_box {
+      display: flex;
+      flex-direction: column;
+      background: #20114C;
+      width: 100%;
+      border-radius: 10px;
+
+      .withdraw_item {
+        padding: 10px;
+        position: relative;
+
+        .link_positon {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+
+      .can_withdraw {
+        font-size: 18px;
+
+        .amount {
+          font-size: 18px;
+          color: #F1C232;
+          font-weight: bold;
+        }
+
+        border-bottom: 1px solid #3C3671;
+      }
+
+    }
+
     .item-list {
       width: 536px;
       height: 96px;
       padding: 15px 17px 10px;
-      background: url(/img/payment/listBg.webp) center no-repeat;
+      background: url('/img/payment/listBg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       &.active {
-        background-image: url(/img/payment/listBg_active.webp);
+        background-image: url('/img/payment/listBg_active.webp?t=@{timestamp}');
       }
 
       .item-list-l {
@@ -409,7 +479,7 @@ const railStyle = ({ focused, checked }: {
             .wh-icon {
               width: 16px;
               height: 16px;
-              background: url(/img/payment/wh.webp) center no-repeat;
+              background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
               background-size: 100%;
             }
           }
@@ -429,7 +499,7 @@ const railStyle = ({ focused, checked }: {
           width: 90px;
           height: 36px;
           line-height: 36px;
-          background: url(/img/payment/go-btn.webp) center no-repeat;
+          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
         }
       }
@@ -441,7 +511,7 @@ const railStyle = ({ focused, checked }: {
       height: 40px !important;
       width: 90px;
       font-size: 14px;
-      background: url(/img/login/sendBtn.webp) no-repeat;
+      background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
       background-size: contain;
     }
 
@@ -454,7 +524,7 @@ const railStyle = ({ focused, checked }: {
         line-height: 52px;
         text-align: center;
         margin: 20px auto 0;
-        background: url(/img/payment/sub_btn.webp) center no-repeat;
+        background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -526,7 +596,7 @@ const railStyle = ({ focused, checked }: {
         height: 40px;
         line-height: 40px;
         text-align: center;
-        background: url(/img/payment/monBg.webp) center no-repeat;
+        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }

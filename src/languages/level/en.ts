@@ -57,4 +57,5 @@ export default {
   level_page_paiRule_1: '1. Promotion bonus: After the user is promoted, the promotion bonus will be immediately distributed to [My Offers]; after being collected, it will be directly distributed to the wallet;',
   level_page_paiRule_2: '2. Monthly gift: The monthly gift will be issued when you log in for the first time in the next month, and you can collect it in [My Offers]; after receiving it, it will be distributed directly to your wallet;',
   level_page_paiRule_3: '3. Code washing reward: The code washing rebate is updated at 0:00 am every day. After receiving it, it will be directly distributed to the carrying wallet. Check the claim record in the code washing record. ',
+  level_page_unlock: 'After upgrading and unlocking, you can enjoy this privilege',
 }

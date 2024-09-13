@@ -13,7 +13,7 @@
           <n-flex align="center" class="input_top">
             <span>添加类型</span>
             <n-flex class="input_box">
-              <n-input v-model:value="addForm.title" clearable/>
+              <n-input v-model:value="addForm.title" clearable />
               <span class="add_icon button" @click="addNewLine"></span>
             </n-flex>
           </n-flex>
@@ -27,20 +27,20 @@
             </n-flex>
             <div class="table_body">
               <div class="nodata" v-if="!dataCateList.length">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
                 <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList" :key="index">
                   <n-flex justify="center" class="list_lx">
-                    <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效" style="text-align: left"/>
+                    <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效" style="text-align: left" />
                   </n-flex>
                   <span class="list_kjy">
-                  {{item?.num || 0}}
-                </span>
+                    {{ item?.num || 0 }}
+                  </span>
                   <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
-                  删除
-                </span>
+                    删除
+                  </span>
                 </n-flex>
               </div>
 
@@ -61,7 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, watch} from 'vue';
+import { computed, ref, watch } from 'vue';
+import Imgt from '@/components/Imgt.vue';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -69,7 +70,7 @@ import {computed, ref, watch} from 'vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 import { useI18n } from 'vue-i18n';
-import {Dialog, Message} from "@/utils/discreteApi";
+import { Dialog, Message } from "@/utils/discreteApi";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -184,10 +185,13 @@ watch(() => props.quickPhrasesCateList, (n) => {
 
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .shortcut_set {
   :deep(.n-card__content) {
     padding: 0;
   }
+
   .main_setting {
     width: 494px;
     border-radius: 14px;
@@ -217,7 +221,8 @@ watch(() => props.quickPhrasesCateList, (n) => {
         cursor: pointer;
       }
     }
-    .main_body{
+
+    .main_body {
       height: 566px;
       padding: 30px 60px 40px;
 
@@ -233,6 +238,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
         :deep(.n-input-wrapper) {
           padding: 0 10px;
         }
+
         :deep(.n-input__input-el) {
           height: 100%;
         }
@@ -241,17 +247,19 @@ watch(() => props.quickPhrasesCateList, (n) => {
       .input_top {
         gap: 0 10px !important;
         margin: 0 0 20px;
+
         .input_box {
           position: relative;
           width: auto;
           flex: auto;
+
           .add_icon {
             position: absolute;
             right: 18px;
             top: 10px;
             width: 20px;
             height: 20px;
-            background: url(/img/serviceModal/addIcon.webp) center no-repeat;
+            background: url('/img/serviceModal/addIcon.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
           }
         }
@@ -261,25 +269,29 @@ watch(() => props.quickPhrasesCateList, (n) => {
       .table_box {
         font-size: 14px;
         text-align: center;
+
         .table_header {
           padding-left: 10px;
-          gap: 0!important;
+          gap: 0 !important;
           position: absolute;
           width: 380px;
           height: 66px;
-          background: url(/img/serviceModal/tableTopSec.webp) center no-repeat;
+          background: url('/img/serviceModal/tableTopSec.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
           left: 50%;
           transform: translateX(-50%);
+
           span {
             flex: 1;
             padding-bottom: 10px;
           }
         }
+
         .list_lx {
           flex: unset !important;
           width: 214px;
         }
+
         .list_kjy {
           flex: unset !important;
           width: 90px;
@@ -293,7 +305,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
 
           .table_list {
             padding-left: 10px;
-            gap: 0!important;
+            gap: 0 !important;
             position: relative;
             height: 60px;
             background: #1D1146;
@@ -301,13 +313,16 @@ watch(() => props.quickPhrasesCateList, (n) => {
             &:nth-child(2n) {
               background: #2E1D7D;
             }
+
             .n-input {
               padding: 0;
               font-size: 14px;
             }
+
             .list_item {
               flex: 1;
             }
+
             .list_kjy {
               color: #8d84c5;
             }
@@ -315,17 +330,20 @@ watch(() => props.quickPhrasesCateList, (n) => {
           }
         }
       }
+
       .btn_bottom {
         font-size: 18px;
         gap: 8px 31px !important;
         margin-top: 90px;
-        > div {
+
+        >div {
           width: 170px;
           height: 50px;
-          background: url(/img/serviceModal/btnCancel.webp) center no-repeat;
+          background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
+
           &:last-child {
-            background-image: url(/img/serviceModal/btnSave.webp);
+            background-image: url('/img/serviceModal/btnSave.webp?t=@{timestamp}');
           }
         }
       }
@@ -333,5 +351,4 @@ watch(() => props.quickPhrasesCateList, (n) => {
     }
   }
 }
-
 </style>

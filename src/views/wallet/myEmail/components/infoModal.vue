@@ -24,17 +24,17 @@
               <span>{{ t('attachment') }}</span>
               <div class="item-title">
                 <div class="item-title-left">
-                  <img src="/img/email/majesticon.svg" alt="" />
+                  <Imgt src="/img/email/majesticon.svg" alt="" />
                   <span>{{
                     Common.thousands(data?.attachments[0].award_value)
-                    }}</span>
+                  }}</span>
                 </div>
                 <btn :width="90" @click="getAward" v-if="!receive_email_ids.includes(props.data.email_id)">{{
                   t('vip_collect') }}</btn>
                 <span v-else class="is-receive">{{ t('received') }}</span>
               </div>
             </div>
-            <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn>
+            <!-- <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn> -->
           </div>
         </div>
       </div>
@@ -47,6 +47,7 @@ import btn from './btn.vue';
 import Common from '@/utils/common';
 import { Net } from '@/net/Net';
 import { NetPacket } from '@/netBase/NetPacket';
+import Imgt from '@/components/Imgt.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
@@ -94,6 +95,8 @@ const isShow = computed({
 });
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .change_card {
   width: 494px;
   border-radius: 14px;
@@ -152,7 +155,7 @@ const isShow = computed({
     color: #fff;
     width: 90px;
     font-size: 14px;
-    background: url(/img/login/sendBtn.webp) no-repeat;
+    background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
     background-size: contain;
   }
 

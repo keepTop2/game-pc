@@ -26,7 +26,7 @@
           </n-input>
           <template v-if="item.name === 'captcha'">
             <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
-              <img :src="captchaURL" alt="captchaURL">
+              <Imgt :src="captchaURL" alt="captchaURL" />
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
             </span>
             <span v-if="activeTab === 2">
@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from "vue";
+import Imgt from '@/components/Imgt.vue';
 
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
@@ -419,6 +420,8 @@ onUnmounted(() => {
 </script>
 
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .login_form {
   padding: 40px 60px;
 
@@ -448,7 +451,7 @@ onUnmounted(() => {
     border: 1px solid linear-gradient(to bottom, #82caff -100%, #646cff, #9266ff);
     border-image-slice: 1;
     border-radius: 16px;
-    background-image: url(/img/login/login.webp);
+    background-image: url('/img/login/login.webp?t=@{timestamp}');
     background-size: cover;
   }
 
@@ -501,7 +504,7 @@ onUnmounted(() => {
   color: #fff;
   width: 94px;
   font-size: 14px;
-  background: url(/img/login/sendBtn.webp) no-repeat;
+  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
   background-size: 100% 100%;
   height: 32px;
   margin-left: 9px;

@@ -1,7 +1,7 @@
 <template>
 
     <div class="game_platform">
-        <img src="/img/home/banner1.webp" alt="">
+        <Imgt src="/img/home/banner1.webp" />
         <Games></Games>
     </div>
 
@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang='ts'>
+import Imgt from '@/components/Imgt.vue';
 // import { onMounted, ref } from 'vue';
 // import { Net } from '@/net/Net';
 // import { MessageEvent2 } from '@/net/MessageEvent2';

@@ -262,7 +262,7 @@ const state: any = reactive({
 
         },
         {
-            text: 'home_page_phone',
+            text: 'home_page_phone_number',
             value: 'mobile',
             btns: [
                 { text: 'home_page_bind', icon: 'Group39377', value: 0 },
@@ -383,6 +383,7 @@ const itemClick = (item: any) => {
     let rules = {
         mobile: [
             {
+                key: 'phone',
                 required: !0,
                 trigger: "input",
                 validator: (_rule: any, value: string) => {
@@ -418,6 +419,7 @@ const itemClick = (item: any) => {
         ],
         email: [
             {
+                key: 'email',
                 required: !0,
                 trigger: "input",
                 validator: (rule: any, value: string) => {
@@ -902,6 +904,8 @@ onUnmounted(() => {
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .security_settings {
     width: 500px;
     margin: 0 auto;
@@ -941,7 +945,7 @@ onUnmounted(() => {
                     align-items: center;
                     color: #fff;
                     cursor: pointer;
-                    background: url(/img/securitySettings/btnBg.webp) no-repeat;
+                    background: url('/img/securitySettings/btnBg.webp?t=@{timestamp}') no-repeat;
                     background-size: contain;
                 }
             }

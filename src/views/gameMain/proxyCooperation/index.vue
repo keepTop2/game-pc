@@ -8,38 +8,39 @@
             <div class="model_box_content content_box" style="border-bottom:1px solid #322C59;padding-bottom: 12px">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_casino') }}：</span>
-                    <span>{{ IdentityMap[proxyInfo.level] || '--' }}</span>
+                    <span>{{ proxyInfo.level == 0 ? t('wanjia') : IdentityMap[proxyInfo.level] }}</span>
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
-                    <span>{{ proxyInfo.ratio ? `${proxyInfo.ratio * 100}%（${t('proxy_page_value')}）` :
-                        '0%' }} (VND)</span>
+                    <span>{{ !proxyInfo.level ? '0%(VND)' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` : '0%(VND)' }} </span>
                 </div>
             </div>
             <div class="model_box_content content_box">
                 <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_commission') }}：</span>
-                    <span class="orange">{{ (proxyInfo.personal_money + proxyInfo.team_money) || '0' }}</span>
+                    <span class="orange">{{ !proxyInfo.level ? '--' : ((proxyInfo.personal_money + proxyInfo.team_money)
+                        ||
+                        '0') }}</span>
                 </div>
                 <div class="item item_margin">
-                    <div class="btn" style="margin-left:0" @click="router.push({ name: 'proxyRecord' })">
+                    <div class="btn" style="margin-left:0" @click="toProxyRecord">
                         <span>{{ t('mine_myaudit') }}</span>
                     </div>
                 </div>
                 <div class="item item_margin">
                     <!-- <span class="item_title">{{ t('proxy_page_clubCommission') }}：</span> -->
                     <span class="item_title">{{ t('Direct commission') }}：</span>
-                    <span class="orange">{{ proxyInfo.personal_money || '0' }}</span>
+                    <span class="orange">{{ !proxyInfo.level ? '--' : (proxyInfo.personal_money || '0') }}</span>
                 </div>
                 <div class="item">
                     <!-- <span class="item_title">{{ t('proxy_page_dcCommission') }}：</span> -->
                     <span class="item_title">{{ t('Team commission') }}：</span>
-                    <span class="orange">{{ proxyInfo.team_money || '0' }}</span>
+                    <span class="orange">{{ !proxyInfo.level ? '--' : (proxyInfo.team_money || '0') }}</span>
                 </div>
 
                 <!-- 按钮们 -->
                 <div class="btns">
-                    <img class="line" src="/img/proxy/line.webp" alt="line">
+                    <Imgt class="line" src="/img/proxy/line.webp" alt="line" />
                     <div>
                         <div class="btn" style="margin-bottom:10px;" @click="claim">
                             <iconpark-icon class="icon" name="Group39373" size="1rem"></iconpark-icon>
@@ -80,6 +81,7 @@ import { IdentityMap } from "@/enums/proxyEnum";
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
+import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n()
 const router = useRouter();
@@ -114,6 +116,7 @@ const resultHandle = (rs: any) => {
 
 // 提款
 const claim = () => {
+    if (!agentTip()) return
     const query = NetPacket.req_daily_return_claim()
     Net.instance.sendRequest(query);
 }
@@ -141,7 +144,21 @@ onUnmounted(() => {
 
 });
 
+// 非下级代理时 提示：您还不是代理，请联系上级
+const agentTip = () => {
+    if (proxyInfo.value.level == 0) {
+        Message.error(t('proxy_page_notAgent'))
+        return false
+    }
+    return true
+}
+const toProxyRecord = () => {
+    if (!agentTip()) return
+    router.push({ name: 'proxyRecord' })
+}
+
 const copyToClipboard = (text: string) => {
+    if (!agentTip()) return
     // 检查浏览器是否支持 Clipboard API
     if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => {
@@ -191,6 +208,7 @@ const copyToClipboard = (text: string) => {
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
 @import '@/assets/modelBox.less';
+@timestamp: `new Date().getTime()`;
 
 .proxy_coop {
     margin-top: 20px;
@@ -268,18 +286,27 @@ const copyToClipboard = (text: string) => {
     }
 
     .btn {
-        width: 120px;
-        height: 35px;
+        width: 150px;
         cursor: pointer;
-        background: url(/img/home/btnBG.webp) no-repeat;
+        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
         color: #fff;
         justify-content: center;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        text-align: center;
 
         .icon {
             margin-right: 5px;
             font-size: 18px;
         }
+        span{
+            text-align: center;
+        }
+    }
+    .link_btn{
+        line-height: 1;
     }
 }
 </style>

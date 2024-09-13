@@ -1,3 +1,5 @@
+@timestamp: `new Date().getTime()`;
+
 .form_card {
     :deep(.n-card__content) {
         padding: 0;
@@ -93,7 +95,7 @@
                 border: 1px solid linear-gradient(to bottom, #82caff -100%, #1d2280, #9266ff);
                 border-image-slice: 1;
                 border-radius: 16px;
-                background-image: url(/img/login/login.webp);
+                background-image: url('/img/login/login.webp?t=@{timestamp}');
                 background-size: cover;
             }
         }

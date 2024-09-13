@@ -32,7 +32,7 @@
   <header class="header">
     <div>
       <div class="logo_box">
-        <img src="/logo.png" alt="logo" class="logo" @click="router.push('/')" />
+        <Imgt src="/logo.png" class="logo" @click="router.push('/')" />
       </div>
       <div class="user_box">
 
@@ -57,7 +57,7 @@
             <n-popselect v-model:value="lang" :render-label="renderLabel" :options="settings.lang_list"
               @update:value="valueChange" trigger="click">
               <span>
-                <img :src="`/img/home/${lang}.png`" alt="country">
+                <Imgt :src="`/img/home/${lang}.png`" alt="country" />
                 <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </n-popselect>
@@ -73,7 +73,7 @@
         <div v-else class="user_info">
           <p class="user_info_mon">
             <span>
-              <img src="/img/home/coin.webp" alt="">
+              <Imgt src="/img/home/coin.webp" />
               <span>{{ verifyNumberComma(String(roleInfo.money + roleInfo?.bank_money)) }}</span>
             </span>
           </p>
@@ -81,8 +81,8 @@
             <n-popover trigger="hover" display-directive="show">
               <template #trigger>
                 <span>
-                  <img @error="avatarLoadError"
-                    :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" alt="">
+                  <Imgt @error="avatarLoadError"
+                    :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" />
                   <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
                 </span>
               </template>
@@ -125,6 +125,7 @@ import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import ServiceModal from './ServiceModal/ServiceModal.vue'
+import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings, lang } = storeToRefs(page);
@@ -258,10 +259,16 @@ const openLink = (item: any) => {
 }
 
 // wait页面跳转来的逻辑处理
-const agent_level = location.href.split('?agent_level=')[1]
-if (agent_level) { // agent_level
-  localStorage.setItem('agent_level', agent_level)
-  kefuVisible.value = true
+const params: any = new URL(location.href).searchParams;
+const paramsObj: any = {};
+params.forEach((value: any, key: any) => {
+  paramsObj[key] = value;
+});
+if (paramsObj.user_level) { // agent_level
+  localStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
+  localStorage.setItem('agent_level', paramsObj.user_level)
+  // kefuVisible.value = true
+  router.push('/customer')
 } else {
   localStorage.setItem('agent_level', '')
 }
@@ -516,6 +523,8 @@ watch(
 </script>
 
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
+
 .header-bg-img {
   background-blend-mode: color-burn;
 }
@@ -560,7 +569,8 @@ watch(
   height: 80px;
   background-color: #2d1769;
   box-shadow: inset 0 0 4px 0 rgba(7, 144, 242, 0.2), 0 2px 4px 0 #131421;
-  background: linear-gradient(rgba(2, 4, 109, 0.9)20%, rgba(30, 11, 86, 0.9)) 90%, url('/img/home/header.webp') no-repeat 0% 20%/cover;
+  background: linear-gradient(rgba(2, 4, 109, 0.9)20%, rgba(30, 11, 86, 0.9)) 90%,
+  url('/img/home/header.webp?t=@{timestamp}') no-repeat 0% 20%/cover;
   border-bottom: 2px solid #5a47b2;
   position: fixed;
   z-index: 100;
@@ -606,13 +616,13 @@ watch(
           // border: solid 1px #5a47b2;
           // background-color: #402c95;
 
-          border-image: url('/img/home/unactive1.webp') 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url('/img/home/unactive1.webp?t=@{timestamp}') 0 30 0 30 fill / 0px 10px stretch stretch;
           // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url('/img/home/active1.webp') 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url('/img/home/active1.webp?t=@{timestamp}') 0 30 0 30 fill / 0px 10px stretch stretch;
 
         }
       }

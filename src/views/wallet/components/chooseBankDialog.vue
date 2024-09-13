@@ -16,14 +16,14 @@
             </template>
           </n-input>
           <n-flex class="bank_list">
-            <n-flex align="center" :class="`bank_item ${item.status === 0 ? 'wh_item' : ''}`" v-for="(item, index) in bkList" @click="clickBank(item)"
-              :key="index">
+            <n-flex align="center" :class="`bank_item ${item.status === 0 ? 'wh_item' : ''}`"
+              v-for="(item, index) in bkList" @click="clickBank(item)" :key="index">
               <div v-if="item.status === 0" class="bank_wh">
                 <iconpark-icon icon-id="weihuz" size="1rem"></iconpark-icon>
-                <span>{{t('addBank_page_bank_wh')}}</span>
+                <span>{{ t('addBank_page_bank_wh') }}</span>
               </div>
               <span class="bank_l_icon">
-                <img :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
+                <Imgt :src="`/img/bankIcon/bank_logo_${item.value}.webp`" :alt="item.label" />
               </span>
               <span class="bank_l_name"> {{ item.label }} </span>
             </n-flex>
@@ -41,6 +41,7 @@ import { TTabList } from "@/utils/types";
 import { storeToRefs } from "pinia";
 import pinia from "@/store";
 import { Page } from '@/store/page';
+import Imgt from '@/components/Imgt.vue';
 
 const props = defineProps({
   isDepositBank: {
@@ -126,9 +127,9 @@ watch(
 watch(
   () => showBankModal.value,
   (n) => {
-   if (n) {
-     bkList.value = [...originBkList.value]
-   }
+    if (n) {
+      bkList.value = [...originBkList.value]
+    }
   }
 )
 
@@ -145,6 +146,7 @@ defineExpose({
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 // 选择银行
 .bank_list {
@@ -161,15 +163,17 @@ defineExpose({
     font-size: 14px;
     width: 176px;
     height: 46px;
-    background: url(/img/payment/bankBg.webp) center no-repeat;
+    background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
 
     &:active {
       transform: scale(.95);
     }
+
     &.wh_item {
       pointer-events: none;
     }
+
     .bank_wh {
       display: flex;
       align-items: center;
@@ -179,10 +183,12 @@ defineExpose({
       width: 100%;
       height: 100%;
       border-radius: 8px;
+
       span {
         margin-left: 5px;
       }
     }
+
     .bank_l_icon {
       display: flex;
       width: 28px;

@@ -1,9 +1,11 @@
+@timestamp: `new Date().getTime()`;
+
 .process {
   padding-left: 20px;
   padding-right: 19px;
   padding-top: 17px;
   border-radius: 15px;
-  background: url(/img/payment/processBG.webp) center center no-repeat;
+  background: url('/img/payment/processBG.webp?t=@{timestamp}') center center no-repeat;
   background-size: cover;
 }
 
@@ -22,6 +24,10 @@
   justify-content: left;
   align-items: center;
   gap: 10px;
+
+  img {
+    cursor: pointer;
+  }
 }
 
 .avatar {
@@ -70,7 +76,7 @@
     width: 100px;
     // height: 24px;
     border-radius: 10px;
-    background: url(/img/payment/usdBtn.webp) no-repeat;
+    background: url('/img/payment/usdBtn.webp?t=@{timestamp}') no-repeat;
     background-size: 89px 24px;
     cursor: pointer;
   }
@@ -140,7 +146,7 @@
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   padding: 20px 144px 20px 36px;
   border-radius: 15px;
-  background: url(/img/payment/blackDvBG.webp) center center no-repeat;
+  background: url('/img/payment/blackDvBG.webp?t=@{timestamp}') center center no-repeat;
   background-size: cover;
 
   .total_account {
@@ -170,7 +176,7 @@
   padding-top: 22px;
   padding-bottom: 20px;
   border-radius: 15px;
-  //background: url(/img/payment/blackBG.webp) no-repeat;
+  //background: url('/img/payment/blackBG.webp?t=@{timestamp}') no-repeat;
   //background-size: 1200px 493px;
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   background-blend-mode: color-burn, overlay, normal;
@@ -187,17 +193,17 @@
       margin-top: 15px;
       width: 486px;
       height: 110px;
-      background: url(/img/payment/blackDvBG.webp) center no-repeat;
+      background: url('/img/payment/blackDvBG.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       .icon {
         width: 30px;
         height: 30px;
-        background: url(/img/payment/icon_qb.webp) center no-repeat;
+        background: url('/img/payment/icon_qb.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         &.icon_bxg {
-          background-image: url(/img/payment/icon_lock.webp);
+          background-image: url('/img/payment/icon_lock.webp?t=@{timestamp}');
         }
       }
 
@@ -257,7 +263,7 @@
         .icon {
           width: 16px;
           height: 16px;
-          background: url(/img/payment/icon_l.webp) center no-repeat;
+          background: url('/img/payment/icon_l.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
           &.icon-1 {
@@ -295,33 +301,36 @@
         height: 48px;
         line-height: 48px;
         text-align: center;
-        background: url(/img/payment/btn_all.webp) center no-repeat;
+        background: url('/img/payment/btn_all.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
 
     .kjje_div {
       margin: 40px 0 20px;
+
       .kj_item {
         width: 110px;
         height: 40px;
         line-height: 40px;
         text-align: center;
-        background: url(/img/payment/monBg.webp) center no-repeat;
+        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         //&.active {
-        //  background-image: url(/img/payment/monBgActive.webp);
+        //  background-image: url('/img/payment/monBgActive.webp?t=@{timestamp}');
         //}
       }
     }
+
     .bot-tips {
       color: #d16363;
       font-size: 14px;
       gap: 5px !important;
+
       .icon-tip {
         width: 20px;
         height: 20px;
-        background: url(/img/payment/error_icon.webp) center no-repeat;
+        background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
@@ -348,6 +357,7 @@
             color: #241355;
             font-size: 12px;
           }
+
           .n-slider-rail__fill {
             border-radius: 7px;
             background-image: linear-gradient(to right, #fa7800, #fbcb38);
@@ -366,7 +376,7 @@
       line-height: 52px;
       text-align: center;
       margin: 40px auto 20px;
-      background: url(/img/payment/sub_btn.webp) center no-repeat;
+      background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
     }
   }
@@ -392,7 +402,7 @@
   padding-top: 25px;
   padding-left: 43px;
   border-radius: 15px;
-  background: url(/img/payment/blackBG2.webp) no-repeat;
+  background: url('/img/payment/blackBG2.webp?t=@{timestamp}') no-repeat;
   background-size: 373px 177px;
 }
 
@@ -414,7 +424,7 @@
   width: 120px;
   height: 35px;
   border-radius: 0px;
-  background: url(/img/payment/button.webp) no-repeat;
+  background: url('/img/payment/button.webp?t=@{timestamp}') no-repeat;
   background-size: 120px 35px;
   cursor: pointer;
 
@@ -430,7 +440,7 @@
   width: 180px;
   height: 35px;
   border-radius: 0px;
-  background: url(/img/payment/middleBtn.webp) no-repeat;
+  background: url('/img/payment/middleBtn.webp?t=@{timestamp}') no-repeat;
   background-size: 180px 35px;
   cursor: pointer;
   font-size: var(--t-cen);

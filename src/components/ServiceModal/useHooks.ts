@@ -1,5 +1,5 @@
 import { reactive, onMounted, toRefs } from 'vue';
-import {sortAndGroupByLetter}  from '../../utils/others'
+import { sortAndGroupByLetter } from '../../utils/others'
 import IWebsocket from './chatWS';
 const state_data: any = reactive({
   ChatGroupListReq: '',
@@ -115,7 +115,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     };
     state_data.chatitemList.unshift(obj);
     const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername')
-    
+
     state_data.friendList = list
   };
 
@@ -194,7 +194,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
         const value = match.slice(2, -2);
         // 构建图片标签
         const imgSrc = `${EMOJI_REMOTE_SRC}/${value}.png`; // 假设图片存储在这个路径
-        return `<img data-code="${value}" src="${imgSrc}"  width="20" height="20" class="emoji-img"/>`;
+        return `<img data-code="${value}" src="${imgSrc}?t=${Date.now()}"  width="20" height="20" class="emoji-img"/>`;
       });
     }
     // 调用函数进行替换
@@ -291,7 +291,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       deviceid: state.deviceID,
       chatgroupid: decodeobj00.id || 0,
       sort: 6,
-      istop: setType && setType.id == 1 &&item.istop == 1 ? 6 : 1,
+      istop: setType && setType.id == 1 && item.istop == 1 ? 6 : 1,
       enableflag: setType && setType.id == 3 ? 1 : 6,
     };
      wsReqSend(type, payload, 'ChatItemModifyReq');

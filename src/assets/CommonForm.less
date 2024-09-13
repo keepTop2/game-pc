@@ -1,3 +1,5 @@
+@timestamp: `new Date().getTime()`;
+
 .form_card {
   font-size: 16px;
 
@@ -21,10 +23,12 @@
         width: 33px;
         height: 33px;
         left: 20px;
+
         img {
           width: 100%;
         }
       }
+
       .close {
         top: 16px;
         right: 25px;
@@ -39,10 +43,12 @@
       .money_input {
         ::v-deep(.n-input-number) {
           width: 100%;
+
           .n-input {
             .n-input__input-el {
               height: 100%;
             }
+
             .n-input__suffix {
               button {
                 display: none;
@@ -79,11 +85,12 @@
         gap: 34px;
         height: 45px;
 
-        > div {
+        >div {
           display: flex;
           align-items: center;
           justify-content: center;
         }
+
         .cancel_btn {
           color: #fff;
           width: 100%;
@@ -97,7 +104,7 @@
           width: 100%;
           color: var(--c-bg-6);
           border-radius: 16px;
-          background-image: url(/img/login/login.webp);
+          background-image: url('/img/login/login.webp?t=@{timestamp}');
           background-size: cover;
 
           &.fixed_bg {
@@ -125,16 +132,18 @@
           .n-form-item-label {
             color: #fff;
           }
+
           .n-form-item-blank {
             flex-wrap: wrap;
             gap: 10px;
           }
+
           .choose-bank-l {
             gap: 10px !important;
             width: 270px;
             height: 38px;
             padding-left: 8px;
-            background: url(/img/payment/inputBg.webp) center no-repeat;
+            background: url('/img/payment/inputBg.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
 
             .bank-cicon {
@@ -150,6 +159,7 @@
                 border-radius: 50%;
               }
             }
+
             .bank-cname {
               width: 220px;
               line-height: 16px;
@@ -164,20 +174,22 @@
             width: 90px;
             height: 36px;
             line-height: 36px;
-            background: url(/img/payment/go-btn.webp) center no-repeat;
+            background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
             background-size: 100%;
           }
 
         }
       }
+
       .bottom-tip {
         font-size: 12px;
         color: #8E82C2;
         gap: 4px !important;
+
         .gth-icon {
           width: 12px;
           height: 12px;
-          background: url(/img/payment/gth.webp) center no-repeat;
+          background: url('/img/payment/gth.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
         }
       }
@@ -188,11 +200,11 @@
         display: inline-block;
         width: 16px;
         height: 16px;
-        background: url(/img/payment/Vector.webp) center no-repeat;
+        background: url('/img/payment/Vector.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         &.search-icon {
-          background-image: url(/img/payment/search_icon.webp);
+          background-image: url('/img/payment/search_icon.webp?t=@{timestamp}');
         }
       }
     }

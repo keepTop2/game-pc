@@ -15,9 +15,9 @@
             </div>
           </n-flex>
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
-                                       :style="`width: ${vipProcss().rateStr}`"> </span></div>
+              :style="`width: ${vipProcss().rateStr}`"> </span></div>
           <n-flex class="level_info_txt" justify="space-between">
-            <div> {{ t('level_page_needBet') }} {{ countNeedBet() }}</div>
+            <div> {{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</div>
             <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
           </n-flex>
         </div>
@@ -25,7 +25,7 @@
         <n-flex justify="space-between" align="center" class="level_info_jl">
           <n-flex align="center" class="level_info_jl_l">
             <span class="jl_amount"> <span> {{ t('level_page_rebate')
-              }} </span> {{ levelDataAll.daily_rebate || 0 }}
+                }} </span> {{ levelDataAll.daily_rebate || 0 }}
             </span>
             <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
           </n-flex>
@@ -40,12 +40,11 @@
 
         <div class="level_info_vip_all">
           <n-flex id="scroll_box" class="level_info_vip_l">
-            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`"
-                 v-for="(item, index) in levelListData"
-                 :key="index" @click="(e: any) => { clickTab(e, item.key) }">
-              <!--   <img v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
-                   <img v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip">-->
-              <img :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
+              :key="index" @click="(e: any) => { clickTab(e, item.key) }">
+              <!--   <Imgt v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
+                   <Imgt v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip" />-->
+              <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
 
 
             </div>
@@ -53,19 +52,19 @@
         </div>
         <div class="level_list_sec">
           <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
-            <span>升级解锁后，即可享受该特权</span>
+            <span>{{ t('level_page_unlock') }}</span>
           </div>
-          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData"
-                  :key="index">
+          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
             <div class="list_item_l">
               <div class="title_big"> {{ t(item.title) }}</div>
               <div> {{ item.titleSec }}</div>
             </div>
             <n-flex class="list_item_r">
-              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child"
-                   :key="index + index_1">
+              <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
                 <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
-                  <div class="item_img"><img :src="`/img/level/${item_1.icon}.webp`"></div>
+                  <div class="item_img">
+                    <Imgt :src="`/img/level/${item_1.icon}.webp`" />
+                  </div>
                   <div> {{ t(item_1.name) }}</div>
                 </div>
               </div>
@@ -86,8 +85,7 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('level_page_paiTitle') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff"
-                           size="1rem"></iconpark-icon>
+            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center">
@@ -112,6 +110,8 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store';
 import { User } from '@/store/user';
+import { verifyNumberComma } from '@/utils/others.ts';
+import Imgt from '@/components/Imgt.vue';
 
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
@@ -369,6 +369,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/CommonForm.less';
+@timestamp: `new Date().getTime()`;
 
 .level_info {
   color: #fff;
@@ -378,7 +379,7 @@ onUnmounted(() => {
 
   .level_info_top {
     height: 220px;
-    background: url(/img/level/level_bg.webp) center no-repeat;
+    background: url('/img/level/level_bg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
   }
 
@@ -389,7 +390,7 @@ onUnmounted(() => {
       width: 98.5%;
       margin-left: 12px;
 
-      > div {
+      >div {
         position: relative;
         font-size: 14px;
         width: 70px;
@@ -406,7 +407,7 @@ onUnmounted(() => {
           display: inline-block;
           width: 30px;
           height: 26px;
-          background: url(/img/level/level_icon_1.webp) center no-repeat;
+          background: url('/img/level/level_icon_1.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
           left: -12px;
           top: -3px;
@@ -418,7 +419,7 @@ onUnmounted(() => {
           border-color: #322c59;
 
           &::before {
-            background-image: url(/img/level/level_icon_2.webp);
+            background-image: url('/img/level/level_icon_2.webp?t=@{timestamp}');
           }
 
         }
@@ -434,7 +435,7 @@ onUnmounted(() => {
       border-radius: 20px;
       box-shadow: inset 0 0 4px 0 #000;
       background-blend-mode: color-burn, overlay, normal;
-      background: url(/img/level/level_pro_jd.webp) center no-repeat;
+      background: url('/img/level/level_pro_jd.webp?t=@{timestamp}') center no-repeat;
 
       .pro_inner {
         display: inline-block;
@@ -465,7 +466,7 @@ onUnmounted(() => {
 
   .level_info_jl {
     height: 72px;
-    background: url(/img/level/level_pro_bg.webp) center no-repeat;
+    background: url('/img/level/level_pro_bg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
     padding: 0 30px;
 
@@ -482,7 +483,7 @@ onUnmounted(() => {
         display: inline-block;
         width: 16px;
         height: 16px;
-        background: url(/img/level/level_icon_re.webp) center no-repeat;
+        background: url('/img/level/level_icon_re.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
 
         &.active {
@@ -502,7 +503,7 @@ onUnmounted(() => {
         width: 1px;
         height: 36px;
         margin-right: 18px;
-        background: url(/img/line.webp) center no-repeat;
+        background: url('/img/line.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
 
@@ -513,7 +514,7 @@ onUnmounted(() => {
         line-height: 40px;
         gap: 8px 5px !important;
         transition: .3s;
-        background: url(/img/level/level_btn.webp) center no-repeat;
+        background: url('/img/level/level_btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
         transition: .3s;
 
@@ -523,8 +524,8 @@ onUnmounted(() => {
 
         .lq_icon {
           width: 16px;
-          heighth: 16px;
-          background: url(/img/level/q_icon.webp) center no-repeat;
+          height: 16px;
+          background: url('/img/level/q_icon.webp?t=@{timestamp}') center no-repeat;
           background-size: 100%;
 
         }
@@ -608,7 +609,7 @@ onUnmounted(() => {
       position: relative;
       height: 120px;
       margin-bottom: 20px;
-      background: url(/img/level/level_l_bg.webp) center no-repeat;
+      background: url('/img/level/level_l_bg.webp?t=@{timestamp}') center no-repeat;
       background-size: 100%;
 
       &::before {
@@ -617,7 +618,7 @@ onUnmounted(() => {
         display: inline-block;
         width: 421px;
         height: 42px;
-        background: url(/img/level/level_1_bg.webp) no-repeat;
+        background: url('/img/level/level_1_bg.webp?t=@{timestamp}') no-repeat;
         background-size: contain;
         left: 240px;
         bottom: 10px;
@@ -625,19 +626,19 @@ onUnmounted(() => {
 
       &:nth-child(2) {
         &::before {
-          background-image: url(/img/level/level_2_bg.webp)
+          background-image: url('/img/level/level_2_bg.webp?t=@{timestamp}')
         }
       }
 
       &:nth-child(3) {
         &::before {
-          background-image: url(/img/level/level_3_bg.webp)
+          background-image: url('/img/level/level_3_bg.webp?t=@{timestamp}')
         }
       }
 
       &:nth-child(4) {
         &::before {
-          background-image: url(/img/level/level_4_bg.webp)
+          background-image: url('/img/level/level_4_bg.webp?t=@{timestamp}')
         }
       }
 

@@ -5,7 +5,8 @@
             <div>
                 <n-infinite-scroll style="height: 100vh" :distance="10" @load="handleLoad">
                     <div v-for="i in state.count" :key="i" class="item">
-                        <img class="game_img" :src="`/img/cards/${v}.png`" v-for="(v, j) in [0, 1, 2, 3, 4]" :key="j">
+                        <Imgt class="game_img" :src="`/img/cards/${v}.png`" v-for="(v, j) in [0, 1, 2, 3, 4]"
+                            :key="j" />
                     </div>
                 </n-infinite-scroll>
             </div>
@@ -15,6 +16,7 @@
 
 <script setup lang='ts'>
 import { reactive } from 'vue';
+import Imgt from '@/components/Imgt.vue';
 // import { Net } from '@/net/Net';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetPacket } from '@/net/NetPacket';

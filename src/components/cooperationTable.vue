@@ -26,12 +26,12 @@
                 <div class="td" v-for="(item, i) in tableHeader" :key="i">{{ item.title }}</div>
             </n-flex>
 
-            <n-flex class="tr" v-for="(row, index) in result.list" :key="index">
+            <n-flex class="tr" v-for="(row, index) in resultList" :key="index">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i"
-                    @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
+                  @click="clickTd(row)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
-            <n-flex class="tr tt" v-if="result.list.length">
+            <n-flex class="tr tt" v-if="resultList.length">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i">
                     <template v-if="i == 0">
                         <span>{{ t('proxy_page_total') }}</span>
@@ -45,8 +45,8 @@
                 </div>
             </n-flex>
 
-            <div class="nodata" v-if="!result.list.length && !loading">
-                <img src="/img/wallet/nodata.webp" alt="nodata">
+            <div class="nodata" v-if="!resultList.length && !loading">
+                <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
 
@@ -57,7 +57,7 @@
 
         <!-- 分页 -->
         <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-            :item-count="result.total_page" v-show="result.total_page" />
+          :item-count="result.total_page" v-show="result.total_page" />
 
 
         <!-- 等级管理 -->
@@ -78,10 +78,12 @@ import { useI18n } from "vue-i18n";
 import { storeToRefs } from 'pinia';
 import pinia from "@/store";
 import { User } from '@/store/user';
+import Imgt from '@/components/Imgt.vue';
+import { Message } from "@/utils/discreteApi";
 
 const { t } = useI18n()
 const UserStore = User(pinia);
-const { info: userInfo } = storeToRefs(UserStore);
+const { info: userInfo, roleInfo } = storeToRefs(UserStore);
 const props = defineProps({
     proxyInfo: { // 当前代理详情
         type: Object,
@@ -142,12 +144,30 @@ const result: any = reactive({ // 结果
     total_page: 0,
     list: []
 })
+const resultList = computed(() => {
+    let arr: any = []
+    // 自己是不是直属
+    if (props.proxyInfo.level == 0) return arr
+    result.list.map((item: any) => {
+        if (item.role_id == roleInfo.value?.id && activeTab.value != 3) {
+            arr.push(item)
+        } else if (activeTab.value == 1) {
+            arr.push(item)
+        } else if (activeTab.value == 2 && item.level === 0) {
+            arr.push(item)
+        } else if (activeTab.value == 3 && item.level !== 0 && item.role_id !== roleInfo.value?.id) {
+            arr.push(item)
+        }
+    })
+    return arr
+})
+
 const getTotal = (key: string) => { // 获取总数
     let total = 0
-    result.list.forEach((item: any) => {
-        // if (userInfo.value.full_name != item.username) {
+    resultList.value.forEach((item: any) => {
+        if (userInfo.value.full_name != item.username) {
             total += Number(item[key])
-        // }
+        }
     })
     if (isNaN(total)) return '-'
     return Number(total).toLocaleString()
@@ -160,19 +180,6 @@ const resultHandle = (rs: any) => { // 数据处理
     }, 300)
     result.total_page = rs.total || 0
     result.list = rs.records || []
-    // 模拟数据
-    // result.list = [
-    //     {
-    //         role_id: 1,
-    //         level: 1,
-    //         team_num: 10,
-    //         personal_bet: 10000,
-    //         team_bet: 99999,
-    //         personal_return: 99,
-    //         team_return: 1100,
-    //         username: 'aaaa'
-    //     },
-    // ]
 }
 const rowHandle = (row: any, key: string) => { // 格子数据处理
     let rs: any = ''
@@ -197,11 +204,18 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     return rs
 }
 
-const clickTd = (row: any, key: string) => { // td点击事件
-    if (key != 'operate' || userInfo.value.full_name == row.username) return
-    levelM.value.openModal(row)
+const clickTd = (row: any) => { // td点击事件
+    if (activeTab.value !== 1 || userInfo.value.full_name != row.username) {
+        // 判断能否修改:见习代理(1)可修改直属报表；任意身份修改团队报表内比自己小一级的时候，需要提示已经是最高等级了
+        if (Number(roleInfo.value.agent_level) == 1 && activeTab.value == 2) {
+            levelM.value.openModal(row)
+        } else if (Number(roleInfo.value.agent_level) - row.level < 2) {
+            Message.error(t('already_max_level'))
+            return
+        }
+        levelM.value.openModal(row)
+    }
 }
-
 const changeDate = (date: any) => { // 切换时间
     Object.assign(params, date)
     params.page = 1
@@ -242,6 +256,7 @@ onUnmounted(() => {
 
 <style lang='less' scoped>
 @import '@/assets/recordPage.less';
+@timestamp: `new Date().getTime()`;
 
 .coop_table {
     .tabs {
@@ -269,7 +284,7 @@ onUnmounted(() => {
         }
 
         .active_tab {
-            background: url(/img/home/btnBG2.webp) no-repeat;
+            background: url('/img/home/btnBG2.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 125%;
             background-position-y: 20%;
             border: 1.4px solid rgba(90, 71, 178, 0);
@@ -299,7 +314,7 @@ onUnmounted(() => {
         .search_btn {
             width: 150px;
             margin-left: 6px;
-            background: url(/img/home/btnBG.webp) no-repeat;
+            background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
             background-size: 100% 112%;
             color: #fff;
             height: 36px;

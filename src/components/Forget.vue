@@ -37,8 +37,8 @@
 
             <n-button :bordered="false" :loading="item.loading" @click="submitSend(item)"
               v-if="item.slot && item.type == 'code'" class="btn" :disabled="item.btnDisabled">{{
-        item.timeText
-      }}</n-button>
+                item.timeText
+              }}</n-button>
           </n-form-item>
         </template>
       </n-form>
@@ -68,7 +68,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { Page } from '@/store/page';
-import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, } from "@/utils/is";
+import { verifyCaptcha, verifyEmail, verifyMobile, verifyPassword, verifyPhoneCaptcha, } from "@/utils/is";
 import { useI18n } from 'vue-i18n';
 import { Local } from "@/utils/storage";
 import { Message } from "@/utils/discreteApi";
@@ -110,43 +110,79 @@ const state: any = reactive({
     rules: {
       mobile: [
         {
+          key: 'mobile',
           required: !0,
           validator: () => {
-            if (verifyMobile(state.formData.formParams.codeValue, state.formData.formParams.mobile)) {
+            if (!state.formData.formParams.mobile) {
+              return new Error(t('home_page_enterPhoneNumber'))
+            } else
+              if (verifyMobile(state.formData.formParams.codeValue, state.formData.formParams.mobile)) {
 
-              state.formData.list.phoneCode.disabled = false
-              return true
-            } else {
-              state.formData.list.phoneCode.disabled = true
-              return false
-            }
+                state.formData.list.phoneCode.disabled = false
+                return true
+              } else {
+                state.formData.list.phoneCode.disabled = true
+                return new Error(t('home_page_phoneNumberFormatIncorrect'))
+              }
 
           },
-          message: t('home_page_phoneNumberFormatIncorrect'),
+          // message: t('home_page_phoneNumberFormatIncorrect'),
           trigger: "input",
         },
       ],
-      verify_code: [
-        {
-          required: !0,
-          validator: verifyCaptcha,
-          message: t('home_page_verificationCodeFormatIncorrect'),
-          trigger: "blur",
-        },
-      ],
+      phoneCode: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterSmsCode'))
+                    } else
+                        if (verifyPhoneCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_smsCodeFormatIncorrect'))
+                        }
+                },
+
+
+
+            },
+        ],
+        emailCode: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterSmsCode'))
+                    } else
+                        if (verifyCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_smsCodeFormatIncorrect'))
+                        }
+                },
+            },
+        ],
       email: [
         {
+          key: 'email',
           required: !0,
+
           validator: () => {
-            if (verifyEmail({}, state.formData.formParams.email)) {
-              state.formData.list.emailCode.disabled = false
-              return true
-            } else {
-              state.formData.list.emailCode.disabled = true
-              return false
-            }
+            if (!state.formData.formParams.email) {
+              return new Error(t('home_page_enterEmail'))
+            } else
+              if (verifyEmail({}, state.formData.formParams.email)) {
+                state.formData.list.emailCode.disabled = false
+                return true
+              } else {
+                state.formData.list.emailCode.disabled = true
+                return new Error(t('home_page_emailIncorrect'))
+              }
           },
-          message: t('home_page_emailIncorrect'),
+          // message: t('home_page_emailIncorrect'),
           trigger: "input",
         },
       ],
@@ -337,7 +373,9 @@ const submitNext = () => {
   // 效验
 
   if (state.formData.step == 1) {
+    debugger
     formRef.value?.validate((errors: any) => {
+      debugger
       if (!errors) {
         changePassword(state.formData.formParams, 1)
 
@@ -393,13 +431,36 @@ const submitSend = (item: any) => {
   state.itemClick = item
   // 1 为手机  2 为邮箱 
   if (state.formData.active == 1) {
-    SmsCodeRef.value.openDialog()
+    formRef.value?.validate(
+      (errors: any) => {
+        if (errors) {
+          console.log(errors)
+        } else {
+          SmsCodeRef.value.openDialog()
+        }
+      },
+      (rule: any) => {
+        return rule?.key === 'mobile'
+      }
+    )
   }
   if (state.formData.active == 2) {
-    item.loading = true
-    const req = NetPacket.req_get_email_verification_code()
-    req.email = state.formData.formParams.email
-    Net.instance.sendRequest(req)
+    formRef.value?.validate(
+      (errors: any) => {
+        if (errors) {
+          console.log(errors)
+        } else {
+          item.loading = true
+          const req = NetPacket.req_get_email_verification_code()
+          req.email = state.formData.formParams.email
+          Net.instance.sendRequest(req)
+        }
+      },
+      (rule: any) => {
+        return rule?.key === 'email'
+      }
+    )
+
   }
 };
 
@@ -507,6 +568,8 @@ onUnmounted(() => {
 });
 </script>
 <style lang="less" scoped>
+@timestamp: `new Date().getTime()`;
+
 .login_from_box {
   display: block;
 
@@ -554,7 +617,7 @@ onUnmounted(() => {
   color: #fff;
   width: 90px;
   font-size: 14px;
-  background: url(/img/login/sendBtn.webp) no-repeat;
+  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
   background-size: contain;
 
 }
