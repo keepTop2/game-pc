@@ -75,7 +75,7 @@
         <n-progress class="processBar" type="line" :color="themeVars.warningColor" :percentage="target.progress"
           :show-indicator="false" :indicator-text-color="themeVars.warningColor" />
         <div class="processFooter">
-          <p class="size3">{{ t('walletInfo_page_needBet') + ': ' + verifyNumberComma(String(target.bet_money)) }}</p>
+          <p class="size3">{{ t('level_page_needBet') + ': ' + verifyNumberComma(String(target.bet_money)) }}</p>
           <!--<p class="size3"><a @click="openLevelRule"><u>{{ t('walletInfo_page_rule') }}</u></a></p>-->
         </div>
       </div>

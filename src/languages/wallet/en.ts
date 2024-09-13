@@ -117,7 +117,7 @@ export default {
   auditRecord_page_auditProgress: 'Audit Progress',
   Title_Basic_recharge: "Basic recharge",
   Backend_recharge: "System discount",
-  VIP_promotion_reward: "Vip promotion reward",
+  VIP_promotion_reward: "Vip promotion bonus",
   K_VIP_monthly_gift_money: "Monthly reward",
   Saving_money: "Resurrection gold",
   Sign_in: "Sign-up Bonus",
@@ -192,9 +192,8 @@ export default {
 
   // walletInfo
   walletInfo_page_code_input: 'Enter the redemption code and receive the reward',
-  walletInfo_page_code: 'Exchange Code',
+  walletInfo_page_code: 'Redeem Code',
   walletInfo_page_rule: 'Membership Level Rules',
-  walletInfo_page_needBet: 'Required Bet',
   walletInfo_page_wallet: 'My Wallet',
   walletInfo_page_totalA: 'Total Account',
   walletInfo_page_depositRecord: 'Deposit Record',
