@@ -84,7 +84,7 @@
           </div>
           <div class="btn_group">
             <div class="btn_close" @click="closeChatItem">取消</div>
-            <div class="btn_save" @click="step = 2">保存</div>
+            <div class="btn_save" @click="saveChatItem">保存</div>
           </div>
         </div>
       </div>
@@ -97,6 +97,7 @@ import { computed, ref } from 'vue';
 import usechatHooks from '../useHooks';
 import IWebsocket from '../chatWS'
 import Imgt from '@/components/Imgt.vue';
+import { Message } from "@/utils/discreteApi.ts";
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -166,6 +167,15 @@ const cancelAddGroup = () => {
 const closeChatItem = () => {
   step.value = 2
   chatitemIdList.value = []
+}
+
+const saveChatItem = ()=>{
+  if (chatitemIdList.value.length==0) {
+    Message.error('请选择')
+  }else{
+    step.value = 2
+  }
+  
 }
 
 // 删除选择的对话
