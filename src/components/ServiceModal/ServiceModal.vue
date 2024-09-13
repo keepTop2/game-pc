@@ -28,10 +28,12 @@
           </n-badge>
         </div>
         <!-- 分组 -->
-        <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
+        <div class="group_area">
+          <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
           <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
             size="1.8rem"></iconpark-icon>
           <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
+        </div>
         </div>
         <!-- 编辑 -->
         <div class="set_item" @click="groupClick('edit')">
@@ -56,7 +58,7 @@
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理
           </div>
         </div>
         <div class="list_wrap">
@@ -76,20 +78,20 @@
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
-              <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
+              <n-popover trigger="click" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
                   <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
                     deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
                 </template>
                 <div class="select_wrap" >
-                  <div v-for="o in selectList.slice(0, 3)" :key="o.id" @click="itemSet(o, item)">
+                  <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
                     <span v-else> {{ o.name }}</span>
                   </div>
-                  <div>
-                    <n-popover trigger="hover" placement="right" :show-arrow="false">
+                  <div  v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
+                    <n-popover trigger="click" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{ selectList[3].name }}</div>
+                        <div class="high_proxy select_group"> {{ selectList.find((i:any)=>i.id==4)?.name }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
@@ -324,7 +326,7 @@ const tabClick = (tab: tabType) => {
 
 const selectList = [
   { name: '置顶', id: 1 },
-  { name: '未读', id: 2 },
+  // { name: '未读', id: 2 },
   { name: '屏蔽', id: 3 },
   { name: '移动分组到', id: 4 }
 ]
@@ -390,10 +392,12 @@ const groupClick = (item: any) => {
   if (item == 'edit') {
     manageClick()
   } else if (item == 'all') {
+    active_id.value = 1
     chatitemList.value = []
     state.groupType = item
     getChatlist()
   } else {
+    active_id.value = 1
     state.groupType = item
     groupChatitemList.value = chatitemList.value.filter((o: any) => o.chatgroupid == item.id)
   }
@@ -961,18 +965,24 @@ onMounted(async () => {
 
 .select_wrap,
 .select_wrap_two {
-  width: 118px;
+  width: 150px;
 
   div {
     border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-    height: 36px;
-    line-height: 36px;
+    // height: 36px;
+    // line-height: 36px;
     cursor: pointer;
     color: #8E82C2;
     padding-left: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 10px;
 
     &:last-child {
-      padding-left: 0px;
+      // padding-left: 0px;
     }
 
     &:hover {
@@ -1111,5 +1121,9 @@ onMounted(async () => {
 .new_btn {
   color: #ffffff;
   cursor: pointer;
+}
+.group_area{
+  max-height: 430px;
+overflow-y: auto;
 }
 </style>
