@@ -151,6 +151,10 @@ onUnmounted(() => {
         MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
         MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
         MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
+        MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_3rd_game_login_result,
+        null,
+    );
     }, 500);
 })
 
@@ -190,7 +194,7 @@ const onPlayGame = (v: any) => {
     Net.instance.sendRequest(tb);
 }
 
-const onClickTab = (v: any, i: any) => {
+const onClickTab = (_: any, i: any) => {
     queryGame.value = ''
     activeTab.value = i
     params.page = 1
@@ -338,9 +342,9 @@ const gameUrlResult = (message: any) => {
             height: 52px;
             cursor: pointer;
 
-            >span {
+            // >span {
                 // margin-left: 6px;
-            }
+            // }
         }
     }
 

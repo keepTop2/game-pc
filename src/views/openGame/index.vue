@@ -11,8 +11,7 @@
 import { Local } from '@/utils/storage';
 import { onMounted, reactive } from 'vue'
 
-import { useRouter, useRoute } from 'vue-router'
-// const router = useRouter()
+import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const state: any = reactive({
@@ -23,10 +22,6 @@ const state: any = reactive({
   offset: { x: window.innerWidth - 100, y: 45 },
 })
 
-// const onBtnClicked = () => {
-//   let len = state.rlen - history.length - 1
-//   router.go(len)
-// }
 onMounted(() => {
   if (route.query.screenOrientation == '1') {
 

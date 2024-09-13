@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
@@ -50,6 +50,10 @@ import { needLogin } from '@/net/Utils';
 const { t } = useI18n();
 const route = useRoute()
 import Imgt from '@/components/Imgt.vue';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { Message } from '@/utils/discreteApi';
+import { Local } from '@/utils/storage';
 
 const {
     lang,
@@ -58,22 +62,10 @@ const {
     textAnnouncement,
 } = storeToRefs(Page(pinia));
 
-const activeTab = ref(0)
 const router = useRouter()
 const result: any = reactive({
     list: []
 })
-let initData = reactive<any>({})
-let gameKinds = ref<any>([])
-const langs: any = {
-    zh: 'zh-CN',
-    vn: 'vi-VN',
-    en: 'en-US',
-};
-
-const TabType = {
-    FAVORITE: 88
-}
 
 const state: any = reactive({
     tabs: <{}>[
@@ -126,6 +118,17 @@ watch(
 onMounted(() => {
     getHomeData()
 })
+onMounted(() => {
+    MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_3rd_game_login_result,
+        gameUrlResult,
+    );
+})
+onUnmounted(() => {
+    MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_3rd_game_login_result,
+        null,);
+})
 
 
 const getHomeData = () => {
@@ -134,6 +137,22 @@ const getHomeData = () => {
     const name = t(item.name, 1, { locale: 'zh' })
     const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
     result.list = data.three_platform
+}
+
+const gameUrlResult = (message: any) => {
+    if (message.code != 0) {
+        Message.error(message.msg)
+        return
+    }
+    if (message.url.indexOf('<!doctype html>') != -1) {
+        message.url = `data:text/html;charset=utf-8,${encodeURIComponent(
+            String(message.url)
+        )}`
+    }
+    Local.set('gameUrl', message.url)
+    router.push({
+        path: "/openGame",
+    });
 }
 
 const platformItemClick = (item: any, i: number) => {

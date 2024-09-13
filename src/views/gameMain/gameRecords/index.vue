@@ -24,7 +24,6 @@ import Games from "@/components/Games.vue";
 // const { isLogin } = storeToRefs(userInfo);
 const reqGameRecords = () => {
     let req = NetPacket.req_recent_games();
-    // debugger
     Net.instance.sendRequest(req);
 }
 const resGameRecords = (res: any) => {
