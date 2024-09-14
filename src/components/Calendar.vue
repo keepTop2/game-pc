@@ -33,13 +33,13 @@
         </td>
         </th>
       </table>
-      <div class="sign_text">您已经连续签到<b>{{ props.dayNum.ContinuousDays }}</b>天
-        <span class="btn"  @click="setSignIn">补签(<i>{{ props.dayNum.ComplementSignedCount }}</i>)</span>
-      </div>
-      <p class="btn1" @click="setSignIn(props.dayNum.TodayIsSignIn)"
+      <!-- <div class="sign_text">您已经连续签到<b>{{ props.dayNum.ContinuousDays }}</b>天 -->
+        <!-- <span class="btn"  @click="setSignIn">补签(<i>{{ props.dayNum.ComplementSignedCount }}</i>)</span> -->
+      <!-- </div> -->
+      <!-- <p class="btn1" @click="setSignIn(props.dayNum.TodayIsSignIn)"
         :class="props.dayNum.TodayIsSignIn === 'true' ? 'btn_disabled' : ''">
         {{ props.dayNum.TodayIsSignIn === 'true' ? '已签到' : '立即签到' }}
-      </p>
+      </p> -->
     </div>
     <!-- </section> -->
   </div>
