@@ -58,56 +58,55 @@ const popDetail = (item: any) => {
     state.showModal = true
     state.detailImg = activityDetail(item.content)
 }
-const closeToast = (header: string, img: string, msg: string) => {
-  state.toastText = {
-    header: header,
-    isShow: true,
-    img: img,
-    msg: msg
-  }
-  setTimeout(() => {
-    state.toastText = {
-      header: '',
-      isShow: false, // toast 控制
-      img: '', // toast 显示图片
-      msg: '' // toast 提示语
-    }
-  }, 3000)
-}
-const signInEvent = async () => {
-  if (state.activeDate.IsSignIn === 'true') {
-    return closeToast('签到失败', '', '今日已签到')
-  }
-  let str = state.activeDate.date.split('-') // 点击的时间
-  let today = new Date()
-  let year = today.getFullYear() // 今天哪一年
-  let tadayDate = today.getDate() // 今天几号
-  let tadayMonth = today.getMonth() + 1 // 今天属于几月
-  if (Number(str[0]) > year) {
-    return closeToast('签到失败', '', '未到活动时间')
-  } else if (Number(str[0]) < year && Number(str[1]) !== 12) {
-    return closeToast('签到失败', '', '选择时间有误')
-  } else if (Number(str[0]) < year && Number(str[1]) === 12) {
-    // sign()
-  } else {
-    if (Number(str[1]) > tadayMonth || Number(str[2]) > tadayDate) {
-      return closeToast('签到失败', '', '未到活动时间')
-    } else {
-    //   sign()
-    }
-  }
-}
-const clickToday = (data: any) => {
-  if (!state.flag) {
-    state.activeDate = data
-    state.flag = true
-    // console.log('跳到了本月今天', data) // 跳到了本月
-  }
-}
-const clickDay = (data: any) => {
-  state.activeDate = data
-  // console.log('选中了', data)
-}
+// const closeToast = (header: string, img: string, msg: string) => {
+//   state.toastText = {
+//     header: header,
+//     isShow: true,
+//     img: img,
+//     msg: msg
+//   }
+//   setTimeout(() => {
+//     state.toastText = {
+//       header: '',
+//       isShow: false, // toast 控制
+//       img: '', // toast 显示图片
+//       msg: '' // toast 提示语
+//     }
+//   }, 3000)
+// }
+// const signInEvent = async () => {
+//   if (state.activeDate.IsSignIn === 'true') {
+//     return closeToast('签到失败', '', '今日已签到')
+//   }
+//   let str = state.activeDate.date.split('-') // 点击的时间
+//   let today = new Date()
+//   let year = today.getFullYear() // 今天哪一年
+//   let tadayDate = today.getDate() // 今天几号
+//   let tadayMonth = today.getMonth() + 1 // 今天属于几月
+//   if (Number(str[0]) > year) {
+//     return closeToast('签到失败', '', '未到活动时间')
+//   } else if (Number(str[0]) < year && Number(str[1]) !== 12) {
+//     return closeToast('签到失败', '', '选择时间有误')
+//   } else if (Number(str[0]) < year && Number(str[1]) === 12) {
+//     // sign()
+//   } else {
+//     if (Number(str[1]) > tadayMonth || Number(str[2]) > tadayDate) {
+//       return closeToast('签到失败', '', '未到活动时间')
+//     } else {
+//     //   sign()
+//     }
+//   }
+// }
+// const clickToday = (data: any) => {
+//   if (!state.flag) {
+//     state.activeDate = data
+//     state.flag = true
+//     // console.log('跳到了本月今天', data) // 跳到了本月
+//   }
+// }
+// const clickDay = (data: any) => {
+//   state.activeDate = data
+// }
 onMounted(() => {
     state.name = route.query.typeName
 });
