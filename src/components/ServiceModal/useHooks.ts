@@ -250,7 +250,6 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     console.log('快捷语解析前--', decodeobj1);
     if (decodeobj1.data) {
       const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
-      console.log('-----***', decodeobj00);
       state_data.quickPhrasesList = decodeobj00.quickphrase;
       console.log('快捷语解析后==', state_data.quickPhrasesList);
     }
@@ -267,7 +266,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       isautorsp: data?.isautorsp || 2, // 1 自动回复，2 不自动回复，是否是自动回复 前端用的
       content: data?.content || '', // 快捷语的内容
     };
-
+    console.log(type, '添加快捷语参数--', payload)
     wsReqSend(type, payload, 'QuickPhrasesModifyReq');
   };
   // 发送添加快捷语--分类请求
@@ -279,7 +278,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
       title: data?.title || '', //分类的标题
     };
-
+    console.log(type, '添加分类-快捷语参数--', payload)
     wsReqSend(type, payload, 'QuickPhrasesCModifyReq');
   };
 
