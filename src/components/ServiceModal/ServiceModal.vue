@@ -18,7 +18,7 @@
     </h4>
     <div class="main_body">
       <!-- 左侧设置  v-if="agentInfo.user_type && agentInfo.user_type > 0" -->
-      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
+      <div class="left_setting"  v-if="agentInfo.user_type && agentInfo.user_type > 0" >
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -88,15 +88,19 @@
                     <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
                     <span v-else> {{ o.name }}</span>
                   </div>
-                  <div  v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
+                  <div v-if="agentInfo.user_type&&agentInfo.user_type>0&&state.groupType=='all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{ selectList.find((i:any)=>i.id==4)?.name }}</div>
+                        <div class="high_proxy select_group" > {{ selectList.find((i:any)=>i.id==4)?.name }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
                       </div>
                     </n-popover>
+                  </div>
+                  <!-- 从分组移除 -->
+                  <div v-if="state.groupType!='all'&&agentInfo.user_type&&agentInfo.user_type>0"  @click="itemSet({id:5}, item)">
+                    <span>从分组移除</span>
                   </div>
                 </div>
               </n-popover>
@@ -250,7 +254,7 @@ const state: any = reactive({
   todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
-  userData: '',
+  userData: {},
   activeId: null,
   search: '',   // 查询用户
   groupType: 'all',
@@ -329,7 +333,7 @@ const selectList = [
   { name: '置顶', id: 1 },
   // { name: '未读', id: 2 },
   { name: '屏蔽', id: 3 },
-  { name: '移动分组到', id: 4 }
+  { name: '移动分组到', id: 4 },
 ]
 // 添加表情
 
@@ -583,6 +587,7 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 14) {
     Message.success('操作成功')
     getChatlist()
+    state.groupType = 'all'
   }
 
   //分组列表保存回执
@@ -594,6 +599,7 @@ const onMessage: any = async (buffer: any) => {
     //分组列表保存回执
     else if (decodeobj1.type == 10) {
     Message.success('操作成功')
+    groupRef.value.getChatMsg9(decodeobj1)
    
   }
   //分组列表删除回执
@@ -990,7 +996,7 @@ onMounted(async () => {
     margin-bottom: 10px;
 
     &:last-child {
-      // padding-left: 0px;
+       padding-left: 0px;
     }
 
     &:hover {

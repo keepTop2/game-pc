@@ -211,7 +211,7 @@ if (!groupName.value&&!groupName.value.trim()) {
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest)
   isShow.value = false
-  editGroupItem.value = ''
+  // editGroupItem.value = ''
 }
 // 删除分组
 const delGroup = (item: any) => {
@@ -234,9 +234,10 @@ const delGroup = (item: any) => {
 //分组列表保存回执处理
 const getChatMsg9 = (decodeobj1: any) => {
   const decodeobj00 = decodeContent(decodeobj1.data, 'ChatGroupModifyRsp');
+  const GroupItem = editGroupItem.value && editGroupItem.value.id?editGroupItem.value:decodeobj00
   if (chatitemIdList.value.length) {
     chatitemIdList.value.forEach((item: any) => {
-      editchat(item, decodeobj00)
+      editchat(item, GroupItem)
     })
   }
 }
