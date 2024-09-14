@@ -1997,7 +1997,7 @@ export default {
     "reward_email": "Reward Email",
     "all_read": "All Read",
     "view_details": "View details",
-    "7_days": "Note: All emails are only retained for 7 days, and will be automatically deleted after 7 days",
+    "7_days": "Note: All emails will be deleted after 7 days.",
     "email_title": "Email Title",
     "email_content": "Email content",
     "attachment": "attachment",
