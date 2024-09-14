@@ -143,9 +143,9 @@ import Imgt from '@/components/Imgt.vue';
 // import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
 import { Dialog, Message } from '@/utils/discreteApi';
-import { storeToRefs } from 'pinia';
-import { User } from '@/store/user.ts';
-import pinia from '@/store';
+// import { storeToRefs } from 'pinia';
+// import { User } from '@/store/user.ts';
+// import pinia from '@/store';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -165,8 +165,8 @@ const props = defineProps({
 // const visibleSetting = ref(false) // 类别
 const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']);
 
-const userInfo = User(pinia);
-const { roleInfo } = storeToRefs(userInfo);
+// const userInfo = User(pinia);
+// const { roleInfo } = storeToRefs(userInfo);
 const addForm = ref({
   title: '',
 });
@@ -227,10 +227,10 @@ const clickSelectList = (e: any, index: any) => {
 
 const handleBeforeChange = (item: any, type: any, index: number) => {
   console.log('before---', item, type, index);
-  // 只能设置自己添加的数据
-  if (!item.deviceid || item.deviceid != roleInfo.value.id) {
-    return Message.error('你不能设置此数据')
-  }
+  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  // if (!item.deviceid) {
+  //   return Message.error('你不能设置此数据')
+  // }
   console.log('设置===', item[type])
   dataList.value[index][type] = item[type] == 1 ? 2 : 1;
 };
@@ -241,9 +241,9 @@ const handleUpdateValue = (e: any, type: any, index: number) => {
 };
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log('删除==', roleInfo.value.id, item);
-  // 只能删除自己添加的数据
-  if (!item.deviceid || item.deviceid != roleInfo.value.id) {
+  console.log('删除==', item);
+  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  if (!item.deviceid) {
     return Message.error('你不能删除此数据');
   }
   Dialog.warning({

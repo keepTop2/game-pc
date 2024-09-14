@@ -71,9 +71,9 @@ import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 import { useI18n } from 'vue-i18n';
 import { Dialog, Message } from "@/utils/discreteApi";
-import { User } from '@/store/user.ts';
-import pinia from '@/store';
-import { storeToRefs } from 'pinia';
+// import { User } from '@/store/user.ts';
+// import pinia from '@/store';
+// import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -88,8 +88,8 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:visible', 'addModifyCateQuick']);
 
-const userInfo = User(pinia);
-const { roleInfo } = storeToRefs(userInfo);
+// const userInfo = User(pinia);
+// const { roleInfo } = storeToRefs(userInfo);
 
 const addForm = ref({
   title: ''
@@ -111,9 +111,9 @@ const closeWin = () => {
 }
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log('删除==', roleInfo.value.id ,item);
-  // 只能删除自己添加的数据
-  if (!item.deviceid || item.deviceid != roleInfo.value.id) {
+  console.log('删除==' ,item);
+  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方，或者下面有快捷语(num 大于0 代表有快捷语)
+  if (!item.deviceid || item?.num) {
     return Message.error('你不能删除此数据')
   }
   Dialog.warning({
