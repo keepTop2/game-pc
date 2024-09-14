@@ -105,7 +105,8 @@
                               @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
-                  <span class="list_item button" @click="removeList(item, index)"
+                  <span v-if="!item.deviceid" class="list_item"></span>
+                  <span v-else class="list_item button" @click="removeList(item, index)"
                         style="color: #ff2424">
                     删除
                   </span>
@@ -227,9 +228,9 @@ const clickSelectList = (e: any, index: any) => {
 
 const handleBeforeChange = (item: any, type: any, index: number) => {
   console.log('before---', item, type, index);
-  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表官方
   // if (!item.deviceid) {
-  //   return Message.error('你不能设置此数据')
+  //   return Message.error(t('proxy_page_caoZuoFail'))
   // }
   console.log('设置===', item[type])
   dataList.value[index][type] = item[type] == 1 ? 2 : 1;
@@ -244,7 +245,7 @@ const removeList = (item: any, index: number) => {
   console.log('删除==', item);
   // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
   if (!item.deviceid) {
-    return Message.error('你不能删除此数据');
+    return Message.error(t('proxy_page_caoZuoFail'));
   }
   Dialog.warning({
     showIcon: false,

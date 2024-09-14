@@ -38,7 +38,8 @@
                   <span class="list_kjy">
                     {{ item?.num || 0 }}
                   </span>
-                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
+                  <span v-if="!item.deviceid || item?.num" class="list_item"></span>
+                  <span v-else class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
                     删除
                   </span>
                 </n-flex>
@@ -112,9 +113,9 @@ const closeWin = () => {
 // 删除
 const removeList = (item: any, index: number) => {
   console.log('删除==' ,item);
-  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方，或者下面有快捷语(num 大于0 代表有快捷语)
+  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表官方，或者下面有快捷语(num 大于0 代表有快捷语)
   if (!item.deviceid || item?.num) {
-    return Message.error('你不能删除此数据')
+    return Message.error(t('proxy_page_caoZuoFail'))
   }
   Dialog.warning({
     showIcon: false,
