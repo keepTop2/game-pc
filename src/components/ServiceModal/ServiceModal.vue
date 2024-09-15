@@ -300,6 +300,8 @@ const selectUser = (item: any) => {
   state.userData = item
   state.activeId = item.id
   state.todeviceid = item.Tdeviceid
+  testMsg.value = ''
+  msgRef.value.innerHTML = ''
   // 获取聊天记录
   synchistorymsg()
   allRead()
