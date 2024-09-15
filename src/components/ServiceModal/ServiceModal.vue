@@ -18,7 +18,7 @@
     </h4>
     <div class="main_body">
       <!-- 左侧设置  v-if="agentInfo.user_type && agentInfo.user_type > 0" -->
-      <div class="left_setting"  v-if="agentInfo.user_type && agentInfo.user_type > 0" >
+      <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item " @click="groupClick('all')">
           <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
@@ -30,10 +30,10 @@
         <!-- 分组 -->
         <div class="group_area">
           <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
-          <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
-            size="1.8rem"></iconpark-icon>
-          <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
-        </div>
+            <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
+              size="1.8rem"></iconpark-icon>
+            <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
+          </div>
         </div>
         <!-- 编辑 -->
         <div class="set_item" @click="groupClick('edit')">
@@ -58,7 +58,7 @@
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
           </div>
         </div>
         <div class="list_wrap">
@@ -83,15 +83,15 @@
                   <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
                     deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
                 </template>
-                <div class="select_wrap" >
+                <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
                     <span v-else> {{ o.name }}</span>
                   </div>
-                  <div v-if="agentInfo.user_type&&agentInfo.user_type>0&&state.groupType=='all'">
+                  <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group" > {{ selectList.find((i:any)=>i.id==4)?.name }}</div>
+                        <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
@@ -99,7 +99,8 @@
                     </n-popover>
                   </div>
                   <!-- 从分组移除 -->
-                  <div v-if="state.groupType!='all'&&agentInfo.user_type&&agentInfo.user_type>0"  @click="itemSet({id:5}, item)">
+                  <div v-if="state.groupType != 'all' && agentInfo.user_type && agentInfo.user_type > 0"
+                    @click="itemSet({ id: 5 }, item)">
                     <span>从分组移除</span>
                   </div>
                 </div>
@@ -423,6 +424,9 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
+    if (testMsg.value) {
+
+    }
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -555,6 +559,9 @@ const onMessage: any = async (buffer: any) => {
   state.messageType = decodeobj1.type
   if (decodeobj1.code && decodeobj1.code > 1000) {
     Message.error(t(decodeobj1.code));
+    testMsg.value = ''
+    msgRef.value.innerHTML = ''
+    state.messagetype = 1
     return;
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
@@ -562,10 +569,10 @@ const onMessage: any = async (buffer: any) => {
     if (!decodeobj1.code) {
       var datatime = getDateFromat()
       state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
-      testMsg.value = ''
-      msgRef.value.innerHTML = ''
-      state.messagetype = 1
     }
+    testMsg.value = ''
+    msgRef.value.innerHTML = ''
+    state.messagetype = 1
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
@@ -596,11 +603,11 @@ const onMessage: any = async (buffer: any) => {
     groupRef.value.getChatMsg9(decodeobj1)
     getListGroup()
   }
-    //分组列表保存回执
-    else if (decodeobj1.type == 10) {
+  //分组列表保存回执
+  else if (decodeobj1.type == 10) {
     Message.success('操作成功')
     groupRef.value.getChatMsg9(decodeobj1)
-   
+
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {
@@ -996,7 +1003,7 @@ onMounted(async () => {
     margin-bottom: 10px;
 
     &:last-child {
-       padding-left: 0px;
+      padding-left: 0px;
     }
 
     &:hover {
@@ -1136,8 +1143,9 @@ onMounted(async () => {
   color: #ffffff;
   cursor: pointer;
 }
-.group_area{
+
+.group_area {
   max-height: 430px;
-overflow-y: auto;
+  overflow-y: auto;
 }
 </style>
