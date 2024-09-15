@@ -132,7 +132,7 @@ export default {
   betRecord_page_platform: 'Platform',
   betRecord_page_game: 'Game Name',
   betRecord_page_betAmount: 'Bet Amount',
-  betRecord_page_winLose: 'Win/Lose',
+  betRecord_page_winLose: 'Result',
   betRecord_page_settlement: 'Settlement Time',
 
   // 洗码记录

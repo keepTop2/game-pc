@@ -30,7 +30,7 @@ export default {
     home_page_withdrawRecord: 'Withdraw record',
     home_page_accountsRecord: 'Balance Change records',
     proxyRecord: 'Agent account change record',
-    home_page_betRecord: 'Bet record',
+    home_page_betRecord: 'Betting record',
     home_page_auditRecord: 'Audit record',
     home_page_loginRecord: 'Login record',
     home_page_waterRecord: 'Wash record',
