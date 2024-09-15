@@ -28,7 +28,7 @@ export default {
     home_page_myWallet: 'myWallet',
     home_page_rechargeRecord: 'Recharge record',
     home_page_withdrawRecord: 'Withdraw record',
-    home_page_accountsRecord: 'Accounts record',
+    home_page_accountsRecord: 'Balance Change records',
     proxyRecord: 'Agent account change record',
     home_page_betRecord: 'Bet record',
     home_page_auditRecord: 'Audit record',
