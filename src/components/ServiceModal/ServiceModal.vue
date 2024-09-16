@@ -470,6 +470,8 @@ const sendMsg = () => {
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
     IWebsocket.sendMessageHandler(encodedRequest);
+  }else{
+    Message.error('请输入');
   }
 }
 
