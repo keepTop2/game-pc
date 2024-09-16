@@ -267,10 +267,13 @@ params.forEach((value: any, key: any) => {
 if (paramsObj.user_level) { // agent_level
   localStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
   localStorage.setItem('agent_level', paramsObj.user_level)
+  localStorage.setItem('device_id', paramsObj.device_id)
   // kefuVisible.value = true
   router.push('/customer')
 } else {
   localStorage.setItem('agent_level', '')
+  localStorage.setItem('agent_infodata', '')
+  localStorage.setItem('device_id', '')
 }
 const iconClick = async (item: any) => {
   console.log(item)
