@@ -153,7 +153,7 @@ export default {
   paymentManagement_page_tipContent: 'Confirm Deletion?',
   paymentManagement_page_add_one_bank: 'Add a Bank Card',
   paymentManagement_page_error_msg: 'Input Error',
-  paymentManagement_page_max_bank: 'Each user can add up to 6 bank cards, you already have {num}',
+  paymentManagement_page_max_bank: 'Up to 6 bank cards per user，You now added {num}',
   paymentManagement_page_new_bank: 'Add New Bank Card',
   paymentManagement_page_default_bank: 'Default Card',
   paymentManagement_page_delete: 'Delete',

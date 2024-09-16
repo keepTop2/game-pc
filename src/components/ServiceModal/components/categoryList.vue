@@ -149,11 +149,14 @@ const removeList = (item: any, index: number) => {
 // 新增一行
 const addNewLine = () => {
   const obj = {
-    title: addForm.value.title,
+    title: addForm.value.title.trim(),
     mType: 20, // 20 新增，21 修改，22 删除
   };
-  if (!obj.title.trim()) {
+  if (!obj.title) {
     return Message.error(t('内容不能为空'));
+  }
+  if (obj.title.length > 12) {
+    return Message.error(t('内容超出长度'));
   }
   dataCateList.value.unshift(obj);
   addForm.value.title = ''; // 清空
@@ -164,6 +167,10 @@ const addCateQuick = () => {
 
   isLoading.value = true;
   dataCateList.value.map((item: any) => {
+    item.title = item.title.trim();
+    if (item.title.length > 12) {
+      return Message.error(t('内容超出长度'));
+    }
     // 这是编辑的数据
     if (item.id) {
       console.log('编辑快捷语分类哈哈哈--');

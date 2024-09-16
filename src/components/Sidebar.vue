@@ -287,12 +287,12 @@ watch(
     width: 270px;
     box-sizing: border-box;
     box-shadow: 0 -1px 10px 0 rgba(0, 0, 0, 0.4);
-    background-color: #2d1769;
+    background-color: var(--c-bg-1);
     padding: 33px 10px 0;
     display: flex;
     flex-direction: column;
     font-size: 16px;
-    color: #8e82c2;
+    color: var(--c-inactive);
 
     >.sidebar_public {
         >p {
@@ -307,7 +307,7 @@ watch(
 
             >p>span {
                 padding-left: 64px;
-                color: #fff;
+                color: var(--c-white);
             }
         }
 
@@ -318,7 +318,7 @@ watch(
 
             >p>span {
                 padding-left: 64px;
-                color: #fff;
+                color: var(--c-white);
             }
         }
 
@@ -356,7 +356,7 @@ watch(
             }
 
             .hover {
-                color: #fff;
+                color: var(--c-white);
             }
 
             .hover::after {
@@ -393,7 +393,7 @@ watch(
         border-radius: 14px;
         box-shadow: inset 0 0 6px 0 #1d92fa;
         background-color: #402c95;
-        color: #fff;
+        color: var(--c-white);
         cursor: pointer;
 
         >div {
