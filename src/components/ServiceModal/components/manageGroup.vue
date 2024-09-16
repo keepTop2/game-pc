@@ -189,6 +189,7 @@ const delItem = (item: any) => {
 // 保存分组
 const saveGroup = () => {
 if (!groupName.value&&!groupName.value.trim()) {
+  Message.error('请填写分组名称');
   return
 }
 
