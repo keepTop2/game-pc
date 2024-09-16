@@ -88,7 +88,8 @@
                              style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
-                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'istop', index)"></div>
+                    <div class="coverSwitch" :data-value="item.istop"
+                         @click="handleBeforeChange(item, 'istop', index)"></div>
                     <n-switch class="switch"
                               v-model:value="item.istop"
                               :checked-value="1"
@@ -97,7 +98,8 @@
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
-                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'isautorsp', index)"></div>
+                    <div class="coverSwitch" :data-value="item.istop"
+                         @click="handleBeforeChange(item, 'isautorsp', index)"></div>
                     <n-switch class="switch"
                               v-model:value="item.isautorsp"
                               :checked-value="1"
@@ -232,7 +234,7 @@ const handleBeforeChange = (item: any, type: any, index: number) => {
   // if (!item.deviceid) {
   //   return Message.error(t('proxy_page_caoZuoFail'))
   // }
-  console.log('设置===', item[type])
+  console.log('设置===', item[type]);
   dataList.value[index][type] = item[type] == 1 ? 2 : 1;
 };
 // 开关
@@ -281,7 +283,7 @@ const addNewLine = () => {
     istop: 2, //1 为置顶 其余值不置顶
     isautorsp: 2, //是否是自动回复 前端用的
   };
-  if (!obj.content) {
+  if (!obj.content.trim()) {
     return Message.error(t('内容不能为空'));
   }
   dataList.value.unshift(obj);
@@ -580,6 +582,7 @@ watch(() => props.quickPhrasesList, (n) => {
             .list_item {
               position: relative;
               flex: 1;
+
               .coverSwitch {
                 position: absolute;
                 width: 100%;
