@@ -287,7 +287,7 @@ const beforeUpload = (data: any) => {
     body: formData,
   })
     .then(response => response.json()).then(response => {
-      if (response.status == 200) {
+      if (response.code == 200||response.status == 'success') {
         const urlImg = response.data.path
         msgRef.value.innerHTML = urlImg;
         state.messagetype = type == 'image' ? 3 : 4
