@@ -219,6 +219,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import Imgt from '@/components/Imgt.vue';
+import { useRoute } from 'vue-router';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -227,6 +228,8 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
+
+const route = useRoute()
 const userInfo = User(pinia);
 const { roleInfo, agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
@@ -480,6 +483,10 @@ const sendMsg = () => {
 
 
 const onOpen = () => {
+  if (route.name=='customer') {
+    state.deviceID = localStorage.getItem('device_id')||state.deviceID
+  }
+
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
   const singin = {
