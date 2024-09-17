@@ -137,20 +137,23 @@
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <div v-for="item in quickPhrasesCateList" :key="item.id">
-              <n-popover trigger="hover" placement="top" :show-arrow="false">
-                <template #trigger>
-                  <div class="short_wrap_item">
-                    <span>{{ item.title }}</span>
+            <n-carousel :slides-per-view="5" :space-between="10" :loop="false" draggable :show-dots="false">
+              <div v-for="item in quickPhrasesCateList" :key="item.id">
+                <n-popover trigger="hover" placement="top" :show-arrow="false">
+                  <template #trigger>
+                    <div class="short_wrap_item">
+                      <span>{{ item.title }}</span>
+                    </div>
+                  </template>
+                  <div class="short_wrap_list">
+                    <span class="short_wrap_title"
+                      v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
+                      @click="chooseQuick(op)" :key="op">{{ op.content }}</span>
                   </div>
-                </template>
-                <div class="short_wrap_list">
-                  <span class="short_wrap_title"
-                    v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)" @click="chooseQuick(op)"
-                    :key="op">{{ op.content }}</span>
-                </div>
-              </n-popover>
-            </div>
+                </n-popover>
+              </div>
+            </n-carousel>
+
           </div>
           <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">快捷语设置</div>
         </div>
@@ -287,7 +290,7 @@ const beforeUpload = (data: any) => {
     body: formData,
   })
     .then(response => response.json()).then(response => {
-      if (response.code == 200||response.status == 'success') {
+      if (response.code == 200 || response.status == 'success') {
         const urlImg = response.data.path
         msgRef.value.innerHTML = urlImg;
         state.messagetype = type == 'image' ? 3 : 4
@@ -473,7 +476,7 @@ const sendMsg = () => {
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
     IWebsocket.sendMessageHandler(encodedRequest);
-  }else{
+  } else {
     Message.error('请输入');
   }
 }
@@ -483,8 +486,8 @@ const sendMsg = () => {
 
 
 const onOpen = () => {
-  if (route.name=='customer') {
-    state.deviceID = localStorage.getItem('device_id')||state.deviceID
+  if (route.name == 'customer') {
+    state.deviceID = localStorage.getItem('device_id') || state.deviceID
   }
 
   const type = 1; // PT_SIGN_IN
