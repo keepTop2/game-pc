@@ -28,7 +28,7 @@
 
             <n-flex class="tr" v-for="(row, index) in resultList" :key="index">
                 <div class="td" :class="{ 'td_money': item.isMoney }" v-for="(item, i) in tableHeader" :key="i"
-                  @click="clickTd(row)" v-html="rowHandle(row, item.key)"></div>
+                  @click="clickTd(row, item.key)" v-html="rowHandle(row, item.key)"></div>
             </n-flex>
             <!-- total -->
             <!-- <n-flex class="tr tt" v-if="resultList.length">
@@ -195,7 +195,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = Number(val).toLocaleString()
             break
         case "operate":
-            rs = (userInfo.value.full_name == row.username) ? '-' : `<span  class="td_btn" style="color: #80FF44;cursor: pointer;user-select: none;">${t('proxy_page_manage')}</span>`
+            rs = (userInfo.value.full_name == row.username && activeTab.value != 1) ? '-' : `<span  class="td_btn" style="color: #80FF44;cursor: pointer;user-select: none;">${t('proxy_page_manage')}</span>`
             break
         default:
             rs = val
@@ -203,8 +203,8 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
     return rs
 }
 
-const clickTd = (row: any) => { // td点击事件
-    if (activeTab.value !== 1 || userInfo.value.full_name != row.username) {
+const clickTd = (row: any, key: any) => { // td点击事件
+    if (key === 'operate') {
         if (userInfo.value.full_name == row.username) {
             Message.error(t('already_max_level'))
             return
