@@ -35,7 +35,7 @@ export default {
     home_page_loginRecord: 'Login record',
     home_page_waterRecord: 'Wash record',
     home_page_paymentManagement: 'Payment management',
-    home_page_myPromo: 'myPromo',
+    home_page_myPromo: 'My Offer',
     home_page_myEmail: 'my Email',
     home_page_onlineService: 'Online service',
     home_page_securitySettings: 'Security center',
