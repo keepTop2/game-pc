@@ -35,7 +35,7 @@
                                 .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(res.data[key])}`)
                                 .join('&');
                             queryString += `&device_id=${deviceId}`
-                            // jump('?' + queryString)
+                            jump('?' + queryString)
                         } else {
                             jump()
                         }
