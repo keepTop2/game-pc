@@ -27,7 +27,7 @@
                   {{ ite.title }}
                 </n-flex>
               </div>
-              <n-flex align="center" justify="center" class="n_select" @click="clickShowSelect">
+              <n-flex align="center" justify="center" class="n_select drop_down_99999" @click="clickShowSelect">
                 <span class="select_txt"
                       :title="dataCateList.find((item: any) => item.id === curType)?.title">
                   {{ dataCateList.find((item: any) => item.id === curType)?.title }}
@@ -73,7 +73,7 @@
                         {{ ite.title }}
                       </n-flex>
                     </div>
-                    <n-flex align="center" justify="center" class="n_select n_select_list"
+                    <n-flex align="center" justify="center" :class="`n_select n_select_list drop_down_${index}`"
                             @click="clickShowSelectList(index)">
                       <span class="select_txt"
                             :title="dataCateList.find((ite: any) => ite.id === item.qhcid)?.title">
@@ -177,6 +177,8 @@ const addForm = ref({
 });
 const showEdit: any = ref(true);
 const curTab: any = ref('0');
+const dropDown: any = ref(99999);
+const dropDownArr: any = ref([]);
 // tag: 所在标签
 const tabArr: any = ref(
   [
@@ -191,9 +193,17 @@ const tabArr: any = ref(
 const showSelect = ref(false);
 const curType: any = ref('');
 const isLoading = ref(false);
-const dataCateList: any = ref([]); // 快捷语分类列表
+const dataCateList: any = ref([
+  // {title: '奋斗奋斗分', id: 1},
+  // {title: 'dsds', id: 2},
+  // {title: '仿佛地方', id: 3},
+]); // 快捷语分类列表
 const dataListOrigin: any = ref([]);
-const dataList: any = ref([]);
+const dataList: any = ref([
+  // {content: '奋斗奋斗分', id: 1},
+  // {content: 'dsdssad', id: 2},
+  // {content: '得实大厦', id: 3},
+]);
 
 const isShow = computed({
   get: function() {
@@ -203,6 +213,7 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+
 // 修改
 const changeEdit = () => {
   showEdit.value = false;
@@ -218,19 +229,46 @@ const clickTab = (e: any) => {
   dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e);
 };
 const clickShowSelect = () => {
+  dropDown.value = 99999;
   showSelect.value = !showSelect.value;
+  document.addEventListener('click', handleClickOutside);
 };
+const handleClickOutside = (event: any) => {
+  if (!dropDownArr.value.includes(dropDown.value)) {
+    dropDownArr.value.push(dropDown.value)
+  }
+  const modal = document.querySelector(`.drop_down_${dropDown.value}`);
+  if (modal && !modal.contains(event.target)) { // 关闭当前
+    closeModal();
+  } else { // 关闭其他
+    showSelect.value = dropDown.value === 99999;
+    dropDownArr.value.map((item: any) => {
+      if (item !== dropDown.value && item !== 99999) {
+        dataList.value[item].showSelect = false;
+      }
+    })
+  }
+}
+const closeModal = () => {
+  showSelect.value = false;
+  if (dataList.value[dropDown.value]) {
+    dataList.value[dropDown.value].showSelect = false;
+  }
+  document.removeEventListener('click', handleClickOutside);
+}
 const clickSelect = (e: any) => {
   curType.value = e;
   showSelect.value = false;
 };
 // 列表下拉类型
 const clickShowSelectList = (index: any) => {
+  dropDown.value = index;
   dataList.value[index].showSelect = !dataList.value[index]?.showSelect;
+  document.addEventListener('click', handleClickOutside);
 };
 // 列表切换类型
 const clickSelectList = (e: any, index: any) => {
-  console.log('----', e, index);
+  // console.log('----', e, index);
   dataList.value[index].qhcid = e;
   dataList.value[index].showSelect = false;
 };

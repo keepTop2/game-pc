@@ -643,7 +643,7 @@ const onMessage: any = async (buffer: any) => {
     console.log('----更新快捷语')
     // 删除
     if (decodeobj1.type == 18) {
-      Message.success(t('proxy_page_caoZuo'));
+      Message.success(t('delete_success'));
     }
     getShortcutlist();
   }
@@ -657,7 +657,7 @@ const onMessage: any = async (buffer: any) => {
     console.log('----更新快捷语分类')
     // 删除
     if (decodeobj1.type == 22) {
-      Message.success(t('proxy_page_caoZuo'));
+      Message.success(t('delete_success'));
     }
     visibleCateSetting.value = false;
     getShortcutCatelist();
