@@ -33,13 +33,13 @@
         </td>
         </th>
       </table>
-      <div class="sign_text">您已经连续签到<b>{{ props.dayNum.ContinuousDays }}</b>天
-        <span class="btn"  @click="setSignIn">补签(<i>{{ props.dayNum.ComplementSignedCount }}</i>)</span>
-      </div>
-      <p class="btn1" @click="setSignIn(props.dayNum.TodayIsSignIn)"
+      <!-- <div class="sign_text">您已经连续签到<b>{{ props.dayNum.ContinuousDays }}</b>天 -->
+        <!-- <span class="btn"  @click="setSignIn">补签(<i>{{ props.dayNum.ComplementSignedCount }}</i>)</span> -->
+      <!-- </div> -->
+      <!-- <p class="btn1" @click="setSignIn(props.dayNum.TodayIsSignIn)"
         :class="props.dayNum.TodayIsSignIn === 'true' ? 'btn_disabled' : ''">
         {{ props.dayNum.TodayIsSignIn === 'true' ? '已签到' : '立即签到' }}
-      </p>
+      </p> -->
     </div>
     <!-- </section> -->
   </div>
@@ -252,20 +252,20 @@ const imgUrl = (item: { isToday: any; MonthContinuousDays: string; IsCliamedRewa
   img === img1 && (item.gou = true);
   return img;
 };
-const setSignIn = (e: string) => {
-  e !== "true" && emit("signInEvent", true);
-};
+// const setSignIn = (e: string) => {
+//   e !== "true" && emit("signInEvent", true);
+// };
 // const intStart = () => {
 //   // 周日开始
 //   sundayStart = props.sundayStart;
 // };
 const setClass = (data: { markClassName: string | number; }) => {
   // 设置class样式
-  let obj = {};
+  let obj:any = {};
   obj[data.markClassName] = data.markClassName;
   return obj;
 };
-const clickDay = (item: { otherMonth: string; dayHide: any; date: any; }, index: any) => {
+const clickDay = (item: { otherMonth: string; dayHide: any; date: any; }, _index: any) => {
   // 点击时间
   if (item.otherMonth === "nowMonth" && !item.dayHide) {
     getList(state.myDate, item.date);
@@ -274,16 +274,16 @@ const clickDay = (item: { otherMonth: string; dayHide: any; date: any; }, index:
     item.otherMonth === "preMonth" ? PreMonth(item.date) : NextMonth(item.date);
   }
 };
-const ChoseMonth = (date: string | number | Date, isChosedDay = true) => {
-  date = dateFormat(date);
-  state.myDate = new Date(date);
-  //   emit("changeMonth", dateFormat(state.myDate));
-  if (isChosedDay) {
-    getList(state.myDate, date, isChosedDay);
-  } else {
-    getList(state.myDate);
-  }
-};
+// const ChoseMonth = (date: string | number | Date, isChosedDay = true) => {
+//   date = dateFormat(date);
+//   state.myDate = new Date(date);
+//   //   emit("changeMonth", dateFormat(state.myDate));
+//   if (isChosedDay) {
+//     getList(state.myDate, date, isChosedDay);
+//   } else {
+//     getList(state.myDate);
+//   }
+// };
 const PreMonth = (date: string, isChosedDay = true) => {
   date = dateFormat(date);
   state.myDate = getOtherMonth(state.myDate, "preMonth");
@@ -316,7 +316,7 @@ const forMatArgs = () => {
   });
   return [markDate, markDateMore];
 };
-const getList = (date: Date, chooseDay?: any, isChosedDay = true) => {
+const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   let [markDate, markDateMore] = forMatArgs();
   state.dateTop = `${date.getMonth() + 1}月签到日历`; // 标题
   let arr = getMonthList(state.myDate); // 获取当月时间
@@ -338,7 +338,7 @@ const getList = (date: Date, chooseDay?: any, isChosedDay = true) => {
     } else if (Number(a) >= tadayMonth && Number(b) > tadayDate) {
       k.futureDate = true;
     }
-    props.data.map((e) => {
+    props.data.map((e: { img: boolean; SignDate: any; }) => {
       // 将数据库返回的数据合并
       e.img = true;
       e.SignDate === k.date && Object.assign(k, e);
@@ -411,7 +411,7 @@ onMounted(async () => {
 });
 watch(
   () => props.data,
-  (n, l) => {
+  (_n, _l) => {
     getList(state.myDate);
   },
   {
@@ -420,7 +420,7 @@ watch(
 );
 watch(
   () => props.markDate,
-  (e) => {
+  (_e) => {
     getList(state.myDate);
   },
   {
@@ -429,7 +429,7 @@ watch(
 );
 watch(
   () => props.markDateMore,
-  (e) => {
+  (_e) => {
     getList(state.myDate);
   },
   {
@@ -438,7 +438,7 @@ watch(
 );
 watch(
   () => props.agoDayHide,
-  (e) => {
+  (_e) => {
     getList(state.myDate);
   },
   {
@@ -447,7 +447,7 @@ watch(
 );
 watch(
   () => props.futureDayHide,
-  (e) => {
+  (_e) => {
     getList(state.myDate);
   },
   {
@@ -456,7 +456,7 @@ watch(
 );
 watch(
   () => props.sundayStart,
-  (e) => {
+  (_e) => {
     // intStart();
     getList(state.myDate);
   },

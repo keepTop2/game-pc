@@ -5,13 +5,14 @@
         <h4 class="top_title">
           <span>快捷语设置</span>
           <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff"
+                           size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
           <n-flex align="center" class="tab_top">
             <a :class="`tab_item tab_item_${item.id} ${curTab === item.id ? 'active' : ''}`"
-              v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
+               v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
               {{ item.title }}
             </a>
           </n-flex>
@@ -20,8 +21,9 @@
             <n-flex class="input_box">
               <!-- 下拉选择-->
               <div v-show="showSelect" class="select_list">
-                <n-flex align="center" justify="center" :class="`select_item ${ite.id === curType ? 'active' : ''}`"
-                  @click="clickSelect(ite.id)" v-for="(ite, idx) in dataCateList" :key="idx">
+                <n-flex align="center" justify="center"
+                        :class="`select_item ${ite.id === curType ? 'active' : ''}`"
+                        @click="clickSelect(ite.id)" v-for="(ite, idx) in dataCateList" :key="idx">
                   {{ ite.title }}
                 </n-flex>
               </div>
@@ -56,20 +58,23 @@
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
-                <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataList"
+                        :key="index">
                   <n-flex justify="center" class="list_lx">
                     <!-- 下拉选择-->
                     <div v-show="item.showSelect" class="select_list">
                       <n-flex align="center" justify="center"
-                        :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
-                        @click="clickSelectList(ite.id, index)" v-for="(ite, idx) in dataCateList" :key="idx">
+                              :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
+                              @click="clickSelectList(ite.id, index)"
+                              v-for="(ite, idx) in dataCateList" :key="idx">
                         {{ ite.title }}
                       </n-flex>
                     </div>
                     <n-flex align="center" justify="center" class="n_select n_select_list"
-                      @click="clickShowSelectList(index)">
+                            @click="clickShowSelectList(index)">
                       {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
-                      <i :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
+                      <i
+                        :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
                         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
                             d="M3.14645 5.64645C3.34171 5.45118 3.65829 5.45118 3.85355 5.64645L8 9.79289L12.1464 5.64645C12.3417 5.45118 12.6583 5.45118 12.8536 5.64645C13.0488 5.84171 13.0488 6.15829 12.8536 6.35355L8.35355 10.8536C8.15829 11.0488 7.84171 11.0488 7.64645 10.8536L3.14645 6.35355C2.95118 6.15829 2.95118 5.84171 3.14645 5.64645Z"
@@ -79,19 +84,29 @@
                     </n-flex>
                   </n-flex>
                   <span class="list_kjy">
-                    <n-input v-model:value="item.content" placeholder="此处修改快捷语" style="text-align: left" clearable />
+                    <n-input v-model:value="item.content" placeholder="此处修改快捷语"
+                             style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch" v-model:value="item.istop" :checked-value="1" :unchecked-value="2"
-                      @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
+                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'istop', index)"></div>
+                    <n-switch class="switch"
+                              v-model:value="item.istop"
+                              :checked-value="1"
+                              :unchecked-value="2"
+                              @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch" v-model:value="item.isautorsp" :checked-value="1" :unchecked-value="2"
-                      @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
+                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'isautorsp', index)"></div>
+                    <n-switch class="switch"
+                              v-model:value="item.isautorsp"
+                              :checked-value="1"
+                              :unchecked-value="2"
+                              @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
-                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
+                  <span class="list_item button" @click="removeList(item, index)"
+                        style="color: #ff2424">
                     删除
                   </span>
                 </n-flex>
@@ -127,7 +142,10 @@ import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
-import { Dialog, Message } from "@/utils/discreteApi";
+import { Dialog, Message } from '@/utils/discreteApi';
+// import { storeToRefs } from 'pinia';
+// import { User } from '@/store/user.ts';
+// import pinia from '@/store';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -147,8 +165,10 @@ const props = defineProps({
 // const visibleSetting = ref(false) // 类别
 const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']);
 
+// const userInfo = User(pinia);
+// const { roleInfo } = storeToRefs(userInfo);
 const addForm = ref({
-  title: ''
+  title: '',
 });
 const curTab: any = ref('0');
 // tag: 所在标签
@@ -160,7 +180,7 @@ const tabArr: any = ref(
     // { title: '提款类', id: 'withdraw' },
     // { title: '投注类', id: 'bet' },
     // { title: '代理类', id: 'agent' },
-  ]
+  ],
 );
 const showSelect = ref(false);
 const curType: any = ref('');
@@ -170,48 +190,62 @@ const dataListOrigin: any = ref([]);
 const dataList: any = ref([]);
 
 const isShow = computed({
-  get: function () {
+  get: function() {
     return props.visible;
   },
-  set: function (value) {
+  set: function(value) {
     emit('update:visible', value);
   },
 });
 // 打开类别设置
 const showSetting = () => {
   // visibleSetting.value = true
-  emit('showCateSetting')
-}
+  emit('showCateSetting');
+};
 const clickTab = (e: any) => {
   // console.log('*****', e)
   curTab.value = e;
-  dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e)
-}
+  dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e);
+};
 const clickShowSelect = () => {
-  showSelect.value = !showSelect.value
-}
+  showSelect.value = !showSelect.value;
+};
 const clickSelect = (e: any) => {
   curType.value = e;
   showSelect.value = false;
-}
+};
 // 列表下拉类型
 const clickShowSelectList = (index: any) => {
-  dataList.value[index].showSelect = !dataList.value[index]?.showSelect
-}
+  dataList.value[index].showSelect = !dataList.value[index]?.showSelect;
+};
 // 列表切换类型
 const clickSelectList = (e: any, index: any) => {
-  console.log('----', e, index)
+  console.log('----', e, index);
   dataList.value[index].qhcid = e;
   dataList.value[index].showSelect = false;
-}
+};
+
+const handleBeforeChange = (item: any, type: any, index: number) => {
+  console.log('before---', item, type, index);
+  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  // if (!item.deviceid) {
+  //   return Message.error('你不能设置此数据')
+  // }
+  console.log('设置===', item[type])
+  dataList.value[index][type] = item[type] == 1 ? 2 : 1;
+};
 // 开关
 const handleUpdateValue = (e: any, type: any, index: number) => {
-  console.log('++++++', e, type, index)
-  dataList.value[index][type] = e;
-}
+  console.log('++++++', e, type, index);
+  // dataList.value[index][type] = e;
+};
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log(item);
+  console.log('删除==', item);
+  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  if (!item.deviceid) {
+    return Message.error('你不能删除此数据');
+  }
   Dialog.warning({
     showIcon: false,
     title: t('paymentManagement_page_tips'),
@@ -219,23 +253,23 @@ const removeList = (item: any, index: number) => {
     positiveText: t('home_page_confirm'),
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
-      console.log('---', item)
+      console.log('---', item);
       // 接口的数据，需要调接口
       if (item.id) {
         const curP = {
           ...item,
           mType: 18, // 16 新增，17 修改，18 删除
-        }
+        };
         doActionQuick(curP);
       } else { // 前端添加的数据，直接删除
-        dataList.value.splice(index, 1)
+        dataList.value.splice(index, 1);
       }
 
     },
     onNegativeClick: () => {
 
     },
-  })
+  });
 };
 // 新增一行
 const addNewLine = () => {
@@ -245,48 +279,48 @@ const addNewLine = () => {
     qhcid: curType.value, // 分类id
     istop: 2, //1 为置顶 其余值不置顶
     isautorsp: 2, //是否是自动回复 前端用的
-  }
+  };
   if (!obj.content) {
     return Message.error(t('内容不能为空'));
   }
-  dataList.value.unshift(obj)
+  dataList.value.unshift(obj);
   addForm.value.title = ''; // 清空
-}
+};
 // 新增快捷语
 const addQuick = () => {
-  if (isLoading.value) return
+  if (isLoading.value) return;
 
   isLoading.value = true;
   dataList.value.map((item: any) => {
     // 这是编辑的数据
     if (item.id) {
-      console.log('编辑快捷语--')
+      console.log('编辑快捷语--');
       const curP = {
         ...item,
         mType: 17, // 16 新增，17 修改，18 删除
-      }
-      doActionQuick(curP)
+      };
+      doActionQuick(curP);
     } else {  // 这是新增的数据
-      console.log('新增快捷语--')
+      console.log('新增快捷语--');
       const curP = {
         ...item,
         mType: 16, // 16 新增，17 修改，18 删除
-      }
-      doActionQuick(curP)
+      };
+      doActionQuick(curP);
     }
-  })
-  console.log(dataList.value)
+  });
+  console.log(dataList.value);
   setTimeout(() => {
-    isLoading.value = false
-  }, 5 * 1000)
-}
+    isLoading.value = false;
+  }, 5 * 1000);
+};
 // 新增编辑删除快捷语
 const doActionQuick = (data: any) => {
   const params = {
-    ...data
-  }
-  emit('addModifyQuick', params)
-}
+    ...data,
+  };
+  emit('addModifyQuick', params);
+};
 
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
@@ -294,17 +328,17 @@ watch(() => props.quickPhrasesCateList, (n) => {
 
     tabArr.value = [
       { title: t('promo_page_all'), id: '0' },
-      ...n
+      ...n,
     ];
     curType.value = dataCateList.value[0]?.id; // 默认第一条
   }
-})
+});
 watch(() => props.quickPhrasesList, (n) => {
   if (n.length) {
     dataList.value = n;
     dataListOrigin.value = n;
   }
-})
+});
 
 
 </script>
@@ -338,7 +372,7 @@ watch(() => props.quickPhrasesList, (n) => {
       box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
       background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
-      >i {
+      > i {
         position: absolute;
         top: 5px;
         right: 15px;
@@ -543,7 +577,15 @@ watch(() => props.quickPhrasesList, (n) => {
             }
 
             .list_item {
+              position: relative;
               flex: 1;
+              .coverSwitch {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                cursor: pointer;
+              }
             }
 
             .select_list {
@@ -592,7 +634,7 @@ watch(() => props.quickPhrasesList, (n) => {
         gap: 8px 34px !important;
         margin-top: 80px;
 
-        >div {
+        > div {
           width: 178px;
           height: 54px;
           background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;

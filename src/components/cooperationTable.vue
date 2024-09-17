@@ -161,16 +161,16 @@ const resultList = computed(() => {
     return arr
 })
 
-const getTotal = (key: string) => { // 获取总数
-    let total = 0
-    resultList.value.forEach((item: any) => {
-        if (userInfo.value.full_name != item.username) {
-            total += Number(item[key])
-        }
-    })
-    if (isNaN(total)) return '-'
-    return Number(total).toLocaleString()
-}
+// const getTotal = (key: string) => { // 获取总数
+//     let total = 0
+//     resultList.value.forEach((item: any) => {
+//         if (userInfo.value.full_name != item.username) {
+//             total += Number(item[key])
+//         }
+//     })
+//     if (isNaN(total)) return '-'
+//     return Number(total).toLocaleString()
+// }
 
 const loading = ref(false)
 const resultHandle = (rs: any) => { // 数据处理

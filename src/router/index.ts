@@ -209,7 +209,7 @@ router.beforeEach(async (to: any, _from: any, next: any) => {
       () => (wsOpen.value && loadingEnd.value), next, true
     )
   } else {
-    if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity'].includes(to.name)) {
+    if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
       await waitForCondition(
         () => wsOpen.value, next, true
       )

@@ -641,6 +641,10 @@ const onMessage: any = async (buffer: any) => {
   // 新增，修改，删除快捷语，重新请求列表
   else if ([16, 17, 18].includes(decodeobj1.type)) {
     console.log('----更新快捷语')
+    // 删除
+    if (decodeobj1.type == 18) {
+      Message.success(t('proxy_page_caoZuo'));
+    }
     getShortcutlist();
   }
   // 快捷语列表
@@ -651,8 +655,11 @@ const onMessage: any = async (buffer: any) => {
   // 快捷语--分类列表，重新请求列表
   else if ([20, 21, 22].includes(decodeobj1.type)) {
     console.log('----更新快捷语分类')
+    // 删除
+    if (decodeobj1.type == 22) {
+      Message.success(t('proxy_page_caoZuo'));
+    }
     visibleCateSetting.value = false;
-    // Message.success(t('proxy_page_caoZuo'));
     getShortcutCatelist();
   }
   // 快捷语--分类列表，重新请求列表
