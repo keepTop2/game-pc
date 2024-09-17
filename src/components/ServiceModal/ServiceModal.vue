@@ -258,7 +258,7 @@ const state: any = reactive({
   chatMessagesList: [], // 聊天消息
   deviceID: roleInfo.value.id,  //2654917
   requestid: 5000, //对方ID
-  todeviceid: 10086, //对方设备ID
+  todeviceid: '', //对方设备ID
   firstIn: false,
   messageType: null,
   userData: {},
@@ -422,6 +422,9 @@ const groupClick = (item: any) => {
 
 // 发送消息
 const sendMsg = () => {
+  if (!state.todeviceid) {
+    return
+  }
   testMsg.value = msgRef.value.innerHTML
   if (testMsg.value != '') {
     const type = 6; // 给用户发消息
