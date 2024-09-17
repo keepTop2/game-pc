@@ -137,9 +137,9 @@ export default {
 
   // 洗码记录
   washRecord_page_plat: 'Platform',
-  washRecord_page_amount: 'Wash Code Amount',
-  washRecord_page_money: 'Wash Code Money',
-  washRecord_page_time: 'Wash Code Time',
+  washRecord_page_amount: 'Rake volume',
+  washRecord_page_money: 'Rakeback amount',
+  washRecord_page_time: 'Rakeback time',
   washRecord_page_currPlat: 'Current Platform',
 
   // paymentManagement
