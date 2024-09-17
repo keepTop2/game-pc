@@ -28,7 +28,10 @@
                 </n-flex>
               </div>
               <n-flex align="center" justify="center" class="n_select" @click="clickShowSelect">
-                {{ dataCateList.find((item: any) => item.id === curType)?.title }}
+                <span class="select_txt"
+                      :title="dataCateList.find((item: any) => item.id === curType)?.title">
+                  {{ dataCateList.find((item: any) => item.id === curType)?.title }}
+                </span>
                 <i :class="`n-base-icon n-base-suffix__arrow ${showSelect ? 'selectIcon' : ''}`">
                   <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -52,7 +55,7 @@
               <span>自动回复</span>
               <span>操作</span>
             </n-flex>
-            <div class="table_body">
+            <div :class="`table_body ${showEdit && 'cant_edit'}`">
               <div class="nodata" v-if="!dataList.length">
                 <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
@@ -72,7 +75,11 @@
                     </div>
                     <n-flex align="center" justify="center" class="n_select n_select_list"
                             @click="clickShowSelectList(index)">
-                      {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
+                      <span class="select_txt"
+                            :title="dataCateList.find((ite: any) => ite.id === item.qhcid)?.title">
+                     {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
+                    </span>
+
                       <i
                         :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
                         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,7 +95,8 @@
                              style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
-                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'istop', index)"></div>
+                    <div class="coverSwitch" :data-value="item.istop"
+                         @click="handleBeforeChange(item, 'istop', index)"></div>
                     <n-switch class="switch"
                               v-model:value="item.istop"
                               :checked-value="1"
@@ -97,7 +105,8 @@
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
-                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'isautorsp', index)"></div>
+                    <div class="coverSwitch" :data-value="item.istop"
+                         @click="handleBeforeChange(item, 'isautorsp', index)"></div>
                     <n-switch class="switch"
                               v-model:value="item.isautorsp"
                               :checked-value="1"
@@ -105,7 +114,8 @@
                               @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
-                  <span class="list_item button" @click="removeList(item, index)"
+                  <span v-if="!item.deviceid" class="list_item"></span>
+                  <span v-else class="list_item button" @click="removeList(item, index)"
                         style="color: #ff2424">
                     删除
                   </span>
@@ -117,7 +127,9 @@
           </div>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
-            <n-flex align="center" justify="center" class="button">修改</n-flex>
+            <n-flex v-show="showEdit" @click="changeEdit" align="center" justify="center"
+                    class="button">修改
+            </n-flex>
             <n-flex align="center" justify="center" class="button" @click="addQuick">保存</n-flex>
           </n-flex>
 
@@ -134,13 +146,6 @@
 import { computed, ref, watch } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import categoryList from './categoryList.vue';
-// import btn from './btn.vue';
-// import Common from '@/utils/common';
-// import { Net } from '@/net/Net';
-// import { NetPacket } from '@/netBase/NetPacket';
-// import { MessageEvent2 } from '@/net/MessageEvent2';
-// import { NetMsgType } from '@/netBase/NetMsgType';
-// import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
 import { Dialog, Message } from '@/utils/discreteApi';
 // import { storeToRefs } from 'pinia';
@@ -170,6 +175,7 @@ const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']
 const addForm = ref({
   title: '',
 });
+const showEdit: any = ref(true);
 const curTab: any = ref('0');
 // tag: 所在标签
 const tabArr: any = ref(
@@ -197,6 +203,10 @@ const isShow = computed({
     emit('update:visible', value);
   },
 });
+// 修改
+const changeEdit = () => {
+  showEdit.value = false;
+};
 // 打开类别设置
 const showSetting = () => {
   // visibleSetting.value = true
@@ -227,11 +237,11 @@ const clickSelectList = (e: any, index: any) => {
 
 const handleBeforeChange = (item: any, type: any, index: number) => {
   console.log('before---', item, type, index);
-  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表官方
   // if (!item.deviceid) {
-  //   return Message.error('你不能设置此数据')
+  //   return Message.error(t('proxy_page_caoZuoFail'))
   // }
-  console.log('设置===', item[type])
+  console.log('设置===', item[type]);
   dataList.value[index][type] = item[type] == 1 ? 2 : 1;
 };
 // 开关
@@ -244,7 +254,7 @@ const removeList = (item: any, index: number) => {
   console.log('删除==', item);
   // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
   if (!item.deviceid) {
-    return Message.error('你不能删除此数据');
+    return Message.error(t('proxy_page_caoZuoFail'));
   }
   Dialog.warning({
     showIcon: false,
@@ -280,7 +290,7 @@ const addNewLine = () => {
     istop: 2, //1 为置顶 其余值不置顶
     isautorsp: 2, //是否是自动回复 前端用的
   };
-  if (!obj.content) {
+  if (!obj.content.trim()) {
     return Message.error(t('内容不能为空'));
   }
   dataList.value.unshift(obj);
@@ -292,6 +302,7 @@ const addQuick = () => {
 
   isLoading.value = true;
   dataList.value.map((item: any) => {
+    item.content = item.content.trim();
     // 这是编辑的数据
     if (item.id) {
       console.log('编辑快捷语--');
@@ -310,6 +321,7 @@ const addQuick = () => {
     }
   });
   console.log(dataList.value);
+  showEdit.value = true;
   setTimeout(() => {
     isLoading.value = false;
   }, 5 * 1000);
@@ -413,6 +425,7 @@ watch(() => props.quickPhrasesList, (n) => {
           //flex: 1;
           width: 100px;
           height: 42px;
+          line-height: 16px;
           color: #8d81c1;
 
           &.active {
@@ -429,15 +442,27 @@ watch(() => props.quickPhrasesList, (n) => {
       .n_select {
         font-size: 16px;
         cursor: pointer;
-        gap: 0 7px !important;
+        gap: 0 !important;
         position: absolute;
         top: 1.5px;
         z-index: 1;
         min-width: 76px;
-        width: auto;
+        width: 120px;
+        padding: 0 3px;
         height: 40px;
         border-radius: 10px;
         background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 54%, #3c279a 73%);
+
+        .select_txt {
+          max-width: 100px;
+          line-height: 16px;
+          word-break: break-all;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+          overflow: hidden;
+        }
 
         &.n_select_list {
           position: relative;
@@ -462,13 +487,14 @@ watch(() => props.quickPhrasesList, (n) => {
         position: absolute;
         z-index: 19;
         min-width: 74px;
+        max-width: 120px;
         top: 45px;
         text-align: center;
 
         .select_item {
           cursor: pointer;
           color: #8e82c2;
-          height: 36px;
+          min-height: 36px;
           border-bottom: solid 1px rgba(255, 255, 255, 0.1);
 
           &.active {
@@ -493,7 +519,7 @@ watch(() => props.quickPhrasesList, (n) => {
       .n-input {
         font-size: 16px;
         height: 40px;
-        padding: 0 30px 0 80px;
+        padding: 0 30px 0 110px;
         border-radius: 12px;
         box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
         border: solid 1px #322c59;
@@ -561,6 +587,10 @@ watch(() => props.quickPhrasesList, (n) => {
           height: 360px;
           overflow-y: auto;
 
+          &.cant_edit {
+            pointer-events: none;
+          }
+
           .table_list {
             gap: 0 !important;
             position: relative;
@@ -579,6 +609,7 @@ watch(() => props.quickPhrasesList, (n) => {
             .list_item {
               position: relative;
               flex: 1;
+
               .coverSwitch {
                 position: absolute;
                 width: 100%;

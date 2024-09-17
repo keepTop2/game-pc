@@ -178,6 +178,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
   const getChatMsg12 = (decodeobj1: any) => {
     const decodeobj00 = decodeContent(decodeobj1.data, 'GroupListRsp');
     state_data.groupList = decodeobj00.groupitem;
+    console.log('分组列表',state_data.groupList)
   };
 
   //处理聊天数据表情
@@ -288,7 +289,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     var payload = {
       id: item.id,
       deviceid: state.deviceID,
-      chatgroupid: decodeobj00.id || 0,
+      chatgroupid: setType && setType.id == 5?-1: decodeobj00.id || 0,
       sort: 6,
       istop: setType && setType.id == 1 && item.istop == 1 ? 6 : 1,
       enableflag: setType && setType.id == 3 ? 1 : 6,
@@ -298,7 +299,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
 
   // 置顶 禁言，移动分组
   const itemSet = (o: any, item: any) => {
-    editchat(item, item, o);
+     editchat(item, item, o);
     if (o.id == 1) { // 置顶
       item.istop = item.istop == 1 ? 6 : 1;
     }

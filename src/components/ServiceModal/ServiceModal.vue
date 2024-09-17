@@ -30,10 +30,10 @@
         <!-- 分组 -->
         <div class="group_area">
           <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
-          <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
-            size="1.8rem"></iconpark-icon>
-          <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
-        </div>
+            <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
+              size="1.8rem"></iconpark-icon>
+            <span :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }">{{ item.name }}</span>
+          </div>
         </div>
         <!-- 编辑 -->
         <div class="set_item" @click="groupClick('edit')">
@@ -58,7 +58,7 @@
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type&&agentInfo.user_type>0">分组管理
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
           </div>
         </div>
         <div class="list_wrap">
@@ -83,20 +83,25 @@
                   <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
                     deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
                 </template>
-                <div class="select_wrap" >
+                <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
                     <span v-else> {{ o.name }}</span>
                   </div>
-                  <div  v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
+                  <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{ selectList.find((i:any)=>i.id==4)?.name }}</div>
+                        <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
                       </div>
                     </n-popover>
+                  </div>
+                  <!-- 从分组移除 -->
+                  <div v-if="state.groupType != 'all' && agentInfo.user_type && agentInfo.user_type > 0"
+                    @click="itemSet({ id: 5 }, item)">
+                    <span>从分组移除</span>
                   </div>
                 </div>
               </n-popover>
@@ -214,6 +219,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import Imgt from '@/components/Imgt.vue';
+import { useRoute } from 'vue-router';
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -222,6 +228,8 @@ interface tabType {
   id: number;
 }
 import { useI18n } from 'vue-i18n';
+
+const route = useRoute()
 const userInfo = User(pinia);
 const { roleInfo, agentInfo } = storeToRefs(userInfo);
 const msgRef: any = ref(null)
@@ -250,7 +258,7 @@ const state: any = reactive({
   todeviceid: 10086, //对方设备ID
   firstIn: false,
   messageType: null,
-  userData: '',
+  userData: {},
   activeId: null,
   search: '',   // 查询用户
   groupType: 'all',
@@ -279,7 +287,7 @@ const beforeUpload = (data: any) => {
     body: formData,
   })
     .then(response => response.json()).then(response => {
-      if (response.status == 200) {
+      if (response.code == 200||response.status == 'success') {
         const urlImg = response.data.path
         msgRef.value.innerHTML = urlImg;
         state.messagetype = type == 'image' ? 3 : 4
@@ -295,6 +303,8 @@ const selectUser = (item: any) => {
   state.userData = item
   state.activeId = item.id
   state.todeviceid = item.Tdeviceid
+  testMsg.value = ''
+  msgRef.value.innerHTML = ''
   // 获取聊天记录
   synchistorymsg()
   allRead()
@@ -329,7 +339,7 @@ const selectList = [
   { name: '置顶', id: 1 },
   // { name: '未读', id: 2 },
   { name: '屏蔽', id: 3 },
-  { name: '移动分组到', id: 4 }
+  { name: '移动分组到', id: 4 },
 ]
 // 添加表情
 
@@ -419,6 +429,9 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
+    if (testMsg.value) {
+
+    }
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
     const errMsg1 = MessageTextContentItem.verify(msginput);
@@ -460,6 +473,8 @@ const sendMsg = () => {
     console.log("decodedMessage1.data :", decodedString2)
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
     IWebsocket.sendMessageHandler(encodedRequest);
+  }else{
+    Message.error('请输入');
   }
 }
 
@@ -468,6 +483,10 @@ const sendMsg = () => {
 
 
 const onOpen = () => {
+  if (route.name=='customer') {
+    state.deviceID = localStorage.getItem('device_id')||state.deviceID
+  }
+
   const type = 1; // PT_SIGN_IN
   const requestid = 5000;
   const singin = {
@@ -551,6 +570,9 @@ const onMessage: any = async (buffer: any) => {
   state.messageType = decodeobj1.type
   if (decodeobj1.code && decodeobj1.code > 1000) {
     Message.error(t(decodeobj1.code));
+    testMsg.value = ''
+    msgRef.value.innerHTML = ''
+    state.messagetype = 1
     return;
   }
   if (decodeobj1.type == 6) {//给用户发送消息的，确定发送成功还是失败
@@ -558,10 +580,10 @@ const onMessage: any = async (buffer: any) => {
     if (!decodeobj1.code) {
       var datatime = getDateFromat()
       state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
-      testMsg.value = ''
-      msgRef.value.innerHTML = ''
-      state.messagetype = 1
     }
+    testMsg.value = ''
+    msgRef.value.innerHTML = ''
+    state.messagetype = 1
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
@@ -583,6 +605,7 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 14) {
     Message.success('操作成功')
     getChatlist()
+    state.groupType = 'all'
   }
 
   //分组列表保存回执
@@ -591,10 +614,11 @@ const onMessage: any = async (buffer: any) => {
     groupRef.value.getChatMsg9(decodeobj1)
     getListGroup()
   }
-    //分组列表保存回执
-    else if (decodeobj1.type == 10) {
+  //分组列表保存回执
+  else if (decodeobj1.type == 10) {
     Message.success('操作成功')
-   
+    groupRef.value.getChatMsg9(decodeobj1)
+
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {
@@ -997,7 +1021,7 @@ onMounted(async () => {
     margin-bottom: 10px;
 
     &:last-child {
-      // padding-left: 0px;
+      padding-left: 0px;
     }
 
     &:hover {
@@ -1137,8 +1161,9 @@ onMounted(async () => {
   color: #ffffff;
   cursor: pointer;
 }
-.group_area{
+
+.group_area {
   max-height: 430px;
-overflow-y: auto;
+  overflow-y: auto;
 }
 </style>
