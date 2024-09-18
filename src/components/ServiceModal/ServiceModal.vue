@@ -661,6 +661,7 @@ const onMessage: any = async (buffer: any) => {
       Message.success(t('delete_success'));
     }
     getShortcutlist();
+    getShortcutCatelist();
   }
   // 快捷语列表
   else if ([19].includes(decodeobj1.type)) {

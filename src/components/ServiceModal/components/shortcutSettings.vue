@@ -81,6 +81,7 @@
                     </span>
 
                       <i
+                        v-if="item.deviceid"
                         :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
                         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -91,7 +92,8 @@
                     </n-flex>
                   </n-flex>
                   <span class="list_kjy">
-                    <n-input v-model:value="item.content" placeholder="此处修改快捷语"
+                     <!-- 官方的不能编辑 -->
+                    <n-input v-model:value="item.content" placeholder="此处修改快捷语" :disabled="!item.deviceid"
                              style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
@@ -114,6 +116,7 @@
                               @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
+                  <!-- 官方的不能删除 -->
                   <span v-if="!item.deviceid" class="list_item"></span>
                   <span v-else class="list_item button" @click="removeList(item, index)"
                         style="color: #ff2424">
@@ -262,6 +265,10 @@ const clickSelect = (e: any) => {
 };
 // 列表下拉类型
 const clickShowSelectList = (index: any) => {
+  // 官方的不能编辑
+  if (!dataList.value[index].deviceid) {
+    return
+  }
   dropDown.value = index;
   dataList.value[index].showSelect = !dataList.value[index]?.showSelect;
   document.addEventListener('click', handleClickOutside);
@@ -281,6 +288,14 @@ const handleBeforeChange = (item: any, type: any, index: number) => {
   // }
   console.log('设置===', item[type]);
   dataList.value[index][type] = item[type] == 1 ? 2 : 1;
+  // 只能设置一条自动回复
+  if (type === 'isautorsp' && dataList.value[index][type] == 1) {
+    dataList.value.forEach((item: any, i: any) => {
+      if (index !== i) {
+        item[type] = 2;
+      }
+    })
+  }
 };
 // 开关
 const handleUpdateValue = (e: any, type: any, index: number) => {
@@ -513,6 +528,7 @@ watch(() => props.quickPhrasesList, (n) => {
 
           &.selectIcon {
             transform: rotate(180deg);
+            left: 5px;
           }
         }
 
