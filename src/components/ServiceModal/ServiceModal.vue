@@ -488,9 +488,14 @@ const sendMsg = () => {
 
 
 
-const onOpen = () => {
+const onOpen = async () => {
   if (route.name == 'customer') {
-    state.deviceID = localStorage.getItem('device_id') || state.deviceID
+    state.deviceID = (localStorage.getItem('device_id') || state.deviceID) * 1
+    const agent_infodata: any = localStorage.getItem('agent_infodata') || {}
+    if (agent_infodata) {
+      const data = JSON.parse(agent_infodata)
+      agentInfo.value = data
+    }
   }
 
   const type = 1; // PT_SIGN_IN
@@ -540,7 +545,7 @@ const getChatMsgPublic = (data: any) => {
       }
 
     } else {    // 聊天记录
-     
+
       state.chatMessagesList.unshift(messageObj)
     }
   }
@@ -586,8 +591,8 @@ const onMessage: any = async (buffer: any) => {
     // 没返回错误码正常可发送
     if (!decodeobj1.code) {
       var datatime = getDateFromat()
-      if (state.messagetype!=1&&agentInfo.value.user_type!=1) {
-        testMsg.value = `您发送的${state.messagetype==3?'图片':'视频'}正在审核，请耐心等待，审核通过后显示在前台`
+      if (state.messagetype != 1 && agentInfo.value.user_type != 1) {
+        testMsg.value = `您发送的${state.messagetype == 3 ? '图片' : '视频'}正在审核，请耐心等待，审核通过后显示在前台`
       }
       state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
     }
