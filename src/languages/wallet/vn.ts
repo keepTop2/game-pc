@@ -153,7 +153,7 @@ export default {
   paymentManagement_page_tipContent: 'Xác nhận xóa?',
   paymentManagement_page_add_one_bank: 'Thêm thẻ ngân hàng',
   paymentManagement_page_error_msg: 'Lỗi nhập',
-  paymentManagement_page_max_bank: 'Mỗi người dùng có thể thêm tối đa 6 thẻ ngân hàng, bạn đã có {num}',
+  paymentManagement_page_max_bank: 'Mỗi người có thể thêm tối đa 6 thẻ ngân hàng, hiện sở hữu {num}',
   paymentManagement_page_new_bank: 'Thêm thẻ ngân hàng mới',
   paymentManagement_page_default_bank: 'Thẻ mặc định',
   paymentManagement_page_delete: 'Xóa',

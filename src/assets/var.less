@@ -1,7 +1,7 @@
 :root {
-    --c-inactive: #8e82c2;
-    --c-white: #ffffff;
-    --c-bg-1: #2d1769;
+    //--c-inactive: #8e82c2;
+    //--c-white: #fff;
+    //--c-bg-1: #2d1769;
     --c-bg-2: #231353;
     --c-bg-3: #372771;
     --c-bg-4: #1e153e;
@@ -20,4 +20,30 @@
     --t-lg: 18px;
     --t-xl: 20px;
     --t-xxl: 24px;
+}
+// 公用
+[theme=dayMode], [theme=nightMode] {
+  --c-white: #fff; // 侧边栏背字体色
+}
+// 日间模式
+[theme=dayMode] {
+  --bg-f-color: #361e79; // 全局背景色
+  --bg-t-color: #22203e; // 全局背景色
+  --c-inactive: #8e82c2; // 侧边栏字体色
+  --c-bg-1: #2d1769; // 侧边栏背景色
+  --c-shadow: #131421;
+  --c-he-f: rgba(2, 4, 109, 0.9); // 头部导航栏背景色
+  --c-he-t: rgba(30, 11, 86, 0.9); // 头部导航栏背景色
+  --c-border: #5a47b2;
+}
+// 夜间模式
+[theme=nightMode] {
+  --bg-f-color: #080126; // 全局背景色
+  --bg-t-color: #120f0f; // 全局背景色
+  --c-inactive: #8e82c2; // 侧边栏字体色
+  --c-bg-1: #060113; // 侧边栏背景色
+  --c-shadow: #030309;
+  --c-he-f: #000121; // 头部导航栏背景色
+  --c-he-t: #000537; // 头部导航栏背景色
+  --c-border: #2b1e68;
 }

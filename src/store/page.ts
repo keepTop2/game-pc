@@ -20,7 +20,8 @@ interface PageState {
     adminI18n: any,
     lang: string;
     unread: number,
-    homeGameData: any
+    homeGameData: any,
+    themeColor: string
 }
 const languages: any = {
     zh: 'zh',
@@ -44,9 +45,18 @@ export const Page = defineStore('page', {
         adminI18n: null,
         lang: 'zh',
         unread: 0,
-        homeGameData: null
+        homeGameData: null,
+        themeColor: 'dayMode', // 日间模式 dayMode， 夜间模式 nightMode
     }),
     actions: {
+      // 设置皮肤
+      async setTheme(value: any) {
+        if (value) {
+          this.themeColor = value
+        }
+        Local.set('themeColor', this.themeColor)
+        document.documentElement.setAttribute('theme', this.themeColor)
+      },
         // 获取未读消息数量
         async getUnread(isFirst = false) {
             if (isFirst) {

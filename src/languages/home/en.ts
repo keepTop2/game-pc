@@ -33,7 +33,7 @@ export default {
     home_page_betRecord: 'Betting record',
     home_page_auditRecord: 'Audit record',
     home_page_loginRecord: 'Login record',
-    home_page_waterRecord: 'Wash record',
+    home_page_waterRecord: 'Rakeback records',
     home_page_paymentManagement: 'Payment management',
     home_page_myPromo: 'My Offer',
     home_page_myEmail: 'my Email',

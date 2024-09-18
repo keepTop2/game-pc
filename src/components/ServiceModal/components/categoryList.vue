@@ -6,7 +6,8 @@
         <h4 class="top_title">
           <span>类别管理</span>
           <i>
-            <iconpark-icon @click="closeWin" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="closeWin" icon-id="Group39368" color="#fff"
+                           size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
@@ -31,14 +32,18 @@
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
-                <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList" :key="index">
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList"
+                        :key="index">
                   <n-flex justify="center" class="list_lx">
-                    <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效" style="text-align: left" />
+                    <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效"
+                             style="text-align: left" />
                   </n-flex>
                   <span class="list_kjy">
                     {{ item?.num || 0 }}
                   </span>
-                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
+                  <span v-if="!item.deviceid || item?.num" class="list_item"></span>
+                  <span v-else class="list_item button" @click="removeList(item, index)"
+                        style="color: #ff2424">
                     删除
                   </span>
                 </n-flex>
@@ -50,7 +55,8 @@
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
             <n-flex align="center" justify="center" @click="closeWin" class="button">关闭</n-flex>
-            <n-flex align="center" justify="center" class="button" @click="addCateQuick">保存</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addCateQuick">保存
+            </n-flex>
           </n-flex>
 
         </div>
@@ -70,7 +76,7 @@ import Imgt from '@/components/Imgt.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 import { useI18n } from 'vue-i18n';
-import { Dialog, Message } from "@/utils/discreteApi";
+import { Dialog, Message } from '@/utils/discreteApi';
 // import { User } from '@/store/user.ts';
 // import pinia from '@/store';
 // import { storeToRefs } from 'pinia';
@@ -84,7 +90,7 @@ const props = defineProps({
   quickPhrasesCateList: {
     type: Array,
     default: [],
-  }
+  },
 });
 const emit = defineEmits(['update:visible', 'addModifyCateQuick']);
 
@@ -92,29 +98,29 @@ const emit = defineEmits(['update:visible', 'addModifyCateQuick']);
 // const { roleInfo } = storeToRefs(userInfo);
 
 const addForm = ref({
-  title: ''
+  title: '',
 });
 const isLoading = ref(false);
 const dataCateList: any = ref([]);
 
 const isShow = computed({
-  get: function () {
+  get: function() {
     return props.visible;
   },
-  set: function (value) {
+  set: function(value) {
     emit('update:visible', value);
   },
 });
 // 关闭
 const closeWin = () => {
-  isShow.value = false
-}
+  isShow.value = false;
+};
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log('删除==' ,item);
-  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方，或者下面有快捷语(num 大于0 代表有快捷语)
+  console.log('删除==', item);
+  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表官方，或者下面有快捷语(num 大于0 代表有快捷语)
   if (!item.deviceid || item?.num) {
-    return Message.error('你不能删除此数据')
+    return Message.error(t('proxy_page_caoZuoFail'));
   }
   Dialog.warning({
     showIcon: false,
@@ -123,81 +129,88 @@ const removeList = (item: any, index: number) => {
     positiveText: t('home_page_confirm'),
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
-      console.log('---', item)
+      console.log('---', item);
       // 接口的数据，需要调接口
       if (item.id) {
         const curP = {
           ...item,
           mType: 22, // 20 新增，21 修改，22 删除
-        }
+        };
         doActionCateQuick(curP);
       } else { // 前端添加的数据，直接删除
-        dataCateList.value.splice(index, 1)
+        dataCateList.value.splice(index, 1);
       }
     },
     onNegativeClick: () => {
 
     },
-  })
+  });
 };
 // 新增一行
 const addNewLine = () => {
   const obj = {
-    title: addForm.value.title,
+    title: addForm.value.title.trim(),
     mType: 20, // 20 新增，21 修改，22 删除
-  }
+  };
   if (!obj.title) {
     return Message.error(t('内容不能为空'));
   }
-  dataCateList.value.unshift(obj)
+  if (obj.title.length > 12) {
+    return Message.error(t('内容超出长度'));
+  }
+  dataCateList.value.unshift(obj);
   addForm.value.title = ''; // 清空
-}
+};
 // 新增快捷语
 const addCateQuick = () => {
-  if (isLoading.value) return
+  if (isLoading.value) return;
 
   isLoading.value = true;
   dataCateList.value.map((item: any) => {
+    item.title = item.title.trim();
+    if (item.title.length > 12) {
+      return Message.error(t('内容超出长度'));
+    }
     // 这是编辑的数据
     if (item.id) {
-      console.log('编辑快捷语分类哈哈哈--')
+      console.log('编辑快捷语分类哈哈哈--');
       const curP = {
         ...item,
         mType: 21, // 20 新增，21 修改，22 删除
-      }
-      doActionCateQuick(curP)
+      };
+      doActionCateQuick(curP);
     } else {  // 这是新增的数据
-      console.log('新增快捷语分类啊啊啊--')
+      console.log('新增快捷语分类啊啊啊--');
       const curP = {
         ...item,
         mType: 20, // 20 新增，21 修改，22 删除
-      }
-      doActionCateQuick(curP)
+      };
+      doActionCateQuick(curP);
     }
-  })
-  console.log(dataCateList.value)
+  });
+  console.log(dataCateList.value);
   setTimeout(() => {
-    isLoading.value = false
-  }, 5 * 1000)
-}
+    isLoading.value = false;
+  }, 5 * 1000);
+};
 // 新增编辑删除快捷语
 const doActionCateQuick = (data: any) => {
   const params = {
     ...data,
-  }
-  emit('addModifyCateQuick', params)
-}
+  };
+  emit('addModifyCateQuick', params);
+};
 watch(() => props.visible, (n) => {
   // 关闭
   if (!n) {
     addForm.value.title = ''; // 清空
   }
-})
+});
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
     dataCateList.value = n;
   }
-})
+});
 
 </script>
 <style lang="less" scoped>
@@ -230,7 +243,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
       box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
       background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
-      >i {
+      > i {
         position: absolute;
         top: 5px;
         right: 15px;
@@ -352,7 +365,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
         gap: 8px 31px !important;
         margin-top: 90px;
 
-        >div {
+        > div {
           width: 170px;
           height: 50px;
           background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;

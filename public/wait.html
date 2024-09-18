@@ -29,9 +29,12 @@
                     })
                     .then(res => {
                         if (res.data) {
-                            const queryString = Object.keys(res.data)
+                            let queryString = Object.keys({
+                                ...res.data,
+                            })
                                 .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(res.data[key])}`)
                                 .join('&');
+                            queryString += `&device_id=${deviceId}`
                             jump('?' + queryString)
                         } else {
                             jump()
