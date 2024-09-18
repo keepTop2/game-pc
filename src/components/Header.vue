@@ -270,12 +270,16 @@ if (paramsObj.user_level) { // agent_level
   localStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
   localStorage.setItem('agent_level', paramsObj.user_level)
   localStorage.setItem('device_id', paramsObj.device_id)
+  // 缓存
+  sessionStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
+  sessionStorage.setItem('agent_level', paramsObj.user_level)
+  sessionStorage.setItem('device_id', paramsObj.device_id)
   // kefuVisible.value = true
   router.push('/customer')
 } else {
-  localStorage.setItem('agent_level', '')
-  localStorage.setItem('agent_infodata', '')
-  localStorage.setItem('device_id', '')
+  localStorage.setItem('agent_level', sessionStorage.getItem('agent_level') || '')
+  localStorage.setItem('agent_infodata', sessionStorage.getItem('agent_infodata') || '')
+  localStorage.setItem('device_id', sessionStorage.getItem('device_id') || '')
 }
 const iconClick = async (item: any) => {
   console.log(item)
