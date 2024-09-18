@@ -609,7 +609,7 @@ const onMessage: any = async (buffer: any) => {
   }
   // 移动好友到分组成功
   else if (decodeobj1.type == 14) {
-    Message.success('操作成功')
+    // Message.success('操作成功')
     getChatlist()
     state.groupType = 'all'
   }
