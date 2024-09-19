@@ -80,8 +80,10 @@
               </div>
               <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
-                  <div class="high_proxy" :style="{ background: deepObj[item.deep||item.agentlevel] ? deepObj[item.deep||item.agentlevel].color : '' }">{{
-                    setLabel(item)}}</div>
+                  <div class="high_proxy"
+                    :style="{ background: deepObj[item.deep || item.agentlevel] ? deepObj[item.deep || item.agentlevel].color : '' }">
+                    {{
+                      setLabel(item) }}</div>
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
@@ -103,7 +105,7 @@
                     @click="itemSet({ id: 5 }, item)">
                     <span>从分组移除</span>
                   </div>
-                </div> 
+                </div>
               </n-popover>
             </div>
           </div>
@@ -124,8 +126,9 @@
                   <span>{{ i.TUsername }}</span>
                 </div>
 
-                <div class="high_proxy" :style="{ background: deepObj[i.deep||i.agentlevel] ? deepObj[i.deep||i.agentlevel].color : '' }">{{
-                  setLabel(i) }}</div>
+                <div class="high_proxy"
+                  :style="{ background: deepObj[i.deep || i.agentlevel] ? deepObj[i.deep || i.agentlevel].color : '' }">{{
+                    setLabel(i) }}</div>
               </div>
             </div>
           </div>
@@ -301,16 +304,16 @@ const beforeUpload = (data: any) => {
     })
 }
 
-const setLabel = (val:any)=>{
- if (agentInfo.value.user_type==1) {
-  const obj:any = {
-    0:'官方玩家',
-    5:'官方代理',
+const setLabel = (val: any) => {
+  if (agentInfo.value.user_type == 1) {
+    const obj: any = {
+      0: '官方玩家',
+      5: '官方代理',
+    }
+    return obj[val.agentlevel] || '代理玩家'
+  } else {
+    return deepObj[val.deep] && deepObj[val.deep].label || '直属玩家'
   }
-   return obj[val.agentlevel]||'代理玩家'
- }else{
-   return  deepObj[val.deep] && deepObj[val.deep].label || '直属玩家'
- }
 }
 
 
@@ -534,7 +537,7 @@ const onOpen = async () => {
   IWebsocket.sendMessageHandler(encodedRequest);
 
 }
-const getChatMsgPublic = (data: any) => {
+const getChatMsgPublic = (data: any, type?: any) => {
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
   let obj: any = {
     1: 'MessageTextContent',//文字消息
@@ -555,16 +558,20 @@ const getChatMsgPublic = (data: any) => {
       content: decodeobj3.data,   //消息
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
-    if (state.messageType == 4) {    //获取到新消息如果是当前用户直接显示
+    if (type == 4) {    //获取到新消息如果是当前用户直接显示
       if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj)
       } else {   // 不是当前用户则未读消息加1
-        const todeviceItem = chatitemList.value.find((item: any) => item.todeviceid == decodeobj2.fromdeviceid)
-        todeviceItem && todeviceItem.unreadnums++
+        const todeviceItem = chatitemList.value.find((item: any) => item.Tdeviceid == decodeobj2.fromdeviceid)
+        if (todeviceItem) {
+          if (todeviceItem.unreadnums && todeviceItem.unreadnums >= 0) {
+            todeviceItem.unreadnums++
+          } else {
+            todeviceItem.unreadnums = 1
+          }
+        }
       }
-
     } else {    // 聊天记录
-
       state.chatMessagesList.unshift(messageObj)
     }
   }
@@ -574,7 +581,7 @@ const getChatMsgPublic = (data: any) => {
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   const decodeobj00 = decodeContent(decodeobj1.data, ServiceMessage)
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
-  getChatMsgPublic(decodeobj00)
+  getChatMsgPublic(decodeobj00, decodeobj1.type)
 }
 
 
@@ -595,7 +602,7 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
   }
 }
 
-const itemAction = (item:any, o:any)=>{
+const itemAction = (item: any, o: any) => {
   editchat(item, o)
   state.isEditchat = true
 }
@@ -604,7 +611,12 @@ const onMessage: any = async (buffer: any) => {
   const decodeobj1 = decodeContent(buffer, 'Output');
   console.log("onMessage/Output output0 ", decodeobj1)
   state.messageType = decodeobj1.type
+
   if (decodeobj1.code && decodeobj1.code > 1000) {
+    if (decodeobj1.code == '10022') {
+      Message.error('删除失败，该分组可能存在下级');
+      return
+    }
     Message.error(t(decodeobj1.code));
     testMsg.value = ''
     msgRef.value.innerHTML = ''

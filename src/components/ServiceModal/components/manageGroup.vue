@@ -226,6 +226,7 @@ const delGroup = (item: any) => {
     istop: 0,
     name: "",
   }
+  console.log('333333',payload)
   const decodedata = encodeParams(payload, 'ChatGroupModifyReq')
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest);
