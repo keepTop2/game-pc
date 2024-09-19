@@ -317,7 +317,7 @@ const selectUser = (item: any) => {
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList, allRead, friendList
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList, allRead, friendList, keywordList, getkeywordList, keywordArr
 }: any = usechatHooks(state, selectUser)
 
 
@@ -435,8 +435,13 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-    if (testMsg.value) {
-
+    // 是否有敏感词判断
+    if (state.messagetype == 1 && keywordArr.value.length) {
+      keywordArr.value.forEach((item: any) => {
+        if (testMsg.value.includes(item)) {
+          testMsg.value = testMsg.value.replace(item, '*'.repeat(item.length))
+        }
+      })
     }
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
@@ -652,6 +657,10 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
   }
+  // 获取关键词列表
+  else if (decodeobj1.type == 28) {
+    getkeywordList(decodeobj1)
+  }
 
   // 新增，修改，删除快捷语，重新请求列表
   else if ([16, 17, 18].includes(decodeobj1.type)) {
@@ -718,6 +727,7 @@ onMounted(async () => {
   getShortcutCatelist()
   getShortcutlist()
   getListGroup()
+  keywordList()
   // synchistorymsg()
 })
 </script>

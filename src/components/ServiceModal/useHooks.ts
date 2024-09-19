@@ -16,6 +16,7 @@ const state_data: any = reactive({
 
   quickPhrasesCateList: [], // 快捷语分类列表
   quickPhrasesList: [], // 快捷语列表
+  keywordArr:[]  //关键词列表
 });
 
 const usechatHooks = (state?: any, selectUser?: any) => {
@@ -317,6 +318,22 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     wsReqSend(type, payload, 'UserRoleReq');
   };
 
+    // 获取关键词列表
+    const keywordList = () => {
+      const type = 28; // 查询用户
+      var payload = {
+        deviceid: state.deviceID,
+      };
+      wsReqSend(type, payload, 'KwlistReq');
+    };
+
+        // 获取关键词列表
+        const getkeywordList = (decodeobj1:any) => {
+          const decodeobj00 = decodeContent(decodeobj1.data, 'KwlistReqRsp');
+          state_data.keywordArr = decodeobj00.words.map((item:any)=>item.word)
+          console.log(22222222,state_data.keywordArr)
+        };
+
   //  发起新聊天回执
   const getChatMsg15 = (decodeobj1: any) => {
     const decodeobj00 = decodeContent(decodeobj1.data, 'UserRolesRsp');
@@ -377,6 +394,8 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     sendShortcutCateList,
 
     allRead,
+    keywordList,
+    getkeywordList
   };
 };
 export default usechatHooks;
