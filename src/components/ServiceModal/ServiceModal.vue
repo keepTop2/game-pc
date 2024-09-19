@@ -94,7 +94,7 @@
                         <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
                       </template>
                       <div class="select_wrap_two">
-                        <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
+                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
                       </div>
                     </n-popover>
                   </div>
@@ -265,6 +265,7 @@ const state: any = reactive({
   activeId: null,
   search: '',   // 查询用户
   groupType: 'all',
+  isEditchat: false,
 })
 
 
@@ -580,6 +581,11 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
     state.chatMessagesList = []
   }
 }
+
+const itemAction = (item:any, o:any)=>{
+  editchat(item, o)
+  state.isEditchat = true
+}
 //收到消息
 const onMessage: any = async (buffer: any) => {
   const decodeobj1 = decodeContent(buffer, 'Output');
@@ -623,9 +629,13 @@ const onMessage: any = async (buffer: any) => {
   }
   // 移动好友到分组成功
   else if (decodeobj1.type == 14) {
+    if (state.isEditchat) {  // 单独移动到分组
+      Message.success('操作成功')
+    }
     // Message.success('操作成功')
     getChatlist()
     state.groupType = 'all'
+    state.isEditchat = false
   }
 
   //分组列表保存回执

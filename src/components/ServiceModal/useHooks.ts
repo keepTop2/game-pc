@@ -1,5 +1,5 @@
 import { reactive, onMounted, toRefs } from 'vue';
-import { sortAndGroupByLetter } from '../../utils/others'
+import { sortAndGroupByLetter } from '../../utils/others';
 import IWebsocket from './chatWS';
 const state_data: any = reactive({
   ChatGroupListReq: '',
@@ -16,7 +16,7 @@ const state_data: any = reactive({
 
   quickPhrasesCateList: [], // 快捷语分类列表
   quickPhrasesList: [], // 快捷语列表
-  keywordArr:[]  //关键词列表
+  keywordArr: [], //关键词列表
 });
 
 const usechatHooks = (state?: any, selectUser?: any) => {
@@ -81,7 +81,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       if (state_data.groupItem && state_data.groupItem.id) {
         state_data.groupChatitemList = decodeobj00.chatitem || [];
       } else {
-        state_data.chatitemList = decodeobj00.chatitem.filter((i:any)=>i.TUsername)
+        state_data.chatitemList = decodeobj00.chatitem.filter(
+          (i: any) => i.TUsername,
+        );
         const item = state_data.chatitemList[0];
         if (item?.iskf != 1) {
           getKfChat();
@@ -92,9 +94,8 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       state_data.chatitemList = [];
       getKfChat();
     }
-    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername')
-    state_data.friendList = list
-
+    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername');
+    state_data.friendList = list;
 
     console.log('聊天列表', state_data.chatitemList);
   };
@@ -115,9 +116,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       id: 99999,
     };
     state_data.chatitemList.unshift(obj);
-    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername')
+    const { list } = sortAndGroupByLetter(state_data.chatitemList, 'TUsername');
 
-    state_data.friendList = list
+    state_data.friendList = list;
   };
 
   const encodeInput = (type: any, request_id: any, data: any) => {
@@ -179,7 +180,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
   const getChatMsg12 = (decodeobj1: any) => {
     const decodeobj00 = decodeContent(decodeobj1.data, 'GroupListRsp');
     state_data.groupList = decodeobj00.groupitem;
-    console.log('分组列表',state_data.groupList)
+    console.log('分组列表', state_data.groupList);
   };
 
   //处理聊天数据表情
@@ -268,7 +269,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       isautorsp: data?.isautorsp || 2, // 1 自动回复，2 不自动回复，是否是自动回复 前端用的
       content: data?.content || '', // 快捷语的内容
     };
-    console.log(type, '添加快捷语参数--', payload)
+    console.log(type, '添加快捷语参数--', payload);
     wsReqSend(type, payload, 'QuickPhrasesModifyReq');
   };
   // 发送添加快捷语--分类请求
@@ -280,7 +281,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       sort: data?.sort || 1, //排序，这个需要前端自己定义数字
       title: data?.title || '', //分类的标题
     };
-    console.log(type, '添加分类-快捷语参数--', payload)
+    console.log(type, '添加分类-快捷语参数--', payload);
     wsReqSend(type, payload, 'QuickPhrasesCModifyReq');
   };
 
@@ -290,18 +291,19 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     var payload = {
       id: item.id,
       deviceid: state.deviceID,
-      chatgroupid: setType && setType.id == 5?-1: decodeobj00.id || 0,
+      chatgroupid: setType && setType.id == 5 ? -1 : decodeobj00.id || 0,
       sort: 6,
       istop: setType && setType.id == 1 && item.istop == 1 ? 6 : 1,
       enableflag: setType && setType.id == 3 ? 1 : 6,
     };
-     wsReqSend(type, payload, 'ChatItemModifyReq');
+    wsReqSend(type, payload, 'ChatItemModifyReq');
   };
 
   // 置顶 禁言，移动分组
   const itemSet = (o: any, item: any) => {
-     editchat(item, item, o);
-    if (o.id == 1) { // 置顶
+    editchat(item, item, o);
+    if (o.id == 1) {
+      // 置顶
       item.istop = item.istop == 1 ? 6 : 1;
     }
   };
@@ -318,21 +320,20 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     wsReqSend(type, payload, 'UserRoleReq');
   };
 
-    // 获取关键词列表
-    const keywordList = () => {
-      const type = 28; // 查询用户
-      var payload = {
-        deviceid: state.deviceID,
-      };
-      wsReqSend(type, payload, 'KwlistReq');
+  // 获取关键词列表
+  const keywordList = () => {
+    const type = 28; // 查询用户
+    var payload = {
+      deviceid: state.deviceID,
     };
+    wsReqSend(type, payload, 'KwlistReq');
+  };
 
-        // 获取关键词列表
-        const getkeywordList = (decodeobj1:any) => {
-          const decodeobj00 = decodeContent(decodeobj1.data, 'KwlistReqRsp');
-          state_data.keywordArr = decodeobj00.words.map((item:any)=>item.word)
-          console.log(22222222,state_data.keywordArr)
-        };
+  // 获取关键词列表
+  const getkeywordList = (decodeobj1: any) => {
+    const decodeobj00 = decodeContent(decodeobj1.data, 'KwlistReqRsp');
+    state_data.keywordArr = decodeobj00.words.map((item: any) => item.word);
+  };
 
   //  发起新聊天回执
   const getChatMsg15 = (decodeobj1: any) => {
@@ -395,7 +396,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
 
     allRead,
     keywordList,
-    getkeywordList
+    getkeywordList,
   };
 };
 export default usechatHooks;
