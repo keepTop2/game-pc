@@ -80,8 +80,8 @@
               </div>
               <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
-                  <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
-                    deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
+                  <div class="high_proxy" :style="{ background: deepObj[item.deep||item.agentlevel] ? deepObj[item.deep||item.agentlevel].color : '' }">{{
+                    setLabel(item)}}</div>
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
@@ -103,7 +103,7 @@
                     @click="itemSet({ id: 5 }, item)">
                     <span>从分组移除</span>
                   </div>
-                </div>
+                </div> 
               </n-popover>
             </div>
           </div>
@@ -124,8 +124,8 @@
                   <span>{{ i.TUsername }}</span>
                 </div>
 
-                <div class="high_proxy" :style="{ background: deepObj[i.deep] ? deepObj[i.deep].color : '' }">{{
-                  deepObj[i.deep] && deepObj[i.deep].label || '直属玩家' }}</div>
+                <div class="high_proxy" :style="{ background: deepObj[i.deep||i.agentlevel] ? deepObj[i.deep||i.agentlevel].color : '' }">{{
+                  setLabel(i) }}</div>
               </div>
             </div>
           </div>
@@ -248,6 +248,7 @@ const deepObj: any = {
   '-1': { label: '上级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
   '1': { label: '下级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
   '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
+  '5': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
 // const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
@@ -298,6 +299,18 @@ const beforeUpload = (data: any) => {
         sendMsg()
       }
     })
+}
+
+const setLabel = (val:any)=>{
+ if (agentInfo.value.user_type==1) {
+  const obj:any = {
+    0:'官方玩家',
+    5:'官方代理',
+  }
+   return obj[val.agentlevel]||'代理玩家'
+ }else{
+   return  deepObj[val.deep] && deepObj[val.deep].label || '直属玩家'
+ }
 }
 
 
