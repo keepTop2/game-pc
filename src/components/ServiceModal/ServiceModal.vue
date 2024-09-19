@@ -1078,10 +1078,7 @@ onMounted(async () => {
 
 .short_wrap {
   display: flex;
-  max-width: 700px;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  gap: 10px;
+  width: 700px;
   padding-bottom: 6px;
   margin-bottom: 6px;
   margin-top: 12px;
