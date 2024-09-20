@@ -66,7 +66,7 @@
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
-              @click="selectUser(item)" :style="{ order: item.deep == '0' ? 0 : item.istop || 100 }">
+              @click="selectUser(item)" :style="{ order: item.deep == '0' ? 0 : item.istop?item.istop:item.unreadnums || 100 }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -80,8 +80,10 @@
               </div>
               <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
-                  <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
-                    deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
+                  <div class="high_proxy"
+                    :style="{ background: deepObj[item.deep || item.agentlevel] ? deepObj[item.deep || item.agentlevel].color : '' }">
+                    {{
+                      setLabel(item) }}</div>
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
@@ -94,7 +96,7 @@
                         <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
                       </template>
                       <div class="select_wrap_two">
-                        <div v-for="o in groupList" :key="o.id" @click="editchat(item, o)">{{ o.name }}</div>
+                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
                       </div>
                     </n-popover>
                   </div>
@@ -124,8 +126,9 @@
                   <span>{{ i.TUsername }}</span>
                 </div>
 
-                <div class="high_proxy" :style="{ background: deepObj[i.deep] ? deepObj[i.deep].color : '' }">{{
-                  deepObj[i.deep] && deepObj[i.deep].label || '直属玩家' }}</div>
+                <div class="high_proxy"
+                  :style="{ background: deepObj[i.deep || i.agentlevel] ? deepObj[i.deep || i.agentlevel].color : '' }">{{
+                    setLabel(i) }}</div>
               </div>
             </div>
           </div>
@@ -248,6 +251,7 @@ const deepObj: any = {
   '-1': { label: '上级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
   '1': { label: '下级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
   '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
+  '5': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
 // const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
@@ -265,6 +269,7 @@ const state: any = reactive({
   activeId: null,
   search: '',   // 查询用户
   groupType: 'all',
+  isEditchat: false,
 })
 
 
@@ -299,6 +304,18 @@ const beforeUpload = (data: any) => {
     })
 }
 
+const setLabel = (val: any) => {
+  if (agentInfo.value.user_type == 1) {
+    const obj: any = {
+      0: '官方玩家',
+      5: '官方代理',
+    }
+    return obj[val.agentlevel] || '代理玩家'
+  } else {
+    return deepObj[val.deep] && deepObj[val.deep].label || '直属玩家'
+  }
+}
+
 
 // 选择用户聊天
 const selectUser = (item: any) => {
@@ -317,7 +334,7 @@ const selectUser = (item: any) => {
 const {
   getChatlist, getChatMsg13, getDateFromat, synchistorymsg, chatitemList, getChatMsg24, getChatMsg12, initMessage, getListGroup, encodeParams,
   getShortcutCatelist, getShortcutCateMsg, sendShortcutCateList, getShortcutlist, getShortcutMsg, sendShortcutList, quickPhrasesCateList, quickPhrasesList,
-  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList, allRead, friendList
+  decodeContent, itemSet, groupList, editchat, searchuser, getChatMsg15, groupChatitemList, allRead, friendList, keywordList, getkeywordList, keywordArr
 }: any = usechatHooks(state, selectUser)
 
 
@@ -435,8 +452,13 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-    if (testMsg.value) {
-
+    // 是否有敏感词判断
+    if (state.messagetype == 1 && keywordArr.value.length) {
+      keywordArr.value.forEach((item: any) => {
+        if (testMsg.value.includes(item)) {
+          testMsg.value = testMsg.value.replace(item, '*'.repeat(item.length))
+        }
+      })
     }
     //编码消息内容
     let MessageTextContentItem = state.root.lookupType('MessageTextContent')
@@ -515,7 +537,7 @@ const onOpen = async () => {
   IWebsocket.sendMessageHandler(encodedRequest);
 
 }
-const getChatMsgPublic = (data: any) => {
+const getChatMsgPublic = (data: any, type?: any) => {
   const decodeobj2 = decodeContent(data.content, 'MessageOutpute')
   let obj: any = {
     1: 'MessageTextContent',//文字消息
@@ -536,16 +558,20 @@ const getChatMsgPublic = (data: any) => {
       content: decodeobj3.data,   //消息
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
-    if (state.messageType == 4) {    //获取到新消息如果是当前用户直接显示
+    if (type == 4) {    //获取到新消息如果是当前用户直接显示
       if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj)
       } else {   // 不是当前用户则未读消息加1
-        const todeviceItem = chatitemList.value.find((item: any) => item.todeviceid == decodeobj2.fromdeviceid)
-        todeviceItem && todeviceItem.unreadnums++
+        const todeviceItem = chatitemList.value.find((item: any) => item.Tdeviceid == decodeobj2.fromdeviceid)
+        if (todeviceItem) {
+          if (todeviceItem.unreadnums && todeviceItem.unreadnums >= 0) {
+            todeviceItem.unreadnums++
+          } else {
+            todeviceItem.unreadnums = 1
+          }
+        }
       }
-
     } else {    // 聊天记录
-
       state.chatMessagesList.unshift(messageObj)
     }
   }
@@ -555,7 +581,7 @@ const getChatMsgPublic = (data: any) => {
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   const decodeobj00 = decodeContent(decodeobj1.data, ServiceMessage)
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
-  getChatMsgPublic(decodeobj00)
+  getChatMsgPublic(decodeobj00, decodeobj1.type)
 }
 
 
@@ -575,12 +601,22 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
     state.chatMessagesList = []
   }
 }
+
+const itemAction = (item: any, o: any) => {
+  editchat(item, o)
+  state.isEditchat = true
+}
 //收到消息
 const onMessage: any = async (buffer: any) => {
   const decodeobj1 = decodeContent(buffer, 'Output');
   console.log("onMessage/Output output0 ", decodeobj1)
   state.messageType = decodeobj1.type
+
   if (decodeobj1.code && decodeobj1.code > 1000) {
+    if (decodeobj1.code == '10022') {
+      Message.error('删除失败，该分组可能存在下级');
+      return
+    }
     Message.error(t(decodeobj1.code));
     testMsg.value = ''
     msgRef.value.innerHTML = ''
@@ -618,9 +654,13 @@ const onMessage: any = async (buffer: any) => {
   }
   // 移动好友到分组成功
   else if (decodeobj1.type == 14) {
+    if (state.isEditchat) {  // 单独移动到分组
+      Message.success('操作成功')
+    }
     // Message.success('操作成功')
     getChatlist()
     state.groupType = 'all'
+    state.isEditchat = false
   }
 
   //分组列表保存回执
@@ -651,6 +691,10 @@ const onMessage: any = async (buffer: any) => {
   // 获取客服聊天列表
   else if (decodeobj1.type == 24) {
     getChatMsg24(decodeobj1)
+  }
+  // 获取关键词列表
+  else if (decodeobj1.type == 28) {
+    getkeywordList(decodeobj1)
   }
 
   // 新增，修改，删除快捷语，重新请求列表
@@ -719,6 +763,7 @@ onMounted(async () => {
   getShortcutCatelist()
   getShortcutlist()
   getListGroup()
+  keywordList()
   // synchistorymsg()
 })
 </script>
@@ -1079,10 +1124,7 @@ onMounted(async () => {
 
 .short_wrap {
   display: flex;
-  max-width: 700px;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  gap: 10px;
+  width: 700px;
   padding-bottom: 6px;
   margin-bottom: 6px;
   margin-top: 12px;
