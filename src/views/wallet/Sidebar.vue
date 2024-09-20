@@ -22,7 +22,7 @@ const { t } = useI18n()
 const page = Page(pinia);
 const userInfo = User(pinia);
 const { menuActive, settings } = storeToRefs(page);
-const { kefuVisible,agentInfo } = storeToRefs(userInfo);
+const { kefuVisible, agentInfo } = storeToRefs(userInfo);
 const router = useRouter();
 
 const state: any = reactive({
@@ -100,9 +100,14 @@ const itemClick = async (item: any, i: number) => {
     await page.setMenuActive(i, item.name)
     let str = item.url.substring(0, 4);
     if (item.name == 'home_page_onlineService') {
-        if (agentInfo.value.mutetype.type_id==1) {
+        // 1 => '禁言中',
+        //     2 => '封锁中',
+        //     3 => '禁言IP',
+        //     4 => '封锁IP',
+        //     0 => '正常',
+        if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
             Message.error('用户被封禁')
-        }else{
+        } else {
             kefuVisible.value = true
             return
         }
