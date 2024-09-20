@@ -395,33 +395,33 @@ const avatarLoadError = (e: any) => {
 }
 const onHandler_system_msg = async (m: any) => {
   // console.error('----系统消息', m)
-  if (m.Params && m.Params.length == 6) { // 跑马灯
-    // ***[0]*** 在 [3] 获得 [4] 金币奖励！
-    const str = t('home_notice_mixtext', {
-      user: `${m.Params[0]?.substr(0, 4)}***`,
-      game: m.Params[3] ? t(m.Params[3]) : '',
-      money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
-    })
-    page.setTextAnnouncementMore(str)
-  }
-  else if (m.Params.length == 1 && m.Params[0].includes('noticelist:')) { // 弹窗公告
-    try {
-      const msgId = m.Params[0].split(':')[1]
-      if (msgId) {
+  if (m.code == 903) {
+    if (m.Params[0] == 1) { // 弹窗公告
+      try {
         const list: any = [{
-          content: `system_notice_content_${msgId}`,
-          title: `system_notice_title_${msgId}`,
+          content: `system_notice_content_${m.Params[3]}`,
+          title: `system_notice_title_${m.Params[2]}`,
           position: 1,
           priority: m.priority,
-          type: m.type,
+          type: m.Params[1],
         }]
         await getLocale() // 获取最新翻译文案
 
         await User(pinia).setNoticeList(list)
         User(pinia).setNotice(true)
+      } catch {
+        console.error('error msg', m)
       }
-    } catch {
-      console.error('error msg', m)
+    } else {
+      if (m.Params && m.Params.length == 6) { // 跑马灯
+        // ***[0]*** 在 [3] 获得 [4] 金币奖励！
+        const str = t('home_notice_mixtext', {
+          user: `${m.Params[0]?.substr(0, 4)}***`,
+          game: m.Params[3] ? t(m.Params[3]) : '',
+          money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
+        })
+        page.setTextAnnouncementMore(str)
+      }
     }
   }
 }
