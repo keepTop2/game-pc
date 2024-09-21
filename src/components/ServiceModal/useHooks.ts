@@ -333,6 +333,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
   const getkeywordList = (decodeobj1: any) => {
     const decodeobj00 = decodeContent(decodeobj1.data, 'KwlistReqRsp');
     state_data.keywordArr = decodeobj00.words.map((item: any) => item.word);
+    console.log('禁言',state_data.keywordArr)
   };
 
   //  发起新聊天回执

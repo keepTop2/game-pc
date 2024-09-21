@@ -163,7 +163,7 @@
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" contenteditable="true" spellcheck="false"
+            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" @paste="optimizePasteEvent"  contenteditable="true" spellcheck="false"
               autofocus class="input_wrap">
             </div>
             <div class="send_icon">
@@ -208,7 +208,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, reactive } from 'vue';
+import { computed, ref, onMounted, reactive,nextTick } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
@@ -303,6 +303,15 @@ const beforeUpload = (data: any) => {
       }
     })
 }
+const optimizePasteEvent = (e:any)=>{
+  setTimeout(() => {
+    if (e.target.innerHTML.includes('<img')) {
+      testMsg.value = msgRef.value.innerHTML = ''
+  }
+  }, 200);
+}
+
+
 
 const setLabel = (val: any) => {
   if (agentInfo.value.user_type == 1) {
