@@ -303,6 +303,7 @@ const beforeUpload = (data: any) => {
       }
     })
 }
+// 禁止复制图片
 const optimizePasteEvent = (e:any)=>{
   setTimeout(() => {
     if (e.target.innerHTML.includes('<img')) {
@@ -461,8 +462,8 @@ const sendMsg = () => {
       // data:new TextEncoder().encode(this.jsmessage),
       data: testMsg.value
     };
-    // 是否有敏感词判断
-    if (state.messagetype == 1 && keywordArr.value.length) {
+    // 是否有敏感词判断 对客服需要
+    if (state.messagetype == 1 && keywordArr.value.length&&agentInfo.value.user_type == 1) {
       keywordArr.value.forEach((item: any) => {
         if (testMsg.value.includes(item)) {
           testMsg.value = testMsg.value.replace(item, '*'.repeat(item.length))
