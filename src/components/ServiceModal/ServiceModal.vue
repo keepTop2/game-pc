@@ -463,7 +463,7 @@ const sendMsg = () => {
       data: testMsg.value
     };
     // 是否有敏感词判断 对客服需要
-    if (state.messagetype == 1 && keywordArr.value.length&&agentInfo.value.user_type == 1) {
+    if (state.messagetype == 1 && keywordArr.value.length&&state.userData.deep=='0') {
       keywordArr.value.forEach((item: any) => {
         if (testMsg.value.includes(item)) {
           testMsg.value = testMsg.value.replace(item, '*'.repeat(item.length))
@@ -562,7 +562,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
   if (data.cstatus == 1||data.msgtype==1) {
     if (!data.cstatus) {
           // 是否有敏感词判断 对客服需要
-    if (keywordArr.value.length&&agentInfo.value.user_type == 1) {
+    if (keywordArr.value.length&&state.userData.deep=='0') {
       keywordArr.value.forEach((item: any) => {
         if (decodeobj3.data.includes(item)) {
           decodeobj3.data = decodeobj3.data.replace(item, '*'.repeat(item.length))
