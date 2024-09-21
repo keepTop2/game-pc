@@ -556,10 +556,21 @@ const getChatMsgPublic = (data: any, type?: any) => {
     4: 'MessageVideoContent',//视频
     5: 'MessageMoneyContent'//转账
   }
-
+  console.log(444444,data,)
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
   // console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-  if (data.cstatus == 1) {
+  if (data.cstatus == 1||data.msgtype==1) {
+    if (!data.cstatus) {
+          // 是否有敏感词判断 对客服需要
+    if (keywordArr.value.length&&agentInfo.value.user_type == 1) {
+      keywordArr.value.forEach((item: any) => {
+        if (decodeobj3.data.includes(item)) {
+          decodeobj3.data = decodeobj3.data.replace(item, '*'.repeat(item.length))
+        }
+      })
+    }
+    }
+
     const messageObj = {
       cstatus: data.cstatus,  // 1; // 通过 显示   等于0或者没有这个字段  就不能显示
       msgtype: data.msgtype,
