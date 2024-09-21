@@ -112,6 +112,8 @@ const beforeUpload = (data: any) => {
       const urlImg = response.data.path
       Message.success(response.message)
       console.log('&&&&&', urlImg)
+    } else {
+      Message.error(response.message)
     }
   })
 }
