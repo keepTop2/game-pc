@@ -4,15 +4,14 @@
     <n-card class="shortcut_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
         <h4 class="top_title">
-          <span>类别管理</span>
+          <span>{{ t('chat_page_category_man') }}</span>
           <i>
-            <iconpark-icon @click="closeWin" icon-id="Group39368" color="#fff"
-                           size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="closeWin" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
           <n-flex align="center" class="input_top">
-            <span>添加类型</span>
+            <span>{{ t('chat_page_add_type') }}</span>
             <n-flex class="input_box">
               <n-input v-model:value="addForm.title" clearable />
               <span class="add_icon button" @click="addNewLine"></span>
@@ -22,9 +21,9 @@
           <!-- 表格 -->
           <div class="table_box">
             <n-flex align="center" class="table_header">
-              <span class="list_lx">类型名称</span>
-              <span class="list_kjy">快捷语数量</span>
-              <span>操作</span>
+              <span class="list_lx">{{ t('chat_page_type_name') }}</span>
+              <span class="list_kjy">{{ t('chat_page_shortcut_num') }}</span>
+              <span>{{ t('proxy_page_caoZ') }}</span>
             </n-flex>
             <div class="table_body">
               <div class="nodata" v-if="!dataCateList.length">
@@ -35,7 +34,7 @@
                 <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList"
                         :key="index">
                   <n-flex justify="center" class="list_lx">
-                    <n-input v-model:value="item.title" placeholder="可直接修改类别，保存后生效"
+                    <n-input v-model:value="item.title" :placeholder="t('chat_page_type_tip')"
                              style="text-align: left" />
                   </n-flex>
                   <span class="list_kjy">
@@ -44,18 +43,17 @@
                   <span v-if="!item.deviceid || item?.num" class="list_item"></span>
                   <span v-else class="list_item button" @click="removeList(item, index)"
                         style="color: #ff2424">
-                    删除
+                    {{ t('paymentManagement_page_delete') }}
                   </span>
                 </n-flex>
               </div>
-
             </div>
 
           </div>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
-            <n-flex align="center" justify="center" @click="closeWin" class="button">关闭</n-flex>
-            <n-flex align="center" justify="center" class="button" @click="addCateQuick">保存
+            <n-flex align="center" justify="center" @click="closeWin" class="button">{{ t('proxy_page_close') }}</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addCateQuick">{{ t('chat_page_save') }}
             </n-flex>
           </n-flex>
 
@@ -117,7 +115,7 @@ const closeWin = () => {
 };
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log('删除==', item);
+  // console.log('删除==', item);
   // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表官方，或者下面有快捷语(num 大于0 代表有快捷语)
   if (!item.deviceid || item?.num) {
     return Message.error(t('proxy_page_caoZuoFail'));
@@ -153,10 +151,10 @@ const addNewLine = () => {
     mType: 20, // 20 新增，21 修改，22 删除
   };
   if (!obj.title) {
-    return Message.error(t('内容不能为空'));
+    return Message.error(t('chat_page_empty_tip'));
   }
   if (obj.title.length > 12) {
-    return Message.error(t('内容超出长度'));
+    return Message.error(t('chat_page_longer_tip'));
   }
   dataCateList.value.unshift(obj);
   addForm.value.title = ''; // 清空
@@ -169,18 +167,18 @@ const addCateQuick = () => {
   dataCateList.value.map((item: any) => {
     item.title = item.title.trim();
     if (item.title.length > 12) {
-      return Message.error(t('内容超出长度'));
+      return Message.error(t('chat_page_longer_tip'));
     }
     // 这是编辑的数据
     if (item.id) {
-      console.log('编辑快捷语分类哈哈哈--');
+      // console.log('编辑快捷语分类哈哈哈--');
       const curP = {
         ...item,
         mType: 21, // 20 新增，21 修改，22 删除
       };
       doActionCateQuick(curP);
     } else {  // 这是新增的数据
-      console.log('新增快捷语分类啊啊啊--');
+      // console.log('新增快捷语分类啊啊啊--');
       const curP = {
         ...item,
         mType: 20, // 20 新增，21 修改，22 删除

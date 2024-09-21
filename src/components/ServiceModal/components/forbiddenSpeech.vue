@@ -21,7 +21,7 @@
         </n-radio-group>
         <div class="btn_group">
           <div class="btn_close" @click="isShow = false">取消</div>
-          <div class="btn_save" @click="saveClick">保存</div>
+          <div class="btn_save" @click="saveClick">{{t('chat_page_save')}}</div>
         </div>
       </div>
     </div>
@@ -34,8 +34,10 @@ import { Message } from "@/utils/discreteApi.ts";
 import IWebsocket from '../chatWS'
 // import { useI18n } from 'vue-i18n';
 import usechatHooks from '../useHooks';
+import { useI18n } from 'vue-i18n';
 // const { t } = useI18n();
 
+const { t } = useI18n();
 const props = defineProps({
   visible: {
     type: Boolean,

@@ -3,7 +3,7 @@
     <n-card class="shortcut_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
         <h4 class="top_title">
-          <span>快捷语设置</span>
+          <span>{{ t('chat_page_shortcut_set') }}</span>
           <i>
             <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff"
                            size="1.2rem"></iconpark-icon>
@@ -17,7 +17,7 @@
             </a>
           </n-flex>
           <n-flex align="center" class="input_top">
-            <span>添加快捷语</span>
+            <span>{{ t('chat_page_shortcut_add') }}</span>
             <n-flex class="input_box">
               <!-- 下拉选择-->
               <div v-show="showSelect" class="select_list">
@@ -43,17 +43,17 @@
               <n-input v-model:value="addForm.title" clearable />
               <span class="add_icon button" @click="addNewLine"></span>
             </n-flex>
-            <span @click="showSetting" class="button" style="color: #c0c2db">管理类型</span>
+            <span @click="showSetting" class="button" style="color: #c0c2db">{{ t('chat_page_mType') }}</span>
           </n-flex>
 
           <!-- 表格 -->
           <div class="table_box">
             <n-flex align="center" class="table_header">
-              <span class="list_lx">类型</span>
-              <span class="list_kjy">快捷语</span>
-              <span>置顶</span>
-              <span>自动回复</span>
-              <span>操作</span>
+              <span class="list_lx">{{ t('chat_page_type') }}</span>
+              <span class="list_kjy">{{ t('chat_page_shortcut') }}</span>
+              <span>{{ t('chat_page_top') }}</span>
+              <span>{{ t('chat_page_autoReply') }}</span>
+              <span>{{ t('proxy_page_caoZ') }}</span>
             </n-flex>
             <div :class="`table_body ${showEdit && 'cant_edit'}`">
               <div class="nodata" v-if="!dataList.length">
@@ -120,7 +120,7 @@
                   <span v-if="!item.deviceid" class="list_item"></span>
                   <span v-else class="list_item button" @click="removeList(item, index)"
                         style="color: #ff2424">
-                    删除
+                    {{ t('paymentManagement_page_delete') }}
                   </span>
                 </n-flex>
               </div>
@@ -131,9 +131,9 @@
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
             <n-flex v-show="showEdit" @click="changeEdit" align="center" justify="center"
-                    class="button">修改
+                    class="button">{{ t('home_page_modify') }}
             </n-flex>
-            <n-flex align="center" justify="center" class="button" @click="addQuick">保存</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addQuick">{{ t('chat_page_save') }}</n-flex>
           </n-flex>
 
         </div>
@@ -244,7 +244,9 @@ const handleClickOutside = (event: any) => {
   if (modal && !modal.contains(event.target)) { // 关闭当前
     closeModal();
   } else { // 关闭其他
-    showSelect.value = dropDown.value === 99999;
+    if (dropDown.value !== 99999) {
+      showSelect.value = false;
+    }
     dropDownArr.value.map((item: any) => {
       if (item !== dropDown.value && item !== 99999) {
         dataList.value[item].showSelect = false;
@@ -286,7 +288,7 @@ const handleBeforeChange = (item: any, type: any, index: number) => {
   // if (!item.deviceid) {
   //   return Message.error(t('proxy_page_caoZuoFail'))
   // }
-  console.log('设置===', item[type]);
+  // console.log('设置===', item[type]);
   dataList.value[index][type] = item[type] == 1 ? 2 : 1;
   // 只能设置一条自动回复
   if (type === 'isautorsp' && dataList.value[index][type] == 1) {
@@ -304,7 +306,7 @@ const handleUpdateValue = (e: any, type: any, index: number) => {
 };
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log('删除==', item);
+  // console.log('删除==', item);
   // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
   if (!item.deviceid) {
     return Message.error(t('proxy_page_caoZuoFail'));
@@ -344,7 +346,7 @@ const addNewLine = () => {
     isautorsp: 2, //是否是自动回复 前端用的
   };
   if (!obj.content.trim()) {
-    return Message.error(t('内容不能为空'));
+    return Message.error(t('chat_page_empty_tip'));
   }
   dataList.value.unshift(obj);
   addForm.value.title = ''; // 清空
@@ -358,14 +360,14 @@ const addQuick = () => {
     item.content = item.content.trim();
     // 这是编辑的数据
     if (item.id) {
-      console.log('编辑快捷语--');
+      // console.log('编辑快捷语--');
       const curP = {
         ...item,
         mType: 17, // 16 新增，17 修改，18 删除
       };
       doActionQuick(curP);
     } else {  // 这是新增的数据
-      console.log('新增快捷语--');
+      // console.log('新增快捷语--');
       const curP = {
         ...item,
         mType: 16, // 16 新增，17 修改，18 删除
@@ -476,7 +478,7 @@ watch(() => props.quickPhrasesList, (n) => {
           align-items: center;
           justify-content: center;
           //flex: 1;
-          width: 100px;
+          min-width: 100px;
           height: 42px;
           line-height: 16px;
           color: #8d81c1;
