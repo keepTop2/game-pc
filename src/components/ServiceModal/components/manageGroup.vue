@@ -78,8 +78,8 @@
                     </div>
                     <span>{{ item.TUsername }}</span>
                   </div>
-                  <div class="high_proxy" :style="{ background: deepObj[item.deep] ? deepObj[item.deep].color : '' }">{{
-                    deepObj[item.deep] && deepObj[item.deep].label || '直属玩家' }}</div>
+                  <div class="high_proxy" :style="{ background: deepObj[item.deep|| item.agentlevel] ? deepObj[item.deep|| item.agentlevel].color : '' }">{{
+                    setLabel(item)  }}</div>
                 </div>
               </n-checkbox>
             </n-checkbox-group>
@@ -125,6 +125,10 @@ const props = defineProps({
     default: () => ([]),
   },
   deepObj: {
+    type: Object,
+    default: () => ([]),
+  },
+  agentInfo: {
     type: Object,
     default: () => ([]),
   },
@@ -179,6 +183,18 @@ const saveChatItem = () => {
     step.value = 2
   }
 
+}
+
+const setLabel = (val: any) => {
+  if (props.agentInfo.user_type == 1) {
+    const obj: any = {
+      0: '官方玩家',
+      5: '官方代理',
+    }
+    return obj[val.agentlevel] || '代理玩家'
+  } else {
+    return props.deepObj[val.deep] && props.deepObj[val.deep].label || '直属玩家'
+  }
 }
 
 // 删除选择的对话

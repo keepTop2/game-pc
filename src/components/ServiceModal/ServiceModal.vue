@@ -199,7 +199,7 @@
       :quickPhrasesCateList="quickPhrasesCateList" />
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :deepObj="deepObj" :stateData="state"
-      :itemList="chatitemList" />
+      :itemList="chatitemList" :agentInfo="agentInfo" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
     <!-- 禁言弹窗 -->
