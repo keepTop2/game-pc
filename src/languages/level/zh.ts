@@ -1,7 +1,7 @@
 export default {
   level_page_member: 'VIP等级',
   level_page_rule: '会员等级规则',
-  level_page_needBet: '所需投注：',
+  level_page_needBet: '需要下注：',
   level_page_rebate: '返水奖励：',
   level_page_lq: '领取',
   level_page_getScu: '领取成功',
@@ -12,7 +12,7 @@ export default {
   level_page_bRequire: '保级要求',
   level_page_wu: '无',
   level_page_mAward: 'VIP洗码比例',
-  level_page_bonus: '晋级奖励',
+  level_page_bonus: '晋升礼金',
   level_page_monGift: '回馈礼金',
   level_page_method: '领取方式',
   level_page_rule_1: '1.晋级标准：满足vip晋级要求(有效流水满足条件),即可晋级相应vip等级；',
@@ -51,7 +51,7 @@ export default {
   level_page_activity: '专属活动',
   level_page_private: '私享特权',
   level_page_secretary: '商务秘书',
-  level_page_reception: '贵宾接待',
+  level_page_reception: '贵宾之旅',
 
   level_page_paiTitle: '奖励派发说明',
   level_page_paiRule_1: '1.晋级礼金：用户晋级后，晋级礼金立即发放至【我的优惠】；领取后直接发放至携带钱包；',

@@ -3,30 +3,35 @@
     <n-card class="shortcut_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
         <h4 class="top_title">
-          <span>快捷语设置</span>
+          <span>{{ t('chat_page_shortcut_set') }}</span>
           <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff"
+                           size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
           <n-flex align="center" class="tab_top">
             <a :class="`tab_item tab_item_${item.id} ${curTab === item.id ? 'active' : ''}`"
-              v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
+               v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
               {{ item.title }}
             </a>
           </n-flex>
           <n-flex align="center" class="input_top">
-            <span>添加快捷语</span>
+            <span>{{ t('chat_page_shortcut_add') }}</span>
             <n-flex class="input_box">
               <!-- 下拉选择-->
               <div v-show="showSelect" class="select_list">
-                <n-flex align="center" justify="center" :class="`select_item ${ite.id === curType ? 'active' : ''}`"
-                  @click="clickSelect(ite.id)" v-for="(ite, idx) in dataCateList" :key="idx">
+                <n-flex align="center" justify="center"
+                        :class="`select_item ${ite.id === curType ? 'active' : ''}`"
+                        @click="clickSelect(ite.id)" v-for="(ite, idx) in dataCateList" :key="idx">
                   {{ ite.title }}
                 </n-flex>
               </div>
-              <n-flex align="center" justify="center" class="n_select" @click="clickShowSelect">
-                {{ dataCateList.find((item: any) => item.id === curType)?.title }}
+              <n-flex align="center" justify="center" class="n_select drop_down_99999" @click="clickShowSelect">
+                <span class="select_txt"
+                      :title="dataCateList.find((item: any) => item.id === curType)?.title">
+                  {{ dataCateList.find((item: any) => item.id === curType)?.title }}
+                </span>
                 <i :class="`n-base-icon n-base-suffix__arrow ${showSelect ? 'selectIcon' : ''}`">
                   <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -38,38 +43,46 @@
               <n-input v-model:value="addForm.title" clearable />
               <span class="add_icon button" @click="addNewLine"></span>
             </n-flex>
-            <span @click="showSetting" class="button" style="color: #c0c2db">管理类型</span>
+            <span @click="showSetting" class="button" style="color: #c0c2db">{{ t('chat_page_mType') }}</span>
           </n-flex>
 
           <!-- 表格 -->
           <div class="table_box">
             <n-flex align="center" class="table_header">
-              <span class="list_lx">类型</span>
-              <span class="list_kjy">快捷语</span>
-              <span>置顶</span>
-              <span>自动回复</span>
-              <span>操作</span>
+              <span class="list_lx">{{ t('chat_page_type') }}</span>
+              <span class="list_kjy">{{ t('chat_page_shortcut') }}</span>
+              <span>{{ t('chat_page_top') }}</span>
+              <span>{{ t('chat_page_autoReply') }}</span>
+              <span>{{ t('proxy_page_caoZ') }}</span>
             </n-flex>
-            <div class="table_body">
+            <div :class="`table_body ${showEdit && 'cant_edit'}`">
               <div class="nodata" v-if="!dataList.length">
                 <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
-                <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataList"
+                        :key="index">
                   <n-flex justify="center" class="list_lx">
                     <!-- 下拉选择-->
                     <div v-show="item.showSelect" class="select_list">
                       <n-flex align="center" justify="center"
-                        :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
-                        @click="clickSelectList(ite.id, index)" v-for="(ite, idx) in dataCateList" :key="idx">
+                              :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
+                              @click="clickSelectList(ite.id, index)"
+                              v-for="(ite, idx) in dataCateList" :key="idx">
                         {{ ite.title }}
                       </n-flex>
                     </div>
-                    <n-flex align="center" justify="center" class="n_select n_select_list"
-                      @click="clickShowSelectList(index)">
-                      {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
-                      <i :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
+                    <n-flex align="center" justify="center" :class="`n_select n_select_list drop_down_${index}`"
+                            @click="clickShowSelectList(index)">
+                      <span class="select_txt"
+                            :title="dataCateList.find((ite: any) => ite.id === item.qhcid)?.title">
+                     {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
+                    </span>
+
+                      <i
+                        v-if="item.deviceid"
+                        :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
                         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
                             d="M3.14645 5.64645C3.34171 5.45118 3.65829 5.45118 3.85355 5.64645L8 9.79289L12.1464 5.64645C12.3417 5.45118 12.6583 5.45118 12.8536 5.64645C13.0488 5.84171 13.0488 6.15829 12.8536 6.35355L8.35355 10.8536C8.15829 11.0488 7.84171 11.0488 7.64645 10.8536L3.14645 6.35355C2.95118 6.15829 2.95118 5.84171 3.14645 5.64645Z"
@@ -79,20 +92,35 @@
                     </n-flex>
                   </n-flex>
                   <span class="list_kjy">
-                    <n-input v-model:value="item.content" placeholder="此处修改快捷语" style="text-align: left" clearable />
+                     <!-- 官方的不能编辑 -->
+                    <n-input v-model:value="item.content" placeholder="此处修改快捷语" :disabled="!item.deviceid"
+                             style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch" v-model:value="item.istop" :checked-value="1" :unchecked-value="2"
-                      @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
+                    <div class="coverSwitch" :data-value="item.istop"
+                         @click="handleBeforeChange(item, 'istop', index)"></div>
+                    <n-switch class="switch"
+                              v-model:value="item.istop"
+                              :checked-value="1"
+                              :unchecked-value="2"
+                              @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
-                    <n-switch class="switch" v-model:value="item.isautorsp" :checked-value="1" :unchecked-value="2"
-                      @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
+                    <div class="coverSwitch" :data-value="item.istop"
+                         @click="handleBeforeChange(item, 'isautorsp', index)"></div>
+                    <n-switch class="switch"
+                              v-model:value="item.isautorsp"
+                              :checked-value="1"
+                              :unchecked-value="2"
+                              @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
-                  <span class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
-                    删除
+                  <!-- 官方的不能删除 -->
+                  <span v-if="!item.deviceid" class="list_item"></span>
+                  <span v-else class="list_item button" @click="removeList(item, index)"
+                        style="color: #ff2424">
+                    {{ t('paymentManagement_page_delete') }}
                   </span>
                 </n-flex>
               </div>
@@ -102,8 +130,10 @@
           </div>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
-            <n-flex align="center" justify="center" class="button">修改</n-flex>
-            <n-flex align="center" justify="center" class="button" @click="addQuick">保存</n-flex>
+            <n-flex v-show="showEdit" @click="changeEdit" align="center" justify="center"
+                    class="button">{{ t('home_page_modify') }}
+            </n-flex>
+            <n-flex align="center" justify="center" class="button" @click="addQuick">{{ t('chat_page_save') }}</n-flex>
           </n-flex>
 
         </div>
@@ -119,15 +149,11 @@
 import { computed, ref, watch } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import categoryList from './categoryList.vue';
-// import btn from './btn.vue';
-// import Common from '@/utils/common';
-// import { Net } from '@/net/Net';
-// import { NetPacket } from '@/netBase/NetPacket';
-// import { MessageEvent2 } from '@/net/MessageEvent2';
-// import { NetMsgType } from '@/netBase/NetMsgType';
-// import { Message } from '@/utils/discreteApi';
 import { useI18n } from 'vue-i18n';
-import { Dialog, Message } from "@/utils/discreteApi";
+import { Dialog, Message } from '@/utils/discreteApi';
+// import { storeToRefs } from 'pinia';
+// import { User } from '@/store/user.ts';
+// import pinia from '@/store';
 
 const { t } = useI18n();
 const props = defineProps({
@@ -147,10 +173,15 @@ const props = defineProps({
 // const visibleSetting = ref(false) // 类别
 const emit = defineEmits(['update:visible', 'showCateSetting', 'addModifyQuick']);
 
+// const userInfo = User(pinia);
+// const { roleInfo } = storeToRefs(userInfo);
 const addForm = ref({
-  title: ''
+  title: '',
 });
+const showEdit: any = ref(true);
 const curTab: any = ref('0');
+const dropDown: any = ref(99999);
+const dropDownArr: any = ref([]);
 // tag: 所在标签
 const tabArr: any = ref(
   [
@@ -160,58 +191,127 @@ const tabArr: any = ref(
     // { title: '提款类', id: 'withdraw' },
     // { title: '投注类', id: 'bet' },
     // { title: '代理类', id: 'agent' },
-  ]
+  ],
 );
 const showSelect = ref(false);
 const curType: any = ref('');
 const isLoading = ref(false);
-const dataCateList: any = ref([]); // 快捷语分类列表
+const dataCateList: any = ref([
+  // {title: '奋斗奋斗分', id: 1},
+  // {title: 'dsds', id: 2},
+  // {title: '仿佛地方', id: 3},
+]); // 快捷语分类列表
 const dataListOrigin: any = ref([]);
-const dataList: any = ref([]);
+const dataList: any = ref([
+  // {content: '奋斗奋斗分', id: 1},
+  // {content: 'dsdssad', id: 2},
+  // {content: '得实大厦', id: 3},
+]);
 
 const isShow = computed({
-  get: function () {
+  get: function() {
     return props.visible;
   },
-  set: function (value) {
+  set: function(value) {
     emit('update:visible', value);
   },
 });
+
+// 修改
+const changeEdit = () => {
+  showEdit.value = false;
+};
 // 打开类别设置
 const showSetting = () => {
   // visibleSetting.value = true
-  emit('showCateSetting')
-}
+  emit('showCateSetting');
+};
 const clickTab = (e: any) => {
-  // console.log('*****', e)
+  // console.log('*****', e, dataListOrigin.value)
+  const newArr = dataListOrigin.value.length ? JSON.parse(JSON.stringify(dataListOrigin.value)) : [];
   curTab.value = e;
-  dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e)
-}
+  dataList.value = e === '0' ? newArr : newArr.filter((item: any) => item.qhcid === e);
+};
 const clickShowSelect = () => {
-  showSelect.value = !showSelect.value
+  dropDown.value = 99999;
+  showSelect.value = !showSelect.value;
+  document.addEventListener('click', handleClickOutside);
+};
+const handleClickOutside = (event: any) => {
+  if (!dropDownArr.value.includes(dropDown.value)) {
+    dropDownArr.value.push(dropDown.value)
+  }
+  const modal = document.querySelector(`.drop_down_${dropDown.value}`);
+  if (modal && !modal.contains(event.target)) { // 关闭当前
+    closeModal();
+  } else { // 关闭其他
+    if (dropDown.value !== 99999) {
+      showSelect.value = false;
+    }
+    dropDownArr.value.map((item: any) => {
+      if (item !== dropDown.value && item !== 99999) {
+        dataList.value[item].showSelect = false;
+      }
+    })
+  }
+}
+const closeModal = () => {
+  showSelect.value = false;
+  if (dataList.value[dropDown.value]) {
+    dataList.value[dropDown.value].showSelect = false;
+  }
+  document.removeEventListener('click', handleClickOutside);
 }
 const clickSelect = (e: any) => {
   curType.value = e;
   showSelect.value = false;
-}
+};
 // 列表下拉类型
 const clickShowSelectList = (index: any) => {
-  dataList.value[index].showSelect = !dataList.value[index]?.showSelect
-}
+  // 官方的不能编辑
+  if (!dataList.value[index].deviceid) {
+    return
+  }
+  dropDown.value = index;
+  dataList.value[index].showSelect = !dataList.value[index]?.showSelect;
+  document.addEventListener('click', handleClickOutside);
+};
 // 列表切换类型
 const clickSelectList = (e: any, index: any) => {
-  console.log('----', e, index)
+  // console.log('----', e, index);
   dataList.value[index].qhcid = e;
   dataList.value[index].showSelect = false;
-}
+};
+
+const handleBeforeChange = (item: any, type: any, index: number) => {
+  console.log('before---', item, type, index);
+  // 只能设置非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表官方
+  // if (!item.deviceid) {
+  //   return Message.error(t('proxy_page_caoZuoFail'))
+  // }
+  // console.log('设置===', item[type]);
+  dataList.value[index][type] = item[type] == 1 ? 2 : 1;
+  // 只能设置一条自动回复
+  if (type === 'isautorsp' && dataList.value[index][type] == 1) {
+    dataList.value.forEach((item: any, i: any) => {
+      if (index !== i) {
+        item[type] = 2;
+      }
+    })
+  }
+};
 // 开关
 const handleUpdateValue = (e: any, type: any, index: number) => {
-  console.log('++++++', e, type, index)
-  dataList.value[index][type] = e;
-}
+  console.log('++++++', e, type, index);
+  // dataList.value[index][type] = e;
+};
 // 删除
 const removeList = (item: any, index: number) => {
-  console.log(item);
+  // console.log('删除==', item);
+  // 只能删除非官方的数据， 没有 deviceid 这个字段或者这个字段值为 0 代表非官方
+  if (!item.deviceid) {
+    return Message.error(t('proxy_page_caoZuoFail'));
+  }
   Dialog.warning({
     showIcon: false,
     title: t('paymentManagement_page_tips'),
@@ -219,23 +319,23 @@ const removeList = (item: any, index: number) => {
     positiveText: t('home_page_confirm'),
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
-      console.log('---', item)
+      console.log('---', item);
       // 接口的数据，需要调接口
       if (item.id) {
         const curP = {
           ...item,
           mType: 18, // 16 新增，17 修改，18 删除
-        }
+        };
         doActionQuick(curP);
       } else { // 前端添加的数据，直接删除
-        dataList.value.splice(index, 1)
+        dataList.value.splice(index, 1);
       }
 
     },
     onNegativeClick: () => {
 
     },
-  })
+  });
 };
 // 新增一行
 const addNewLine = () => {
@@ -245,48 +345,59 @@ const addNewLine = () => {
     qhcid: curType.value, // 分类id
     istop: 2, //1 为置顶 其余值不置顶
     isautorsp: 2, //是否是自动回复 前端用的
+  };
+  if (!obj.content.trim()) {
+    return Message.error(t('chat_page_empty_tip'));
   }
-  if (!obj.content) {
-    return Message.error(t('内容不能为空'));
-  }
-  dataList.value.unshift(obj)
+  dataList.value.unshift(obj);
   addForm.value.title = ''; // 清空
-}
+};
 // 新增快捷语
 const addQuick = () => {
-  if (isLoading.value) return
-
+  if (isLoading.value) return;
   isLoading.value = true;
+  let emptyCount: any = 0;
+  dataList.value.map((item: any) => {
+    item.content = item.content.trim();
+    if (!item.content) {
+      emptyCount ++
+    }
+  })
+  if (emptyCount > 0) {
+    isLoading.value = false;
+    return Message.error(t('chat_page_empty_tip'));
+  }
   dataList.value.map((item: any) => {
     // 这是编辑的数据
     if (item.id) {
-      console.log('编辑快捷语--')
+      // console.log('编辑快捷语--');
       const curP = {
         ...item,
         mType: 17, // 16 新增，17 修改，18 删除
-      }
-      doActionQuick(curP)
+      };
+      doActionQuick(curP);
     } else {  // 这是新增的数据
-      console.log('新增快捷语--')
+      // console.log('新增快捷语--');
       const curP = {
         ...item,
         mType: 16, // 16 新增，17 修改，18 删除
-      }
-      doActionQuick(curP)
+      };
+      doActionQuick(curP);
     }
-  })
-  console.log(dataList.value)
+  });
+  console.log(dataList.value);
+  showEdit.value = true;
   setTimeout(() => {
-    isLoading.value = false
-  }, 5 * 1000)
-}
+    isLoading.value = false;
+  }, 5 * 1000);
+};
 // 新增编辑删除快捷语
 const doActionQuick = (data: any) => {
   const params = {
-    ...data
-  }
-  emit('addModifyQuick', params)
-}
+    ...data,
+  };
+  emit('addModifyQuick', params);
+};
 
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
@@ -294,17 +405,17 @@ watch(() => props.quickPhrasesCateList, (n) => {
 
     tabArr.value = [
       { title: t('promo_page_all'), id: '0' },
-      ...n
+      ...n,
     ];
     curType.value = dataCateList.value[0]?.id; // 默认第一条
   }
-})
+});
 watch(() => props.quickPhrasesList, (n) => {
   if (n.length) {
-    dataList.value = n;
-    dataListOrigin.value = n;
+    dataList.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
+    dataListOrigin.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
   }
-})
+});
 
 
 </script>
@@ -338,7 +449,7 @@ watch(() => props.quickPhrasesList, (n) => {
       box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
       background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
-      >i {
+      > i {
         position: absolute;
         top: 5px;
         right: 15px;
@@ -377,8 +488,9 @@ watch(() => props.quickPhrasesList, (n) => {
           align-items: center;
           justify-content: center;
           //flex: 1;
-          width: 100px;
+          min-width: 100px;
           height: 42px;
+          line-height: 16px;
           color: #8d81c1;
 
           &.active {
@@ -395,15 +507,27 @@ watch(() => props.quickPhrasesList, (n) => {
       .n_select {
         font-size: 16px;
         cursor: pointer;
-        gap: 0 7px !important;
+        gap: 0 !important;
         position: absolute;
         top: 1.5px;
         z-index: 1;
         min-width: 76px;
-        width: auto;
+        width: 120px;
+        padding: 0 3px;
         height: 40px;
         border-radius: 10px;
         background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 54%, #3c279a 73%);
+
+        .select_txt {
+          max-width: 100px;
+          line-height: 16px;
+          word-break: break-all;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+          overflow: hidden;
+        }
 
         &.n_select_list {
           position: relative;
@@ -416,6 +540,7 @@ watch(() => props.quickPhrasesList, (n) => {
 
           &.selectIcon {
             transform: rotate(180deg);
+            left: 5px;
           }
         }
 
@@ -428,13 +553,14 @@ watch(() => props.quickPhrasesList, (n) => {
         position: absolute;
         z-index: 19;
         min-width: 74px;
+        max-width: 120px;
         top: 45px;
         text-align: center;
 
         .select_item {
           cursor: pointer;
           color: #8e82c2;
-          height: 36px;
+          min-height: 36px;
           border-bottom: solid 1px rgba(255, 255, 255, 0.1);
 
           &.active {
@@ -459,7 +585,7 @@ watch(() => props.quickPhrasesList, (n) => {
       .n-input {
         font-size: 16px;
         height: 40px;
-        padding: 0 30px 0 80px;
+        padding: 0 30px 0 110px;
         border-radius: 12px;
         box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
         border: solid 1px #322c59;
@@ -527,6 +653,10 @@ watch(() => props.quickPhrasesList, (n) => {
           height: 360px;
           overflow-y: auto;
 
+          &.cant_edit {
+            pointer-events: none;
+          }
+
           .table_list {
             gap: 0 !important;
             position: relative;
@@ -543,7 +673,16 @@ watch(() => props.quickPhrasesList, (n) => {
             }
 
             .list_item {
+              position: relative;
               flex: 1;
+
+              .coverSwitch {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                cursor: pointer;
+              }
             }
 
             .select_list {
@@ -592,7 +731,7 @@ watch(() => props.quickPhrasesList, (n) => {
         gap: 8px 34px !important;
         margin-top: 80px;
 
-        >div {
+        > div {
           width: 178px;
           height: 54px;
           background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;

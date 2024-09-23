@@ -5,7 +5,7 @@
     </div>
   </n-modal>
 
-  <n-modal :show="isReg" :mask-closable="false" style="margin-top: 100px;">
+  <n-modal :show="isReg" :mask-closable="false">
     <div class="login_from_box">
       <Register v-if="isReg" />
     </div>
@@ -35,7 +35,8 @@
         <Imgt src="/logo.png" class="logo" @click="router.push('/')" />
       </div>
       <div class="user_box">
-
+        <!-- 皮肤切换 -->
+        <themeBox />
         <n-popover trigger="hover" :show-arrow="false" v-for="(item, i) in state.icons" :key="i">
           <template #trigger>
             <span class="menu" :style="item.bg" @click="iconClick(item)">
@@ -126,6 +127,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import ServiceModal from './ServiceModal/ServiceModal.vue'
 import Imgt from '@/components/Imgt.vue';
+import themeBox from '@/components/ThemeC.vue';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings, lang } = storeToRefs(page);
@@ -267,10 +269,17 @@ params.forEach((value: any, key: any) => {
 if (paramsObj.user_level) { // agent_level
   localStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
   localStorage.setItem('agent_level', paramsObj.user_level)
+  localStorage.setItem('device_id', paramsObj.device_id)
+  // 缓存
+  sessionStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
+  sessionStorage.setItem('agent_level', paramsObj.user_level)
+  sessionStorage.setItem('device_id', paramsObj.device_id)
   // kefuVisible.value = true
   router.push('/customer')
 } else {
-  localStorage.setItem('agent_level', '')
+  localStorage.setItem('agent_level', sessionStorage.getItem('agent_level') || '')
+  localStorage.setItem('agent_infodata', sessionStorage.getItem('agent_infodata') || '')
+  localStorage.setItem('device_id', sessionStorage.getItem('device_id') || '')
 }
 const iconClick = async (item: any) => {
   console.log(item)
@@ -386,33 +395,33 @@ const avatarLoadError = (e: any) => {
 }
 const onHandler_system_msg = async (m: any) => {
   // console.error('----系统消息', m)
-  if (m.Params && m.Params.length == 6) { // 跑马灯
-    // ***[0]*** 在 [3] 获得 [4] 金币奖励！
-    const str = t('home_notice_mixtext', {
-      user: `${m.Params[0]?.substr(0, 4)}***`,
-      game: m.Params[3] ? t(m.Params[3]) : '',
-      money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
-    })
-    page.setTextAnnouncementMore(str)
-  }
-  else if (m.Params.length == 1 && m.Params[0].includes('noticelist:')) { // 弹窗公告
-    try {
-      const msgId = m.Params[0].split(':')[1]
-      if (msgId) {
+  if (m.code == 903) {
+    if (m.Params[0] == 1) { // 弹窗公告
+      try {
         const list: any = [{
-          content: `system_notice_content_${msgId}`,
-          title: `system_notice_title_${msgId}`,
+          content: `system_notice_content_${m.Params[3]}`,
+          title: `system_notice_title_${m.Params[2]}`,
           position: 1,
           priority: m.priority,
-          type: m.type,
+          type: m.Params[1],
         }]
         await getLocale() // 获取最新翻译文案
 
         await User(pinia).setNoticeList(list)
         User(pinia).setNotice(true)
+      } catch {
+        console.error('error msg', m)
       }
-    } catch {
-      console.error('error msg', m)
+    } else {
+      if (m.Params && m.Params.length == 6) { // 跑马灯
+        // ***[0]*** 在 [3] 获得 [4] 金币奖励！
+        const str = t('home_notice_mixtext', {
+          user: `${m.Params[0]?.substr(0, 4)}***`,
+          game: m.Params[3] ? t(m.Params[3]) : '',
+          money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
+        })
+        page.setTextAnnouncementMore(str)
+      }
     }
   }
 }
@@ -567,11 +576,11 @@ watch(
 .header {
   width: 100%;
   height: 80px;
-  background-color: #2d1769;
-  box-shadow: inset 0 0 4px 0 rgba(7, 144, 242, 0.2), 0 2px 4px 0 #131421;
-  background: linear-gradient(rgba(2, 4, 109, 0.9)20%, rgba(30, 11, 86, 0.9)) 90%,
+  background-color: var(--c-bg-1);
+  box-shadow: inset 0 0 4px 0 rgba(7, 144, 242, 0.2), 0 2px 4px 0 var(--c-shadow);
+  background: linear-gradient(var(--c-he-f) 20%, var(--c-he-t)) 90%,
   url('/img/home/header.webp?t=@{timestamp}') no-repeat 0% 20%/cover;
-  border-bottom: 2px solid #5a47b2;
+  border-bottom: 2px solid var(--c-border);
   position: fixed;
   z-index: 100;
 
@@ -765,7 +774,7 @@ watch(
 
 .login_from_box {
   display: block;
-  width: 494px;
+  width: 524px;
   min-height: 415px;
   background-color: #231353;
   border-top-left-radius: 14px;

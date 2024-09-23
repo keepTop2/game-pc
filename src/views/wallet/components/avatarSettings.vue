@@ -1,6 +1,6 @@
 <template>
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
-    <n-card class="shortcut_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
+    <n-card class="avatar_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
         <h4 class="top_title">
           <span>{{t('自定义头像')}}</span>
@@ -15,8 +15,13 @@
               <Imgt :class="curTab == item.value && 'active'" :src="`/img/head_icons/${item.value}.webp`" @click="clickTab(item)"/>
             </n-flex>
             <n-flex justify="center" class="list_item">
-              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif,.webp" :show-file-list="false">
-<!--                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />-->
+              <n-upload
+                :max="1"
+                @before-upload="beforeUpload"
+                accept=".jpg,.jpeg,.png,.gif,.webp"
+                :default-file-list="fileList"
+                list-type="image-card"
+              >
                 点击上传
               </n-upload>
             </n-flex>
@@ -68,6 +73,7 @@ const dataList: any = ref([
   {value: '1011'},
   {value: '1012'},
 ]);
+const fileList = ref([])
 
 const isShow = computed({
   get: function () {
@@ -102,9 +108,12 @@ const beforeUpload = (data: any) => {
     body: formData,
   })
     .then(response => response.json()).then(response => {
-    if (response.status == 200) {
+    if (response.status == 200 || response.status == 'success') {
       const urlImg = response.data.path
+      Message.success(response.message)
       console.log('&&&&&', urlImg)
+    } else {
+      Message.error(response.message)
     }
   })
 }
@@ -119,7 +128,7 @@ watch(() => roleInfo.value, (n) => {
 <style lang="less" scoped>
 @timestamp: `new Date().getTime()`;
 
-.shortcut_set {
+.avatar_set {
   :deep(.n-card__content) {
     padding: 0;
   }
@@ -175,6 +184,18 @@ watch(() => roleInfo.value, (n) => {
             align-items: center;
             background: #616161;
             border-radius: 10px;
+            .n-upload-file-list {
+              display: flex;
+              width: 100%;
+              height: 100%;
+              .n-upload-trigger--image-card, .n-upload-file {
+                width: 100%;
+                height: 100%;
+                .n-upload-dragger {
+                  background: none;
+                }
+              }
+            }
           }
         }
       }

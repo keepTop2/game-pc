@@ -12,7 +12,8 @@
                 </div>
                 <div class="item">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
-                    <span>{{ !proxyInfo.level ? '0%(VND)' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` : '0%(VND)' }} </span>
+                    <span>{{ !proxyInfo.level ? '0%(VND)' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` :
+                        '0%(VND)' }} </span>
                 </div>
             </div>
             <div class="model_box_content content_box">
@@ -61,7 +62,7 @@
             <a v-if="proxyInfo.s_link" :href="proxyInfo.s_link" target="_blank">{{ proxyInfo.s_link }}</a>
             <span v-else> -- </span>
             <div class="btn link_btn" @click="copyToClipboard(proxyInfo.s_link)">{{ t('proxy_page_copy') }}</div>
-            <div class="btn link_btn" @click="openIntro">{{ t('proxy_page_agentRule') }}</div>
+            <div class="btn link_btn" style="width: 140px;" @click="openIntro">{{ t('proxy_page_agentRule') }}</div>
         </n-flex>
 
         <!-- 表格 -->
@@ -263,6 +264,7 @@ const copyToClipboard = (text: string) => {
             align-items: center;
             top: 50%;
             transform: translateY(-50%);
+            font-size: 14px;
 
             .line {
                 width: 1px;
@@ -286,7 +288,8 @@ const copyToClipboard = (text: string) => {
     }
 
     .btn {
-        width: 150px;
+        width: 156px;
+        height: 42px;
         cursor: pointer;
         background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 112%;
@@ -301,11 +304,13 @@ const copyToClipboard = (text: string) => {
             margin-right: 5px;
             font-size: 18px;
         }
-        span{
+
+        span {
             text-align: center;
         }
     }
-    .link_btn{
+
+    .link_btn {
         line-height: 1;
     }
 }

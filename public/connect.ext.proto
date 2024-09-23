@@ -33,7 +33,7 @@ enum PackageType {
 	PT_MESSAGE_MUTE = 25; // 禁言解禁操作
 	PT_MESSAGE_FORBID = 26; // 禁止解除禁止的操作
 	PT_MESSAGE_READMSG = 27; // 已读操作
-
+  PT_MESSAGE_KEYWORD = 28; // 获取敏感词
 }
 
 // 上行数据
@@ -372,4 +372,17 @@ message ForbidReq {
 message ReadChatItemReq {
   int64 deviceid = 1; // 用户id
   string chatid = 2; // 消息id 比如10086同10087的聊天 这里应该是10086-10087
+}
+//关键词
+message KeyWord {
+  string word = 1;//具体词汇
+}
+//获取关键词列表相应
+message KwlistReqRsp {
+  repeated KeyWord words = 1;//词汇列表
+}
+
+//获取关键词请求
+message KwlistReq {
+  int64 deviceid = 1; // 设备id
 }

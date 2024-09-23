@@ -194,7 +194,6 @@ export default {
   walletInfo_page_code_input: '输入兑换码，领取奖励',
   walletInfo_page_code: '兑换码',
   walletInfo_page_rule: '会员等级规则',
-  walletInfo_page_needBet: '所需投注',
   walletInfo_page_wallet: '我的钱包',
   walletInfo_page_totalA: '账户总额',
   walletInfo_page_depositRecord: '充值记录',

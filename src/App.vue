@@ -253,6 +253,7 @@ onMounted(async () => {
   );
 
   await page.setLang(Local.get('lang'))
+  await page.setTheme(Local.get('themeColor'))
 
 })
 </script>
@@ -265,6 +266,6 @@ onMounted(async () => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: radial-gradient(circle at 50% 4%, #361e79, #22203e 66%);
+  background-image: radial-gradient(circle at 50% 4%, var(--bg-f-color), var(--bg-t-color) 66%);
 }
 </style>

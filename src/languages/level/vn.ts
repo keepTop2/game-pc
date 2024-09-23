@@ -1,7 +1,7 @@
 export default {
   level_page_member: 'Cấp VIP',
   level_page_rule: 'Quy tắc cấp thành viên',
-  level_page_needBet: 'Bắt ​​buộc đặt cược:',
+  level_page_needBet: 'Cần cược:',
   level_page_rebate: 'Phần thưởng giảm giá:',
   level_page_lq: 'Nhận',
   level_page_getScu: 'Đã nhận thành công',
@@ -53,9 +53,9 @@ export default {
   level_page_secretary: 'Thư ký kinh doanh',
   level_page_reception: 'Tiếp đón VIP',
 
-  level_page_paiTitle: 'Hướng dẫn phân phối phần thưởng',
+  level_page_paiTitle: 'Hướng dẫn thưởng',
   level_page_paiRule_1: '1. Phần thưởng khuyến mãi: Sau khi người dùng được thăng hạng, phần thưởng khuyến mãi sẽ được phân phối ngay cho [Phiếu mua hàng của tôi]; sau khi được thu thập, nó sẽ được phân phối trực tiếp vào ví;',
   level_page_paiRule_2: '2. Quà tặng hàng tháng: Quà tặng hàng tháng sẽ được phát khi bạn đăng nhập lần đầu tiên vào tháng tiếp theo và bạn có thể nhận nó trong [Ưu đãi của tôi] sau khi nhận được, nó sẽ được phân phối trực tiếp vào ví của bạn; ;',
   level_page_paiRule_3: '3. Phần thưởng rửa mã: Giảm giá rửa mã được cập nhật vào lúc 0:00 sáng hàng ngày, sau khi nhận được sẽ được phân bổ trực tiếp vào ví mang theo. ',
-  level_page_unlock: 'Sau khi nâng cấp và mở khóa, bạn có thể tận hưởng đặc quyền này',
+  level_page_unlock: 'Mở khóa để hưởng đặc quyền',
 }

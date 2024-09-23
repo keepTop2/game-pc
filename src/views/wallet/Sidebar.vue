@@ -17,11 +17,12 @@ import { Page } from '@/store/page';
 import { handleOpenLink } from "@/utils/others";
 import { useI18n } from "vue-i18n";
 import { User } from '@/store/user';
+import { Message } from "@/utils/discreteApi.ts";
 const { t } = useI18n()
 const page = Page(pinia);
 const userInfo = User(pinia);
 const { menuActive, settings } = storeToRefs(page);
-const { kefuVisible } = storeToRefs(userInfo);
+const { kefuVisible, agentInfo } = storeToRefs(userInfo);
 const router = useRouter();
 
 const state: any = reactive({
@@ -99,8 +100,17 @@ const itemClick = async (item: any, i: number) => {
     await page.setMenuActive(i, item.name)
     let str = item.url.substring(0, 4);
     if (item.name == 'home_page_onlineService') {
-        kefuVisible.value = true
-        return
+        // 1 => '禁言中',
+        //     2 => '封锁中',
+        //     3 => '禁言IP',
+        //     4 => '封锁IP',
+        //     0 => '正常',
+        if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
+            Message.error('用户被封禁')
+        } else {
+            kefuVisible.value = true
+            return
+        }
     }
     if (str === "http" || str === "www.") {
         handleOpenLink(item.url)
