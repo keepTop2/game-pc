@@ -227,9 +227,10 @@ const showSetting = () => {
   emit('showCateSetting');
 };
 const clickTab = (e: any) => {
-  // console.log('*****', e)
+  // console.log('*****', e, dataListOrigin.value)
+  const newArr = dataListOrigin.value.length ? JSON.parse(JSON.stringify(dataListOrigin.value)) : [];
   curTab.value = e;
-  dataList.value = e === '0' ? [...dataListOrigin.value] : dataListOrigin.value.filter((item: any) => item.qhcid === e);
+  dataList.value = e === '0' ? newArr : newArr.filter((item: any) => item.qhcid === e);
 };
 const clickShowSelect = () => {
   dropDown.value = 99999;
@@ -354,10 +355,19 @@ const addNewLine = () => {
 // 新增快捷语
 const addQuick = () => {
   if (isLoading.value) return;
-
   isLoading.value = true;
+  let emptyCount: any = 0;
   dataList.value.map((item: any) => {
     item.content = item.content.trim();
+    if (!item.content) {
+      emptyCount ++
+    }
+  })
+  if (emptyCount > 0) {
+    isLoading.value = false;
+    return Message.error(t('chat_page_empty_tip'));
+  }
+  dataList.value.map((item: any) => {
     // 这是编辑的数据
     if (item.id) {
       // console.log('编辑快捷语--');
@@ -402,8 +412,8 @@ watch(() => props.quickPhrasesCateList, (n) => {
 });
 watch(() => props.quickPhrasesList, (n) => {
   if (n.length) {
-    dataList.value = n;
-    dataListOrigin.value = n;
+    dataList.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
+    dataListOrigin.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
   }
 });
 

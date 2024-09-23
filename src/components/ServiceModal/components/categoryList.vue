@@ -127,7 +127,7 @@ const removeList = (item: any, index: number) => {
     positiveText: t('home_page_confirm'),
     negativeText: t('home_page_cancel'),
     onPositiveClick: () => {
-      console.log('---', item);
+      // console.log('---', item);
       // 接口的数据，需要调接口
       if (item.id) {
         const curP = {
@@ -164,11 +164,26 @@ const addCateQuick = () => {
   if (isLoading.value) return;
 
   isLoading.value = true;
+  let emptyCount: any = 0;
+  let legCount: any = 0;
   dataCateList.value.map((item: any) => {
     item.title = item.title.trim();
-    if (item.title.length > 12) {
-      return Message.error(t('chat_page_longer_tip'));
+    if (!item.title) {
+      emptyCount ++
     }
+    if (item.title.length > 12) {
+      legCount ++
+    }
+  })
+  if (emptyCount > 0) {
+    isLoading.value = false;
+    return Message.error(t('chat_page_empty_tip'));
+  }
+  if (legCount > 0) {
+    isLoading.value = false;
+    return Message.error(t('chat_page_longer_tip'));
+  }
+  dataCateList.value.map((item: any) => {
     // 这是编辑的数据
     if (item.id) {
       // console.log('编辑快捷语分类哈哈哈--');
@@ -206,7 +221,7 @@ watch(() => props.visible, (n) => {
 });
 watch(() => props.quickPhrasesCateList, (n) => {
   if (n.length) {
-    dataCateList.value = n;
+    dataCateList.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
   }
 });
 
