@@ -470,7 +470,7 @@ const sendMsg = () => {
     if (state.messagetype == 1 && keywordArr.value.length&&state.userData.deep=='0') {
       keywordArr.value.forEach((item: any) => {
         if (testMsg.value.includes(item)) {
-          testMsg.value = testMsg.value.replaceAll(item, '*'.repeat(item.length))
+          testMsg.value = testMsg.value?.replaceAll(item, '*'.repeat(item.length))
         }
       })
     }
