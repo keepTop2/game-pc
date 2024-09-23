@@ -59,7 +59,7 @@
           <div class="tips">选择会出现在此分组中的对话语分类。</div>
           <div class="btn_group">
             <div class="btn_close" @click="cancelAddGroup">取消</div>
-            <div class="btn_save" @click="saveGroup">保存</div>
+            <div class="btn_save" @click="saveGroup">{{ t('chat_page_save') }}</div>
           </div>
         </div>
         <!-- 添加对话 -->
@@ -86,7 +86,7 @@
           </div>
           <div class="btn_group">
             <div class="btn_close" @click="closeChatItem">取消</div>
-            <div class="btn_save" @click="saveChatItem">保存</div>
+            <div class="btn_save" @click="saveChatItem">{{ t('chat_page_save') }}</div>
           </div>
         </div>
       </div>
@@ -100,6 +100,7 @@ import usechatHooks from '../useHooks';
 import IWebsocket from '../chatWS'
 import Imgt from '@/components/Imgt.vue';
 import { Message } from "@/utils/discreteApi.ts";
+import { useI18n } from 'vue-i18n';
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -109,7 +110,7 @@ import { Message } from "@/utils/discreteApi.ts";
 // import { Message } from '@/utils/discreteApi';
 // import { useI18n } from 'vue-i18n';
 
-// const { t } = useI18n();
+const { t } = useI18n();
 const props = defineProps({
   visible: {
     type: Boolean,

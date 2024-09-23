@@ -15,8 +15,13 @@
               <Imgt :class="curTab == item.value && 'active'" :src="`/img/head_icons/${item.value}.webp`" @click="clickTab(item)"/>
             </n-flex>
             <n-flex justify="center" class="list_item">
-              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif,.webp" :show-file-list="false">
-<!--                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />-->
+              <n-upload
+                :max="1"
+                @before-upload="beforeUpload"
+                accept=".jpg,.jpeg,.png,.gif,.webp"
+                :default-file-list="fileList"
+                list-type="image-card"
+              >
                 点击上传
               </n-upload>
             </n-flex>
@@ -68,6 +73,7 @@ const dataList: any = ref([
   {value: '1011'},
   {value: '1012'},
 ]);
+const fileList = ref([])
 
 const isShow = computed({
   get: function () {
@@ -102,8 +108,9 @@ const beforeUpload = (data: any) => {
     body: formData,
   })
     .then(response => response.json()).then(response => {
-    if (response.status == 200) {
+    if (response.status == 200 || response.status == 'success') {
       const urlImg = response.data.path
+      Message.success(response.message)
       console.log('&&&&&', urlImg)
     }
   })
@@ -175,6 +182,18 @@ watch(() => roleInfo.value, (n) => {
             align-items: center;
             background: #616161;
             border-radius: 10px;
+            .n-upload-file-list {
+              display: flex;
+              width: 100%;
+              height: 100%;
+              .n-upload-trigger--image-card, .n-upload-file {
+                width: 100%;
+                height: 100%;
+                .n-upload-dragger {
+                  background: none;
+                }
+              }
+            }
           }
         }
       }

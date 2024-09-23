@@ -87,8 +87,8 @@
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
-                    <span v-if="o.id == 1">{{ item.istop == 1 ? '取消置顶' : '置顶' }}</span>
-                    <span v-else> {{ o.name }}</span>
+                    <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
+                    <span v-else> {{ t(o.name) }}</span>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
@@ -158,7 +158,8 @@
             </n-carousel>
 
           </div>
-          <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">快捷语设置</div>
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
+            {{ t('chat_page_shortcut_set') }}</div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
@@ -366,10 +367,10 @@ const tabClick = (tab: tabType) => {
 
 
 const selectList = [
-  { name: '置顶', id: 1 },
+  { name: 'chat_page_top', id: 1 },
   // { name: '未读', id: 2 },
-  { name: '屏蔽', id: 3 },
-  { name: '移动分组到', id: 4 },
+  { name: 'chat_page_shield', id: 3 },
+  { name: 'chat_page_moveG', id: 4 },
 ]
 // 添加表情
 
