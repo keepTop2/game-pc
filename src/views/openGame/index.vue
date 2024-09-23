@@ -1,16 +1,13 @@
 <template>
   <div class="iframe_box">
-    <!-- <nut-drag class="drag" attract :boundary="{ top: 0, left: 0, bottom: 20, right: 30 }">
-      <iconpark-icon name="hoticonhbwvmun01" size="30" @click.stop="onBtnClicked" />
-    </nut-drag> -->
-
+    <Header />
     <iframe id="iframeId" v-if="state.src" :src="state.src" frameborder="0" scrolling="auto" />
   </div>
 </template>
 <script setup lang='ts'>
 import { Local } from '@/utils/storage';
 import { onMounted, reactive } from 'vue'
-
+import Header from '@/components/Header.vue';
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
@@ -34,25 +31,22 @@ onMounted(() => {
 <style lang="less" scoped>
 .iframe_box {
   bottom: 0;
-  height: 100%;
   left: 0;
   min-height: 100vh;
   overflow-y: scroll;
   overflow: hidden;
   padding-bottom: 0;
-  // position: fixed;
-  // right: 0;
-  // top: 0;
   width: 100%;
+  height: 100%;
   z-index: 4000;
 }
 
 #iframeId {
-  height: 100%;
   min-height: 0 !important;
   padding-top: 0;
   position: relative;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
 }
 
@@ -76,5 +70,11 @@ onMounted(() => {
   100% {
     transform: rotate(360deg);
   }
+}
+</style>
+<style lang="less">
+.header {
+  position: absolute !important;
+  top: 0;
 }
 </style>

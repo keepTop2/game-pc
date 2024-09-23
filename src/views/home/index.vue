@@ -56,7 +56,7 @@ import { Page } from '@/store/page';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { Message } from '@/utils/discreteApi';
-import { Local } from '@/utils/storage';
+import { Local, Session } from '@/utils/storage';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { NetPacket } from '@/netBase/NetPacket';
@@ -130,24 +130,31 @@ const getHomeData = () => {
 }
 
 const platformItemClick = (item: any, i: number) => {
-  let langObj: any = {
-    'en': 3,
-    'vi': 2,
-    'zh': 1
-  }
-  if (item && item.has_next) {
+  if (item.has_next == 1) {
+    const langs: any = {
+        zh: 'zh-CN',
+        vn: 'vi-VN',
+        en: 'en-US',
+    };
     router.push({
       path: '/gameMain/gameDetail',
       query: {
         id: i,
-        data: encodeURIComponent(JSON.stringify(item))
+        platform_id:item.three_platform_id,
+        venue_id:item.venue_id,
+        name: item.name[langs[lang.value]].toUpperCase(),
       }
     })
   } else {
+    let langObj: any = {
+      'en-US': 3,
+      'vi-VN': 2,
+      'zh-CN': 1
+    }
     needLogin()
+    // isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = item.three_game_kind_id;
-    tb.gameId = item.three_platform_id;
+    tb.agentId = item.three_platform_id;
     tb.kindId = item.venue_id;
     tb.lang = langObj[lang.value];
     Net.instance.sendRequest(tb);

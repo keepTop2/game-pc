@@ -80,16 +80,18 @@ import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 import { needLogin } from '@/net/Utils';
 import { Message } from '@/utils/discreteApi';
+
 const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
 const {
-    lang
+    lang,
+    homeGameData
 } = storeToRefs(Page(pinia));
 
 const activeTab = ref(0)
 const queryGame = ref("")
-
+const isLoading = ref(false)
 // 加载更多
 const loading = ref(false)
 const params: any = reactive({ // 参数
@@ -99,12 +101,16 @@ const result: any = reactive({ // 结果
     total_page: 0,
     list: []
 })
-let initData = reactive<any>({})
 let gameName = ref('')
 let gameKinds = ref<any>([])
 let favoriteData = ref<any[]>([])
 let resultList: any = reactive([])
 let pageSize = ref<number>(20)
+let platformId = ref<any>(0)
+let venueId = ref<any>(0)
+let isVenudId = ref<boolean>(false)
+let activeKind = ref<any>(0)
+let threeGameKinds = ref<any[]>([])
 const langs: any = {
     zh: 'zh-CN',
     vn: 'vi-VN',
@@ -115,48 +121,12 @@ const TabType = {
     FAVORITE: 88
 }
 
-watch(
-    () => result.list,
-    (a: any) => {
-        const res = resultList?.map((e: any) => e.gameId)
-        for (let e of a) {
-            if (e && !res.includes(e.gameId)) {
-                resultList.push(e)
-            }
-        }
-        getFavs()
-    },
-    { deep: true, }
-)
 
-onBeforeMount(() => {
-    const { game, data } = route.query
-    gameName.value = game as string
-    initData = JSON.parse(decodeURIComponent(data as string))
-    getInitData(initData.three_platform_id, initData.venue_id)
-    queryData()
-})
-onMounted(() => {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
-    MessageEvent2.addMsgEvent(
-        NetMsgType.msgType.msg_notify_3rd_game_login_result,
-        gameUrlResult,
-    );
-    getFavs()
-})
-onUnmounted(() => {
-    setTimeout(() => {
-        MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
-        MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
-        MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
-        MessageEvent2.addMsgEvent(
-        NetMsgType.msgType.msg_notify_3rd_game_login_result,
-        null,
-    );
-    }, 500);
-})
+const getHomeData = () => {
+  const data  = homeGameData.value[activeKind.value]?.three_platform
+  const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
+  threeGameKinds.value = item?.three_game_kind
+}
 
 const isFav = (v: any) => {
     return favoriteData.value.some((e: any) => e.gameId == v.gameId)
@@ -164,7 +134,17 @@ const isFav = (v: any) => {
 
 const handlePlatform = (res: any) => {
     resetData()
+    if (res.kind && res.kind.length) {
     gameKinds.value = res.kind
+    if (!isVenudId.value) {
+        activeTab.value = res.kind.findIndex((e: any) => e.kindId == venueId.value)
+        isVenudId.value = true
+        }
+    } else {
+        const kinds = threeGameKinds.value.map((e: any) => { return { 'kindId': e.three_game_kind_id, 'kind_name': JSON.stringify(e.name) } })
+        gameKinds.value = kinds
+    }
+    result.list = res.info
 }
 
 const handleGames = (res: any) => {
@@ -184,20 +164,21 @@ const onPlayGame = (v: any) => {
         'vi-VN': 2,
         'zh-CN': 1
     }
-    const currentParams = initData.three_game_kind[activeTab.value]
+    const currentParams = threeGameKinds.value[activeTab.value]
     const currentType = gameKinds.value[activeTab.value]
+    isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
     tb.agentId = currentParams.three_platform_id;
     tb.kindId = currentType.kindId;
     tb.gameId = v.gameId;
-    tb.lang = langObj[langs[lang.value]]
+    tb.lang = langObj[lang.value];
     Net.instance.sendRequest(tb);
 }
 
 const onClickTab = (_: any, i: any) => {
-    queryGame.value = ''
     activeTab.value = i
-    params.page = 1
+    queryGame.value = ''
+    resetData()
     queryData()
 }
 
@@ -209,9 +190,8 @@ const onClickFavorite = (i: number) => {
 }
 
 const onClickSearch = () => {
-    resetData()
     let tb = NetPacket.req_look_for_game_name()
-    const currentParams = initData.three_game_kind[activeTab.value]
+    const currentParams = threeGameKinds.value[activeTab.value]
     const currentType = gameKinds.value[activeTab.value]
     tb.agentId = currentParams.three_platform_id;
     tb.kindId = currentType.kindId;
@@ -225,19 +205,24 @@ const pageChange = (page: number) => { // 切换页码
 }
 
 const getFavs = () => {
-    const gameId = Local.get('favorites') || []
-    favoriteData.value = resultList.filter((e: any) => gameId.includes(e.gameId))
+  const gameId = Local.get('favorites') || []
+  const gameIds = gameId.map((e:any) => e.split('_')[0])
+  favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
 }
 
 const onAddFavorite = (v: any) => {
-    let favorites = Local.get('favorites') || []
-    if (favorites.includes(v.gameId)) {
-        favorites = favorites.filter((e: any) => e != v.gameId)
-    } else {
-        favorites.push(v.gameId)
-    }
-    Local.set('favorites', favorites)
-    getFavs()
+  let favorites = Local.get('favorites') || []
+  const gameIds = favorites.map((e:any) => e.split('_')[0])
+  if (gameIds.includes(v.gameId)) {
+    favorites = favorites.filter((e: any) => e.split('_')[0] != v.gameId)
+  } else {
+    const param = threeGameKinds.value[activeTab.value]
+    const type = gameKinds.value[activeTab.value]
+    const item = v.gameId + "_" +  param.three_platform_id + "_" + type.kindId 
+    favorites.push(item)
+  }
+  Local.set('favorites', favorites)
+  getFavs()
 }
 
 const unserialize = (v: string) => {
@@ -263,7 +248,7 @@ const resetData = () => {
 const queryData = () => { // 查询
     loading.value = true
     const query = NetPacket.req_get_games_in_platform()
-    query.agentId = initData.three_platform_id
+    query.agentId = platformId.value
     query.kindId = activeTab.value
     query.page = params.page
     query.pageSize = pageSize.value
@@ -271,6 +256,7 @@ const queryData = () => { // 查询
 }
 
 const gameUrlResult = (message: any) => {
+    isLoading.value = false
     if (message.code != 0) {
         Message.error(message.msg)
         return
@@ -285,6 +271,51 @@ const gameUrlResult = (message: any) => {
         path: "/openGame",
     });
 }
+
+onBeforeMount(() => {
+    const { platform_id, venue_id, name, active } = route.query
+    getInitData(platform_id, venue_id)
+    gameName.value = name as string
+    platformId.value = platform_id
+    venueId.value = venue_id
+    activeKind.value = active
+    getHomeData()
+})
+onMounted(() => {
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
+    MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_3rd_game_login_result,
+        gameUrlResult,
+    );
+    getFavs()
+})
+onUnmounted(() => {
+    setTimeout(() => {
+        MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
+        MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
+        MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
+        MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_3rd_game_login_result,
+        null,
+    );
+    }, 500);
+})
+
+watch(
+    () => result.list,
+    (a: any) => {
+        const res = resultList?.map((e: any) => e.gameId)
+        for (let e of a) {
+            if (e && !res.includes(e.gameId)) {
+                resultList.push(e)
+            }
+        }
+        getFavs()
+    },
+    { deep: true, }
+)
 </script>
 
 <style lang='less' scoped>

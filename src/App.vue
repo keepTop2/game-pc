@@ -2,10 +2,10 @@
   <n-config-provider style="width: 100%;" :locale="Language[lang].global" :date-locale="Language[lang].date"
     :theme-overrides="themeOverrides">
     <div class="app">
-      <Header v-if="!['customer'].includes(route.name)" />
+      <Header v-if="!['customer', 'openGame'].includes(route.name)" />
       <div class="hold"></div>
       <router-view></router-view>
-      <Footer v-if="!['customer'].includes(route.name)" />
+      <Footer v-if="!['customer', 'openGame'].includes(route.name)" />
     </div>
   </n-config-provider>
 </template>
