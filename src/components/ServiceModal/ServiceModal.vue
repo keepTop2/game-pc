@@ -209,7 +209,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, reactive,nextTick } from 'vue';
+import { computed, ref, onMounted, reactive } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
