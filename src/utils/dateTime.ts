@@ -21,3 +21,11 @@ function padZero(n: number): string {
     if (n > 9) return n.toString()
     return '0' + n
 }
+
+
+export function getMinuteDifference(timestamp1:any, timestamp2:any) {
+    var date1:any = new Date(timestamp1);
+    var date2:any = new Date(timestamp2);
+    var difference = Math.abs(date2 - date1); // 计算两个日期之间的差值（毫秒）
+    return Math.floor(difference / 1000 / 60); // 转换为分钟
+}
