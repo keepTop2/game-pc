@@ -93,7 +93,7 @@
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
+                        <div class="high_proxy select_group"> {{  t('chat_page_moveG') }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
