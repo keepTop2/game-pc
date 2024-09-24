@@ -12,7 +12,7 @@
           禁言
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"
+        <iconpark-icon @click="isShow = false" class="clo" icon-id="Group39368" color="#fff" size="1.2rem"
           style="margin-top: 6px;"></iconpark-icon>
       </div>
     </h4>

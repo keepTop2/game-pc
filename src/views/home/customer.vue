@@ -10,3 +10,12 @@ import { ref } from "vue"
 
 const visible = ref(true)
 </script>
+
+<style lang="less" scoped>
+:deep(.clo){
+    display: none;
+
+}
+
+
+</style>
