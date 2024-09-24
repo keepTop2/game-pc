@@ -281,7 +281,9 @@ const state: any = reactive({
 // 上传图片视频
 const beforeUpload = (data: any) => {
   const file = data.file.file
+  const fileType = file.type.split('/')[1]
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
+  console.log(333333333,fileType)
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
@@ -289,6 +291,10 @@ const beforeUpload = (data: any) => {
   }
   if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
     Message.error('文件大小不能超过100MB！')
+    return;
+  }
+  if (type == 'image'&&!['png','jpg','gif','jpeg'].includes (fileType)) {
+    Message.error('文件格式不支持')
     return;
   }
   const formData = new FormData();
