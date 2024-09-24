@@ -766,6 +766,10 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 28) {
     getkeywordList(decodeobj1)
   }
+    // 获取关键词列表
+    else if (decodeobj1.type == 25) {
+      Message.success('操作成功')
+  }
 
   // 新增，修改，删除快捷语，重新请求列表
   else if ([16, 17, 18].includes(decodeobj1.type)) {
@@ -789,6 +793,7 @@ const onMessage: any = async (buffer: any) => {
     if (decodeobj1.type == 22) {
       Message.success(t('delete_success'));
     }
+    
     visibleCateSetting.value = false;
     getShortcutCatelist();
   }
