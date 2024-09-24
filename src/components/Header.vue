@@ -75,7 +75,7 @@
           <p class="user_info_mon">
             <span>
               <Imgt src="/img/home/coin.webp" />
-              <span>{{ verifyNumberComma(String(roleInfo.money + roleInfo?.bank_money)) }}</span>
+              <span>{{ verifyNumberComma(String(roleInfo.money)) }}</span>
             </span>
           </p>
           <span class="info_options">

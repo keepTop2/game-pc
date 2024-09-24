@@ -93,7 +93,7 @@
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
+                        <div class="high_proxy select_group"> {{  t('chat_page_moveG') }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
@@ -199,7 +199,7 @@
       :quickPhrasesCateList="quickPhrasesCateList" />
 
     <manageGroup ref="groupRef" v-model:visible="visibleGroup" :deepObj="deepObj" :stateData="state"
-      :itemList="chatitemList" />
+      :itemList="chatitemList" :agentInfo="agentInfo" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
     <!-- 禁言弹窗 -->
@@ -209,7 +209,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, reactive } from 'vue';
+import { computed, ref, onMounted, reactive,onUnmounted } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
@@ -227,6 +227,7 @@ import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import Imgt from '@/components/Imgt.vue';
 import { useRoute } from 'vue-router';
+import {getMinuteDifference} from '@/utils/dateTime'
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -271,6 +272,8 @@ const state: any = reactive({
   search: '',   // 查询用户
   groupType: 'all',
   isEditchat: false,
+  autoSendObj:{},
+  sendObj:{}
 })
 
 
@@ -467,7 +470,7 @@ const sendMsg = () => {
     if (state.messagetype == 1 && keywordArr.value.length&&state.userData.deep=='0') {
       keywordArr.value.forEach((item: any) => {
         if (testMsg.value.includes(item)) {
-          testMsg.value = testMsg.value.replace(item, '*'.repeat(item.length))
+          testMsg.value = testMsg.value?.replaceAll(item, '*'.repeat(item.length))
         }
       })
     }
@@ -484,6 +487,8 @@ const sendMsg = () => {
       mtype: state.messagetype,//文字类型消息
       data: msginputdata,
     };
+    // 保存回复用户时间
+    state.sendObj[state.todeviceid] = new Date(datatime).getTime()
     //编码消息体
     let MessageInputeItem = state.root.lookupType('MessageInpute')
     const errMsg2 = MessageInputeItem.verify(msgcontent);
@@ -557,7 +562,6 @@ const getChatMsgPublic = (data: any, type?: any) => {
     4: 'MessageVideoContent',//视频
     5: 'MessageMoneyContent'//转账
   }
-  console.log(444444,data,)
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
   // console.log("onMessage/MessageTextContent output3 ", decodeobj3)
   if (data.cstatus == 1||data.msgtype==1) {
@@ -593,6 +597,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
           }
         }
       }
+      autoSend(decodeobj2)
     } else {    // 聊天记录
       state.chatMessagesList.unshift(messageObj)
     }
@@ -604,6 +609,48 @@ const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   const decodeobj00 = decodeContent(decodeobj1.data, ServiceMessage)
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
   getChatMsgPublic(decodeobj00, decodeobj1.type)
+}
+
+// 自动回复
+
+const autoSend = (decodeobj2:any)=>{
+  // if (state.autoSendObj[decodeobj2.fromdeviceid]) {
+  //   state.autoSendObj[decodeobj2.fromdeviceid]
+    
+  // }else{
+  //   state.autoSendObj[decodeobj2.fromdeviceid] = new Date(decodeobj2.sendtime).getTime()
+  // }
+  
+  state.autoSendObj[decodeobj2.fromdeviceid] = new Date(decodeobj2.sendtime).getTime()
+  startTimer(decodeobj2)
+
+}
+
+// 倒计时开始   3分钟自动回复
+const timer = ref()
+function startTimer(decodeobj2:any) {
+  timer.value = setTimeout(() => {
+    if (state.sendObj[decodeobj2.fromdeviceid]&&state.autoSendObj[decodeobj2.fromdeviceid]) {
+      const time1 = state.autoSendObj[decodeobj2.fromdeviceid]
+      const time2 = state.sendObj[decodeobj2.fromdeviceid]
+      const diffMinus = getMinuteDifference(time1,time2)  //几分钟内回复
+      if (diffMinus>=3) {
+        
+      }
+  }else{
+    const msc = quickPhrasesList.value.find((item:any)=>item.isautorsp==1)
+    if (msc) {
+      testMsg.value = msc.content
+      sendMsg()
+    }
+  }
+  }, 1000*60*3);
+}
+
+// 清理倒计时
+function clear() {
+  clearTimeout(timer.value);
+  timer.value = null;
 }
 
 
@@ -660,6 +707,7 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
+    console.log(444444,decodeobj1)
     getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
@@ -788,6 +836,12 @@ onMounted(async () => {
   keywordList()
   // synchistorymsg()
 })
+
+onUnmounted(()=>{
+  clear()
+})
+
+
 </script>
 <style lang="less" scoped>
 @timestamp: `new Date().getTime()`;
