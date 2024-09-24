@@ -29325,13 +29325,15 @@ export module NetPacket {
 			agentId: 0,
 			kindId: 0,
 			page: 0,
+			pageSize: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_games_in_platform"];
 			},
-			encode: function (buf: number[]) {
+			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.agentId, buf);
 				EncodeUtils.int32ToByte(tb.kindId, buf);
 				EncodeUtils.int32ToByte(tb.page, buf);
+				EncodeUtils.int32ToByte(tb.pageSize, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -29341,9 +29343,11 @@ export module NetPacket {
 				startIndex += 4;
 				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
+				tb.pageSize = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: number[]) {
+			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_games_in_platform"], buf);
 				return tb.encode(buf);
 			}
@@ -29388,12 +29392,14 @@ export module NetPacket {
 		let tb: any = {
 			agentId: 0,
 			kindId: 0,
+			pageSize: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_kind_in_platform"];
 			},
-			encode: function (buf: number[]) {
+			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.agentId, buf);
 				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.int32ToByte(tb.pageSize, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -29401,9 +29407,11 @@ export module NetPacket {
 				startIndex += 4;
 				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
+				tb.pageSize = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: number[]) {
+			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_kind_in_platform"], buf);
 				return tb.encode(buf);
 			}
@@ -29487,7 +29495,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_look_for_game_name"];
 			},
-			encode: function (buf: number[]) {
+			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.agentId, buf);
 				EncodeUtils.int32ToByte(tb.kindId, buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
@@ -29503,7 +29511,7 @@ export module NetPacket {
 				startIndex += name_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: number[]) {
+			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_look_for_game_name"], buf);
 				return tb.encode(buf);
 			}
