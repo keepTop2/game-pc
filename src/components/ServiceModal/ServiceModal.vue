@@ -88,7 +88,7 @@
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
-                    <span v-else> {{ t(o.name) }}</span>
+                    <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
@@ -376,10 +376,11 @@ const tabClick = (tab: tabType) => {
 
 
 const selectList = [
-  { name: 'chat_page_top', id: 1 },
+  { name: 'chat_page_top', id: 1 },  // 置顶
   // { name: '未读', id: 2 },
-  { name: 'chat_page_shield', id: 3 },
-  { name: 'chat_page_moveG', id: 4 },
+  { name: 'chat_page_shield', id: 3 },// 屏蔽
+  // { name: '取消屏蔽', id: 6 },// 取消屏蔽
+  { name: 'chat_page_moveG', id: 4 },  // 移动好友到
 ]
 // 添加表情
 
