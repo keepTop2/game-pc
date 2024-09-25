@@ -131,10 +131,10 @@ import themeBox from '@/components/ThemeC.vue';
 const { t } = useI18n()
 const page = Page(pinia);
 const { menuActive, settings, lang } = storeToRefs(page);
-
+import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
-const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail, kefuVisible } = storeToRefs(userInfo);
+const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail, kefuVisible,agentInfo } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 
@@ -328,7 +328,12 @@ const menuClick = async (item: any, j: number) => {
       },
     })
   } else if (item.url == 'kf') {
-    kefuVisible.value = true
+    if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
+      Message.error('用户被封禁')
+    } else {
+      kefuVisible.value = true
+      return
+    }
   }
   else {
     await page.setMenuActive(j, item.name)
