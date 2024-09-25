@@ -640,7 +640,7 @@ function startTimer(decodeobj2:any) {
   }else{
     const msc = quickPhrasesList.value.find((item:any)=>item.isautorsp==1)
     if (msc) {
-      testMsg.value = msc.content
+      testMsg.value = msgRef.value.innerHTML= msc.content
       sendMsg()
     }
   }
