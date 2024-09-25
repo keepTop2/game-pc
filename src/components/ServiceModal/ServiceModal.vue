@@ -88,12 +88,12 @@
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
                     <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
-                    <span v-else> {{ t(o.name) }}</span>
+                    <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{ selectList.find((i: any) => i.id == 4)?.name }}</div>
+                        <div class="high_proxy select_group"> {{  t('chat_page_moveG') }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
@@ -281,7 +281,9 @@ const state: any = reactive({
 // 上传图片视频
 const beforeUpload = (data: any) => {
   const file = data.file.file
+  const fileType = file.type.split('/')[1]
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
+  console.log(333333333,fileType)
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
@@ -289,6 +291,10 @@ const beforeUpload = (data: any) => {
   }
   if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
     Message.error('文件大小不能超过100MB！')
+    return;
+  }
+  if (type == 'image'&&!['png','jpg','gif','jpeg'].includes (fileType)) {
+    Message.error('文件格式不支持')
     return;
   }
   const formData = new FormData();
@@ -370,10 +376,11 @@ const tabClick = (tab: tabType) => {
 
 
 const selectList = [
-  { name: 'chat_page_top', id: 1 },
+  { name: 'chat_page_top', id: 1 },  // 置顶
   // { name: '未读', id: 2 },
-  { name: 'chat_page_shield', id: 3 },
-  { name: 'chat_page_moveG', id: 4 },
+  { name: 'chat_page_shield', id: 3 },// 屏蔽
+  // { name: '取消屏蔽', id: 6 },// 取消屏蔽
+  { name: 'chat_page_moveG', id: 4 },  // 移动好友到
 ]
 // 添加表情
 
