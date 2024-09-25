@@ -66,7 +66,7 @@
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
-              @click="selectUser(item)" :style="{ order: item.deep == '0' ? 0 : item.istop?item.istop:item.unreadnums || 100 }">
+              @click="selectUser(item)" :style="{ order:item.unreadnums?-1: item.deep == '0' ? 0 : item.istop }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
