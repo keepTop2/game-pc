@@ -211,6 +211,11 @@ const saveGroup = () => {
     Message.error('请填写分组名称');
     return
   }
+  console.log(4444444,)
+  if (chatitemIdList.value.length=='0') {
+    Message.error('请添加对话');
+    return
+  }
 
   const state = props.stateData
   state.requestid++;
