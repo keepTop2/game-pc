@@ -66,7 +66,8 @@
           <div class="user_list" v-if="active_id == 1">
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
-              @click="selectUser(item)" :style="{ order: item.deep == '0' ? 0 : item.istop?item.istop:item.unreadnums || 100 }">
+              @click="selectUser(item)"
+              :style="{ order: item.unreadnums && item.enableflag != 1 ? -1 : item.deep == '0' ? 0 : item.istop }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -82,8 +83,8 @@
                 <template #trigger>
                   <div class="high_proxy"
                     :style="{ background: deepObj[item.deep || item.agentlevel] ? deepObj[item.deep || item.agentlevel].color : '' }">
-                    {{
-                      setLabel(item) }}</div>
+                    <span> {{ setLabel(item) }}</span>
+                  </div>
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
@@ -93,7 +94,7 @@
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
-                        <div class="high_proxy select_group"> {{  t('chat_page_moveG') }}</div>
+                        <div class="high_proxy select_group"> {{ t('chat_page_moveG') }}</div>
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
@@ -107,6 +108,8 @@
                   </div>
                 </div>
               </n-popover>
+
+              <Imgt :src="`/img/serviceModal/mute.webp`" alt="" class="mute_img" v-if="item.enableflag == 1" />
             </div>
           </div>
           <!-- 好友列表 -->
@@ -127,7 +130,8 @@
                 </div>
 
                 <div class="high_proxy"
-                  :style="{ background: deepObj[i.deep || i.agentlevel] ? deepObj[i.deep || i.agentlevel].color : '' }">{{
+                  :style="{ background: deepObj[i.deep || i.agentlevel] ? deepObj[i.deep || i.agentlevel].color : '' }">
+                  {{
                     setLabel(i) }}</div>
               </div>
             </div>
@@ -164,8 +168,8 @@
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" @paste="optimizePasteEvent"  contenteditable="true" spellcheck="false"
-              autofocus class="input_wrap">
+            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" @paste="optimizePasteEvent"
+              contenteditable="true" spellcheck="false" autofocus class="input_wrap">
             </div>
             <div class="send_icon">
               <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney"
@@ -209,7 +213,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, reactive,onUnmounted } from 'vue';
+import { computed, ref, onMounted, reactive, onUnmounted } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker'
 import IWebsocket from './chatWS'
 import 'vue3-emoji-picker/css'
@@ -227,7 +231,7 @@ import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import Imgt from '@/components/Imgt.vue';
 import { useRoute } from 'vue-router';
-import {getMinuteDifference} from '@/utils/dateTime'
+import { getMinuteDifference } from '@/utils/dateTime'
 
 import { Buffer } from 'buffer';
 // import { Local } from "@/utils/storage";
@@ -272,8 +276,8 @@ const state: any = reactive({
   search: '',   // 查询用户
   groupType: 'all',
   isEditchat: false,
-  autoSendObj:{},
-  sendObj:{}
+  autoSendObj: {},
+  sendObj: {}
 })
 
 
@@ -283,7 +287,7 @@ const beforeUpload = (data: any) => {
   const file = data.file.file
   const fileType = file.type.split('/')[1]
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
-  console.log(333333333,fileType)
+  console.log(333333333, fileType)
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
@@ -293,7 +297,7 @@ const beforeUpload = (data: any) => {
     Message.error('文件大小不能超过100MB！')
     return;
   }
-  if (type == 'image'&&!['png','jpg','gif','jpeg'].includes (fileType)) {
+  if (type == 'image' && !['png', 'jpg', 'gif', 'jpeg'].includes(fileType)) {
     Message.error('文件格式不支持')
     return;
   }
@@ -314,11 +318,11 @@ const beforeUpload = (data: any) => {
     })
 }
 // 禁止复制图片
-const optimizePasteEvent = (e:any)=>{
+const optimizePasteEvent = (e: any) => {
   setTimeout(() => {
     if (e.target.innerHTML.includes('<img')) {
       testMsg.value = msgRef.value.innerHTML = ''
-  }
+    }
   }, 200);
 }
 
@@ -474,7 +478,7 @@ const sendMsg = () => {
       data: testMsg.value
     };
     // 是否有敏感词判断 对客服需要
-    if (state.messagetype == 1 && keywordArr.value.length&&state.userData.deep=='0') {
+    if (state.messagetype == 1 && keywordArr.value.length && state.userData.deep == '0') {
       keywordArr.value.forEach((item: any) => {
         if (testMsg.value.includes(item)) {
           testMsg.value = testMsg.value?.replaceAll(item, '*'.repeat(item.length))
@@ -571,16 +575,16 @@ const getChatMsgPublic = (data: any, type?: any) => {
   }
   const decodeobj3 = decodeContent(decodeobj2.data, obj[decodeobj2.mtype])
   // console.log("onMessage/MessageTextContent output3 ", decodeobj3)
-  if (data.cstatus == 1||data.msgtype==1) {
+  if (data.cstatus == 1 || data.msgtype == 1) {
     if (!data.cstatus) {
-          // 是否有敏感词判断 对客服需要
-    if (keywordArr.value.length&&state.userData.deep=='0') {
-      keywordArr.value.forEach((item: any) => {
-        if (decodeobj3.data.includes(item)) {
-          decodeobj3.data = decodeobj3.data.replace(item, '*'.repeat(item.length))
-        }
-      })
-    }
+      // 是否有敏感词判断 对客服需要
+      if (keywordArr.value.length && state.userData.deep == '0') {
+        keywordArr.value.forEach((item: any) => {
+          if (decodeobj3.data.includes(item)) {
+            decodeobj3.data = decodeobj3.data.replace(item, '*'.repeat(item.length))
+          }
+        })
+      }
     }
 
     const messageObj = {
@@ -600,7 +604,8 @@ const getChatMsgPublic = (data: any, type?: any) => {
           if (todeviceItem.unreadnums && todeviceItem.unreadnums >= 0) {
             todeviceItem.unreadnums++
           } else {
-            todeviceItem.unreadnums = 1
+
+            todeviceItem.unreadnums = todeviceItem.enableflag != 1 ? 1 : 0
           }
         }
       }
@@ -620,14 +625,14 @@ const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
 
 // 自动回复
 
-const autoSend = (decodeobj2:any)=>{
+const autoSend = (decodeobj2: any) => {
   // if (state.autoSendObj[decodeobj2.fromdeviceid]) {
   //   state.autoSendObj[decodeobj2.fromdeviceid]
-    
+
   // }else{
   //   state.autoSendObj[decodeobj2.fromdeviceid] = new Date(decodeobj2.sendtime).getTime()
   // }
-  
+
   state.autoSendObj[decodeobj2.fromdeviceid] = new Date(decodeobj2.sendtime).getTime()
   startTimer(decodeobj2)
 
@@ -635,23 +640,23 @@ const autoSend = (decodeobj2:any)=>{
 
 // 倒计时开始   3分钟自动回复
 const timer = ref()
-function startTimer(decodeobj2:any) {
+function startTimer(decodeobj2: any) {
   timer.value = setTimeout(() => {
-    if (state.sendObj[decodeobj2.fromdeviceid]&&state.autoSendObj[decodeobj2.fromdeviceid]) {
+    if (state.sendObj[decodeobj2.fromdeviceid] && state.autoSendObj[decodeobj2.fromdeviceid]) {
       const time1 = state.autoSendObj[decodeobj2.fromdeviceid]
       const time2 = state.sendObj[decodeobj2.fromdeviceid]
-      const diffMinus = getMinuteDifference(time1,time2)  //几分钟内回复
-      if (diffMinus>=3) {
-        
+      const diffMinus = getMinuteDifference(time1, time2)  //几分钟内回复
+      if (diffMinus >= 3) {
+
       }
-  }else{
-    const msc = quickPhrasesList.value.find((item:any)=>item.isautorsp==1)
-    if (msc) {
-      testMsg.value = msc.content
-      sendMsg()
+    } else {
+      const msc = quickPhrasesList.value.find((item: any) => item.isautorsp == 1)
+      if (msc) {
+        testMsg.value = msgRef.value.innerHTML = msc.content
+        sendMsg()
+      }
     }
-  }
-  }, 1000*60*3);
+  }, 1000 * 60 * 3);
 }
 
 // 清理倒计时
@@ -714,7 +719,7 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
-    console.log(444444,decodeobj1)
+    console.log(444444, decodeobj1)
     getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
@@ -773,9 +778,9 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 28) {
     getkeywordList(decodeobj1)
   }
-    // 获取关键词列表
-    else if (decodeobj1.type == 25) {
-      Message.success('操作成功')
+  // 获取关键词列表
+  else if (decodeobj1.type == 25) {
+    Message.success('操作成功')
   }
 
   // 新增，修改，删除快捷语，重新请求列表
@@ -800,7 +805,7 @@ const onMessage: any = async (buffer: any) => {
     if (decodeobj1.type == 22) {
       Message.success(t('delete_success'));
     }
-    
+
     visibleCateSetting.value = false;
     getShortcutCatelist();
   }
@@ -849,7 +854,7 @@ onMounted(async () => {
   // synchistorymsg()
 })
 
-onUnmounted(()=>{
+onUnmounted(() => {
   clear()
 })
 
@@ -1038,6 +1043,15 @@ onUnmounted(()=>{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+
+  .mute_img {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: 8px;
+    top: 0;
+  }
 
   .item_left {
     display: flex;
@@ -1071,7 +1085,6 @@ onUnmounted(()=>{
     padding: 6px 8px;
     border-radius: 6px;
     background-image: radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776);
-
   }
 }
 
@@ -1227,9 +1240,15 @@ onUnmounted(()=>{
     background: #3c279a;
     border-radius: 8px
   }
+  &:deep(.n-carousel__slide){
+    width: unset !important;
+    min-width: 100px !important;
+    max-width: 188px !important;
+  }
 
   .short_wrap_item {
     min-width: 98px;
+    max-width: 158px;
     height: 33px;
     display: flex;
     justify-content: center;
