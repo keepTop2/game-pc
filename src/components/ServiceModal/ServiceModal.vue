@@ -1240,9 +1240,15 @@ onUnmounted(() => {
     background: #3c279a;
     border-radius: 8px
   }
+  &:deep(.n-carousel__slide){
+    width: unset !important;
+    min-width: 100px !important;
+    max-width: 188px !important;
+  }
 
   .short_wrap_item {
     min-width: 98px;
+    max-width: 158px;
     height: 33px;
     display: flex;
     justify-content: center;
