@@ -305,7 +305,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
 
   // 置顶 禁言，移动分组
   const itemSet = (o: any, item: any) => {
-    if (!item.id) {
+    if (!item.todeviceid) {
       return
     }
 
@@ -357,6 +357,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
         ...decodeobj00.roles[0],
         TUsername: decodeobj00.roles[0].username,
         Tdeviceid: decodeobj00.roles[0].roleid,
+        THeadPhoto:decodeobj00.roles[0].headphoto,
         id:decodeobj00.roles[0].roleid
       };
       state_data.chatitemList = [...state_data.chatitemList, params];
