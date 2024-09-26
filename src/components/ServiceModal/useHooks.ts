@@ -305,6 +305,10 @@ const usechatHooks = (state?: any, selectUser?: any) => {
 
   // 置顶 禁言，移动分组
   const itemSet = (o: any, item: any) => {
+    if (!item.id) {
+      return
+    }
+
     editchat(item, item, o);
     if (o.id == 1) {
       // 置顶
