@@ -353,6 +353,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
         ...decodeobj00.roles[0],
         TUsername: decodeobj00.roles[0].username,
         Tdeviceid: decodeobj00.roles[0].roleid,
+        id:decodeobj00.roles[0].roleid
       };
       state_data.chatitemList = [...state_data.chatitemList, params];
       selectUser(params);
