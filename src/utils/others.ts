@@ -75,7 +75,7 @@ export function verifyNumberIntegerAndFloat(val: string) {
  * @returns 返回处理后的字符串
  * isDecimal 是否需要舍弃小数，不需要舍弃 true, 需要舍弃 false
  */
-export function verifyNumberComma(val: string, isDecimal: boolean = true ): any {
+export function verifyNumberComma(val: string, isDecimal: boolean = true): any {
     // 调用小数或整数(不可以负数)方法
     let v: any = verifyNumberIntegerAndFloat(val);
     v = isDecimal ? v : Math.trunc(v); // 直接舍弃小数
@@ -88,6 +88,174 @@ export function verifyNumberComma(val: string, isDecimal: boolean = true ): any 
     // 返回结果
     return v;
 }
+export function get<T>(url: string): Promise<T> {
+    return new Promise((resole, reject) => {
+        let xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    let res = JSON.parse(xhr.responseText);
+                    resole(res);
+                } else {
+                    reject(`get: ${url} err`);
+                }
+            }
+        };
+        xhr.onerror = (err) => {
+            reject(err);
+        };
+
+        xhr.open("GET", url, true);
+
+        xhr.timeout = 8000;
+        xhr.send();
+    });
+}
+/**
+  * 取最快的链接
+  */
+export const getFastestUrl = (_data: { [x: string]: any; }): Promise<string> => {
+    return new Promise(async (resolve) => {
+        // let localUrl = StorageMgr.instance.get(this.fastestUrlKey);
+        // if (localUrl) {
+        // }
+
+        let server_testUrls = [
+            [
+                "http://18.162.112.52:9002",
+                "ws://18.162.112.52:9001"
+            ],
+            [
+                "http://43.199.35.53:9002",
+                "ws://43.199.35.53:9001"
+            ]
+        ];
+
+
+
+        // function httpToWs(httpUrl: string) {
+        //     if (httpUrl.startsWith("https://")) {
+        //         return "wss://" + httpUrl.substr(8);
+        //     } else if (httpUrl.startsWith("http://")) {
+        //         return "ws://" + httpUrl.substr(7);
+        //     } else {
+        //         console.error("Invalid HTTP URL format");
+        //         return null;
+        //     }
+        // }
+
+        function determineProtocol(ipAddress: string) {
+            if (ipAddress.startsWith("http://")) {
+                return "http";
+            } else if (ipAddress.startsWith("https://")) {
+                return "https";
+            } else if (ipAddress.startsWith("ws://")) {
+                return "ws";
+            } else if (ipAddress.startsWith("wss://")) {
+                return "wss";
+            } else {
+                // 默认使用 http 协议
+                return "http";
+            }
+        }
+
+        function connectWithTimeout(url: string | URL, timeout: number | undefined) {
+            return new Promise<void>((resolve, reject) => {
+                const ws = new WebSocket(url);
+
+                const timer = setTimeout(() => {
+                    reject(new Error("WebSocket 连接超时"));
+                    ws.close();
+                }, timeout);
+
+                ws.onopen = function () {
+                    clearTimeout(timer);
+                    ws.close();
+                    resolve();
+                };
+
+                ws.onerror = function (error) {
+                    clearTimeout(timer);
+                    reject(error);
+                };
+            });
+        }
+
+        //暂时注释掉选择速度最快的服务器
+        let fastCost = 99999;
+        let fastIndex = 0;
+        let promises: Promise<{ cost: number; index: number }>[] = server_testUrls.map((urls: any[], index: any) => {
+            let url = urls[0];
+            return new Promise((resolve) => {
+                let startTime = new Date().getTime();
+                let _nowrul = urls[0]; // httpToWs(url);
+
+                switch (determineProtocol(_nowrul)) {
+                    case "http":
+                    case "https":
+                        {
+                            get(url)
+                                .then(() => {
+                                    let endTime = new Date().getTime();
+                                    let cost = endTime - startTime;
+                                    console.log(`请求:${url} 耗时:${cost}`);
+                                    resolve({ cost, index });
+                                })
+                                .catch((error: any) => {
+                                    console.error("Error:", error);
+                                    resolve({ cost: 9999999, index }); // 如果出错，将 cost 设置为 Infinity
+                                });
+                        }
+                        break;
+                    case "ws":
+                    case "wss":
+                        {
+                            connectWithTimeout(_nowrul, 5000)
+                                .then(() => {
+                                    // console.log('WebSocket 连接成功');
+                                    let endTime = new Date().getTime();
+                                    let cost = endTime - startTime;
+                                    console.log(`请求:${_nowrul} 耗时:${cost}`);
+                                    resolve({ cost, index });
+                                })
+                                .catch((error) => {
+                                    console.error("WebSocket 连接失败:", error);
+                                    resolve({ cost: 9999999, index }); // 如果出错，将 cost 设置为 Infinity
+                                });
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+        });
+        Promise.all(promises).then(async (results) => {
+            results.forEach(({ cost, index }) => {
+                if (cost < fastCost) {
+                    fastCost = cost;
+                    fastIndex = index;
+                }
+            });
+            let fastestUrl = server_testUrls[fastIndex];
+            // let _wsurl = fastestUrl[1]; //httpToWs(fastestUrl);
+            // let server_ips = [_wsurl];
+            console.log(`最快URL:${fastestUrl[0]} 耗时:${fastCost}`);
+            resolve(fastestUrl[0])
+            // Local.set('fastestUrlKey', fastestUrl[0])
+            // StorageMgr.instance.set(this.fastestUrlKey, fastestUrl[0]);
+            // let _ip = Local.get("lastLoginIP");
+            // if (_ip) {
+            //     server_ips.unshift(_ip);
+            // }
+
+            // GlobalData.getRemoteJson(resolve);
+        });
+    });
+}
+
+
 // 玩家IP
 export const IP = (): Promise<string> => {
     return new Promise(async (resolve) => {
@@ -136,6 +304,7 @@ export const IP = (): Promise<string> => {
         });
     });
 }
+
 /**
  *  精确小数点，截取位数，不四舍五入
  *  l 小数点位数
@@ -151,9 +320,9 @@ export const toFixedNumber = (value: any, l = 2) => {
 }
 
 
-function isNotLetter(character:any) {
+function isNotLetter(character: any) {
     return /^[a-zA-Z]$/.test(character);
-  }
+}
 
 
 /**
@@ -161,40 +330,40 @@ function isNotLetter(character:any) {
  * @param arr 对象数组；prop：要排序的对象属性key名
  * @returns: nut-elevator list格式
 */
-export function sortAndGroupByLetter(arr:any, prop:string) {
+export function sortAndGroupByLetter(arr: any, prop: string) {
     // 按prop属性排序
-    const sorted = arr?.sort((a:any, b:any) => a[prop]?.localeCompare(b[prop], 'en'));
+    const sorted = arr?.sort((a: any, b: any) => a[prop]?.localeCompare(b[prop], 'en'));
     // 根据首字母分组
-    const grouped = sorted.reduce((grouped:any, item:any) => {
-      const firstChar = item[prop]&&isNotLetter(item[prop][0])&&item[prop][0]?.toUpperCase() ||"*" ;
-      grouped[firstChar] = grouped[firstChar] || [];
-      grouped[firstChar].push(item);
-      return grouped;
+    const grouped = sorted.reduce((grouped: any, item: any) => {
+        const firstChar = item[prop] && isNotLetter(item[prop][0]) && item[prop][0]?.toUpperCase() || "*";
+        grouped[firstChar] = grouped[firstChar] || [];
+        grouped[firstChar].push(item);
+        return grouped;
     }, {});
     let list: any = []
     let list1: any = []
     Object.keys(grouped).forEach(key => {
-      let item = { title: key, list: <any>[] }
-     
-      grouped[key].map((it: any) => {
-        item.list.push(it)
-      })
-      if (key=='*') {
-         list1.push(item)
-      }else{
-        list.push(item)
-      }
-      
+        let item = { title: key, list: <any>[] }
+
+        grouped[key].map((it: any) => {
+            item.list.push(it)
+        })
+        if (key == '*') {
+            list1.push(item)
+        } else {
+            list.push(item)
+        }
+
     })
-    list = [...list,...list1]
+    list = [...list, ...list1]
     // 获取分组的字母数组
     const letters = Object.keys(grouped).sort();
-   
+
     // 返回分组后的对象，包含字母数组和对应的分组数组
     return { list, letters, grouped };
-  }
+}
 
 // 去除千位符
 export const removeComma = (val: any) => {
-  return val ? Number(val.replaceAll(",", "")) : 0;
+    return val ? Number(val.replaceAll(",", "")) : 0;
 }

@@ -14,10 +14,11 @@
                 <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />
             </n-card>
         </n-modal>
-        <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
+   
+    </div>
+    <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
-    </div>
 </template>
 
 <script setup lang='ts'>
@@ -52,6 +53,16 @@ const state: any = reactive({
     link: '',
     showModal: false,
     detailImg: null,
+    arr: [
+    {
+      date: '2018/8/1',
+      className: 'mark1'
+    },
+    {
+      date: '2018/8/13',
+      className: 'mark2'
+    }
+  ],
 })
 const popDetail = (item: any) => {
     state.detailImg = null
