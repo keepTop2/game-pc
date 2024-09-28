@@ -106,8 +106,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     const buffer00 = new Uint8Array(decodeobj1.data);
     const decodedMessage00 = UserRole.decode(buffer00);
     const decodeobj00 = UserRole.toObject(decodedMessage00);
+
     const obj = {
-      THeadPhoto: '1001',
+      THeadPhoto: decodeobj00.headphoto||'1001',
       TUsername: decodeobj00.username,
       Tdeviceid: decodeobj00.roleid,
       chatid: '',
