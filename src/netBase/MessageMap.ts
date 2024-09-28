@@ -1,12 +1,12 @@
 export class MessageMap {
-    private static msgMap = {};
+    private static msgMap: any = {};
 
-    static addMsgMap(msgStruct) {
+    static addMsgMap(msgStruct: () => { (): any; new(): any; getMsgID: { (): any; new(): any; }; }) {
         let msgID = msgStruct().getMsgID();
         this.msgMap[msgID] = msgStruct;
     }
 
-    static getMessage(msgID) {
+    static getMessage(msgID: string | number) {
         return this.msgMap[msgID];
     }
 }
