@@ -68,7 +68,7 @@
           <div class="title">对话</div>
           <div class="user_list">
             <n-checkbox-group v-model:value="chatitemIdList">
-              <n-checkbox :value="item" v-for="item in itemList.filter((i: any) => i.deep != '0')" :key="item.id">
+              <n-checkbox :value="item" v-for="item in itemList.filter((i: any) => i.deep != '0'&&!i.chatgroupid)" :key="item.id">
                 <div class="list_item">
                   <div class="user_info">
                     <div class="avatar">
@@ -209,6 +209,11 @@ const delItem = (item: any) => {
 const saveGroup = () => {
   if (!groupName.value && !groupName.value.trim()) {
     Message.error('请填写分组名称');
+    return
+  }
+  console.log(4444444,)
+  if (chatitemIdList.value.length=='0') {
+    Message.error('请添加对话');
     return
   }
 

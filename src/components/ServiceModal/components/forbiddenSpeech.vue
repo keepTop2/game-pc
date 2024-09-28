@@ -90,11 +90,11 @@ const saveClick = () => {
     days: list.value[choose.value - 1].day,
     mtype: choose.value
   }
-  console.log(44444444, payload)
   const actionType = choose.value < 3 ? 'MuteReq' : 'ForbidReq'
   const decodedata = encodeParams(payload, actionType)
   const encodedRequest = encodeInput(type, requestid, decodedata);
   IWebsocket.sendMessageHandler(encodedRequest)
+  isShow.value = false
 }
 
 const isShow = computed({

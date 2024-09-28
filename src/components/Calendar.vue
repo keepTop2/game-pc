@@ -307,6 +307,7 @@ const NextMonth = (date: string, isChosedDay = true) => {
 const forMatArgs = () => {
   let markDate:any = props.markDate;
   let markDateMore:any = props.markDateMore;
+ 
   markDate = markDate.map((k: any) => {
     return dateFormat(k);
   });
@@ -338,11 +339,11 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
     } else if (Number(a) >= tadayMonth && Number(b) > tadayDate) {
       k.futureDate = true;
     }
-    props.data.map((e: { img: boolean; SignDate: any; }) => {
-      // 将数据库返回的数据合并
-      e.img = true;
-      e.SignDate === k.date && Object.assign(k, e);
-    });
+    // props.data.map((e: { img: boolean; SignDate: any; }) => {
+    //   // 将数据库返回的数据合并
+    //   e.img = true;
+    //   e.SignDate === k.date && Object.assign(k, e);
+    // });
     k.chooseDay = false; // 设置当前选择的天都为没选中
     let nowTime = k.date;
     let t = new Date(nowTime).getTime() / 1000; // 将每天转换为时间戳
@@ -491,17 +492,17 @@ li {
 .wh_top_changge {
   display: flex;
   // background: #130b35;
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 
   li {
     cursor: pointer;
     display: flex;
-    font-size: 0.4rem;
+    font-size: 14px;
     flex: 1;
     justify-content: center;
     align-items: center;
-    height: 1.2rem;
+    height: 25px;
   }
 
   .wh_content_li {
@@ -516,7 +517,7 @@ li {
   color: #574949;
   width: 100%;
   overflow: hidden;
-  padding-bottom: 0.2rem;
+  padding-bottom: 5px;
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(172, 177, 223, 0.3);
   border: solid 1px #fff;
@@ -538,12 +539,12 @@ li {
 .wh_content:first-child .wh_content_item_tag,
 .wh_content:first-child .wh_content_item {
   color: #ddd;
-  font-size: 0.4rem;
+  font-size: 14px;
 }
 
 .wh_content_item,
 .wh_content_item_tag {
-  font-size: 0.3rem;
+  font-size: 10px;
   width: 14.28%;
   text-align: center;
   position: relative;
@@ -594,9 +595,9 @@ th {
 }
 
 .wh_top_tag {
-  width: 1rem;
-  height: 1rem;
-  line-height: 1rem;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -604,8 +605,8 @@ th {
 }
 
 .wh_item_date {
-  height: 0.65rem;
-  line-height: 0.65rem;
+  height: 30px;
+  line-height: 30px;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -614,21 +615,21 @@ th {
 
   i {
     display: inline-block;
-    width: 0.4rem;
-    height: 0.32rem;
+    width: 10px;
+    height: 15px;
     background-image: url("../assets/img/signin/gou.png");
     background-size: contain;
     position: absolute;
     bottom: 0;
-    right: -0.02rem;
+    right: -5px;
   }
 }
 
 .wh_jiantou1 {
-  width: 0.3rem;
-  height: 0.3rem;
-  border-top: 0.05rem solid #574949;
-  border-left: 0.05rem solid #574949;
+  width: 10px;
+  height: 10px;
+  border-top: 3px solid #574949;
+  border-left: 3px solid #574949;
   transform: rotate(-45deg);
   cursor: pointer;
 }
@@ -640,27 +641,27 @@ th {
 
 .wh_jiantou2 {
   cursor: pointer;
-  width: 0.3rem;
-  height: 0.3rem;
-  border-top: 0.05rem solid #574949;
-  border-right: 0.05rem solid #574949;
+  width: 10px;
+  height: 10px;
+  border-top: 3px solid #574949;
+  border-right: 3px solid #574949;
   transform: rotate(45deg);
 }
 
 .sign_text {
   font-size: 15px;
-  margin: 0.2rem 0.2rem 0.3rem;
-  letter-spacing: 0.05rem;
+  margin: 5px 5px 10px;
+  letter-spacing: 3px;
 
   b {
-    margin: 0 0.1rem;
+    margin: 2px;
     color: #dca42b;
   }
 }
 
 .btn {
-  border-radius: 0.2rem;
-  padding: 0.07rem 0.2rem;
+  border-radius: 5px;
+  padding: 7px 5px;
   text-align: center;
   line-height: 1.3;
   color: #574949;
@@ -672,7 +673,7 @@ th {
   border-image-slice: 1;
   background-image: radial-gradient(circle at 50% 97%, #fff, rgba(255, 255, 255, 0)), linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0) 32%), linear-gradient(to top, #fff 100%, #e5e9f1 50%, #fff), linear-gradient(to bottom, #e6e6eb, #e6e6eb), linear-gradient(to bottom, rgba(119, 135, 165, 0.2), rgba(119, 135, 165, 0.38));
   float: right;
-  font-size: 0.3rem;
+  font-size: 10px;
 
   i {
     font-style: normal;
@@ -681,7 +682,7 @@ th {
 
 .btn1 {
   width: 75%;
-  font-size: 0.35rem;
+  font-size: 15px;
   text-align: center;
   height: 40px;
   line-height: 40px;
