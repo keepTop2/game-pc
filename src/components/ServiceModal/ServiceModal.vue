@@ -140,7 +140,7 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList" :userData="state.userData" :deepObj="deepObj"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :roleInfo="roleInfo" :userData="state.userData" :deepObj="deepObj"></chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">

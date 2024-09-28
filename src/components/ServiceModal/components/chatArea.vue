@@ -39,7 +39,7 @@
               </div>
             </div>
           </div>
-          <Imgt v-if="item.role == 1" :src="`/img/serviceModal/avatar1.webp`" />
+          <Imgt v-if="item.role == 1" :src="`/img/head_icons/${roleInfo.head_photo}.webp`" />
         </div>
       </div>
     </div>
@@ -70,6 +70,10 @@ const props = defineProps({
     default: () => ({}),
   },
   deepObj: {
+    type: Object,
+    default: () => ({}),
+  },
+  roleInfo: {
     type: Object,
     default: () => ({}),
   },
