@@ -307,7 +307,7 @@ export class Net {
                 return;
             }
 
-            if (receivedlength < bodyLen) {
+            if (receivedlength < bodyLen + 4) {
                 return;
             }
             this.DecodeMessage(bodyLen);
