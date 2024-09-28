@@ -106,8 +106,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     const buffer00 = new Uint8Array(decodeobj1.data);
     const decodedMessage00 = UserRole.decode(buffer00);
     const decodeobj00 = UserRole.toObject(decodedMessage00);
+
     const obj = {
-      THeadPhoto: '1001',
+      THeadPhoto: decodeobj00.headphoto||'1001',
       TUsername: decodeobj00.username,
       Tdeviceid: decodeobj00.roleid,
       chatid: '',
@@ -305,6 +306,10 @@ const usechatHooks = (state?: any, selectUser?: any) => {
 
   // 置顶 禁言，移动分组
   const itemSet = (o: any, item: any) => {
+    if (!item.todeviceid) {
+      return
+    }
+
     editchat(item, item, o);
     if (o.id == 1) {
       // 置顶
@@ -353,6 +358,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
         ...decodeobj00.roles[0],
         TUsername: decodeobj00.roles[0].username,
         Tdeviceid: decodeobj00.roles[0].roleid,
+        THeadPhoto:decodeobj00.roles[0].headphoto,
         id:decodeobj00.roles[0].roleid
       };
       state_data.chatitemList = [...state_data.chatitemList, params];

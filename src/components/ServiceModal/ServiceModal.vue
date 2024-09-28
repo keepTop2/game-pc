@@ -67,7 +67,7 @@
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
               @click="selectUser(item)"
-              :style="{ order: item.unreadnums && item.enableflag != 1 ? -1 : item.deep == '0' ? 0 : item.istop }">
+              :style="{ order: item.unreadnums && item.enableflag != 1 ? -1 : item.deep == '0' ? 0 : item.istop?item.istop:6 }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -140,7 +140,7 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList" :userData="state.userData" :deepObj="deepObj"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :roleInfo="roleInfo" :userData="state.userData" :deepObj="deepObj"></chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
