@@ -8,7 +8,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_check_version"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.version, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -17,7 +17,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_check_version"], buf);
 				return tb.encode(buf);
 			}
@@ -35,7 +35,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_stime"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.year, buf);
 				EncodeUtils.int32ToByte(tb.month, buf);
 				EncodeUtils.int32ToByte(tb.day, buf);
@@ -59,7 +59,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_stime"], buf);
 				return tb.encode(buf);
 			}
@@ -74,7 +74,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_common_good"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.id, buf);
 				EncodeUtils.int32ToByte(tb.num, buf);
@@ -89,7 +89,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_common_good"], buf);
 				return tb.encode(buf);
 			}
@@ -107,7 +107,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_login"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.uid, buf);
 				EncodeUtils.int32ToByte(tb.server_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.token, buf);
@@ -134,7 +134,7 @@ export module NetPacket {
 				startIndex += device_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_role_login"], buf);
 				return tb.encode(buf);
 			}
@@ -148,7 +148,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_login_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
@@ -160,7 +160,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_login_result"], buf);
 				return tb.encode(buf);
 			}
@@ -174,7 +174,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_check_version"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				tb.curtime.encode(buf);
 			},
@@ -185,7 +185,7 @@ export module NetPacket {
 				startIndex += tb.curtime.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_check_version"], buf);
 				return tb.encode(buf);
 			}
@@ -199,7 +199,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_login_check"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.uid, buf);
 				EncodeUtils.utf8StrtoBytes(tb.token, buf);
 			},
@@ -213,7 +213,7 @@ export module NetPacket {
 				startIndex += token_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_login_check"], buf);
 				return tb.encode(buf);
 			}
@@ -227,7 +227,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_login_check_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.error_code, buf);
 			},
@@ -239,7 +239,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_login_check_result"], buf);
 				return tb.encode(buf);
 			}
@@ -257,7 +257,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_loading_end"], buf);
 				return tb.encode(buf);
 			}
@@ -273,7 +273,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_sys_msg"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.uInt16ToByte(tb.Params.length, buf);
@@ -282,7 +282,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.priority, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.code = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -299,7 +299,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_sys_msg"], buf);
 				return tb.encode(buf);
 			}
@@ -315,7 +315,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_pack_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.item_id, buf);
 				EncodeUtils.int32ToByte(tb.temp_id, buf);
 				EncodeUtils.int32ToByte(tb.item_type, buf);
@@ -333,7 +333,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_pack_item"], buf);
 				return tb.encode(buf);
 			}
@@ -350,7 +350,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_game_record_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int64ToByte(tb.bet_count, buf);
@@ -371,7 +371,7 @@ export module NetPacket {
 				startIndex += tb.update_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_game_record_item"], buf);
 				return tb.encode(buf);
 			}
@@ -390,7 +390,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.order_id, buf);
 				EncodeUtils.int64ToByte(tb.user_id, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -417,7 +417,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge"], buf);
 				return tb.encode(buf);
 			}
@@ -434,7 +434,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buy_mooncard"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.recharge_id, buf);
 				EncodeUtils.int32ToByte(tb.get_emoney, buf);
@@ -455,7 +455,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buy_mooncard"], buf);
 				return tb.encode(buf);
 			}
@@ -468,7 +468,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_convert_cdkey"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.award_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -477,7 +477,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_convert_cdkey"], buf);
 				return tb.encode(buf);
 			}
@@ -491,7 +491,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_award_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.temp_id, buf);
 				EncodeUtils.int32ToByte(tb.amount, buf);
 			},
@@ -503,7 +503,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_award_item"], buf);
 				return tb.encode(buf);
 			}
@@ -517,7 +517,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_award_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.award_id, buf);
 				EncodeUtils.int64ToByte(tb.award_value, buf);
 			},
@@ -529,7 +529,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_award_info"], buf);
 				return tb.encode(buf);
 			}
@@ -547,7 +547,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_heartbeat"], buf);
 				return tb.encode(buf);
 			}
@@ -565,7 +565,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_check_time"], buf);
 				return tb.encode(buf);
 			}
@@ -586,7 +586,7 @@ export module NetPacket {
 				startIndex += tb.curtime.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_check_time"], buf);
 				return tb.encode(buf);
 			}
@@ -599,7 +599,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_repeat_login"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.account, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -609,7 +609,7 @@ export module NetPacket {
 				startIndex += account_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_repeat_login"], buf);
 				return tb.encode(buf);
 			}
@@ -624,7 +624,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_cur_rec"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.currencyid, buf);
 				EncodeUtils.int32ToByte(tb.rate, buf);
 				EncodeUtils.utf8StrtoBytes(tb.desc, buf);
@@ -640,7 +640,7 @@ export module NetPacket {
 				startIndex += desc_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_cur_rec"], buf);
 				return tb.encode(buf);
 			}
@@ -654,7 +654,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_create_role"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int32ToByte(tb.server_id, buf);
 			},
@@ -667,7 +667,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_create_role"], buf);
 				return tb.encode(buf);
 			}
@@ -685,7 +685,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_create_role_result"], buf);
 				return tb.encode(buf);
 			}
@@ -703,7 +703,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_role_info_msg"], buf);
 				return tb.encode(buf);
 			}
@@ -735,7 +735,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_roleinfo_msg"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_photo, buf);
@@ -806,7 +806,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_roleinfo_msg"], buf);
 				return tb.encode(buf);
 			}
@@ -819,7 +819,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_roleinfo_with_id"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -828,7 +828,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_roleinfo_with_id"], buf);
 				return tb.encode(buf);
 			}
@@ -848,7 +848,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_roleinfo_with_id"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_photo, buf);
@@ -881,7 +881,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_roleinfo_with_id"], buf);
 				return tb.encode(buf);
 			}
@@ -896,7 +896,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_game_reconnect"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.version, buf);
 				EncodeUtils.utf8StrtoBytes(tb.user_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.token, buf);
@@ -913,7 +913,7 @@ export module NetPacket {
 				startIndex += token_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_game_reconnect"], buf);
 				return tb.encode(buf);
 			}
@@ -926,7 +926,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_reconnect_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -935,7 +935,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_reconnect_result"], buf);
 				return tb.encode(buf);
 			}
@@ -949,7 +949,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_money_update"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.flag, buf);
 			},
@@ -961,7 +961,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_money_update"], buf);
 				return tb.encode(buf);
 			}
@@ -976,7 +976,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rename"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.new_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.captcha, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
@@ -993,7 +993,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rename"], buf);
 				return tb.encode(buf);
 			}
@@ -1006,7 +1006,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rename_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1015,7 +1015,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rename_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1028,7 +1028,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_select_head_icon"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.new_head_icon, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1038,7 +1038,7 @@ export module NetPacket {
 				startIndex += new_head_icon_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_select_head_icon"], buf);
 				return tb.encode(buf);
 			}
@@ -1051,7 +1051,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_select_head_icon_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1060,7 +1060,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_select_head_icon_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1073,7 +1073,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_sex"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.new_sex, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1082,7 +1082,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_sex"], buf);
 				return tb.encode(buf);
 			}
@@ -1095,7 +1095,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_sex_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1104,7 +1104,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_sex_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1117,7 +1117,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_signature"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.new_signature, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1127,7 +1127,7 @@ export module NetPacket {
 				startIndex += new_signature_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_signature"], buf);
 				return tb.encode(buf);
 			}
@@ -1140,7 +1140,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_signature_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1149,7 +1149,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_signature_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1167,7 +1167,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_auto"], buf);
 				return tb.encode(buf);
 			}
@@ -1180,7 +1180,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_auto"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1189,7 +1189,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_auto"], buf);
 				return tb.encode(buf);
 			}
@@ -1202,7 +1202,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_weixin_id"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1211,7 +1211,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_weixin_id"], buf);
 				return tb.encode(buf);
 			}
@@ -1224,7 +1224,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_weixin_id_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.weixin_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1234,7 +1234,7 @@ export module NetPacket {
 				startIndex += weixin_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_weixin_id_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1247,7 +1247,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_weixin_id"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.new_weixin_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1257,7 +1257,7 @@ export module NetPacket {
 				startIndex += new_weixin_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_weixin_id"], buf);
 				return tb.encode(buf);
 			}
@@ -1270,7 +1270,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_weixin_id_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1279,7 +1279,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_weixin_id_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1292,7 +1292,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_set_bank_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1302,7 +1302,7 @@ export module NetPacket {
 				startIndex += password_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_bank_password"], buf);
 				return tb.encode(buf);
 			}
@@ -1315,7 +1315,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_set_bank_password_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1324,7 +1324,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_set_bank_password_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1339,7 +1339,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_reset_bank_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.old_password, buf);
 				EncodeUtils.utf8StrtoBytes(tb.new_password, buf);
 				EncodeUtils.utf8StrtoBytes(tb.new_password_confirm, buf);
@@ -1357,7 +1357,7 @@ export module NetPacket {
 				startIndex += new_password_confirm_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_reset_bank_password"], buf);
 				return tb.encode(buf);
 			}
@@ -1370,7 +1370,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_reset_bank_password_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1379,7 +1379,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_reset_bank_password_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1397,7 +1397,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_bank_password"], buf);
 				return tb.encode(buf);
 			}
@@ -1410,7 +1410,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_bank_password_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1419,7 +1419,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_bank_password_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1432,7 +1432,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_set_mobile_apply"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.mobile, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1442,7 +1442,7 @@ export module NetPacket {
 				startIndex += mobile_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_mobile_apply"], buf);
 				return tb.encode(buf);
 			}
@@ -1455,7 +1455,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_set_mobile_apply_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1464,7 +1464,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_set_mobile_apply_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1477,7 +1477,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_set_mobile"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.verify_code, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1487,7 +1487,7 @@ export module NetPacket {
 				startIndex += verify_code_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_mobile"], buf);
 				return tb.encode(buf);
 			}
@@ -1500,7 +1500,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_set_mobile_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1509,7 +1509,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_set_mobile_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1522,7 +1522,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_auth_bank_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1532,7 +1532,7 @@ export module NetPacket {
 				startIndex += password_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_auth_bank_password"], buf);
 				return tb.encode(buf);
 			}
@@ -1545,7 +1545,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_auth_bank_password_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1554,7 +1554,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_auth_bank_password_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1567,7 +1567,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_save"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1577,7 +1577,7 @@ export module NetPacket {
 				startIndex += money_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_save"], buf);
 				return tb.encode(buf);
 			}
@@ -1591,7 +1591,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_save_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -1603,7 +1603,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_save_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1616,7 +1616,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_take"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1626,7 +1626,7 @@ export module NetPacket {
 				startIndex += money_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_take"], buf);
 				return tb.encode(buf);
 			}
@@ -1640,7 +1640,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_take_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -1652,7 +1652,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_take_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1666,7 +1666,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_transfer_apply"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.money, buf);
 			},
@@ -1680,7 +1680,7 @@ export module NetPacket {
 				startIndex += money_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_transfer_apply"], buf);
 				return tb.encode(buf);
 			}
@@ -1696,7 +1696,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_transfer_apply_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
@@ -1716,7 +1716,7 @@ export module NetPacket {
 				startIndex += money_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_transfer_apply_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1734,7 +1734,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_transfer_confirm"], buf);
 				return tb.encode(buf);
 			}
@@ -1747,7 +1747,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_transfer_confirm_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -1756,7 +1756,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_transfer_confirm_result"], buf);
 				return tb.encode(buf);
 			}
@@ -1773,7 +1773,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_transfer_log"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
@@ -1794,7 +1794,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_transfer_log"], buf);
 				return tb.encode(buf);
 			}
@@ -1808,7 +1808,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_transfer_log"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.page, buf);
 			},
@@ -1820,7 +1820,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_transfer_log"], buf);
 				return tb.encode(buf);
 			}
@@ -1835,7 +1835,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_transfer_log"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.page, buf);
 				EncodeUtils.uInt16ToByte(tb.log_list.length, buf);
@@ -1843,7 +1843,7 @@ export module NetPacket {
 					tb.log_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -1858,7 +1858,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_transfer_log"], buf);
 				return tb.encode(buf);
 			}
@@ -1876,7 +1876,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_money_refresh"], buf);
 				return tb.encode(buf);
 			}
@@ -1890,7 +1890,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_money_refresh"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int64ToByte(tb.bank_money, buf);
 			},
@@ -1902,7 +1902,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_money_refresh"], buf);
 				return tb.encode(buf);
 			}
@@ -1918,7 +1918,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_agent_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.weixin_id, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -1939,7 +1939,7 @@ export module NetPacket {
 				startIndex += qq_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_agent_item"], buf);
 				return tb.encode(buf);
 			}
@@ -1957,7 +1957,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_agent_list"], buf);
 				return tb.encode(buf);
 			}
@@ -1970,13 +1970,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_agent_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.agent_list.length, buf);
 				for (let i = 0; i < tb.agent_list.length; ++i) {
 					tb.agent_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let agent_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -1987,7 +1987,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_agent_list"], buf);
 				return tb.encode(buf);
 			}
@@ -2008,7 +2008,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rank_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rank, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_icon, buf);
@@ -2046,7 +2046,7 @@ export module NetPacket {
 				startIndex += qq_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rank_item"], buf);
 				return tb.encode(buf);
 			}
@@ -2064,7 +2064,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rank_list"], buf);
 				return tb.encode(buf);
 			}
@@ -2078,7 +2078,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rank_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.rich_list.length, buf);
 				for (let i = 0; i < tb.rich_list.length; ++i) {
 					tb.rich_list[i].encode(buf);
@@ -2088,7 +2088,7 @@ export module NetPacket {
 					tb.win_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let rich_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -2106,7 +2106,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rank_list"], buf);
 				return tb.encode(buf);
 			}
@@ -2127,7 +2127,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_email"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.email_id, buf);
 				EncodeUtils.uInt8ToByte(tb.type, buf);
 				EncodeUtils.uInt8ToByte(tb.email_type, buf);
@@ -2141,7 +2141,7 @@ export module NetPacket {
 				tb.recv_time.encode(buf);
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let email_id_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.email_id = email_id_value[0];
@@ -2170,7 +2170,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_email"], buf);
 				return tb.encode(buf);
 			}
@@ -2184,7 +2184,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_email_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.emails.length, buf);
 				for (let i = 0; i < tb.emails.length; ++i) {
 					tb.emails[i].encode(buf);
@@ -2194,7 +2194,7 @@ export module NetPacket {
 					EncodeUtils.utf8StrtoBytes(tb.email_readed[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let emails_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -2212,7 +2212,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_email_list"], buf);
 				return tb.encode(buf);
 			}
@@ -2225,7 +2225,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_email_attachments"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.email_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2235,7 +2235,7 @@ export module NetPacket {
 				startIndex += email_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_email_attachments"], buf);
 				return tb.encode(buf);
 			}
@@ -2248,7 +2248,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_email_attachments"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.email_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2258,7 +2258,7 @@ export module NetPacket {
 				startIndex += email_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_email_attachments"], buf);
 				return tb.encode(buf);
 			}
@@ -2279,7 +2279,7 @@ export module NetPacket {
 				startIndex += tb.new_email.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_new_email"], buf);
 				return tb.encode(buf);
 			}
@@ -2292,7 +2292,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_read_email"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.email_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2302,7 +2302,7 @@ export module NetPacket {
 				startIndex += email_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_read_email"], buf);
 				return tb.encode(buf);
 			}
@@ -2315,7 +2315,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_read_email"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.email_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2325,7 +2325,7 @@ export module NetPacket {
 				startIndex += email_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_read_email"], buf);
 				return tb.encode(buf);
 			}
@@ -2338,7 +2338,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_add_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2347,7 +2347,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_add_money"], buf);
 				return tb.encode(buf);
 			}
@@ -2360,7 +2360,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_reduce_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2369,7 +2369,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_reduce_money"], buf);
 				return tb.encode(buf);
 			}
@@ -2382,7 +2382,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pay_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.order_no, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2392,7 +2392,7 @@ export module NetPacket {
 				startIndex += order_no_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pay_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -2405,7 +2405,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pay_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2414,7 +2414,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pay_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -2428,14 +2428,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_gm_run"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.gm_cmd, buf);
 				EncodeUtils.uInt16ToByte(tb.gm_params.length, buf);
 				for (let i = 0; i < tb.gm_params.length; ++i) {
 					EncodeUtils.int32ToByte(tb.gm_params[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let gm_cmd_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.gm_cmd = gm_cmd_value[0];
@@ -2448,7 +2448,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_gm_run"], buf);
 				return tb.encode(buf);
 			}
@@ -2462,7 +2462,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_award_state"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.state, buf);
 			},
@@ -2474,7 +2474,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_award_state"], buf);
 				return tb.encode(buf);
 			}
@@ -2492,7 +2492,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_day_task"], buf);
 				return tb.encode(buf);
 			}
@@ -2507,7 +2507,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_task_msg"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 				EncodeUtils.int32ToByte(tb.cur_times, buf);
 				EncodeUtils.int32ToByte(tb.state, buf);
@@ -2522,7 +2522,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_task_msg"], buf);
 				return tb.encode(buf);
 			}
@@ -2535,13 +2535,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_day_task"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.task.length, buf);
 				for (let i = 0; i < tb.task.length; ++i) {
 					tb.task[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let task_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -2552,7 +2552,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_day_task"], buf);
 				return tb.encode(buf);
 			}
@@ -2565,13 +2565,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_day_task_state"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.award_states.length, buf);
 				for (let i = 0; i < tb.award_states.length; ++i) {
 					tb.award_states[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let award_states_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -2582,7 +2582,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_day_task_state"], buf);
 				return tb.encode(buf);
 			}
@@ -2595,7 +2595,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2604,7 +2604,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -2617,7 +2617,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2626,7 +2626,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -2639,7 +2639,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_login_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.days, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2648,7 +2648,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_login_award"], buf);
 				return tb.encode(buf);
 			}
@@ -2661,7 +2661,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_login_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.days, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2670,7 +2670,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_login_award"], buf);
 				return tb.encode(buf);
 			}
@@ -2683,7 +2683,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_sign_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.days, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2692,7 +2692,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_sign_award"], buf);
 				return tb.encode(buf);
 			}
@@ -2705,7 +2705,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_sign_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.days, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2714,7 +2714,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_sign_award"], buf);
 				return tb.encode(buf);
 			}
@@ -2732,7 +2732,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_weixin_share_task_finish"], buf);
 				return tb.encode(buf);
 			}
@@ -2745,7 +2745,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_weixin_share_task_finish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -2754,7 +2754,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_weixin_share_task_finish"], buf);
 				return tb.encode(buf);
 			}
@@ -2769,7 +2769,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_shz_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.icon, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.int32ToByte(tb.is_flash, buf);
@@ -2784,7 +2784,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_shz_item"], buf);
 				return tb.encode(buf);
 			}
@@ -2798,7 +2798,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shz_lottery"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.score, buf);
 			},
@@ -2810,7 +2810,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shz_lottery"], buf);
 				return tb.encode(buf);
 			}
@@ -2826,7 +2826,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shz_lottery_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.item_list.length, buf);
 				for (let i = 0; i < tb.item_list.length; ++i) {
 					tb.item_list[i].encode(buf);
@@ -2838,7 +2838,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.mali_times, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let item_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -2859,7 +2859,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shz_lottery_result"], buf);
 				return tb.encode(buf);
 			}
@@ -2873,7 +2873,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shz_bibei"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet, buf);
 				EncodeUtils.int32ToByte(tb.dice, buf);
 			},
@@ -2885,7 +2885,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shz_bibei"], buf);
 				return tb.encode(buf);
 			}
@@ -2901,7 +2901,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shz_bibei_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.get_score, buf);
 				EncodeUtils.uInt16ToByte(tb.dice_list.length, buf);
 				for (let i = 0; i < tb.dice_list.length; ++i) {
@@ -2910,7 +2910,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 				EncodeUtils.int64ToByte(tb.add_score, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.get_score = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -2926,7 +2926,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shz_bibei_result"], buf);
 				return tb.encode(buf);
 			}
@@ -2944,7 +2944,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shz_mali"], buf);
 				return tb.encode(buf);
 			}
@@ -2959,7 +2959,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shz_mali_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.get_score.length, buf);
 				for (let i = 0; i < tb.get_score.length; ++i) {
 					EncodeUtils.int64ToByte(tb.get_score[i], buf);
@@ -2973,7 +2973,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.circle_icon[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let get_score_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -2995,7 +2995,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shz_mali_result"], buf);
 				return tb.encode(buf);
 			}
@@ -3010,7 +3010,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_room_table"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.int32ToByte(tb.cur_count, buf);
@@ -3027,7 +3027,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_table"], buf);
 				return tb.encode(buf);
 			}
@@ -3040,7 +3040,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_table_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3049,7 +3049,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_table_list"], buf);
 				return tb.encode(buf);
 			}
@@ -3062,13 +3062,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_table_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.table_list.length, buf);
 				for (let i = 0; i < tb.table_list.length; ++i) {
 					tb.table_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let table_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -3079,7 +3079,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_table_list"], buf);
 				return tb.encode(buf);
 			}
@@ -3093,7 +3093,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_room_msg_kv"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.key, buf);
 				EncodeUtils.utf8StrtoBytes(tb.val, buf);
 			},
@@ -3107,7 +3107,7 @@ export module NetPacket {
 				startIndex += val_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_msg_kv"], buf);
 				return tb.encode(buf);
 			}
@@ -3124,7 +3124,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_room_role_base"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
@@ -3147,7 +3147,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_role_base"], buf);
 				return tb.encode(buf);
 			}
@@ -3161,7 +3161,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_leave_room"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.param1, buf);
 				EncodeUtils.utf8StrtoBytes(tb.param2, buf);
 			},
@@ -3175,7 +3175,7 @@ export module NetPacket {
 				startIndex += param2_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_leave_room"], buf);
 				return tb.encode(buf);
 			}
@@ -3188,7 +3188,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_leave_room_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3197,7 +3197,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_leave_room_result"], buf);
 				return tb.encode(buf);
 			}
@@ -3210,7 +3210,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_leave_room"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3219,7 +3219,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_leave_room"], buf);
 				return tb.encode(buf);
 			}
@@ -3232,7 +3232,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_leave_minigame_room"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3241,7 +3241,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_leave_minigame_room"], buf);
 				return tb.encode(buf);
 			}
@@ -3255,7 +3255,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_leave_minigame_room_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
@@ -3267,7 +3267,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_leave_minigame_room_result"], buf);
 				return tb.encode(buf);
 			}
@@ -3280,13 +3280,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_room_msg"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.msg_list.length, buf);
 				for (let i = 0; i < tb.msg_list.length; ++i) {
 					tb.msg_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let msg_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -3297,7 +3297,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_msg"], buf);
 				return tb.encode(buf);
 			}
@@ -3310,7 +3310,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_enter_room"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3319,7 +3319,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_enter_room"], buf);
 				return tb.encode(buf);
 			}
@@ -3333,7 +3333,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_enter_room_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
 			},
@@ -3346,7 +3346,7 @@ export module NetPacket {
 				startIndex += room_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_enter_room_result"], buf);
 				return tb.encode(buf);
 			}
@@ -3359,7 +3359,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_enter_room_with_room_id"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3369,7 +3369,7 @@ export module NetPacket {
 				startIndex += room_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_enter_room_with_room_id"], buf);
 				return tb.encode(buf);
 			}
@@ -3383,7 +3383,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_room_with_room_id_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
 			},
@@ -3396,7 +3396,7 @@ export module NetPacket {
 				startIndex += room_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_with_room_id_result"], buf);
 				return tb.encode(buf);
 			}
@@ -3414,7 +3414,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_change_room"], buf);
 				return tb.encode(buf);
 			}
@@ -3428,7 +3428,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_change_room_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
 			},
@@ -3441,7 +3441,7 @@ export module NetPacket {
 				startIndex += room_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_change_room_result"], buf);
 				return tb.encode(buf);
 			}
@@ -3455,7 +3455,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_role_enter"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.role.encode(buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
 			},
@@ -3466,7 +3466,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_role_enter"], buf);
 				return tb.encode(buf);
 			}
@@ -3479,7 +3479,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_role_prepare"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3488,7 +3488,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_role_prepare"], buf);
 				return tb.encode(buf);
 			}
@@ -3502,7 +3502,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_room_role_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -3514,7 +3514,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_role_money"], buf);
 				return tb.encode(buf);
 			}
@@ -3527,13 +3527,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_room_roles_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.roles_money_list.length, buf);
 				for (let i = 0; i < tb.roles_money_list.length; ++i) {
 					tb.roles_money_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let roles_money_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -3544,7 +3544,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_roles_money"], buf);
 				return tb.encode(buf);
 			}
@@ -3558,7 +3558,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_role_get_money_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.get_money, buf);
 			},
@@ -3570,7 +3570,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_role_get_money_item"], buf);
 				return tb.encode(buf);
 			}
@@ -3584,14 +3584,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh_card_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -3603,7 +3603,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_card_item"], buf);
 				return tb.encode(buf);
 			}
@@ -3623,7 +3623,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh_role_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.sum_bet, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
@@ -3653,7 +3653,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_role_item"], buf);
 				return tb.encode(buf);
 			}
@@ -3668,7 +3668,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh_game_role_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				tb.role_base.encode(buf);
 				tb.role_item.encode(buf);
@@ -3681,7 +3681,7 @@ export module NetPacket {
 				startIndex += tb.role_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_game_role_info"], buf);
 				return tb.encode(buf);
 			}
@@ -3699,7 +3699,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_prepare"], buf);
 				return tb.encode(buf);
 			}
@@ -3717,7 +3717,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_allin"], buf);
 				return tb.encode(buf);
 			}
@@ -3735,7 +3735,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_see_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -3753,7 +3753,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_apply_compare"], buf);
 				return tb.encode(buf);
 			}
@@ -3766,7 +3766,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_zjh_compare_role"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3775,7 +3775,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_compare_role"], buf);
 				return tb.encode(buf);
 			}
@@ -3793,7 +3793,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_follow"], buf);
 				return tb.encode(buf);
 			}
@@ -3806,7 +3806,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_zjh_add_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3815,7 +3815,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_add_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -3833,7 +3833,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_give_up"], buf);
 				return tb.encode(buf);
 			}
@@ -3854,7 +3854,7 @@ export module NetPacket {
 				startIndex += tb.card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_card_item"], buf);
 				return tb.encode(buf);
 			}
@@ -3877,7 +3877,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
 				for (let i = 0; i < tb.roles.length; ++i) {
@@ -3896,7 +3896,7 @@ export module NetPacket {
 				tb.start_time.encode(buf);
 				tb.my_card_item.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -3929,7 +3929,7 @@ export module NetPacket {
 				startIndex += tb.my_card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -3943,14 +3943,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_game_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.role_ids.length, buf);
 				for (let i = 0; i < tb.role_ids.length; ++i) {
 					EncodeUtils.int64ToByte(tb.role_ids[i], buf);
 				}
 				EncodeUtils.int64ToByte(tb.banker_id, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let role_ids_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -3962,7 +3962,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_game_start"], buf);
 				return tb.encode(buf);
 			}
@@ -3975,7 +3975,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_round_update"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -3984,7 +3984,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_round_update"], buf);
 				return tb.encode(buf);
 			}
@@ -3997,7 +3997,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_see_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4006,7 +4006,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_see_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -4027,7 +4027,7 @@ export module NetPacket {
 				startIndex += tb.start_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -4041,7 +4041,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_allin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
@@ -4053,7 +4053,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_allin"], buf);
 				return tb.encode(buf);
 			}
@@ -4066,7 +4066,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_apply_compare"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4075,7 +4075,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_apply_compare"], buf);
 				return tb.encode(buf);
 			}
@@ -4091,7 +4091,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_compare"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.a_role_id, buf);
 				EncodeUtils.int64ToByte(tb.b_role_id, buf);
 				EncodeUtils.int64ToByte(tb.win_role_id, buf);
@@ -4109,7 +4109,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_compare"], buf);
 				return tb.encode(buf);
 			}
@@ -4123,7 +4123,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_follow"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
@@ -4135,7 +4135,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_follow"], buf);
 				return tb.encode(buf);
 			}
@@ -4149,7 +4149,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_add_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
@@ -4161,7 +4161,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_add_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -4174,7 +4174,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_give_up"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4183,7 +4183,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_give_up"], buf);
 				return tb.encode(buf);
 			}
@@ -4196,7 +4196,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_operator_role"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4205,7 +4205,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_operator_role"], buf);
 				return tb.encode(buf);
 			}
@@ -4220,7 +4220,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.get_score, buf);
 				tb.card_item.encode(buf);
@@ -4234,7 +4234,7 @@ export module NetPacket {
 				startIndex += tb.card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -4248,14 +4248,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh_settlement"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.win_role_id, buf);
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.win_role_id = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -4268,7 +4268,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_settlement"], buf);
 				return tb.encode(buf);
 			}
@@ -4282,14 +4282,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dn_card_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -4301,7 +4301,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_card_item"], buf);
 				return tb.encode(buf);
 			}
@@ -4319,7 +4319,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dn_role_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.int32ToByte(tb.role_status, buf);
@@ -4342,7 +4342,7 @@ export module NetPacket {
 				startIndex += tb.card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_role_item"], buf);
 				return tb.encode(buf);
 			}
@@ -4357,7 +4357,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dn_game_role_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				tb.role_base.encode(buf);
 				tb.role_item.encode(buf);
@@ -4370,7 +4370,7 @@ export module NetPacket {
 				startIndex += tb.role_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_game_role_info"], buf);
 				return tb.encode(buf);
 			}
@@ -4388,7 +4388,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
 				for (let i = 0; i < tb.roles.length; ++i) {
@@ -4399,7 +4399,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.banker, buf);
 				EncodeUtils.int32ToByte(tb.rob_times, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -4419,7 +4419,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -4437,7 +4437,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_prepare"], buf);
 				return tb.encode(buf);
 			}
@@ -4458,7 +4458,7 @@ export module NetPacket {
 				startIndex += tb.start_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -4471,13 +4471,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_game_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.role_ids.length, buf);
 				for (let i = 0; i < tb.role_ids.length; ++i) {
 					EncodeUtils.int64ToByte(tb.role_ids[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let role_ids_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -4487,7 +4487,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_game_start"], buf);
 				return tb.encode(buf);
 			}
@@ -4500,13 +4500,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_show_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -4516,7 +4516,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_show_card"], buf);
 				return tb.encode(buf);
 			}
@@ -4529,7 +4529,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dn_rob_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rob_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4538,7 +4538,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_rob_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -4552,7 +4552,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_rob_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.rob_index, buf);
 			},
@@ -4564,7 +4564,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_rob_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -4578,7 +4578,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_rob_banker_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.banker, buf);
 				EncodeUtils.int32ToByte(tb.rob_times, buf);
 			},
@@ -4590,7 +4590,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_rob_banker_result"], buf);
 				return tb.encode(buf);
 			}
@@ -4603,7 +4603,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dn_bet_times"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_times_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4612,7 +4612,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_bet_times"], buf);
 				return tb.encode(buf);
 			}
@@ -4626,7 +4626,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_bet_times"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.bet_times, buf);
 			},
@@ -4638,7 +4638,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_bet_times"], buf);
 				return tb.encode(buf);
 			}
@@ -4651,13 +4651,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_all_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -4667,7 +4667,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_all_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -4688,7 +4688,7 @@ export module NetPacket {
 				startIndex += tb.select_end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_select_cards_start"], buf);
 				return tb.encode(buf);
 			}
@@ -4701,13 +4701,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dn_select_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.cards_index.length, buf);
 				for (let i = 0; i < tb.cards_index.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards_index[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cards_index_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -4717,7 +4717,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_select_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -4731,7 +4731,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_select_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				tb.card_item.encode(buf);
 			},
@@ -4742,7 +4742,7 @@ export module NetPacket {
 				startIndex += tb.card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_select_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -4756,7 +4756,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dn_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.get_score, buf);
 			},
@@ -4768,7 +4768,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -4781,13 +4781,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dn_settlement"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -4798,7 +4798,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_settlement"], buf);
 				return tb.encode(buf);
 			}
@@ -4812,14 +4812,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dot21_card_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 				EncodeUtils.int32ToByte(tb.is_stop, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -4831,7 +4831,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_card_item"], buf);
 				return tb.encode(buf);
 			}
@@ -4850,7 +4850,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dot21_role_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.uInt16ToByte(tb.chip_link.length, buf);
@@ -4862,7 +4862,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.is_bought_insurance, buf);
 				EncodeUtils.int32ToByte(tb.role_status, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -4882,7 +4882,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_role_item"], buf);
 				return tb.encode(buf);
 			}
@@ -4897,7 +4897,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dot21_game_role_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				tb.role_base.encode(buf);
 				tb.role_item.encode(buf);
@@ -4910,7 +4910,7 @@ export module NetPacket {
 				startIndex += tb.role_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_game_role_info"], buf);
 				return tb.encode(buf);
 			}
@@ -4926,7 +4926,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
 				for (let i = 0; i < tb.roles.length; ++i) {
@@ -4935,7 +4935,7 @@ export module NetPacket {
 				tb.banker_card.encode(buf);
 				tb.start_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -4950,7 +4950,7 @@ export module NetPacket {
 				startIndex += tb.start_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -4971,7 +4971,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -4984,7 +4984,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dot21_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -4993,7 +4993,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -5007,7 +5007,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
 			},
@@ -5019,7 +5019,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -5033,14 +5033,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dot21_role_with_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -5052,7 +5052,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_role_with_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5067,7 +5067,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_game_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
 				for (let i = 0; i < tb.roles.length; ++i) {
 					tb.roles[i].encode(buf);
@@ -5075,7 +5075,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.is_insurance_open, buf);
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let roles_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5089,7 +5089,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_game_start"], buf);
 				return tb.encode(buf);
 			}
@@ -5107,7 +5107,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_buy_insurance"], buf);
 				return tb.encode(buf);
 			}
@@ -5120,7 +5120,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_buy_insurance"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -5129,7 +5129,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_buy_insurance"], buf);
 				return tb.encode(buf);
 			}
@@ -5147,7 +5147,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_divide_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5162,7 +5162,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_divide_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.uInt16ToByte(tb.cards1.length, buf);
 				for (let i = 0; i < tb.cards1.length; ++i) {
@@ -5173,7 +5173,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.cards2[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -5191,7 +5191,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_divide_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5209,7 +5209,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_get_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5224,7 +5224,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_get_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.card, buf);
 				EncodeUtils.int32ToByte(tb.card_group, buf);
@@ -5239,7 +5239,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_get_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5257,7 +5257,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_stop_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5271,7 +5271,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_stop_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.card_group, buf);
 			},
@@ -5283,7 +5283,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_stop_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5301,7 +5301,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_double_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5315,7 +5315,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_double_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.card, buf);
 			},
@@ -5327,7 +5327,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_double_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5340,7 +5340,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_banker_first_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.card, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -5349,7 +5349,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_banker_first_card"], buf);
 				return tb.encode(buf);
 			}
@@ -5362,13 +5362,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_banker_all_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5378,7 +5378,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_banker_all_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -5393,7 +5393,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dot21_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.cur_moeny, buf);
 				EncodeUtils.int64ToByte(tb.get_money, buf);
@@ -5408,7 +5408,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -5422,14 +5422,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buy_insurance_settlement"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
 				}
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5441,7 +5441,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buy_insurance_settlement"], buf);
 				return tb.encode(buf);
 			}
@@ -5454,13 +5454,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dot21_settlement"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5471,7 +5471,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_settlement"], buf);
 				return tb.encode(buf);
 			}
@@ -5486,7 +5486,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_niu100_pool_info_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				tb.card_item.encode(buf);
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
@@ -5500,7 +5500,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_pool_info_item"], buf);
 				return tb.encode(buf);
 			}
@@ -5513,13 +5513,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_niu100_history_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.result.length, buf);
 				for (let i = 0; i < tb.result.length; ++i) {
 					EncodeUtils.int32ToByte(tb.result[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let result_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5529,7 +5529,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_history_item"], buf);
 				return tb.encode(buf);
 			}
@@ -5550,7 +5550,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				tb.start_time.encode(buf);
 				tb.banker.encode(buf);
@@ -5576,7 +5576,7 @@ export module NetPacket {
 					tb.history_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -5620,7 +5620,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -5641,7 +5641,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -5662,7 +5662,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_start_beting"], buf);
 				return tb.encode(buf);
 			}
@@ -5676,7 +5676,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_niu100_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				EncodeUtils.int32ToByte(tb.is_win, buf);
 			},
@@ -5688,7 +5688,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -5702,7 +5702,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_myself_get_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -5714,7 +5714,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_myself_get_money"], buf);
 				return tb.encode(buf);
 			}
@@ -5731,7 +5731,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_start_comparing"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
@@ -5747,7 +5747,7 @@ export module NetPacket {
 				}
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5774,7 +5774,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_start_comparing"], buf);
 				return tb.encode(buf);
 			}
@@ -5789,7 +5789,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_niu100_bet_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
@@ -5804,7 +5804,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_bet_item"], buf);
 				return tb.encode(buf);
 			}
@@ -5818,7 +5818,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_niu100_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 			},
@@ -5830,7 +5830,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -5851,7 +5851,7 @@ export module NetPacket {
 				startIndex += tb.bet_info.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -5864,13 +5864,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
 				for (let i = 0; i < tb.bet_list.length; ++i) {
 					tb.bet_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5881,7 +5881,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -5899,7 +5899,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -5912,13 +5912,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_banker_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
 				for (let i = 0; i < tb.banker_candidate.length; ++i) {
 					tb.banker_candidate[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -5929,7 +5929,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -5947,7 +5947,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -5960,7 +5960,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_banker_in"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -5969,7 +5969,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -5987,7 +5987,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -6000,7 +6000,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_banker_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -6009,7 +6009,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -6023,7 +6023,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_niu100_cur_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.banker.encode(buf);
 				EncodeUtils.int32ToByte(tb.round, buf);
 			},
@@ -6034,7 +6034,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_cur_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -6048,7 +6048,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bjl_pool_info_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
 			},
@@ -6060,7 +6060,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_pool_info_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6073,13 +6073,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bjl_history_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.result.length, buf);
 				for (let i = 0; i < tb.result.length; ++i) {
 					EncodeUtils.int32ToByte(tb.result[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let result_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -6089,7 +6089,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_history_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6103,7 +6103,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bjl_history_point_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.banker_point, buf);
 				EncodeUtils.int32ToByte(tb.player_point, buf);
 			},
@@ -6115,7 +6115,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_history_point_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6140,7 +6140,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				tb.start_time.encode(buf);
 				tb.banker.encode(buf);
@@ -6176,7 +6176,7 @@ export module NetPacket {
 					tb.history_point_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -6236,7 +6236,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -6257,7 +6257,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -6278,7 +6278,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_start_beting"], buf);
 				return tb.encode(buf);
 			}
@@ -6292,7 +6292,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bjl_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				EncodeUtils.int32ToByte(tb.is_win, buf);
 			},
@@ -6304,7 +6304,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6318,7 +6318,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_myself_get_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -6330,7 +6330,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_myself_get_money"], buf);
 				return tb.encode(buf);
 			}
@@ -6347,7 +6347,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_start_comparing"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
@@ -6366,7 +6366,7 @@ export module NetPacket {
 				}
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -6397,7 +6397,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_start_comparing"], buf);
 				return tb.encode(buf);
 			}
@@ -6412,7 +6412,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bjl_bet_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
@@ -6427,7 +6427,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_bet_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6441,7 +6441,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bjl_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 			},
@@ -6453,7 +6453,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -6474,7 +6474,7 @@ export module NetPacket {
 				startIndex += tb.bet_info.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -6487,13 +6487,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
 				for (let i = 0; i < tb.bet_list.length; ++i) {
 					tb.bet_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -6504,7 +6504,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -6522,7 +6522,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -6535,13 +6535,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_banker_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
 				for (let i = 0; i < tb.banker_candidate.length; ++i) {
 					tb.banker_candidate[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -6552,7 +6552,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -6570,7 +6570,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -6583,7 +6583,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_banker_in"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -6592,7 +6592,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -6610,7 +6610,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -6623,7 +6623,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_banker_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -6632,7 +6632,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -6647,7 +6647,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bjl_cur_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.banker.encode(buf);
 				EncodeUtils.int32ToByte(tb.round, buf);
 				EncodeUtils.int64ToByte(tb.get_score, buf);
@@ -6661,7 +6661,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_cur_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -6676,7 +6676,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bullet_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bullet_id, buf);
 				EncodeUtils.int32ToByte(tb.bullet_type, buf);
 				EncodeUtils.int32ToByte(tb.angle, buf);
@@ -6691,7 +6691,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bullet_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6710,7 +6710,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_cannon_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				tb.role_base.encode(buf);
@@ -6736,7 +6736,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_cannon_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6752,7 +6752,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_buyu_fish_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.fish_id, buf);
 				EncodeUtils.int32ToByte(tb.fish_tplt_id, buf);
 				EncodeUtils.int32ToByte(tb.line_id, buf);
@@ -6770,7 +6770,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_buyu_fish_item"], buf);
 				return tb.encode(buf);
 			}
@@ -6786,7 +6786,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.cannon_list.length, buf);
 				for (let i = 0; i < tb.cannon_list.length; ++i) {
 					tb.cannon_list[i].encode(buf);
@@ -6801,7 +6801,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.map_id, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cannon_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -6828,7 +6828,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -6842,7 +6842,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buyu_shoot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bullet_type, buf);
 				EncodeUtils.int32ToByte(tb.angle, buf);
 			},
@@ -6854,7 +6854,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_shoot"], buf);
 				return tb.encode(buf);
 			}
@@ -6868,7 +6868,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_shoot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				tb.bullet.encode(buf);
 			},
@@ -6879,7 +6879,7 @@ export module NetPacket {
 				startIndex += tb.bullet.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_shoot"], buf);
 				return tb.encode(buf);
 			}
@@ -6892,7 +6892,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buyu_update_cannon_times"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -6901,7 +6901,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_update_cannon_times"], buf);
 				return tb.encode(buf);
 			}
@@ -6915,7 +6915,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_update_cannon_times"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.int32ToByte(tb.times, buf);
 			},
@@ -6927,7 +6927,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_update_cannon_times"], buf);
 				return tb.encode(buf);
 			}
@@ -6941,7 +6941,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buyu_hit_fish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bullet_id, buf);
 				EncodeUtils.int32ToByte(tb.fish_id, buf);
 			},
@@ -6953,7 +6953,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_hit_fish"], buf);
 				return tb.encode(buf);
 			}
@@ -6968,7 +6968,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_hit_fish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_hit, buf);
 				EncodeUtils.int32ToByte(tb.bullet_id, buf);
 				EncodeUtils.uInt16ToByte(tb.fish_id_list.length, buf);
@@ -6976,7 +6976,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.fish_id_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.is_hit = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -6990,7 +6990,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_hit_fish"], buf);
 				return tb.encode(buf);
 			}
@@ -7003,13 +7003,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_fish_spawn"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.fish_list.length, buf);
 				for (let i = 0; i < tb.fish_list.length; ++i) {
 					tb.fish_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let fish_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -7020,7 +7020,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_fish_spawn"], buf);
 				return tb.encode(buf);
 			}
@@ -7033,7 +7033,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_change_map"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.map_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7042,7 +7042,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_change_map"], buf);
 				return tb.encode(buf);
 			}
@@ -7055,7 +7055,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buyu_target_fish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.fish_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7064,7 +7064,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_target_fish"], buf);
 				return tb.encode(buf);
 			}
@@ -7078,7 +7078,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_target_fish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.fish_id, buf);
 			},
@@ -7090,7 +7090,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_target_fish"], buf);
 				return tb.encode(buf);
 			}
@@ -7110,7 +7110,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_texas_role_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.sum_bet, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
@@ -7140,7 +7140,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_role_item"], buf);
 				return tb.encode(buf);
 			}
@@ -7155,7 +7155,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_texas_game_role_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				tb.role_base.encode(buf);
 				tb.role_item.encode(buf);
@@ -7168,7 +7168,7 @@ export module NetPacket {
 				startIndex += tb.role_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_game_role_info"], buf);
 				return tb.encode(buf);
 			}
@@ -7186,7 +7186,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_prepare"], buf);
 				return tb.encode(buf);
 			}
@@ -7204,7 +7204,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_allin"], buf);
 				return tb.encode(buf);
 			}
@@ -7222,7 +7222,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_see_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -7240,7 +7240,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_apply_compare"], buf);
 				return tb.encode(buf);
 			}
@@ -7253,7 +7253,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_texas_compare_role"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7262,7 +7262,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_compare_role"], buf);
 				return tb.encode(buf);
 			}
@@ -7280,7 +7280,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_follow"], buf);
 				return tb.encode(buf);
 			}
@@ -7293,7 +7293,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_texas_add_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7302,7 +7302,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_add_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -7320,7 +7320,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_give_up"], buf);
 				return tb.encode(buf);
 			}
@@ -7334,14 +7334,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_texas_card_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
 				for (let i = 0; i < tb.cards.length; ++i) {
 					EncodeUtils.int32ToByte(tb.cards[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -7353,7 +7353,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_card_item"], buf);
 				return tb.encode(buf);
 			}
@@ -7374,7 +7374,7 @@ export module NetPacket {
 				startIndex += tb.card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_card_item"], buf);
 				return tb.encode(buf);
 			}
@@ -7396,7 +7396,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
 				for (let i = 0; i < tb.roles.length; ++i) {
@@ -7414,7 +7414,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.cur_round, buf);
 				tb.start_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -7446,7 +7446,7 @@ export module NetPacket {
 				startIndex += tb.start_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -7460,14 +7460,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_game_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.role_ids.length, buf);
 				for (let i = 0; i < tb.role_ids.length; ++i) {
 					EncodeUtils.int64ToByte(tb.role_ids[i], buf);
 				}
 				EncodeUtils.int64ToByte(tb.banker_id, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let role_ids_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -7479,7 +7479,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_game_start"], buf);
 				return tb.encode(buf);
 			}
@@ -7492,7 +7492,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_round_update"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7501,7 +7501,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_round_update"], buf);
 				return tb.encode(buf);
 			}
@@ -7514,7 +7514,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_see_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7523,7 +7523,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_see_cards"], buf);
 				return tb.encode(buf);
 			}
@@ -7544,7 +7544,7 @@ export module NetPacket {
 				startIndex += tb.start_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -7558,7 +7558,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_allin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
@@ -7570,7 +7570,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_allin"], buf);
 				return tb.encode(buf);
 			}
@@ -7583,7 +7583,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_apply_compare"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7592,7 +7592,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_apply_compare"], buf);
 				return tb.encode(buf);
 			}
@@ -7608,7 +7608,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_compare"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.a_role_id, buf);
 				EncodeUtils.int64ToByte(tb.b_role_id, buf);
 				EncodeUtils.int64ToByte(tb.win_role_id, buf);
@@ -7626,7 +7626,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_compare"], buf);
 				return tb.encode(buf);
 			}
@@ -7640,7 +7640,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_follow"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
@@ -7652,7 +7652,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_follow"], buf);
 				return tb.encode(buf);
 			}
@@ -7666,7 +7666,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_add_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
@@ -7678,7 +7678,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_add_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -7691,7 +7691,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_give_up"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7700,7 +7700,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_give_up"], buf);
 				return tb.encode(buf);
 			}
@@ -7715,7 +7715,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_texas_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.get_score, buf);
 				tb.card_item.encode(buf);
@@ -7729,7 +7729,7 @@ export module NetPacket {
 				startIndex += tb.card_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -7743,14 +7743,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_texas_settlement"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.win_role_id, buf);
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.win_role_id = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -7763,7 +7763,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_settlement"], buf);
 				return tb.encode(buf);
 			}
@@ -7777,7 +7777,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_scratch_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.icon, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -7789,7 +7789,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_scratch_item"], buf);
 				return tb.encode(buf);
 			}
@@ -7803,7 +7803,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_scratch_ticket"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 				EncodeUtils.int64ToByte(tb.count, buf);
 			},
@@ -7815,7 +7815,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_scratch_ticket"], buf);
 				return tb.encode(buf);
 			}
@@ -7828,13 +7828,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_scratch_ticket"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.times_list.length, buf);
 				for (let i = 0; i < tb.times_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.times_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let times_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -7844,7 +7844,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_scratch_ticket"], buf);
 				return tb.encode(buf);
 			}
@@ -7857,7 +7857,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_odd_monkey"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7866,7 +7866,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_odd_monkey"], buf);
 				return tb.encode(buf);
 			}
@@ -7879,7 +7879,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_odd_monkey"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7888,7 +7888,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_odd_monkey"], buf);
 				return tb.encode(buf);
 			}
@@ -7901,7 +7901,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_odd_monkey_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -7910,7 +7910,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_odd_monkey_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -7924,7 +7924,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bmw_pool_info_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
 			},
@@ -7936,7 +7936,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bmw_pool_info_item"], buf);
 				return tb.encode(buf);
 			}
@@ -7957,7 +7957,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				tb.start_time.encode(buf);
 				tb.banker.encode(buf);
@@ -7983,7 +7983,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.history_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -8026,7 +8026,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -8047,7 +8047,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -8068,7 +8068,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_start_beting"], buf);
 				return tb.encode(buf);
 			}
@@ -8082,7 +8082,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_myself_get_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -8094,7 +8094,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_myself_get_money"], buf);
 				return tb.encode(buf);
 			}
@@ -8108,7 +8108,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bmw_win_rank_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -8121,7 +8121,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bmw_win_rank_item"], buf);
 				return tb.encode(buf);
 			}
@@ -8139,7 +8139,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_start_comparing"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
 				for (let i = 0; i < tb.pool_info_list.length; ++i) {
 					tb.pool_info_list[i].encode(buf);
@@ -8156,7 +8156,7 @@ export module NetPacket {
 					tb.rank_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -8186,7 +8186,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_start_comparing"], buf);
 				return tb.encode(buf);
 			}
@@ -8201,7 +8201,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bmw_bet_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
@@ -8216,7 +8216,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bmw_bet_item"], buf);
 				return tb.encode(buf);
 			}
@@ -8230,7 +8230,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bmw_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 			},
@@ -8242,7 +8242,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -8263,7 +8263,7 @@ export module NetPacket {
 				startIndex += tb.bet_info.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -8276,13 +8276,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
 				for (let i = 0; i < tb.bet_list.length; ++i) {
 					tb.bet_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -8293,7 +8293,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -8311,7 +8311,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -8324,13 +8324,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_banker_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
 				for (let i = 0; i < tb.banker_candidate.length; ++i) {
 					tb.banker_candidate[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -8341,7 +8341,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -8359,7 +8359,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -8372,7 +8372,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_banker_in"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8381,7 +8381,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -8399,7 +8399,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -8412,7 +8412,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_banker_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8421,7 +8421,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -8435,7 +8435,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bmw_cur_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.banker.encode(buf);
 				EncodeUtils.int32ToByte(tb.round, buf);
 			},
@@ -8446,7 +8446,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_cur_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -8460,7 +8460,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lhdb"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.bet_line, buf);
 			},
@@ -8472,7 +8472,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lhdb"], buf);
 				return tb.encode(buf);
 			}
@@ -8490,7 +8490,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lhdb"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 				EncodeUtils.int32ToByte(tb.cur_rate, buf);
 				EncodeUtils.int32ToByte(tb.is_get_drill, buf);
@@ -8514,7 +8514,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lhdb"], buf);
 				return tb.encode(buf);
 			}
@@ -8527,7 +8527,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lhdb_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8536,7 +8536,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lhdb_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -8549,7 +8549,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lhdb_game_save"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_game_save, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8558,7 +8558,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lhdb_game_save"], buf);
 				return tb.encode(buf);
 			}
@@ -8571,7 +8571,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lhdb_game_save"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8580,7 +8580,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lhdb_game_save"], buf);
 				return tb.encode(buf);
 			}
@@ -8594,7 +8594,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lhdb_game_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.cur_rate, buf);
 				EncodeUtils.int32ToByte(tb.remain_brick, buf);
 			},
@@ -8606,7 +8606,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lhdb_game_info"], buf);
 				return tb.encode(buf);
 			}
@@ -8624,7 +8624,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_ball"], buf);
 				return tb.encode(buf);
 			}
@@ -8638,14 +8638,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_ball"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.get_money, buf);
 				EncodeUtils.uInt16ToByte(tb.money_list.length, buf);
 				for (let i = 0; i < tb.money_list.length; ++i) {
 					EncodeUtils.int64ToByte(tb.money_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.get_money = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -8657,7 +8657,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_ball"], buf);
 				return tb.encode(buf);
 			}
@@ -8670,7 +8670,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_huj5"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8679,7 +8679,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_huj5"], buf);
 				return tb.encode(buf);
 			}
@@ -8695,7 +8695,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_huj5"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 				EncodeUtils.int32ToByte(tb.get_jackpot_index, buf);
 				EncodeUtils.int64ToByte(tb.get_jackpot_money, buf);
@@ -8704,7 +8704,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.box_times_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.times = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -8720,7 +8720,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_huj5"], buf);
 				return tb.encode(buf);
 			}
@@ -8733,13 +8733,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_huj5_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.money.length, buf);
 				for (let i = 0; i < tb.money.length; ++i) {
 					EncodeUtils.int64ToByte(tb.money[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let money_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -8749,7 +8749,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_huj5_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -8767,7 +8767,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_return_money_info"], buf);
 				return tb.encode(buf);
 			}
@@ -8780,7 +8780,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_return_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.return_money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8790,7 +8790,7 @@ export module NetPacket {
 				startIndex += return_money_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_return_money_info"], buf);
 				return tb.encode(buf);
 			}
@@ -8808,7 +8808,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_return_money"], buf);
 				return tb.encode(buf);
 			}
@@ -8821,7 +8821,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_return_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -8830,7 +8830,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_return_money"], buf);
 				return tb.encode(buf);
 			}
@@ -8845,7 +8845,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh100_pool_info_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				tb.card_item.encode(buf);
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
@@ -8859,7 +8859,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_pool_info_item"], buf);
 				return tb.encode(buf);
 			}
@@ -8872,13 +8872,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh100_history_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.result.length, buf);
 				for (let i = 0; i < tb.result.length; ++i) {
 					EncodeUtils.int32ToByte(tb.result[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let result_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -8888,7 +8888,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_history_item"], buf);
 				return tb.encode(buf);
 			}
@@ -8909,7 +8909,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				tb.start_time.encode(buf);
 				tb.banker.encode(buf);
@@ -8935,7 +8935,7 @@ export module NetPacket {
 					tb.history_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -8979,7 +8979,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -9000,7 +9000,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -9021,7 +9021,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_start_beting"], buf);
 				return tb.encode(buf);
 			}
@@ -9035,7 +9035,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh100_settlement_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				EncodeUtils.int32ToByte(tb.is_win, buf);
 			},
@@ -9047,7 +9047,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_settlement_item"], buf);
 				return tb.encode(buf);
 			}
@@ -9061,7 +9061,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_myself_get_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -9073,7 +9073,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_myself_get_money"], buf);
 				return tb.encode(buf);
 			}
@@ -9090,7 +9090,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_start_comparing"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
 				for (let i = 0; i < tb.settlement_list.length; ++i) {
 					tb.settlement_list[i].encode(buf);
@@ -9106,7 +9106,7 @@ export module NetPacket {
 				}
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -9133,7 +9133,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_start_comparing"], buf);
 				return tb.encode(buf);
 			}
@@ -9148,7 +9148,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_zjh100_bet_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
@@ -9163,7 +9163,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_bet_item"], buf);
 				return tb.encode(buf);
 			}
@@ -9177,7 +9177,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_zjh100_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 			},
@@ -9189,7 +9189,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -9210,7 +9210,7 @@ export module NetPacket {
 				startIndex += tb.bet_info.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -9223,13 +9223,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
 				for (let i = 0; i < tb.bet_list.length; ++i) {
 					tb.bet_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -9240,7 +9240,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -9258,7 +9258,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -9271,13 +9271,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_banker_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
 				for (let i = 0; i < tb.banker_candidate.length; ++i) {
 					tb.banker_candidate[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -9288,7 +9288,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -9306,7 +9306,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -9319,7 +9319,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_banker_in"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9328,7 +9328,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -9346,7 +9346,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -9359,7 +9359,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_banker_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9368,7 +9368,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -9382,7 +9382,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zjh100_cur_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.banker.encode(buf);
 				EncodeUtils.int32ToByte(tb.round, buf);
 			},
@@ -9393,7 +9393,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_cur_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -9411,7 +9411,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_mobile_cancel"], buf);
 				return tb.encode(buf);
 			}
@@ -9424,7 +9424,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_mobile_cancel"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9433,7 +9433,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_mobile_cancel"], buf);
 				return tb.encode(buf);
 			}
@@ -9448,7 +9448,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_laba_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.icon, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.int32ToByte(tb.is_flash, buf);
@@ -9463,7 +9463,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_laba_item"], buf);
 				return tb.encode(buf);
 			}
@@ -9477,7 +9477,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_laba_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.free_times, buf);
 				EncodeUtils.int32ToByte(tb.lock_bet_index, buf);
 			},
@@ -9489,7 +9489,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_laba_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -9502,7 +9502,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_laba"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9511,7 +9511,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_laba"], buf);
 				return tb.encode(buf);
 			}
@@ -9529,7 +9529,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_laba"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.free_times, buf);
 				EncodeUtils.int32ToByte(tb.box_times, buf);
@@ -9543,7 +9543,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.is_box_open, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -9568,7 +9568,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_laba"], buf);
 				return tb.encode(buf);
 			}
@@ -9586,7 +9586,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_slots_info"], buf);
 				return tb.encode(buf);
 			}
@@ -9603,7 +9603,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_slots_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -9613,7 +9613,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -9631,7 +9631,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_slots_info"], buf);
 				return tb.encode(buf);
 			}
@@ -9645,7 +9645,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -9657,7 +9657,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -9671,14 +9671,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_msg_kv"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.key, buf);
 				EncodeUtils.uInt16ToByte(tb.val.length, buf);
 				for (let i = 0; i < tb.val.length; ++i) {
 					EncodeUtils.int32ToByte(tb.val[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let key_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.key = key_value[0];
@@ -9691,7 +9691,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_msg_kv"], buf);
 				return tb.encode(buf);
 			}
@@ -9705,14 +9705,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_line_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.pos.length, buf);
 				for (let i = 0; i < tb.pos.length; ++i) {
 					EncodeUtils.int32ToByte(tb.pos[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -9724,7 +9724,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_line_item"], buf);
 				return tb.encode(buf);
 			}
@@ -9743,7 +9743,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -9761,7 +9761,7 @@ export module NetPacket {
 					tb.extra_info[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -9793,7 +9793,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -9811,7 +9811,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_slots_open_box"], buf);
 				return tb.encode(buf);
 			}
@@ -9824,13 +9824,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_slots_open_box"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.box_times_list.length, buf);
 				for (let i = 0; i < tb.box_times_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.box_times_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let box_times_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -9840,7 +9840,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_slots_open_box"], buf);
 				return tb.encode(buf);
 			}
@@ -9853,7 +9853,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jincan_update_cannon_times"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9862,7 +9862,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jincan_update_cannon_times"], buf);
 				return tb.encode(buf);
 			}
@@ -9875,7 +9875,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jincan_update_cannon_times"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9884,7 +9884,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jincan_update_cannon_times"], buf);
 				return tb.encode(buf);
 			}
@@ -9901,7 +9901,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jincan_hit_fish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bullet_id, buf);
 				EncodeUtils.int32ToByte(tb.bullet_times, buf);
 				EncodeUtils.int32ToByte(tb.fish_id, buf);
@@ -9922,7 +9922,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jincan_hit_fish"], buf);
 				return tb.encode(buf);
 			}
@@ -9938,7 +9938,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jincan_hit_fish"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bullet_id, buf);
 				EncodeUtils.int32ToByte(tb.bullet_times, buf);
 				EncodeUtils.int32ToByte(tb.fish_id, buf);
@@ -9956,7 +9956,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jincan_hit_fish"], buf);
 				return tb.encode(buf);
 			}
@@ -9969,7 +9969,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jincan_banker_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.bank_money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -9978,7 +9978,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jincan_banker_money"], buf);
 				return tb.encode(buf);
 			}
@@ -9991,7 +9991,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10000,7 +10000,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pt888_info"], buf);
 				return tb.encode(buf);
 			}
@@ -10016,7 +10016,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
 					EncodeUtils.int32ToByte(tb.bet_index[i], buf);
@@ -10025,7 +10025,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 				EncodeUtils.int64ToByte(tb.win_score, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_index_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10041,7 +10041,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_info"], buf);
 				return tb.encode(buf);
 			}
@@ -10055,7 +10055,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 			},
@@ -10067,7 +10067,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pt888_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -10082,7 +10082,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.symbol_id, buf);
 				EncodeUtils.int64ToByte(tb.acc_win, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
@@ -10097,7 +10097,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -10110,7 +10110,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_take_coin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10119,7 +10119,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pt888_take_coin"], buf);
 				return tb.encode(buf);
 			}
@@ -10133,7 +10133,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_take_coin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -10145,7 +10145,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_take_coin"], buf);
 				return tb.encode(buf);
 			}
@@ -10163,7 +10163,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.pool_money1, buf);
 				EncodeUtils.int64ToByte(tb.pool_money2, buf);
 				EncodeUtils.int64ToByte(tb.pool_money3, buf);
@@ -10187,7 +10187,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -10205,7 +10205,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pt888_get_self_record"], buf);
 				return tb.encode(buf);
 			}
@@ -10218,13 +10218,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_get_self_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.record_item.length, buf);
 				for (let i = 0; i < tb.record_item.length; ++i) {
 					tb.record_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let record_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10235,7 +10235,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_get_self_record"], buf);
 				return tb.encode(buf);
 			}
@@ -10253,7 +10253,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pt888_get_all_record"], buf);
 				return tb.encode(buf);
 			}
@@ -10266,13 +10266,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_get_all_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.record_item.length, buf);
 				for (let i = 0; i < tb.record_item.length; ++i) {
 					tb.record_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let record_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10283,7 +10283,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_get_all_record"], buf);
 				return tb.encode(buf);
 			}
@@ -10296,7 +10296,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_suggest"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.suggest, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10306,7 +10306,7 @@ export module NetPacket {
 				startIndex += suggest_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_suggest"], buf);
 				return tb.encode(buf);
 			}
@@ -10319,7 +10319,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_suggest"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10328,7 +10328,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_suggest"], buf);
 				return tb.encode(buf);
 			}
@@ -10341,7 +10341,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_acc_win"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10350,7 +10350,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pt888_acc_win"], buf);
 				return tb.encode(buf);
 			}
@@ -10363,7 +10363,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pt888_acc_win"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.acc_win, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10372,7 +10372,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pt888_acc_win"], buf);
 				return tb.encode(buf);
 			}
@@ -10390,7 +10390,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jmp_info"], buf);
 				return tb.encode(buf);
 			}
@@ -10407,7 +10407,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jmp_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -10417,7 +10417,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -10435,7 +10435,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jmp_info"], buf);
 				return tb.encode(buf);
 			}
@@ -10449,7 +10449,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jmp_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -10461,7 +10461,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jmp_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -10477,7 +10477,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jmp_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -10486,7 +10486,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10502,7 +10502,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jmp_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -10520,7 +10520,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_qtds_info"], buf);
 				return tb.encode(buf);
 			}
@@ -10535,7 +10535,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_qtds_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -10543,7 +10543,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.game_state, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -10557,7 +10557,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_qtds_info"], buf);
 				return tb.encode(buf);
 			}
@@ -10571,7 +10571,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_qtds_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -10583,7 +10583,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_qtds_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -10599,7 +10599,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_qtds_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -10608,7 +10608,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10624,7 +10624,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_qtds_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -10642,7 +10642,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_qtds_free_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -10657,7 +10657,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_qtds_free_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -10665,7 +10665,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.gamestate, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10679,7 +10679,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_qtds_free_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -10697,7 +10697,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_qtds_free_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -10713,7 +10713,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_qtds_free_detail_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.fight_list.length, buf);
 				for (let i = 0; i < tb.fight_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.fight_list[i], buf);
@@ -10722,7 +10722,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int64ToByte(tb.total_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let fight_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10738,7 +10738,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_qtds_free_detail_result"], buf);
 				return tb.encode(buf);
 			}
@@ -10751,7 +10751,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recommend_role"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10760,7 +10760,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recommend_role"], buf);
 				return tb.encode(buf);
 			}
@@ -10773,7 +10773,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recommend_role"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10782,7 +10782,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recommend_role"], buf);
 				return tb.encode(buf);
 			}
@@ -10796,7 +10796,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_yiyuan_buy"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 				EncodeUtils.int32ToByte(tb.count, buf);
 			},
@@ -10808,7 +10808,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_yiyuan_buy"], buf);
 				return tb.encode(buf);
 			}
@@ -10822,14 +10822,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_yiyuan_buy"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.buy_num_list.length, buf);
 				for (let i = 0; i < tb.buy_num_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.buy_num_list[i], buf);
 				}
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let buy_num_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10841,7 +10841,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_yiyuan_buy"], buf);
 				return tb.encode(buf);
 			}
@@ -10854,7 +10854,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_yiyuan_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10863,7 +10863,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_yiyuan_history"], buf);
 				return tb.encode(buf);
 			}
@@ -10881,7 +10881,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_yiyuan_history_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 				EncodeUtils.int32ToByte(tb.lucky_num, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
@@ -10905,7 +10905,7 @@ export module NetPacket {
 				startIndex += tb.time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_yiyuan_history_item"], buf);
 				return tb.encode(buf);
 			}
@@ -10918,13 +10918,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_yiyuan_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.history_list.length, buf);
 				for (let i = 0; i < tb.history_list.length; ++i) {
 					tb.history_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let history_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -10935,7 +10935,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_yiyuan_history"], buf);
 				return tb.encode(buf);
 			}
@@ -10948,7 +10948,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_yiyuan_self_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -10957,7 +10957,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_yiyuan_self_history"], buf);
 				return tb.encode(buf);
 			}
@@ -10973,7 +10973,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_self_history_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 				EncodeUtils.int32ToByte(tb.lucky_num, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
@@ -10982,7 +10982,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.buy_num_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -10998,7 +10998,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_self_history_item"], buf);
 				return tb.encode(buf);
 			}
@@ -11011,13 +11011,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_yiyuan_self_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.history_list.length, buf);
 				for (let i = 0; i < tb.history_list.length; ++i) {
 					tb.history_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let history_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -11028,7 +11028,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_yiyuan_self_history"], buf);
 				return tb.encode(buf);
 			}
@@ -11042,7 +11042,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_yiyuan_broadcast_round"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 				EncodeUtils.int32ToByte(tb.remain_count, buf);
 			},
@@ -11054,7 +11054,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_yiyuan_broadcast_round"], buf);
 				return tb.encode(buf);
 			}
@@ -11069,7 +11069,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_yiyuan_broadcast_lottery"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.round, buf);
 				EncodeUtils.int32ToByte(tb.lucky_num, buf);
 				EncodeUtils.int64ToByte(tb.lucky_role_id, buf);
@@ -11084,7 +11084,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_yiyuan_broadcast_lottery"], buf);
 				return tb.encode(buf);
 			}
@@ -11098,7 +11098,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_item_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.item_id, buf);
 				EncodeUtils.int64ToByte(tb.item_num, buf);
 			},
@@ -11110,7 +11110,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_item_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11123,7 +11123,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_zhuanpan_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11132,7 +11132,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zhuanpan_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11145,7 +11145,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_zhuanpan_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.left_count, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11154,7 +11154,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zhuanpan_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11167,7 +11167,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_zhuanpan_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11176,7 +11176,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zhuanpan_start"], buf);
 				return tb.encode(buf);
 			}
@@ -11197,7 +11197,7 @@ export module NetPacket {
 				startIndex += tb.item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zhuanpan_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -11210,7 +11210,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_help_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11219,7 +11219,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_help_money_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11232,7 +11232,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_help_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.left_count, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11241,7 +11241,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_help_money_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11254,7 +11254,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_help_money_draw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11263,7 +11263,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_help_money_draw"], buf);
 				return tb.encode(buf);
 			}
@@ -11278,7 +11278,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_help_money_draw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.status, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 				EncodeUtils.int32ToByte(tb.left_count, buf);
@@ -11293,7 +11293,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_help_money_draw"], buf);
 				return tb.encode(buf);
 			}
@@ -11312,7 +11312,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_game_task_data"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 				EncodeUtils.int32ToByte(tb.game_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.task_desc, buf);
@@ -11340,7 +11340,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_game_task_data"], buf);
 				return tb.encode(buf);
 			}
@@ -11358,7 +11358,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_game_task_list"], buf);
 				return tb.encode(buf);
 			}
@@ -11371,13 +11371,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_game_task_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.game_task_list.length, buf);
 				for (let i = 0; i < tb.game_task_list.length; ++i) {
 					tb.game_task_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let game_task_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -11388,7 +11388,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_game_task_list"], buf);
 				return tb.encode(buf);
 			}
@@ -11401,7 +11401,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_game_task_draw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11410,7 +11410,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_game_task_draw"], buf);
 				return tb.encode(buf);
 			}
@@ -11425,7 +11425,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_game_task_draw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.status, buf);
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
@@ -11440,7 +11440,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_game_task_draw"], buf);
 				return tb.encode(buf);
 			}
@@ -11458,7 +11458,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_wx_share_req"], buf);
 				return tb.encode(buf);
 			}
@@ -11471,7 +11471,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_wx_share"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11480,7 +11480,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_wx_share"], buf);
 				return tb.encode(buf);
 			}
@@ -11501,7 +11501,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_login_with_ip"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.uid, buf);
 				EncodeUtils.int32ToByte(tb.server_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.token, buf);
@@ -11538,7 +11538,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_role_login_with_ip"], buf);
 				return tb.encode(buf);
 			}
@@ -11556,7 +11556,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_role_return_money_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11570,7 +11570,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_role_return_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.self_money, buf);
 				EncodeUtils.int64ToByte(tb.spread_money, buf);
 			},
@@ -11582,7 +11582,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_role_return_money_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11595,7 +11595,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_role_return_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11604,7 +11604,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_role_return_money"], buf);
 				return tb.encode(buf);
 			}
@@ -11617,7 +11617,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_role_return_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11626,7 +11626,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_role_return_money"], buf);
 				return tb.encode(buf);
 			}
@@ -11644,7 +11644,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_weixin_daily_give_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11657,7 +11657,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_weixin_daily_give_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11666,7 +11666,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_weixin_daily_give_info"], buf);
 				return tb.encode(buf);
 			}
@@ -11684,7 +11684,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_weixin_daily_give"], buf);
 				return tb.encode(buf);
 			}
@@ -11697,7 +11697,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_weixin_daily_give"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11706,7 +11706,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_weixin_daily_give"], buf);
 				return tb.encode(buf);
 			}
@@ -11719,7 +11719,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_account_verify_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.mobile, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11729,7 +11729,7 @@ export module NetPacket {
 				startIndex += mobile_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_account_verify_code"], buf);
 				return tb.encode(buf);
 			}
@@ -11742,7 +11742,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_account_verify_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11751,7 +11751,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_account_verify_code"], buf);
 				return tb.encode(buf);
 			}
@@ -11765,7 +11765,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 				EncodeUtils.utf8StrtoBytes(tb.verify_code, buf);
 			},
@@ -11779,7 +11779,7 @@ export module NetPacket {
 				startIndex += verify_code_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_account"], buf);
 				return tb.encode(buf);
 			}
@@ -11792,7 +11792,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -11801,7 +11801,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_account"], buf);
 				return tb.encode(buf);
 			}
@@ -11819,7 +11819,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_invite_time_out"], buf);
 				return tb.encode(buf);
 			}
@@ -11834,7 +11834,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_invite_time_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.time_out.encode(buf);
 				EncodeUtils.int32ToByte(tb.is_time_out, buf);
 				EncodeUtils.int32ToByte(tb.invite_count, buf);
@@ -11848,7 +11848,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_invite_time_out"], buf);
 				return tb.encode(buf);
 			}
@@ -11857,24 +11857,32 @@ export module NetPacket {
 	}
 	export function sign_in_cfg() {
 		let tb: any = {
+			bet: 0,
 			day: 0,
-			reward: 0,
+			week: 0,
+			month: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_sign_in_cfg"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.bet, buf);
 				EncodeUtils.int32ToByte(tb.day, buf);
-				EncodeUtils.int64ToByte(tb.reward, buf);
+				EncodeUtils.int32ToByte(tb.week, buf);
+				EncodeUtils.int32ToByte(tb.month, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
+				tb.bet = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				tb.day = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.reward = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
+				tb.week = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.month = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_sign_in_cfg"], buf);
 				return tb.encode(buf);
 			}
@@ -11892,7 +11900,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_sign_in_config"], buf);
 				return tb.encode(buf);
 			}
@@ -11902,43 +11910,37 @@ export module NetPacket {
 	export function notify_sign_in_list() {
 		let tb: any = {
 			sign_in_cfgs_0: [],
-			sign_in_cfgs_1: [],
-			sign_type: 0,
-			count: 0,
-			is_sign_in: 0,
-			is_15day_sign_in: 0,
-			is_28day_sign_in: 0,
-			extra_15day_reward_0: 0,
-			extra_28day_reward_0: 0,
-			extra_15day_reward_1: 0,
-			extra_28day_reward_1: 0,
-			bet_count: 0,
-			total_bet_count: 0,
+			sign_status: [],
+			add_sign_in: 0,
+			day_status: 0,
+			day_money: 0,
+			week_money: 0,
+			month_money: 0,
+			cur_bet: 0,
+			used_bet: 0,
+			cur_time: stime(),
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_sign_in_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.sign_in_cfgs_0.length, buf);
 				for (let i = 0; i < tb.sign_in_cfgs_0.length; ++i) {
 					tb.sign_in_cfgs_0[i].encode(buf);
 				}
-				EncodeUtils.uInt16ToByte(tb.sign_in_cfgs_1.length, buf);
-				for (let i = 0; i < tb.sign_in_cfgs_1.length; ++i) {
-					tb.sign_in_cfgs_1[i].encode(buf);
+				EncodeUtils.uInt16ToByte(tb.sign_status.length, buf);
+				for (let i = 0; i < tb.sign_status.length; ++i) {
+					EncodeUtils.int32ToByte(tb.sign_status[i], buf);
 				}
-				EncodeUtils.int32ToByte(tb.sign_type, buf);
-				EncodeUtils.int32ToByte(tb.count, buf);
-				EncodeUtils.int32ToByte(tb.is_sign_in, buf);
-				EncodeUtils.int32ToByte(tb.is_15day_sign_in, buf);
-				EncodeUtils.int32ToByte(tb.is_28day_sign_in, buf);
-				EncodeUtils.int64ToByte(tb.extra_15day_reward_0, buf);
-				EncodeUtils.int64ToByte(tb.extra_28day_reward_0, buf);
-				EncodeUtils.int64ToByte(tb.extra_15day_reward_1, buf);
-				EncodeUtils.int64ToByte(tb.extra_28day_reward_1, buf);
-				EncodeUtils.int32ToByte(tb.bet_count, buf);
-				EncodeUtils.int32ToByte(tb.total_bet_count, buf);
+				EncodeUtils.int32ToByte(tb.add_sign_in, buf);
+				EncodeUtils.int32ToByte(tb.day_status, buf);
+				EncodeUtils.int32ToByte(tb.day_money, buf);
+				EncodeUtils.int32ToByte(tb.week_money, buf);
+				EncodeUtils.int32ToByte(tb.month_money, buf);
+				EncodeUtils.int64ToByte(tb.cur_bet, buf);
+				EncodeUtils.int32ToByte(tb.used_bet, buf);
+				tb.cur_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let sign_in_cfgs_0_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -11947,38 +11949,30 @@ export module NetPacket {
 					startIndex += tmp.decode(buf, startIndex);
 					tb.sign_in_cfgs_0.push(tmp);
 				}
-				let sign_in_cfgs_1_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				let sign_status_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
-				for (let i = 0; i < sign_in_cfgs_1_len; ++i) {
-					let tmp = sign_in_cfg();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.sign_in_cfgs_1.push(tmp);
+				for (let i = 0; i < sign_status_len; ++i) {
+					tb.sign_status.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
 				}
-				tb.sign_type = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.add_sign_in = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.count = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.day_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.is_sign_in = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.day_money = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.is_15day_sign_in = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.week_money = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.is_28day_sign_in = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.month_money = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.extra_15day_reward_0 = EncodeUtils.ByteToint64(buf, startIndex);
+				tb.cur_bet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
-				tb.extra_28day_reward_0 = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.extra_15day_reward_1 = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.extra_28day_reward_1 = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.bet_count = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.used_bet = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.total_bet_count = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				startIndex += tb.cur_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_sign_in_list"], buf);
 				return tb.encode(buf);
 			}
@@ -11987,20 +11981,19 @@ export module NetPacket {
 	}
 	export function req_sign_in() {
 		let tb: any = {
-			sign_type: 0,
+			sign_date: stime(),
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_sign_in"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.sign_type, buf);
+				tb.sign_date.encode(buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.sign_type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				startIndex += tb.sign_date.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_sign_in"], buf);
 				return tb.encode(buf);
 			}
@@ -12010,23 +12003,30 @@ export module NetPacket {
 	export function notify_sign_in() {
 		let tb: any = {
 			result: 0,
-			count: 0,
+			bonus: [],
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_sign_in"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
-				EncodeUtils.int32ToByte(tb.count, buf);
+				EncodeUtils.uInt16ToByte(tb.bonus.length, buf);
+				for (let i = 0; i < tb.bonus.length; ++i) {
+					EncodeUtils.int32ToByte(tb.bonus[i], buf);
+				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.count = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				let bonus_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < bonus_len; ++i) {
+					tb.bonus.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_sign_in"], buf);
 				return tb.encode(buf);
 			}
@@ -12039,13 +12039,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buyu_shoot_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.shoot_list.length, buf);
 				for (let i = 0; i < tb.shoot_list.length; ++i) {
 					tb.shoot_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let shoot_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12056,7 +12056,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_shoot_list"], buf);
 				return tb.encode(buf);
 			}
@@ -12069,7 +12069,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_gif"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -12078,7 +12078,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_gif"], buf);
 				return tb.encode(buf);
 			}
@@ -12096,7 +12096,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_whether_can_open_red_packet"], buf);
 				return tb.encode(buf);
 			}
@@ -12109,7 +12109,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_whether_can_open_red_packet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_can_open, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -12118,7 +12118,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_whether_can_open_red_packet"], buf);
 				return tb.encode(buf);
 			}
@@ -12136,7 +12136,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_open_red_packet"], buf);
 				return tb.encode(buf);
 			}
@@ -12149,7 +12149,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_open_red_packet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -12158,7 +12158,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_open_red_packet"], buf);
 				return tb.encode(buf);
 			}
@@ -12176,7 +12176,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dcdf_info"], buf);
 				return tb.encode(buf);
 			}
@@ -12197,7 +12197,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
 				for (let i = 0; i < tb.bet_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.bet_list[i], buf);
@@ -12217,7 +12217,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.open_prize, buf);
 				EncodeUtils.int32ToByte(tb.game_state, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12251,7 +12251,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_info"], buf);
 				return tb.encode(buf);
 			}
@@ -12265,7 +12265,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dcdf_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.mult_index, buf);
 			},
@@ -12277,7 +12277,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dcdf_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -12297,7 +12297,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -12313,7 +12313,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.prize_num, buf);
 				EncodeUtils.int64ToByte(tb.prize_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12341,7 +12341,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -12359,7 +12359,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dcdf_free_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -12375,7 +12375,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_free_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -12384,7 +12384,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.total_money, buf);
 				EncodeUtils.int32ToByte(tb.free_time, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12400,7 +12400,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_free_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -12418,7 +12418,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dcdf_free_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -12435,7 +12435,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_free_detail_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.free_time, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.mult_index, buf);
@@ -12456,7 +12456,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_free_detail_result"], buf);
 				return tb.encode(buf);
 			}
@@ -12469,13 +12469,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_prize_pool_refresh"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.pool_list.length, buf);
 				for (let i = 0; i < tb.pool_list.length; ++i) {
 					EncodeUtils.int64ToByte(tb.pool_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let pool_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12485,7 +12485,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_prize_pool_refresh"], buf);
 				return tb.encode(buf);
 			}
@@ -12503,7 +12503,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_milu_info"], buf);
 				return tb.encode(buf);
 			}
@@ -12520,7 +12520,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_milu_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -12530,7 +12530,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -12548,7 +12548,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_milu_info"], buf);
 				return tb.encode(buf);
 			}
@@ -12562,7 +12562,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_milu_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -12574,7 +12574,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_milu_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -12591,7 +12591,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_milu_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -12601,7 +12601,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.left_free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12619,7 +12619,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_milu_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -12638,7 +12638,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_spin_result_whiteBones"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -12656,7 +12656,7 @@ export module NetPacket {
 					tb.extra_info[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12688,7 +12688,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_spin_result_whiteBones"], buf);
 				return tb.encode(buf);
 			}
@@ -12706,7 +12706,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_knight_info"], buf);
 				return tb.encode(buf);
 			}
@@ -12729,7 +12729,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_knight_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -12748,7 +12748,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_game_combos, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -12782,7 +12782,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_knight_info"], buf);
 				return tb.encode(buf);
 			}
@@ -12796,7 +12796,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_knight_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -12808,7 +12808,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_knight_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -12829,7 +12829,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_knight_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -12849,7 +12849,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.combos, buf);
 				EncodeUtils.int32ToByte(tb.dragon_treasure, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -12883,7 +12883,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_knight_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -12896,7 +12896,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_knight_free_game_select"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.free_game_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -12905,7 +12905,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_knight_free_game_select"], buf);
 				return tb.encode(buf);
 			}
@@ -12920,7 +12920,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_knight_free_game_select"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.symbol, buf);
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.game_state, buf);
@@ -12935,7 +12935,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_knight_free_game_select"], buf);
 				return tb.encode(buf);
 			}
@@ -12953,7 +12953,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_knight_free_game_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -12977,7 +12977,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_knight_free_game_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -13003,7 +13003,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.normal_symbol_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13047,7 +13047,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_knight_free_game_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13062,7 +13062,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dcdf_open_prize"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.skin_index.length, buf);
 				for (let i = 0; i < tb.skin_index.length; ++i) {
 					EncodeUtils.int32ToByte(tb.skin_index[i], buf);
@@ -13073,7 +13073,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let skin_index_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13091,7 +13091,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dcdf_open_prize"], buf);
 				return tb.encode(buf);
 			}
@@ -13104,7 +13104,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_open_prize_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -13113,7 +13113,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_open_prize_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13131,7 +13131,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dcdf_open_prize_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -13148,7 +13148,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dcdf_open_prize_detail_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.skin_index.length, buf);
 				for (let i = 0; i < tb.skin_index.length; ++i) {
 					EncodeUtils.int32ToByte(tb.skin_index[i], buf);
@@ -13164,7 +13164,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.prize_num, buf);
 				EncodeUtils.int64ToByte(tb.prize_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let skin_index_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13190,7 +13190,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dcdf_open_prize_detail_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13208,7 +13208,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jump_info"], buf);
 				return tb.encode(buf);
 			}
@@ -13223,7 +13223,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jump_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.mult_list.length, buf);
 				for (let i = 0; i < tb.mult_list.length; ++i) {
 					EncodeUtils.int64ToByte(tb.mult_list[i], buf);
@@ -13231,7 +13231,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.min_bet, buf);
 				EncodeUtils.int32ToByte(tb.game_state, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let mult_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13245,7 +13245,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jump_info"], buf);
 				return tb.encode(buf);
 			}
@@ -13258,7 +13258,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.mult_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -13267,7 +13267,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jump_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -13282,7 +13282,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jump_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -13290,7 +13290,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.free_time, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13304,7 +13304,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jump_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13322,7 +13322,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jump_free_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -13339,7 +13339,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jump_free_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -13349,7 +13349,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.total_money, buf);
 				EncodeUtils.int32ToByte(tb.free_time, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13367,7 +13367,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jump_free_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13385,7 +13385,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_jump_free_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -13400,7 +13400,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_jump_free_detail_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.free_time, buf);
 				EncodeUtils.int32ToByte(tb.mult_index, buf);
 				EncodeUtils.int64ToByte(tb.total_money, buf);
@@ -13415,7 +13415,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_jump_free_detail_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13435,7 +13435,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rank_item_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rank, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_icon, buf);
@@ -13467,7 +13467,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rank_item_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -13480,7 +13480,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -13489,7 +13489,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rank_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -13504,7 +13504,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rank_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.uInt16ToByte(tb.rank_item.length, buf);
 				for (let i = 0; i < tb.rank_item.length; ++i) {
@@ -13512,7 +13512,7 @@ export module NetPacket {
 				}
 				tb.self_rank_item.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -13526,7 +13526,7 @@ export module NetPacket {
 				startIndex += tb.self_rank_item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rank_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -13544,7 +13544,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rank_getreward"], buf);
 				return tb.encode(buf);
 			}
@@ -13558,7 +13558,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rank_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -13570,7 +13570,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rank_getreward"], buf);
 				return tb.encode(buf);
 			}
@@ -13588,7 +13588,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_qq"], buf);
 				return tb.encode(buf);
 			}
@@ -13601,7 +13601,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_qq_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.qq, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -13611,7 +13611,7 @@ export module NetPacket {
 				startIndex += qq_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_qq_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13624,7 +13624,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_qq"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.new_qq, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -13634,7 +13634,7 @@ export module NetPacket {
 				startIndex += new_qq_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_update_qq"], buf);
 				return tb.encode(buf);
 			}
@@ -13647,7 +13647,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_qq_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_success, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -13656,7 +13656,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_qq_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13674,7 +13674,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_three_little_pigs_info"], buf);
 				return tb.encode(buf);
 			}
@@ -13699,7 +13699,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_three_little_pigs_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -13729,7 +13729,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_game_combos, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -13779,7 +13779,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_three_little_pigs_info"], buf);
 				return tb.encode(buf);
 			}
@@ -13793,7 +13793,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_three_little_pigs_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -13805,7 +13805,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_three_little_pigs_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -13825,7 +13825,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_three_little_pigs_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -13844,7 +13844,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.game_state, buf);
 				EncodeUtils.int32ToByte(tb.combos, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -13876,7 +13876,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_three_little_pigs_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -13894,7 +13894,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_three_little_pigs_free_game_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -13919,7 +13919,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_three_little_pigs_free_game_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -13952,7 +13952,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.normal_pos_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -14006,7 +14006,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_three_little_pigs_free_game_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -14020,14 +14020,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_fruit_mali_line_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.pos.length, buf);
 				for (let i = 0; i < tb.pos.length; ++i) {
 					EncodeUtils.int32ToByte(tb.pos[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -14039,7 +14039,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fruit_mali_line_item"], buf);
 				return tb.encode(buf);
 			}
@@ -14057,7 +14057,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fruit_mali_info"], buf);
 				return tb.encode(buf);
 			}
@@ -14080,7 +14080,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fruit_mali_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -14111,7 +14111,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.circle_icon[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -14162,7 +14162,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fruit_mali_info"], buf);
 				return tb.encode(buf);
 			}
@@ -14175,7 +14175,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fruit_mali_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -14184,7 +14184,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fruit_mali_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -14197,7 +14197,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fruit_mali_lottery"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -14206,7 +14206,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fruit_mali_lottery"], buf);
 				return tb.encode(buf);
 			}
@@ -14225,7 +14225,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fruit_mali_lottery_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -14240,7 +14240,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.mali_times, buf);
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -14267,7 +14267,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fruit_mali_lottery_result"], buf);
 				return tb.encode(buf);
 			}
@@ -14285,7 +14285,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fruit_mali_mali"], buf);
 				return tb.encode(buf);
 			}
@@ -14300,7 +14300,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fruit_mali_mali_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.get_score.length, buf);
 				for (let i = 0; i < tb.get_score.length; ++i) {
 					EncodeUtils.int64ToByte(tb.get_score[i], buf);
@@ -14314,7 +14314,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.circle_icon[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let get_score_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -14336,7 +14336,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fruit_mali_mali_result"], buf);
 				return tb.encode(buf);
 			}
@@ -14354,7 +14354,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fruit_mali_mali_finish"], buf);
 				return tb.encode(buf);
 			}
@@ -14368,7 +14368,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_fqzs_pool_info_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
 			},
@@ -14380,7 +14380,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fqzs_pool_info_item"], buf);
 				return tb.encode(buf);
 			}
@@ -14401,7 +14401,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_room_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_status, buf);
 				tb.start_time.encode(buf);
 				tb.banker.encode(buf);
@@ -14427,7 +14427,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.history_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -14470,7 +14470,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_room_info"], buf);
 				return tb.encode(buf);
 			}
@@ -14491,7 +14491,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -14512,7 +14512,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_start_beting"], buf);
 				return tb.encode(buf);
 			}
@@ -14526,7 +14526,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_myself_get_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -14538,7 +14538,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_myself_get_money"], buf);
 				return tb.encode(buf);
 			}
@@ -14552,7 +14552,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_fqzs_win_rank_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -14565,7 +14565,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fqzs_win_rank_item"], buf);
 				return tb.encode(buf);
 			}
@@ -14583,7 +14583,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_start_comparing"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
 				for (let i = 0; i < tb.pool_info_list.length; ++i) {
 					tb.pool_info_list[i].encode(buf);
@@ -14600,7 +14600,7 @@ export module NetPacket {
 					tb.rank_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -14630,7 +14630,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_start_comparing"], buf);
 				return tb.encode(buf);
 			}
@@ -14645,7 +14645,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_fqzs_bet_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
@@ -14660,7 +14660,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fqzs_bet_item"], buf);
 				return tb.encode(buf);
 			}
@@ -14674,7 +14674,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fqzs_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 				EncodeUtils.int32ToByte(tb.pool_index, buf);
 			},
@@ -14686,7 +14686,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -14707,7 +14707,7 @@ export module NetPacket {
 				startIndex += tb.bet_info.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -14720,13 +14720,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
 				for (let i = 0; i < tb.bet_list.length; ++i) {
 					tb.bet_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -14737,7 +14737,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -14755,7 +14755,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -14768,13 +14768,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_banker_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
 				for (let i = 0; i < tb.banker_candidate.length; ++i) {
 					tb.banker_candidate[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -14785,7 +14785,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_banker_list"], buf);
 				return tb.encode(buf);
 			}
@@ -14803,7 +14803,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -14816,7 +14816,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_banker_in"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -14825,7 +14825,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_banker_in"], buf);
 				return tb.encode(buf);
 			}
@@ -14843,7 +14843,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -14856,7 +14856,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_banker_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -14865,7 +14865,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_banker_out"], buf);
 				return tb.encode(buf);
 			}
@@ -14879,7 +14879,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fqzs_cur_banker"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.banker.encode(buf);
 				EncodeUtils.int32ToByte(tb.round, buf);
 			},
@@ -14890,7 +14890,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_cur_banker"], buf);
 				return tb.encode(buf);
 			}
@@ -14908,7 +14908,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_bank_list_have_real_player"], buf);
 				return tb.encode(buf);
 			}
@@ -14926,7 +14926,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_milu2_info"], buf);
 				return tb.encode(buf);
 			}
@@ -14943,7 +14943,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_milu2_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -14953,7 +14953,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -14971,7 +14971,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_milu2_info"], buf);
 				return tb.encode(buf);
 			}
@@ -14985,7 +14985,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_milu2_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -14997,7 +14997,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_milu2_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -15014,7 +15014,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_milu2_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -15024,7 +15024,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.left_free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -15042,7 +15042,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_milu2_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -15056,14 +15056,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nine_line_line_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.pos.length, buf);
 				for (let i = 0; i < tb.pos.length; ++i) {
 					EncodeUtils.int32ToByte(tb.pos[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -15075,7 +15075,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nine_line_line_item"], buf);
 				return tb.encode(buf);
 			}
@@ -15093,7 +15093,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_nine_line_info"], buf);
 				return tb.encode(buf);
 			}
@@ -15112,7 +15112,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_nine_line_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -15130,7 +15130,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_remain_times, buf);
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -15161,7 +15161,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_nine_line_info"], buf);
 				return tb.encode(buf);
 			}
@@ -15174,7 +15174,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_nine_line_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -15183,7 +15183,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_nine_line_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -15196,7 +15196,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_nine_line_lottery"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -15205,7 +15205,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_nine_line_lottery"], buf);
 				return tb.encode(buf);
 			}
@@ -15223,7 +15223,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_nine_line_lottery_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -15237,7 +15237,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -15262,7 +15262,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_nine_line_lottery_result"], buf);
 				return tb.encode(buf);
 			}
@@ -15276,7 +15276,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rebate_item_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.gameType, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -15288,7 +15288,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rebate_item_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -15306,7 +15306,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bet_rebate"], buf);
 				return tb.encode(buf);
 			}
@@ -15321,7 +15321,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bet_rebate"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.today_rebate_item.length, buf);
 				for (let i = 0; i < tb.today_rebate_item.length; ++i) {
 					tb.today_rebate_item[i].encode(buf);
@@ -15332,7 +15332,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.has_reward, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let today_rebate_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -15352,7 +15352,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bet_rebate"], buf);
 				return tb.encode(buf);
 			}
@@ -15370,7 +15370,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rebate_getreward"], buf);
 				return tb.encode(buf);
 			}
@@ -15384,7 +15384,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rebate_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -15396,7 +15396,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rebate_getreward"], buf);
 				return tb.encode(buf);
 			}
@@ -15410,7 +15410,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rebate_all_item_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.gameType, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -15423,7 +15423,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rebate_all_item_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -15437,7 +15437,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rebate_to_date"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rebate_date, buf);
 				EncodeUtils.int64ToByte(tb.rebate_money, buf);
 			},
@@ -15449,7 +15449,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rebate_to_date"], buf);
 				return tb.encode(buf);
 			}
@@ -15463,7 +15463,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rebate_benefit_status"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.rebate_money, buf);
 				EncodeUtils.int32ToByte(tb.has_reward, buf);
 			},
@@ -15475,7 +15475,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rebate_benefit_status"], buf);
 				return tb.encode(buf);
 			}
@@ -15493,7 +15493,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bet_rebate_all_info"], buf);
 				return tb.encode(buf);
 			}
@@ -15510,7 +15510,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bet_rebate_all_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.first_rebate_benefit.encode(buf);
 				tb.second_rebate_benefit.encode(buf);
 				tb.third_rebate_benefit.encode(buf);
@@ -15528,7 +15528,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bet_rebate_all_info"], buf);
 				return tb.encode(buf);
 			}
@@ -15541,7 +15541,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bet_rebate_all_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rebate_date, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -15550,7 +15550,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bet_rebate_all_details"], buf);
 				return tb.encode(buf);
 			}
@@ -15567,7 +15567,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bet_rebate_all_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.today_rebate_item.length, buf);
 				for (let i = 0; i < tb.today_rebate_item.length; ++i) {
 					tb.today_rebate_item[i].encode(buf);
@@ -15577,7 +15577,7 @@ export module NetPacket {
 				tb.second_rebate_benefit.encode(buf);
 				tb.third_rebate_benefit.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let today_rebate_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -15593,7 +15593,7 @@ export module NetPacket {
 				startIndex += tb.third_rebate_benefit.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bet_rebate_all_details"], buf);
 				return tb.encode(buf);
 			}
@@ -15611,7 +15611,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rebate_all_getreward"], buf);
 				return tb.encode(buf);
 			}
@@ -15625,7 +15625,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rebate_all_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -15637,7 +15637,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rebate_all_getreward"], buf);
 				return tb.encode(buf);
 			}
@@ -15651,7 +15651,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_vip_reward_status"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.status, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -15663,7 +15663,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_vip_reward_status"], buf);
 				return tb.encode(buf);
 			}
@@ -15680,7 +15680,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_vip_level_config"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.level, buf);
 				EncodeUtils.int64ToByte(tb.target_bet_money, buf);
 				tb.promotional_reward_status.encode(buf);
@@ -15701,7 +15701,7 @@ export module NetPacket {
 				startIndex += ratio_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_vip_level_config"], buf);
 				return tb.encode(buf);
 			}
@@ -15719,7 +15719,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_info"], buf);
 				return tb.encode(buf);
 			}
@@ -15739,7 +15739,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_vip_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.total_bet_money, buf);
 				EncodeUtils.int32ToByte(tb.current_vip_level, buf);
 				EncodeUtils.int32ToByte(tb.last_month_vip_level, buf);
@@ -15752,7 +15752,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int64ToByte(tb.daily_rebate, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_bet_money = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -15775,7 +15775,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_vip_info"], buf);
 				return tb.encode(buf);
 			}
@@ -15788,7 +15788,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_promotional_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.vip_level, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -15797,7 +15797,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_claim_promotional_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -15815,7 +15815,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_claim_gift_money"], buf);
 				return tb.encode(buf);
 			}
@@ -15833,7 +15833,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_claim_holiday_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -15851,7 +15851,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_claim_mysterious_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -15865,7 +15865,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_vip_claim_status"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -15877,7 +15877,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_vip_claim_status"], buf);
 				return tb.encode(buf);
 			}
@@ -15895,7 +15895,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_level"], buf);
 				return tb.encode(buf);
 			}
@@ -15908,7 +15908,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_vip_level"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.vip_level, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -15917,7 +15917,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_vip_level"], buf);
 				return tb.encode(buf);
 			}
@@ -15936,7 +15936,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_new_rank_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rank, buf);
 				EncodeUtils.int32ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_icon, buf);
@@ -15965,7 +15965,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_new_rank_item"], buf);
 				return tb.encode(buf);
 			}
@@ -15978,7 +15978,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_new_rank_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -15987,7 +15987,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_new_rank_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16001,14 +16001,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_new_rank_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.room_type, buf);
 				EncodeUtils.uInt16ToByte(tb.room_rank_list.length, buf);
 				for (let i = 0; i < tb.room_rank_list.length; ++i) {
 					tb.room_rank_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.room_type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -16021,7 +16021,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_new_rank_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16036,7 +16036,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bank_card_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bank_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bank_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.account_number, buf);
@@ -16053,7 +16053,7 @@ export module NetPacket {
 				startIndex += account_number_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bank_card_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16071,7 +16071,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_card_info_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16093,7 +16093,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bank_card_info_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.cardholder_name, buf);
 				EncodeUtils.uInt16ToByte(tb.bank_card_info_list.length, buf);
 				for (let i = 0; i < tb.bank_card_info_list.length; ++i) {
@@ -16108,7 +16108,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.usdt_maintain_status, buf);
 				EncodeUtils.int32ToByte(tb.bankrule_tip_status, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let cardholder_name_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.cardholder_name = cardholder_name_value[0];
@@ -16138,7 +16138,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bank_card_info_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16153,7 +16153,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_new_bank_card_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bank_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.cardholder_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.account_number, buf);
@@ -16170,7 +16170,7 @@ export module NetPacket {
 				startIndex += account_number_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_new_bank_card_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16183,7 +16183,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_req_new_bank_card_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -16192,7 +16192,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_req_new_bank_card_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16206,7 +16206,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bank_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bank_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bank_name, buf);
 			},
@@ -16219,7 +16219,7 @@ export module NetPacket {
 				startIndex += bank_name_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bank_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16237,7 +16237,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bank_name_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16251,7 +16251,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_req_bank_name_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bank_name_list.length, buf);
 				for (let i = 0; i < tb.bank_name_list.length; ++i) {
 					tb.bank_name_list[i].encode(buf);
@@ -16261,7 +16261,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.status_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bank_name_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -16278,7 +16278,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_req_bank_name_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16295,7 +16295,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_recharge_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.way_id, buf);
 				EncodeUtils.int64ToByte(tb.pay_money, buf);
 				EncodeUtils.int64ToByte(tb.bonus, buf);
@@ -16315,7 +16315,7 @@ export module NetPacket {
 				startIndex += tb.pay_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_recharge_record"], buf);
 				return tb.encode(buf);
 			}
@@ -16335,7 +16335,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_withdraw_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.trans_id, buf);
@@ -16367,7 +16367,7 @@ export module NetPacket {
 				startIndex += remark_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_withdraw_record"], buf);
 				return tb.encode(buf);
 			}
@@ -16384,7 +16384,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_recharge_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -16403,7 +16403,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_recharge_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16417,14 +16417,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_recharge_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_page, buf);
 				EncodeUtils.uInt16ToByte(tb.recharge_record_list.length, buf);
 				for (let i = 0; i < tb.recharge_record_list.length; ++i) {
 					tb.recharge_record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -16437,7 +16437,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_recharge_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16454,7 +16454,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_apply_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.money, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bank_card_id, buf);
 				EncodeUtils.int32ToByte(tb.bank_id, buf);
@@ -16478,7 +16478,7 @@ export module NetPacket {
 				startIndex += passwd_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_apply_withdraw"], buf);
 				return tb.encode(buf);
 			}
@@ -16492,7 +16492,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_apply_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.utf8StrtoBytes(tb.tip, buf);
 			},
@@ -16505,7 +16505,7 @@ export module NetPacket {
 				startIndex += tip_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_apply_withdraw"], buf);
 				return tb.encode(buf);
 			}
@@ -16518,7 +16518,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_cancel_apply_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -16528,7 +16528,7 @@ export module NetPacket {
 				startIndex += id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_cancel_apply_withdraw"], buf);
 				return tb.encode(buf);
 			}
@@ -16541,7 +16541,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_cancel_apply_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -16550,7 +16550,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_cancel_apply_withdraw"], buf);
 				return tb.encode(buf);
 			}
@@ -16567,7 +16567,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_withdraw_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -16586,7 +16586,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_withdraw_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16600,14 +16600,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_withdraw_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_page, buf);
 				EncodeUtils.uInt16ToByte(tb.withdraw_record_list.length, buf);
 				for (let i = 0; i < tb.withdraw_record_list.length; ++i) {
 					tb.withdraw_record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -16620,7 +16620,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_withdraw_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16636,7 +16636,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_accounting_change_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -16652,7 +16652,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_accounting_change_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16670,7 +16670,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_accounting_change_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.b_type, buf);
 				EncodeUtils.int64ToByte(tb.pay_money, buf);
@@ -16694,7 +16694,7 @@ export module NetPacket {
 				startIndex += remark_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_accounting_change_record"], buf);
 				return tb.encode(buf);
 			}
@@ -16708,14 +16708,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_accounting_change_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_page, buf);
 				EncodeUtils.uInt16ToByte(tb.record_list.length, buf);
 				for (let i = 0; i < tb.record_list.length; ++i) {
 					tb.record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -16728,7 +16728,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_accounting_change_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -16746,7 +16746,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_captain_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16763,7 +16763,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_captain_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -16773,7 +16773,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -16791,7 +16791,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_captain_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16805,7 +16805,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_captain_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -16817,7 +16817,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_captain_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -16834,7 +16834,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_captain_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -16844,7 +16844,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.left_free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -16862,7 +16862,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_captain_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -16876,14 +16876,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_gfxm_symbol_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.time, buf);
 				EncodeUtils.uInt16ToByte(tb.symbol_array.length, buf);
 				for (let i = 0; i < tb.symbol_array.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_array[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.time = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -16895,7 +16895,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_gfxm_symbol_item"], buf);
 				return tb.encode(buf);
 			}
@@ -16913,7 +16913,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_gfxm_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16928,7 +16928,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_gfxm_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -16936,7 +16936,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.line, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -16950,7 +16950,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_gfxm_info"], buf);
 				return tb.encode(buf);
 			}
@@ -16964,7 +16964,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_gfxm_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -16976,7 +16976,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_gfxm_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -16994,7 +16994,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_gfxm_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -17008,7 +17008,7 @@ export module NetPacket {
 					tb.free_symbol_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -17033,7 +17033,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_gfxm_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -17047,14 +17047,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_lucky_lion_line_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.pos.length, buf);
 				for (let i = 0; i < tb.pos.length; ++i) {
 					EncodeUtils.int32ToByte(tb.pos[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -17066,7 +17066,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_lucky_lion_line_item"], buf);
 				return tb.encode(buf);
 			}
@@ -17081,7 +17081,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_lucky_lion_extra_game"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.extra_symbol_list.length, buf);
 				for (let i = 0; i < tb.extra_symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.extra_symbol_list[i], buf);
@@ -17092,7 +17092,7 @@ export module NetPacket {
 					tb.extra_lines[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let extra_symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -17111,7 +17111,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_lucky_lion_extra_game"], buf);
 				return tb.encode(buf);
 			}
@@ -17129,7 +17129,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lucky_lion_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17151,7 +17151,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lucky_lion_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -17172,7 +17172,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.caideng_count, buf);
 				EncodeUtils.int32ToByte(tb.xiuqiu_count, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -17209,7 +17209,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_lion_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17222,7 +17222,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lucky_lion_lottery"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -17231,7 +17231,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lucky_lion_lottery"], buf);
 				return tb.encode(buf);
 			}
@@ -17260,7 +17260,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lucky_lion_lottery_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -17291,7 +17291,7 @@ export module NetPacket {
 					tb.extra_xiuqiu[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -17348,7 +17348,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_lion_lottery_result"], buf);
 				return tb.encode(buf);
 			}
@@ -17366,7 +17366,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge_level_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17381,7 +17381,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recharge_level_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.cur_recharge, buf);
 				EncodeUtils.int32ToByte(tb.next_level, buf);
 				EncodeUtils.int64ToByte(tb.award_value, buf);
@@ -17396,7 +17396,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recharge_level_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17414,7 +17414,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge_level_award"], buf);
 				return tb.encode(buf);
 			}
@@ -17427,7 +17427,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recharge_level_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.res, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -17436,7 +17436,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recharge_level_award"], buf);
 				return tb.encode(buf);
 			}
@@ -17454,7 +17454,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge_level_day_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17468,7 +17468,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recharge_level_day_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.level, buf);
 				EncodeUtils.int64ToByte(tb.award_value, buf);
 			},
@@ -17480,7 +17480,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recharge_level_day_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17498,7 +17498,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge_level_day_award"], buf);
 				return tb.encode(buf);
 			}
@@ -17511,7 +17511,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recharge_level_day_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.res, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -17520,7 +17520,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recharge_level_day_award"], buf);
 				return tb.encode(buf);
 			}
@@ -17534,14 +17534,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_wucaishen_line_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.pos.length, buf);
 				for (let i = 0; i < tb.pos.length; ++i) {
 					EncodeUtils.int32ToByte(tb.pos[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -17553,7 +17553,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_wucaishen_line_item"], buf);
 				return tb.encode(buf);
 			}
@@ -17571,7 +17571,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_wucaishen_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17591,7 +17591,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_wucaishen_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.uInt16ToByte(tb.betlist.length, buf);
 				for (let i = 0; i < tb.betlist.length; ++i) {
@@ -17610,7 +17610,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_remain_times, buf);
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -17643,7 +17643,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_wucaishen_info"], buf);
 				return tb.encode(buf);
 			}
@@ -17656,7 +17656,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_wucaishen_jackpot"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -17665,7 +17665,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_wucaishen_jackpot"], buf);
 				return tb.encode(buf);
 			}
@@ -17678,7 +17678,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_wucaishen_lottery"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -17687,7 +17687,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_wucaishen_lottery"], buf);
 				return tb.encode(buf);
 			}
@@ -17705,7 +17705,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_wucaishen_lottery_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -17719,7 +17719,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int64ToByte(tb.jackpot_money, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -17744,7 +17744,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_wucaishen_lottery_result"], buf);
 				return tb.encode(buf);
 			}
@@ -17762,7 +17762,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buy_vip"], buf);
 				return tb.encode(buf);
 			}
@@ -17776,7 +17776,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_buy_vip"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				tb.time_out.encode(buf);
 			},
@@ -17787,7 +17787,7 @@ export module NetPacket {
 				startIndex += tb.time_out.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buy_vip"], buf);
 				return tb.encode(buf);
 			}
@@ -17796,20 +17796,16 @@ export module NetPacket {
 	}
 	export function req_get_signin_extra_reward() {
 		let tb: any = {
-			type: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_signin_extra_reward"];
 			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.type, buf);
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
-				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_signin_extra_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -17819,27 +17815,19 @@ export module NetPacket {
 	export function notify_get_signin_extra_reward() {
 		let tb: any = {
 			result: 0,
-			money: 0,
-			go_to_next_round: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_signin_extra_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.go_to_next_round, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.go_to_next_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_signin_extra_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -17854,7 +17842,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_invite_role_data"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.create_time.encode(buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -17869,7 +17857,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_invite_role_data"], buf);
 				return tb.encode(buf);
 			}
@@ -17887,7 +17875,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_invite_time_out2"], buf);
 				return tb.encode(buf);
 			}
@@ -17903,7 +17891,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_invite_time_out2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.time_out.encode(buf);
 				EncodeUtils.int32ToByte(tb.is_time_out, buf);
 				EncodeUtils.int32ToByte(tb.invite_count, buf);
@@ -17912,7 +17900,7 @@ export module NetPacket {
 					tb.invite_data[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				startIndex += tb.time_out.decode(buf, startIndex);
 				tb.is_time_out = EncodeUtils.ByteToint32(buf, startIndex);
@@ -17928,7 +17916,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_invite_time_out2"], buf);
 				return tb.encode(buf);
 			}
@@ -17946,7 +17934,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_red_point"], buf);
 				return tb.encode(buf);
 			}
@@ -17959,13 +17947,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_red_point"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.red_point_array.length, buf);
 				for (let i = 0; i < tb.red_point_array.length; ++i) {
 					EncodeUtils.int32ToByte(tb.red_point_array[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let red_point_array_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -17975,7 +17963,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_red_point"], buf);
 				return tb.encode(buf);
 			}
@@ -17993,7 +17981,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_exp_room_time"], buf);
 				return tb.encode(buf);
 			}
@@ -18007,7 +17995,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_exp_room_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.times, buf);
 				EncodeUtils.int32ToByte(tb.is_end, buf);
 			},
@@ -18019,7 +18007,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_exp_room_time"], buf);
 				return tb.encode(buf);
 			}
@@ -18037,7 +18025,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_mjhl_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18054,7 +18042,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_mjhl_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -18064,7 +18052,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -18082,7 +18070,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_mjhl_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18096,7 +18084,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mjhl_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -18108,7 +18096,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_mjhl_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -18125,7 +18113,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_mjhl_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -18135,7 +18123,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.left_free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -18153,7 +18141,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_mjhl_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -18173,7 +18161,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_agent_item2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_icon, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
@@ -18208,7 +18196,7 @@ export module NetPacket {
 				startIndex += qq_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_agent_item2"], buf);
 				return tb.encode(buf);
 			}
@@ -18226,7 +18214,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_agent_list2"], buf);
 				return tb.encode(buf);
 			}
@@ -18239,13 +18227,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_agent_list2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.agent_list.length, buf);
 				for (let i = 0; i < tb.agent_list.length; ++i) {
 					tb.agent_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let agent_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -18256,7 +18244,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_agent_list2"], buf);
 				return tb.encode(buf);
 			}
@@ -18270,7 +18258,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_code_redeem"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.code, buf);
 			},
@@ -18284,7 +18272,7 @@ export module NetPacket {
 				startIndex += code_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_code_redeem"], buf);
 				return tb.encode(buf);
 			}
@@ -18298,7 +18286,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_code_redeem"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.take_money, buf);
 			},
@@ -18310,7 +18298,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_code_redeem"], buf);
 				return tb.encode(buf);
 			}
@@ -18323,7 +18311,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_need_endless"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -18332,7 +18320,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_need_endless"], buf);
 				return tb.encode(buf);
 			}
@@ -18345,7 +18333,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_need_endless"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -18354,7 +18342,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_need_endless"], buf);
 				return tb.encode(buf);
 			}
@@ -18367,7 +18355,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_endless_bind"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -18377,7 +18365,7 @@ export module NetPacket {
 				startIndex += role_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_endless_bind"], buf);
 				return tb.encode(buf);
 			}
@@ -18390,7 +18378,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_endless_bind"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -18399,7 +18387,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_endless_bind"], buf);
 				return tb.encode(buf);
 			}
@@ -18417,7 +18405,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_endless_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18435,7 +18423,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_endless_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.direct, buf);
 				EncodeUtils.int32ToByte(tb.others, buf);
 				EncodeUtils.int64ToByte(tb.yt_direct_total, buf);
@@ -18459,7 +18447,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_endless_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18477,7 +18465,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_endless_income_take"], buf);
 				return tb.encode(buf);
 			}
@@ -18493,7 +18481,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_endless_income_take_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.total_can_take, buf);
 				EncodeUtils.int64ToByte(tb.total_taken, buf);
@@ -18511,7 +18499,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_endless_income_take_result"], buf);
 				return tb.encode(buf);
 			}
@@ -18527,7 +18515,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_endless_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int64ToByte(tb.total_income, buf);
 				tb.create.encode(buf);
@@ -18545,7 +18533,7 @@ export module NetPacket {
 				startIndex += nickname_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_endless_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -18558,7 +18546,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_endless_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -18567,7 +18555,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_endless_details"], buf);
 				return tb.encode(buf);
 			}
@@ -18581,14 +18569,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_endless_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.totals, buf);
 				EncodeUtils.uInt16ToByte(tb.details.length, buf);
 				for (let i = 0; i < tb.details.length; ++i) {
 					tb.details[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.totals = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -18601,7 +18589,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_endless_details"], buf);
 				return tb.encode(buf);
 			}
@@ -18619,7 +18607,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_svip_signup"], buf);
 				return tb.encode(buf);
 			}
@@ -18632,7 +18620,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_svip_signup"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -18641,7 +18629,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_svip_signup"], buf);
 				return tb.encode(buf);
 			}
@@ -18659,7 +18647,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_svip_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18677,7 +18665,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_svip_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
 				tb.recharge_time.encode(buf);
@@ -18698,7 +18686,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_svip_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18716,7 +18704,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_svip_getreawrd"], buf);
 				return tb.encode(buf);
 			}
@@ -18730,7 +18718,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_svip_getreawrd"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.get_money, buf);
 			},
@@ -18742,7 +18730,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_svip_getreawrd"], buf);
 				return tb.encode(buf);
 			}
@@ -18758,7 +18746,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_christmas_rank_data"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_icon, buf);
@@ -18778,7 +18766,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_christmas_rank_data"], buf);
 				return tb.encode(buf);
 			}
@@ -18796,7 +18784,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_christmas_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18811,7 +18799,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_christmas_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int32ToByte(tb.is_open, buf);
@@ -18824,7 +18812,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_christmas_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18842,7 +18830,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_christmas_countdown"], buf);
 				return tb.encode(buf);
 			}
@@ -18860,7 +18848,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_christmas_hit"], buf);
 				return tb.encode(buf);
 			}
@@ -18878,7 +18866,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_christmas_hit"], buf);
 				return tb.encode(buf);
 			}
@@ -18892,14 +18880,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_christmas_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.get_money, buf);
 				EncodeUtils.uInt16ToByte(tb.rank_data.length, buf);
 				for (let i = 0; i < tb.rank_data.length; ++i) {
 					tb.rank_data[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.get_money = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -18912,7 +18900,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_christmas_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -18930,7 +18918,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_voucher_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18948,7 +18936,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_voucher_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -18970,7 +18958,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_voucher_info"], buf);
 				return tb.encode(buf);
 			}
@@ -18988,7 +18976,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_voucher"], buf);
 				return tb.encode(buf);
 			}
@@ -19003,7 +18991,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_voucher_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.voucher_money, buf);
 				EncodeUtils.int64ToByte(tb.voucher_money_cost, buf);
 				EncodeUtils.int32ToByte(tb.voucher_state, buf);
@@ -19018,7 +19006,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_voucher_result"], buf);
 				return tb.encode(buf);
 			}
@@ -19036,7 +19024,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_free_spell_info"], buf);
 				return tb.encode(buf);
 			}
@@ -19052,7 +19040,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_free_spell_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.state, buf);
 				EncodeUtils.int64ToByte(tb.free_amount_got, buf);
 				tb.start_time.encode(buf);
@@ -19068,7 +19056,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_free_spell_info"], buf);
 				return tb.encode(buf);
 			}
@@ -19086,7 +19074,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_free_amount"], buf);
 				return tb.encode(buf);
 			}
@@ -19099,7 +19087,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_free_amount"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.free_amount, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -19108,7 +19096,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_free_amount"], buf);
 				return tb.encode(buf);
 			}
@@ -19124,7 +19112,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_invite_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				tb.invite_create_time.encode(buf);
@@ -19142,7 +19130,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_invite_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -19160,7 +19148,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_free_record_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.free_amount, buf);
 				EncodeUtils.int64ToByte(tb.free_amount_got, buf);
 				EncodeUtils.int32ToByte(tb.free_completion_rate, buf);
@@ -19171,7 +19159,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int64ToByte(tb.remain_invite_seconds, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.free_amount = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -19192,7 +19180,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_free_record_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -19210,7 +19198,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_free_record"], buf);
 				return tb.encode(buf);
 			}
@@ -19224,14 +19212,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_free_record_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_record_num, buf);
 				EncodeUtils.uInt16ToByte(tb.record_details.length, buf);
 				for (let i = 0; i < tb.record_details.length; ++i) {
 					tb.record_details[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_record_num = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -19244,7 +19232,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_free_record_result"], buf);
 				return tb.encode(buf);
 			}
@@ -19258,7 +19246,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_load_ip"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.md5_key, buf);
 			},
@@ -19271,7 +19259,7 @@ export module NetPacket {
 				startIndex += md5_key_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_load_ip"], buf);
 				return tb.encode(buf);
 			}
@@ -19285,14 +19273,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_load_id"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.uInt16ToByte(tb.ip_list.length, buf);
 				for (let i = 0; i < tb.ip_list.length; ++i) {
 					EncodeUtils.utf8StrtoBytes(tb.ip_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.code = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -19305,7 +19293,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_load_id"], buf);
 				return tb.encode(buf);
 			}
@@ -19329,7 +19317,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_login"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.login_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
@@ -19381,7 +19369,7 @@ export module NetPacket {
 				startIndex += captcha_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_login"], buf);
 				return tb.encode(buf);
 			}
@@ -19402,7 +19390,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_login"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 				EncodeUtils.int64ToByte(tb.user_id, buf);
@@ -19439,7 +19427,7 @@ export module NetPacket {
 				startIndex += ipGroupName_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_login"], buf);
 				return tb.encode(buf);
 			}
@@ -19454,7 +19442,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_confirm_agent_level1_transfer"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int32ToByte(tb.transferId, buf);
@@ -19471,7 +19459,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_confirm_agent_level1_transfer"], buf);
 				return tb.encode(buf);
 			}
@@ -19485,7 +19473,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_confirm_agent_level1_transfer"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -19498,7 +19486,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_confirm_agent_level1_transfer"], buf);
 				return tb.encode(buf);
 			}
@@ -19513,7 +19501,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_agent_lock_bankmoney"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -19530,7 +19518,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_agent_lock_bankmoney"], buf);
 				return tb.encode(buf);
 			}
@@ -19545,7 +19533,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_agent_lock_bankmoney"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 				EncodeUtils.int64ToByte(tb.agent_lock_bankmoney, buf);
@@ -19561,7 +19549,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_agent_lock_bankmoney"], buf);
 				return tb.encode(buf);
 			}
@@ -19576,7 +19564,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_set_newguidestate"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -19593,7 +19581,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_set_newguidestate"], buf);
 				return tb.encode(buf);
 			}
@@ -19609,7 +19597,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_config"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -19629,7 +19617,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_config"], buf);
 				return tb.encode(buf);
 			}
@@ -19660,7 +19648,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_config"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 				EncodeUtils.utf8StrtoBytes(tb.share_url, buf);
@@ -19726,7 +19714,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_config"], buf);
 				return tb.encode(buf);
 			}
@@ -19742,7 +19730,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_set_channel"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -19762,7 +19750,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_set_channel"], buf);
 				return tb.encode(buf);
 			}
@@ -19777,7 +19765,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_set_client_ip"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -19794,7 +19782,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_set_client_ip"], buf);
 				return tb.encode(buf);
 			}
@@ -19810,7 +19798,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_submit_suggest"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
@@ -19831,7 +19819,7 @@ export module NetPacket {
 				startIndex += content_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_submit_suggest"], buf);
 				return tb.encode(buf);
 			}
@@ -19845,7 +19833,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_submit_suggest"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -19858,7 +19846,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_submit_suggest"], buf);
 				return tb.encode(buf);
 			}
@@ -19872,7 +19860,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_send_sms_check_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 			},
@@ -19886,7 +19874,7 @@ export module NetPacket {
 				startIndex += password_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_send_sms_check_code"], buf);
 				return tb.encode(buf);
 			}
@@ -19900,7 +19888,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_send_sms_check_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -19913,7 +19901,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_send_sms_check_code"], buf);
 				return tb.encode(buf);
 			}
@@ -19927,7 +19915,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_check_sms_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.int32ToByte(tb.verify_code, buf);
 			},
@@ -19940,7 +19928,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_check_sms_code"], buf);
 				return tb.encode(buf);
 			}
@@ -19954,7 +19942,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_check_sms_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -19967,7 +19955,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_check_sms_code"], buf);
 				return tb.encode(buf);
 			}
@@ -19982,7 +19970,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_reset_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.mobile, buf);
 				EncodeUtils.utf8StrtoBytes(tb.new_password, buf);
 				EncodeUtils.int32ToByte(tb.verify_code, buf);
@@ -19999,7 +19987,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_reset_password"], buf);
 				return tb.encode(buf);
 			}
@@ -20013,7 +20001,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_reset_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -20026,7 +20014,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_reset_password"], buf);
 				return tb.encode(buf);
 			}
@@ -20042,7 +20030,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_send_create_user_sms_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.mobile, buf);
 				EncodeUtils.utf8StrtoBytes(tb.ip, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
@@ -20063,7 +20051,7 @@ export module NetPacket {
 				startIndex += username_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_send_create_user_sms_code"], buf);
 				return tb.encode(buf);
 			}
@@ -20077,7 +20065,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_send_create_user_sms_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -20090,7 +20078,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_send_create_user_sms_code"], buf);
 				return tb.encode(buf);
 			}
@@ -20111,7 +20099,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_add_guest"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 				EncodeUtils.utf8StrtoBytes(tb.captcha, buf);
@@ -20153,7 +20141,7 @@ export module NetPacket {
 				startIndex += bbb_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_add_guest"], buf);
 				return tb.encode(buf);
 			}
@@ -20169,7 +20157,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_add_guest"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
@@ -20190,7 +20178,7 @@ export module NetPacket {
 				startIndex += password_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_add_guest"], buf);
 				return tb.encode(buf);
 			}
@@ -20213,7 +20201,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_create_v2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 				EncodeUtils.int32ToByte(tb.verify_code, buf);
@@ -20260,7 +20248,7 @@ export module NetPacket {
 				startIndex += bbb_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_create_v2"], buf);
 				return tb.encode(buf);
 			}
@@ -20274,7 +20262,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_create_v2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -20287,7 +20275,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_create_v2"], buf);
 				return tb.encode(buf);
 			}
@@ -20300,7 +20288,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_mobile_sms_login_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.mobile, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -20310,7 +20298,7 @@ export module NetPacket {
 				startIndex += mobile_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_mobile_sms_login_code"], buf);
 				return tb.encode(buf);
 			}
@@ -20324,7 +20312,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_get_mobile_sms_login_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -20337,7 +20325,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_get_mobile_sms_login_code"], buf);
 				return tb.encode(buf);
 			}
@@ -20352,7 +20340,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_minigame_rank_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rank, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
@@ -20368,7 +20356,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_minigame_rank_item"], buf);
 				return tb.encode(buf);
 			}
@@ -20381,13 +20369,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dice_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.dice_num.length, buf);
 				for (let i = 0; i < tb.dice_num.length; ++i) {
 					EncodeUtils.int32ToByte(tb.dice_num[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let dice_num_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -20397,7 +20385,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dice_item"], buf);
 				return tb.encode(buf);
 			}
@@ -20420,7 +20408,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.uInt16ToByte(tb.beted_money.length, buf);
@@ -20448,7 +20436,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.server_timestamp, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.stageIndex = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -20493,7 +20481,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_info"], buf);
 				return tb.encode(buf);
 			}
@@ -20513,7 +20501,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_stage"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int32ToByte(tb.balance_result, buf);
@@ -20526,7 +20514,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.stageIndex = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -20549,7 +20537,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_stage"], buf);
 				return tb.encode(buf);
 			}
@@ -20563,7 +20551,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
 			},
@@ -20575,7 +20563,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bigsmall_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -20590,7 +20578,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_self_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
@@ -20605,7 +20593,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -20619,7 +20607,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.money.length, buf);
 				for (let i = 0; i < tb.money.length; ++i) {
 					EncodeUtils.int64ToByte(tb.money[i], buf);
@@ -20629,7 +20617,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.bet_player_num[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let money_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -20645,7 +20633,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -20663,7 +20651,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bigsmall_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -20676,13 +20664,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.rank_item.length, buf);
 				for (let i = 0; i < tb.rank_item.length; ++i) {
 					tb.rank_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let rank_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -20693,7 +20681,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -20711,7 +20699,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bigsmall_history"], buf);
 				return tb.encode(buf);
 			}
@@ -20724,13 +20712,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.record_item.length, buf);
 				for (let i = 0; i < tb.record_item.length; ++i) {
 					tb.record_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let record_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -20741,7 +20729,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_history"], buf);
 				return tb.encode(buf);
 			}
@@ -20759,7 +20747,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bigsmall_trendchart"], buf);
 				return tb.encode(buf);
 			}
@@ -20773,7 +20761,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bigsmall_trendchart"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.history_result.length, buf);
 				for (let i = 0; i < tb.history_result.length; ++i) {
 					EncodeUtils.int32ToByte(tb.history_result[i], buf);
@@ -20783,7 +20771,7 @@ export module NetPacket {
 					tb.dice_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let history_result_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -20800,7 +20788,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bigsmall_trendchart"], buf);
 				return tb.encode(buf);
 			}
@@ -20815,7 +20803,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bettime_bigsmall_to_all"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.end_time.encode(buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 				EncodeUtils.int64ToByte(tb.server_timestamp, buf);
@@ -20829,7 +20817,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bettime_bigsmall_to_all"], buf);
 				return tb.encode(buf);
 			}
@@ -20846,7 +20834,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_minigame_chat_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.viplevel, buf);
@@ -20869,7 +20857,7 @@ export module NetPacket {
 				startIndex += content_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_minigame_chat_item"], buf);
 				return tb.encode(buf);
 			}
@@ -20882,7 +20870,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_minigame_chat"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.content, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -20892,7 +20880,7 @@ export module NetPacket {
 				startIndex += content_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_minigame_chat"], buf);
 				return tb.encode(buf);
 			}
@@ -20909,7 +20897,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_minigame_chat"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.id, buf);
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.viplevel, buf);
@@ -20932,7 +20920,7 @@ export module NetPacket {
 				startIndex += content_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_minigame_chat"], buf);
 				return tb.encode(buf);
 			}
@@ -20950,7 +20938,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_minigame_chat_record"], buf);
 				return tb.encode(buf);
 			}
@@ -20963,13 +20951,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_minigame_chat_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.chat_item.length, buf);
 				for (let i = 0; i < tb.chat_item.length; ++i) {
 					tb.chat_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let chat_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -20980,7 +20968,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_minigame_chat_record"], buf);
 				return tb.encode(buf);
 			}
@@ -21003,7 +20991,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.uInt16ToByte(tb.beted_money.length, buf);
@@ -21031,7 +21019,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.server_timestamp, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.stageIndex = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -21076,7 +21064,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_info"], buf);
 				return tb.encode(buf);
 			}
@@ -21096,7 +21084,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_stage"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int32ToByte(tb.balance_result, buf);
@@ -21109,7 +21097,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.stageIndex = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -21132,7 +21120,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_stage"], buf);
 				return tb.encode(buf);
 			}
@@ -21146,7 +21134,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
 			},
@@ -21158,7 +21146,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_longhu_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -21173,7 +21161,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_self_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
@@ -21188,7 +21176,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -21202,7 +21190,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.money.length, buf);
 				for (let i = 0; i < tb.money.length; ++i) {
 					EncodeUtils.int64ToByte(tb.money[i], buf);
@@ -21212,7 +21200,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.bet_player_num[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let money_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21228,7 +21216,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -21246,7 +21234,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_longhu_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -21259,13 +21247,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.rank_item.length, buf);
 				for (let i = 0; i < tb.rank_item.length; ++i) {
 					tb.rank_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let rank_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21276,7 +21264,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -21294,7 +21282,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_longhu_history"], buf);
 				return tb.encode(buf);
 			}
@@ -21307,13 +21295,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.record_item.length, buf);
 				for (let i = 0; i < tb.record_item.length; ++i) {
 					tb.record_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let record_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21324,7 +21312,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_history"], buf);
 				return tb.encode(buf);
 			}
@@ -21342,7 +21330,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_longhu_trendchart"], buf);
 				return tb.encode(buf);
 			}
@@ -21355,13 +21343,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_longhu_trendchart"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.history_result.length, buf);
 				for (let i = 0; i < tb.history_result.length; ++i) {
 					EncodeUtils.int32ToByte(tb.history_result[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let history_result_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21371,7 +21359,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_longhu_trendchart"], buf);
 				return tb.encode(buf);
 			}
@@ -21394,7 +21382,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shuangdan_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.uInt16ToByte(tb.beted_money.length, buf);
@@ -21419,7 +21407,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.server_timestamp, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.stageIndex = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -21460,7 +21448,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shuangdan_info"], buf);
 				return tb.encode(buf);
 			}
@@ -21479,7 +21467,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shuangdan_stage"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int32ToByte(tb.balance_result, buf);
@@ -21505,7 +21493,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shuangdan_stage"], buf);
 				return tb.encode(buf);
 			}
@@ -21519,7 +21507,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shuangdan_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
 			},
@@ -21531,7 +21519,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shuangdan_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -21546,7 +21534,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shuangdan_self_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
@@ -21561,7 +21549,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shuangdan_self_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -21575,7 +21563,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shuangdan_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.money.length, buf);
 				for (let i = 0; i < tb.money.length; ++i) {
 					EncodeUtils.int64ToByte(tb.money[i], buf);
@@ -21585,7 +21573,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.bet_player_num[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let money_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21601,7 +21589,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shuangdan_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -21619,7 +21607,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shuangdan_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -21632,13 +21620,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shuangdan_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.rank_item.length, buf);
 				for (let i = 0; i < tb.rank_item.length; ++i) {
 					tb.rank_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let rank_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21649,7 +21637,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shuangdan_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -21667,7 +21655,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shuangdan_history"], buf);
 				return tb.encode(buf);
 			}
@@ -21680,13 +21668,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_shuangdan_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.record_item.length, buf);
 				for (let i = 0; i < tb.record_item.length; ++i) {
 					tb.record_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let record_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -21697,7 +21685,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shuangdan_history"], buf);
 				return tb.encode(buf);
 			}
@@ -21712,7 +21700,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_lucky_roulette_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.win, buf);
 				tb.update_time.encode(buf);
@@ -21728,7 +21716,7 @@ export module NetPacket {
 				startIndex += tb.update_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_lucky_roulette_record"], buf);
 				return tb.encode(buf);
 			}
@@ -21746,7 +21734,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lucky_roulette_info"], buf);
 				return tb.encode(buf);
 			}
@@ -21760,7 +21748,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_action_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.require_times, buf);
 				EncodeUtils.int32ToByte(tb.done_times, buf);
 			},
@@ -21772,7 +21760,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_action_info"], buf);
 				return tb.encode(buf);
 			}
@@ -21792,7 +21780,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lucky_roulette_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				EncodeUtils.int32ToByte(tb.result, buf);
 				tb.start_time.encode(buf);
@@ -21811,7 +21799,7 @@ export module NetPacket {
 					tb.record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -21844,7 +21832,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_roulette_info"], buf);
 				return tb.encode(buf);
 			}
@@ -21857,7 +21845,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lucky_roulette_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -21866,7 +21854,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lucky_roulette_start"], buf);
 				return tb.encode(buf);
 			}
@@ -21881,7 +21869,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lucky_roulette_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.item_no, buf);
 				EncodeUtils.utf8StrtoBytes(tb.win, buf);
@@ -21897,7 +21885,7 @@ export module NetPacket {
 				startIndex += win_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_roulette_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -21918,7 +21906,7 @@ export module NetPacket {
 				startIndex += tb.new_record.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_roulette_record"], buf);
 				return tb.encode(buf);
 			}
@@ -21931,7 +21919,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lucky_roulette_got_chance"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -21940,7 +21928,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_roulette_got_chance"], buf);
 				return tb.encode(buf);
 			}
@@ -21953,7 +21941,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lucky_roulette_latest_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.record_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -21962,7 +21950,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_lucky_roulette_latest_record"], buf);
 				return tb.encode(buf);
 			}
@@ -21976,7 +21964,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_lucky_roulette_latest_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.new_record.encode(buf);
 				EncodeUtils.int32ToByte(tb.latest_id, buf);
 			},
@@ -21987,7 +21975,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_lucky_roulette_latest_record"], buf);
 				return tb.encode(buf);
 			}
@@ -22004,7 +21992,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_3rd_game_login"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.agentId, buf);
 				EncodeUtils.utf8StrtoBytes(tb.gameId, buf);
 				EncodeUtils.utf8StrtoBytes(tb.kindId, buf);
@@ -22027,7 +22015,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_3rd_game_login"], buf);
 				return tb.encode(buf);
 			}
@@ -22042,7 +22030,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_3rd_game_login_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.url, buf);
 				EncodeUtils.utf8StrtoBytes(tb.msg, buf);
@@ -22059,7 +22047,7 @@ export module NetPacket {
 				startIndex += msg_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_3rd_game_login_result"], buf);
 				return tb.encode(buf);
 			}
@@ -22079,7 +22067,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bag_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 				EncodeUtils.int32ToByte(tb.item_id, buf);
 				EncodeUtils.int32ToByte(tb.count, buf);
@@ -22109,7 +22097,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bag_item"], buf);
 				return tb.encode(buf);
 			}
@@ -22127,7 +22115,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_role_bag"], buf);
 				return tb.encode(buf);
 			}
@@ -22140,13 +22128,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_role_bag"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.items.length, buf);
 				for (let i = 0; i < tb.items.length; ++i) {
 					tb.items[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let items_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -22157,7 +22145,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_role_bag"], buf);
 				return tb.encode(buf);
 			}
@@ -22171,7 +22159,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_use_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 				EncodeUtils.int32ToByte(tb.count, buf);
 			},
@@ -22183,7 +22171,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_use_item"], buf);
 				return tb.encode(buf);
 			}
@@ -22197,7 +22185,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_use_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				tb.item.encode(buf);
 			},
@@ -22208,7 +22196,7 @@ export module NetPacket {
 				startIndex += tb.item.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_use_item"], buf);
 				return tb.encode(buf);
 			}
@@ -22222,7 +22210,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_update_item"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 				EncodeUtils.int32ToByte(tb.count, buf);
 			},
@@ -22234,7 +22222,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_update_item"], buf);
 				return tb.encode(buf);
 			}
@@ -22247,7 +22235,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_exchange"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.code, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -22257,7 +22245,7 @@ export module NetPacket {
 				startIndex += code_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_exchange"], buf);
 				return tb.encode(buf);
 			}
@@ -22274,7 +22262,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_exchange"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.code_type, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
@@ -22295,7 +22283,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_exchange"], buf);
 				return tb.encode(buf);
 			}
@@ -22313,7 +22301,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_first_recharge_info"], buf);
 				return tb.encode(buf);
 			}
@@ -22329,10 +22317,12 @@ export module NetPacket {
 			amount: 0,
 			turnover: 0,
 			left_time: 0,
+			prize_ratio: [],
+			turnover_times: [],
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_first_recharge_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -22343,8 +22333,16 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.amount, buf);
 				EncodeUtils.int64ToByte(tb.turnover, buf);
 				EncodeUtils.int32ToByte(tb.left_time, buf);
+				EncodeUtils.uInt16ToByte(tb.prize_ratio.length, buf);
+				for (let i = 0; i < tb.prize_ratio.length; ++i) {
+					EncodeUtils.int32ToByte(tb.prize_ratio[i], buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.turnover_times.length, buf);
+				for (let i = 0; i < tb.turnover_times.length; ++i) {
+					EncodeUtils.int32ToByte(tb.turnover_times[i], buf);
+				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -22362,9 +22360,21 @@ export module NetPacket {
 				startIndex += 8;
 				tb.left_time = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
+				let prize_ratio_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < prize_ratio_len; ++i) {
+					tb.prize_ratio.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				let turnover_times_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < turnover_times_len; ++i) {
+					tb.turnover_times.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_first_recharge_info"], buf);
 				return tb.encode(buf);
 			}
@@ -22377,7 +22387,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_first_recharge_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.taskID, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -22386,7 +22396,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_first_recharge_start"], buf);
 				return tb.encode(buf);
 			}
@@ -22400,7 +22410,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_first_recharge_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -22412,7 +22422,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_first_recharge_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -22430,7 +22440,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_first_recharge_show"], buf);
 				return tb.encode(buf);
 			}
@@ -22443,7 +22453,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_first_recharge_show"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.show, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -22452,7 +22462,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_first_recharge_show"], buf);
 				return tb.encode(buf);
 			}
@@ -22466,7 +22476,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.money, buf);
 				EncodeUtils.int32ToByte(tb.channel_id, buf);
 			},
@@ -22479,7 +22489,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge2"], buf);
 				return tb.encode(buf);
 			}
@@ -22492,7 +22502,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_req_recharge2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -22501,7 +22511,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_req_recharge2"], buf);
 				return tb.encode(buf);
 			}
@@ -22516,7 +22526,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_money_update2"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.update_money, buf);
 				EncodeUtils.int64ToByte(tb.cur_money, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
@@ -22531,7 +22541,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_money_update2"], buf);
 				return tb.encode(buf);
 			}
@@ -22544,7 +22554,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_set_invitecode"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.superior_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -22554,7 +22564,7 @@ export module NetPacket {
 				startIndex += superior_id_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_invitecode"], buf);
 				return tb.encode(buf);
 			}
@@ -22572,7 +22582,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_refresh_money"], buf);
 				return tb.encode(buf);
 			}
@@ -22586,7 +22596,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_3rd_game_kick"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.agentId, buf);
 				EncodeUtils.utf8StrtoBytes(tb.gameId, buf);
 			},
@@ -22599,7 +22609,7 @@ export module NetPacket {
 				startIndex += gameId_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_3rd_game_kick"], buf);
 				return tb.encode(buf);
 			}
@@ -22617,7 +22627,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_rank_with_robot_list"], buf);
 				return tb.encode(buf);
 			}
@@ -22630,13 +22640,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_rank_with_robot_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.room_rank_list.length, buf);
 				for (let i = 0; i < tb.room_rank_list.length; ++i) {
 					tb.room_rank_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let room_rank_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -22647,7 +22657,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_rank_with_robot_list"], buf);
 				return tb.encode(buf);
 			}
@@ -22665,7 +22675,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_recharge_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.paymenttype, buf);
 				EncodeUtils.int64ToByte(tb.minrecharge, buf);
 				EncodeUtils.int64ToByte(tb.maxrecharge, buf);
@@ -22691,7 +22701,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_recharge_list"], buf);
 				return tb.encode(buf);
 			}
@@ -22710,10 +22720,11 @@ export module NetPacket {
 			save_trigger: 0,
 			save_ratio: 0,
 			save_require: 0,
+			up_limit: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_recharge_discount"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.discount_ID, buf);
 				EncodeUtils.int32ToByte(tb.limit, buf);
 				EncodeUtils.int32ToByte(tb.ratio, buf);
@@ -22724,6 +22735,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.save_trigger, buf);
 				EncodeUtils.int32ToByte(tb.save_ratio, buf);
 				EncodeUtils.int32ToByte(tb.save_require, buf);
+				EncodeUtils.int64ToByte(tb.up_limit, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -22749,9 +22761,11 @@ export module NetPacket {
 				startIndex += 4;
 				tb.save_require = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
+				tb.up_limit = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_recharge_discount"], buf);
 				return tb.encode(buf);
 			}
@@ -22765,7 +22779,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_pay_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.pay_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.pay_name, buf);
 			},
@@ -22778,7 +22792,7 @@ export module NetPacket {
 				startIndex += pay_name_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_pay_info"], buf);
 				return tb.encode(buf);
 			}
@@ -22796,7 +22810,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_shop_info"], buf);
 				return tb.encode(buf);
 			}
@@ -22815,7 +22829,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_req_get_shop_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.rechargelist_by_paymenttype.length, buf);
 				for (let i = 0; i < tb.rechargelist_by_paymenttype.length; ++i) {
 					tb.rechargelist_by_paymenttype[i].encode(buf);
@@ -22833,7 +22847,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.last_bank, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bank_name, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let rechargelist_by_paymenttype_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -22867,7 +22881,7 @@ export module NetPacket {
 				startIndex += bank_name_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_req_get_shop_info"], buf);
 				return tb.encode(buf);
 			}
@@ -22884,7 +22898,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_from_third"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.amount, buf);
 				EncodeUtils.int32ToByte(tb.channel_type, buf);
 				EncodeUtils.int32ToByte(tb.bank_channel_type, buf);
@@ -22906,7 +22920,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge_from_third"], buf);
 				return tb.encode(buf);
 			}
@@ -22921,7 +22935,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recharge_from_third"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.url, buf);
 				EncodeUtils.utf8StrtoBytes(tb.msg, buf);
@@ -22938,7 +22952,7 @@ export module NetPacket {
 				startIndex += msg_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recharge_from_third"], buf);
 				return tb.encode(buf);
 			}
@@ -22953,7 +22967,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recharge_success_from_third"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.amount, buf);
 				EncodeUtils.int32ToByte(tb.is_first_recharge, buf);
 				EncodeUtils.int64ToByte(tb.reward, buf);
@@ -22968,7 +22982,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recharge_success_from_third"], buf);
 				return tb.encode(buf);
 			}
@@ -22986,7 +23000,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pay_name_list"], buf);
 				return tb.encode(buf);
 			}
@@ -22999,13 +23013,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_req_pay_name_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.pay_name_list.length, buf);
 				for (let i = 0; i < tb.pay_name_list.length; ++i) {
 					tb.pay_name_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let pay_name_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -23016,7 +23030,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_req_pay_name_list"], buf);
 				return tb.encode(buf);
 			}
@@ -23034,7 +23048,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_win_100_history"], buf);
 				return tb.encode(buf);
 			}
@@ -23050,7 +23064,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_win_100_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.index, buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.item, buf);
@@ -23070,7 +23084,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_win_100_record"], buf);
 				return tb.encode(buf);
 			}
@@ -23084,14 +23098,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_win_100_record_with_date"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.his_date, buf);
 				EncodeUtils.uInt16ToByte(tb.win_list.length, buf);
 				for (let i = 0; i < tb.win_list.length; ++i) {
 					tb.win_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let his_date_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.his_date = his_date_value[0];
@@ -23105,7 +23119,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_win_100_record_with_date"], buf);
 				return tb.encode(buf);
 			}
@@ -23118,13 +23132,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_win_100_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.win_list.length, buf);
 				for (let i = 0; i < tb.win_list.length; ++i) {
 					tb.win_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let win_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -23135,7 +23149,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_win_100_history"], buf);
 				return tb.encode(buf);
 			}
@@ -23153,7 +23167,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_win_100_join"], buf);
 				return tb.encode(buf);
 			}
@@ -23167,7 +23181,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_win_100_join_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 				tb.ts.encode(buf);
 			},
@@ -23179,7 +23193,7 @@ export module NetPacket {
 				startIndex += tb.ts.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_win_100_join_record"], buf);
 				return tb.encode(buf);
 			}
@@ -23192,13 +23206,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_win_100_join"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.join_list.length, buf);
 				for (let i = 0; i < tb.join_list.length; ++i) {
 					tb.join_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let join_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -23209,7 +23223,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_win_100_join"], buf);
 				return tb.encode(buf);
 			}
@@ -23222,7 +23236,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_win_100_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.req, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23231,7 +23245,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_win_100_info"], buf);
 				return tb.encode(buf);
 			}
@@ -23255,7 +23269,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_win_100_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -23298,7 +23312,7 @@ export module NetPacket {
 				startIndex += share_url_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_win_100_info"], buf);
 				return tb.encode(buf);
 			}
@@ -23316,7 +23330,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_win_100_share"], buf);
 				return tb.encode(buf);
 			}
@@ -23329,7 +23343,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_win_100_share"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23338,7 +23352,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_win_100_share"], buf);
 				return tb.encode(buf);
 			}
@@ -23351,7 +23365,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_game_card_leftscore"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23360,7 +23374,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_game_card_leftscore"], buf);
 				return tb.encode(buf);
 			}
@@ -23373,7 +23387,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_game_card_leftscore"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.leftscore, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23382,7 +23396,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_game_card_leftscore"], buf);
 				return tb.encode(buf);
 			}
@@ -23400,7 +23414,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_newbees_info"], buf);
 				return tb.encode(buf);
 			}
@@ -23417,7 +23431,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_newbees_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -23436,7 +23450,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_newbees_info"], buf);
 				return tb.encode(buf);
 			}
@@ -23454,7 +23468,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_newbees_prize"], buf);
 				return tb.encode(buf);
 			}
@@ -23467,7 +23481,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_newbees_prize"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23476,7 +23490,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_newbees_prize"], buf);
 				return tb.encode(buf);
 			}
@@ -23489,7 +23503,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_game_giftcard_remainpoints"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.game_type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23498,7 +23512,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_game_giftcard_remainpoints"], buf);
 				return tb.encode(buf);
 			}
@@ -23511,7 +23525,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_game_giftcard_remainpoints"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.remainpoints, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23520,7 +23534,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_game_giftcard_remainpoints"], buf);
 				return tb.encode(buf);
 			}
@@ -23546,7 +23560,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_register_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 				EncodeUtils.int32ToByte(tb.register_type, buf);
@@ -23604,7 +23618,7 @@ export module NetPacket {
 				startIndex += from_url_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_register_account"], buf);
 				return tb.encode(buf);
 			}
@@ -23618,7 +23632,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_register_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -23631,7 +23645,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_register_account"], buf);
 				return tb.encode(buf);
 			}
@@ -23657,7 +23671,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bind_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.turist_username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.turist_password, buf);
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
@@ -23716,7 +23730,7 @@ export module NetPacket {
 				startIndex += bbb_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bind_account"], buf);
 				return tb.encode(buf);
 			}
@@ -23730,7 +23744,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bind_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -23743,7 +23757,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bind_account"], buf);
 				return tb.encode(buf);
 			}
@@ -23761,7 +23775,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_customer_info"], buf);
 				return tb.encode(buf);
 			}
@@ -23774,7 +23788,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_customer_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.url, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23784,7 +23798,7 @@ export module NetPacket {
 				startIndex += url_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_customer_info"], buf);
 				return tb.encode(buf);
 			}
@@ -23799,7 +23813,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_register_captcha"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.sign, buf);
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
@@ -23817,7 +23831,7 @@ export module NetPacket {
 				startIndex += bbb_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_register_captcha"], buf);
 				return tb.encode(buf);
 			}
@@ -23830,7 +23844,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_register_captcha"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.url, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23840,7 +23854,7 @@ export module NetPacket {
 				startIndex += url_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_register_captcha"], buf);
 				return tb.encode(buf);
 			}
@@ -23853,7 +23867,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_kickplayer_reason"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.reason, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23863,7 +23877,7 @@ export module NetPacket {
 				startIndex += reason_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_kickplayer_reason"], buf);
 				return tb.encode(buf);
 			}
@@ -23876,7 +23890,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_from_third_add"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.got_discount, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23885,7 +23899,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recharge_from_third_add"], buf);
 				return tb.encode(buf);
 			}
@@ -23903,7 +23917,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fllm_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -23916,7 +23930,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_fllm_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23925,7 +23939,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fllm_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -23946,7 +23960,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_guaguacard_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.card1state, buf);
 				EncodeUtils.int32ToByte(tb.card2state, buf);
 				EncodeUtils.int32ToByte(tb.card3state, buf);
@@ -23976,7 +23990,7 @@ export module NetPacket {
 				startIndex += tb.card3opentime.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_guaguacard_record"], buf);
 				return tb.encode(buf);
 			}
@@ -23994,7 +24008,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_watering_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.utf8StrtoBytes(tb.head_photo, buf);
@@ -24020,7 +24034,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_watering_record"], buf);
 				return tb.encode(buf);
 			}
@@ -24040,7 +24054,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_get_water_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 				EncodeUtils.int32ToByte(tb.state, buf);
 				EncodeUtils.int32ToByte(tb.complete_count, buf);
@@ -24071,7 +24085,7 @@ export module NetPacket {
 				startIndex += task_desc_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_get_water_record"], buf);
 				return tb.encode(buf);
 			}
@@ -24087,7 +24101,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_tree_upgrade_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.level, buf);
 				EncodeUtils.int32ToByte(tb.water_count, buf);
 				EncodeUtils.int32ToByte(tb.fertilizer_count, buf);
@@ -24105,7 +24119,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_tree_upgrade_record"], buf);
 				return tb.encode(buf);
 			}
@@ -24123,7 +24137,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_info"], buf);
 				return tb.encode(buf);
 			}
@@ -24148,7 +24162,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -24166,7 +24180,7 @@ export module NetPacket {
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				tb.card_record.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -24199,7 +24213,7 @@ export module NetPacket {
 				startIndex += tb.card_record.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_info"], buf);
 				return tb.encode(buf);
 			}
@@ -24212,7 +24226,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_open_guaguacard"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.cardid, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -24221,7 +24235,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_open_guaguacard"], buf);
 				return tb.encode(buf);
 			}
@@ -24236,7 +24250,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_open_guaguacard"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.card_state.encode(buf);
 				EncodeUtils.int32ToByte(tb.left_water_count, buf);
 				EncodeUtils.int32ToByte(tb.result, buf);
@@ -24250,7 +24264,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_open_guaguacard"], buf);
 				return tb.encode(buf);
 			}
@@ -24264,7 +24278,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_fertilize_watering"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int32ToByte(tb.count, buf);
 			},
@@ -24276,7 +24290,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_fertilize_watering"], buf);
 				return tb.encode(buf);
 			}
@@ -24295,7 +24309,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_fertilize_watering"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.left_fertilizer, buf);
 				EncodeUtils.int32ToByte(tb.left_water_count, buf);
 				EncodeUtils.int32ToByte(tb.tree_level, buf);
@@ -24322,7 +24336,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_fertilize_watering"], buf);
 				return tb.encode(buf);
 			}
@@ -24340,7 +24354,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_watering_competition"], buf);
 				return tb.encode(buf);
 			}
@@ -24354,14 +24368,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_watering_competition"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.watering_list.length, buf);
 				for (let i = 0; i < tb.watering_list.length; ++i) {
 					tb.watering_list[i].encode(buf);
 				}
 				EncodeUtils.int32ToByte(tb.remain_seconds, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let watering_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -24374,7 +24388,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_watering_competition"], buf);
 				return tb.encode(buf);
 			}
@@ -24392,7 +24406,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_invite_friend"], buf);
 				return tb.encode(buf);
 			}
@@ -24411,7 +24425,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_invite_friend"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.friend_count, buf);
 				EncodeUtils.int64ToByte(tb.role_id1, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname1, buf);
@@ -24442,7 +24456,7 @@ export module NetPacket {
 				startIndex += head_photo2_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_invite_friend"], buf);
 				return tb.encode(buf);
 			}
@@ -24460,7 +24474,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_get_water_list"], buf);
 				return tb.encode(buf);
 			}
@@ -24473,13 +24487,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_get_water_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.water_task.length, buf);
 				for (let i = 0; i < tb.water_task.length; ++i) {
 					tb.water_task[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let water_task_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -24490,7 +24504,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_get_water_list"], buf);
 				return tb.encode(buf);
 			}
@@ -24503,7 +24517,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_water"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -24512,7 +24526,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_get_water"], buf);
 				return tb.encode(buf);
 			}
@@ -24528,7 +24542,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_get_water"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.water_count, buf);
 				EncodeUtils.int32ToByte(tb.left_water_count, buf);
 				EncodeUtils.int32ToByte(tb.state, buf);
@@ -24537,7 +24551,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.state_arr[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.water_count = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -24553,7 +24567,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_get_water"], buf);
 				return tb.encode(buf);
 			}
@@ -24571,7 +24585,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_get_fertilizer_list"], buf);
 				return tb.encode(buf);
 			}
@@ -24584,13 +24598,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_get_fertilizer_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.fertilizer_task.length, buf);
 				for (let i = 0; i < tb.fertilizer_task.length; ++i) {
 					tb.fertilizer_task[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let fertilizer_task_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -24601,7 +24615,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_get_fertilizer_list"], buf);
 				return tb.encode(buf);
 			}
@@ -24615,7 +24629,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_fertilizer"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.reward_type, buf);
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 			},
@@ -24627,7 +24641,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_get_fertilizer"], buf);
 				return tb.encode(buf);
 			}
@@ -24644,7 +24658,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_get_fertilizer"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.fertilizer_count, buf);
 				EncodeUtils.int32ToByte(tb.left_fertilizer_count, buf);
 				EncodeUtils.int32ToByte(tb.is_get_gift, buf);
@@ -24666,7 +24680,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_get_fertilizer"], buf);
 				return tb.encode(buf);
 			}
@@ -24680,7 +24694,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_invite_friend_get_gift"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.reward_type, buf);
 				EncodeUtils.int32ToByte(tb.task_id, buf);
 			},
@@ -24692,7 +24706,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_invite_friend_get_gift"], buf);
 				return tb.encode(buf);
 			}
@@ -24708,7 +24722,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_invite_friend_get_gift"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.gift_type, buf);
 				EncodeUtils.int32ToByte(tb.gift_count, buf);
 				EncodeUtils.int32ToByte(tb.left_water_count, buf);
@@ -24726,7 +24740,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_invite_friend_get_gift"], buf);
 				return tb.encode(buf);
 			}
@@ -24739,7 +24753,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.reward_count, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -24748,7 +24762,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_get_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -24765,7 +24779,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_get_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.level, buf);
 				EncodeUtils.int32ToByte(tb.watering_count, buf);
 				EncodeUtils.int32ToByte(tb.fertilize_count, buf);
@@ -24786,7 +24800,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_get_reward"], buf);
 				return tb.encode(buf);
 			}
@@ -24804,7 +24818,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dragon_fortune_claim_info"], buf);
 				return tb.encode(buf);
 			}
@@ -24817,7 +24831,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dragon_fortune_claim_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.gift_type, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -24826,7 +24840,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dragon_fortune_claim_info"], buf);
 				return tb.encode(buf);
 			}
@@ -24840,7 +24854,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_history_100"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.killroom, buf);
 				EncodeUtils.int32ToByte(tb.killcount, buf);
 			},
@@ -24852,7 +24866,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_history_100"], buf);
 				return tb.encode(buf);
 			}
@@ -24866,7 +24880,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_history_10"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.killroom, buf);
 				EncodeUtils.utf8StrtoBytes(tb.roundid, buf);
 			},
@@ -24879,7 +24893,7 @@ export module NetPacket {
 				startIndex += roundid_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_history_10"], buf);
 				return tb.encode(buf);
 			}
@@ -24892,7 +24906,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_betchips"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.value, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -24901,7 +24915,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_betchips"], buf);
 				return tb.encode(buf);
 			}
@@ -24917,7 +24931,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_bet_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
@@ -24936,7 +24950,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_bet_info"], buf);
 				return tb.encode(buf);
 			}
@@ -24950,7 +24964,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_totalbet_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int64ToByte(tb.money, buf);
 			},
@@ -24962,7 +24976,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_totalbet_info"], buf);
 				return tb.encode(buf);
 			}
@@ -24976,7 +24990,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_gameover_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.time, buf);
 			},
@@ -24988,7 +25002,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_gameover_time"], buf);
 				return tb.encode(buf);
 			}
@@ -25006,7 +25020,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_self_record_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.roundid, buf);
 				EncodeUtils.int64ToByte(tb.create_timestamp, buf);
 				EncodeUtils.int64ToByte(tb.bet, buf);
@@ -25031,7 +25045,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_self_record_detail"], buf);
 				return tb.encode(buf);
 			}
@@ -25046,7 +25060,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_dataosha_self_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.totalbet, buf);
 				EncodeUtils.int64ToByte(tb.totalwin, buf);
 				EncodeUtils.uInt16ToByte(tb.selfdetail.length, buf);
@@ -25054,7 +25068,7 @@ export module NetPacket {
 					tb.selfdetail[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.totalbet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -25069,7 +25083,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dataosha_self_record"], buf);
 				return tb.encode(buf);
 			}
@@ -25087,7 +25101,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_info"], buf);
 				return tb.encode(buf);
 			}
@@ -25115,7 +25129,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int32ToByte(tb.killroom, buf);
@@ -25148,7 +25162,7 @@ export module NetPacket {
 				EncodeUtils.int64ToByte(tb.server_timestamp, buf);
 				EncodeUtils.int64ToByte(tb.end_time2, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.stageIndex = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -25206,7 +25220,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dataosha_info"], buf);
 				return tb.encode(buf);
 			}
@@ -25228,7 +25242,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_gameover"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int64ToByte(tb.betmoney, buf);
@@ -25265,7 +25279,7 @@ export module NetPacket {
 				startIndex += roundid_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dataosha_gameover"], buf);
 				return tb.encode(buf);
 			}
@@ -25281,7 +25295,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_batch_dataosha_stage"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.stageIndex, buf);
 				tb.end_time.encode(buf);
 				EncodeUtils.int32ToByte(tb.killroom, buf);
@@ -25298,7 +25312,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_batch_dataosha_stage"], buf);
 				return tb.encode(buf);
 			}
@@ -25312,7 +25326,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_others_enter"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 			},
@@ -25325,7 +25339,7 @@ export module NetPacket {
 				startIndex += nickname_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dataosha_others_enter"], buf);
 				return tb.encode(buf);
 			}
@@ -25338,7 +25352,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_others_leave"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -25347,7 +25361,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dataosha_others_leave"], buf);
 				return tb.encode(buf);
 			}
@@ -25361,7 +25375,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
 			},
@@ -25373,7 +25387,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -25389,7 +25403,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rsp_dataosha_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
 				EncodeUtils.int32ToByte(tb.bet_money, buf);
@@ -25407,7 +25421,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_dataosha_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -25424,7 +25438,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_others_bet"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int32ToByte(tb.poolIndex, buf);
@@ -25446,7 +25460,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dataosha_others_bet"], buf);
 				return tb.encode(buf);
 			}
@@ -25464,7 +25478,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -25477,13 +25491,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_dataosha_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.rank_item.length, buf);
 				for (let i = 0; i < tb.rank_item.length; ++i) {
 					tb.rank_item[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let rank_item_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -25494,7 +25508,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dataosha_rank"], buf);
 				return tb.encode(buf);
 			}
@@ -25512,7 +25526,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_history"], buf);
 				return tb.encode(buf);
 			}
@@ -25527,7 +25541,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rsp_dataosha_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.history_100.length, buf);
 				for (let i = 0; i < tb.history_100.length; ++i) {
 					tb.history_100[i].encode(buf);
@@ -25538,7 +25552,7 @@ export module NetPacket {
 				}
 				tb.self_record.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let history_100_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -25557,7 +25571,7 @@ export module NetPacket {
 				startIndex += tb.self_record.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_dataosha_history"], buf);
 				return tb.encode(buf);
 			}
@@ -25575,7 +25589,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_seed"], buf);
 				return tb.encode(buf);
 			}
@@ -25589,7 +25603,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rsp_dataosha_seed"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.client_seed, buf);
 				EncodeUtils.utf8StrtoBytes(tb.server_ciphertext, buf);
 			},
@@ -25603,7 +25617,7 @@ export module NetPacket {
 				startIndex += server_ciphertext_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_dataosha_seed"], buf);
 				return tb.encode(buf);
 			}
@@ -25616,7 +25630,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_fair_verify"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.roundid, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -25626,7 +25640,7 @@ export module NetPacket {
 				startIndex += roundid_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dataosha_fair_verify"], buf);
 				return tb.encode(buf);
 			}
@@ -25647,7 +25661,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rsp_dataosha_fair_verify"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.client_seed, buf);
 				EncodeUtils.utf8StrtoBytes(tb.server_ciphertext, buf);
 				EncodeUtils.utf8StrtoBytes(tb.server_plaintext, buf);
@@ -25689,7 +25703,7 @@ export module NetPacket {
 				startIndex += killroom_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_dataosha_fair_verify"], buf);
 				return tb.encode(buf);
 			}
@@ -25707,7 +25721,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_mjhl2_info"], buf);
 				return tb.encode(buf);
 			}
@@ -25724,7 +25738,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_mjhl2_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.singlebet, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_index.length, buf);
 				for (let i = 0; i < tb.bet_index.length; ++i) {
@@ -25734,7 +25748,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.locked_bet, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.singlebet = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -25752,7 +25766,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_mjhl2_info"], buf);
 				return tb.encode(buf);
 			}
@@ -25766,7 +25780,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mjhl2_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.line, buf);
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
 			},
@@ -25778,7 +25792,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_mjhl2_spin"], buf);
 				return tb.encode(buf);
 			}
@@ -25795,7 +25809,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_mjhl2_spin_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.symbol_list.length, buf);
 				for (let i = 0; i < tb.symbol_list.length; ++i) {
 					EncodeUtils.int32ToByte(tb.symbol_list[i], buf);
@@ -25805,7 +25819,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.free_spins, buf);
 				EncodeUtils.int32ToByte(tb.left_free_spins, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let symbol_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -25823,7 +25837,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_mjhl2_spin_result"], buf);
 				return tb.encode(buf);
 			}
@@ -25841,7 +25855,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_daily_return_info"], buf);
 				return tb.encode(buf);
 			}
@@ -25858,7 +25872,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_daily_return_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.level, buf);
 				EncodeUtils.utf8StrtoBytes(tb.ratio, buf);
 				EncodeUtils.int64ToByte(tb.personal_money, buf);
@@ -25881,7 +25895,7 @@ export module NetPacket {
 				startIndex += s_link_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_daily_return_info"], buf);
 				return tb.encode(buf);
 			}
@@ -25899,7 +25913,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_daily_return_claim"], buf);
 				return tb.encode(buf);
 			}
@@ -25912,7 +25926,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_daily_return_claim"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -25921,7 +25935,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_daily_return_claim"], buf);
 				return tb.encode(buf);
 			}
@@ -25941,7 +25955,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_daily_return_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.level, buf);
 				EncodeUtils.int32ToByte(tb.team_num, buf);
@@ -25972,7 +25986,7 @@ export module NetPacket {
 				startIndex += username_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_daily_return_record"], buf);
 				return tb.encode(buf);
 			}
@@ -25989,7 +26003,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_daily_return_his"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.search_name, buf);
 				EncodeUtils.int32ToByte(tb.search_lev, buf);
 				tb.start_time.encode(buf);
@@ -26009,7 +26023,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_daily_return_his"], buf);
 				return tb.encode(buf);
 			}
@@ -26023,14 +26037,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_daily_return_his"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.records.length, buf);
 				for (let i = 0; i < tb.records.length; ++i) {
 					tb.records[i].encode(buf);
 				}
 				EncodeUtils.int32ToByte(tb.total, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let records_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -26043,7 +26057,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_daily_return_his"], buf);
 				return tb.encode(buf);
 			}
@@ -26057,7 +26071,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_improve_agent_lev"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.level, buf);
 			},
@@ -26070,7 +26084,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_improve_agent_lev"], buf);
 				return tb.encode(buf);
 			}
@@ -26083,7 +26097,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_improve_agent_lev"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26092,7 +26106,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_improve_agent_lev"], buf);
 				return tb.encode(buf);
 			}
@@ -26106,7 +26120,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_email_verification_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.email, buf);
 			},
@@ -26119,7 +26133,7 @@ export module NetPacket {
 				startIndex += email_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_email_verification_code"], buf);
 				return tb.encode(buf);
 			}
@@ -26133,7 +26147,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_email_verification_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -26146,7 +26160,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_email_verification_code"], buf);
 				return tb.encode(buf);
 			}
@@ -26171,7 +26185,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bind_modify_email"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.utf8StrtoBytes(tb.password, buf);
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
@@ -26226,7 +26240,7 @@ export module NetPacket {
 				startIndex += email_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bind_modify_email"], buf);
 				return tb.encode(buf);
 			}
@@ -26240,7 +26254,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bind_modify_email"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -26253,7 +26267,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bind_modify_email"], buf);
 				return tb.encode(buf);
 			}
@@ -26267,7 +26281,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_can_modify_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.newusername, buf);
 			},
@@ -26280,7 +26294,7 @@ export module NetPacket {
 				startIndex += newusername_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_can_modify_account"], buf);
 				return tb.encode(buf);
 			}
@@ -26294,7 +26308,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_can_modify_account"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -26307,7 +26321,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_can_modify_account"], buf);
 				return tb.encode(buf);
 			}
@@ -26327,7 +26341,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_reset_account_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.username, buf);
 				EncodeUtils.int32ToByte(tb.modify_type, buf);
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
@@ -26363,7 +26377,7 @@ export module NetPacket {
 				startIndex += new_password_confirm_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_reset_account_password"], buf);
 				return tb.encode(buf);
 			}
@@ -26377,7 +26391,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_reset_account_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -26390,7 +26404,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_reset_account_password"], buf);
 				return tb.encode(buf);
 			}
@@ -26405,7 +26419,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_open_or_close_withdraw_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.withdraw_password, buf);
@@ -26421,7 +26435,7 @@ export module NetPacket {
 				startIndex += withdraw_password_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_open_or_close_withdraw_password"], buf);
 				return tb.encode(buf);
 			}
@@ -26435,7 +26449,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_open_or_close_withdraw_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -26448,7 +26462,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_open_or_close_withdraw_password"], buf);
 				return tb.encode(buf);
 			}
@@ -26468,7 +26482,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bind_or_modify_withdraw_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
 				EncodeUtils.int32ToByte(tb.step, buf);
@@ -26503,7 +26517,7 @@ export module NetPacket {
 				startIndex += new_password_confirm_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bind_or_modify_withdraw_password"], buf);
 				return tb.encode(buf);
 			}
@@ -26517,7 +26531,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_bind_or_modify_withdraw_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -26530,7 +26544,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bind_or_modify_withdraw_password"], buf);
 				return tb.encode(buf);
 			}
@@ -26547,7 +26561,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bet_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.platform_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.game_type, buf);
 				EncodeUtils.int64ToByte(tb.bet_total, buf);
@@ -26569,7 +26583,7 @@ export module NetPacket {
 				startIndex += tb.balance_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bet_record"], buf);
 				return tb.encode(buf);
 			}
@@ -26587,7 +26601,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_bet_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.platform_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.game_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.play_type, buf);
@@ -26612,7 +26626,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_bet_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -26626,14 +26640,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_bet_record_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_pages, buf);
 				EncodeUtils.uInt16ToByte(tb.bet_record_list.length, buf);
 				for (let i = 0; i < tb.bet_record_list.length; ++i) {
 					tb.bet_record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_pages = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -26646,7 +26660,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_bet_record_list"], buf);
 				return tb.encode(buf);
 			}
@@ -26659,7 +26673,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_bet_record_list_by_page"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page_num, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26668,7 +26682,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_bet_record_list_by_page"], buf);
 				return tb.encode(buf);
 			}
@@ -26681,13 +26695,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_bet_record_list_by_page"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.bet_record_list.length, buf);
 				for (let i = 0; i < tb.bet_record_list.length; ++i) {
 					tb.bet_record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let bet_record_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -26698,7 +26712,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_bet_record_list_by_page"], buf);
 				return tb.encode(buf);
 			}
@@ -26716,7 +26730,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_auto_trans"], buf);
 				return tb.encode(buf);
 			}
@@ -26729,7 +26743,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_auto_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.auto_trans, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26738,7 +26752,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_auto_trans"], buf);
 				return tb.encode(buf);
 			}
@@ -26752,7 +26766,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_inner_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.to_bank, buf);
 				EncodeUtils.int64ToByte(tb.amount, buf);
 			},
@@ -26764,7 +26778,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_inner_trans"], buf);
 				return tb.encode(buf);
 			}
@@ -26777,7 +26791,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_inner_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26786,7 +26800,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_inner_trans"], buf);
 				return tb.encode(buf);
 			}
@@ -26804,7 +26818,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_user_info"], buf);
 				return tb.encode(buf);
 			}
@@ -26825,7 +26839,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_user_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 				EncodeUtils.utf8StrtoBytes(tb.full_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.email, buf);
@@ -26862,7 +26876,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_user_info"], buf);
 				return tb.encode(buf);
 			}
@@ -26875,7 +26889,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_set_default_bankcard"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.bankcard, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26885,7 +26899,7 @@ export module NetPacket {
 				startIndex += bankcard_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_default_bankcard"], buf);
 				return tb.encode(buf);
 			}
@@ -26898,7 +26912,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_set_default_bankcard"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26907,7 +26921,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_set_default_bankcard"], buf);
 				return tb.encode(buf);
 			}
@@ -26921,7 +26935,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_agent_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.amount, buf);
 				EncodeUtils.utf8StrtoBytes(tb.name, buf);
 			},
@@ -26934,7 +26948,7 @@ export module NetPacket {
 				startIndex += name_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_agent_trans"], buf);
 				return tb.encode(buf);
 			}
@@ -26947,7 +26961,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_agent_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26956,7 +26970,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_agent_trans"], buf);
 				return tb.encode(buf);
 			}
@@ -26969,7 +26983,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_activites"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.show, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26978,7 +26992,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_activites"], buf);
 				return tb.encode(buf);
 			}
@@ -27002,7 +27016,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_activity_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.tag, buf);
 				EncodeUtils.utf8StrtoBytes(tb.pic_link, buf);
@@ -27052,7 +27066,7 @@ export module NetPacket {
 				startIndex += have_save_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_activity_info"], buf);
 				return tb.encode(buf);
 			}
@@ -27065,13 +27079,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_activites"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.promo.length, buf);
 				for (let i = 0; i < tb.promo.length; ++i) {
 					tb.promo[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let promo_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -27082,7 +27096,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_activites"], buf);
 				return tb.encode(buf);
 			}
@@ -27097,7 +27111,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_login_captcha"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.sign, buf);
 				EncodeUtils.utf8StrtoBytes(tb.aaa, buf);
 				EncodeUtils.utf8StrtoBytes(tb.bbb, buf);
@@ -27115,7 +27129,7 @@ export module NetPacket {
 				startIndex += bbb_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_login_captcha"], buf);
 				return tb.encode(buf);
 			}
@@ -27128,7 +27142,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_login_captcha"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.url, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -27138,7 +27152,7 @@ export module NetPacket {
 				startIndex += url_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_login_captcha"], buf);
 				return tb.encode(buf);
 			}
@@ -27156,7 +27170,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_vip_daily_claim"], buf);
 				return tb.encode(buf);
 			}
@@ -27170,7 +27184,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_mobile_sms_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.operate_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.mobile, buf);
 			},
@@ -27183,7 +27197,7 @@ export module NetPacket {
 				startIndex += mobile_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_mobile_sms_code"], buf);
 				return tb.encode(buf);
 			}
@@ -27197,7 +27211,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_mobile_sms_code"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.code, buf);
 				EncodeUtils.utf8StrtoBytes(tb.message, buf);
 			},
@@ -27210,7 +27224,7 @@ export module NetPacket {
 				startIndex += message_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_mobile_sms_code"], buf);
 				return tb.encode(buf);
 			}
@@ -27224,7 +27238,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_plat_rec"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.platform, buf);
 			},
@@ -27237,7 +27251,7 @@ export module NetPacket {
 				startIndex += platform_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_plat_rec"], buf);
 				return tb.encode(buf);
 			}
@@ -27261,7 +27275,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_platform_gametype_list"], buf);
 				return tb.encode(buf);
 			}
@@ -27275,7 +27289,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_platform_gametype_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.plat_rec_list.length, buf);
 				for (let i = 0; i < tb.plat_rec_list.length; ++i) {
 					EncodeUtils.utf8StrtoBytes(tb.plat_rec_list[i], buf);
@@ -27285,7 +27299,7 @@ export module NetPacket {
 					EncodeUtils.utf8StrtoBytes(tb.gtype_rec_list[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let plat_rec_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -27303,7 +27317,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_platform_gametype_list"], buf);
 				return tb.encode(buf);
 			}
@@ -27319,7 +27333,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_agent_accounting_change"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -27335,7 +27349,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_agent_accounting_change"], buf);
 				return tb.encode(buf);
 			}
@@ -27351,7 +27365,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_audit_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
@@ -27367,7 +27381,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_audit_record"], buf);
 				return tb.encode(buf);
 			}
@@ -27384,7 +27398,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_audit_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.title, buf);
 				EncodeUtils.int64ToByte(tb.amount, buf);
 				EncodeUtils.int64ToByte(tb.progess, buf);
@@ -27405,7 +27419,7 @@ export module NetPacket {
 				startIndex += tb.create_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_audit_record"], buf);
 				return tb.encode(buf);
 			}
@@ -27419,14 +27433,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_audit_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_page, buf);
 				EncodeUtils.uInt16ToByte(tb.record_list.length, buf);
 				for (let i = 0; i < tb.record_list.length; ++i) {
 					tb.record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -27439,7 +27453,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_audit_record"], buf);
 				return tb.encode(buf);
 			}
@@ -27456,7 +27470,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_agent_accounting_change_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.int64ToByte(tb.pay_money, buf);
 				EncodeUtils.int32ToByte(tb.item, buf);
@@ -27477,7 +27491,7 @@ export module NetPacket {
 				startIndex += tb.create_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_agent_accounting_change_record"], buf);
 				return tb.encode(buf);
 			}
@@ -27491,14 +27505,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_agent_accounting_change"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_page, buf);
 				EncodeUtils.uInt16ToByte(tb.record_list.length, buf);
 				for (let i = 0; i < tb.record_list.length; ++i) {
 					tb.record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -27511,7 +27525,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_agent_accounting_change"], buf);
 				return tb.encode(buf);
 			}
@@ -27528,7 +27542,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notice_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.position, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.title, buf);
@@ -27551,7 +27565,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notice_record"], buf);
 				return tb.encode(buf);
 			}
@@ -27564,13 +27578,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_send_system_notice"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.notice_list.length, buf);
 				for (let i = 0; i < tb.notice_list.length; ++i) {
 					tb.notice_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let notice_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -27581,7 +27595,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_send_system_notice"], buf);
 				return tb.encode(buf);
 			}
@@ -27599,7 +27613,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_can_withdraw"], buf);
 				return tb.encode(buf);
 			}
@@ -27617,7 +27631,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_can_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 				EncodeUtils.int64ToByte(tb.can_withdraw, buf);
 				EncodeUtils.int64ToByte(tb.canot_withdraw, buf);
@@ -27643,7 +27657,7 @@ export module NetPacket {
 				startIndex += exchange_ratio_withdraw_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_can_withdraw"], buf);
 				return tb.encode(buf);
 			}
@@ -27656,7 +27670,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_del_bank_card_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.bankcard, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -27666,7 +27680,7 @@ export module NetPacket {
 				startIndex += bankcard_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_del_bank_card_info"], buf);
 				return tb.encode(buf);
 			}
@@ -27679,7 +27693,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_del_bank_card_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -27688,7 +27702,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_del_bank_card_info"], buf);
 				return tb.encode(buf);
 			}
@@ -27706,7 +27720,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_init_connect"], buf);
 				return tb.encode(buf);
 			}
@@ -27722,7 +27736,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_vip_rebate"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.page, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
 				tb.start_time.encode(buf);
@@ -27738,7 +27752,7 @@ export module NetPacket {
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_vip_rebate"], buf);
 				return tb.encode(buf);
 			}
@@ -27754,7 +27768,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_vip_rebate_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.bet_money, buf);
 				EncodeUtils.int64ToByte(tb.rebate, buf);
 				EncodeUtils.int32ToByte(tb.type, buf);
@@ -27771,7 +27785,7 @@ export module NetPacket {
 				startIndex += tb.create_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_vip_rebate_record"], buf);
 				return tb.encode(buf);
 			}
@@ -27785,14 +27799,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_vip_rebate"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.total_page, buf);
 				EncodeUtils.uInt16ToByte(tb.record_list.length, buf);
 				for (let i = 0; i < tb.record_list.length; ++i) {
 					tb.record_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -27805,7 +27819,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_vip_rebate"], buf);
 				return tb.encode(buf);
 			}
@@ -27825,7 +27839,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_pdk_user_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int64ToByte(tb.role_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
 				EncodeUtils.int32ToByte(tb.role_status, buf);
@@ -27838,7 +27852,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.leftcardcount, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -27863,7 +27877,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_pdk_user_info"], buf);
 				return tb.encode(buf);
 			}
@@ -27881,7 +27895,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_info"], buf);
 				return tb.encode(buf);
 			}
@@ -27900,7 +27914,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_pdk_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.gamescene, buf);
 				EncodeUtils.uInt16ToByte(tb.userinfo.length, buf);
 				for (let i = 0; i < tb.userinfo.length; ++i) {
@@ -27915,7 +27929,7 @@ export module NetPacket {
 				}
 				EncodeUtils.int32ToByte(tb.lefttime, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.gamescene = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -27942,7 +27956,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pdk_info"], buf);
 				return tb.encode(buf);
 			}
@@ -27960,7 +27974,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_ready"], buf);
 				return tb.encode(buf);
 			}
@@ -27981,7 +27995,7 @@ export module NetPacket {
 				startIndex += tb.start_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_pdk_start_counting"], buf);
 				return tb.encode(buf);
 			}
@@ -27994,13 +28008,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_out_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
 				for (let i = 0; i < tb.carddata.length; ++i) {
 					EncodeUtils.int32ToByte(tb.carddata[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let carddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -28010,7 +28024,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_out_card"], buf);
 				return tb.encode(buf);
 			}
@@ -28030,7 +28044,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_s2c_out_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.outcardchairid, buf);
 				EncodeUtils.int32ToByte(tb.currentchairid, buf);
 				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
@@ -28043,7 +28057,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.winchairid, buf);
 				EncodeUtils.int64ToByte(tb.score, buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.outcardchairid = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -28067,7 +28081,7 @@ export module NetPacket {
 				startIndex += 8;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_out_card"], buf);
 				return tb.encode(buf);
 			}
@@ -28085,7 +28099,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_pass_card"], buf);
 				return tb.encode(buf);
 			}
@@ -28100,7 +28114,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_s2c_pass_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.passcardchairid, buf);
 				EncodeUtils.int32ToByte(tb.currentchairid, buf);
 				EncodeUtils.int32ToByte(tb.turnover, buf);
@@ -28115,7 +28129,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_pass_card"], buf);
 				return tb.encode(buf);
 			}
@@ -28128,7 +28142,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rsp_pdk_error"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.errormsg, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28138,7 +28152,7 @@ export module NetPacket {
 				startIndex += errormsg_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_pdk_error"], buf);
 				return tb.encode(buf);
 			}
@@ -28153,7 +28167,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_s2c_game_start"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.bankchairid, buf);
 				EncodeUtils.int32ToByte(tb.firstoutchairid, buf);
 				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
@@ -28161,7 +28175,7 @@ export module NetPacket {
 					EncodeUtils.int32ToByte(tb.carddata[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.bankchairid = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -28175,7 +28189,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_game_start"], buf);
 				return tb.encode(buf);
 			}
@@ -28188,13 +28202,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_s2c_game_over"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.userinfo.length, buf);
 				for (let i = 0; i < tb.userinfo.length; ++i) {
 					tb.userinfo[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let userinfo_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -28205,7 +28219,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_s2c_game_over"], buf);
 				return tb.encode(buf);
 			}
@@ -28218,13 +28232,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_cheat"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.carddata.length, buf);
 				for (let i = 0; i < tb.carddata.length; ++i) {
 					EncodeUtils.int32ToByte(tb.carddata[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let carddata_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -28234,7 +28248,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_pdk_cheat"], buf);
 				return tb.encode(buf);
 			}
@@ -28247,7 +28261,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_rsp_pdk_cheat"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28256,7 +28270,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_rsp_pdk_cheat"], buf);
 				return tb.encode(buf);
 			}
@@ -28271,7 +28285,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_add_usdt_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.usdt_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.usdt_addr, buf);
 				EncodeUtils.utf8StrtoBytes(tb.desc, buf);
@@ -28288,7 +28302,7 @@ export module NetPacket {
 				startIndex += desc_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_add_usdt_info"], buf);
 				return tb.encode(buf);
 			}
@@ -28301,7 +28315,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_add_usdt_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28310,7 +28324,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_add_usdt_info"], buf);
 				return tb.encode(buf);
 			}
@@ -28325,7 +28339,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_usdt_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.usdt_type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.usdt_addr, buf);
 				EncodeUtils.utf8StrtoBytes(tb.desc, buf);
@@ -28342,7 +28356,7 @@ export module NetPacket {
 				startIndex += desc_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_usdt_info"], buf);
 				return tb.encode(buf);
 			}
@@ -28360,7 +28374,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_usdt_info_list"], buf);
 				return tb.encode(buf);
 			}
@@ -28373,13 +28387,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_usdt_info_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.usdt_info_list.length, buf);
 				for (let i = 0; i < tb.usdt_info_list.length; ++i) {
 					tb.usdt_info_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let usdt_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -28390,7 +28404,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_usdt_info_list"], buf);
 				return tb.encode(buf);
 			}
@@ -28404,7 +28418,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_revenue_ratio"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.type, buf);
 				EncodeUtils.utf8StrtoBytes(tb.ratio, buf);
 			},
@@ -28417,7 +28431,7 @@ export module NetPacket {
 				startIndex += ratio_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_revenue_ratio"], buf);
 				return tb.encode(buf);
 			}
@@ -28435,7 +28449,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_usdt_and_revenue_ratio"], buf);
 				return tb.encode(buf);
 			}
@@ -28449,14 +28463,14 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_usdt_and_revenue_ratio"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.u_ratio, buf);
 				EncodeUtils.uInt16ToByte(tb.rev_ratio_list.length, buf);
 				for (let i = 0; i < tb.rev_ratio_list.length; ++i) {
 					tb.rev_ratio_list[i].encode(buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				tb.u_ratio = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -28469,7 +28483,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_usdt_and_revenue_ratio"], buf);
 				return tb.encode(buf);
 			}
@@ -28487,7 +28501,7 @@ export module NetPacket {
 				let startIndex = index;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_withdraw_count"], buf);
 				return tb.encode(buf);
 			}
@@ -28501,7 +28515,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_nodify_withdraw_count"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.waitstart, buf);
 				EncodeUtils.int32ToByte(tb.waitend, buf);
 			},
@@ -28513,7 +28527,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_nodify_withdraw_count"], buf);
 				return tb.encode(buf);
 			}
@@ -28526,7 +28540,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_del_usdt_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.usdtaddr, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28536,7 +28550,7 @@ export module NetPacket {
 				startIndex += usdtaddr_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_del_usdt_info"], buf);
 				return tb.encode(buf);
 			}
@@ -28549,7 +28563,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_del_usdt_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28558,7 +28572,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_del_usdt_info"], buf);
 				return tb.encode(buf);
 			}
@@ -28571,7 +28585,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_set_default_usdt"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.usdtaddr, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28581,7 +28595,7 @@ export module NetPacket {
 				startIndex += usdtaddr_value[1];
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_default_usdt"], buf);
 				return tb.encode(buf);
 			}
@@ -28594,7 +28608,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_set_default_usdt"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28603,7 +28617,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_set_default_usdt"], buf);
 				return tb.encode(buf);
 			}
@@ -28616,7 +28630,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recent_games"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.platform, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28625,7 +28639,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_recent_games"], buf);
 				return tb.encode(buf);
 			}
@@ -28638,13 +28652,13 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_recent_games"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(tb.gameId.length, buf);
 				for (let i = 0; i < tb.gameId.length; ++i) {
 					EncodeUtils.utf8StrtoBytes(tb.gameId[i], buf);
 				}
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				let gameId_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -28655,7 +28669,7 @@ export module NetPacket {
 				}
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_recent_games"], buf);
 				return tb.encode(buf);
 			}
@@ -28668,7 +28682,7 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_discount_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.activity_ID, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -28677,7 +28691,7 @@ export module NetPacket {
 				startIndex += 4;
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_discount_details"], buf);
 				return tb.encode(buf);
 			}
@@ -28687,25 +28701,1429 @@ export module NetPacket {
 	export function notify_discount_details() {
 		let tb: any = {
 			details: recharge_discount(),
+			extra: [],
 			start_time: stime(),
 			end_time: stime(),
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_discount_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (buf: number[]) {
 				tb.details.encode(buf);
+				EncodeUtils.uInt16ToByte(tb.extra.length, buf);
+				for (let i = 0; i < tb.extra.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra[i], buf);
+				}
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (buf: never[], index: number) {
 				let startIndex = index;
 				startIndex += tb.details.decode(buf, startIndex);
+				let extra_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < extra_len; ++i) {
+					tb.extra.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
 				startIndex += tb.start_time.decode(buf, startIndex);
 				startIndex += tb.end_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
-			build: function (buf: any) {
+			build: function (buf: number[]) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_discount_details"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_my_recharge_discount() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_my_recharge_discount"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_my_recharge_discount"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function my_recharge_discount() {
+		let tb: any = {
+			id: 0,
+			tag: '',
+			name: '',
+			content: '',
+			details: '',
+			bonus: 0,
+			status: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_my_recharge_discount"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.tag, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+				EncodeUtils.utf8StrtoBytes(tb.content, buf);
+				EncodeUtils.utf8StrtoBytes(tb.details, buf);
+				EncodeUtils.int64ToByte(tb.bonus, buf);
+				EncodeUtils.int32ToByte(tb.status, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let tag_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.tag = tag_value[0];
+				startIndex += tag_value[1];
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				let content_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.content = content_value[0];
+				startIndex += content_value[1];
+				let details_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.details = details_value[0];
+				startIndex += details_value[1];
+				tb.bonus = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_my_recharge_discount"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_my_recharge_discount() {
+		let tb: any = {
+			dis: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_my_recharge_discount"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(tb.dis.length, buf);
+				for (let i = 0; i < tb.dis.length; ++i) {
+					tb.dis[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				let dis_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < dis_len; ++i) {
+					let tmp = my_recharge_discount();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.dis.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_my_recharge_discount"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_numbers_betting_info() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_numbers_betting_info"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_numbers_betting_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function latest_record() {
+		let tb: any = {
+			username: '',
+			numbers: 0,
+			ranking: 0,
+			bet_time: stime(),
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_latest_record"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.utf8StrtoBytes(tb.username, buf);
+				EncodeUtils.int32ToByte(tb.numbers, buf);
+				EncodeUtils.int32ToByte(tb.ranking, buf);
+				tb.bet_time.encode(buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let username_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.username = username_value[0];
+				startIndex += username_value[1];
+				tb.numbers = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ranking = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				startIndex += tb.bet_time.decode(buf, startIndex);
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_latest_record"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function his_record() {
+		let tb: any = {
+			username: '',
+			numbers: 0,
+			ranking: 0,
+			prize: 0,
+			roundid: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_his_record"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.utf8StrtoBytes(tb.username, buf);
+				EncodeUtils.int32ToByte(tb.numbers, buf);
+				EncodeUtils.int32ToByte(tb.ranking, buf);
+				EncodeUtils.int32ToByte(tb.prize, buf);
+				EncodeUtils.int32ToByte(tb.roundid, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let username_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.username = username_value[0];
+				startIndex += username_value[1];
+				tb.numbers = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ranking = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.prize = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_his_record"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_numbers_betting_info() {
+		let tb: any = {
+			roundid: 0,
+			result: 0,
+			status: 0,
+			joined: 0,
+			set_fb: 0,
+			numbers: 0,
+			cur_time: stime(),
+			share_url: '',
+			share_words: '',
+			reason: '',
+			my_records: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_numbers_betting_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.roundid, buf);
+				EncodeUtils.int32ToByte(tb.result, buf);
+				EncodeUtils.int32ToByte(tb.status, buf);
+				EncodeUtils.int32ToByte(tb.joined, buf);
+				EncodeUtils.int32ToByte(tb.set_fb, buf);
+				EncodeUtils.int32ToByte(tb.numbers, buf);
+				tb.cur_time.encode(buf);
+				EncodeUtils.utf8StrtoBytes(tb.share_url, buf);
+				EncodeUtils.utf8StrtoBytes(tb.share_words, buf);
+				EncodeUtils.utf8StrtoBytes(tb.reason, buf);
+				EncodeUtils.uInt16ToByte(tb.my_records.length, buf);
+				for (let i = 0; i < tb.my_records.length; ++i) {
+					tb.my_records[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.joined = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.set_fb = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.numbers = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				startIndex += tb.cur_time.decode(buf, startIndex);
+				let share_url_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.share_url = share_url_value[0];
+				startIndex += share_url_value[1];
+				let share_words_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.share_words = share_words_value[0];
+				startIndex += share_words_value[1];
+				let reason_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.reason = reason_value[0];
+				startIndex += reason_value[1];
+				let my_records_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < my_records_len; ++i) {
+					let tmp = his_record();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.my_records.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_numbers_betting_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_numbers_record_details() {
+		let tb: any = {
+			roundid: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_numbers_record_details"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.roundid, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_numbers_record_details"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_numbers_record_details() {
+		let tb: any = {
+			my_records: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_numbers_record_details"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(tb.my_records.length, buf);
+				for (let i = 0; i < tb.my_records.length; ++i) {
+					tb.my_records[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				let my_records_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < my_records_len; ++i) {
+					let tmp = latest_record();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.my_records.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_numbers_record_details"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_numbers_betting_rank() {
+		let tb: any = {
+			roundid: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_numbers_betting_rank"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.roundid, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_numbers_betting_rank"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_numbers_betting_rank() {
+		let tb: any = {
+			pos: 0,
+			my_records: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_numbers_betting_rank"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.pos, buf);
+				EncodeUtils.uInt16ToByte(tb.my_records.length, buf);
+				for (let i = 0; i < tb.my_records.length; ++i) {
+					tb.my_records[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let my_records_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < my_records_len; ++i) {
+					let tmp = his_record();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.my_records.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_numbers_betting_rank"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_start_betting() {
+		let tb: any = {
+			numbers: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_start_betting"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.numbers, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.numbers = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_start_betting"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_start_betting() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_start_betting"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_start_betting"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_numbers_betting_share() {
+		let tb: any = {
+			type: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_numbers_betting_share"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.type, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_numbers_betting_share"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_numbers_betting_share() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_numbers_betting_share"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_numbers_betting_share"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_set_fb_homepage() {
+		let tb: any = {
+			home: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_set_fb_homepage"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.utf8StrtoBytes(tb.home, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let home_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.home = home_value[0];
+				startIndex += home_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_set_fb_homepage"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_set_fb_homepage() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_set_fb_homepage"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_set_fb_homepage"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_numbers_betting_claim_bonus() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_numbers_betting_claim_bonus"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_numbers_betting_claim_bonus"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_numbers_betting_claim_bonus() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_numbers_betting_claim_bonus"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_numbers_betting_claim_bonus"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function game_info() {
+		let tb: any = {
+			gameId: '',
+			ismMintain: 0,
+			name: '',
+			gamePictureH5: '',
+			gamePicturePC: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_game_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.utf8StrtoBytes(tb.gameId, buf);
+				EncodeUtils.int32ToByte(tb.ismMintain, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+				EncodeUtils.utf8StrtoBytes(tb.gamePictureH5, buf);
+				EncodeUtils.utf8StrtoBytes(tb.gamePicturePC, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let gameId_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.gameId = gameId_value[0];
+				startIndex += gameId_value[1];
+				tb.ismMintain = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				let gamePictureH5_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.gamePictureH5 = gamePictureH5_value[0];
+				startIndex += gamePictureH5_value[1];
+				let gamePicturePC_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.gamePicturePC = gamePicturePC_value[0];
+				startIndex += gamePicturePC_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_game_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_get_games_in_platform() {
+		let tb: any = {
+			agentId: 0,
+			kindId: 0,
+			page: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_get_games_in_platform"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.agentId, buf);
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.int32ToByte(tb.page, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.agentId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_games_in_platform"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_get_games_in_platform() {
+		let tb: any = {
+			total: 0,
+			info: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_get_games_in_platform"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.total, buf);
+				EncodeUtils.uInt16ToByte(tb.info.length, buf);
+				for (let i = 0; i < tb.info.length; ++i) {
+					tb.info[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.total = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < info_len; ++i) {
+					let tmp = game_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.info.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_games_in_platform"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_get_kind_in_platform() {
+		let tb: any = {
+			agentId: 0,
+			kindId: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_get_kind_in_platform"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.agentId, buf);
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.agentId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_kind_in_platform"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function game_kind_info() {
+		let tb: any = {
+			kindId: 0,
+			kind_name: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_game_kind_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.utf8StrtoBytes(tb.kind_name, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let kind_name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.kind_name = kind_name_value[0];
+				startIndex += kind_name_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_game_kind_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_get_kind_in_platform() {
+		let tb: any = {
+			kind: [],
+			info: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_get_kind_in_platform"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(tb.kind.length, buf);
+				for (let i = 0; i < tb.kind.length; ++i) {
+					tb.kind[i].encode(buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.info.length, buf);
+				for (let i = 0; i < tb.info.length; ++i) {
+					tb.info[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				let kind_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < kind_len; ++i) {
+					let tmp = game_kind_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.kind.push(tmp);
+				}
+				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < info_len; ++i) {
+					let tmp = game_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.info.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_get_kind_in_platform"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_look_for_game_name() {
+		let tb: any = {
+			agentId: 0,
+			kindId: 0,
+			name: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_look_for_game_name"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.agentId, buf);
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.agentId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_look_for_game_name"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_look_for_game_name() {
+		let tb: any = {
+			info: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_look_for_game_name"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(tb.info.length, buf);
+				for (let i = 0; i < tb.info.length; ++i) {
+					tb.info[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < info_len; ++i) {
+					let tmp = game_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.info.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_look_for_game_name"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function prize_info() {
+		let tb: any = {
+			ranking: 0,
+			money: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_prize_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.ranking, buf);
+				EncodeUtils.int32ToByte(tb.money, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.ranking = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_prize_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function video_info() {
+		let tb: any = {
+			num_likes: 0,
+			video_id: 0,
+			uploader: '',
+			upload_time: stime(),
+			name: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_video_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.num_likes, buf);
+				EncodeUtils.int32ToByte(tb.video_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.uploader, buf);
+				tb.upload_time.encode(buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.num_likes = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.video_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let uploader_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.uploader = uploader_value[0];
+				startIndex += uploader_value[1];
+				startIndex += tb.upload_time.decode(buf, startIndex);
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_video_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_share_vote_info() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_share_vote_info"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_share_vote_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_share_vote_info() {
+		let tb: any = {
+			vote_prize: 0,
+			join_prize: [],
+			rank_prize: [],
+			marquee: [],
+			num_likes: 0,
+			got_vote_money: 0,
+			got_join_money: 0,
+			got_rank_money: 0,
+			ready_vote_money: 0,
+			ready_join_money: 0,
+			ready_rank_money: 0,
+			today_videos: [],
+			cur_time: stime(),
+			start_time: stime(),
+			end_time: stime(),
+			share_url: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_share_vote_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.vote_prize, buf);
+				EncodeUtils.uInt16ToByte(tb.join_prize.length, buf);
+				for (let i = 0; i < tb.join_prize.length; ++i) {
+					tb.join_prize[i].encode(buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.rank_prize.length, buf);
+				for (let i = 0; i < tb.rank_prize.length; ++i) {
+					tb.rank_prize[i].encode(buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.marquee.length, buf);
+				for (let i = 0; i < tb.marquee.length; ++i) {
+					EncodeUtils.utf8StrtoBytes(tb.marquee[i], buf);
+				}
+				EncodeUtils.int32ToByte(tb.num_likes, buf);
+				EncodeUtils.int32ToByte(tb.got_vote_money, buf);
+				EncodeUtils.int32ToByte(tb.got_join_money, buf);
+				EncodeUtils.int32ToByte(tb.got_rank_money, buf);
+				EncodeUtils.int32ToByte(tb.ready_vote_money, buf);
+				EncodeUtils.int32ToByte(tb.ready_join_money, buf);
+				EncodeUtils.int32ToByte(tb.ready_rank_money, buf);
+				EncodeUtils.uInt16ToByte(tb.today_videos.length, buf);
+				for (let i = 0; i < tb.today_videos.length; ++i) {
+					tb.today_videos[i].encode(buf);
+				}
+				tb.cur_time.encode(buf);
+				tb.start_time.encode(buf);
+				tb.end_time.encode(buf);
+				EncodeUtils.utf8StrtoBytes(tb.share_url, buf);
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.vote_prize = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let join_prize_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < join_prize_len; ++i) {
+					let tmp = prize_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.join_prize.push(tmp);
+				}
+				let rank_prize_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < rank_prize_len; ++i) {
+					let tmp = prize_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.rank_prize.push(tmp);
+				}
+				let marquee_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < marquee_len; ++i) {
+					let marquee_value = EncodeUtils.byteToString(buf, startIndex);
+					tb.marquee.push(marquee_value[0]);
+					startIndex += marquee_value[1];
+				}
+				tb.num_likes = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.got_vote_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.got_join_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.got_rank_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ready_vote_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ready_join_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ready_rank_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let today_videos_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < today_videos_len; ++i) {
+					let tmp = video_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.today_videos.push(tmp);
+				}
+				startIndex += tb.cur_time.decode(buf, startIndex);
+				startIndex += tb.start_time.decode(buf, startIndex);
+				startIndex += tb.end_time.decode(buf, startIndex);
+				let share_url_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.share_url = share_url_value[0];
+				startIndex += share_url_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_share_vote_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_ranking_videos() {
+		let tb: any = {
+			roundid: 0,
+			page: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_ranking_videos"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.roundid, buf);
+				EncodeUtils.int32ToByte(tb.page, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_ranking_videos"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_ranking_videos() {
+		let tb: any = {
+			total: 0,
+			info: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_ranking_videos"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.total, buf);
+				EncodeUtils.uInt16ToByte(tb.info.length, buf);
+				for (let i = 0; i < tb.info.length; ++i) {
+					tb.info[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.total = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < info_len; ++i) {
+					let tmp = video_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.info.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_ranking_videos"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_my_shared_videos() {
+		let tb: any = {
+			page: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_my_shared_videos"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.page, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_my_shared_videos"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function my_video_info() {
+		let tb: any = {
+			num_likes: 0,
+			status: 0,
+			uploader: '',
+			upload_time: stime(),
+			name: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_my_video_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.num_likes, buf);
+				EncodeUtils.int32ToByte(tb.status, buf);
+				EncodeUtils.utf8StrtoBytes(tb.uploader, buf);
+				tb.upload_time.encode(buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.num_likes = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let uploader_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.uploader = uploader_value[0];
+				startIndex += uploader_value[1];
+				startIndex += tb.upload_time.decode(buf, startIndex);
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_my_video_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function my_one_round() {
+		let tb: any = {
+			roundid: 0,
+			got_money: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_my_one_round"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.roundid, buf);
+				EncodeUtils.int32ToByte(tb.got_money, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.got_money = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_my_one_round"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_my_shared_videos() {
+		let tb: any = {
+			total: 0,
+			videos: [],
+			info: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_my_shared_videos"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.total, buf);
+				EncodeUtils.uInt16ToByte(tb.videos.length, buf);
+				for (let i = 0; i < tb.videos.length; ++i) {
+					tb.videos[i].encode(buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.info.length, buf);
+				for (let i = 0; i < tb.info.length; ++i) {
+					tb.info[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.total = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let videos_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < videos_len; ++i) {
+					let tmp = my_video_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.videos.push(tmp);
+				}
+				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < info_len; ++i) {
+					let tmp = my_one_round();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.info.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_my_shared_videos"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_num_likes_ranking_info() {
+		let tb: any = {
+			page: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_num_likes_ranking_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.page, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_num_likes_ranking_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function num_likes_info() {
+		let tb: any = {
+			username: '',
+			num_likes: 0,
+			prize: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_num_likes_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.utf8StrtoBytes(tb.username, buf);
+				EncodeUtils.int32ToByte(tb.num_likes, buf);
+				EncodeUtils.int32ToByte(tb.prize, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let username_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.username = username_value[0];
+				startIndex += username_value[1];
+				tb.num_likes = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.prize = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_num_likes_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_num_likes_ranking_info() {
+		let tb: any = {
+			total: 0,
+			info: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_num_likes_ranking_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.total, buf);
+				EncodeUtils.uInt16ToByte(tb.info.length, buf);
+				for (let i = 0; i < tb.info.length; ++i) {
+					tb.info[i].encode(buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				tb.total = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < info_len; ++i) {
+					let tmp = num_likes_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.info.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_num_likes_ranking_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_like_a_video() {
+		let tb: any = {
+			video_id: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_like_a_video"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.video_id, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.video_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_like_a_video"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_like_a_video() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_like_a_video"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_like_a_video"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_claim_share_vote_prize() {
+		let tb: any = {
+			type: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_claim_share_vote_prize"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.type, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_claim_share_vote_prize"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_claim_share_vote_prize() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_claim_share_vote_prize"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_claim_share_vote_prize"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_marquee_update() {
+		let tb: any = {
+			type: 0,
+			total_like_num: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_marquee_update"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.type, buf);
+				EncodeUtils.int32ToByte(tb.total_like_num, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.total_like_num = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_marquee_update"], buf);
 				return tb.encode(buf);
 			}
 		};
