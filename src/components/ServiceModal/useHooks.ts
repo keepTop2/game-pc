@@ -290,15 +290,19 @@ const usechatHooks = (state?: any, selectUser?: any) => {
   const editchat = (item: any, decodeobj00: any, setType?: any) => {
     const type = 14; // 消息同步触发
     let enableflag = 6
+    let istop = 6
     if (setType && setType.id == 3) {
       enableflag = item.enableflag==1?6:1
+    }
+    if (setType && setType.id == 1) {
+      istop = item.istop == 1 ? 6 : 1
     }
     var payload = {
       id: item.id,
       deviceid: state.deviceID,
       chatgroupid: setType && setType.id == 4 ? -1 : decodeobj00.id || 0,
       sort: 6,
-      istop: setType && setType.id == 1 && item.istop == 1 ? 6 : 1,
+      istop: istop,
       enableflag: enableflag,
     };
     wsReqSend(type, payload, 'ChatItemModifyReq');

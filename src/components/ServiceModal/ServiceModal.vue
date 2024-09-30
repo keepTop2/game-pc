@@ -701,7 +701,13 @@ const onMessage: any = async (buffer: any) => {
       Message.error('删除失败，该分组可能存在下级');
       return
     }
-    Message.error(t(decodeobj1.code));
+    if (decodeobj1.code == '10023') {
+      Message.error(t(decodeobj1.message));
+      var datatime = getDateFromat()
+      state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
+      return
+    }
+    Message.error(t(decodeobj1.message));
     testMsg.value = ''
     msgRef.value.innerHTML = ''
     state.messagetype = 1
@@ -722,7 +728,6 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
-    console.log(444444, decodeobj1)
     getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的
