@@ -9,7 +9,7 @@
 
             <span class=""> 0</span>
         </div>
-        <!-- <div class="sidebar_public" v-for="(item, i) in state.clubList" :key="i">
+         <div class="sidebar_public" v-for="(item, i) in state.clubList" :key="i">
             <p> {{ t(item.title) }} </p>
             <div :class="`club_box${g}`" v-for="(game, g) in item.list" :key="g" @click="itemClick(game)">
                 <p>
@@ -17,7 +17,7 @@
                     <span>{{ t(game.name) }}</span>
                 </p>
             </div>
-        </div> -->
+        </div>
         <!-- 游戏 -->
         <div class="sidebar_public">
             <p> {{ t(state.gameList.title) }} </p>
@@ -59,11 +59,11 @@
         </div>
 
         <!-- 俱乐部 -->
-        <club ref="clubModal" :openType="openType" />
+<!--        <club ref="clubModal" :openType="openType" />-->
     </div>
 </template>
 <script lang="ts" setup name="sider">
-import { defineAsyncComponent, onMounted, onUnmounted, reactive, ref, watch } from "vue";
+import { onMounted, onUnmounted, reactive, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
@@ -80,7 +80,7 @@ const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();
 
-const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
+// const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
 const router = useRouter();
 const route = useRoute();
 
@@ -89,8 +89,8 @@ const route = useRoute();
 
 // const route = useRoute();
 
-const clubModal = ref()
-const openType = ref('club')
+// const clubModal = ref()
+// const openType = ref('club')
 
 const state: any = reactive({
     active: '',
@@ -100,17 +100,15 @@ const state: any = reactive({
             list: [
                 {
                     icon: '/img/home/club1.webp',
-
                     name: 'home_page_club',
-                    url: '',
+                    url: '/gameMain/club/club',
                     color: '',
                     value: 'club',
                 },
                 {
                     icon: '/img/home/club2.webp',
-
                     name: 'home_page_clubCreated',
-                    url: '',
+                    url: '/gameMain/club/clubJoin',
                     color: '',
                     value: 'clubJoin',
                 },
@@ -236,10 +234,10 @@ const itemClick = (item: any) => {
         )
     }
     // 俱乐
-    if (['club', 'clubJoin'].includes(item.value)) {
-        openType.value = item.value
-        clubModal.value.openModal()
-    }
+    // if (['club', 'clubJoin'].includes(item.value)) {
+    //     openType.value = item.value
+    //     clubModal.value.openModal()
+    // }
 
     state.active = item.name
 }

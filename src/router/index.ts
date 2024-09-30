@@ -75,6 +75,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'levelRule' },
         component: () => import('@/views/level/rules.vue'),
       },
+      {
+        path: 'club/:openType',
+        name: 'levelInfo',
+        meta: { title: 'home_page_club' },
+        component: () => import('@/views/club/newClub.vue'),
+      },
     ]
   },
   // {
@@ -189,7 +195,6 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
       if (isNext) {
         next(isNext)
       } else {
-
         await User(pinia).setLogin(true)
         next('/')
       }
