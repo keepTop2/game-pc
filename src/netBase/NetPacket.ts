@@ -28711,4 +28711,118 @@ export module NetPacket {
 		};
 		return tb;
 	}
+	export function req_look_for_game_name() {
+		let tb: any = {
+			agentId: 0,
+			kindId: 0,
+			name: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_look_for_game_name"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.agentId, buf);
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.agentId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_look_for_game_name"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_get_kind_in_platform() {
+		let tb: any = {
+			agentId: 0,
+			kindId: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_get_kind_in_platform"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.agentId, buf);
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.agentId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_kind_in_platform"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function game_kind_info() {
+		let tb: any = {
+			kindId: 0,
+			kind_name: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_game_kind_info"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.utf8StrtoBytes(tb.kind_name, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let kind_name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.kind_name = kind_name_value[0];
+				startIndex += kind_name_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_game_kind_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_get_games_in_platform() {
+		let tb: any = {
+			agentId: 0,
+			kindId: 0,
+			page: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_get_games_in_platform"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.agentId, buf);
+				EncodeUtils.int32ToByte(tb.kindId, buf);
+				EncodeUtils.int32ToByte(tb.page, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.agentId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.kindId = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_get_games_in_platform"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
 }

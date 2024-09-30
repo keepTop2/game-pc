@@ -950,7 +950,14 @@ export module NetMsgType {
         msg_req_recent_games: 948,
         msg_notify_recent_games: 949,
         msg_req_discount_details: 950,
-        msg_notify_discount_details: 951
+        msg_notify_discount_details: 951,
+        msg_notify_get_kind_in_platform: 976,
+        msg_req_get_games_in_platform: 972,
+        msg_notify_get_games_in_platform: 973,
+        msg_notify_look_for_game_name: 978,
+        msg_req_get_kind_in_platform: 974,
+        msg_game_kind_info: 975,
+        msg_req_look_for_game_name: 977,
     }
     type MsgType = typeof msgType1
 
