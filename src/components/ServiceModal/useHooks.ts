@@ -297,10 +297,13 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     if (setType && setType.id == 1) {
       istop = item.istop == 1 ? 6 : 1
     }
+    if (setType && setType.id == 5) {
+      istop = item.istop == 1 ? 6 : 1
+    }
     var payload = {
       id: item.id,
       deviceid: state.deviceID,
-      chatgroupid: setType && setType.id == 4 ? -1 : decodeobj00.id || 0,
+      chatgroupid: setType && setType.id == 5 ? -1 : decodeobj00.id || 0,
       sort: 6,
       istop: istop,
       enableflag: enableflag,
