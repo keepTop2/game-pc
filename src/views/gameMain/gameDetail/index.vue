@@ -116,7 +116,7 @@ const langs: any = {
     vn: 'vi-VN',
     en: 'en-US',
 };
-
+const imgPrefix = 'http://18.162.112.52:8033/uploads/'
 const TabType = {
     FAVORITE: 88
 }
@@ -206,19 +206,17 @@ const pageChange = (page: number) => { // 切换页码
 
 const getFavs = () => {
   const gameId = Local.get('favorites') || []
-  const gameIds = gameId.map((e:any) => e.split('_')[0])
+  const gameIds = gameId.map((e:any) => e.split('__')[0])
   favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
 }
 
 const onAddFavorite = (v: any) => {
   let favorites = Local.get('favorites') || []
-  const gameIds = favorites.map((e:any) => e.split('_')[0])
+  const gameIds = favorites.map((e:any) => e.split('__')[0])
   if (gameIds.includes(v.gameId)) {
-    favorites = favorites.filter((e: any) => e.split('_')[0] != v.gameId)
+    favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
   } else {
-    const param = threeGameKinds.value[activeTab.value]
-    const type = gameKinds.value[activeTab.value]
-    const item = v.gameId + "_" +  param.three_platform_id + "_" + type.kindId 
+    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePictureH5
     favorites.push(item)
   }
   Local.set('favorites', favorites)

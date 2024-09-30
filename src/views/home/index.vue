@@ -140,8 +140,8 @@ const platformItemClick = (item: any, i: number) => {
       path: '/gameMain/gameDetail',
       query: {
         id: i,
-        platform_id:item.three_platform_id,
-        venue_id:item.venue_id,
+        platform_id:item.id,
+        venue_id:item.three_game_kind[0].id,
         name: item.name[langs[lang.value]].toUpperCase(),
       }
     })
@@ -154,8 +154,8 @@ const platformItemClick = (item: any, i: number) => {
     needLogin()
     // isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = item.three_platform_id;
-    tb.kindId = item.venue_id;
+    tb.agentId = item.id;
+    tb.kindId = item.three_game_kind_id;
     tb.lang = langObj[lang.value];
     Net.instance.sendRequest(tb);
   }
