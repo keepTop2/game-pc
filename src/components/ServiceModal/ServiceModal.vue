@@ -97,7 +97,10 @@
                         <div class="high_proxy select_group"> {{ t('chat_page_moveG') }}</div>
                       </template>
                       <div class="select_wrap_two">
-                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
+                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">
+                        <span v-if="item.chatgroupid==o.id">√</span>
+                        {{ o.name }}
+                        </div>
                       </div>
                     </n-popover>
                   </div>
