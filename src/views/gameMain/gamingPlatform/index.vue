@@ -156,25 +156,33 @@ const gameUrlResult = (message: any) => {
 }
 
 const platformItemClick = (item: any, i: number) => {
-    let langObj: any = {
-        'en': 3,
-        'vi': 2,
-        'zh': 1
-    }
-    if (item && item.has_next) {
+    debugger
+    if (item.has_next == 1) {
+        const langs: any = {
+            zh: 'zh-CN',
+            vn: 'vi-VN',
+            en: 'en-US',
+        };
         router.push({
-            path: '/gameMain/gameDetail',
-            query: {
-                id: i,
-                data: encodeURIComponent(JSON.stringify(item))
-            }
+        path: '/gameMain/gameDetail',
+        query: {
+            id: i,
+            platform_id:item.id,
+            venue_id:item.three_game_kind[0].id,
+            name: item.name[langs[lang.value]].toUpperCase(),
+        }
         })
     } else {
+        let langObj: any = {
+        'en-US': 3,
+        'vi-VN': 2,
+        'zh-CN': 1
+        }
         needLogin()
+        // isLoading.value = true
         let tb = NetPacket.req_3rd_game_login();
-        tb.agentId = item.three_game_kind_id;
-        tb.gameId = item.three_platform_id;
-        tb.kindId = item.venue_id;
+        tb.agentId = item.id;
+        tb.kindId = item.three_game_kind_id;
         tb.lang = langObj[lang.value];
         Net.instance.sendRequest(tb);
     }
