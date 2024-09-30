@@ -121,6 +121,13 @@ const state: any = reactive({
         title: 'home_page_game',
         list: [
             {
+                icon: 'Group39324',
+                name: 'home_page_hot',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
+            {
                 icon: 'Group39096',
                 name: 'home_page_slot',
                 url: '/gameMain/gamingPlatform',

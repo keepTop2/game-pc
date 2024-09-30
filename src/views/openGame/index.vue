@@ -73,6 +73,9 @@ onMounted(() => {
 }
 </style>
 <style lang="less">
+html, body {
+  overflow-y: scroll;
+}
 .header {
   position: absolute !important;
   top: 0;

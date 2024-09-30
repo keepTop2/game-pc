@@ -45,6 +45,7 @@ export default {
     home_page_clubCreated: 'Club created',
     home_page_game: 'Game',
     home_page_live: 'Live',
+    home_page_hot: 'Hot',
     home_page_slot: 'Slot',
     home_page_eSports: 'eSports',
     home_page_fishing: 'Fishing',

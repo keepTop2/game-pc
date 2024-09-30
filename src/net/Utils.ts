@@ -330,10 +330,3 @@ export {
     bbb,
     device_model
 }
-// 判断登录
-export const needLogin = () => {
-    if (!Local.get('user')) {
-        User(pinia).setLogin(true)
-        return
-    }
-}

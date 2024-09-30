@@ -27,8 +27,10 @@
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
             :show-arrow="true" :show-dots="false">
-            <Imgt @click="platformItemClick(v, idx)" class="game_img" src="/img/cards/0.png"
-              v-for="(v, j) in item.value?.three_platform" :key="j" />
+            <div class="game-img" v-for="(v, j) in item.value?.three_platform" :key="j"
+              @click="platformItemClick(v, idx)">
+              <img :src="imgPrefix + v.picture_pc" :alt="v.name[langs[lang]]" />
+            </div>
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -56,18 +58,30 @@ import { Page } from '@/store/page';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { Message } from '@/utils/discreteApi';
-import { Local, Session } from '@/utils/storage';
+import { Local } from '@/utils/storage';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
-import { needLogin } from '@/net/Utils';
+import { User } from '@/store/user';
 const { t } = useI18n();
 const router = useRouter()
 const page = Page(pinia);
 const { bannerArr, textAnnouncement, homeGameData, lang } = storeToRefs(page);
+const imgPrefix = 'http://18.162.112.52:8033/uploads/'
+const langs: any = {
+  zh: 'zh-CN',
+  vn: 'vi-VN',
+  en: 'en-US',
+};
 const state: any = reactive({
   tabs: <{}>[
+    {
+      icon: 'Group39324',
+      name: 'home_page_hot',
+      color: 'lottery',
+      value: '',
+    },
     {
       icon: 'Group39096',
       name: 'home_page_slot',
@@ -107,18 +121,7 @@ const state: any = reactive({
   ],
 })
 
-onBeforeMount(() => {
-  getHomeData()
-})
-onMounted(() => {
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_3rd_game_login_result,
-    gameUrlResult,
-  );
-})
-onUnmounted(() => {
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
-})
+
 
 const getHomeData = () => {
   for (let i in state.tabs) {
@@ -129,19 +132,14 @@ const getHomeData = () => {
   }
 }
 
-const platformItemClick = (item: any, i: number) => {
+const platformItemClick = async (item: any, i: number) => {
   if (item.has_next == 1) {
-    const langs: any = {
-        zh: 'zh-CN',
-        vn: 'vi-VN',
-        en: 'en-US',
-    };
     router.push({
       path: '/gameMain/gameDetail',
       query: {
         id: i,
-        platform_id:item.id,
-        venue_id:item.three_game_kind[0].id,
+        platform_id: item.id,
+        venue_id: item.three_game_kind[0].id,
         name: item.name[langs[lang.value]].toUpperCase(),
       }
     })
@@ -151,7 +149,10 @@ const platformItemClick = (item: any, i: number) => {
       'vi-VN': 2,
       'zh-CN': 1
     }
-    needLogin()
+    if (!Local.get('user')) {
+        await User(pinia).setLogin(true)
+        return
+    }
     // isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
     tb.agentId = item.id;
@@ -187,6 +188,20 @@ const gameUrlResult = (message: any) => {
   });
 
 }
+
+
+onBeforeMount(() => {
+  getHomeData()
+})
+onMounted(() => {
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_3rd_game_login_result,
+    gameUrlResult,
+  );
+})
+onUnmounted(() => {
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
+})
 </script>
 
 <style lang="less" scoped>
@@ -219,9 +234,6 @@ const gameUrlResult = (message: any) => {
       align-items: center;
       color: #fff;
       font-size: 16px;
-      // border-bottom-left-radius: 15px;
-      // border-bottom-right-radius: 15px;
-
     }
   }
 
@@ -246,11 +258,14 @@ const gameUrlResult = (message: any) => {
       align-items: center;
     }
 
-
-
-    .game_img {
-      height: 238px;
-      object-fit: cover;
+    .game-img {
+      height: 12.39583rem;
+      width: 100%;
+      cursor: pointer;
+      img {
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 

@@ -47,6 +47,7 @@ export default {
     home_page_clubCreated: '已创建俱乐部',
     home_page_game: '游戏',
     home_page_live: '视讯',
+    home_page_hot: '热门',
     home_page_slot: '电子',
     home_page_eSports: '电竞',
     home_page_fishing: '捕鱼',

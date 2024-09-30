@@ -10,8 +10,8 @@
             </n-input>
         </span>
         <div class="game_list">
-            <div :class="{ game_active: activeTab == i }" v-for="(v, i) in gameKinds" :key="i"
-                @click="onClickTab(v, i)">
+            <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
+                @click="onClickTab(v)">
                 <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
                     size="1rem"></iconpark-icon> -->
                 <span>{{ unserialize(v.kind_name) }}</span>
@@ -26,8 +26,10 @@
             <div v-if="activeTab == TabType.FAVORITE">
                 <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
                     <div class="game-list">
-                        <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGame(v)">
-                            <img class="game-img" :src="`/img/cards/${'1'}.png`" alt="">
+                        <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGameFav(v)">
+                            <div class="game-img">
+                                <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
+                            </div>
                             <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
                                 v-if="isFav(v)"></iconpark-icon>
                             <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
@@ -49,7 +51,9 @@
                 <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
                     <div class="game-list">
                         <div class="item" v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
-                            <img class="game-img" :src="`/img/cards/${'1'}.png`" alt="">
+                            <div class="game-img">
+                                <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
+                            </div>
                             <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
                                 v-if="isFav(v)"></iconpark-icon>
                             <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
@@ -78,8 +82,8 @@ import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
-import { needLogin } from '@/net/Utils';
 import { Message } from '@/utils/discreteApi';
+import { User } from '@/store/user';
 
 const { t } = useI18n();
 const route = useRoute()
@@ -135,13 +139,13 @@ const isFav = (v: any) => {
 const handlePlatform = (res: any) => {
     resetData()
     if (res.kind && res.kind.length) {
-    gameKinds.value = res.kind
-    if (!isVenudId.value) {
-        activeTab.value = res.kind.findIndex((e: any) => e.kindId == venueId.value)
-        isVenudId.value = true
+        gameKinds.value = res.kind
+        if (!isVenudId.value) {
+            activeTab.value = venueId.value
+            isVenudId.value = true
         }
     } else {
-        const kinds = threeGameKinds.value.map((e: any) => { return { 'kindId': e.three_game_kind_id, 'kind_name': JSON.stringify(e.name) } })
+        const kinds = threeGameKinds.value.map((e: any) => { return { 'kindId': e.id, 'kind_name': JSON.stringify(e.name) } })
         gameKinds.value = kinds
     }
     result.list = res.info
@@ -157,26 +161,49 @@ const handleQuery = (res: any) => {
     result.list = res.info
 }
 
-const onPlayGame = (v: any) => {
-    needLogin()
+const onPlayGame = async (v: any) => {
+    if (!Local.get('user')) {
+        await User(pinia).setLogin(true)
+        return
+    }
     let langObj: any = {
         'en-US': 3,
         'vi-VN': 2,
         'zh-CN': 1
     }
-    const currentParams = threeGameKinds.value[activeTab.value]
-    const currentType = gameKinds.value[activeTab.value]
-    isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = currentParams.three_platform_id;
-    tb.kindId = currentType.kindId;
+    tb.agentId = platformId.value;
+    tb.kindId = venueId.value;
     tb.gameId = v.gameId;
     tb.lang = langObj[lang.value];
     Net.instance.sendRequest(tb);
 }
 
-const onClickTab = (_: any, i: any) => {
-    activeTab.value = i
+const onPlayGameFav = async (v: any) => {
+  if (!Local.get('user')) {
+      await User(pinia).setLogin(true)
+      return
+  }
+  let langObj: any = {
+    'en-US': 3,
+    'vi-VN': 2,
+    'zh-CN': 1
+  }
+  const favorites = Local.get('favorites') || []
+  const data = favorites.map((e:any) => {return {'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3]}})
+  const item = data.find((e:any) => e.gameId == v.gameId)
+  isLoading.value = true
+  let tb = NetPacket.req_3rd_game_login();
+  tb.agentId = item.agentId;
+  tb.kindId = item.kindId;
+  tb.gameId = item.gameId;
+  tb.lang = langObj[lang.value];
+  Net.instance.sendRequest(tb);
+}
+
+
+const onClickTab = (v: any) => {
+    activeTab.value = v.kindId
     queryGame.value = ''
     resetData()
     queryData()
@@ -190,11 +217,13 @@ const onClickFavorite = (i: number) => {
 }
 
 const onClickSearch = () => {
+    if (!queryGame.value) {
+        Message.error(t('player_info_tip_1'))
+        return
+    }
     let tb = NetPacket.req_look_for_game_name()
-    const currentParams = threeGameKinds.value[activeTab.value]
-    const currentType = gameKinds.value[activeTab.value]
-    tb.agentId = currentParams.three_platform_id;
-    tb.kindId = currentType.kindId;
+    tb.agentId = platformId.value;
+    tb.kindId = activeTab.value;
     tb.name = queryGame.value
     Net.instance.sendRequest(tb)
 }
@@ -216,7 +245,7 @@ const onAddFavorite = (v: any) => {
   if (gameIds.includes(v.gameId)) {
     favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
   } else {
-    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePictureH5
+    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
     favorites.push(item)
   }
   Local.set('favorites', favorites)
@@ -232,7 +261,6 @@ const getInitData = (agentId: any, kindId: any) => {
     const req = NetPacket.req_get_kind_in_platform();
     req.agentId = agentId
     req.kindId = kindId
-    debugger
     req.pageSize = pageSize.value
     Net.instance.sendRequest(req);
 }
@@ -403,9 +431,14 @@ watch(
                 position: relative;
 
                 .game-img {
-                    object-fit: cover;
                     width: 100%;
                     height: 100%;
+                    cursor: pointer;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                 }
 
                 .fav {

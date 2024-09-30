@@ -25,8 +25,8 @@
                     </div>
                     <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
                         <div class="game-list">
-                            <div class="item" v-for="(v, i) in result.list" :key="i" @click="platformItemClick(v, i)">
-                                <Imgt class="game-img" :src="`/img/cards/${'1'}.png`" alt="" />
+                            <div class="game-img" v-for="(v, i) in result.list" :key="i" @click="platformItemClick(v, i)">
+                                <img :src="imgPrefix + v.picture_pc" :alt="v.name[langs[lang]]">
                                 <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
                             </div>
                         </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
@@ -46,7 +46,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
-import { needLogin } from '@/net/Utils';
 const { t } = useI18n();
 const route = useRoute()
 import Imgt from '@/components/Imgt.vue';
@@ -54,6 +53,7 @@ import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Message } from '@/utils/discreteApi';
 import { Local } from '@/utils/storage';
+import { User } from '@/store/user';
 
 const {
     lang,
@@ -61,14 +61,25 @@ const {
     bannerArr,
     textAnnouncement,
 } = storeToRefs(Page(pinia));
-
+const imgPrefix = 'http://18.162.112.52:8033/uploads/'
 const router = useRouter()
 const result: any = reactive({
     list: []
 })
+const langs: any = {
+    zh: 'zh-CN',
+    vn: 'vi-VN',
+    en: 'en-US',
+};
 
 const state: any = reactive({
     tabs: <{}>[
+        {
+            icon: 'Group39324',
+            name: 'home_page_hot',
+            color: 'lottery',
+            value: '',
+        },
         {
             icon: 'Group39096',
             name: 'home_page_slot',
@@ -155,8 +166,7 @@ const gameUrlResult = (message: any) => {
     });
 }
 
-const platformItemClick = (item: any, i: number) => {
-    debugger
+const platformItemClick = async (item: any, i: number) => {
     if (item.has_next == 1) {
         const langs: any = {
             zh: 'zh-CN',
@@ -178,7 +188,10 @@ const platformItemClick = (item: any, i: number) => {
         'vi-VN': 2,
         'zh-CN': 1
         }
-        needLogin()
+        if (!Local.get('user')) {
+            await User(pinia).setLogin(true)
+            return
+        }
         // isLoading.value = true
         let tb = NetPacket.req_3rd_game_login();
         tb.agentId = item.id;
@@ -243,21 +256,21 @@ const platformItemClick = (item: any, i: number) => {
             grid-template-columns: repeat(5, 1fr);
             gap: 10px;
 
-            .item {
+            .game-img {
                 height: 238px;
                 position: relative;
-
-                .game-img {
-                    object-fit: cover;
-                    width: 100%;
+                width: 100%;
+                cursor: pointer;
+                img {
                     height: 100%;
+                    width: 100%;
                 }
+            }
 
-                .fav {
-                    position: absolute;
-                    top: 10px;
-                    right: 15px;
-                }
+            .fav {
+                position: absolute;
+                top: 10px;
+                right: 15px;
             }
         }
     }
