@@ -123,7 +123,7 @@
                 :key="i.id" @click="selectUser(i)">
                 <div class="item_left">
                   <div class="avatar">
-                    <n-badge :value="i.unreadnums" :show="i.unreadnums > 0" :max="9999" class="set_item"
+                    <n-badge  :show="false" :max="9999" class="set_item"
                       :offset="[-14, 8]">
                       <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
