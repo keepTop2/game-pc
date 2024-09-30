@@ -234,6 +234,7 @@ const getInitData = (agentId: any, kindId: any) => {
     const req = NetPacket.req_get_kind_in_platform();
     req.agentId = agentId
     req.kindId = kindId
+    debugger
     req.pageSize = pageSize.value
     Net.instance.sendRequest(req);
 }
