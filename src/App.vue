@@ -13,7 +13,7 @@
 <script setup lang="ts">
 
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
-import Header from '@/components/Header.vue';
+import Header from '@/components/NewHeader.vue';
 import Footer from '@/components/Footer.vue';
 import { onMounted } from 'vue';
 import pinia from '@/store/index';
@@ -259,7 +259,7 @@ onMounted(async () => {
 </script>
 <style lang="less" scoped>
 .hold {
-  height: 80px;
+  height: 95px;
 }
 
 .app {
