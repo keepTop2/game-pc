@@ -251,9 +251,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_loading_end"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -541,9 +541,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_heartbeat"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -559,9 +559,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_check_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -679,9 +679,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_create_role_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -697,9 +697,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_info_msg"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1161,9 +1161,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_auto"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1391,9 +1391,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_bank_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1728,9 +1728,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_transfer_confirm"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1870,9 +1870,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_money_refresh"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1951,9 +1951,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_agent_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -2058,9 +2058,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -2486,9 +2486,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_day_task"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -2726,9 +2726,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_weixin_share_task_finish"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -2761,254 +2761,13 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function shz_item() {
-		let tb: any = {
-			icon: 0,
-			pos: 0,
-			is_flash: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_shz_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.icon, buf);
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int32ToByte(tb.is_flash, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.icon = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_flash = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_shz_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_shz_lottery() {
-		let tb: any = {
-			line: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_shz_lottery"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.line, buf);
-				EncodeUtils.int32ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.line = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.score = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shz_lottery"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_shz_lottery_result() {
-		let tb: any = {
-			item_list: [],
-			lines: [],
-			money: 0,
-			mali_times: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_shz_lottery_result"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.item_list.length, buf);
-				for (let i = 0; i < tb.item_list.length; ++i) {
-					tb.item_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.lines.length, buf);
-				for (let i = 0; i < tb.lines.length; ++i) {
-					EncodeUtils.int32ToByte(tb.lines[i], buf);
-				}
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.mali_times, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let item_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < item_list_len; ++i) {
-					let tmp = shz_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.item_list.push(tmp);
-				}
-				let lines_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < lines_len; ++i) {
-					tb.lines.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.mali_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shz_lottery_result"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_shz_bibei() {
-		let tb: any = {
-			bet: 0,
-			dice: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_shz_bibei"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet, buf);
-				EncodeUtils.int32ToByte(tb.dice, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.dice = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shz_bibei"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_shz_bibei_result() {
-		let tb: any = {
-			get_score: 0,
-			dice_list: [],
-			is_success: 0,
-			add_score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_shz_bibei_result"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.get_score, buf);
-				EncodeUtils.uInt16ToByte(tb.dice_list.length, buf);
-				for (let i = 0; i < tb.dice_list.length; ++i) {
-					EncodeUtils.int32ToByte(tb.dice_list[i], buf);
-				}
-				EncodeUtils.int32ToByte(tb.is_success, buf);
-				EncodeUtils.int64ToByte(tb.add_score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.get_score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let dice_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < dice_list_len; ++i) {
-					tb.dice_list.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				tb.is_success = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.add_score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shz_bibei_result"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_shz_mali() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_shz_mali"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_shz_mali"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_shz_mali_result() {
-		let tb: any = {
-			get_score: [],
-			icon_list: [],
-			circle_icon: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_shz_mali_result"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.get_score.length, buf);
-				for (let i = 0; i < tb.get_score.length; ++i) {
-					EncodeUtils.int64ToByte(tb.get_score[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.icon_list.length, buf);
-				for (let i = 0; i < tb.icon_list.length; ++i) {
-					EncodeUtils.int32ToByte(tb.icon_list[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.circle_icon.length, buf);
-				for (let i = 0; i < tb.circle_icon.length; ++i) {
-					EncodeUtils.int32ToByte(tb.circle_icon[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let get_score_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < get_score_len; ++i) {
-					tb.get_score.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				let icon_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < icon_list_len; ++i) {
-					tb.icon_list.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let circle_icon_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < circle_icon_len; ++i) {
-					tb.circle_icon.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_shz_mali_result"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function room_table() {
+	export function desk() {
 		let tb: any = {
 			id: '',
 			name: '',
 			cur_count: 0,
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_room_table"];
+				return NetMsgType.msgType["msg_desk"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.utf8StrtoBytes(tb.id, buf);
@@ -3028,59 +2787,59 @@ export module NetPacket {
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_table"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_desk"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function req_table_list() {
+	export function req_desk_list() {
 		let tb: any = {
-			room_type: 0,
+			room_id: 0,
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_table_list"];
+				return NetMsgType.msgType["msg_req_desk_list"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_table_list"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_desk_list"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function notify_table_list() {
+	export function notify_desk_list() {
 		let tb: any = {
-			table_list: [],
+			desk_list: [],
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_table_list"];
+				return NetMsgType.msgType["msg_notify_desk_list"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.table_list.length, buf);
-				for (let i = 0; i < tb.table_list.length; ++i) {
-					tb.table_list[i].encode(buf);
+				EncodeUtils.uInt16ToByte(tb.desk_list.length, buf);
+				for (let i = 0; i < tb.desk_list.length; ++i) {
+					tb.desk_list[i].encode(buf);
 				}
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				let table_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				let desk_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
-				for (let i = 0; i < table_list_len; ++i) {
-					let tmp = room_table();
+				for (let i = 0; i < desk_list_len; ++i) {
+					let tmp = desk();
 					startIndex += tmp.decode(buf, startIndex);
-					tb.table_list.push(tmp);
+					tb.desk_list.push(tmp);
 				}
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_table_list"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_desk_list"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -3228,16 +2987,16 @@ export module NetPacket {
 	}
 	export function req_leave_minigame_room() {
 		let tb: any = {
-			room_type_id: 0,
+			room_id: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_leave_minigame_room"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -3250,18 +3009,18 @@ export module NetPacket {
 	}
 	export function notify_leave_minigame_room_result() {
 		let tb: any = {
-			room_type_id: 0,
+			room_id: 0,
 			result: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_leave_minigame_room_result"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
@@ -3306,16 +3065,20 @@ export module NetPacket {
 	}
 	export function req_enter_room() {
 		let tb: any = {
-			room_type_id: 0,
+			room_id: 0,
+			take_money: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_enter_room"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
+				EncodeUtils.int32ToByte(tb.take_money, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.take_money = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -3329,21 +3092,21 @@ export module NetPacket {
 	export function notify_enter_room_result() {
 		let tb: any = {
 			result: 0,
-			room_id: '',
+			desk_id: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_enter_room_result"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.result, buf);
-				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.desk_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				let room_id_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.room_id = room_id_value[0];
-				startIndex += room_id_value[1];
+				let desk_id_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.desk_id = desk_id_value[0];
+				startIndex += desk_id_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -3353,96 +3116,96 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function req_enter_room_with_room_id() {
+	export function req_enter_desk() {
 		let tb: any = {
-			room_id: '',
+			desk_id: '',
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_enter_room_with_room_id"];
+				return NetMsgType.msgType["msg_req_enter_desk"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.desk_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				let room_id_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.room_id = room_id_value[0];
-				startIndex += room_id_value[1];
+				let desk_id_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.desk_id = desk_id_value[0];
+				startIndex += desk_id_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_enter_room_with_room_id"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_enter_desk"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function notify_room_with_room_id_result() {
+	export function notify_enter_desk_result() {
 		let tb: any = {
 			result: 0,
-			room_id: '',
+			desk_id: '',
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_room_with_room_id_result"];
+				return NetMsgType.msgType["msg_notify_enter_desk_result"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.result, buf);
-				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.desk_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				let room_id_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.room_id = room_id_value[0];
-				startIndex += room_id_value[1];
+				let desk_id_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.desk_id = desk_id_value[0];
+				startIndex += desk_id_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_with_room_id_result"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_enter_desk_result"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function req_change_room() {
+	export function req_change_desk() {
 		let tb: any = {
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_change_room"];
+				return NetMsgType.msgType["msg_req_change_desk"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_change_room"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_change_desk"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function notify_change_room_result() {
+	export function notify_change_desk_result() {
 		let tb: any = {
 			result: 0,
-			room_id: '',
+			desk_id: '',
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_change_room_result"];
+				return NetMsgType.msgType["msg_notify_change_desk_result"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.result, buf);
-				EncodeUtils.utf8StrtoBytes(tb.room_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.desk_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				let room_id_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.room_id = room_id_value[0];
-				startIndex += room_id_value[1];
+				let desk_id_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.desk_id = desk_id_value[0];
+				startIndex += desk_id_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_change_room_result"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_change_desk_result"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -3577,4194 +3340,570 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function zjh_card_item() {
+	export function room_game_info() {
+		let tb: any = {
+			game_type: 0,
+			role_count: 0,
+			status: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_room_game_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.game_type, buf);
+				EncodeUtils.int32ToByte(tb.role_count, buf);
+				EncodeUtils.int32ToByte(tb.status, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.game_type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.role_count = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_game_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function room_config() {
+		let tb: any = {
+			room_id: 0,
+			type: 0,
+			club_id: 0,
+			game_type: 0,
+			name: '',
+			icon: '',
+			min_bet: 0,
+			need_chip: 0,
+			max_chip: 0,
+			max_player: 0,
+			desk_count: 0,
+			role_count: 0,
+			is_open: 0,
+			extra1: [],
+			extra2: [],
+			extra3: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_room_config"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.room_id, buf);
+				EncodeUtils.int32ToByte(tb.type, buf);
+				EncodeUtils.int64ToByte(tb.club_id, buf);
+				EncodeUtils.int32ToByte(tb.game_type, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+				EncodeUtils.utf8StrtoBytes(tb.icon, buf);
+				EncodeUtils.int32ToByte(tb.min_bet, buf);
+				EncodeUtils.int32ToByte(tb.need_chip, buf);
+				EncodeUtils.int32ToByte(tb.max_chip, buf);
+				EncodeUtils.int32ToByte(tb.max_player, buf);
+				EncodeUtils.int32ToByte(tb.desk_count, buf);
+				EncodeUtils.int32ToByte(tb.role_count, buf);
+				EncodeUtils.int32ToByte(tb.is_open, buf);
+				EncodeUtils.uInt16ToByte(tb.extra1.length, buf);
+				for (let i = 0; i < tb.extra1.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra1[i], buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.extra2.length, buf);
+				for (let i = 0; i < tb.extra2.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra2[i], buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.extra3.length, buf);
+				for (let i = 0; i < tb.extra3.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra3[i], buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.club_id = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.game_type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				let icon_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.icon = icon_value[0];
+				startIndex += icon_value[1];
+				tb.min_bet = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.need_chip = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.max_chip = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.max_player = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.desk_count = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.role_count = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let extra1_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < extra1_len; ++i) {
+					tb.extra1.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				let extra2_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < extra2_len; ++i) {
+					tb.extra2.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				let extra3_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < extra3_len; ++i) {
+					tb.extra3.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_config"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_room_game_info() {
+		let tb: any = {
+			game_type_list: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_room_game_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.uInt16ToByte(tb.game_type_list.length, buf);
+				for (let i = 0; i < tb.game_type_list.length; ++i) {
+					EncodeUtils.int32ToByte(tb.game_type_list[i], buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let game_type_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < game_type_list_len; ++i) {
+					tb.game_type_list.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_game_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_room_game_info() {
+		let tb: any = {
+			game_info_list: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_room_game_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.uInt16ToByte(tb.game_info_list.length, buf);
+				for (let i = 0; i < tb.game_info_list.length; ++i) {
+					tb.game_info_list[i].encode(buf);
+				}
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let game_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < game_info_list_len; ++i) {
+					let tmp = room_game_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.game_info_list.push(tmp);
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_game_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_room_list() {
+		let tb: any = {
+			game_type: 0,
+			club_id: 0,
+			page_index: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_room_list"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.game_type, buf);
+				EncodeUtils.int32ToByte(tb.club_id, buf);
+				EncodeUtils.int32ToByte(tb.page_index, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.game_type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.club_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page_index = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_list"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_room_list() {
+		let tb: any = {
+			room_list: [],
+			total_page: 0,
+			page_index: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_room_list"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.uInt16ToByte(tb.room_list.length, buf);
+				for (let i = 0; i < tb.room_list.length; ++i) {
+					tb.room_list[i].encode(buf);
+				}
+				EncodeUtils.int32ToByte(tb.total_page, buf);
+				EncodeUtils.int32ToByte(tb.page_index, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let room_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < room_list_len; ++i) {
+					let tmp = room_config();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.room_list.push(tmp);
+				}
+				tb.total_page = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page_index = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_list"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_room_create() {
 		let tb: any = {
 			type: 0,
-			cards: [],
+			club_id: 0,
+			game_type: 0,
+			name: '',
+			icon: '',
+			min_bet: 0,
+			need_chip: 0,
+			max_chip: 0,
+			max_player: 0,
+			desk_count: 0,
+			ip_limit: 0,
+			extra1: [],
+			extra2: [],
+			extra3: [],
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh_card_item"];
+				return NetMsgType.msgType["msg_req_room_create"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.type, buf);
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
+				EncodeUtils.int64ToByte(tb.club_id, buf);
+				EncodeUtils.int32ToByte(tb.game_type, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+				EncodeUtils.utf8StrtoBytes(tb.icon, buf);
+				EncodeUtils.int32ToByte(tb.min_bet, buf);
+				EncodeUtils.int32ToByte(tb.need_chip, buf);
+				EncodeUtils.int32ToByte(tb.max_chip, buf);
+				EncodeUtils.int32ToByte(tb.max_player, buf);
+				EncodeUtils.int32ToByte(tb.desk_count, buf);
+				EncodeUtils.int32ToByte(tb.ip_limit, buf);
+				EncodeUtils.uInt16ToByte(tb.extra1.length, buf);
+				for (let i = 0; i < tb.extra1.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra1[i], buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.extra2.length, buf);
+				for (let i = 0; i < tb.extra2.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra2[i], buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.extra3.length, buf);
+				for (let i = 0; i < tb.extra3.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra3[i], buf);
 				}
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				tb.club_id = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.game_type = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				let icon_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.icon = icon_value[0];
+				startIndex += icon_value[1];
+				tb.min_bet = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.need_chip = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.max_chip = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.max_player = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.desk_count = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ip_limit = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let extra1_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
+				for (let i = 0; i < extra1_len; ++i) {
+					tb.extra1.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				let extra2_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < extra2_len; ++i) {
+					tb.extra2.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				let extra3_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < extra3_len; ++i) {
+					tb.extra3.push(EncodeUtils.ByteToint32(buf, startIndex));
 					startIndex += 4;
 				}
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_card_item"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_create"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function zjh_role_item() {
+	export function notify_room_create() {
 		let tb: any = {
-			role_id: 0,
-			sum_bet: 0,
-			pos: 0,
-			role_status: 0,
-			is_card_showed: 0,
-			is_give_up: 0,
-			is_fail: 0,
-			seconds_for_decision: 0,
+			room: room_config(),
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh_role_item"];
+				return NetMsgType.msgType["msg_notify_room_create"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.sum_bet, buf);
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int32ToByte(tb.role_status, buf);
-				EncodeUtils.int32ToByte(tb.is_card_showed, buf);
-				EncodeUtils.int32ToByte(tb.is_give_up, buf);
-				EncodeUtils.int32ToByte(tb.is_fail, buf);
-				EncodeUtils.int32ToByte(tb.seconds_for_decision, buf);
+				tb.room.encode(buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.sum_bet = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.role_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_card_showed = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_give_up = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_fail = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.seconds_for_decision = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += tb.room.decode(buf, startIndex);
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_create"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_room_delete() {
+		let tb: any = {
+			room_id: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_room_delete"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.room_id, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_role_item"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_delete"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function zjh_game_role_info() {
+	export function room_update() {
 		let tb: any = {
-			role_id: 0,
-			role_base: room_role_base(),
-			role_item: zjh_role_item(),
+			room_id: 0,
+			name: '',
+			icon: '',
+			min_bet: 0,
+			need_chip: 0,
+			max_chip: 0,
+			ip_limit: 0,
+			extra1: [],
+			extra2: [],
+			extra3: [],
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh_game_role_info"];
+				return NetMsgType.msgType["msg_room_update"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				tb.role_base.encode(buf);
-				tb.role_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.role_base.decode(buf, startIndex);
-				startIndex += tb.role_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_game_role_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_prepare() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_prepare"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_prepare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_allin() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_allin"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_allin"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_see_cards() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_see_cards"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_see_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_apply_compare() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_apply_compare"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_apply_compare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_compare_role() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_compare_role"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_compare_role"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_follow() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_follow"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_follow"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_add_bet() {
-		let tb: any = {
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_add_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_add_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh_give_up() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh_give_up"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh_give_up"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_card_item() {
-		let tb: any = {
-			card_item: zjh_card_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_card_item"];
-			},
-			encode: function (buf: any) {
-				tb.card_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_card_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_room_info() {
-		let tb: any = {
-			game_status: 0,
-			roles: [],
-			banker: 0,
-			cur_operator: 0,
-			cur_total_bet: 0,
-			cur_bet: 0,
-			chip_link: [],
-			rand_seed: 0,
-			cur_round: 0,
-			start_time: stime(),
-			my_card_item: zjh_card_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
-				for (let i = 0; i < tb.roles.length; ++i) {
-					tb.roles[i].encode(buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.name, buf);
+				EncodeUtils.utf8StrtoBytes(tb.icon, buf);
+				EncodeUtils.int32ToByte(tb.min_bet, buf);
+				EncodeUtils.int32ToByte(tb.need_chip, buf);
+				EncodeUtils.int32ToByte(tb.max_chip, buf);
+				EncodeUtils.int32ToByte(tb.ip_limit, buf);
+				EncodeUtils.uInt16ToByte(tb.extra1.length, buf);
+				for (let i = 0; i < tb.extra1.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra1[i], buf);
 				}
-				EncodeUtils.int64ToByte(tb.banker, buf);
-				EncodeUtils.int64ToByte(tb.cur_operator, buf);
-				EncodeUtils.int64ToByte(tb.cur_total_bet, buf);
-				EncodeUtils.int64ToByte(tb.cur_bet, buf);
-				EncodeUtils.uInt16ToByte(tb.chip_link.length, buf);
-				for (let i = 0; i < tb.chip_link.length; ++i) {
-					EncodeUtils.int32ToByte(tb.chip_link[i], buf);
+				EncodeUtils.uInt16ToByte(tb.extra2.length, buf);
+				for (let i = 0; i < tb.extra2.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra2[i], buf);
 				}
-				EncodeUtils.int32ToByte(tb.rand_seed, buf);
-				EncodeUtils.int32ToByte(tb.cur_round, buf);
-				tb.start_time.encode(buf);
-				tb.my_card_item.encode(buf);
+				EncodeUtils.uInt16ToByte(tb.extra3.length, buf);
+				for (let i = 0; i < tb.extra3.length; ++i) {
+					EncodeUtils.int32ToByte(tb.extra3[i], buf);
+				}
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				let roles_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				let name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.name = name_value[0];
+				startIndex += name_value[1];
+				let icon_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.icon = icon_value[0];
+				startIndex += icon_value[1];
+				tb.min_bet = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.need_chip = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.max_chip = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ip_limit = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let extra1_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
-				for (let i = 0; i < roles_len; ++i) {
-					let tmp = zjh_game_role_info();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.roles.push(tmp);
-				}
-				tb.banker = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_operator = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_total_bet = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_bet = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let chip_link_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < chip_link_len; ++i) {
-					tb.chip_link.push(EncodeUtils.ByteToint32(buf, startIndex));
+				for (let i = 0; i < extra1_len; ++i) {
+					tb.extra1.push(EncodeUtils.ByteToint32(buf, startIndex));
 					startIndex += 4;
 				}
-				tb.rand_seed = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.cur_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				startIndex += tb.my_card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_game_start() {
-		let tb: any = {
-			role_ids: [],
-			banker_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_game_start"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.role_ids.length, buf);
-				for (let i = 0; i < tb.role_ids.length; ++i) {
-					EncodeUtils.int64ToByte(tb.role_ids[i], buf);
-				}
-				EncodeUtils.int64ToByte(tb.banker_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let role_ids_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				let extra2_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
-				for (let i = 0; i < role_ids_len; ++i) {
-					tb.role_ids.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
+				for (let i = 0; i < extra2_len; ++i) {
+					tb.extra2.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
 				}
-				tb.banker_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_game_start"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_round_update() {
-		let tb: any = {
-			round: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_round_update"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.round, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_round_update"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_see_cards() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_see_cards"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_see_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_start_counting() {
-		let tb: any = {
-			start_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.start_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_allin() {
-		let tb: any = {
-			role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_allin"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_allin"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_apply_compare() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_apply_compare"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_apply_compare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_compare() {
-		let tb: any = {
-			a_role_id: 0,
-			b_role_id: 0,
-			win_role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_compare"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.a_role_id, buf);
-				EncodeUtils.int64ToByte(tb.b_role_id, buf);
-				EncodeUtils.int64ToByte(tb.win_role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.a_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.b_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.win_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_compare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_follow() {
-		let tb: any = {
-			role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_follow"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_follow"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_add_bet() {
-		let tb: any = {
-			role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_add_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_add_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_give_up() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_give_up"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_give_up"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_operator_role() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_operator_role"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_operator_role"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function zjh_settlement_item() {
-		let tb: any = {
-			role_id: 0,
-			get_score: 0,
-			card_item: zjh_card_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.get_score, buf);
-				tb.card_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.get_score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh_settlement() {
-		let tb: any = {
-			win_role_id: 0,
-			settlement_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh_settlement"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.win_role_id, buf);
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.win_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				let extra3_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = zjh_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh_settlement"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dn_card_item() {
-		let tb: any = {
-			type: 0,
-			cards: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dn_card_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.type, buf);
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
+				for (let i = 0; i < extra3_len; ++i) {
+					tb.extra3.push(EncodeUtils.ByteToint32(buf, startIndex));
 					startIndex += 4;
 				}
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_card_item"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_room_update"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function dn_role_item() {
+	export function req_room_update() {
 		let tb: any = {
-			role_id: 0,
-			pos: 0,
-			role_status: 0,
-			bet_times: 0,
-			rob_times_index: 0,
-			card_item: dn_card_item(),
+			config: room_update(),
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_dn_role_item"];
+				return NetMsgType.msgType["msg_req_room_update"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int32ToByte(tb.role_status, buf);
-				EncodeUtils.int32ToByte(tb.bet_times, buf);
-				EncodeUtils.int32ToByte(tb.rob_times_index, buf);
-				tb.card_item.encode(buf);
+				tb.config.encode(buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.role_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.bet_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.rob_times_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_role_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dn_game_role_info() {
-		let tb: any = {
-			role_id: 0,
-			role_base: room_role_base(),
-			role_item: dn_role_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dn_game_role_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				tb.role_base.encode(buf);
-				tb.role_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.role_base.decode(buf, startIndex);
-				startIndex += tb.role_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_game_role_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_room_info() {
-		let tb: any = {
-			game_status: 0,
-			roles: [],
-			bet_base: 0,
-			start_time: stime(),
-			banker: 0,
-			rob_times: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
-				for (let i = 0; i < tb.roles.length; ++i) {
-					tb.roles[i].encode(buf);
-				}
-				EncodeUtils.int32ToByte(tb.bet_base, buf);
-				tb.start_time.encode(buf);
-				EncodeUtils.int64ToByte(tb.banker, buf);
-				EncodeUtils.int32ToByte(tb.rob_times, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let roles_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < roles_len; ++i) {
-					let tmp = dn_game_role_info();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.roles.push(tmp);
-				}
-				tb.bet_base = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				tb.banker = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.rob_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dn_prepare() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dn_prepare"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_prepare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_start_counting() {
-		let tb: any = {
-			start_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.start_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_game_start() {
-		let tb: any = {
-			role_ids: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_game_start"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.role_ids.length, buf);
-				for (let i = 0; i < tb.role_ids.length; ++i) {
-					EncodeUtils.int64ToByte(tb.role_ids[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let role_ids_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_ids_len; ++i) {
-					tb.role_ids.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_game_start"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_show_card() {
-		let tb: any = {
-			cards: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_show_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_show_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dn_rob_banker() {
-		let tb: any = {
-			rob_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dn_rob_banker"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.rob_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.rob_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_rob_banker"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_rob_banker() {
-		let tb: any = {
-			role_id: 0,
-			rob_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_rob_banker"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.rob_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.rob_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_rob_banker"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_rob_banker_result() {
-		let tb: any = {
-			banker: 0,
-			rob_times: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_rob_banker_result"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.banker, buf);
-				EncodeUtils.int32ToByte(tb.rob_times, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.banker = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.rob_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_rob_banker_result"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dn_bet_times() {
-		let tb: any = {
-			bet_times_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dn_bet_times"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_times_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_times_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_bet_times"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_bet_times() {
-		let tb: any = {
-			role_id: 0,
-			bet_times: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_bet_times"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.bet_times, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.bet_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_bet_times"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_all_cards() {
-		let tb: any = {
-			cards: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_all_cards"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_all_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_select_cards_start() {
-		let tb: any = {
-			select_end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_select_cards_start"];
-			},
-			encode: function (buf: any) {
-				tb.select_end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.select_end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_select_cards_start"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dn_select_cards() {
-		let tb: any = {
-			cards_index: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dn_select_cards"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.cards_index.length, buf);
-				for (let i = 0; i < tb.cards_index.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards_index[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let cards_index_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_index_len; ++i) {
-					tb.cards_index.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dn_select_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_select_cards() {
-		let tb: any = {
-			role_id: 0,
-			card_item: dn_card_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_select_cards"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				tb.card_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_select_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dn_settlement_item() {
-		let tb: any = {
-			role_id: 0,
-			get_score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dn_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.get_score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.get_score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dn_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dn_settlement() {
-		let tb: any = {
-			settlement_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dn_settlement"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = dn_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dn_settlement"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dot21_card_item() {
-		let tb: any = {
-			cards: [],
-			is_stop: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dot21_card_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-				EncodeUtils.int32ToByte(tb.is_stop, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				tb.is_stop = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_card_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dot21_role_item() {
-		let tb: any = {
-			role_id: 0,
-			pos: 0,
-			chip_link: [],
-			card1: dot21_card_item(),
-			card2: dot21_card_item(),
-			is_bought_insurance: 0,
-			role_status: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dot21_role_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.uInt16ToByte(tb.chip_link.length, buf);
-				for (let i = 0; i < tb.chip_link.length; ++i) {
-					EncodeUtils.int32ToByte(tb.chip_link[i], buf);
-				}
-				tb.card1.encode(buf);
-				tb.card2.encode(buf);
-				EncodeUtils.int32ToByte(tb.is_bought_insurance, buf);
-				EncodeUtils.int32ToByte(tb.role_status, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let chip_link_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < chip_link_len; ++i) {
-					tb.chip_link.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				startIndex += tb.card1.decode(buf, startIndex);
-				startIndex += tb.card2.decode(buf, startIndex);
-				tb.is_bought_insurance = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.role_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_role_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dot21_game_role_info() {
-		let tb: any = {
-			role_id: 0,
-			role_base: room_role_base(),
-			role_item: dot21_role_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dot21_game_role_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				tb.role_base.encode(buf);
-				tb.role_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.role_base.decode(buf, startIndex);
-				startIndex += tb.role_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_game_role_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_room_info() {
-		let tb: any = {
-			game_status: 0,
-			roles: [],
-			banker_card: dot21_card_item(),
-			start_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
-				for (let i = 0; i < tb.roles.length; ++i) {
-					tb.roles[i].encode(buf);
-				}
-				tb.banker_card.encode(buf);
-				tb.start_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let roles_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < roles_len; ++i) {
-					let tmp = dot21_game_role_info();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.roles.push(tmp);
-				}
-				startIndex += tb.banker_card.decode(buf, startIndex);
-				startIndex += tb.start_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_start_counting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dot21_bet() {
-		let tb: any = {
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dot21_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_bet() {
-		let tb: any = {
-			role_id: 0,
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dot21_role_with_card() {
-		let tb: any = {
-			role_id: 0,
-			cards: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dot21_role_with_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_role_with_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_game_start() {
-		let tb: any = {
-			roles: [],
-			is_insurance_open: 0,
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_game_start"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
-				for (let i = 0; i < tb.roles.length; ++i) {
-					tb.roles[i].encode(buf);
-				}
-				EncodeUtils.int32ToByte(tb.is_insurance_open, buf);
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let roles_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < roles_len; ++i) {
-					let tmp = dot21_role_with_card();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.roles.push(tmp);
-				}
-				tb.is_insurance_open = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_game_start"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dot21_buy_insurance() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dot21_buy_insurance"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_buy_insurance"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_buy_insurance() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_buy_insurance"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_buy_insurance"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dot21_divide_card() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dot21_divide_card"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_divide_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_divide_card() {
-		let tb: any = {
-			role_id: 0,
-			cards1: [],
-			cards2: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_divide_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.uInt16ToByte(tb.cards1.length, buf);
-				for (let i = 0; i < tb.cards1.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards1[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.cards2.length, buf);
-				for (let i = 0; i < tb.cards2.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards2[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let cards1_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards1_len; ++i) {
-					tb.cards1.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let cards2_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards2_len; ++i) {
-					tb.cards2.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_divide_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dot21_get_card() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dot21_get_card"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_get_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_get_card() {
-		let tb: any = {
-			role_id: 0,
-			card: 0,
-			card_group: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_get_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.card, buf);
-				EncodeUtils.int32ToByte(tb.card_group, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.card = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.card_group = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_get_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dot21_stop_card() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dot21_stop_card"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_stop_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_stop_card() {
-		let tb: any = {
-			role_id: 0,
-			card_group: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_stop_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.card_group, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.card_group = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_stop_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_dot21_double_card() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_dot21_double_card"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_dot21_double_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_double_card() {
-		let tb: any = {
-			role_id: 0,
-			card: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_double_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.card, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.card = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_double_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_banker_first_card() {
-		let tb: any = {
-			card: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_banker_first_card"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.card, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.card = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_banker_first_card"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_banker_all_cards() {
-		let tb: any = {
-			cards: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_banker_all_cards"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_banker_all_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function dot21_settlement_item() {
-		let tb: any = {
-			role_id: 0,
-			cur_moeny: 0,
-			get_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_dot21_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.cur_moeny, buf);
-				EncodeUtils.int64ToByte(tb.get_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_moeny = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.get_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_dot21_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buy_insurance_settlement() {
-		let tb: any = {
-			settlement_list: [],
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buy_insurance_settlement"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = dot21_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buy_insurance_settlement"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_dot21_settlement() {
-		let tb: any = {
-			settlement_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_dot21_settlement"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = dot21_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_dot21_settlement"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function niu100_pool_info_item() {
-		let tb: any = {
-			pool_index: 0,
-			card_item: dn_card_item(),
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_niu100_pool_info_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				tb.card_item.encode(buf);
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_pool_info_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function niu100_history_item() {
-		let tb: any = {
-			result: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_niu100_history_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.result.length, buf);
-				for (let i = 0; i < tb.result.length; ++i) {
-					EncodeUtils.int32ToByte(tb.result[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let result_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < result_len; ++i) {
-					tb.result.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_history_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_room_info() {
-		let tb: any = {
-			game_status: 0,
-			start_time: stime(),
-			banker: room_role_base(),
-			banker_round: 0,
-			player_list: [],
-			my_bet_info: [],
-			pool_info_list: [],
-			banker_candidate_list: [],
-			history_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				tb.start_time.encode(buf);
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.banker_round, buf);
-				EncodeUtils.uInt16ToByte(tb.player_list.length, buf);
-				for (let i = 0; i < tb.player_list.length; ++i) {
-					tb.player_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.my_bet_info.length, buf);
-				for (let i = 0; i < tb.my_bet_info.length; ++i) {
-					EncodeUtils.int64ToByte(tb.my_bet_info[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_candidate_list.length, buf);
-				for (let i = 0; i < tb.banker_candidate_list.length; ++i) {
-					tb.banker_candidate_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.history_list.length, buf);
-				for (let i = 0; i < tb.history_list.length; ++i) {
-					tb.history_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.banker_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let player_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.player_list.push(tmp);
-				}
-				let my_bet_info_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < my_bet_info_len; ++i) {
-					tb.my_bet_info.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = niu100_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				let banker_candidate_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate_list.push(tmp);
-				}
-				let history_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < history_list_len; ++i) {
-					let tmp = niu100_history_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.history_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_start_counting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_start_beting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_start_beting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_start_beting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function niu100_settlement_item() {
-		let tb: any = {
-			pool_index: 0,
-			is_win: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_niu100_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				EncodeUtils.int32ToByte(tb.is_win, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_win = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_myself_get_money() {
-		let tb: any = {
-			cur_money: 0,
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_myself_get_money"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.cur_money, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.cur_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_myself_get_money"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_start_comparing() {
-		let tb: any = {
-			settlement_list: [],
-			pool_info_list: [],
-			banker_card_item: dn_card_item(),
-			role_get_money_list: [],
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_start_comparing"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				tb.banker_card_item.encode(buf);
-				EncodeUtils.uInt16ToByte(tb.role_get_money_list.length, buf);
-				for (let i = 0; i < tb.role_get_money_list.length; ++i) {
-					tb.role_get_money_list[i].encode(buf);
-				}
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = niu100_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = niu100_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				startIndex += tb.banker_card_item.decode(buf, startIndex);
-				let role_get_money_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_get_money_list_len; ++i) {
-					let tmp = role_get_money_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.role_get_money_list.push(tmp);
-				}
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_start_comparing"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function niu100_bet_item() {
-		let tb: any = {
-			role_id: 0,
-			money: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_niu100_bet_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_niu100_bet_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_niu100_bet() {
-		let tb: any = {
-			bet_index: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_niu100_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_index, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_self_bet() {
-		let tb: any = {
-			bet_info: niu100_bet_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_self_bet"];
-			},
-			encode: function (buf: any) {
-				tb.bet_info.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.bet_info.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_self_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_bet() {
-		let tb: any = {
-			bet_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
-				for (let i = 0; i < tb.bet_list.length; ++i) {
-					tb.bet_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < bet_list_len; ++i) {
-					let tmp = niu100_bet_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.bet_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_niu100_banker_list() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_niu100_banker_list"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_banker_list() {
-		let tb: any = {
-			banker_candidate: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_banker_list"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
-				for (let i = 0; i < tb.banker_candidate.length; ++i) {
-					tb.banker_candidate[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_niu100_banker_in() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_niu100_banker_in"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_banker_in() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_banker_in"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_niu100_banker_out() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_niu100_banker_out"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_niu100_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_banker_out() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_banker_out"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_niu100_cur_banker() {
-		let tb: any = {
-			banker: room_role_base(),
-			round: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_niu100_cur_banker"];
-			},
-			encode: function (buf: any) {
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.round, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_niu100_cur_banker"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bjl_pool_info_item() {
-		let tb: any = {
-			pool_index: 0,
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bjl_pool_info_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_pool_info_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bjl_history_item() {
-		let tb: any = {
-			result: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bjl_history_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.result.length, buf);
-				for (let i = 0; i < tb.result.length; ++i) {
-					EncodeUtils.int32ToByte(tb.result[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let result_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < result_len; ++i) {
-					tb.result.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_history_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bjl_history_point_item() {
-		let tb: any = {
-			banker_point: 0,
-			player_point: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bjl_history_point_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.banker_point, buf);
-				EncodeUtils.int32ToByte(tb.player_point, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.banker_point = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.player_point = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_history_point_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_room_info() {
-		let tb: any = {
-			game_status: 0,
-			start_time: stime(),
-			banker: room_role_base(),
-			banker_round: 0,
-			game_round: 0,
-			game_turn: 0,
-			player_list: [],
-			my_bet_info: [],
-			banker_card: [],
-			player_card: [],
-			pool_info_list: [],
-			banker_candidate_list: [],
-			history_point_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				tb.start_time.encode(buf);
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.banker_round, buf);
-				EncodeUtils.int32ToByte(tb.game_round, buf);
-				EncodeUtils.int32ToByte(tb.game_turn, buf);
-				EncodeUtils.uInt16ToByte(tb.player_list.length, buf);
-				for (let i = 0; i < tb.player_list.length; ++i) {
-					tb.player_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.my_bet_info.length, buf);
-				for (let i = 0; i < tb.my_bet_info.length; ++i) {
-					EncodeUtils.int64ToByte(tb.my_bet_info[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_card.length, buf);
-				for (let i = 0; i < tb.banker_card.length; ++i) {
-					EncodeUtils.int32ToByte(tb.banker_card[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.player_card.length, buf);
-				for (let i = 0; i < tb.player_card.length; ++i) {
-					EncodeUtils.int32ToByte(tb.player_card[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_candidate_list.length, buf);
-				for (let i = 0; i < tb.banker_candidate_list.length; ++i) {
-					tb.banker_candidate_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.history_point_list.length, buf);
-				for (let i = 0; i < tb.history_point_list.length; ++i) {
-					tb.history_point_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.banker_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.game_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.game_turn = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let player_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.player_list.push(tmp);
-				}
-				let my_bet_info_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < my_bet_info_len; ++i) {
-					tb.my_bet_info.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				let banker_card_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_card_len; ++i) {
-					tb.banker_card.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let player_card_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_card_len; ++i) {
-					tb.player_card.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = bjl_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				let banker_candidate_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate_list.push(tmp);
-				}
-				let history_point_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < history_point_list_len; ++i) {
-					let tmp = bjl_history_point_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.history_point_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_start_counting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_start_beting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_start_beting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_start_beting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bjl_settlement_item() {
-		let tb: any = {
-			pool_index: 0,
-			is_win: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bjl_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				EncodeUtils.int32ToByte(tb.is_win, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_win = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_myself_get_money() {
-		let tb: any = {
-			cur_money: 0,
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_myself_get_money"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.cur_money, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.cur_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_myself_get_money"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_start_comparing() {
-		let tb: any = {
-			settlement_list: [],
-			banker_card: [],
-			player_card: [],
-			role_get_money_list: [],
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_start_comparing"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_card.length, buf);
-				for (let i = 0; i < tb.banker_card.length; ++i) {
-					EncodeUtils.int32ToByte(tb.banker_card[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.player_card.length, buf);
-				for (let i = 0; i < tb.player_card.length; ++i) {
-					EncodeUtils.int32ToByte(tb.player_card[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.role_get_money_list.length, buf);
-				for (let i = 0; i < tb.role_get_money_list.length; ++i) {
-					tb.role_get_money_list[i].encode(buf);
-				}
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = bjl_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				let banker_card_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_card_len; ++i) {
-					tb.banker_card.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let player_card_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_card_len; ++i) {
-					tb.player_card.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let role_get_money_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_get_money_list_len; ++i) {
-					let tmp = role_get_money_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.role_get_money_list.push(tmp);
-				}
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_start_comparing"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bjl_bet_item() {
-		let tb: any = {
-			role_id: 0,
-			money: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bjl_bet_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bjl_bet_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bjl_bet() {
-		let tb: any = {
-			bet_index: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bjl_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_index, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_self_bet() {
-		let tb: any = {
-			bet_info: bjl_bet_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_self_bet"];
-			},
-			encode: function (buf: any) {
-				tb.bet_info.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.bet_info.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_self_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_bet() {
-		let tb: any = {
-			bet_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
-				for (let i = 0; i < tb.bet_list.length; ++i) {
-					tb.bet_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < bet_list_len; ++i) {
-					let tmp = bjl_bet_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.bet_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bjl_banker_list() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bjl_banker_list"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_banker_list() {
-		let tb: any = {
-			banker_candidate: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_banker_list"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
-				for (let i = 0; i < tb.banker_candidate.length; ++i) {
-					tb.banker_candidate[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bjl_banker_in() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bjl_banker_in"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_banker_in() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_banker_in"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bjl_banker_out() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bjl_banker_out"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bjl_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_banker_out() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_banker_out"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bjl_cur_banker() {
-		let tb: any = {
-			banker: room_role_base(),
-			round: 0,
-			get_score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bjl_cur_banker"];
-			},
-			encode: function (buf: any) {
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.round, buf);
-				EncodeUtils.int64ToByte(tb.get_score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.get_score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bjl_cur_banker"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bullet_item() {
-		let tb: any = {
-			bullet_id: 0,
-			bullet_type: 0,
-			angle: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bullet_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bullet_id, buf);
-				EncodeUtils.int32ToByte(tb.bullet_type, buf);
-				EncodeUtils.int32ToByte(tb.angle, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bullet_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.bullet_type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.angle = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bullet_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function cannon_item() {
-		let tb: any = {
-			pos: 0,
-			role_id: 0,
-			role_base: room_role_base(),
-			angle: 0,
-			type: 0,
-			times: 0,
-			target_fish_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_cannon_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				tb.role_base.encode(buf);
-				EncodeUtils.int32ToByte(tb.angle, buf);
-				EncodeUtils.int32ToByte(tb.type, buf);
-				EncodeUtils.int32ToByte(tb.times, buf);
-				EncodeUtils.int32ToByte(tb.target_fish_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.role_base.decode(buf, startIndex);
-				tb.angle = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.target_fish_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_cannon_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function buyu_fish_item() {
-		let tb: any = {
-			fish_id: 0,
-			fish_tplt_id: 0,
-			line_id: 0,
-			life_time: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_buyu_fish_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.fish_id, buf);
-				EncodeUtils.int32ToByte(tb.fish_tplt_id, buf);
-				EncodeUtils.int32ToByte(tb.line_id, buf);
-				EncodeUtils.int32ToByte(tb.life_time, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.fish_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.fish_tplt_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.line_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.life_time = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_buyu_fish_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_room_info() {
-		let tb: any = {
-			cannon_list: [],
-			bullet_list: [],
-			fish_list: [],
-			map_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.cannon_list.length, buf);
-				for (let i = 0; i < tb.cannon_list.length; ++i) {
-					tb.cannon_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.bullet_list.length, buf);
-				for (let i = 0; i < tb.bullet_list.length; ++i) {
-					tb.bullet_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.fish_list.length, buf);
-				for (let i = 0; i < tb.fish_list.length; ++i) {
-					tb.fish_list[i].encode(buf);
-				}
-				EncodeUtils.int32ToByte(tb.map_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let cannon_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cannon_list_len; ++i) {
-					let tmp = cannon_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.cannon_list.push(tmp);
-				}
-				let bullet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < bullet_list_len; ++i) {
-					let tmp = bullet_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.bullet_list.push(tmp);
-				}
-				let fish_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < fish_list_len; ++i) {
-					let tmp = buyu_fish_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.fish_list.push(tmp);
-				}
-				tb.map_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_buyu_shoot() {
-		let tb: any = {
-			bullet_type: 0,
-			angle: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_buyu_shoot"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bullet_type, buf);
-				EncodeUtils.int32ToByte(tb.angle, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bullet_type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.angle = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_shoot"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_shoot() {
-		let tb: any = {
-			pos: 0,
-			bullet: bullet_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_shoot"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				tb.bullet.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.bullet.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_shoot"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_buyu_update_cannon_times() {
-		let tb: any = {
-			times: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_buyu_update_cannon_times"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.times, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_update_cannon_times"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_update_cannon_times() {
-		let tb: any = {
-			pos: 0,
-			times: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_update_cannon_times"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int32ToByte(tb.times, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_update_cannon_times"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_buyu_hit_fish() {
-		let tb: any = {
-			bullet_id: 0,
-			fish_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_buyu_hit_fish"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bullet_id, buf);
-				EncodeUtils.int32ToByte(tb.fish_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bullet_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.fish_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_hit_fish"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_hit_fish() {
-		let tb: any = {
-			is_hit: 0,
-			bullet_id: 0,
-			fish_id_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_hit_fish"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.is_hit, buf);
-				EncodeUtils.int32ToByte(tb.bullet_id, buf);
-				EncodeUtils.uInt16ToByte(tb.fish_id_list.length, buf);
-				for (let i = 0; i < tb.fish_id_list.length; ++i) {
-					EncodeUtils.int32ToByte(tb.fish_id_list[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.is_hit = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.bullet_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let fish_id_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < fish_id_list_len; ++i) {
-					tb.fish_id_list.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_hit_fish"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_fish_spawn() {
-		let tb: any = {
-			fish_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_fish_spawn"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.fish_list.length, buf);
-				for (let i = 0; i < tb.fish_list.length; ++i) {
-					tb.fish_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let fish_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < fish_list_len; ++i) {
-					let tmp = buyu_fish_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.fish_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_fish_spawn"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_change_map() {
-		let tb: any = {
-			map_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_change_map"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.map_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.map_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_change_map"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_buyu_target_fish() {
-		let tb: any = {
-			fish_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_buyu_target_fish"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.fish_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.fish_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_buyu_target_fish"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_buyu_target_fish() {
-		let tb: any = {
-			role_id: 0,
-			fish_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_target_fish"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int32ToByte(tb.fish_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.fish_id = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_target_fish"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function texas_role_item() {
-		let tb: any = {
-			role_id: 0,
-			sum_bet: 0,
-			pos: 0,
-			role_status: 0,
-			is_card_showed: 0,
-			is_give_up: 0,
-			is_fail: 0,
-			seconds_for_decision: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_texas_role_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.sum_bet, buf);
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int32ToByte(tb.role_status, buf);
-				EncodeUtils.int32ToByte(tb.is_card_showed, buf);
-				EncodeUtils.int32ToByte(tb.is_give_up, buf);
-				EncodeUtils.int32ToByte(tb.is_fail, buf);
-				EncodeUtils.int32ToByte(tb.seconds_for_decision, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.sum_bet = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.role_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_card_showed = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_give_up = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_fail = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.seconds_for_decision = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_role_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function texas_game_role_info() {
-		let tb: any = {
-			role_id: 0,
-			role_base: room_role_base(),
-			role_item: texas_role_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_texas_game_role_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				tb.role_base.encode(buf);
-				tb.role_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.role_base.decode(buf, startIndex);
-				startIndex += tb.role_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_game_role_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_prepare() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_prepare"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_prepare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_allin() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_allin"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_allin"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_see_cards() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_see_cards"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_see_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_apply_compare() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_apply_compare"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_apply_compare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_compare_role() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_compare_role"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_compare_role"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_follow() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_follow"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_follow"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_add_bet() {
-		let tb: any = {
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_add_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_add_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_texas_give_up() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_texas_give_up"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_texas_give_up"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function texas_card_item() {
-		let tb: any = {
-			type: 0,
-			cards: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_texas_card_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.type, buf);
-				EncodeUtils.uInt16ToByte(tb.cards.length, buf);
-				for (let i = 0; i < tb.cards.length; ++i) {
-					EncodeUtils.int32ToByte(tb.cards[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.type = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let cards_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < cards_len; ++i) {
-					tb.cards.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_card_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_card_item() {
-		let tb: any = {
-			card_item: texas_card_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_card_item"];
-			},
-			encode: function (buf: any) {
-				tb.card_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_card_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_room_info() {
-		let tb: any = {
-			game_status: 0,
-			roles: [],
-			banker: 0,
-			cur_operator: 0,
-			cur_total_bet: 0,
-			cur_bet: 0,
-			chip_link: [],
-			rand_seed: 0,
-			cur_round: 0,
-			start_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				EncodeUtils.uInt16ToByte(tb.roles.length, buf);
-				for (let i = 0; i < tb.roles.length; ++i) {
-					tb.roles[i].encode(buf);
-				}
-				EncodeUtils.int64ToByte(tb.banker, buf);
-				EncodeUtils.int64ToByte(tb.cur_operator, buf);
-				EncodeUtils.int64ToByte(tb.cur_total_bet, buf);
-				EncodeUtils.int64ToByte(tb.cur_bet, buf);
-				EncodeUtils.uInt16ToByte(tb.chip_link.length, buf);
-				for (let i = 0; i < tb.chip_link.length; ++i) {
-					EncodeUtils.int32ToByte(tb.chip_link[i], buf);
-				}
-				EncodeUtils.int32ToByte(tb.rand_seed, buf);
-				EncodeUtils.int32ToByte(tb.cur_round, buf);
-				tb.start_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let roles_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < roles_len; ++i) {
-					let tmp = texas_game_role_info();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.roles.push(tmp);
-				}
-				tb.banker = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_operator = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_total_bet = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.cur_bet = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let chip_link_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < chip_link_len; ++i) {
-					tb.chip_link.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				tb.rand_seed = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.cur_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
+				startIndex += tb.config.decode(buf, startIndex);
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_room_info"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_update"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function notify_texas_game_start() {
+	export function notify_room_update() {
 		let tb: any = {
-			role_ids: [],
-			banker_id: 0,
+			room: room_config(),
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_game_start"];
+				return NetMsgType.msgType["msg_notify_room_update"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.role_ids.length, buf);
-				for (let i = 0; i < tb.role_ids.length; ++i) {
-					EncodeUtils.int64ToByte(tb.role_ids[i], buf);
-				}
-				EncodeUtils.int64ToByte(tb.banker_id, buf);
+				tb.room.encode(buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				let role_ids_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_ids_len; ++i) {
-					tb.role_ids.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				tb.banker_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
+				startIndex += tb.room.decode(buf, startIndex);
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_game_start"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_room_update"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function notify_texas_round_update() {
+	export function req_room_close() {
 		let tb: any = {
-			round: 0,
+			room_id: 0,
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_round_update"];
+				return NetMsgType.msgType["msg_req_room_close"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.round, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_round_update"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_see_cards() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_see_cards"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_see_cards"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_start_counting() {
-		let tb: any = {
-			start_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.start_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_allin() {
-		let tb: any = {
-			role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_allin"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_allin"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_close"], buf);
 				return tb.encode(buf);
 			}
 		};
 		return tb;
 	}
-	export function notify_texas_apply_compare() {
+	export function req_room_open() {
 		let tb: any = {
-			result: 0,
+			room_id: 0,
 			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_apply_compare"];
+				return NetMsgType.msgType["msg_req_room_open"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_apply_compare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_compare() {
-		let tb: any = {
-			a_role_id: 0,
-			b_role_id: 0,
-			win_role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_compare"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.a_role_id, buf);
-				EncodeUtils.int64ToByte(tb.b_role_id, buf);
-				EncodeUtils.int64ToByte(tb.win_role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.a_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.b_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.win_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_compare"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_follow() {
-		let tb: any = {
-			role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_follow"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_follow"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_add_bet() {
-		let tb: any = {
-			role_id: 0,
-			score: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_add_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.score, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_add_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_give_up() {
-		let tb: any = {
-			role_id: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_give_up"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_give_up"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function texas_settlement_item() {
-		let tb: any = {
-			role_id: 0,
-			get_score: 0,
-			card_item: texas_card_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_texas_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.get_score, buf);
-				tb.card_item.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.get_score = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_texas_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_texas_settlement() {
-		let tb: any = {
-			win_role_id: 0,
-			settlement_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_texas_settlement"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.win_role_id, buf);
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.win_role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = texas_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
 				return startIndex - index;
 			},
 			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_texas_settlement"], buf);
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_room_open"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -7798,18 +3937,18 @@ export module NetPacket {
 	}
 	export function req_scratch_ticket() {
 		let tb: any = {
-			room_type_id: 0,
+			room_id: 0,
 			count: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_scratch_ticket"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 				EncodeUtils.int64ToByte(tb.count, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.count = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
@@ -7912,542 +4051,6 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_odd_monkey_jackpot"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bmw_pool_info_item() {
-		let tb: any = {
-			pool_index: 0,
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bmw_pool_info_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bmw_pool_info_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_room_info() {
-		let tb: any = {
-			game_status: 0,
-			start_time: stime(),
-			banker: room_role_base(),
-			banker_round: 0,
-			player_list: [],
-			my_bet_info: [],
-			pool_info_list: [],
-			banker_candidate_list: [],
-			history_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				tb.start_time.encode(buf);
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.banker_round, buf);
-				EncodeUtils.uInt16ToByte(tb.player_list.length, buf);
-				for (let i = 0; i < tb.player_list.length; ++i) {
-					tb.player_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.my_bet_info.length, buf);
-				for (let i = 0; i < tb.my_bet_info.length; ++i) {
-					EncodeUtils.int64ToByte(tb.my_bet_info[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_candidate_list.length, buf);
-				for (let i = 0; i < tb.banker_candidate_list.length; ++i) {
-					tb.banker_candidate_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.history_list.length, buf);
-				for (let i = 0; i < tb.history_list.length; ++i) {
-					EncodeUtils.int32ToByte(tb.history_list[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.banker_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let player_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.player_list.push(tmp);
-				}
-				let my_bet_info_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < my_bet_info_len; ++i) {
-					tb.my_bet_info.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = bmw_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				let banker_candidate_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate_list.push(tmp);
-				}
-				let history_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < history_list_len; ++i) {
-					tb.history_list.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_start_counting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_start_beting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_start_beting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_start_beting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_myself_get_money() {
-		let tb: any = {
-			cur_money: 0,
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_myself_get_money"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.cur_money, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.cur_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_myself_get_money"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bmw_win_rank_item() {
-		let tb: any = {
-			nickname: '',
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bmw_win_rank_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let nickname_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.nickname = nickname_value[0];
-				startIndex += nickname_value[1];
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bmw_win_rank_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_start_comparing() {
-		let tb: any = {
-			pool_info_list: [],
-			bmw_random_index: 0,
-			win_pool_index: 0,
-			role_get_money_list: [],
-			end_time: stime(),
-			rank_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_start_comparing"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.int32ToByte(tb.bmw_random_index, buf);
-				EncodeUtils.int32ToByte(tb.win_pool_index, buf);
-				EncodeUtils.uInt16ToByte(tb.role_get_money_list.length, buf);
-				for (let i = 0; i < tb.role_get_money_list.length; ++i) {
-					tb.role_get_money_list[i].encode(buf);
-				}
-				tb.end_time.encode(buf);
-				EncodeUtils.uInt16ToByte(tb.rank_list.length, buf);
-				for (let i = 0; i < tb.rank_list.length; ++i) {
-					tb.rank_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = bmw_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				tb.bmw_random_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.win_pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let role_get_money_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_get_money_list_len; ++i) {
-					let tmp = role_get_money_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.role_get_money_list.push(tmp);
-				}
-				startIndex += tb.end_time.decode(buf, startIndex);
-				let rank_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < rank_list_len; ++i) {
-					let tmp = bmw_win_rank_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.rank_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_start_comparing"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function bmw_bet_item() {
-		let tb: any = {
-			role_id: 0,
-			money: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_bmw_bet_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_bmw_bet_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bmw_bet() {
-		let tb: any = {
-			bet_index: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bmw_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_index, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_self_bet() {
-		let tb: any = {
-			bet_info: bmw_bet_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_self_bet"];
-			},
-			encode: function (buf: any) {
-				tb.bet_info.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.bet_info.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_self_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_bet() {
-		let tb: any = {
-			bet_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
-				for (let i = 0; i < tb.bet_list.length; ++i) {
-					tb.bet_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < bet_list_len; ++i) {
-					let tmp = bmw_bet_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.bet_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bmw_banker_list() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bmw_banker_list"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_banker_list() {
-		let tb: any = {
-			banker_candidate: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_banker_list"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
-				for (let i = 0; i < tb.banker_candidate.length; ++i) {
-					tb.banker_candidate[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bmw_banker_in() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bmw_banker_in"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_banker_in() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_banker_in"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_bmw_banker_out() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_bmw_banker_out"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_bmw_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_banker_out() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_banker_out"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_bmw_cur_banker() {
-		let tb: any = {
-			banker: room_role_base(),
-			round: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_bmw_cur_banker"];
-			},
-			encode: function (buf: any) {
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.round, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_bmw_cur_banker"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -8618,9 +4221,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_ball"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8761,9 +4364,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_return_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8802,9 +4405,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_return_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8837,577 +4440,14 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function zjh100_pool_info_item() {
-		let tb: any = {
-			pool_index: 0,
-			card_item: dn_card_item(),
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh100_pool_info_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				tb.card_item.encode(buf);
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.card_item.decode(buf, startIndex);
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_pool_info_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function zjh100_history_item() {
-		let tb: any = {
-			result: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh100_history_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.result.length, buf);
-				for (let i = 0; i < tb.result.length; ++i) {
-					EncodeUtils.int32ToByte(tb.result[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let result_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < result_len; ++i) {
-					tb.result.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_history_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_room_info() {
-		let tb: any = {
-			game_status: 0,
-			start_time: stime(),
-			banker: room_role_base(),
-			banker_round: 0,
-			player_list: [],
-			my_bet_info: [],
-			pool_info_list: [],
-			banker_candidate_list: [],
-			history_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				tb.start_time.encode(buf);
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.banker_round, buf);
-				EncodeUtils.uInt16ToByte(tb.player_list.length, buf);
-				for (let i = 0; i < tb.player_list.length; ++i) {
-					tb.player_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.my_bet_info.length, buf);
-				for (let i = 0; i < tb.my_bet_info.length; ++i) {
-					EncodeUtils.int64ToByte(tb.my_bet_info[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_candidate_list.length, buf);
-				for (let i = 0; i < tb.banker_candidate_list.length; ++i) {
-					tb.banker_candidate_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.history_list.length, buf);
-				for (let i = 0; i < tb.history_list.length; ++i) {
-					tb.history_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.banker_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let player_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.player_list.push(tmp);
-				}
-				let my_bet_info_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < my_bet_info_len; ++i) {
-					tb.my_bet_info.push(EncodeUtils.ByteToint64(buf, startIndex));
-					startIndex += 8;
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = zjh100_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				let banker_candidate_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate_list.push(tmp);
-				}
-				let history_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < history_list_len; ++i) {
-					let tmp = zjh100_history_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.history_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_start_counting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_start_beting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_start_beting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_start_beting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function zjh100_settlement_item() {
-		let tb: any = {
-			pool_index: 0,
-			is_win: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh100_settlement_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				EncodeUtils.int32ToByte(tb.is_win, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_win = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_settlement_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_myself_get_money() {
-		let tb: any = {
-			cur_money: 0,
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_myself_get_money"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.cur_money, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.cur_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_myself_get_money"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_start_comparing() {
-		let tb: any = {
-			settlement_list: [],
-			pool_info_list: [],
-			banker_card_item: dn_card_item(),
-			role_get_money_list: [],
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_start_comparing"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.settlement_list.length, buf);
-				for (let i = 0; i < tb.settlement_list.length; ++i) {
-					tb.settlement_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				tb.banker_card_item.encode(buf);
-				EncodeUtils.uInt16ToByte(tb.role_get_money_list.length, buf);
-				for (let i = 0; i < tb.role_get_money_list.length; ++i) {
-					tb.role_get_money_list[i].encode(buf);
-				}
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let settlement_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < settlement_list_len; ++i) {
-					let tmp = zjh100_settlement_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.settlement_list.push(tmp);
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = zjh100_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				startIndex += tb.banker_card_item.decode(buf, startIndex);
-				let role_get_money_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_get_money_list_len; ++i) {
-					let tmp = role_get_money_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.role_get_money_list.push(tmp);
-				}
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_start_comparing"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function zjh100_bet_item() {
-		let tb: any = {
-			role_id: 0,
-			money: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_zjh100_bet_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_zjh100_bet_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh100_bet() {
-		let tb: any = {
-			bet_index: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh100_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_index, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_self_bet() {
-		let tb: any = {
-			bet_info: zjh100_bet_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_self_bet"];
-			},
-			encode: function (buf: any) {
-				tb.bet_info.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.bet_info.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_self_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_bet() {
-		let tb: any = {
-			bet_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
-				for (let i = 0; i < tb.bet_list.length; ++i) {
-					tb.bet_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < bet_list_len; ++i) {
-					let tmp = zjh100_bet_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.bet_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh100_banker_list() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh100_banker_list"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_banker_list() {
-		let tb: any = {
-			banker_candidate: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_banker_list"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
-				for (let i = 0; i < tb.banker_candidate.length; ++i) {
-					tb.banker_candidate[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh100_banker_in() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh100_banker_in"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_banker_in() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_banker_in"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_zjh100_banker_out() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_zjh100_banker_out"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_zjh100_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_banker_out() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_banker_out"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_zjh100_cur_banker() {
-		let tb: any = {
-			banker: room_role_base(),
-			round: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_zjh100_cur_banker"];
-			},
-			encode: function (buf: any) {
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.round, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_zjh100_cur_banker"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
 	export function req_mobile_cancel() {
 		let tb: any = {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mobile_cancel"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9440,149 +4480,14 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function laba_item() {
-		let tb: any = {
-			icon: 0,
-			pos: 0,
-			is_flash: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_laba_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.icon, buf);
-				EncodeUtils.int32ToByte(tb.pos, buf);
-				EncodeUtils.int32ToByte(tb.is_flash, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.icon = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.is_flash = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_laba_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_laba_room_info() {
-		let tb: any = {
-			free_times: 0,
-			lock_bet_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_laba_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.free_times, buf);
-				EncodeUtils.int32ToByte(tb.lock_bet_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.free_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.lock_bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_laba_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_laba() {
-		let tb: any = {
-			bet_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_laba"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_laba"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_laba() {
-		let tb: any = {
-			money: 0,
-			free_times: 0,
-			box_times: 0,
-			item_list: [],
-			lines: [],
-			is_box_open: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_laba"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.free_times, buf);
-				EncodeUtils.int32ToByte(tb.box_times, buf);
-				EncodeUtils.uInt16ToByte(tb.item_list.length, buf);
-				for (let i = 0; i < tb.item_list.length; ++i) {
-					tb.item_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.lines.length, buf);
-				for (let i = 0; i < tb.lines.length; ++i) {
-					EncodeUtils.int32ToByte(tb.lines[i], buf);
-				}
-				EncodeUtils.int32ToByte(tb.is_box_open, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.free_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.box_times = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let item_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < item_list_len; ++i) {
-					let tmp = laba_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.item_list.push(tmp);
-				}
-				let lines_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < lines_len; ++i) {
-					tb.lines.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				tb.is_box_open = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_laba"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
 	export function req_slots_info() {
 		let tb: any = {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_slots_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9805,9 +4710,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_slots_open_box"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9987,16 +4892,16 @@ export module NetPacket {
 	}
 	export function req_pt888_info() {
 		let tb: any = {
-			room_type_id: 0,
+			room_id: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_info"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -10051,19 +4956,19 @@ export module NetPacket {
 	export function req_pt888_spin() {
 		let tb: any = {
 			bet_index: 0,
-			room_type_id: 0,
+			room_id: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_spin"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.bet_index, buf);
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -10106,16 +5011,16 @@ export module NetPacket {
 	}
 	export function req_pt888_take_coin() {
 		let tb: any = {
-			room_type_id: 0,
+			room_id: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_take_coin"];
 			},
 			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.room_type_id, buf);
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
-				tb.room_type_id = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -10199,9 +5104,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_get_self_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10247,9 +5152,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pt888_get_all_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10384,9 +5289,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jmp_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10514,9 +5419,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_qtds_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10636,9 +5541,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_qtds_free_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10691,9 +5596,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_qtds_free_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11352,9 +6257,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_game_task_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11452,9 +6357,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_wx_share_req"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11550,9 +6455,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_return_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11638,9 +6543,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_weixin_daily_give_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11678,9 +6583,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_weixin_daily_give"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11813,9 +6718,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_invite_time_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11894,9 +6799,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_sign_in_config"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12033,36 +6938,6 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function notify_buyu_shoot_list() {
-		let tb: any = {
-			shoot_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_buyu_shoot_list"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.shoot_list.length, buf);
-				for (let i = 0; i < tb.shoot_list.length; ++i) {
-					tb.shoot_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let shoot_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < shoot_list_len; ++i) {
-					let tmp = notify_buyu_shoot();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.shoot_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_buyu_shoot_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
 	export function req_gif() {
 		let tb: any = {
 			id: 0,
@@ -12090,9 +6965,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_whether_can_open_red_packet"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12130,9 +7005,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_open_red_packet"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12170,9 +7045,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dcdf_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12353,9 +7228,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dcdf_free_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12412,9 +7287,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dcdf_free_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12497,9 +7372,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_milu_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12700,9 +7575,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_knight_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12947,9 +7822,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_knight_free_game_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13125,9 +8000,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dcdf_open_prize_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13202,9 +8077,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13316,9 +8191,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_free_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13379,9 +8254,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_free_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13538,9 +8413,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13582,9 +8457,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_qq"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13668,9 +8543,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_three_little_pigs_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13888,9 +8763,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_three_little_pigs_free_game_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -14051,9 +8926,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fruit_mali_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -14279,9 +9154,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fruit_mali_mali"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -14348,9 +9223,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fruit_mali_mali_finish"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -14361,568 +9236,14 @@ export module NetPacket {
 		};
 		return tb;
 	}
-	export function fqzs_pool_info_item() {
-		let tb: any = {
-			pool_index: 0,
-			bet_money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_fqzs_pool_info_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-				EncodeUtils.int64ToByte(tb.bet_money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.bet_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fqzs_pool_info_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_room_info() {
-		let tb: any = {
-			game_status: 0,
-			start_time: stime(),
-			banker: room_role_base(),
-			banker_round: 0,
-			player_list: [],
-			my_bet_info: [],
-			pool_info_list: [],
-			banker_candidate_list: [],
-			history_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_room_info"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.game_status, buf);
-				tb.start_time.encode(buf);
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.banker_round, buf);
-				EncodeUtils.uInt16ToByte(tb.player_list.length, buf);
-				for (let i = 0; i < tb.player_list.length; ++i) {
-					tb.player_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.my_bet_info.length, buf);
-				for (let i = 0; i < tb.my_bet_info.length; ++i) {
-					EncodeUtils.int32ToByte(tb.my_bet_info[i], buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.banker_candidate_list.length, buf);
-				for (let i = 0; i < tb.banker_candidate_list.length; ++i) {
-					tb.banker_candidate_list[i].encode(buf);
-				}
-				EncodeUtils.uInt16ToByte(tb.history_list.length, buf);
-				for (let i = 0; i < tb.history_list.length; ++i) {
-					EncodeUtils.int32ToByte(tb.history_list[i], buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.game_status = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				startIndex += tb.start_time.decode(buf, startIndex);
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.banker_round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let player_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < player_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.player_list.push(tmp);
-				}
-				let my_bet_info_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < my_bet_info_len; ++i) {
-					tb.my_bet_info.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = fqzs_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				let banker_candidate_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_list_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate_list.push(tmp);
-				}
-				let history_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < history_list_len; ++i) {
-					tb.history_list.push(EncodeUtils.ByteToint32(buf, startIndex));
-					startIndex += 4;
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_room_info"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_start_counting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_start_counting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_start_counting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_start_beting() {
-		let tb: any = {
-			end_time: stime(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_start_beting"];
-			},
-			encode: function (buf: any) {
-				tb.end_time.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.end_time.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_start_beting"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_myself_get_money() {
-		let tb: any = {
-			cur_money: 0,
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_myself_get_money"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.cur_money, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.cur_money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_myself_get_money"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function fqzs_win_rank_item() {
-		let tb: any = {
-			nickname: '',
-			money: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_fqzs_win_rank_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.utf8StrtoBytes(tb.nickname, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let nickname_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.nickname = nickname_value[0];
-				startIndex += nickname_value[1];
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fqzs_win_rank_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_start_comparing() {
-		let tb: any = {
-			pool_info_list: [],
-			fqzs_random_index: 0,
-			win_pool_index: 0,
-			role_get_money_list: [],
-			end_time: stime(),
-			rank_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_start_comparing"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.pool_info_list.length, buf);
-				for (let i = 0; i < tb.pool_info_list.length; ++i) {
-					tb.pool_info_list[i].encode(buf);
-				}
-				EncodeUtils.int32ToByte(tb.fqzs_random_index, buf);
-				EncodeUtils.int32ToByte(tb.win_pool_index, buf);
-				EncodeUtils.uInt16ToByte(tb.role_get_money_list.length, buf);
-				for (let i = 0; i < tb.role_get_money_list.length; ++i) {
-					tb.role_get_money_list[i].encode(buf);
-				}
-				tb.end_time.encode(buf);
-				EncodeUtils.uInt16ToByte(tb.rank_list.length, buf);
-				for (let i = 0; i < tb.rank_list.length; ++i) {
-					tb.rank_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let pool_info_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < pool_info_list_len; ++i) {
-					let tmp = fqzs_pool_info_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.pool_info_list.push(tmp);
-				}
-				tb.fqzs_random_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.win_pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				let role_get_money_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < role_get_money_list_len; ++i) {
-					let tmp = role_get_money_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.role_get_money_list.push(tmp);
-				}
-				startIndex += tb.end_time.decode(buf, startIndex);
-				let rank_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < rank_list_len; ++i) {
-					let tmp = fqzs_win_rank_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.rank_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_start_comparing"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function fqzs_bet_item() {
-		let tb: any = {
-			role_id: 0,
-			money: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_fqzs_bet_item"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int64ToByte(tb.role_id, buf);
-				EncodeUtils.int64ToByte(tb.money, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.role_id = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.money = EncodeUtils.ByteToint64(buf, startIndex);
-				startIndex += 8;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_fqzs_bet_item"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_fqzs_bet() {
-		let tb: any = {
-			bet_index: 0,
-			pool_index: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_fqzs_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.bet_index, buf);
-				EncodeUtils.int32ToByte(tb.pool_index, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.bet_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				tb.pool_index = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_self_bet() {
-		let tb: any = {
-			bet_info: fqzs_bet_item(),
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_self_bet"];
-			},
-			encode: function (buf: any) {
-				tb.bet_info.encode(buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.bet_info.decode(buf, startIndex);
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_self_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_bet() {
-		let tb: any = {
-			bet_list: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_bet"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.bet_list.length, buf);
-				for (let i = 0; i < tb.bet_list.length; ++i) {
-					tb.bet_list[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let bet_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < bet_list_len; ++i) {
-					let tmp = fqzs_bet_item();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.bet_list.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_bet"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_fqzs_banker_list() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_fqzs_banker_list"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_banker_list() {
-		let tb: any = {
-			banker_candidate: [],
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_banker_list"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.uInt16ToByte(tb.banker_candidate.length, buf);
-				for (let i = 0; i < tb.banker_candidate.length; ++i) {
-					tb.banker_candidate[i].encode(buf);
-				}
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				let banker_candidate_len = EncodeUtils.ByteToUint16(buf, startIndex);
-				startIndex += 2;
-				for (let i = 0; i < banker_candidate_len; ++i) {
-					let tmp = room_role_base();
-					startIndex += tmp.decode(buf, startIndex);
-					tb.banker_candidate.push(tmp);
-				}
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_banker_list"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_fqzs_banker_in() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_fqzs_banker_in"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_banker_in() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_banker_in"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_banker_in"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function req_fqzs_banker_out() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_req_fqzs_banker_out"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_fqzs_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_banker_out() {
-		let tb: any = {
-			result: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_banker_out"];
-			},
-			encode: function (buf: any) {
-				EncodeUtils.int32ToByte(tb.result, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_banker_out"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_cur_banker() {
-		let tb: any = {
-			banker: room_role_base(),
-			round: 0,
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_cur_banker"];
-			},
-			encode: function (buf: any) {
-				tb.banker.encode(buf);
-				EncodeUtils.int32ToByte(tb.round, buf);
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				startIndex += tb.banker.decode(buf, startIndex);
-				tb.round = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_cur_banker"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
-	export function notify_fqzs_bank_list_have_real_player() {
-		let tb: any = {
-			getMsgID: function () {
-				return NetMsgType.msgType["msg_notify_fqzs_bank_list_have_real_player"];
-			},
-			encode: function (buf: any) {
-			},
-			decode: function (buf: any, index: number) {
-				let startIndex = index;
-				return startIndex - index;
-			},
-			build: function (buf: any) {
-				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_fqzs_bank_list_have_real_player"], buf);
-				return tb.encode(buf);
-			}
-		};
-		return tb;
-	}
 	export function req_milu2_info() {
 		let tb: any = {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_milu2_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15087,9 +9408,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_nine_line_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15300,9 +9621,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bet_rebate"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15364,9 +9685,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rebate_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15487,9 +9808,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bet_rebate_all_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15605,9 +9926,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rebate_all_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15713,9 +10034,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15809,9 +10130,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_gift_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15827,9 +10148,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_holiday_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15845,9 +10166,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_mysterious_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15889,9 +10210,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_level"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16065,9 +10386,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_card_info_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16231,9 +10552,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_name_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16740,9 +11061,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_captain_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16907,9 +11228,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_gfxm_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17123,9 +11444,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lucky_lion_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17360,9 +11681,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_level_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17408,9 +11729,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_level_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17448,9 +11769,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_level_day_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17492,9 +11813,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_recharge_level_day_award"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17565,9 +11886,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_wucaishen_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17756,9 +12077,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buy_vip"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17799,9 +12120,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_signin_extra_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17869,9 +12190,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_invite_time_out2"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17928,9 +12249,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_red_point"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17975,9 +12296,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_exp_room_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18019,9 +12340,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mjhl_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18208,9 +12529,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_agent_list2"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18399,9 +12720,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_endless_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18459,9 +12780,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_endless_income_take"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18601,9 +12922,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_svip_signup"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18641,9 +12962,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_svip_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18698,9 +13019,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_svip_getreawrd"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18778,9 +13099,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_christmas_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18824,9 +13145,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_christmas_countdown"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18842,9 +13163,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_christmas_hit"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18860,9 +13181,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_christmas_hit"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18912,9 +13233,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_voucher_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18970,9 +13291,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_voucher"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19018,9 +13339,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_free_spell_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19068,9 +13389,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_free_amount"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19192,9 +13513,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_free_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20645,9 +14966,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20693,9 +15014,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20741,9 +15062,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_trendchart"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20932,9 +15253,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_minigame_chat_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21228,9 +15549,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21276,9 +15597,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21324,9 +15645,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_trendchart"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21601,9 +15922,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shuangdan_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21649,9 +15970,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shuangdan_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21728,9 +16049,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lucky_roulette_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22109,9 +16430,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_bag"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22295,9 +16616,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_first_recharge_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22434,9 +16755,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_first_recharge_show"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22576,9 +16897,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_refresh_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22621,9 +16942,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_with_robot_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22804,9 +17125,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_shop_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22994,9 +17315,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pay_name_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23042,9 +17363,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_win_100_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23161,9 +17482,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_win_100_join"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23324,9 +17645,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_win_100_share"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23408,9 +17729,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_newbees_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23462,9 +17783,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_newbees_prize"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23769,9 +18090,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_customer_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23911,9 +18232,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fllm_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -24131,9 +18452,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -24348,9 +18669,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_watering_competition"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -24400,9 +18721,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_invite_friend"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -24468,9 +18789,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_water_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -24579,9 +18900,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_fertilizer_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -24812,9 +19133,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_claim_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25095,9 +19416,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25472,9 +19793,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25520,9 +19841,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25583,9 +19904,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_seed"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25715,9 +20036,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mjhl2_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25849,9 +20170,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_daily_return_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -25907,9 +20228,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_daily_return_claim"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -26557,6 +20878,7 @@ export module NetPacket {
 			game_type: '',
 			bet_total: 0,
 			net_value: 0,
+			video: '',
 			balance_time: stime(),
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_bet_record"];
@@ -26566,6 +20888,7 @@ export module NetPacket {
 				EncodeUtils.utf8StrtoBytes(tb.game_type, buf);
 				EncodeUtils.int64ToByte(tb.bet_total, buf);
 				EncodeUtils.int64ToByte(tb.net_value, buf);
+				EncodeUtils.utf8StrtoBytes(tb.video, buf);
 				tb.balance_time.encode(buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -26580,6 +20903,9 @@ export module NetPacket {
 				startIndex += 8;
 				tb.net_value = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
+				let video_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.video = video_value[0];
+				startIndex += video_value[1];
 				startIndex += tb.balance_time.decode(buf, startIndex);
 				return startIndex - index;
 			},
@@ -26724,9 +21050,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_auto_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -26812,9 +21138,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_user_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -27164,9 +21490,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_daily_claim"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -27607,9 +21933,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_can_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -27714,9 +22040,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_init_connect"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -27889,9 +22215,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -27968,9 +22294,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_ready"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28093,9 +22419,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_pass_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28368,9 +22694,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_usdt_info_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28443,9 +22769,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_usdt_and_revenue_ratio"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28495,9 +22821,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_withdraw_count"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28736,14 +23062,37 @@ export module NetPacket {
 		};
 		return tb;
 	}
+	export function req_role_single_link_login() {
+		let tb: any = {
+			token: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_role_single_link_login"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.utf8StrtoBytes(tb.token, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				let token_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.token = token_value[0];
+				startIndex += token_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_role_single_link_login"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
 	export function req_my_recharge_discount() {
 		let tb: any = {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_my_recharge_discount"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28839,9 +23188,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_numbers_betting_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -28961,6 +23310,7 @@ export module NetPacket {
 			set_fb: 0,
 			numbers: 0,
 			cur_time: stime(),
+			open_time: stime(),
 			share_url: '',
 			share_words: '',
 			reason: '',
@@ -28977,6 +23327,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.set_fb, buf);
 				EncodeUtils.int32ToByte(tb.numbers, buf);
 				tb.cur_time.encode(buf);
+				tb.open_time.encode(buf);
 				EncodeUtils.utf8StrtoBytes(tb.share_url, buf);
 				EncodeUtils.utf8StrtoBytes(tb.share_words, buf);
 				EncodeUtils.utf8StrtoBytes(tb.reason, buf);
@@ -29004,6 +23355,7 @@ export module NetPacket {
 				tb.numbers = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				startIndex += tb.cur_time.decode(buf, startIndex);
+				startIndex += tb.open_time.decode(buf, startIndex);
 				let share_url_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.share_url = share_url_value[0];
 				startIndex += share_url_value[1];
@@ -29282,9 +23634,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_numbers_betting_claim_bonus"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -29665,9 +24017,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_share_vote_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -29783,9 +24135,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_share_vote_reward_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -30175,9 +24527,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_claim_share_vote_prize"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -30250,9 +24602,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_free_treasure_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -30409,6 +24761,56 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_free_treasure_his"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_custom_head_icon_info() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_custom_head_icon_info"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_req_custom_head_icon_info"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_custom_head_icon_info() {
+		let tb: any = {
+			sta: 0,
+			head_icon_name: '',
+			upload_address: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_custom_head_icon_info"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.sta, buf);
+				EncodeUtils.utf8StrtoBytes(tb.head_icon_name, buf);
+				EncodeUtils.utf8StrtoBytes(tb.upload_address, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.sta = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let head_icon_name_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.head_icon_name = head_icon_name_value[0];
+				startIndex += head_icon_name_value[1];
+				let upload_address_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.upload_address = upload_address_value[0];
+				startIndex += upload_address_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt16ToByte(NetMsgType.msgType["msg_notify_custom_head_icon_info"], buf);
 				return tb.encode(buf);
 			}
 		};
