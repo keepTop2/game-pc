@@ -23721,6 +23721,7 @@ export module NetPacket {
 			kindId: 0,
 			page: 0,
 			pageSize: 0,
+			is_lable: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_games_in_platform"];
 			},
@@ -23729,6 +23730,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.kindId, buf);
 				EncodeUtils.int32ToByte(tb.page, buf);
 				EncodeUtils.int32ToByte(tb.pageSize, buf);
+				EncodeUtils.int32ToByte(tb.is_lable, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -23739,6 +23741,8 @@ export module NetPacket {
 				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.pageSize = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.is_lable = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -23844,6 +23848,7 @@ export module NetPacket {
 		let tb: any = {
 			kind: [],
 			info: [],
+			label: [],
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_get_kind_in_platform"];
 			},
@@ -23855,6 +23860,10 @@ export module NetPacket {
 				EncodeUtils.uInt16ToByte(tb.info.length, buf);
 				for (let i = 0; i < tb.info.length; ++i) {
 					tb.info[i].encode(buf);
+				}
+				EncodeUtils.uInt16ToByte(tb.label.length, buf);
+				for (let i = 0; i < tb.label.length; ++i) {
+					tb.label[i].encode(buf);
 				}
 			},
 			decode: function (buf: any, index: number) {
@@ -23872,6 +23881,13 @@ export module NetPacket {
 					let tmp = game_info();
 					startIndex += tmp.decode(buf, startIndex);
 					tb.info.push(tmp);
+				}
+				let label_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < label_len; ++i) {
+					let tmp = game_kind_info();
+					startIndex += tmp.decode(buf, startIndex);
+					tb.label.push(tmp);
 				}
 				return startIndex - index;
 			},

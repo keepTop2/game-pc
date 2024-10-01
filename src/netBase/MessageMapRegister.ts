@@ -1,5 +1,5 @@
 import { MessageMap } from "@/net/MessageMap";
-import { NetPacket } from "@/netBase/NetPacket";
+import { NetPacket } from "./NetPacket";
 
 export module MessageMapRegister {
 	export function register() {
