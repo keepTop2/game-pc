@@ -32,7 +32,7 @@ export default {
   club_page_jlbmc: 'Tên câu lạc bộ',
   club_page_jlbcs: 'Bơm câu lạc bộ',
   club_page_jlbjj: 'Giới thiệu câu lạc bộ',
-  club_page_ljcj: 'Tạo ngay bây giờ',
+  club_page_ljcj: 'tạo nên',
   club_page_yjr: 'Đã tham gia câu lạc bộ',
   club_page_ycj: 'Câu lạc bộ đã được thành lập',
   club_page_club: 'Câu lạc bộ',

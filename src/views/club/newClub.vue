@@ -25,6 +25,10 @@
         <!-- 我加入的俱乐部 -->
         <n-flex v-show="curTab === 'joinClub'" class="join_club_box">
           <n-flex align="center" class="item_list" v-for="(item, index) in clubListData" :key="index">
+            <div class="bg_txt">
+              <div>JOIN THE</div>
+              <div>CLUB</div>
+            </div>
             <n-flex justify="center" class="item_list_l">
               <Imgt :src="`/img/club/new/image.webp`" />
               <span class="c_box">{{t('创建者')}}</span>
@@ -39,6 +43,10 @@
         <!-- 我加入的牌局 -->
         <n-flex v-show="curTab === 'joinPlay'" class="join_club_box">
           <n-flex align="center" class="item_list" v-for="(item, index) in gameListData" :key="index">
+            <div class="bg_txt">
+              <div>JOINED</div>
+              <div>GAME</div>
+            </div>
             <n-flex justify="center" class="item_list_l">
               <Imgt :src="`/img/club/new/image.webp`" />
               <span class="c_box">{{t('创建者')}}</span>
@@ -79,16 +87,12 @@
         <div class="form_body">
           <n-form>
             <n-form-item :label="t('club_page_id')">
-              <n-flex class="form_body_input" justify="space-between" align="center">
-                <n-input v-model:value="joinParams.id" :placeholder="t('club_page_qsr')" clearable />
-                <a class="btn_search" @click="searchClub">{{ t('club_page_ss') }}</a>
-              </n-flex>
+              <n-input v-model:value="joinParams.id" :placeholder="t('club_page_qsr')" clearable />
             </n-form-item>
           </n-form>
 
           <n-flex class="form_footer" justify="space-between">
-            <a @click="onClose"> {{ t('club_page_gb') }} </a>
-            <button class="c_join_btn" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit"> {{ t('club_page_ljjr') }} </button>
+            <button class="c_join_btn" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit" style="width: 100%"> {{ t('搜素') }} </button>
           </n-flex>
         </div>
       </div>
@@ -107,14 +111,20 @@
         </div>
         <div class="form_body">
           <n-form>
-            <n-form-item :label="t('club_page_jlbmc')">
-              <n-input v-model:value="createParams.name" :placeholder="t('club_page_qsr')" clearable/>
+            <n-flex align="center" class="upload_img">
+              <span>{{t('上传图片')}}:</span>
+              <n-upload
+                :max="1"
+                @before-upload="beforeUpload"
+                accept=".jpg,.jpeg,.png,.gif,.webp">
+                <n-button>上传</n-button>
+              </n-upload>
+            </n-flex>
+            <n-form-item :label="`${t('club_page_jlbmc')}:`">
+              <n-input type="textarea" :rows="2" v-model:value="createParams.name" :placeholder="t('club_page_qsr')" clearable/>
             </n-form-item>
-            <n-form-item :label="t('club_page_jlbcs')">
-              <n-input type="number" v-model:value="createParams.rate" :placeholder="t('club_page_qsr')" clearable/>
-            </n-form-item>
-            <n-form-item :label="t('club_page_jlbjj')">
-              <n-input type="textarea" v-model:value="createParams.dec" :placeholder="t('club_page_qsr')" />
+            <n-form-item :label="`${t('club_page_jlbjj')}:`">
+              <n-input type="textarea" :rows="2" v-model:value="createParams.dec" :placeholder="t('club_page_qsr')" />
             </n-form-item>
           </n-form>
 
@@ -139,14 +149,19 @@ import Imgt from '@/components/Imgt.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 // import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { Message } from '@/utils/discreteApi.ts';
+import { User } from '@/store/user.ts';
+import pinia from '@/store';
+import { storeToRefs } from 'pinia';
 // import { useRoute } from 'vue-router';
 
+const UserStore = User(pinia);
+const { roleInfo } = storeToRefs(UserStore);
 const { t } = useI18n();
 // const route = useRoute();
 const showModal = ref(false);
 const showJoinModal = ref(false);
 const showCreateModal = ref(false);
-const canJoin = ref(false); // 是否可以加入俱乐部
+const canJoin = ref(true); // 是否可以加入俱乐部
 const curTitle = ref('俱乐部');
 const curTab = ref('joinClub'); // joinClub, joinPlay
 
@@ -245,6 +260,31 @@ const createParams = ref({
   dec: '',
 });
 
+// 上传图片
+const beforeUpload = (data: any) => {
+  const file = data.file.file
+  if (file && file.size > 1024 * 1024 * 2) { // 2MB限制
+    Message.error('文件大小不能超过2MB！')
+    return;
+  }
+  const formData = new FormData();
+  formData.append('avatar', file);
+  formData.append('role_id', `${roleInfo.value.id}`);
+  fetch(`http://18.162.112.52:8031/api/upload/avatar`, {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json()).then(response => {
+    if (response.status == 200 || response.status == 'success') {
+      const urlImg = response.data.path
+      Message.success(response.message)
+      console.log('&&&&&', urlImg)
+    } else {
+      Message.error(response.message)
+    }
+  })
+}
+
 const goToPage = (item: any) => {
   if (item.value === 'create') {
     showCreateAc();
@@ -303,16 +343,16 @@ const onSubmit = () => {
 // };
 
 // 搜索俱乐部, 获取俱乐部信息，加入俱乐部前需要查询是否存在
-const searchClub = () => {
-  console.log('搜索---');
-  const id = joinParams.value.id.trim()
-  if (!id) {
-    return Message.error(t('请输入俱乐部ID'));
-  }
+// const searchClub = () => {
+//   console.log('搜索---');
+//   const id = joinParams.value.id.trim()
+//   if (!id) {
+//     return Message.error(t('请输入俱乐部ID'));
+//   }
   // const req = NetPacket.req_get_club_info();
   // req.club_id = id
   // Net.instance.sendRequest(req);
-};
+// };
 // 监听创建俱乐部信息
 // const getClubInfoHandle = (res: any) => {
 //   if (res.club_id) {
@@ -426,15 +466,6 @@ defineExpose({
       .n-form-item-label {
         color: #fff;
       }
-
-      .form_body_input {
-        width: 100%;
-
-        .n-input {
-          width: 76% !important;
-        }
-      }
-
     }
   }
 
@@ -448,9 +479,7 @@ defineExpose({
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-      border-radius: 14px 14px 0 0;
-      background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+      border-radius: 16px 16px 0 0;
       color: #fff;
 
       .title {
@@ -472,31 +501,56 @@ defineExpose({
 
     .form_body {
       gap: 20px;
-      padding: 40px 60px;
+      padding: 28px 32px;
 
-      .btn_search {
+      .upload_img {
         font-size: 16px;
-        display: inline-block;
-        width: 70px;
-        height: 36px;
-        line-height: 36px;
-        text-align: center;
-        background: url('/img/club/club_diaBtn_sea.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
+        margin-bottom: 16px;
+        .n-upload {
+          display: flex;
+          align-items: center;
+          flex: 1;
+          :deep(.n-upload-file-list) {
+            width: 100%;
+            margin-top: 0;
+            .n-upload-file-info__name {
+              color: #ddd;
+              font-size: 16px;
+            }
+            .n-upload-file:hover {
+              background-color: rgba(0, 0, 0 , .2);
+            }
+          }
+          .n-button {
+            margin-right: 5px;
+            width: 76px;
+            height: 36px;
+            font-size: 16px;
+            color: #fff;
+            background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
+            :deep(.n-button__border) {
+              border: 0;
+            }
+          }
+        }
       }
+
     }
 
     .form_footer {
+      padding: 4px 25px;
+
       a, button {
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
         border: 0;
         color: #fff;
-        display: inline-block;
         width: 170px;
-        height: 46px;
-        line-height: 46px;
-        text-align: center;
-        background: url('/img/club/club_diaBtn_1.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
+        height: 52px;
+        background: rgba(33, 36, 67, 1);
 
         &[disabled] {
           opacity: .5;
@@ -504,7 +558,7 @@ defineExpose({
         }
 
         &.c_join_btn {
-          background-image: url('/img/club/club_diaBtn_2.webp?t=@{timestamp}');
+          background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
         }
       }
     }
@@ -517,7 +571,7 @@ defineExpose({
   .top_title {
     font-weight: 700;
     font-size: 30px;
-    margin: 20px 0;
+    margin: 24px 0;
   }
   .top_box {
     gap: 36px !important;
@@ -538,7 +592,7 @@ defineExpose({
   .bottom_box {
 
     .tab_list {
-      margin: 30px 0 20px;
+      margin: 44px 0 20px;
       gap: 30px !important;
       .item_list {
         position: relative;
@@ -578,17 +632,33 @@ defineExpose({
     .join_club_box {
       margin: 20px 0 0;
       gap: 15px !important;
+
       .item_list {
+        position: relative;
         flex-wrap: nowrap;
         width: 453px;
         height: 140px;
-        padding: 10px;
+        padding: 14px;
         font-size: 14px;
         color: rgba(175, 182, 189, 1);
         background: url('/img/club/new/listBg1.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
-        &:nth-child(2n) {
+        &:nth-child(3n+2) {
           background-image: url('/img/club/new/listBg2.webp?t=@{timestamp}');
+        }
+        &:nth-child(3n+3) {
+          background-image: url('/img/club/new/listBg3.webp?t=@{timestamp}');
+        }
+        .bg_txt {
+          position: absolute;
+          right: 0;
+          font-weight: 700;
+          font-size: 61.5px;
+          color: rgba(255, 255, 255, 0.3);
+          opacity: 0.08;
+          text-align: right;
+          line-height: 75px;
+          padding-right: 3px;
         }
         img {
           width: 111px;

@@ -32,7 +32,7 @@ export default {
   club_page_jlbmc: 'Club name',
   club_page_jlbcs: 'Club pumping',
   club_page_jlbjj: 'Club Introduction',
-  club_page_ljcj: 'Create now',
+  club_page_ljcj: 'Create',
   club_page_yjr: 'Already joined the club',
   club_page_ycj: 'Club has been created',
   club_page_club: 'club',

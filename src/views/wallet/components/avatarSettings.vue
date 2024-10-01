@@ -54,8 +54,8 @@ const props = defineProps({
     default: false,
   },
 });
-const UserStore = User(pinia);
 const emit = defineEmits(['update:visible']);
+const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
 const curTab: any = ref(roleInfo.value.head_photo);
