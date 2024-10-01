@@ -130,13 +130,11 @@ watch(
 )
 
 onMounted(() => {
-    getHomeData()
-})
-onMounted(() => {
     MessageEvent2.addMsgEvent(
         NetMsgType.msgType.msg_notify_3rd_game_login_result,
         gameUrlResult,
     );
+    getHomeData()
 })
 onUnmounted(() => {
     MessageEvent2.addMsgEvent(
