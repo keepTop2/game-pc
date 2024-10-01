@@ -199,9 +199,7 @@ onBeforeMount(() => {
 })
 onMounted(() => {
   MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_3rd_game_login_result,
-    gameUrlResult,
-  );
+    NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
 })
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);

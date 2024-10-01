@@ -130,16 +130,11 @@ watch(
 )
 
 onMounted(() => {
-    MessageEvent2.addMsgEvent(
-        NetMsgType.msgType.msg_notify_3rd_game_login_result,
-        gameUrlResult,
-    );
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
     getHomeData()
 })
 onUnmounted(() => {
-    MessageEvent2.removeMsgEvent(
-        NetMsgType.msgType.msg_notify_3rd_game_login_result,
-        null,);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
 
 
