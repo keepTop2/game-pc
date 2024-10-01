@@ -43,11 +43,12 @@
         </div>
       </div>
     </div>
+    <OverLoading v-model:visible="isLoading" ></OverLoading>
   </div>
 </template>
 <script setup lang="ts" name="home">
 import Sidebar from '@/components/Sidebar.vue';
-import { onBeforeMount, onMounted, onUnmounted, reactive } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
@@ -64,11 +65,13 @@ import { NetMsgType } from '@/netBase/NetMsgType';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { User } from '@/store/user';
+import OverLoading from '@/components/Loading.vue'
 const { t } = useI18n();
 const router = useRouter()
 const page = Page(pinia);
 const { bannerArr, textAnnouncement, homeGameData, lang } = storeToRefs(page);
 const imgPrefix = 'http://18.162.112.52:8033/uploads/'
+const isLoading = ref(false)
 const langs: any = {
   zh: 'zh-CN',
   vn: 'vi-VN',
@@ -153,7 +156,7 @@ const platformItemClick = async (item: any, i: number) => {
         await User(pinia).setLogin(true)
         return
     }
-    // isLoading.value = true
+    isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
     tb.agentId = item.id;
     tb.kindId = item.three_game_kind_id;
@@ -173,6 +176,7 @@ const onClickGame = (item: any, idx: any) => {
 
 // 第三方游戏信息返回
 const gameUrlResult = (message: any) => {
+  isLoading.value = false
   if (message.code != 0) {
     Message.error(message.msg)
     return

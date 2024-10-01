@@ -1,5 +1,6 @@
 <template>
-    <div class="game-title">
+    <div>
+        <div class="game-title">
         <span class="input_box">
             <n-input clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
                 @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
@@ -20,54 +21,55 @@
                 <p>{{ t("common_favorite") }}</p>
             </div>
         </div>
-    </div>
-    <div class="games">
-        <div class="game-detail">
-            <div v-if="activeTab == TabType.FAVORITE">
-                <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
-                    <div class="game-list">
-                        <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGameFav(v)">
-                            <div class="game-img">
-                                <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
-                            </div>
-                            <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                v-if="isFav(v)"></iconpark-icon>
-                            <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                v-else></iconpark-icon>
-                            <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
-                        </div>
-                    </div>
-                </n-infinite-scroll>
-                <div class="nodata" v-else>
-                    <img src="/img/wallet/nodata.webp" alt="nodata">
-                    <div>{{ t('home_page_nomore_data') }}</div>
-                </div>
-            </div>
-            <div v-else>
-                <div class="nodata" v-if="!result.list.length && !loading">
-                    <img src="/img/wallet/nodata.webp" alt="nodata">
-                    <div>{{ t('home_page_nomore_data') }}</div>
-                </div>
-                <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
-                    <div class="game-list">
-                        <div class="item" v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
-                            <div class="game-img">
-                                <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
-                            </div>
-                            <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                v-if="isFav(v)"></iconpark-icon>
-                            <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                v-else></iconpark-icon>
-                            <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
-                        </div>
-                    </div>
-                </n-infinite-scroll>
-            </div>
         </div>
-        <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
-            v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
+        <div class="games">
+            <div class="game-detail">
+                <div v-if="activeTab == TabType.FAVORITE">
+                    <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
+                        <div class="game-list">
+                            <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGameFav(v)">
+                                <div class="game-img">
+                                    <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
+                                </div>
+                                <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
+                                    v-if="isFav(v)"></iconpark-icon>
+                                <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
+                                    v-else></iconpark-icon>
+                                <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
+                            </div>
+                        </div>
+                    </n-infinite-scroll>
+                    <div class="nodata" v-else>
+                        <img src="/img/wallet/nodata.webp" alt="nodata">
+                        <div>{{ t('home_page_nomore_data') }}</div>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="nodata" v-if="!result.list.length && !loading">
+                        <img src="/img/wallet/nodata.webp" alt="nodata">
+                        <div>{{ t('home_page_nomore_data') }}</div>
+                    </div>
+                    <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
+                        <div class="game-list">
+                            <div class="item" v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
+                                <div class="game-img">
+                                    <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
+                                </div>
+                                <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
+                                    v-if="isFav(v)"></iconpark-icon>
+                                <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
+                                    v-else></iconpark-icon>
+                                <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
+                            </div>
+                        </div>
+                    </n-infinite-scroll>
+                </div>
+            </div>
+            <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
+                v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
+        </div>
+        <Loading v-model:visible="isLoading" ></Loading>
     </div>
-
 </template>
 
 <script setup lang='ts'>
@@ -84,6 +86,7 @@ import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 import { Message } from '@/utils/discreteApi';
 import { User } from '@/store/user';
+import Loading from '@/components/Loading.vue'
 
 const { t } = useI18n();
 const route = useRoute()
@@ -171,6 +174,7 @@ const onPlayGame = async (v: any) => {
         'vi-VN': 2,
         'zh-CN': 1
     }
+    isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
     tb.agentId = platformId.value;
     tb.kindId = venueId.value;
