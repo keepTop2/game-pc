@@ -34,11 +34,12 @@
                 </div>
             </div>
         </div>
+        <OverLoading v-model:visible="isLoading" ></OverLoading>
     </div>
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
@@ -54,6 +55,7 @@ import { NetMsgType } from '@/netBase/NetMsgType';
 import { Message } from '@/utils/discreteApi';
 import { Local } from '@/utils/storage';
 import { User } from '@/store/user';
+import OverLoading from '@/components/Loading.vue'
 
 const {
     lang,
@@ -66,6 +68,7 @@ const router = useRouter()
 const result: any = reactive({
     list: []
 })
+const isLoading = ref(false)
 const langs: any = {
     zh: 'zh-CN',
     vn: 'vi-VN',
@@ -151,6 +154,7 @@ const getHomeData = () => {
 }
 
 const gameUrlResult = (message: any) => {
+    isLoading.value = false
     if (message.code != 0) {
         Message.error(message.msg)
         return
@@ -192,7 +196,7 @@ const platformItemClick = async (item: any, i: number) => {
             await User(pinia).setLogin(true)
             return
         }
-        // isLoading.value = true
+        isLoading.value = true
         let tb = NetPacket.req_3rd_game_login();
         tb.agentId = item.id;
         tb.kindId = item.three_game_kind_id;
