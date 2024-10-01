@@ -40,8 +40,8 @@ export const getSetting = async () => {
     return settings
 }
 const settings = await getSetting()
-const url = await getFastestUrl([''])
-console.log('url=======>', url);
+
+
 MessageMapRegister.register();
 
 export enum ConnectResult {
@@ -86,13 +86,13 @@ export class Net {
         });
     }
 
-    reConnect(successCallBack?: Function, failCallBack?: Function, trycount = 3) {
+    async reConnect(successCallBack?: Function, failCallBack?: Function, trycount = 3) {
 
         trycount--;
         this.connect_index++;
         if (trycount > 0) {
-
-            var ipPort = settings.server_testUrls[this.connect_index % settings.server_testUrls.length];
+            const ipPort = await getFastestUrl()
+            // var ipPort = settings.server_testUrls[this.connect_index % settings.server_testUrls.length];
             // 已经有登录信息，则进入断线重连流程，如果没有就保持socket链接
             if (Local.get('user') && Local.get('user').user_id && Local.get('user').token) {
 
@@ -235,7 +235,7 @@ export class Net {
         }
     }
 
-    sendRequest(data: { uid?: string; server_id?: number; token?: string; type?: number; version?: number; device_id?: string; ip?: string; flag_id?: number; flag_type?: number; getMsgID: any; encode?: ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void); decode?: ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number); build: any; sign?: string; aaa?: string; bbb?: string; login_type?: number; username?: string; password?: string; debug?: string; device_model?: string; app_version?: string; channel_id?: number; captcha?: string; register_type?: number; ip_error?: string; agent_id?: number; currency?: number; operate_type?: number; email?: string; mobile?: string; new_password?: string; verify_code?: number; }, needFilterSendRate = false, timeOutCallBack = null, filterCallBack: any = null) {
+    async sendRequest(data: { uid?: string; server_id?: number; token?: string; type?: number; version?: number; device_id?: string; ip?: string; flag_id?: number; flag_type?: number; getMsgID: any; encode?: ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void) | ((buf: any) => void); decode?: ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number) | ((buf: any, index: any) => number); build: any; sign?: string; aaa?: string; bbb?: string; login_type?: number; username?: string; password?: string; debug?: string; device_model?: string; app_version?: string; channel_id?: number; captcha?: string; register_type?: number; ip_error?: string; agent_id?: number; currency?: number; operate_type?: number; email?: string; mobile?: string; new_password?: string; verify_code?: number; }, needFilterSendRate = false, timeOutCallBack = null, filterCallBack: any = null) {
         let msg = JSON.parse(JSON.stringify(data))
         delete msg.build
         delete msg.decode
@@ -245,8 +245,9 @@ export class Net {
 发送的数据为：==>`, msg);
 
         if (!this.isConnected()) {
+            const ipPort = await getFastestUrl()
             this.connect(
-                settings.server_testUrls,
+                ipPort,
                 () => {
                     this.sendRequest(data, needFilterSendRate, timeOutCallBack, filterCallBack);
                 },

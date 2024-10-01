@@ -115,25 +115,11 @@ export function get<T>(url: string): Promise<T> {
 /**
   * 取最快的链接
   */
-export const getFastestUrl = (_data: { [x: string]: any; }): Promise<string> => {
+export const getFastestUrl = (): Promise<string> => {
     return new Promise(async (resolve) => {
         // let localUrl = StorageMgr.instance.get(this.fastestUrlKey);
         // if (localUrl) {
         // }
-
-        let server_testUrls = [
-            [
-                "http://18.162.112.52:9002",
-                "ws://18.162.112.52:9001"
-            ],
-            [
-                "http://43.199.35.53:9002",
-                "ws://43.199.35.53:9001"
-            ]
-        ];
-
-
-
         // function httpToWs(httpUrl: string) {
         //     if (httpUrl.startsWith("https://")) {
         //         return "wss://" + httpUrl.substr(8);
@@ -185,73 +171,81 @@ export const getFastestUrl = (_data: { [x: string]: any; }): Promise<string> => 
         //暂时注释掉选择速度最快的服务器
         let fastCost = 99999;
         let fastIndex = 0;
-        let promises: Promise<{ cost: number; index: number }>[] = server_testUrls.map((urls: any[], index: any) => {
-            let url = urls[0];
-            return new Promise((resolve) => {
-                let startTime = new Date().getTime();
-                let _nowrul = urls[0]; // httpToWs(url);
 
-                switch (determineProtocol(_nowrul)) {
-                    case "http":
-                    case "https":
-                        {
-                            get(url)
-                                .then(() => {
-                                    let endTime = new Date().getTime();
-                                    let cost = endTime - startTime;
-                                    console.log(`请求:${url} 耗时:${cost}`);
-                                    resolve({ cost, index });
-                                })
-                                .catch((error: any) => {
-                                    console.error("Error:", error);
-                                    resolve({ cost: 9999999, index }); // 如果出错，将 cost 设置为 Infinity
-                                });
-                        }
-                        break;
-                    case "ws":
-                    case "wss":
-                        {
-                            connectWithTimeout(_nowrul, 5000)
-                                .then(() => {
-                                    // console.log('WebSocket 连接成功');
-                                    let endTime = new Date().getTime();
-                                    let cost = endTime - startTime;
-                                    console.log(`请求:${_nowrul} 耗时:${cost}`);
-                                    resolve({ cost, index });
-                                })
-                                .catch((error) => {
-                                    console.error("WebSocket 连接失败:", error);
-                                    resolve({ cost: 9999999, index }); // 如果出错，将 cost 设置为 Infinity
-                                });
-                        }
-                        break;
+        if (settings.value.server_testUrls.length > 0) {
+            let promises: Promise<{ cost: number; index: number }>[] = settings.value.server_testUrls.map((urls: any[], index: any) => {
+                let url = urls[0];
+                return new Promise((resolve) => {
+                    let startTime = new Date().getTime();
+                    let _nowrul = urls[0]; // httpToWs(url);
 
-                    default:
-                        break;
-                }
+                    switch (determineProtocol(_nowrul)) {
+                        case "http":
+                        case "https":
+                            {
+                                get(url)
+                                    .then(() => {
+                                        let endTime = new Date().getTime();
+                                        let cost = endTime - startTime;
+                                        console.log(`请求:${url} 耗时:${cost}`);
+                                        resolve({ cost, index });
+                                    })
+                                    .catch((error: any) => {
+                                        console.error("Error:", error);
+                                        resolve({ cost: 9999999, index }); // 如果出错，将 cost 设置为 Infinity
+                                    });
+                            }
+                            break;
+                        case "ws":
+                        case "wss":
+                            {
+                                connectWithTimeout(_nowrul, 5000)
+                                    .then(() => {
+                                        // console.log('WebSocket 连接成功');
+                                        let endTime = new Date().getTime();
+                                        let cost = endTime - startTime;
+                                        console.log(`请求:${_nowrul} 耗时:${cost}`);
+                                        resolve({ cost, index });
+                                    })
+
+                                    .catch((error) => {
+                                        console.error("WebSocket 连接失败:", error);
+                                        resolve({ cost: 9999999, index }); // 如果出错，将 cost 设置为 Infinity
+                                    });
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
             });
-        });
-        Promise.all(promises).then(async (results) => {
-            results.forEach(({ cost, index }) => {
-                if (cost < fastCost) {
-                    fastCost = cost;
-                    fastIndex = index;
-                }
-            });
-            let fastestUrl = server_testUrls[fastIndex];
-            // let _wsurl = fastestUrl[1]; //httpToWs(fastestUrl);
-            // let server_ips = [_wsurl];
-            console.log(`最快URL:${fastestUrl[0]} 耗时:${fastCost}`);
-            resolve(fastestUrl[0])
-            // Local.set('fastestUrlKey', fastestUrl[0])
-            // StorageMgr.instance.set(this.fastestUrlKey, fastestUrl[0]);
-            // let _ip = Local.get("lastLoginIP");
-            // if (_ip) {
-            //     server_ips.unshift(_ip);
-            // }
+            Promise.all(promises).then(async (results) => {
+                results.forEach(({ cost, index }) => {
+                    if (cost < fastCost) {
+                        fastCost = cost;
+                        fastIndex = index;
+                    }
+                });
 
-            // GlobalData.getRemoteJson(resolve);
-        });
+                let fastestUrl = settings.value.server_testUrls[fastIndex];
+                // let _wsurl = fastestUrl[1]; //httpToWs(fastestUrl);
+                // let server_ips = [_wsurl];
+                console.log(`最快URL:${fastestUrl[0]} 耗时:${fastCost}`);
+                resolve(fastestUrl[1])
+                // Local.set('fastestUrlKey', fastestUrl[0])
+                // StorageMgr.instance.set(this.fastestUrlKey, fastestUrl[0]);
+                // let _ip = Local.get("lastLoginIP");
+                // if (_ip) {
+                //     server_ips.unshift(_ip);
+                // }
+
+                // GlobalData.getRemoteJson(resolve);
+            });
+        } else {
+            resolve(settings.value.server_testUrls[0][1])
+        }
+
     });
 }
 
