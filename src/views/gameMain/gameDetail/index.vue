@@ -326,7 +326,7 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
-    MessageEvent2.addMsgEvent(
+    MessageEvent2.removeMsgEvent(
     NetMsgType.msgType.msg_notify_3rd_game_login_result,
     null,
     );

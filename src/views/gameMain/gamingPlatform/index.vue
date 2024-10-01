@@ -137,7 +137,7 @@ onMounted(() => {
     getHomeData()
 })
 onUnmounted(() => {
-    MessageEvent2.addMsgEvent(
+    MessageEvent2.removeMsgEvent(
         NetMsgType.msgType.msg_notify_3rd_game_login_result,
         null,);
 })
