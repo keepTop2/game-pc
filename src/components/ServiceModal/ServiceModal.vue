@@ -97,7 +97,10 @@
                         <div class="high_proxy select_group"> {{ t('chat_page_moveG') }}</div>
                       </template>
                       <div class="select_wrap_two">
-                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">{{ o.name }}</div>
+                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">
+                        <span v-if="item.chatgroupid==o.id">√</span>
+                        {{ o.name }}
+                        </div>
                       </div>
                     </n-popover>
                   </div>
@@ -120,7 +123,7 @@
                 :key="i.id" @click="selectUser(i)">
                 <div class="item_left">
                   <div class="avatar">
-                    <n-badge :value="i.unreadnums" :show="i.unreadnums > 0" :max="9999" class="set_item"
+                    <n-badge  :show="false" :max="9999" class="set_item"
                       :offset="[-14, 8]">
                       <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
@@ -698,7 +701,13 @@ const onMessage: any = async (buffer: any) => {
       Message.error('删除失败，该分组可能存在下级');
       return
     }
-    Message.error(t(decodeobj1.code));
+    if (decodeobj1.code == '10023') {
+      Message.error(t(decodeobj1.message));
+      var datatime = getDateFromat()
+      state.chatMessagesList.push({ date: datatime, role: 1, content: testMsg.value, name: '' })
+      return
+    }
+    Message.error(t(decodeobj1.message));
     testMsg.value = ''
     msgRef.value.innerHTML = ''
     state.messagetype = 1
@@ -719,7 +728,6 @@ const onMessage: any = async (buffer: any) => {
   }
 
   else if (decodeobj1.type == 4) {// 获取到新消息投递
-    console.log(444444, decodeobj1)
     getChatMsg4(decodeobj1, 'Message')
   }
   //消息同步触发,或者是历史消息 也是使用type等于2下发的

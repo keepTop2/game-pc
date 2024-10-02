@@ -72,8 +72,8 @@ const queryTitle = () => {
 }
 
 .content {
-    margin: 32px 0 30px 90px;
-    width: 1200px;
+    margin: 32px 0 30px 20px;
+    width: 1400px;
 
     >.head {
         height: 45px;

@@ -194,7 +194,7 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
         next(isNext)
       } else {
         await User(pinia).setLogin(true)
-        next(isNext)
+        next('/')
       }
 
     } else {
