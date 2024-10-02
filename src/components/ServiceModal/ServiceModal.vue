@@ -352,8 +352,6 @@ const chatObj: any = {}
 // 选择用户聊天
 const selectUser = (item: any) => {
   const keys = Object.keys(chatObj);
-  console.log(66666667, keys)
-
   
   if (!msgRef.value.innerHTML&&state.userData && state.userData.id) {
     chatObj[state.userData.id] = ''
@@ -810,7 +808,7 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 28) {
     getkeywordList(decodeobj1)
   }
-  // 获取关键词列表
+  // 禁言
   else if (decodeobj1.type == 25) {
     Message.success('操作成功')
   }
