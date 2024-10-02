@@ -72,6 +72,7 @@ const page = Page(pinia);
 const { bannerArr, textAnnouncement, homeGameData, lang } = storeToRefs(page);
 const imgPrefix = 'http://18.162.112.52:8033/uploads/'
 const isLoading = ref(false)
+let newTab = ref()
 const langs: any = {
   zh: 'zh-CN',
   vn: 'vi-VN',
@@ -174,25 +175,26 @@ const onClickGame = (item: any, idx: any) => {
   })
 }
 
-// 第三方游戏信息返回
 const gameUrlResult = (message: any) => {
-  isLoading.value = false
-  if (message.code != 0) {
-    Message.error(message.msg)
-    return
-  }
-  if (message.url.indexOf('<!doctype html>') != -1) {
-    message.url = `data:text/html;charset=utf-8,${encodeURIComponent(
-      String(message.url)
-    )}`
-  }
-  Local.set('gameUrl', message.url)
-  router.push({
-    path: "/openGame",
-  });
+    isLoading.value = false
+    Local.set('gameUrl', message.url)
+    if (message.code != 0) {
+        Message.error(message.msg)
+        return
+    }
 
+    if (newTab.value) {
+        newTab.value.close()
+    }
+
+    if (message.url.indexOf('<!doctype html>') != -1) {
+        newTab.value = window.open('', '_blank');
+        newTab.value.document.open();
+        newTab.value.document.write(message.url);
+    } else {
+        newTab.value = window.open(message.url, '_blank')
+    }
 }
-
 
 onBeforeMount(() => {
   getHomeData()

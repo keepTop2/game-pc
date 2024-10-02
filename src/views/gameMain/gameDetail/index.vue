@@ -118,6 +118,7 @@ let venueId = ref<any>(0)
 let isVenudId = ref<boolean>(false)
 let activeKind = ref<any>(0)
 let threeGameKinds = ref<any[]>([])
+let newTab = ref()
 const langs: any = {
     zh: 'zh-CN',
     vn: 'vi-VN',
@@ -288,19 +289,23 @@ const queryData = () => { // 查询
 
 const gameUrlResult = (message: any) => {
     isLoading.value = false
+    Local.set('gameUrl', message.url)
     if (message.code != 0) {
         Message.error(message.msg)
         return
     }
-    if (message.url.indexOf('<!doctype html>') != -1) {
-        message.url = `data:text/html;charset=utf-8,${encodeURIComponent(
-            String(message.url)
-        )}`
+
+    if (newTab.value) {
+        newTab.value.close()
     }
-    Local.set('gameUrl', message.url)
-    router.push({
-        path: "/openGame",
-    });
+
+    if (message.url.indexOf('<!doctype html>') != -1) {
+        newTab.value = window.open('', '_blank');
+        newTab.value.document.open();
+        newTab.value.document.write(message.url);
+    } else {
+        newTab.value = window.open(message.url, '_blank')
+    }
 }
 
 onBeforeMount(() => {
