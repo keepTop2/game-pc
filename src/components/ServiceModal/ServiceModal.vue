@@ -88,8 +88,12 @@
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
-                    <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
+                  <template  v-if="item.todeviceid">
+                   <!-- 置顶 -->
+                   <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
+                    <!-- 屏蔽 -->
                     <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
+                  </template>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
