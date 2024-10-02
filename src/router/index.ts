@@ -77,9 +77,15 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'club/:openType',
-        name: 'levelInfo',
+        name: 'club',
         meta: { title: 'home_page_club' },
         component: () => import('@/views/club/newClub.vue'),
+      },
+      {
+        path: 'club/next',
+        name: 'clubNext',
+        meta: { title: 'home_page_club' },
+        component: () => import('@/views/club/clubNext.vue'),
       },
     ]
   },

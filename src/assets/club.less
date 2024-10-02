@@ -1,0 +1,277 @@
+@timestamp: `new Date().getTime()`;
+// 加入俱乐部弹窗
+.form_card {
+  width: 494px !important;
+
+  :deep(.n-card__content) {
+    padding: 0;
+
+    .n-form-item {
+      .n-form-item-label {
+        color: #fff;
+      }
+    }
+  }
+
+  .form_container {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      height: 50px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px 16px 0 0;
+      color: #fff;
+
+      .title {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .close {
+        position: absolute;
+        top: 16px;
+        right: 25px;
+        display: flex;
+        font-size: 12px;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 0;
+      }
+    }
+
+    .form_body {
+      gap: 20px;
+      padding: 28px 32px;
+
+      .upload_img {
+        font-size: 16px;
+        margin-bottom: 16px;
+        .n-upload {
+          display: flex;
+          align-items: center;
+          flex: 1;
+          :deep(.n-upload-file-list) {
+            width: 100%;
+            margin-top: 0;
+            .n-upload-file-info__name {
+              color: #ddd;
+              font-size: 16px;
+            }
+            .n-upload-file:hover {
+              background-color: rgba(0, 0, 0 , .2);
+            }
+          }
+          .n-button {
+            margin-right: 5px;
+            width: 76px;
+            height: 36px;
+            font-size: 16px;
+            color: #fff;
+            background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
+            :deep(.n-button__border) {
+              border: 0;
+            }
+          }
+        }
+      }
+
+    }
+
+    .form_footer {
+      padding: 4px 25px;
+
+      a, button {
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        border: 0;
+        color: #fff;
+        width: 170px;
+        height: 52px;
+        background: rgba(33, 36, 67, 1);
+
+        &[disabled] {
+          opacity: .5;
+          cursor: not-allowed;
+        }
+
+        &.c_join_btn {
+          background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
+        }
+      }
+    }
+
+  }
+}
+
+.club_content {
+  color: #fff;
+  .top_title {
+    font-weight: 700;
+    font-size: 30px;
+    margin: 24px 0;
+  }
+  .top_box {
+    .item_list {
+      cursor: pointer;
+      width: 320px;
+      height: 144px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+
+      .item_list_l {
+        width: 180px;
+        img {
+          width: 48px;
+          height: 48px;
+        }
+      }
+      &.item_list_next {
+        width: 688px;
+        height: 203px;
+        .item_list_l {
+          width: 420px;
+          img {
+            width: 64px;
+            height: 64px;
+          }
+        }
+      }
+
+    }
+  }
+  .bottom_box {
+
+    .tab_list {
+      margin: 44px 0 20px;
+      gap: 30px !important;
+      .item_list {
+        position: relative;
+        gap: 5px !important;
+        .icon {
+          width: 27px;
+          height: 23px;
+          background: url('/img/club/new/icon_club.webp?t=@{timestamp}') center no-repeat;
+          background-size: 100%;
+          &.icon_game {
+            background-image: url('/img/club/new/icon_game.webp?t=@{timestamp}');
+          }
+        }
+        &.active {
+          color: rgba(181, 164, 255, 1);
+          &::after {
+            content: '';
+            position: absolute;
+            border-radius: 100px;
+            width: 100%;
+            height: 7px;
+            background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+            bottom: -10px;
+          }
+
+          .icon {
+            background-image: url('/img/club/new/icon_club_a.webp?t=@{timestamp}');
+            &.icon_game {
+              background-image: url('/img/club/new/icon_game_a.webp?t=@{timestamp}');
+            }
+          }
+        }
+
+      }
+    }
+
+    .join_club_box {
+      margin: 20px 0 0;
+      gap: 20px !important;
+
+      .item_list {
+        cursor: pointer;
+        position: relative;
+        flex-wrap: nowrap;
+        width: 453px;
+        height: 140px;
+        padding: 14px;
+        font-size: 14px;
+        color: rgba(175, 182, 189, 1);
+        background: url('/img/club/new/listBg1.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
+        &:nth-child(3n+2) {
+          background-image: url('/img/club/new/listBg2.webp?t=@{timestamp}');
+        }
+        &:nth-child(3n+3) {
+          background-image: url('/img/club/new/listBg3.webp?t=@{timestamp}');
+        }
+        .bg_txt {
+          position: absolute;
+          right: 0;
+          font-weight: 700;
+          font-size: 61.5px;
+          color: rgba(255, 255, 255, 0.3);
+          opacity: 0.08;
+          text-align: right;
+          line-height: 75px;
+          padding-right: 3px;
+        }
+        img {
+          width: 111px;
+          border-radius: 50%;
+        }
+        .item_list_l {
+          position: relative;
+          .c_box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.72);
+            //background: url('/img/club/new/smallBg.webp?t=@{timestamp}') center no-repeat;
+            background-size: 100%;
+            color: rgba(255, 255, 255, 1);
+            width: 106px;
+            height: 31px;
+            border-radius: 0 0 50% 50%;
+          ;
+          }
+        }
+        .item_list_r {
+          flex: 1;
+          div:first-child {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+          }
+          .txt_dec {
+            width: 100%;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+            overflow: hidden;
+
+            .item_bb {
+              font-size: 14px;
+              color: rgba(175, 182, 189, 1);
+              gap: 3px !important;
+
+              .icon {
+                img {
+                  width: 20px;
+                  height: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
