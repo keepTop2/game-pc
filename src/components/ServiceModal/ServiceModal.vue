@@ -67,7 +67,7 @@
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
               @click="selectUser(item)"
-              :style="{ order: item.unreadnums && item.enableflag != 1 ? -1 : item.deep == '0' ? 0 : item.istop?item.istop:6 }">
+              :style="{ order: item.unreadnums && item.enableflag != 1 ? -1 : item.deep == '0' ? 0 : item.istop ? item.istop : 6 }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -88,12 +88,13 @@
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
-                  <template  v-if="item.todeviceid">
-                   <!-- 置顶 -->
-                   <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
-                    <!-- 屏蔽 -->
-                    <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
-                  </template>
+                    <template v-if="item.todeviceid">
+                      <!-- 置顶 -->
+                      <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top')
+                        }}</span>
+                      <!-- 屏蔽 -->
+                      <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
+                    </template>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
@@ -102,8 +103,8 @@
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">
-                        <span v-if="item.chatgroupid==o.id">√</span>
-                        {{ o.name }}
+                          <span v-if="item.chatgroupid == o.id">√</span>
+                          {{ o.name }}
                         </div>
                       </div>
                     </n-popover>
@@ -127,8 +128,7 @@
                 :key="i.id" @click="selectUser(i)">
                 <div class="item_left">
                   <div class="avatar">
-                    <n-badge  :show="false" :max="9999" class="set_item"
-                      :offset="[-14, 8]">
+                    <n-badge :show="false" :max="9999" class="set_item" :offset="[-14, 8]">
                       <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
                     <Imgt :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip" />
@@ -147,7 +147,8 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList" :roleInfo="roleInfo" :userData="state.userData" :deepObj="deepObj"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :roleInfo="roleInfo" :userData="state.userData" :deepObj="deepObj">
+        </chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
@@ -294,7 +295,6 @@ const beforeUpload = (data: any) => {
   const file = data.file.file
   const fileType = file.type.split('/')[1]
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
-  console.log(333333333, fileType)
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
@@ -347,15 +347,35 @@ const setLabel = (val: any) => {
   }
 }
 
+const chatObj: any = {}
 
 // 选择用户聊天
 const selectUser = (item: any) => {
+  const keys = Object.keys(chatObj);
+  console.log(66666667, keys)
+
+  
+  if (!msgRef.value.innerHTML&&state.userData && state.userData.id) {
+    chatObj[state.userData.id] = ''
+  }
+  if (state.userData && state.userData.id) {
+    // 已保存草稿的直接读取值
+    if (keys.includes(String(item.id))) {
+      testMsg.value = chatObj[item.id]
+      msgRef.value.innerHTML = chatObj[state.userData.id]
+    } else {
+      //没保存草稿
+      if (msgRef.value.innerHTML) {
+        chatObj[state.userData.id] = msgRef.value.innerHTML
+      }
+      msgRef.value.innerHTML = testMsg.value = ''
+    }
+  }
   state.chatMessagesList = []
-  state.userData = item
+  state.userData = JSON.parse(JSON.stringify(item))
   state.activeId = item.id
   state.todeviceid = item.Tdeviceid
-  // testMsg.value = ''
-  // msgRef.value.innerHTML = ''
+
   // 获取聊天记录
   synchistorymsg()
   allRead()
@@ -1252,7 +1272,8 @@ onUnmounted(() => {
     background: #3c279a;
     border-radius: 8px
   }
-  &:deep(.n-carousel__slide){
+
+  &:deep(.n-carousel__slide) {
     width: unset !important;
     min-width: 100px !important;
     max-width: 188px !important;
