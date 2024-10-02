@@ -572,9 +572,9 @@ watch(
 
     // justify-content: space-between;
     .welcome {
-      width: 424px;
+      width: 384px;
       height: 60px;
-      margin-left: 26px;
+      margin-left: 20px;
       border-radius: 100px;
       background: #0B0B0B;
       display: flex;
@@ -606,8 +606,16 @@ watch(
     .login_wrap {
       display: flex;
       align-items: center;
+      gap:10px;
+      margin-left: 20px;
 
       div {
+        font-weight: 500;
+        color: #FFF;
+        font-size: 20px;
+      }
+
+      .login_btn {
         width: 142px;
         height: 52px;
         border-radius: 8px;
@@ -616,9 +624,6 @@ watch(
         font-weight: 500;
         color: #FFF;
         font-size: 20px;
-      }
-
-      .login_btn {
         background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
 
       }
