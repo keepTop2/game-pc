@@ -32,4 +32,46 @@ export default {
   chat_page_shield: "屏蔽",
   chat_page_moveG: "移动分组到",
   chat_page_category_man: "类别管理",
+
+
+  chat_page_all: "全部对话",
+  
+  chat_page_mute: "禁言",
+  chat_page_edit: "编辑",
+  chat_page_chat_list: "查找聊天列表",
+  chat_page_user_list: "查找用户列表",
+  chat_page_new_chat: "发起新聊天",
+  chat_page_group: "分组管理",
+  chat_page_cancel_shield: "取消屏蔽",
+
+  chat_page_group_remove: "从分组移除",
+  chat_page_up_agent: "上级代理",
+  chat_page_down_agent: "下级代理",
+  chat_page_customer: "官方客服",
+
+  chat_page_chat: "聊天列表",
+  chat_page_user: "用户列表",
+
+  chat_page_group_now: "当前分组",
+  chat_page_group_add: "创建分组",
+  chat_page_group_name: "分组名称",
+  chat_page_add_conversion: "添加对话",
+
+  chat_page_conversion: "对话",
+
+  chat_page_contain_conversion: "包括的对话",
+
+  chat_page_group_conversion: "选择会出现在此分组中的对话语分类。",
+
+  chat_page_change_conversion: "将不同对话归纳分类，并在它们之间快速切换。",
+
+  chat_page_customer_user: "官方玩家",
+
+  chat_page_agent_user: "官方代理",
+  chat_page_agent_gamer: "代理玩家",
+
+
 }
+
+
+// {{ t('chat_page_mute') }}

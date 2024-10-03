@@ -11,9 +11,9 @@
       <div class="main_body">
         <!-- 分组管理 -->
         <div class="group_main" v-if="step == 1">
-          <div class="tips">将不同对话归纳分类，并在它们之间快速切换。</div>
+          <div class="tips">{{ t('chat_page_change_conversion') }}</div>
           <div class="group_now">
-            <div class="title">当前分组</div>
+            <div class="title">{{ t('chat_page_group_now') }}</div>
             <div class="group_item" v-for="item in groupList" :key="item.id" @click="editGroup(item)">
               <div class="item_left">
                 <iconpark-icon icon-id="zuocweidy02" size="1.3rem" />
@@ -24,21 +24,21 @@
           </div>
           <div class="add_group" @click="addGroup">
             <iconpark-icon icon-id="tianjia" size="1rem" />
-            <span>创建分组</span>
+            <span>{{ t('chat_page_group_add') }}</span>
           </div>
         </div>
         <!-- 创建分组 -->
         <div class="group_add" v-if="step == 2">
-          <div class="title">分组名称</div>
+          <div class="title">{{ t('chat_page_group_name') }}</div>
           <div class="add_name">
             <n-input v-model:value="groupName" placeholder="编辑名称" />
             <iconpark-icon icon-id="zuocweidy02" size="1.3rem" />
           </div>
           <div>
-            <div class="title">包括的对话</div>
+            <div class="title">{{ t('chat_page_contain_conversion') }}</div>
             <div class="add_uaer" @click="addUser">
               <iconpark-icon icon-id="tianjia" size="1rem" />
-              <span>添加对话</span>
+              <span>{{ t('chat_page_add_conversion') }}</span>
             </div>
           </div>
           <div class="user_list">
@@ -56,7 +56,7 @@
               <iconpark-icon icon-id="shanchu" class="pointer" size="0.6rem" @click="delItem(item)" />
             </div>
           </div>
-          <div class="tips">选择会出现在此分组中的对话语分类。</div>
+          <div class="tips">{{ t('chat_page_group_conversion') }}</div>
           <div class="btn_group">
             <div class="btn_close" @click="cancelAddGroup">取消</div>
             <div class="btn_save" @click="saveGroup">{{ t('chat_page_save') }}</div>
@@ -65,7 +65,7 @@
         <!-- 添加对话 -->
         <div v-if="step == 3">
           <n-input v-model:value="groupName" placeholder="输入对话名称" />
-          <div class="title">对话</div>
+          <div class="title">{{ t('chat_page_conversion') }}</div>
           <div class="user_list">
             <n-checkbox-group v-model:value="chatitemIdList">
               <n-checkbox :value="item" v-for="item in itemList.filter((i: any) => i.deep != '0'&&!i.chatgroupid)" :key="item.id">
@@ -78,14 +78,14 @@
                     </div>
                     <span>{{ item.TUsername }}</span>
                   </div>
-                  <div class="high_proxy" :style="{ background: deepObj[item.deep|| item.agentlevel] ? deepObj[item.deep|| item.agentlevel].color : '' }">{{
-                    setLabel(item)  }}</div>
+                  <div class="high_proxy" :style="{ background: deepObj[item.deep|| item.agentlevel] ? deepObj[item.deep|| item.agentlevel].color : '' }">
+                    {{ t(setLabel(item)) }}</div>
                 </div>
               </n-checkbox>
             </n-checkbox-group>
           </div>
           <div class="btn_group">
-            <div class="btn_close" @click="closeChatItem">取消</div>
+            <div class="btn_close" @click="closeChatItem">{{ t('home_page_cancel') }}</div>
             <div class="btn_save" @click="saveChatItem">{{ t('chat_page_save') }}</div>
           </div>
         </div>
