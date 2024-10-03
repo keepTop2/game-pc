@@ -369,6 +369,7 @@ const selectUser = (item: any) => {
       msgRef.value.innerHTML = testMsg.value = ''
     }
   }
+  item.unreadnums = 0
   state.chatMessagesList = []
   state.userData = JSON.parse(JSON.stringify(item))
   state.activeId = item.id
@@ -620,7 +621,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
       content: decodeobj3.data,   //消息
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
-    if (type == 4) {    //获取到新消息如果是当前用户直接显示
+    if (type == 4||type == 29) {    //获取到新消息如果是当前用户直接显示
       if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj)
       } else {   // 不是当前用户则未读消息加1
@@ -645,6 +646,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   const decodeobj00 = decodeContent(decodeobj1.data, ServiceMessage)
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
+
   getChatMsgPublic(decodeobj00, decodeobj1.type)
 }
 
@@ -693,10 +695,8 @@ function clear() {
 
 //  聊天记录
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
-
   const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
   console.log("onMessage/SyncResp output4 ", decodeobj00)
-
   if (Object.keys(decodeobj00).length > 0) {
     if (Object.keys(decodeobj00.messages).length > 0) {
       decodeobj00.messages.forEach((item: any) => {
@@ -707,6 +707,15 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
     state.chatMessagesList = []
   }
 }
+
+// 图片审核通过推送
+const getChatMsg29 = (decodeobj1: any, SyncResp: string) => {
+  const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
+  getChatMsgPublic(decodeobj00.content, 29)
+}
+
+
+
 
 const itemAction = (item: any, o: any) => {
   editchat(item, o)
@@ -812,6 +821,11 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 25) {
     Message.success('操作成功')
   }
+  // 审核推送
+  else if (decodeobj1.type == 29) {
+    getChatMsg29(decodeobj1,'MessageItem')
+  }
+
 
   // 新增，修改，删除快捷语，重新请求列表
   else if ([16, 17, 18].includes(decodeobj1.type)) {
