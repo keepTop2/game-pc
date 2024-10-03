@@ -67,7 +67,7 @@
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
               @click="selectUser(item)"
-              :style="{ order: item.unreadnums && item.enableflag != 1 ? -1 : item.deep == '0' ? 0 : item.istop?item.istop:6 }">
+              :style="{ order: item.deep == '0' ? -1 : item.istop &&item.istop==1? 1 :  item.unreadnums && item.enableflag != 1 ? 2:6 }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -88,8 +88,13 @@
                 </template>
                 <div class="select_wrap">
                   <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
-                    <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top') }}</span>
-                    <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
+                    <template v-if="item.todeviceid">
+                      <!-- 置顶 -->
+                      <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top')
+                        }}</span>
+                      <!-- 屏蔽 -->
+                      <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
+                    </template>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
@@ -98,8 +103,8 @@
                       </template>
                       <div class="select_wrap_two">
                         <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">
-                        <span v-if="item.chatgroupid==o.id">√</span>
-                        {{ o.name }}
+                          <span v-if="item.chatgroupid == o.id">√</span>
+                          {{ o.name }}
                         </div>
                       </div>
                     </n-popover>
@@ -123,8 +128,7 @@
                 :key="i.id" @click="selectUser(i)">
                 <div class="item_left">
                   <div class="avatar">
-                    <n-badge  :show="false" :max="9999" class="set_item"
-                      :offset="[-14, 8]">
+                    <n-badge :show="false" :max="9999" class="set_item" :offset="[-14, 8]">
                       <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'}.webp`" alt="" class="img1" />
                     </n-badge>
                     <Imgt :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip" />
@@ -143,7 +147,8 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea :chatList="state.chatMessagesList" :roleInfo="roleInfo" :userData="state.userData" :deepObj="deepObj"></chatArea>
+        <chatArea :chatList="state.chatMessagesList" :roleInfo="roleInfo" :userData="state.userData" :deepObj="deepObj">
+        </chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
@@ -290,7 +295,6 @@ const beforeUpload = (data: any) => {
   const file = data.file.file
   const fileType = file.type.split('/')[1]
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
-  console.log(333333333, fileType)
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
     Message.error('文件大小不能超过2MB！')
@@ -343,15 +347,34 @@ const setLabel = (val: any) => {
   }
 }
 
+const chatObj: any = {}
 
 // 选择用户聊天
 const selectUser = (item: any) => {
+  const keys = Object.keys(chatObj);
+  
+  if (!msgRef.value.innerHTML&&state.userData && state.userData.id) {
+    chatObj[state.userData.id] = ''
+  }
+  if (state.userData && state.userData.id) {
+    // 已保存草稿的直接读取值
+    if (keys.includes(String(item.id))) {
+      testMsg.value = chatObj[item.id]
+      msgRef.value.innerHTML = chatObj[state.userData.id]
+    } else {
+      //没保存草稿
+      if (msgRef.value.innerHTML) {
+        chatObj[state.userData.id] = msgRef.value.innerHTML
+      }
+      msgRef.value.innerHTML = testMsg.value = ''
+    }
+  }
+  item.unreadnums = 0
   state.chatMessagesList = []
-  state.userData = item
+  state.userData = JSON.parse(JSON.stringify(item))
   state.activeId = item.id
   state.todeviceid = item.Tdeviceid
-  // testMsg.value = ''
-  // msgRef.value.innerHTML = ''
+
   // 获取聊天记录
   synchistorymsg()
   allRead()
@@ -598,7 +621,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
       content: decodeobj3.data,   //消息
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
-    if (type == 4) {    //获取到新消息如果是当前用户直接显示
+    if (type == 4||type == 29) {    //获取到新消息如果是当前用户直接显示
       if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj)
       } else {   // 不是当前用户则未读消息加1
@@ -623,6 +646,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
 const getChatMsg4 = (decodeobj1: any, ServiceMessage: string) => {
   const decodeobj00 = decodeContent(decodeobj1.data, ServiceMessage)
   console.log("onMessage/ServiceMessage output1 ", decodeobj00)
+
   getChatMsgPublic(decodeobj00, decodeobj1.type)
 }
 
@@ -671,10 +695,8 @@ function clear() {
 
 //  聊天记录
 const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
-
   const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
   console.log("onMessage/SyncResp output4 ", decodeobj00)
-
   if (Object.keys(decodeobj00).length > 0) {
     if (Object.keys(decodeobj00.messages).length > 0) {
       decodeobj00.messages.forEach((item: any) => {
@@ -685,6 +707,15 @@ const getChatMsg2 = (decodeobj1: any, SyncResp: string) => {
     state.chatMessagesList = []
   }
 }
+
+// 图片审核通过推送
+const getChatMsg29 = (decodeobj1: any, SyncResp: string) => {
+  const decodeobj00 = decodeContent(decodeobj1.data, SyncResp);
+  getChatMsgPublic(decodeobj00.content, 29)
+}
+
+
+
 
 const itemAction = (item: any, o: any) => {
   editchat(item, o)
@@ -786,10 +817,15 @@ const onMessage: any = async (buffer: any) => {
   else if (decodeobj1.type == 28) {
     getkeywordList(decodeobj1)
   }
-  // 获取关键词列表
+  // 禁言
   else if (decodeobj1.type == 25) {
     Message.success('操作成功')
   }
+  // 审核推送
+  else if (decodeobj1.type == 29) {
+    getChatMsg29(decodeobj1,'MessageItem')
+  }
+
 
   // 新增，修改，删除快捷语，重新请求列表
   else if ([16, 17, 18].includes(decodeobj1.type)) {
@@ -1248,7 +1284,8 @@ onUnmounted(() => {
     background: #3c279a;
     border-radius: 8px
   }
-  &:deep(.n-carousel__slide){
+
+  &:deep(.n-carousel__slide) {
     width: unset !important;
     min-width: 100px !important;
     max-width: 188px !important;

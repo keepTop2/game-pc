@@ -77,19 +77,25 @@ const saveClick = () => {
   //   int32 days = 4; // 天数
   // }
 
+  const state = props.stateData
+if (!state.userData?.id) {
+  Message.error('请先选择用户')
+  return
+}
+
   if (!choose.value) {
     Message.error('请先选择')
     return
   }
-  const state = props.stateData
   const requestid = state.requestid;
   const type = 25; //
   var payload = {
     deviceid: state.deviceID,
     id: state.userData.id,
-    days: list.value[choose.value - 1].day,
+    days:  Number(list.value[choose.value - 1]?.day),
     mtype: choose.value
   }
+
   const actionType = choose.value < 3 ? 'MuteReq' : 'ForbidReq'
   const decodedata = encodeParams(payload, actionType)
   const encodedRequest = encodeInput(type, requestid, decodedata);
