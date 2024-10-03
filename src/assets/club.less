@@ -1,4 +1,8 @@
 @timestamp: `new Date().getTime()`;
+
+.button_color {
+  background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%) !important;
+}
 // 加入俱乐部弹窗
 .form_card {
   width: 494px !important;
@@ -100,10 +104,6 @@
           opacity: .5;
           cursor: not-allowed;
         }
-
-        &.c_join_btn {
-          background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
-        }
       }
     }
 
@@ -182,21 +182,33 @@
             }
           }
         }
-
+      }
+    }
+    .tab_right {
+      min-width: 100px;
+      height: 48px;
+      border-radius: 8px;
+      gap: 2px !important;
+      .icon {
+        width: 24px;
+        height: 25px;
+        background: url('/img/club/new/icon_sx.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
       }
     }
 
     .join_club_box {
       margin: 20px 0 0;
-      gap: 20px !important;
+      gap: 19px !important;
 
       .item_list {
+        gap: 11px !important;
         cursor: pointer;
         position: relative;
         flex-wrap: nowrap;
-        width: 453px;
+        width: 454px;
         height: 140px;
-        padding: 14px;
+        padding: 14px 0 14px 14px;
         font-size: 14px;
         color: rgba(175, 182, 189, 1);
         background: url('/img/club/new/listBg1.webp?t=@{timestamp}') center no-repeat;
@@ -219,6 +231,7 @@
           padding-right: 3px;
         }
         img {
+          border: 3px solid rgba(62, 62, 62, 1);
           width: 111px;
           border-radius: 50%;
         }
@@ -256,13 +269,31 @@
             -webkit-line-clamp: 2; /* 这里是超出几行省略 */
             overflow: hidden;
 
+            .time_box {
+              gap: 6px !important;
+              img {
+                width: 16px !important;
+                height: 16px !important;
+              }
+              .it_right {
+                width: 90px;
+                height: 36px;
+                border-radius: 8px;
+                color: #fff;
+              }
+            }
+
             .item_bb {
               font-size: 14px;
               color: rgba(175, 182, 189, 1);
               gap: 3px !important;
 
+              &.size_12 {
+                font-size: 12px;
+              }
               .icon {
                 img {
+                  border: 0;
                   width: 20px;
                   height: 20px;
                 }

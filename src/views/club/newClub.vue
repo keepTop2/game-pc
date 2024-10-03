@@ -92,7 +92,7 @@
           </n-form>
 
           <n-flex class="form_footer" justify="space-between">
-            <button class="c_join_btn" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit" style="width: 100%"> {{ t('搜素') }} </button>
+            <button class="c_join_btn button_color" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit" style="width: 100%"> {{ t('搜素') }} </button>
           </n-flex>
         </div>
       </div>
@@ -130,7 +130,7 @@
 
           <n-flex class="form_footer" justify="space-between">
             <a @click="onCloseCreate"> {{ t('club_page_gb') }} </a>
-            <a class="c_join_btn" @click="onSubmitCreate"> {{ t('club_page_ljcj') }} </a>
+            <a class="c_join_btn button_color" @click="onSubmitCreate"> {{ t('club_page_ljcj') }} </a>
           </n-flex>
         </div>
       </div>

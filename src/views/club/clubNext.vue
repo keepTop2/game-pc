@@ -5,12 +5,37 @@
         <Imgt :src="`/img/club/new/image.webp`" />
       </n-flex>
       <n-flex class="item_list_r">
-        <div>{{ t('BY88俱乐部-驻马尼拉分部') }}</div>
+        <n-flex class="item_top">
+          {{ t('BY88俱乐部-驻马尼拉分部') }}
+          <n-flex align="center" justify="center" class="button button_color">
+            管理
+          </n-flex>
+        </n-flex>
         <div class="txt_dec">
-          俱乐部简介内容俱乐部简介内容俱乐部简介内容俱乐部简介内容俱乐部简介内容乐部简介内容简介内容简介内容简介内容简介内容
+          <div>俱乐部简介:</div>
+          <div class="txt_con">
+            俱乐部简介内容俱乐部简介内容俱乐部简介内容俱乐部简介内容俱乐部简介内容乐部简介内容简介内容简介内容简介内容简介内容
+          </div>
         </div>
+        <n-flex align="center" class="item_bottom">
+          <span class="icon"></span>
+          <span>12434</span>
+        </n-flex>
       </n-flex>
     </n-flex>
+    <div class="top_banner">
+      <Imgt :src="`/img/club/new/banner1.webp`" />
+    </div>
+    <n-flex class="club_list_tab" align="center">
+      <div :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`" v-for="(item, index) in curGmaeArr"
+         :key="index" @click="clickTabGame(item.key)">
+        <Imgt :src="`/img/club/new/game${index + 1}.webp`" />
+        <div>
+          {{ item.title }}
+        </div>
+      </div>
+    </n-flex>
+
     <n-flex class="top_box">
       <n-flex class="item_list item_list_next button" v-for="(item, index) in listData"
               :style="{ 'background-image': `url(/img/club/new/bgn${index + 1}.webp)` }"
@@ -25,33 +50,21 @@
     </n-flex>
 
     <div class="bottom_box">
-      <n-flex class="tab_list">
-        <n-flex align="center" :class="`item_list button ${curTab === item.value && 'active'}`" v-for="(item, index) in tabData"
-                :key="index" @click="clickTab(item.value)">
-          <span :class="`icon ${item.icon}`"></span>
-          <span class="txt"> {{t(item.label)}} </span>
+      <n-flex align="center" justify="space-between">
+        <n-flex class="tab_list">
+          <n-flex align="center" :class="`item_list button ${curTab === item.value && 'active'}`" v-for="(item, index) in tabData"
+                  :key="index" @click="clickTab(item.value)">
+            <span class="txt"> {{t(item.label)}} </span>
+          </n-flex>
+        </n-flex>
+        <n-flex justify="center" align="center" class="tab_right button button_color">
+          <span class="icon"> </span>
+          <span>筛选 </span>
         </n-flex>
       </n-flex>
-      <!-- 我加入的俱乐部 -->
-      <n-flex v-show="curTab === 'joinClub'" class="join_club_box">
-        <n-flex align="center" class="item_list" v-for="(item, index) in clubListData" :key="index">
-          <div class="bg_txt">
-            <div>JOIN THE</div>
-            <div>CLUB</div>
-          </div>
-          <n-flex justify="center" class="item_list_l">
-            <Imgt :src="`/img/club/new/image.webp`" />
-            <span class="c_box">{{t('创建者')}}</span>
-          </n-flex>
-          <n-flex class="item_list_r">
-            <div>{{ t(item.name) }}</div>
-            <div class="txt_dec">{{ item.dec }}</div>
-          </n-flex>
-        </n-flex>
 
-      </n-flex>
-      <!-- 我加入的牌局 -->
-      <n-flex v-show="curTab === 'joinPlay'" class="join_club_box">
+      <!-- 经典 -->
+      <n-flex v-show="curTab === 'joinClub'" class="join_club_box">
         <n-flex align="center" class="item_list" v-for="(item, index) in gameListData" :key="index">
           <div class="bg_txt">
             <div>JOINED</div>
@@ -59,7 +72,6 @@
           </div>
           <n-flex justify="center" class="item_list_l">
             <Imgt :src="`/img/club/new/image.webp`" />
-            <span class="c_box">{{t('创建者')}}</span>
           </n-flex>
           <n-flex class="item_list_r">
             <div>{{ t(item.name) }}</div>
@@ -77,6 +89,73 @@
                 <span>{{item.rate}}</span>
               </n-flex>
             </n-flex>
+          </n-flex>
+        </n-flex>
+      </n-flex>
+      <!-- 6+ -->
+      <n-flex v-show="curTab === 'joinPlay'" class="join_club_box">
+        <n-flex align="center" class="item_list" v-for="(item, index) in gameListData" :key="index">
+          <div class="bg_txt">
+            <div>JOINED</div>
+            <div>GAME</div>
+          </div>
+          <n-flex justify="center" class="item_list_l">
+            <Imgt :src="`/img/club/new/image.webp`" />
+          </n-flex>
+          <n-flex class="item_list_r">
+            <div>{{ t(item.name) }}</div>
+            <n-flex class="txt_dec">
+              <n-flex class="item_bb">
+                <span class="icon"> <Imgt :src="`/img/club/new/renIcon.webp`" /> </span>
+                <span>{{item.count}}</span>
+              </n-flex>
+              <n-flex class="item_bb">
+                <span class="icon"> <Imgt :src="`/img/club/new/bankIcon.webp`" /> </span>
+                <span>{{item.minBet}}</span>
+              </n-flex>
+              <n-flex class="item_bb">
+                <span class="icon"> <Imgt :src="`/img/club/new/monIcon.webp`" /> </span>
+                <span>{{item.rate}}</span>
+              </n-flex>
+            </n-flex>
+          </n-flex>
+        </n-flex>
+      </n-flex>
+
+      <!-- 赛事+ -->
+      <n-flex v-show="curTab === 'event'" class="join_club_box">
+        <n-flex align="center" class="item_list" v-for="(item, index) in eventListData" :key="index">
+          <div class="bg_txt">
+            <div>JOINED</div>
+            <div>GAME</div>
+          </div>
+          <n-flex justify="center" class="item_list_l">
+            <Imgt :src="`/img/club/new/image.webp`" />
+          </n-flex>
+          <n-flex class="item_list_r">
+            <div>{{ t(item.name) }}</div>
+            <div class="txt_dec">
+              <n-flex class="item_bb">
+                <span class="icon"> <Imgt :src="`/img/club/new/renIcon.webp`" /> </span>
+                <span>{{t('报名人数')}}: {{item.num}}</span>
+              </n-flex>
+              <n-flex class="time_box">
+               <div class="it_left">
+                 <n-flex class="item_bb size_12">
+                   <span class="icon"> <Imgt :src="`/img/club/new/bankIcon.webp`" /> </span>
+                   <span>{{t('开始时间')}}: {{item.startTime}}</span>
+                 </n-flex>
+                 <n-flex class="item_bb size_12">
+                   <span class="icon"> <Imgt :src="`/img/club/new/monIcon.webp`" /> </span>
+                   <span>{{t('结束时间')}}: {{item.endTime}}</span>
+                 </n-flex>
+               </div>
+                <n-flex align="center" justify="center" class="it_right button button_color">
+                   报名
+                </n-flex>
+              </n-flex>
+
+            </div>
           </n-flex>
         </n-flex>
       </n-flex>
@@ -102,45 +181,7 @@
           </n-form>
 
           <n-flex class="form_footer" justify="space-between">
-            <button class="c_join_btn" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit" style="width: 100%"> {{ t('搜素') }} </button>
-          </n-flex>
-        </div>
-      </div>
-    </n-card>
-  </n-modal>
-
-  <!-- 创建俱乐部弹窗 -->
-  <n-modal :show="showCreateModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container">
-        <div class="header">
-          <span class="title">{{ t('club_page_cjjlb') }}</span>
-          <span class="close pointer">
-            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
-          </span>
-        </div>
-        <div class="form_body">
-          <n-form>
-            <n-flex align="center" class="upload_img">
-              <span>{{t('上传图片')}}:</span>
-              <n-upload
-                :max="1"
-                @before-upload="beforeUpload"
-                accept=".jpg,.jpeg,.png,.gif,.webp">
-                <n-button>上传</n-button>
-              </n-upload>
-            </n-flex>
-            <n-form-item :label="`${t('club_page_jlbmc')}:`">
-              <n-input type="textarea" :rows="2" v-model:value="createParams.name" :placeholder="t('club_page_qsr')" clearable/>
-            </n-form-item>
-            <n-form-item :label="`${t('club_page_jlbjj')}:`">
-              <n-input type="textarea" :rows="2" v-model:value="createParams.dec" :placeholder="t('club_page_qsr')" />
-            </n-form-item>
-          </n-form>
-
-          <n-flex class="form_footer" justify="space-between">
-            <a @click="onCloseCreate"> {{ t('club_page_gb') }} </a>
-            <a class="c_join_btn" @click="onSubmitCreate"> {{ t('club_page_ljcj') }} </a>
+            <button class="c_join_btn button_color" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit" style="width: 100%"> {{ t('搜素') }} </button>
           </n-flex>
         </div>
       </div>
@@ -158,14 +199,14 @@ import Imgt from '@/components/Imgt.vue';
 // import { Net } from '@/net/Net';
 // import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 // import { NetMsgType } from '@/netBase/NetMsgType.ts';
-import { Message } from '@/utils/discreteApi.ts';
-import { User } from '@/store/user.ts';
-import pinia from '@/store';
-import { storeToRefs } from 'pinia';
+// import { Message } from '@/utils/discreteApi.ts';
+// import { User } from '@/store/user.ts';
+// import pinia from '@/store';
+// import { storeToRefs } from 'pinia';
 // import { useRoute } from 'vue-router';
 
-const UserStore = User(pinia);
-const { roleInfo } = storeToRefs(UserStore);
+// const UserStore = User(pinia);
+// const { roleInfo } = storeToRefs(UserStore);
 const { t } = useI18n();
 // const route = useRoute();
 const showModal = ref(false);
@@ -176,13 +217,23 @@ const curTitle = ref('俱乐部');
 const curTab = ref('joinClub'); // joinClub, joinPlay
 
 const tabData = ref([
-  { label: '我加入的俱乐部', value: 'joinClub', icon: 'icon_club'},
-  { label: '我加入的牌局', value: 'joinPlay', icon: 'icon_game'},
+  { label: '经典', value: 'joinClub', icon: 'icon_club'},
+  { label: '6+', value: 'joinPlay', icon: 'icon_game'},
+  { label: '赛事', value: 'event', icon: 'icon_game'},
 ]);
 const listData = ref([
   { label: '新建牌局', value: 'joinPlay', icon: 'icon1'},
   { label: '快速开始', value: 'start', icon: 'icon4'},
 ]);
+const curGmaeType = ref('dz');
+const curGmaeArr = [
+  { title: '德州PK', key: 'dz' },
+  { title: '跑得快', key: 'pdk' },
+  { title: '21点', key: '21' },
+  { title: '骰子', key: 'tz' },
+  { title: '黑杰克', key: 'jack' },
+  { title: '百人游戏', key: 'bai' },
+];
 // 我加入的牌局
 const gameListData = ref(
   [
@@ -228,32 +279,32 @@ const gameListData = ref(
     },
   ],
 );
-// 我加入的俱乐部
-const clubListData = ref(
+// 赛事列表
+const eventListData = ref(
   [
     {
-      create: 'fsf898',
-      name: '俱乐部-分部名称',
-      id: 23233,
-      dec: '俱乐部简介俱乐',
+      name: '德州比赛-多人奖金赛',
+      num: 25,
+      startTime: '2024-07-01 12:30:00',
+      endTime: '2024-09-01 12:30:00',
     },
     {
-      create: 'fsf898',
-      name: '俱乐部-分部名称',
-      id: 23233,
-      dec: '俱乐部简介俱乐部简介俱乐部简介俱乐部简介简俱乐部简介俱乐部简介俱乐部简',
+      name: '德州比赛-多人奖金赛',
+      num: 25,
+      startTime: '2024-07-01 12:30:00',
+      endTime: '2024-09-01 12:30:00',
     },
     {
-      create: 'fsf898',
-      name: '俱乐部-分部名称',
-      id: 23233,
-      dec: '俱乐部简介俱乐部简介俱乐部简介俱乐部简介简俱乐部简介俱乐部简介俱乐部简',
+      name: '德州比赛-多人奖金赛',
+      num: 25,
+      startTime: '2024-07-01 12:30:00',
+      endTime: '2024-09-01 12:30:00',
     },
     {
-      create: 'fsf898',
-      name: '俱乐部-分部名称',
-      id: 23233,
-      dec: '俱乐部简介俱乐部简介俱乐部简介俱乐部简介简俱乐部简介俱乐部简介俱乐部简',
+      name: '德州比赛-多人奖金赛',
+      num: 25,
+      startTime: '2024-07-01 12:30:00',
+      endTime: '2024-09-01 12:30:00',
     },
   ],
 );
@@ -268,30 +319,9 @@ const createParams = ref({
   dec: '',
 });
 
-// 上传图片
-const beforeUpload = (data: any) => {
-  const file = data.file.file
-  if (file && file.size > 1024 * 1024 * 2) { // 2MB限制
-    Message.error('文件大小不能超过2MB！')
-    return;
-  }
-  const formData = new FormData();
-  formData.append('avatar', file);
-  formData.append('role_id', `${roleInfo.value.id}`);
-  fetch(`http://18.162.112.52:8031/api/upload/avatar`, {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => response.json()).then(response => {
-    if (response.status == 200 || response.status == 'success') {
-      const urlImg = response.data.path
-      Message.success(response.message)
-      console.log('&&&&&', urlImg)
-    } else {
-      Message.error(response.message)
-    }
-  })
-}
+const clickTabGame = (e: any) => {
+  curGmaeType.value = e;
+};
 
 const goToPage = (item: any) => {
   if (item.value === 'create') {
@@ -369,25 +399,7 @@ const onSubmit = () => {
 //     Message.error(t('俱乐部不存在'));
 //   }
 // };
-// 关闭创建俱乐部弹窗
-const onCloseCreate = () => {
-  showCreateModal.value = false;
-};
-// 创建俱乐部提交
-const onSubmitCreate = () => {
-  console.log('----------', createParams);
-  if (!createParams.value.name) {
-    return Message.error(t('俱乐部名称不能为空'));
-  }
-  if (!createParams.value.dec) {
-    return Message.error(t('俱乐部简介不能为空'));
-  }
-  // const req = NetPacket.req_create_club();
-  // req.club_name = createParams.value.name;
-  // req.club_introduction = createParams.value.dec;
-  // req.club_logo = 0; // logo
-  // Net.instance.sendRequest(req);
-};
+
 // 监听创建俱乐部返回
 // const createClubHandle = (res: any) => {
 //   const tipStr: any = {
@@ -474,9 +486,58 @@ defineExpose({
       font-size: 20px;
       font-weight: 600;
     }
+    .item_top {
+       .button {
+         width: 96px;
+         height: 36px;
+         border-radius: 8px;
+         font-size: 16px;
+       }
+    }
     .txt_dec {
+      width: 656px;
       font-size: 14px;
       color: rgba(175, 182, 189, 1);
+      .txt_con {
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+    }
+    .item_bottom {
+      gap: 2px !important;
+      font-size: 14px;
+      color: rgba(181, 164, 255, 1);
+      .icon {
+        width: 16px;
+        height: 16px;
+        background: url('/img/club/new/ren_t.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
+      }
+    }
+  }
+}
+.top_banner {
+  margin-bottom: 20px;
+  img {
+    width: 100%;
+  }
+}
+.club_list_tab {
+  background: linear-gradient(180deg, #0A0B22 0%, #000000 100%);
+  border: 1px solid #000;
+  border-radius: 16px;
+  padding: 24px 48px;
+  gap: 40px !important;
+  margin-bottom: 20px;
+  .btn_type {
+    font-size: 16px;
+    text-align: center;
+    img {
+      width: 128px;
     }
   }
 }
