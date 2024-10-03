@@ -3,7 +3,7 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main_setting">
       <h4 class="top_title">
-        <span>{{ stepTitle[step] }}</span>
+        <span>{{t(stepTitle[step]) }}</span>
         <i>
           <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
@@ -139,9 +139,9 @@ const groupName = ref('')
 const editGroupItem = ref()
 const { groupList, encodeInput, encodeParams, decodeContent, getChatlist, groupChatitemList, editchat }: any = usechatHooks(props.stateData)
 const stepTitle: any = {
-  1: '创建分组',
-  2: '分组管理',
-  3: '添加对话',
+  1: 'chat_page_group_add',
+  2: 'chat_page_group',
+  3: 'chat_page_add_conversion',
 }
 
 const chatitemIdList: any = ref(groupChatitemList || [])
