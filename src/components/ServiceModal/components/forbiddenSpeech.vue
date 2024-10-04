@@ -13,15 +13,16 @@
           <n-radio v-for="(item, index) in list" :key="item.id" :value="item.id">
             <div class="radio_item">
               <span class="label">{{ item.label }}</span>
-              <n-input v-model:value="list[index].day" placeholder="" style="width:85%"
-                :allow-input="onlyAllowNumber" />
+              <n-input-number v-model:value="list[index].day" :min="0.1" :max="99"  :show-button="false"
+                style="width:85%"   />
+
               <span>天</span>
             </div>
           </n-radio>
         </n-radio-group>
         <div class="btn_group">
           <div class="btn_close" @click="isShow = false">取消</div>
-          <div class="btn_save" @click="saveClick">{{t('chat_page_save')}}</div>
+          <div class="btn_save" @click="saveClick">{{ t('chat_page_save') }}</div>
         </div>
       </div>
     </div>
@@ -48,7 +49,7 @@ const props = defineProps({
     default: () => ({}),
   }
 });
-const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
+
 const { encodeInput, encodeParams }: any = usechatHooks(props.stateData)
 
 const list = ref([
@@ -78,10 +79,10 @@ const saveClick = () => {
   // }
 
   const state = props.stateData
-if (!state.userData?.id) {
-  Message.error('请先选择用户')
-  return
-}
+  if (!state.userData?.id) {
+    Message.error('请先选择用户')
+    return
+  }
 
   if (!choose.value) {
     Message.error('请先选择')
@@ -92,7 +93,7 @@ if (!state.userData?.id) {
   var payload = {
     deviceid: state.deviceID,
     id: state.userData.id,
-    days:  Number(list.value[choose.value - 1]?.day),
+    days: Number(list.value[choose.value - 1]?.day),
     mtype: choose.value
   }
 
