@@ -71,4 +71,10 @@ export default {
 
   chat_page_agent_user: 'Đại lý chính thức',
   chat_page_agent_gamer: 'Người chơi đặc vụ',
+
+  chat_page_file_error: "Định dạng tệp không được hỗ trợ",
+  chat_page_file_limit1: "Kích thước tệp không được vượt quá 2MB!",
+  chat_page_file_limit2: "Kích thước file không được vượt quá 100MB!",
+
+  chat_page_direct_user: "Trình phát trực tiếp",
 };

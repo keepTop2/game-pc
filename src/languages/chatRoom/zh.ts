@@ -73,6 +73,8 @@ export default {
   chat_page_file_limit1: "文件大小不能超过2MB！",
   chat_page_file_limit2: "文件大小不能超过100MB！",
 
+  chat_page_direct_user: "直属玩家",
+
 
 }
 

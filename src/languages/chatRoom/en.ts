@@ -45,7 +45,7 @@ export default {
   chat_page_group_remove: "Remove from group",
   chat_page_up_agent: "upper agent",
   chat_page_down_agent: "Download Agent",
-  chat_page_customer: "Official Customer Service",
+  chat_page_customer: "Customer",
 
   chat_page_chat: "Chat list",
   chat_page_user: "User list",
@@ -66,5 +66,11 @@ export default {
 
   chat_page_agent_user: "Official Agent",
   chat_page_agent_gamer: "Agent Player",
+
+  chat_page_file_error: "File format not supported",
+  chat_page_file_limit1: "File size cannot exceed 2MB!",
+  chat_page_file_limit2: "The file size cannot exceed 100MB!",
+
+  chat_page_direct_user: "Direct player",
   
 }

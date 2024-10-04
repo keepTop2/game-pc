@@ -347,7 +347,7 @@ const setLabel = (val: any) => {
     }
     return obj[val.agentlevel] || 'chat_page_agent_gamer'
   } else {
-    return deepObj[val.deep] && deepObj[val.deep].label || '直属玩家'
+    return deepObj[val.deep] && deepObj[val.deep].label || 'chat_page_direct_user'
   }
 }
 
