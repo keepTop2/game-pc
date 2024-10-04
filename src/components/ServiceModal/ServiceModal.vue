@@ -85,7 +85,7 @@
                 <template #trigger>
                   <div class="high_proxy"
                     :style="{ background: deepObj[item.deep || item.agentlevel] ? deepObj[item.deep || item.agentlevel].color : '' }">
-                    <span> {{  t(setLabel(item))}}</span>
+                    <span> {{ t(setLabel(item)) }}</span>
                   </div>
                 </template>
                 <div class="select_wrap">
@@ -301,15 +301,15 @@ const beforeUpload = (data: any) => {
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
-    Message.error('文件大小不能超过2MB！')
+    Message.error(t('chat_page_file_limit1'))
     return;
   }
   if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
-    Message.error('文件大小不能超过100MB！')
+    Message.error(t('chat_page_file_limit2'))
     return;
   }
   if (type == 'image' && !['png', 'jpg', 'gif', 'jpeg'].includes(fileType)) {
-    Message.error('文件格式不支持')
+    Message.error(t('chat_page_file_error'))
     return;
   }
   const formData = new FormData();
@@ -780,7 +780,7 @@ const onMessage: any = async (buffer: any) => {
   // 移动好友到分组成功
   else if (decodeobj1.type == 14) {
     if (state.isEditchat) {  // 单独移动到分组
-      Message.success('操作成功')
+      Message.success(t('operation_success'))
     }
     // Message.success('操作成功')
     getChatlist()
@@ -790,20 +790,20 @@ const onMessage: any = async (buffer: any) => {
 
   //分组列表保存回执
   else if (decodeobj1.type == 9) {
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
     groupRef.value.getChatMsg9(decodeobj1)
     getListGroup()
   }
   //分组列表保存回执
   else if (decodeobj1.type == 10) {
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
     groupRef.value.getChatMsg9(decodeobj1)
 
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {
     getListGroup()
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
   }
   // 获取分组列表
   else if (decodeobj1.type == 12) {
@@ -823,7 +823,7 @@ const onMessage: any = async (buffer: any) => {
   }
   // 禁言
   else if (decodeobj1.type == 25) {
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
   }
   // 审核推送
   else if (decodeobj1.type == 29) {

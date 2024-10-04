@@ -69,6 +69,9 @@ export default {
 
   chat_page_agent_user: "官方代理",
   chat_page_agent_gamer: "代理玩家",
+  chat_page_file_error: "文件格式不支持",
+  chat_page_file_limit1: "文件大小不能超过2MB！",
+  chat_page_file_limit2: "文件大小不能超过100MB！",
 
 
 }
