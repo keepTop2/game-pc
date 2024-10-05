@@ -315,7 +315,7 @@ const beforeUpload = (data: any) => {
   const formData = new FormData();
   formData.append(type, file);
   formData.append('device_id', state.deviceID);
-  fetch(`http://18.162.112.52:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
+  fetch(`http://18.167.175.195:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
     method: 'POST',
     body: formData,
   })

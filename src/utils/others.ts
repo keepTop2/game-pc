@@ -123,8 +123,8 @@ export const getFastestUrl = (_data: { [x: string]: any; }): Promise<string> => 
 
         let server_testUrls = [
             [
-                "http://18.162.112.52:9002",
-                "ws://18.162.112.52:9001"
+                "http://18.167.175.195:9002",
+                "ws://18.167.175.195:9001"
             ],
             [
                 "http://43.199.35.53:9002",

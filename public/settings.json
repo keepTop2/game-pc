@@ -3,7 +3,7 @@
             "ws://43.199.35.53:9001"
         ],
         "customer_server": "http://43.199.35.53:8031",
-        "52": "ws://18.162.112.52:9001",
+        "52": "ws://18.167.175.195:9001",
         "53": "ws://43.199.35.53:9001",
         "serverInfo": {
             "app_download_url": "",
@@ -17,7 +17,7 @@
             "http://ip.by88.life:8080/"
         ],
         "admin_i18n_add_url": "http://43.199.35.53:8032/backend.json?",
-        "home_game_data": "http://18.162.112.52:8032/third_game_manage.json?",
+        "home_game_data": "http://18.167.175.195:8032/third_game_manage.json?",
         "lang_list": [
             {
                 "name": "en",
