@@ -74,6 +74,12 @@ export default {
   chat_page_file_limit2: "文件大小不能超过100MB！",
 
   chat_page_direct_user: "直属玩家",
+  chat_page_with_user: "与 {user} 的聊天",
+  chat_page_ban_user: "禁言用户",
+  chat_page_block_user: "封锁用户",
+  chat_page_ban_ip: "禁言IP",
+  chat_page_block_ip: "封锁IP",
+  chat_page_day: "天",
 
 
 }

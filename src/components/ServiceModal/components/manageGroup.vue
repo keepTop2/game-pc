@@ -58,7 +58,7 @@
           </div>
           <div class="tips">{{ t('chat_page_group_conversion') }}</div>
           <div class="btn_group">
-            <div class="btn_close" @click="cancelAddGroup">取消</div>
+            <div class="btn_close" @click="cancelAddGroup">{{ t('home_page_cancel') }}</div>
             <div class="btn_save" @click="saveGroup">{{ t('chat_page_save') }}</div>
           </div>
         </div>
@@ -314,7 +314,7 @@ const isShow = computed({
 
 .main_body {
   width: 494px;
-  height: 480px;
+  height: 500px;
   padding: 40px 50px;
   background-color: #231353;
   box-sizing: border-box;

@@ -72,5 +72,11 @@ export default {
   chat_page_file_limit2: "The file size cannot exceed 100MB!",
 
   chat_page_direct_user: "Direct player",
+  chat_page_with_user: "Chatting with {user}",
+  chat_page_ban_user: "Ban user",
+  chat_page_block_user: "Block user",
+  chat_page_ban_ip: "Ban IP",
+  chat_page_block_ip: "Block IP",
+  chat_page_day: "day",
   
 }

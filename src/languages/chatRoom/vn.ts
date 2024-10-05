@@ -77,4 +77,12 @@ export default {
   chat_page_file_limit2: "Kích thước file không được vượt quá 100MB!",
 
   chat_page_direct_user: "Trình phát trực tiếp",
+
+  chat_page_with_user: "Trò chuyện với {user}",
+
+  chat_page_ban_user: "Cấm người dùng",
+  chat_page_block_user: "Chặn người dùng",
+  chat_page_ban_ip: "Cấm IP",
+  chat_page_block_ip: "Chặn  IP",
+  chat_page_day: "bầu trời",
 };

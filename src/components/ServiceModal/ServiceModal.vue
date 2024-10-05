@@ -4,7 +4,7 @@
   <div class="main">
 
     <h4 class="top_title">
-      <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
+      <span>{{ t('chat_page_with_user',{user:state.userData.TUsername}) }}</span>
 
       <div class="forbidden">
         <div class="forbidden_btn" @click="visibleForbidden = true"
