@@ -101,7 +101,7 @@ const beforeUpload = (data: any) => {
   const formData = new FormData();
   formData.append('avatar', file);
   formData.append('role_id', `${roleInfo.value.id}`);
-  fetch(`http://18.162.112.52:8031/api/upload/avatar`, {
+  fetch(`http://18.167.175.195:8031/api/upload/avatar`, {
     method: 'POST',
     body: formData,
   })
