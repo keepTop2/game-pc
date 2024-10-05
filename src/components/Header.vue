@@ -763,9 +763,10 @@ watch(
 }
 
 .change_card1 {
-  width: 850px;
-  min-height: 415px;
-  background-color: #231353;
+
+  border-radius: 16px;
+  border: 1px solid #26294C;
+  background-color: #14173A;
 }
 
 .change_card {
@@ -781,7 +782,7 @@ watch(
   display: block;
   width: 524px;
   min-height: 415px;
-  background-color: #231353;
+  // background-color: #231353;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
 }
