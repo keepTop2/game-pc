@@ -38,11 +38,11 @@
 import usePaymentManagement from './usePaymentManagement';
 import AddBank from '../components/AddBank.vue';
 import { useI18n } from "vue-i18n";
-import { NetPacket } from "@/netBase/NetPacket";
+import { NetPacket } from "@/netBase2/NetPacket";
 import { Net } from "@/net/Net";
 import { onMounted, onUnmounted, ref } from "vue";
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetMsgType } from "@/netBase2/NetMsgType";
 import { Dialog, Message } from "@/utils/discreteApi";
 import Imgt from '@/components/Imgt.vue';
 

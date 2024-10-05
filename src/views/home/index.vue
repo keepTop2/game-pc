@@ -51,7 +51,7 @@
 import Sidebar from '@/components/Sidebar.vue';
 import { onMounted, onUnmounted, reactive } from 'vue';
 import Imgt from '@/components/Imgt.vue';
-// import { NetMsgType } from "@/netBase/NetMsgType";
+// import { NetMsgType } from "@/netBase2/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
 
 import pinia from '@/store/index';

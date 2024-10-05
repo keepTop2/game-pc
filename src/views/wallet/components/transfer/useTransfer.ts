@@ -5,10 +5,10 @@ import { User } from '@/store/user';
 
 import { ETransfer } from '@/enums/walletEnum';
 import { ref, watch } from 'vue';
-import { NetPacket } from "@/netBase/NetPacket";
+import { NetPacket } from "@/netBase2/NetPacket";
 import { Net } from "@/net/Net";
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetMsgType } from "@/netBase2/NetMsgType";
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 

@@ -68,9 +68,9 @@
 import { ref, reactive, onUnmounted, computed } from 'vue';
 import DateSelect from "@/components/DateSelect.vue"
 import { Net } from "@/net/Net";
-import { NetPacket } from "@/netBase/NetPacket";
+import { NetPacket } from "@/netBase2/NetPacket";
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetMsgType } from '@/netBase2/NetMsgType';
 import { IdentityMap } from "@/enums/proxyEnum";
 import levelManage from "./levelManage.vue"
 import { useI18n } from "vue-i18n";

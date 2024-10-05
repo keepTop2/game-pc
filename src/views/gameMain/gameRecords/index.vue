@@ -9,8 +9,8 @@
 import { onMounted, onUnmounted } from 'vue';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetPacket } from '@/netBase/NetPacket';
-import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetPacket } from '@/netBase2/NetPacket';
+import { NetMsgType } from '@/netBase2/NetMsgType';
 // import { getRandomSign, md5, getDeviceId } from '@/net/Utils';
 // import { useRouter } from 'vue-router';
 

@@ -217,9 +217,9 @@
 import { defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetMsgType } from '@/netBase2/NetMsgType';
 import { TTabList } from '@/utils/types';
-import { NetPacket } from '@/netBase/NetPacket';
+import { NetPacket } from '@/netBase2/NetPacket';
 import { Net } from '@/net/Net';
 import {
   testBankCard,

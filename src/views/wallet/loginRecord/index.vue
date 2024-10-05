@@ -36,10 +36,10 @@
 <script setup lang='ts'>
 import { reactive, onUnmounted, ref, computed } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
+import { NetMsgType } from '@/netBase2/NetMsgType';
 import DateSelect from "@/components/DateSelect.vue"
 import { Net } from "@/net/Net";
-import { NetPacket } from "@/netBase/NetPacket";
+import { NetPacket } from "@/netBase2/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { AuditStatusMap } from '@/enums/walletEnum'
 import { useI18n } from "vue-i18n";

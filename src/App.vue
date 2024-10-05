@@ -21,12 +21,12 @@ import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { Page } from '@/store/page';
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetMsgType } from "@/netBase2/NetMsgType";
 import { convertObjectToDateString } from '@/utils/dateTime';
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 import { Local } from '@/utils/storage';
-import { NetPacket } from "@/netBase/NetPacket";
+import { NetPacket } from "@/netBase2/NetPacket";
 import { Net } from "@/net/Net";
 import { useRoute } from "vue-router"
 

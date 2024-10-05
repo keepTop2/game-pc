@@ -23,7 +23,7 @@
 
 <script setup lang='ts'>
 import { onMounted, onUnmounted, reactive } from 'vue';
-// import { NetMsgType } from "@/netBase/NetMsgType";
+// import { NetMsgType } from "@/netBase2/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
 import Games from "@/components/Games.vue";
 // import pinia from '@/store/index';

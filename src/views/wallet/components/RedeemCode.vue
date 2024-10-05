@@ -14,11 +14,11 @@ import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { TForm } from '@/utils/types/formTypes';
 import { useI18n } from "vue-i18n";
 
-import { NetPacket } from '@/netBase/NetPacket';
+import { NetPacket } from '@/netBase2/NetPacket';
 import { Net } from '@/net/Net';
 import { Message } from "@/utils/discreteApi";
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetMsgType } from "@/netBase2/NetMsgType";
 import useWalletInfo from "@/views/wallet/walletInfo/useWalletInfo.ts";
 
 const { t } = useI18n();
