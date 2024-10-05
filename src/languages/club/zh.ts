@@ -32,7 +32,7 @@ export default {
   club_page_jlbmc: '俱乐部名称',
   club_page_jlbcs: '俱乐部抽水',
   club_page_jlbjj: '俱乐部简介',
-  club_page_ljcj: '立即创建',
+  club_page_ljcj: '创建',
   club_page_yjr: '已加入俱乐部',
   club_page_ycj: '已创建俱乐部',
   club_page_club: '俱乐部',
