@@ -64,10 +64,18 @@ input {
 }
 
 .n-input {
-  .n-input__input-el {
-    font-size: 16px;
-  }
+  background: rgba(33, 36, 67, 1);
+  border-radius: 8px;
 
+  &.n-input--focus {
+    background-color: rgba(33, 36, 67, 1) !important;
+  }
+  .n-input__border {
+    border: 0;
+  }
+  .n-input__input-el, .n-input__placeholder, .n-input__placeholder span {
+    font-size: 14px;
+  }
   .n-input__suffix {
     .n-base-icon {
       font-size: 1rem;
@@ -125,10 +133,16 @@ input {
 }
 
 .n-card.n-modal {
-  background: #231353;
+  background: rgba(20, 23, 58, 1);
 }
-
-
+.n-form-item {
+  .n-form-item-label {
+    font-size: 16px;
+  }
+  .n-form-item-feedback-wrapper {
+    min-height: 16px;
+  }
+}
 
 .login_from_box {
   display: flex;
@@ -253,7 +267,6 @@ input {
     background-repeat: no-repeat;
     background-size: cover;
     cursor: pointer;
-
     &:hover {
       transform: scale(1.05);
     }
@@ -439,48 +452,6 @@ input {
 .n-modal {
   color: #fff;
   width: auto;
-}
-
-// 会员等级规则
-.level_modal {
-  width: 1200px;
-  border-radius: 14px;
-  border: solid 1.4px #322c59;
-
-  .n-base-close {
-    width: 32px;
-    height: 32px;
-    background: url('/img/close.webp?t=@{timestamp}') no-repeat;
-    background-size: contain;
-
-    &:active {
-      transform: scale(.95);
-    }
-
-    i {
-      display: none;
-    }
-
-  }
-
-  .level_title {
-    width: 384px;
-    height: 48px;
-    margin: 0 auto;
-    text-align: center;
-    font-family: PingFangSC;
-    font-size: 24px;
-    font-weight: 900;
-    font-stretch: normal;
-    font-style: normal;
-    color: #fff;
-    background: url('/img/level/levelTopBg.webp?t=@{timestamp}') center no-repeat;
-    background-size: contain;
-
-    &.level_title_sec {
-      background-image: url('/img/level/level_t_bg.webp?t=@{timestamp}');
-    }
-  }
 }
 
 .n-modal-scroll-content {

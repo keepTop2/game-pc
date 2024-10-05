@@ -40,7 +40,7 @@ export const getSetting = async () => {
     return settings
 }
 const settings = await getSetting()
-
+console.log('=====', settings)
 
 MessageMapRegister.register();
 
