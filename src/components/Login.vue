@@ -5,10 +5,14 @@
       <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
     </span>
     <div class="login_form">
-      <div class="tab">
+      <n-tabs type="line" animated @update:value="changeTab">
+      <n-tab-pane :name="i" :tab="t(tab.name)" v-for="(tab, i) in tabList" :key="i"> </n-tab-pane>
+
+    </n-tabs>
+      <!-- <div class="tab">
         <span :class="state.active == i ? 'active' : ''" v-for="(tab, i) in tabList" :key="i" @click="changeTab(i)">{{
           t(tab.name) }}</span>
-      </div>
+      </div> -->
       <n-form :model="state.login" :rules="state.loginRules" :show-label="false" ref="loginFormRef">
         <template v-for="item in state.loginList">
           <n-form-item :path="item.name" v-if="item.show" feedback-class="input_item_err">
@@ -484,7 +488,8 @@ onUnmounted(async () => {
 <style lang="less" scoped>
 .login_from_box {
   display: flex;
-  width: 850px;
+  width: 834px;
+  height: 610px;
 }
 
 .input_item_err {

@@ -1,10 +1,7 @@
 <template>
   <depositFirst ref="depositFirModal" @haveBankList="haveBankList" />
-  <!--  <Deposit v-if="showDeposit" />-->
   <Withdraw v-if="showWithdraw" :myBankList="myBankList" />
-  <!--<Transfer v-if="showTransfer" />-->
   <RedeemCode v-if="showRedeemCode" />
-  <!--   <levelRule ref="levelModal" />-->
 
   <!--  提款校验-->
   <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList" />
@@ -111,13 +108,6 @@
 <!--                <span class="m-txt"> {{ verifyNumberComma(String(gameMoney)) }} </span>-->
                 <span class="m-txt"> {{ totalMoneyTxt }} </span>
               </n-flex>
-              <!--              <n-flex class="top_mon_box_r">
-                <div class="automatic">
-                  <span class="size2 gray">{{ t('walletInfo_page_follow') }}</span>
-                  <n-switch class="switch" v-model:value="updateAuto">
-                  </n-switch>
-                </div>
-              </n-flex>-->
             </div>
           </div>
           <div class="top_center">
@@ -209,18 +199,16 @@
 <script setup lang='ts'>
 import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
-import { ref, nextTick, onMounted, onUnmounted } from 'vue';
-// import { EAllWallets, EWallets } from '@/enums/walletEnum';
+import { ref, onMounted, onUnmounted } from 'vue';
 import useWalletInfo from './useWalletInfo';
 import Withdraw from '@/views/wallet/components/Withdraw.vue';
 import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
-// import Deposit from '@/views/wallet/deposit/Deposit.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
 import avatarSettings from '../components/avatarSettings.vue';
 import navTab from '../components/navTab.vue';
-import { Message } from "@/utils/discreteApi.ts";
+// import { Message } from "@/utils/discreteApi.ts";
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { NetPacket } from '@/netBase/NetPacket.ts';
@@ -228,7 +216,6 @@ import { Net } from '@/net/Net.ts';
 import pinia from '@/store';
 import { Page } from '@/store/page';
 import { verifyNumberComma } from '@/utils/others.ts';
-import Imgt from '@/components/Imgt.vue';
 
 // const formatter = (value: any) => {
 //   setTimeout(() => {
@@ -244,32 +231,29 @@ const haveBank = ref(false);
 const visibleSetting = ref(false);
 
 // 打开头像设置
-const showAvSetting = () => {
-  visibleSetting.value = true
-}
-// 打开等级规则弹窗
-// const openLevelRule = () => {
-//     levelModal.value.openModal();
+// const showAvSetting = () => {
+//   visibleSetting.value = true
 // }
+
 // 打开充值第一个弹窗
-const openDepositFir = () => {
-  if (!haveBank.value) {
-    return Message.error(t('deposit_page_notPayWay'))
-  }
-  depositFirModal.value.openModal();
-}
+// const openDepositFir = () => {
+//   if (!haveBank.value) {
+//     return Message.error(t('deposit_page_notPayWay'))
+//   }
+//   depositFirModal.value.openModal();
+// }
 const haveBankList = (e: any) => {
   haveBank.value = e
 }
 
 const withdrawMoneyShow = ref(false)
 
-const goCalibration = () => {
-  withdrawMoneyShow.value = true
-  nextTick(() => {
-    goToWithdraw()
-  })
-}
+// const goCalibration = () => {
+//   withdrawMoneyShow.value = true
+//   nextTick(() => {
+//     goToWithdraw()
+//   })
+// }
 
 const getBankList = () => {
   const req = NetPacket.req_bank_name_list();
@@ -320,7 +304,7 @@ const {
   // target,
   refreshFlag,
   // getAllMoney,
-  goToWithdraw,
+  // goToWithdraw,
   myBankList,
   eyeOpen,
   totalMoneyTxt,
