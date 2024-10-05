@@ -19,9 +19,9 @@
               <!-- 图片视频 -->
               <div v-else>
                 <n-image v-if="item.content.includes('storage/uploads/image')" width="140"
-                  :src="'http://18.162.112.52:8031/' + item.content"
+                  :src="'http://18.167.175.195:8031/' + item.content"
                   :previewed-img-props="{ style: { border: '8px solid white' } }" />
-                <video v-else :src="'http://18.162.112.52:8031/' + item.content" controls preload="auto" muted
+                <video v-else :src="'http://18.167.175.195:8031/' + item.content" controls preload="auto" muted
                   width="240" height="200"></video>
               </div>
             </div>
