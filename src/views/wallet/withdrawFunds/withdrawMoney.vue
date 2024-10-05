@@ -3,109 +3,101 @@
   <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName"
     :myBankList="mySecBankList" />
 
-  <n-modal class="deposit_modal" :show="showSecModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('proxy_page_withDraw') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
-        </div>
-        <div class="body vertical center t_md body_sec">
-          <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
-            <!-- <n-form-item :label="t('walletInfo_page_availableMount')">
-              <n-flex justify="center" align="center" class="wit_not_finish" v-if="isHasOrder">
-                {{ t('withdraw_page_fail_wait') }} </n-flex>
-              <n-input size="large" disabled v-model:value="form.maxValue" />
-            </n-form-item> -->
-            <n-form-item>
-              <div class="item_box">
-                <div class="withdraw_item can_withdraw">
-                  <span class="text"> {{ t('withdraw_page_canAmount') }}：</span>
-                  <span class="amount">{{ form.maxValue }}</span>
-                  <div class="link_positon" @click="onCloseSec"> {{ t('withdraw_page_cunqu') }}</div>
-                </div>
-                <div class="line"></div>
-                <div class="withdraw_item">
-                  <span class="text"> {{ t('withdraw_page_locknAmount') }}：</span>
-                  <span class="amount">{{ withdrawData.canot_withdraw }}</span>
-                  <div class="link_positon" @click="$router.push('auditRecord')"> {{ t('withdraw_page_lockedDetail') }}
-                  </div>
-                </div>
-                <div class="withdraw_item">
-                  <span class="text"> {{ t('withdraw_page_needFlowAmount') }}：</span>
-                  <span class="amount">{{ withdrawData.turnover }}</span>
-                </div>
+  <!-- 导航 -->
+  <navTab :title="t('proxy_page_withDraw')" />
+
+  <div class="form_container vertical">
+    <div class="body vertical center t_md body_sec">
+      <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
+        <!-- <n-form-item :label="t('walletInfo_page_availableMount')">
+          <n-flex justify="center" align="center" class="wit_not_finish" v-if="isHasOrder">
+            {{ t('withdraw_page_fail_wait') }} </n-flex>
+          <n-input size="large" disabled v-model:value="form.maxValue" />
+        </n-form-item> -->
+        <n-form-item>
+          <div class="item_box">
+            <div class="withdraw_item can_withdraw">
+              <span class="text"> {{ t('withdraw_page_canAmount') }}：</span>
+              <span class="amount">{{ form.maxValue }}</span>
+              <div class="link_positon" @click="onCloseSec"> {{ t('withdraw_page_cunqu') }}</div>
+            </div>
+            <div class="line"></div>
+            <div class="withdraw_item">
+              <span class="text"> {{ t('withdraw_page_locknAmount') }}：</span>
+              <span class="amount">{{ withdrawData.canot_withdraw }}</span>
+              <div class="link_positon" @click="$router.push('auditRecord')"> {{ t('withdraw_page_lockedDetail') }}
               </div>
-            </n-form-item>
+            </div>
+            <div class="withdraw_item">
+              <span class="text"> {{ t('withdraw_page_needFlowAmount') }}：</span>
+              <span class="amount">{{ withdrawData.turnover }}</span>
+            </div>
+          </div>
+        </n-form-item>
 
-            <n-flex align="center">
-              <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
-                <div class="selectBank">
-                  <div class="bankName">
-                    <div class="icon">
-                      <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
-                        :alt="backItemInfo.bank_name" />
-                    </div>
-                    <span>{{ backItemInfo.bank_name }}</span>
-                  </div>
-                  <div class="mantissa">
-                    <span>
-                      {{ t('walletInfo_page_tailNumber') }}：{{
-                        backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
-                          backItemInfo.account_number.length) }}
-                    </span>
-                  </div>
+        <n-flex align="center">
+          <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
+            <div class="selectBank">
+              <div class="bankName">
+                <div class="icon">
+                  <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
+                    :alt="backItemInfo.bank_name" />
                 </div>
-              </n-form-item>
-              <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay')
-                }}</n-button>
-            </n-flex>
-
-            <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
-              <!-- 防止记住用户名和密码填充 -->
-              <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-              <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large"
-                v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
-                <template #suffix>
-                  <a class="refresh_icon"></a>
-                </template>
-              </n-input>
-            </n-form-item>
-
-            <div class="switchVisible">
-              <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
-                <n-input ref="inputRef" clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
-                  :type="changeRightInfo.type" @keydown.enter.prevent>
-                  <template #suffix>
-                    <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
-                      size="1.5em"></iconpark-icon>
-                  </template>
-                </n-input>
-              </n-form-item>
-              <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
+                <span>{{ backItemInfo.bank_name }}</span>
+              </div>
+              <div class="mantissa">
+                <span>
+                  {{ t('walletInfo_page_tailNumber') }}：{{
+                    backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
+                      backItemInfo.account_number.length) }}
+                </span>
+              </div>
             </div>
+          </n-form-item>
+          <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay')
+            }}</n-button>
+        </n-flex>
 
-            <n-flex class="kjje_div">
-              <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
-                :key="index">
-                {{ item.label }}
-              </a>
-            </n-flex>
-          </n-form>
-          <div class="btn_zone flex w_full">
-            <div class="submit_btn  weight_5 center pointer" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}
-            </div>
-          </div>
-          <div v-show="form.amount" class="cz_tips">
-            <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
-          </div>
+        <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
+          <!-- 防止记住用户名和密码填充 -->
+          <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
+          <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large"
+            v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
+            <template #suffix>
+              <a class="refresh_icon"></a>
+            </template>
+          </n-input>
+        </n-form-item>
+
+        <div class="switchVisible">
+          <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
+            <n-input ref="inputRef" clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
+              :type="changeRightInfo.type" @keydown.enter.prevent>
+              <template #suffix>
+                <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
+                  size="1.5em"></iconpark-icon>
+              </template>
+            </n-input>
+          </n-form-item>
+          <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
+        </div>
+
+        <n-flex class="kjje_div">
+          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+            :key="index">
+            {{ item.label }}
+          </a>
+        </n-flex>
+      </n-form>
+      <div class="btn_zone flex w_full">
+        <div class="submit_btn  weight_5 center pointer" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}
         </div>
       </div>
-    </n-card>
-  </n-modal>
-
+      <div v-show="form.amount" class="cz_tips">
+        <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
+      </div>
+    </div>
+  </div>
 
 </template>
 
@@ -116,7 +108,7 @@ import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
-// import Deposit from '@/views/wallet/components/Deposit.vue';
+import navTab from '../components/navTab.vue';
 import { Message } from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
 import pinia from '@/store';

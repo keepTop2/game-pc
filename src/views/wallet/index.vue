@@ -12,18 +12,16 @@
 </template>
 
 <script setup lang='ts'>
-import Imgt from '@/components/Imgt.vue';
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { Page } from '@/store/page';
+// import pinia from '@/store/index';
+// import { storeToRefs } from 'pinia';
+// import { Page } from '@/store/page';
 import Sidebar from '@/views/wallet/Sidebar.vue'
-const page = Page(pinia);
-const { menuName } = storeToRefs(page);
-import { useI18n } from "vue-i18n";
-import { useRouter } from 'vue-router';
-const { t } = useI18n()
-const router = useRouter()
-
+// const page = Page(pinia);
+// const { menuName } = storeToRefs(page);
+// import { useI18n } from "vue-i18n";
+// import { useRouter } from 'vue-router';
+// const { t } = useI18n()
+// const router = useRouter()
 
 </script>
 

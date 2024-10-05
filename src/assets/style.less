@@ -66,8 +66,18 @@ input {
 
 
 }
-
+.n-base-selection {
+  border-radius: 8px;
+  .n-base-selection-label {
+    height: 40px;
+    background: rgba(33, 36, 67, 1) !important;
+  }
+  .n-base-selection__border {
+    border-color:  rgba(38, 41, 76, 1) !important;
+  }
+}
 .n-input {
+  height: 40px;
   background: rgba(33, 36, 67, 1);
   border-radius: 8px;
 
@@ -83,6 +93,8 @@ input {
   .n-input__placeholder,
   .n-input__placeholder span {
     font-size: 14px;
+    height: 40px;
+    line-height: 40px;
   }
 
   .n-input__suffix {

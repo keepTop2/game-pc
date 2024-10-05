@@ -1,172 +1,10 @@
 @timestamp: `new Date().getTime()`;
 
-//.process {
-//  padding-left: 20px;
-//  padding-right: 19px;
-//  padding-top: 17px;
-//  border-radius: 15px;
-//  background: url('/img/payment/processBG.webp?t=@{timestamp}') center center no-repeat;
-//  background-size: cover;
-//}
-
-//.userInfo {
-//  display: flex;
-//  justify-content: space-between;
-//  align-items: center;
-//}
-//
-//.transaction {
-//  gap: 20px !important;
-//}
-
-//.usrProfile {
-//  display: flex;
-//  justify-content: left;
-//  align-items: center;
-//  gap: 10px;
-//
-//  img {
-//    cursor: pointer;
-//  }
-//}
-
-//.avatar {
-//  width: 50px;
-//  height: 50px;
-//  border-radius: 50%;
-//}
-//
-//.userName {
-//  display: flex;
-//  flex-direction: column;
-//  gap: 4px;
-//}
-
-//.mount {
-//  width: 200px;
-//  display: flex;
-//  justify-content: space-between;
-//  align-items: center;
-//  gap: 8px;
-//
-//  >div:first-child {
-//    align-items: center;
-//    gap: 2px;
-//
-//    .size2 {
-//      margin-right: 10px;
-//      color: #F1C232;
-//    }
-//
-//    img {
-//      width: 20px;
-//      height: 20px;
-//
-//      &.active {
-//        transition: all 1s ease-in-out;
-//        transform: rotate(720deg);
-//      }
-//    }
-//  }
-//
-//  .usdBtn {
-//    display: flex;
-//    justify-content: center;
-//    align-items: center;
-//    width: 100px;
-//    border-radius: 10px;
-//    background: url('/img/payment/usdBtn.webp?t=@{timestamp}') no-repeat;
-//    background-size: 89px 24px;
-//    cursor: pointer;
-//  }
-//}
-
-//.T {
-//  width: 15px;
-//  height: 15px;
-//  padding-right: 4px;
-//}
-//
-//.down {
-//  width: 24px;
-//  height: 24px;
-//}
-//
-//
-//
-//.vip {
-//  display: flex;
-//  justify-content: space-between;
-//  padding-top: 11px;
-//}
-//
-//.vip1 {
-//  display: flex;
-//  align-items: start;
-//  gap: 4px;
-//}
-//
-//.king {
-//  width: 13px;
-//  height: 13px;
-//}
-//
-//.processBar {
-//  padding-top: 8.4px;
-//
-//  ::v-deep(.n-progress-graph) {
-//    color: #000;
-//
-//    .n-progress-graph-line {
-//      .n-progress-graph-line-rail {
-//        box-shadow: inset 0 0 4px 0 #000;
-//        background-blend-mode: color-burn, overlay, normal;
-//        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), radial-gradient(circle at 50% 50%, #7e7e7e, #151515 100%), linear-gradient(to bottom, #27155c, #27155c);
-//      }
-//
-//      .n-progress-graph-line-fill {
-//        background-image: linear-gradient(to right, #fa7800, #fbcb38 100%);
-//      }
-//
-//    }
-//
-//  }
-//}
-//
-//.processFooter {
-//  display: flex;
-//  justify-content: space-between;
-//  padding-top: 8px;
-//  padding-bottom: 16px;
-//}
-//
-//.info_data {
-//  border-radius: 15px;
-//  box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-//  padding: 20px 144px 20px 36px;
-//  border-radius: 15px;
-//  background: url('/img/payment/blackDvBG.webp?t=@{timestamp}') center center no-repeat;
-//  background-size: cover;
-//
-//  .total_account {
-//    display: flex;
-//    gap: 17px;
-//  }
-//
-//  .central_wallet {
-//    display: flex;
-//    gap: 17px;
-//  }
-//
-//}
-
 .game_wallet {
   font-size: 16px;
   width: 1100px;
+  min-height: 680px;
   padding: 40px;
-  background: rgba(20, 23, 58, 1);
-  border-radius: 16px;
-  border: 1px solid rgba(38, 41, 76, 1);
 
   .game_wallet_top {
 
@@ -264,6 +102,14 @@
   .money-all-div {
     .money_input {
       margin: 30px 0 44px;
+
+      .refresh_icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url('/img/payment/Vector.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
+      }
 
       ::v-deep(.n-input) {
         width: 250px;
