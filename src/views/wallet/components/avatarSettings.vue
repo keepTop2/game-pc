@@ -94,16 +94,14 @@ const submitAction = () => {
 // 上传图片
 const beforeUpload = (data: any) => {
   const file = data.file.file
-  const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
-
-  if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
+  if (file && file.size > 1024 * 1024 * 2) { // 2MB限制
     Message.error('文件大小不能超过2MB！')
     return;
   }
   const formData = new FormData();
-  formData.append(type, file);
-  formData.append('device_id', `${roleInfo.value.id}`);
-  fetch(`http://18.162.112.52:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
+  formData.append('avatar', file);
+  formData.append('role_id', `${roleInfo.value.id}`);
+  fetch(`http://18.162.112.52:8031/api/upload/avatar`, {
     method: 'POST',
     body: formData,
   })

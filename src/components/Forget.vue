@@ -373,9 +373,9 @@ const submitNext = () => {
   // 效验
 
   if (state.formData.step == 1) {
-    debugger
+    
     formRef.value?.validate((errors: any) => {
-      debugger
+   
       if (!errors) {
         changePassword(state.formData.formParams, 1)
 

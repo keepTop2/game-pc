@@ -13,6 +13,7 @@ import { i18n } from '@/languages/index';
 import pinia from '@/store/index';
 import { Page } from '@/store/page';
 import { User } from "@/store/user";
+import { getFastestUrl } from "@/utils/others";
 
 export const getLocale = async () => { // Page(pinia).$state.settings
     const adminI18nRes = await fetch(Page(pinia).$state.settings.admin_i18n_add_url + new Date().getTime())
@@ -39,6 +40,8 @@ export const getSetting = async () => {
     return settings
 }
 const settings = await getSetting()
+const url = await getFastestUrl([''])
+console.log('url=======>', url);
 MessageMapRegister.register();
 
 export enum ConnectResult {
@@ -304,7 +307,7 @@ export class Net {
                 return;
             }
 
-            if (receivedlength < bodyLen) {
+            if (receivedlength < bodyLen + 4) {
                 return;
             }
             this.DecodeMessage(bodyLen);

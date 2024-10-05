@@ -1,5 +1,5 @@
 import { MessageMap } from "@/net/MessageMap";
-import { NetPacket } from "@/netBase3/NetPacket";
+import { NetPacket } from "@/netBase2/NetPacket";
 
 export module MessageMapRegister {
 	export function register() {
@@ -954,5 +954,50 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_recent_games);
 		MessageMap.addMsgMap(NetPacket.req_discount_details);
 		MessageMap.addMsgMap(NetPacket.notify_discount_details);
+		MessageMap.addMsgMap(NetPacket.req_my_recharge_discount);
+		MessageMap.addMsgMap(NetPacket.my_recharge_discount);
+		MessageMap.addMsgMap(NetPacket.notify_my_recharge_discount);
+		MessageMap.addMsgMap(NetPacket.req_numbers_betting_info);
+		MessageMap.addMsgMap(NetPacket.latest_record);
+		MessageMap.addMsgMap(NetPacket.his_record);
+		MessageMap.addMsgMap(NetPacket.notify_numbers_betting_info);
+		MessageMap.addMsgMap(NetPacket.req_numbers_record_details);
+		MessageMap.addMsgMap(NetPacket.notify_numbers_record_details);
+		MessageMap.addMsgMap(NetPacket.req_numbers_betting_rank);
+		MessageMap.addMsgMap(NetPacket.notify_numbers_betting_rank);
+		MessageMap.addMsgMap(NetPacket.req_start_betting);
+		MessageMap.addMsgMap(NetPacket.notify_start_betting);
+		MessageMap.addMsgMap(NetPacket.req_numbers_betting_share);
+		MessageMap.addMsgMap(NetPacket.notify_numbers_betting_share);
+		MessageMap.addMsgMap(NetPacket.req_set_fb_homepage);
+		MessageMap.addMsgMap(NetPacket.notify_set_fb_homepage);
+		MessageMap.addMsgMap(NetPacket.req_numbers_betting_claim_bonus);
+		MessageMap.addMsgMap(NetPacket.notify_numbers_betting_claim_bonus);
+		MessageMap.addMsgMap(NetPacket.game_info);
+		MessageMap.addMsgMap(NetPacket.req_get_games_in_platform);
+		MessageMap.addMsgMap(NetPacket.notify_get_games_in_platform);
+		MessageMap.addMsgMap(NetPacket.req_get_kind_in_platform);
+		MessageMap.addMsgMap(NetPacket.game_kind_info);
+		MessageMap.addMsgMap(NetPacket.notify_get_kind_in_platform);
+		MessageMap.addMsgMap(NetPacket.req_look_for_game_name);
+		MessageMap.addMsgMap(NetPacket.notify_look_for_game_name);
+		MessageMap.addMsgMap(NetPacket.prize_info);
+		MessageMap.addMsgMap(NetPacket.video_info);
+		MessageMap.addMsgMap(NetPacket.req_share_vote_info);
+		MessageMap.addMsgMap(NetPacket.notify_share_vote_info);
+		MessageMap.addMsgMap(NetPacket.req_ranking_videos);
+		MessageMap.addMsgMap(NetPacket.notify_ranking_videos);
+		MessageMap.addMsgMap(NetPacket.req_my_shared_videos);
+		MessageMap.addMsgMap(NetPacket.my_video_info);
+		MessageMap.addMsgMap(NetPacket.my_one_round);
+		MessageMap.addMsgMap(NetPacket.notify_my_shared_videos);
+		MessageMap.addMsgMap(NetPacket.req_num_likes_ranking_info);
+		MessageMap.addMsgMap(NetPacket.num_likes_info);
+		MessageMap.addMsgMap(NetPacket.notify_num_likes_ranking_info);
+		MessageMap.addMsgMap(NetPacket.req_like_a_video);
+		MessageMap.addMsgMap(NetPacket.notify_like_a_video);
+		MessageMap.addMsgMap(NetPacket.req_claim_share_vote_prize);
+		MessageMap.addMsgMap(NetPacket.notify_claim_share_vote_prize);
+		MessageMap.addMsgMap(NetPacket.notify_marquee_update);
 	}
 }
