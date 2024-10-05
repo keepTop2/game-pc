@@ -273,6 +273,7 @@ onMounted(async () => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: radial-gradient(circle at 50% 4%, var(--bg-f-color), var(--bg-t-color) 66%);
+  background: url(/img/home/bg.webp) ;
+  background-size: 5%;
 }
 </style>
