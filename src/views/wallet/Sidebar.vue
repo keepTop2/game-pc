@@ -1,15 +1,37 @@
 <template>
-    <div class="sidebar">
-        <p class="pointer" :class="menuActive == i ? 'active' : ''" v-for="(list, i) in state.sideList" :key="i"
-            @click="itemClick(list, i)">
-            <iconpark-icon :icon-id="list.icon" :color="menuActive == i ? '#fff' : '#8e82c2'"
-                size="1rem"></iconpark-icon>
-            <span>{{ t(list.name) }}</span>
-        </p>
+  <div class="sidebar">
+    <div class="top_av">
+      <Imgt @click="showAvSetting" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar"
+            alt="" title="点击设置"/>
+      <n-flex justify="center" class="userName">
+        <span :title="userInfo.full_name || userInfo.real_name || roleInfo.nickname">{{ userInfo.full_name || userInfo.real_name || roleInfo.nickname }}</span>
+        <span class="txt_vip" :style="{ 'background-image': `url(/img/level/new/v${Number(VIPinfo.current_vip_level)}.webp)` }"></span>
+      </n-flex>
     </div>
+    <div class="top_wallet">
+      <n-flex align="center" justify="space-between" @click="router.push(`/wallet/walletInfo`)">
+        <div>
+          <div>{{t('home_page_myWallet')}}</div>
+          <div class="txt_m">{{ verifyNumberComma(String(roleInfo.money)) }}</div>
+        </div>
+        <span class="right_arrow"></span>
+      </n-flex>
+    </div>
+    <div class="nav_item">
+      <p class="pointer" :class="menuActive == i ? 'active' : ''" v-for="(list, i) in state.sideList" :key="i"
+         @click="itemClick(list, i)">
+        <iconpark-icon :icon-id="list.icon" :color="menuActive == i ? '#fff' : '#8e82c2'"
+                       size="1rem"></iconpark-icon>
+        <span>{{ t(list.name) }}</span>
+      </p>
+    </div>
+
+    <!-- 头像设置 -->
+    <avatarSettings v-model:visible="visibleSetting" />
+  </div>
 </template>
 <script lang="ts" setup name="sider">
-import { reactive } from "vue";
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -18,15 +40,20 @@ import { handleOpenLink } from "@/utils/others";
 import { useI18n } from "vue-i18n";
 import { User } from '@/store/user';
 import { Message } from "@/utils/discreteApi.ts";
+import avatarSettings from './components/avatarSettings.vue';
+import { verifyNumberComma } from '@/utils/others.ts';
+
 const { t } = useI18n()
 const page = Page(pinia);
 const userInfo = User(pinia);
+const UserStore = User(pinia);
 const { menuActive, settings } = storeToRefs(page);
 const { kefuVisible, agentInfo } = storeToRefs(userInfo);
+const { VIPinfo, roleInfo } = storeToRefs(UserStore);
 const router = useRouter();
+const visibleSetting = ref(false);
 
 const state: any = reactive({
-
     sideList: [
         {
             icon: 'qianbao1',
@@ -120,50 +147,111 @@ const itemClick = async (item: any, i: number) => {
     }
 
 }
-
+// 打开头像设置
+const showAvSetting = () => {
+  visibleSetting.value = true
+}
 
 </script>
 <style lang='less' scoped>
+@timestamp: `new Date().getTime()`;
 .sidebar {
-    width: 270px;
+
+    width: 280px;
     box-sizing: border-box;
-    box-shadow: 0 -1px 10px 0 rgba(0, 0, 0, 0.4);
-    background-color: var(--c-bg-1);
-    padding: 33px 0 0;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    font-size: var(--t-md);
-    color: var(--c-inactive);
+    font-size: 16px;
+    color: #fff;
+
+  .top_av {
+    text-align: center;
+    width: 280px;
+    height: 176px;
+    background: url('/img/wallet/bg1.webp?t=@{timestamp}') center no-repeat;
+    background-size: 100%;
+    .avatar {
+      margin-top: 28px;
+      width: 80px;
+      height: 80px;
+      border: 1px solid;
+      border-image-source: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+    }
+    .userName {
+      gap: 7px !important;
+      color: #fff;
+      width: 100%;
+      font-size: 20px;
+      font-weight: 600;
+      span {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .txt_vip {
+        width: 66px;
+        height: 24px;
+        line-height: 28px;
+        background-size: 100%;
+        font-size: 12px;
+        font-weight: normal;
+        text-align: right;
+        padding-right: 10px;
+        color: rgba(172, 198, 255, 1);
+        font-style:italic
+      }
+    }
+  }
+  .top_wallet {
+    cursor: pointer;
+    margin: 20px 0;
+    padding: 22px 20px;
+    width: 280px;
+    height: 106px;
+    background: url('/img/wallet/bg2.webp?t=@{timestamp}') center no-repeat;
+    background-size: 100%;
+
+    .txt_m {
+      font-size: 26px;
+      font-weight: 700;
+      color: #fac904;
+    }
+  }
+  .nav_item {
+    background: rgba(20, 23, 58, 1);
+    border: 1px solid rgba(38, 41, 76, 1);
+    border-radius: 16px;
+    padding: 20px;
 
     >p {
-        display: flex;
-        position: relative;
-        align-items: center;
-        transform-style: preserve-3d;
-        margin: 0;
-        padding: 14px 0 14px 30px;
-        cursor: pointer;
+      position: relative;
+      transform-style: preserve-3d;
+      margin: 0;
+      cursor: pointer;
 
-        >span {
-            margin-left: 5px;
-        }
+      >span {
+        display: block;
+        margin-left: 5px;
+      }
     }
 
     .active {
-        color: #fff;
-        background: linear-gradient(to right, #1154ff 0%, #2a7cff 100%) no-repeat;
+      color: #fff;
+      background: linear-gradient(to right, #1154ff 0%, #2a7cff 100%) no-repeat;
     }
 
     .active::after {
-        display: block;
-        content: '';
-        position: absolute;
-        width: 6px;
-        height: 100%;
-        right: -6px;
-        background: linear-gradient(to bottom, #fbd03b, #fa7800 67%), no-repeat;
-        border-radius: 0 3px 3px 0;
+      display: block;
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 100%;
+      right: -6px;
+      background: linear-gradient(to bottom, #fbd03b, #fa7800 67%), no-repeat;
+      border-radius: 0 3px 3px 0;
     }
+  }
+
 }
 </style>

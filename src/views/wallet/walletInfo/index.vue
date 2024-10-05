@@ -8,8 +8,7 @@
 
   <!-- 提款 -->
   <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />
-  <!-- 头像设置 -->
-  <avatarSettings v-model:visible="visibleSetting" />
+
   <!-- 导航 -->
   <navTab :title="t('钱包')" :showIcon="true"
           :refreshObj="{isRefreshFlag: refreshFlag, isEyeOpen: eyeOpen}"
@@ -206,7 +205,7 @@ import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
-import avatarSettings from '../components/avatarSettings.vue';
+
 import navTab from '../components/navTab.vue';
 // import { Message } from "@/utils/discreteApi.ts";
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
@@ -228,12 +227,7 @@ const route = useRoute();
 // const levelModal = ref();
 const depositFirModal = ref();
 const haveBank = ref(false);
-const visibleSetting = ref(false);
 
-// 打开头像设置
-// const showAvSetting = () => {
-//   visibleSetting.value = true
-// }
 
 // 打开充值第一个弹窗
 // const openDepositFir = () => {
