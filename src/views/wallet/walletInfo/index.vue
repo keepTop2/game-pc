@@ -13,10 +13,14 @@
   <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />
   <!-- 头像设置 -->
   <avatarSettings v-model:visible="visibleSetting" />
-
-
+  <!-- 导航 -->
+  <navTab :title="t('钱包')" :showIcon="true"
+          :refreshObj="{isRefreshFlag: refreshFlag, isEyeOpen: eyeOpen}"
+          @refreshWallet="refreshWallet"
+          @moneyShow="moneyShow"
+  />
   <n-spin :show="loading">
-    <n-flex vertical>
+<!--    <n-flex vertical>
       <div class="process">
         <div class="userInfo">
           <div class="usrProfile">
@@ -33,7 +37,7 @@
                     @click="moneyShow" />
                   <Imgt v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow" />
                 </div>
-                <!-- <n-dropdown trigger="click" :options="currencyList" @select="handleCurrencyChange">
+                &lt;!&ndash; <n-dropdown trigger="click" :options="currencyList" @select="handleCurrencyChange">
                                     <n-button>
                                         <div class="usdBtn" block>
                                             <Imgt src="/img/payment/T.webp" class="T" />
@@ -42,7 +46,7 @@
                                             <Imgt src="/img/payment/down.webp" class="down" />
                                         </div>
                                     </n-button>
-                                </n-dropdown>-->
+                                </n-dropdown>&ndash;&gt;
               </div>
             </div>
           </div>
@@ -50,9 +54,9 @@
             <div class="button" block @click="openDepositFir">
               <p class="size2"> {{ t('deposit_page_deposit') }} </p>
             </div>
-            <!--            <div class="button" block @click="goToWithdraw">-->
-            <!--              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>-->
-            <!--            </div>-->
+            &lt;!&ndash;            <div class="button" block @click="goToWithdraw">&ndash;&gt;
+            &lt;!&ndash;              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>&ndash;&gt;
+            &lt;!&ndash;            </div>&ndash;&gt;
             <div class="button" block @click="goCalibration">
               <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>
             </div>
@@ -76,10 +80,10 @@
           :show-indicator="false" :indicator-text-color="themeVars.warningColor" />
         <div class="processFooter">
           <p class="size3">{{ t('level_page_needBet') + ': ' + verifyNumberComma(String(target.bet_money)) }}</p>
-          <!--<p class="size3"><a @click="openLevelRule"><u>{{ t('walletInfo_page_rule') }}</u></a></p>-->
+          &lt;!&ndash;<p class="size3"><a @click="openLevelRule"><u>{{ t('walletInfo_page_rule') }}</u></a></p>&ndash;&gt;
         </div>
       </div>
-    </n-flex>
+    </n-flex>-->
     <!--        <n-flex vertical>
             <span class="title size1">{{ t('walletInfo_page_wallet') }}</span>
             <n-flex justify="space-between" class="info_data">
@@ -100,11 +104,12 @@
       <n-flex vertical class="game_wallet">
         <n-flex justify="space-between" align="center" class="game_wallet_top">
           <div class="top_left">
-            <div class="title"> {{ t('walletInfo_page_wallet') }} </div>
-            <n-flex justify="space-between" class="top_mon_box">
-              <n-flex class="top_mon_box_l">
+            <div class="top_mon_box">
+              <div class="title"> {{ t('携带钱包') }} </div>
+              <n-flex align="center" class="top_mon_box_l">
                 <span class="icon"></span>
-                <span class="m-txt"> {{ verifyNumberComma(String(gameMoney)) }} </span>
+<!--                <span class="m-txt"> {{ verifyNumberComma(String(gameMoney)) }} </span>-->
+                <span class="m-txt"> {{ totalMoneyTxt }} </span>
               </n-flex>
               <!--              <n-flex class="top_mon_box_r">
                 <div class="automatic">
@@ -113,27 +118,27 @@
                   </n-switch>
                 </div>
               </n-flex>-->
-            </n-flex>
+            </div>
           </div>
           <div class="top_center">
-            <n-flex :class="`zz-btn button ${tranType === 'out' ? 'active' : ''}`" justify="center"
+            <n-flex :class="`zz_btn button ${tranType === 'in' ? 'button_color' : ''}`" justify="center"
+                    @click="changeTranType('in')"> <span class="icon icon-1"></span> <span> {{ t('walletInfo_page_in') }}
+              </span> </n-flex>
+            <n-flex :class="`zz_btn button ${tranType === 'out' ? 'button_color' : ''}`" justify="center"
               @click="changeTranType('out')"> <span class="icon"></span> <span> {{ t('walletInfo_page_out') }} </span>
             </n-flex>
-            <n-flex :class="`zz-btn button  ${tranType === 'in' ? 'active' : ''}`" justify="center"
-              @click="changeTranType('in')"> <span class="icon icon-1"></span> <span> {{ t('walletInfo_page_in') }}
-              </span> </n-flex>
           </div>
           <div class="top_right">
-            <div class="title"> {{ t('walletInfo_page_venue') }} </div>
-            <n-flex justify="space-between" class="top_mon_box">
-              <n-flex class="top_mon_box_l">
+            <div class="top_mon_box">
+              <div class="title"> {{ t('walletInfo_page_venue') }} </div>
+              <n-flex align="center" class="top_mon_box_l">
                 <span class="icon icon_bxg"></span>
                 <span class="m-txt"> {{ verifyNumberComma(String(bankMoney)) }} </span>
               </n-flex>
               <n-flex class="top_mon_box_r">
 
               </n-flex>
-            </n-flex>
+            </div>
           </div>
         </n-flex>
 
@@ -142,7 +147,14 @@
           <n-flex justify="space-between" class="money_input">
             <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
               :placeholder="t('walletInfo_page_tranferTxt')" clearable />
-            <a class="btn-ch" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
+
+            <n-flex class="kjje_div">
+              <a :class="`kj_item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr"
+                 @click="chooseFastMon(item.value)" :key="index">
+                {{ item.label }}
+              </a>
+            </n-flex>
+            <a class="btn_ch button_color" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
           </n-flex>
           <div class="slider-div">
             <n-slider :default-value="0" v-model:value="slideValue" :step="1" :tooltip="false"
@@ -154,17 +166,12 @@
               </template>
             </n-slider>
           </div>
-          <n-flex class="kjje_div">
-            <a :class="`kj_item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr"
-              @click="chooseFastMon(item.value)" :key="index">
-              {{ item.label }}
-            </a>
-          </n-flex>
+
           <n-flex class="bot-tips">
             <span class="icon-tip"></span>
             {{ t('walletInfo_page_tranferTips') }}
           </n-flex>
-          <a class="sub-btn" @click="handleSubmit"> {{ t('home_page_confirm') }} </a>
+          <a class="sub_btn button_color" @click="handleSubmit"> {{ t('home_page_confirm') }} </a>
         </div>
 
         <!--<n-flex justify="space-between" align="end">
@@ -212,6 +219,7 @@ import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
 import avatarSettings from '../components/avatarSettings.vue';
+import navTab from '../components/navTab.vue';
 import { Message } from "@/utils/discreteApi.ts";
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
@@ -290,26 +298,26 @@ onUnmounted(() => {
 
 const {
   loading,
-  themeVars,
+  // themeVars,
   // currencyUnit,
   // currencyList,
-  gameMoney,
+  // gameMoney,
   bankMoney,
   // totalMoney,
   // handleCurrencyChange,
   // showDepositModal,
-  showRedeemCodeModal,
+  // showRedeemCodeModal,
   // showTransferModal,
   // showDeposit,
   showWithdraw,
   showRedeemCode,
   // showTransfer,
-  roleInfo,
-  userInfo,
-  VIPinfo,
+  // roleInfo,
+  // userInfo,
+  // VIPinfo,
   // updateAuto,
   refreshWallet,
-  target,
+  // target,
   refreshFlag,
   // getAllMoney,
   goToWithdraw,

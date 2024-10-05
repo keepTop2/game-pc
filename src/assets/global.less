@@ -5,6 +5,7 @@ body, div, span, a {
   box-sizing: border-box;
 }
 a, button, .button {
+  background: rgba(33, 36, 67, 1);
   cursor: pointer;
   &:active {
     transform: scale(.95);
@@ -54,6 +55,12 @@ a, button, .button {
 .vertical {
     display: flex;
     flex-direction: column;
+}
+.button_color {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%) !important;
 }
 
 //.flex {
