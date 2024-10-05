@@ -208,9 +208,9 @@
 import { onMounted, onUnmounted, ref, watch, defineAsyncComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { TShopInfo } from '@/utils/types';
-import { NetPacket } from '@/netBase2/NetPacket';
+import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
 // import Deposit from '@/views/wallet/components/Deposit.vue';

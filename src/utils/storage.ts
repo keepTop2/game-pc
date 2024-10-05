@@ -6,9 +6,9 @@
  * @method remove 移除永久缓存
  * @method clear 移除全部永久缓存
  */
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetPacket } from "@/netBase/NetPacket";
 import * as Utils from "@/net/Utils";
-import { NetEnumDef } from "@/netBase2/NetEnumDef";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
 import { Net } from "@/net/Net";
 export const Local = {
 	// 设置永久缓存

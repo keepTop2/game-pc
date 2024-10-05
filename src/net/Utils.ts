@@ -1,5 +1,5 @@
 import { EncodeUtils } from './EncodeUtils'
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 const getRandomNum = (start: number, end: number) => {

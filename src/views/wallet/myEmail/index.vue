@@ -49,9 +49,9 @@
 <script setup lang="ts">
 import { onUnmounted, ref, onMounted, computed } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { Net } from '@/net/Net';
-import { NetPacket } from '@/netBase2/NetPacket';
+import { NetPacket } from '@/netBase/NetPacket';
 import btn from './components/btn.vue';
 import infoModal from './components/infoModal.vue';
 import { User } from '@/store/user';

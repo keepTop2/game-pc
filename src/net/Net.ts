@@ -1,11 +1,11 @@
 import { EncodeUtils } from "./EncodeUtils";
 import { MessageEvent2 } from "./MessageEvent2";
 import { MessageMap } from "./MessageMap";
-import { NetEnumDef } from "@/netBase2/NetEnumDef";
-import { NetMsgType } from "@/netBase2/NetMsgType";
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetPacket } from "@/netBase/NetPacket";
 import { RingBuffer } from "./RingBuffer";
-import { MessageMapRegister } from "@/netBase2/MessageMapRegister";
+import { MessageMapRegister } from "@/netBase/MessageMapRegister";
 
 import { Local, needLoginApi } from "@/utils/storage";
 import { Message } from '@/utils/discreteApi'

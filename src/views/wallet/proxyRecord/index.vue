@@ -44,11 +44,11 @@
 <script setup lang='ts'>
 import { reactive, computed, onUnmounted, ref } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { ProxyAccountTypeMap, WalletTypeMap } from "@/enums/walletEnum"
 import DateSelect from "@/components/DateSelect.vue"
 import { Net } from "@/net/Net";
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetPacket } from "@/netBase/NetPacket";
 import { convertObjectToDateString } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 import { Page } from '@/store/page';

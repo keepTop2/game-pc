@@ -101,10 +101,10 @@
 
 <script setup lang='ts' name="levelInfo">
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { NetPacket } from '@/netBase2/NetPacket';
+import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { Message } from '@/utils/discreteApi.ts';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';

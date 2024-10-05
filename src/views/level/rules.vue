@@ -87,7 +87,7 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
 import { toFixedNumber, verifyNumberComma } from '@/utils/others';
-import { NetPacket } from '@/netBase2/NetPacket';
+import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 
 const { t } = useI18n();

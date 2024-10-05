@@ -48,11 +48,11 @@
 import { ref, reactive, onMounted, onUnmounted } from "vue";
 import Imgt from '@/components/Imgt.vue';
 
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
-import { NetEnumDef } from "@/netBase2/NetEnumDef";
+import { NetEnumDef } from "@/netBase/NetEnumDef";
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase2/NetMsgType";
+import { NetMsgType } from "@/netBase/NetMsgType";
 import { getRandomSign, getDeviceId, aaa, bbb, device_model } from "@/net/Utils";
 
 import pinia from '@/store/index';

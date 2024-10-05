@@ -107,7 +107,7 @@
 <script setup lang='ts' name="Header">
 import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -119,11 +119,11 @@ import { User } from '@/store/user';
 import { handleOpenLink, verifyNumberComma } from '@/utils/others';
 
 import { useI18n } from "vue-i18n";
-import { NetEnumDef } from '@/netBase2/NetEnumDef';
+import { NetEnumDef } from '@/netBase/NetEnumDef';
 import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 import { SelectRenderLabel } from 'naive-ui';
-import { NetPacket } from '@/netBase2/NetPacket';
+import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import ServiceModal from './ServiceModal/ServiceModal.vue'
 import Imgt from '@/components/Imgt.vue';

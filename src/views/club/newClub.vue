@@ -144,10 +144,10 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
-// import { NetPacket } from '@/netBase2/NetPacket';
+// import { NetPacket } from '@/netBase/NetPacket';
 // import { Net } from '@/net/Net';
 // import { MessageEvent2 } from '@/net/MessageEvent2.ts';
-// import { NetMsgType } from '@/netBase2/NetMsgType.ts';
+// import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { Message } from '@/utils/discreteApi.ts';
 import { User } from '@/store/user.ts';
 import pinia from '@/store';

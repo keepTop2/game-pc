@@ -271,7 +271,7 @@
 
 <script setup lang='ts' name="clubInfo">
 import { ref, watch } from 'vue';
-import { NetPacket } from '@/netBase2/NetPacket';
+import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';

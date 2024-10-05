@@ -75,9 +75,9 @@
 import { ref, onUnmounted } from 'vue';
 import cooperationTable from "@/components/cooperationTable.vue"
 import { Net } from "@/net/Net";
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetPacket } from "@/netBase/NetPacket";
 import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase2/NetMsgType';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import { IdentityMap } from "@/enums/proxyEnum";
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";

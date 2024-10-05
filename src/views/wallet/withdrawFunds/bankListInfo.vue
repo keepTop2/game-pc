@@ -163,10 +163,10 @@
 <script setup lang="ts">
 
 import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { NetPacket } from '@/netBase2/NetPacket.ts';
+import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
-import { NetMsgType } from '@/netBase2/NetMsgType.ts';
+import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { TTabList } from "@/utils/types";
 import { Message } from "@/utils/discreteApi.ts";

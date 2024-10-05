@@ -72,10 +72,10 @@ import Imgt from '@/components/Imgt.vue';
 // import { User } from '@/store/user';
 
 import { Page } from '@/store/page';
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase2/NetMsgType";
+import { NetMsgType } from "@/netBase/NetMsgType";
 const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();

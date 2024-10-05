@@ -113,8 +113,8 @@
 import { CSSProperties, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase2/NetMsgType";
-import { NetPacket } from "@/netBase2/NetPacket";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
 // import Deposit from '@/views/wallet/components/Deposit.vue';
 import { Message } from "@/utils/discreteApi";
