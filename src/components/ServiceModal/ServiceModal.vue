@@ -4,12 +4,12 @@
   <div class="main">
 
     <h4 class="top_title">
-      <span>与{{ state.userData.TUsername }}的聊天 {{ roleInfo.id }}</span>
+      <span>{{ t('chat_page_with_user',{user:state.userData.TUsername}) }}</span>
 
       <div class="forbidden">
         <div class="forbidden_btn" @click="visibleForbidden = true"
           v-if="agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1">
-          禁言
+          {{ t('chat_page_mute') }}
         </div>
         <n-switch v-if="false" v-model:value="active" />
         <iconpark-icon @click="isShow = false" class="clo" icon-id="Group39368" color="#fff" size="1.2rem"
@@ -24,7 +24,8 @@
             <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
               size="1.8rem"></iconpark-icon>
             <!-- <Imgt :src="`/img/serviceModal/${item.img}`" alt=""> -->
-            <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">全部对话</span>
+            <!-- 全部对话 -->
+            <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">{{ t('chat_page_all') }}</span>
           </n-badge>
         </div>
         <!-- 分组 -->
@@ -39,7 +40,7 @@
         <div class="set_item" @click="groupClick('edit')">
           <iconpark-icon icon-id="zuocweidy03" :color="state.groupType == 'edit' ? '#fff' : '#8D84C5'"
             size="1.8rem"></iconpark-icon>
-          <span :style="{ color: state.groupType == 'edit' ? '#fff' : '#8D84C5' }">编辑</span>
+          <span :style="{ color: state.groupType == 'edit' ? '#fff' : '#8D84C5' }">{{ t('chat_page_edit') }}</span>
         </div>
       </div>
       <!-- 左侧菜单 -->
@@ -51,14 +52,15 @@
               {{ t(tab.label) }}
             </div>
           </n-flex>
-          <div class="mark">查找{{ active_id == 1 ? '聊天' : '用户' }}列表</div>
-          <n-input v-model:value="state.search" placeholder="查找聊天列表">
+          <div class="mark">{{ active_id == 1 ? t('chat_page_chat_list') : t('chat_page_user_list') }}</div>
+          <n-input v-model:value="state.search" :placeholder="t('chat_page_chat_list')">
             <template #suffix>
-              <div class="new_btn" @click="searchuser">发起新聊天</div>
+              <div class="new_btn" @click="searchuser">{{ t('chat_page_new_chat') }}</div>
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">分组管理
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">{{
+            t('chat_page_group') }}
           </div>
         </div>
         <div class="list_wrap">
@@ -67,7 +69,7 @@
             <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
               v-for="item in (state.groupType == 'all' ? chatitemList : groupChatitemList)" :key="item.id"
               @click="selectUser(item)"
-              :style="{ order: item.deep == '0' ? -1 : item.istop &&item.istop==1? 1 :  item.unreadnums && item.enableflag != 1 ? 2:6 }">
+              :style="{ order: item.deep == '0' ? -1 : item.istop && item.istop == 1 ? 1 : item.unreadnums && item.enableflag != 1 ? 2 : 6 }">
               <div class="item_left">
                 <div class="avatar">
                   <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
@@ -83,7 +85,7 @@
                 <template #trigger>
                   <div class="high_proxy"
                     :style="{ background: deepObj[item.deep || item.agentlevel] ? deepObj[item.deep || item.agentlevel].color : '' }">
-                    <span> {{ setLabel(item) }}</span>
+                    <span> {{ t(setLabel(item)) }}</span>
                   </div>
                 </template>
                 <div class="select_wrap">
@@ -93,7 +95,8 @@
                       <span v-if="o.id == 1">{{ item.istop == 1 ? t('chat_page_cancelTop') : t('chat_page_top')
                         }}</span>
                       <!-- 屏蔽 -->
-                      <span v-else> {{ item.enableflag == 1 ? '取消屏蔽' : t('chat_page_shield') }}</span>
+                      <span v-else> {{ item.enableflag == 1 ? t('chat_page_cancel_shield') : t('chat_page_shield')
+                        }}</span>
                     </template>
                   </div>
                   <div v-if="agentInfo.user_type && agentInfo.user_type > 0 && state.groupType == 'all'">
@@ -112,7 +115,7 @@
                   <!-- 从分组移除 -->
                   <div v-if="state.groupType != 'all' && agentInfo.user_type && agentInfo.user_type > 0"
                     @click="itemSet({ id: 5 }, item)">
-                    <span>从分组移除</span>
+                    <span>{{ t('chat_page_group_remove') }}</span>
                   </div>
                 </div>
               </n-popover>
@@ -138,8 +141,7 @@
 
                 <div class="high_proxy"
                   :style="{ background: deepObj[i.deep || i.agentlevel] ? deepObj[i.deep || i.agentlevel].color : '' }">
-                  {{
-                    setLabel(i) }}</div>
+                  {{ t(setLabel(i)) }}</div>
               </div>
             </div>
           </div>
@@ -168,7 +170,6 @@
                 </n-popover>
               </div>
             </n-carousel>
-
           </div>
           <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
             {{ t('chat_page_shortcut_set') }}</div>
@@ -198,7 +199,7 @@
               </n-popover>
             </div>
           </div>
-          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">发送</div>
+          <div class="send_btn" @click="sendMsg" @keyup.enter="sendMsg">{{ t('home_page_send') }}</div>
         </div>
       </div>
     </div>
@@ -262,10 +263,13 @@ const props = defineProps({
   },
 });
 const deepObj: any = {
-  '-1': { label: '上级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
-  '1': { label: '下级代理', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
-  '0': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
-  '5': { label: '官方客服', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
+  // 上级代理
+  '-1': { label: 'chat_page_up_agent', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
+  // 下级代理
+  '1': { label: 'chat_page_up_agent', color: 'radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)' },
+  //官方客服
+  '0': { label: 'chat_page_customer', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
+  '5': { label: 'chat_page_customer', color: 'radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)' },
 
 }
 // const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
@@ -297,21 +301,21 @@ const beforeUpload = (data: any) => {
   const type = file.type.includes('image') ? 'image' : file.type.includes('video') ? 'video' : ''
 
   if (file && file.size > 1024 * 1024 * 2 && type == 'image') { // 2MB限制
-    Message.error('文件大小不能超过2MB！')
+    Message.error(t('chat_page_file_limit1'))
     return;
   }
   if (file && file.size > 1024 * 1024 * 100 && type == 'video') { // 100MB限制
-    Message.error('文件大小不能超过100MB！')
+    Message.error(t('chat_page_file_limit2'))
     return;
   }
   if (type == 'image' && !['png', 'jpg', 'gif', 'jpeg'].includes(fileType)) {
-    Message.error('文件格式不支持')
+    Message.error(t('chat_page_file_error'))
     return;
   }
   const formData = new FormData();
   formData.append(type, file);
   formData.append('device_id', state.deviceID);
-  fetch(`http://18.162.112.52:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
+  fetch(`http://18.167.175.195:8031/api/upload/${type == 'image' ? 'img' : 'video'}`, {
     method: 'POST',
     body: formData,
   })
@@ -338,12 +342,12 @@ const optimizePasteEvent = (e: any) => {
 const setLabel = (val: any) => {
   if (agentInfo.value.user_type == 1) {
     const obj: any = {
-      0: '官方玩家',
-      5: '官方代理',
+      0: 'chat_page_customer_user',
+      5: 'chat_page_agent_user',
     }
-    return obj[val.agentlevel] || '代理玩家'
+    return obj[val.agentlevel] || 'chat_page_agent_gamer'
   } else {
-    return deepObj[val.deep] && deepObj[val.deep].label || '直属玩家'
+    return deepObj[val.deep] && deepObj[val.deep].label || 'chat_page_direct_user'
   }
 }
 
@@ -352,8 +356,8 @@ const chatObj: any = {}
 // 选择用户聊天
 const selectUser = (item: any) => {
   const keys = Object.keys(chatObj);
-  
-  if (!msgRef.value.innerHTML&&state.userData && state.userData.id) {
+
+  if (!msgRef.value.innerHTML && state.userData && state.userData.id) {
     chatObj[state.userData.id] = ''
   }
   if (state.userData && state.userData.id) {
@@ -395,8 +399,8 @@ const testMsg = ref('')
 const active = ref(true)  // 禁言
 
 const tab_list = [
-  { label: '聊天列表', id: 1 },
-  { label: '用户列表', id: 2 },
+  { label: 'chat_page_chat', id: 1 }, // 聊天列表
+  { label: 'chat_page_user', id: 2 },  // 用户列表
 ];
 
 // tab 标签点击
@@ -621,7 +625,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
       content: decodeobj3.data,   //消息
       name: decodeobj2.fromdeviceid == state.deviceID ? '' : state.userData.TUsername
     }
-    if (type == 4||type == 29) {    //获取到新消息如果是当前用户直接显示
+    if (type == 4 || type == 29) {    //获取到新消息如果是当前用户直接显示
       if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj)
       } else {   // 不是当前用户则未读消息加1
@@ -776,7 +780,7 @@ const onMessage: any = async (buffer: any) => {
   // 移动好友到分组成功
   else if (decodeobj1.type == 14) {
     if (state.isEditchat) {  // 单独移动到分组
-      Message.success('操作成功')
+      Message.success(t('operation_success'))
     }
     // Message.success('操作成功')
     getChatlist()
@@ -786,20 +790,20 @@ const onMessage: any = async (buffer: any) => {
 
   //分组列表保存回执
   else if (decodeobj1.type == 9) {
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
     groupRef.value.getChatMsg9(decodeobj1)
     getListGroup()
   }
   //分组列表保存回执
   else if (decodeobj1.type == 10) {
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
     groupRef.value.getChatMsg9(decodeobj1)
 
   }
   //分组列表删除回执
   else if (decodeobj1.type == 11) {
     getListGroup()
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
   }
   // 获取分组列表
   else if (decodeobj1.type == 12) {
@@ -819,11 +823,11 @@ const onMessage: any = async (buffer: any) => {
   }
   // 禁言
   else if (decodeobj1.type == 25) {
-    Message.success('操作成功')
+    Message.success(t('operation_success'))
   }
   // 审核推送
   else if (decodeobj1.type == 29) {
-    getChatMsg29(decodeobj1,'MessageItem')
+    getChatMsg29(decodeobj1, 'MessageItem')
   }
 
 
@@ -1255,9 +1259,10 @@ onUnmounted(() => {
   .setting {
     cursor: pointer;
     margin-top: 6px;
-    padding: 0 23px;
-    width: 150px;
+    padding: 0 20px;
+    min-width: 160px;
     height: 40px;
+    white-space: nowrap;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1292,8 +1297,9 @@ onUnmounted(() => {
   }
 
   .short_wrap_item {
-    min-width: 98px;
-    max-width: 158px;
+    // min-width: 98px;
+    // max-width: 158px;
+    white-space: nowrap;
     height: 33px;
     display: flex;
     justify-content: center;
