@@ -121,7 +121,6 @@ export const getFastestUrl = (): Promise<string> => {
         // if (localUrl) {
         // }
 
-
         // function httpToWs(httpUrl: string) {
         //     if (httpUrl.startsWith("https://")) {
         //         return "wss://" + httpUrl.substr(8);

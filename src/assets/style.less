@@ -33,6 +33,10 @@ input {
     height: 4px;
     background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
   }
+
+  .n-tabs-tab {
+    font-size: 16px;
+  }
 }
 
 
@@ -70,12 +74,17 @@ input {
   &.n-input--focus {
     background-color: rgba(33, 36, 67, 1) !important;
   }
+
   .n-input__border {
     border: 0;
   }
-  .n-input__input-el, .n-input__placeholder, .n-input__placeholder span {
+
+  .n-input__input-el,
+  .n-input__placeholder,
+  .n-input__placeholder span {
     font-size: 14px;
   }
+
   .n-input__suffix {
     .n-base-icon {
       font-size: 1rem;
@@ -135,10 +144,12 @@ input {
 .n-card.n-modal {
   background: rgba(20, 23, 58, 1);
 }
+
 .n-form-item {
   .n-form-item-label {
     font-size: 16px;
   }
+
   .n-form-item-feedback-wrapper {
     min-height: 16px;
   }
@@ -147,6 +158,8 @@ input {
 .login_from_box {
   display: flex;
   position: relative;
+  width: 834px;
+  height: 610px;
 
   .n-form-item {
     .n-form-item-feedback-wrapper {
@@ -249,7 +262,8 @@ input {
     }
 
     i {
-      color: #17a1fb;
+      color: #AEAEB0;
+      font-size: 16px;
       font-style: normal;
       cursor: pointer;
     }
@@ -257,16 +271,16 @@ input {
 
   .close {
     display: flex;
-    font-size: 12px;
     justify-content: center;
     align-items: center;
-    border-radius: 12px;
-    border: solid 1px #5a47b2;
-    background-color: #402c95;
-    background-image: url('/img/login/close.webp?t=@{timestamp}');
-    background-repeat: no-repeat;
-    background-size: cover;
+    // border-radius: 12px;
+    // border: solid 1px #5a47b2;
+    // background-color: #402c95;
+    // background-image: url('/img/login/close.webp?t=@{timestamp}');
+    // background-repeat: no-repeat;
+    // background-size: cover;
     cursor: pointer;
+
     &:hover {
       transform: scale(1.05);
     }
@@ -277,9 +291,10 @@ input {
     height: 52px;
     font-size: 18px;
     color: #fff;
-    background-image: url('/img/login/login.webp?t=@{timestamp}');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+    box-shadow: 0.5px 0.5px 1px 0px #9B9EFF inset;
+
     cursor: pointer;
   }
 
@@ -290,24 +305,30 @@ input {
 
   >span {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    border-style: solid;
-    border-width: 1px;
-    border-image-source: linear-gradient(to top, #fff, #8cacff);
-    border-image-slice: 1;
-    background-image: radial-gradient(circle at 50% 100%, #1154ff, #1154ff 43%, #1170ff 76%), linear-gradient(to top, #fff, #8cacff);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    top: 16px;
+    right: 16px;
   }
 
   .login_form {
-    padding: 72px 60px 0;
+    padding: 40px 87px 0;
     flex: 1;
+  }
+
+  .captcha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    border-radius: 5px;
+    // width: 80px;
+    height: 40px;
+  }
+
+  .refresh {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -40px;
   }
 
   .tab {
@@ -369,9 +390,9 @@ input {
 }
 
 .n-dialog {
-  background: #231353;
+  background: #14173A;
   border-radius: 14px;
-  border: solid 1.4px #322c59;
+  border: solid 1.4px #26294C;
   width: 494px;
   // height: 288px;
   padding: 0;
@@ -379,13 +400,15 @@ input {
   .n-dialog__title {
 
     // height: 50px;
-    color: #ebefff;
+    color: #fff;
     display: block;
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 600;
     padding: 0;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+    // background: #14173A;
+    border-bottom: 2px solid #26294C;
 
   }
 
@@ -403,8 +426,8 @@ input {
   .n-dialog__content {
     text-align: center;
     font-size: 16px;
-    margin: 65px 0;
-    padding: 0 10px;
+    margin: 56px 0 60px;
+    padding: 0 42px;
   }
 
   .n-dialog__action {
@@ -418,9 +441,10 @@ input {
       width: 165px;
       height: 45px;
       border-radius: 12px;
-
-      background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
-      background-size: contain;
+      background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+      box-shadow: 0.5px 0.5px 1px 0px #9B9EFF inset;
+      // background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
+      // background-size: contain;
 
       .n-button__border {
         border: none;

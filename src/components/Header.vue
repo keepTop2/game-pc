@@ -6,7 +6,7 @@
   </n-modal>
 
   <n-modal :show="isReg" :mask-closable="false">
-    <div class="login_from_box">
+    <div class="change_card1">
       <Register v-if="isReg" />
     </div>
   </n-modal>
@@ -778,14 +778,14 @@ watch(
   background-color: #231353;
 }
 
-.login_from_box {
-  display: block;
-  width: 524px;
-  min-height: 415px;
-  // background-color: #231353;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-}
+// .login_from_box {
+//   display: block;
+//   width: 524px;
+//   min-height: 415px;
+//   // background-color: #231353;
+//   border-top-left-radius: 14px;
+//   border-top-right-radius: 14px;
+// }
 
 .community_box {
 
