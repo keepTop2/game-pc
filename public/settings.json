@@ -1,66 +1,44 @@
-    {
-        "server_testUrls": [
-            [
-                "http://43.199.35.53:9002",
-                "ws://43.199.35.53:9001"
-            ],
-            [
-                "http://18.162.112.52:9002",
-                "ws://18.162.112.52:9001"
-            ]
+{
+    "server_testUrls": [
+        [
+            "http://43.199.35.53:9002",
+            "ws://43.199.35.53:9001"
         ],
-        "customer_server": "http://43.199.35.53:8031",
-        "52": "ws://18.167.175.195:9001",
-        "53": "ws://43.199.35.53:9001",
-        "serverInfo": {
-            "app_download_url": "",
-            "res_download_url": "",
-            "app_version": "",
-            "hall_version": "0.0.0"
+        [
+            "http://18.162.112.52:9002",
+            "ws://18.162.112.52:9001"
+        ]
+    ],
+    "customer_server": "http://43.199.35.53:8031",
+    "52": "ws://18.167.175.195:9001",
+    "53": "ws://43.199.35.53:9001",
+    "serverInfo": {
+        "app_download_url": "",
+        "res_download_url": "",
+        "app_version": "",
+        "hall_version": "0.0.0"
+    },
+    "serviceTelegram": "https://t.me/BY88CLUB88",
+    "communityUrl": "https://www.facebokk.com/",
+    "GET_IP_LIST": [
+        "http://ip.by88.life:8080/"
+    ],
+    "admin_i18n_add_url": "http://43.199.35.53:8032/backend.json?",
+    "home_game_data": "http://18.167.175.195:8032/third_game_manage.json?",
+    "lang_list": [
+        {
+            "name": "en",
+            "icon": "us",
+            "index": 0,
+            "value": "en",
+            "label": "home_page_en"
         },
-        "serviceTelegram": "https://t.me/BY88CLUB88",
-        "communityUrl": "https://www.facebokk.com/",
-        "GET_IP_LIST": [
-            "http://ip.by88.life:8080/"
-        ],
-        "admin_i18n_add_url": "http://43.199.35.53:8032/backend.json?",
-        "home_game_data": "http://18.167.175.195:8032/third_game_manage.json?",
-        "lang_list": [
-            {
-                "name": "en",
-                "icon": "us",
-                "index": 0,
-                "value": "en",
-                "label": "home_page_en"
-            },
-            {
-                "name": "zh",
-                "icon": "china",
-                "index": 1,
-                "value": "zh",
-                "label": "home_page_zh"
-            },
-            {
-                "name": "vn",
-                "icon": "vietnam",
-                "index": 2,
-                "value": "vn",
-                "label": "home_page_vi"
-            }
-        ],
-        "currencyList": [
-            {
-                "id": 1,
-                "name": "VND",
-                "icon": "VND"
-            }
-        ],
-        "phoneCodeMap": {
-            "+84": {
-                "name": "vietnam",
-                "code": "+84",
-                "regExp": "^((^(\\+84|84|0|0084)?)(3|5|7|8|9))+([0-9]{8})$"
-            }
+        {
+            "name": "zh",
+            "icon": "china",
+            "index": 1,
+            "value": "zh",
+            "label": "home_page_zh"
         },
         {
             "name": "vn",
@@ -94,45 +72,39 @@
             "icon": "facebook",
             "url": "https://www.facebook.com/"
         },
-        "community_list": [
-            {
-                "name_key": "Facebook Home page",
-                "icon": "facebook",
-                "url": "https://www.facebook.com/"
-            },
-            {
-                "name_key": "Facebook group",
-                "icon": "facebook",
-                "url": "https://www.facebook.com/"
-            },
-            {
-                "name_key": "Telegram Channel",
-                "icon": "telegram",
-                "url": "https://t.me/BY88CLUB88"
-            },
-            {
-                "name_key": "Youtube Channel",
-                "icon": "youtube",
-                "url": "https://www.facebook.com/"
-            }
-        ],
-        "service_list": [
-            {
-                "name_key": "messenger",
-                "icon": "facebook",
-                "url": "https://www.facebook.com/"
-            },
-            {
-                "name_key": "telegram",
-                "icon": "telegram",
-                "url": "https://t.me/BY88CLUB88"
-            }
-        ],
-        "not_open_platforms": [
-            28,
-            22,
-            17,
-            29,
-            23
-        ]
-    }
+        {
+            "name_key": "Facebook group",
+            "icon": "facebook",
+            "url": "https://www.facebook.com/"
+        },
+        {
+            "name_key": "Telegram Channel",
+            "icon": "telegram",
+            "url": "https://t.me/BY88CLUB88"
+        },
+        {
+            "name_key": "Youtube Channel",
+            "icon": "youtube",
+            "url": "https://www.facebook.com/"
+        }
+    ],
+    "service_list": [
+        {
+            "name_key": "messenger",
+            "icon": "facebook",
+            "url": "https://www.facebook.com/"
+        },
+        {
+            "name_key": "telegram",
+            "icon": "telegram",
+            "url": "https://t.me/BY88CLUB88"
+        }
+    ],
+    "not_open_platforms": [
+        28,
+        22,
+        17,
+        29,
+        23
+    ]
+}

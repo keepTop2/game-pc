@@ -1,34 +1,4 @@
 <template>
-  <!-- <n-modal :show="isLogin" :mask-closable="false">
-    <div class="change_card1 ">
-      <Login v-if="isLogin" />
-    </div>
-  </n-modal>
-
-  <n-modal :show="isReg" :mask-closable="false">
-    <div class="login_from_box">
-      <Register v-if="isReg" />
-    </div>
-  </n-modal>
-
-  <n-modal :show="isForget" :mask-closable="false">
-    <div class="change_card">
-      <Forget v-if="isForget" />
-    </div>
-  </n-modal> -->
-
-  <!-- 一般公告 -->
-  <!-- <n-modal :show="isNotice" :mask-closable="false">
-    <div>
-      <NoticeDialog v-if="isNotice" />
-    </div>
-  </n-modal> -->
-  <!-- 客服弹窗 -->
-  <!-- <n-modal :show="kefuVisible" :mask-closable="false">
-    <div>
-      <ServiceModal v-model:visible="kefuVisible" />
-    </div>
-  </n-modal> -->
   <header class="header">
     <div>
       <div>
