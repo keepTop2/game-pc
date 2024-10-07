@@ -1,12 +1,11 @@
 @import './global.less';
-@timestamp: `new Date().getTime()`;
+@timestamp: `new Date() .getTime() `;
 
 ::-webkit-scrollbar {
   display: none;
 }
 
 input {
-
   &:-webkit-autofill,
   textarea:-webkit-autofill,
   select:-webkit-autofill {
@@ -17,7 +16,6 @@ input {
     transition: background-color 50000s ease-in-out 0s;
   }
 }
-
 
 .n-button--primary-type {
   box-shadow: 0 2px 4px 0 #220e55;
@@ -63,8 +61,6 @@ input {
     color: #c3c3c3;
     font-size: 14px;
   }
-
-
 }
 
 .n-input {
@@ -78,7 +74,6 @@ input {
   .n-input__border {
     border: 0;
   }
-
   .n-input__input-el,
   .n-input__placeholder,
   .n-input__placeholder span {
@@ -100,13 +95,12 @@ input {
   }
 }
 
-.n-base-clear>.n-base-clear__clear {
+.n-base-clear > .n-base-clear__clear {
   height: auto;
 }
 
 .n-popover:not(.n-popover--raw) {
-
-  background: rgba(17, 13, 78, .9)
+  background: rgba(17, 13, 78, 0.9);
 }
 
 .n-base-selection {
@@ -137,7 +131,8 @@ input {
   }
 }
 
-.n-base-selection:not(.n-base-selection--disabled).n-base-selection--active .n-base-selection-label {
+.n-base-selection:not(.n-base-selection--disabled).n-base-selection--active
+  .n-base-selection-label {
   background: #372771;
 }
 
@@ -205,10 +200,6 @@ input {
     height: auto;
   }
 
-
-
-
-
   .code_box {
     width: 94px;
     height: 40px;
@@ -238,14 +229,14 @@ input {
       align-items: center;
       cursor: pointer;
 
-      >b {
+      > b {
         display: inline-block;
         vertical-align: middle;
         width: 13px;
         height: 13px;
         background-color: #fff;
         border: 1px solid #3d3d3d;
-        margin-right: 2px
+        margin-right: 2px;
       }
 
       .checkbox_click {
@@ -254,9 +245,7 @@ input {
       }
     }
 
-
     .forgot {
-
       display: flex;
       justify-content: space-between;
     }
@@ -284,7 +273,6 @@ input {
     &:hover {
       transform: scale(1.05);
     }
-
   }
 
 
@@ -294,7 +282,7 @@ input {
     height: 608px;
   }
 
-  >span {
+  > span {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -330,7 +318,7 @@ input {
     background-color: #372771;
     font-size: 16px;
 
-    >span {
+    > span {
       display: inline-block;
       height: 40px;
       text-align: center;
@@ -363,11 +351,11 @@ input {
   color: #fff;
   background-size: 100% 100%;
   cursor: pointer;
-  border-image: url('/img/login/login.webp?t=@{timestamp}') 0 15 0 15 fill / 0px 15px stretch stretch !important;
+  border-image: url('/img/login/login.webp?t=@{timestamp}') 0 15 0 15 fill / 0px
+    15px stretch stretch !important;
   box-shadow: 0 2px 4px 0 #241760;
   border-radius: 12px !important;
 }
-
 
 .btn {
   width: 130px;
@@ -398,7 +386,6 @@ input {
   padding: 0;
 
   .n-dialog__title {
-
     // height: 50px;
     color: #fff;
     display: block;
@@ -434,7 +421,6 @@ input {
     justify-content: center;
     padding-bottom: 20px;
 
-
     .n-button {
       color: #fff;
       font-size: 18px;
@@ -452,7 +438,6 @@ input {
     }
 
     .n-button--default-type {
-
       background: url('/img/dialog/unclick.webp?t=@{timestamp}') no-repeat;
       background-size: cover;
     }
@@ -466,7 +451,6 @@ input {
 .n-dialog.n-modal {
   width: 494px;
   min-height: 288px;
-
 }
 
 .n-dialog.n-dialog--icon-left.n-dialog--closable .n-dialog__title {
@@ -488,4 +472,18 @@ input {
   opacity: 1 !important;
   transform: translateX(-50%) translateZ(0) !important;
   z-index: 1;
+}
+
+
+.n-button {
+  color: #fff;
+  font-size: 20px;
+  width: 142px;
+  height: 52px;
+  border-radius: 8px;
+  text-align: center;
+  background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+  .n-button__border {
+    border: none;
+  }
 }

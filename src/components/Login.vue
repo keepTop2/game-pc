@@ -2,17 +2,13 @@
   <div class="login_from_box">
     <Imgt src="/img/login/silder.webp" alt="" />
     <span class="close">
-      <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.4rem"></iconpark-icon>
+      <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
     </span>
     <div class="login_form">
-      <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
-      <n-tab-pane :name="i" :tab="t(tab.name)" v-for="(tab, i) in tabList" :key="i"> </n-tab-pane>
-
-    </n-tabs>
-      <!-- <div class="tab">
+      <div class="tab">
         <span :class="state.active == i ? 'active' : ''" v-for="(tab, i) in tabList" :key="i" @click="changeTab(i)">{{
           t(tab.name) }}</span>
-      </div> -->
+      </div>
       <n-form :model="state.login" :rules="state.loginRules" :show-label="false" ref="loginFormRef">
         <template v-for="item in state.loginList">
           <n-form-item :path="item.name" v-if="item.show" feedback-class="input_item_err">
@@ -29,19 +25,18 @@
               :render-label="renderLabel" /> -->
             <n-input clearable @keyup.enter="handleSubmit" :type="item.type" size="large"
               v-model:value="state.login[item.name]" :placeholder="t(item.placeholder)">
-              <!-- <template #prefix v-if="item.leftIcon">
+              <template #prefix v-if="item.leftIcon">
                 <iconpark-icon :icon-id="item.leftIcon" color="#8e82c2" size="1rem"></iconpark-icon>
-              </template> -->
+              </template>
               <template #suffix v-if="item.slot">
                 <iconpark-icon v-if="item.changeRightIcon" @click="iconClick(item)" :icon-id="item.changeRightIcon"
                   color="#8e82c2" size="1rem"></iconpark-icon>
-              
               </template>
             </n-input>
-            <!-- <span   class="btn"> -->
-              <Imgt v-if="item.slot && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha" @click="refresh_captcha" />
-              <iconpark-icon v-if="item.slot && item.name == 'captcha'" icon-id="Group39366" class="refresh" color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
-            <!-- </span> -->
+            <span v-if="item.slot && item.name == 'captcha'" @click="refresh_captcha" class="btn">
+              <Imgt :src="captchaURL" alt="captchaURL" />
+              <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
+            </span>
           </n-form-item>
         </template>
 
@@ -487,15 +482,13 @@ onUnmounted(async () => {
 </script>
 
 <style lang="less" scoped>
-// .login_from_box {
-//   display: flex;
-//   width: 834px;
-//   height: 610px;
-// }
+.login_from_box {
+  display: flex;
+  width: 850px;
+}
 
 .input_item_err {
   position: absolute;
   font-size: 18px;
 }
-
 </style>

@@ -3,7 +3,7 @@
     :theme-overrides="themeOverrides">
     <div class="app">
       <Header v-if="!['customer'].includes(route.name)" />
-      <div class="hold"></div>
+      <!-- <div class="hold"></div> -->
       <router-view></router-view>
       <Footer v-if="!['customer'].includes(route.name)" />
     </div>
@@ -13,8 +13,8 @@
 <script setup lang="ts">
 
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import Header from '@/components/NewHeader.vue';
+import Footer from '@/components/Footer/Footer.vue';
 import { onMounted } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -266,7 +266,7 @@ onMounted(async () => {
 </script>
 <style lang="less" scoped>
 .hold {
-  height: 80px;
+  height: 95px;
 }
 
 .app {
