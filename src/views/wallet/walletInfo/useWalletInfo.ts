@@ -50,7 +50,7 @@ const useWalletInfo = () => {
   const totalMoneyTxt = ref<any>(verifyNumberComma(String(gameMoney.value)));
   const target_bet_money = ref(0);
   const target: any = ref({ bet_money: 0 })
-  const tranType = ref('out'); // 转账类型 out, in
+  const tranType = ref('in'); // 转账类型 out, in
   const tranMoney: any = ref<any>(); // 转账金额
   const chooseMoneyArr = [
     { label: '100,000', value: 100000 },

@@ -2,48 +2,42 @@
     <div class="payment">
         <Sidebar />
         <n-flex vertical class="main">
-            <!-- <n-flex vertical class="user_info">
-                <div class="title size1">
-                    <Imgt src="/img/payment/backBtn.webp" class="back_button" @click="router.push('/')" />
-                    <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>
-                </div>
-            </n-flex> -->
-            <div class="head">
+<!--            <div class="head">
                 <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />
                 <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>
-            </div>
+            </div>-->
             <router-view></router-view>
         </n-flex>
     </div>
 </template>
 
 <script setup lang='ts'>
-import Imgt from '@/components/Imgt.vue';
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { Page } from '@/store/page';
+// import pinia from '@/store/index';
+// import { storeToRefs } from 'pinia';
+// import { Page } from '@/store/page';
 import Sidebar from '@/views/wallet/Sidebar.vue'
-const page = Page(pinia);
-const { menuName } = storeToRefs(page);
-import { useI18n } from "vue-i18n";
-import { useRouter } from 'vue-router';
-const { t } = useI18n()
-const router = useRouter()
-
+// const page = Page(pinia);
+// const { menuName } = storeToRefs(page);
+// import { useI18n } from "vue-i18n";
+// import { useRouter } from 'vue-router';
+// const { t } = useI18n()
+// const router = useRouter()
 
 </script>
 
 <style lang='less' scoped>
 .payment {
-    display: flex;
-    flex: 1;
+  width: 1400px;
+  margin: 0 auto;
+  padding-top: 14px;
+  display: flex;
+  flex: 1;
 }
 
 .main {
     gap: 0 !important;
-    width: 1200px;
-    padding-top: 14px;
-    margin-left: 90px;
+    width: 1100px;
+    margin-left: 20px;
     color: #fff;
 
     >.head {

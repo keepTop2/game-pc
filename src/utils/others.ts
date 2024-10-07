@@ -3,9 +3,9 @@ import { User } from '@/store/user';
 import { storeToRefs } from "pinia";
 import { Local } from "./storage";
 import { Page } from "@/store/page";
-
+const UserStore = User(pinia);
 const { settings } = storeToRefs(Page(pinia));
-const { info: userInfo } = storeToRefs(User(pinia));
+const { info: userInfo } = storeToRefs(UserStore);
 
 // 只有这些充值方式
 export const bankPayMethods = [1, 2, 3, 4, 5, 6];
@@ -120,6 +120,7 @@ export const getFastestUrl = (): Promise<string> => {
         // let localUrl = StorageMgr.instance.get(this.fastestUrlKey);
         // if (localUrl) {
         // }
+
         // function httpToWs(httpUrl: string) {
         //     if (httpUrl.startsWith("https://")) {
         //         return "wss://" + httpUrl.substr(8);

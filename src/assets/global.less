@@ -5,6 +5,7 @@ body, div, span, a {
   box-sizing: border-box;
 }
 a, button, .button {
+  background: rgba(33, 36, 67, 1);
   cursor: pointer;
   &:active {
     transform: scale(.95);
@@ -54,6 +55,28 @@ a, button, .button {
 .vertical {
     display: flex;
     flex-direction: column;
+}
+// 公共按钮颜色
+.button_color {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%) !important;
+}
+// 向右箭头
+.right_arrow {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+  transform: rotate(135deg)
+}
+// 公共背景色
+.bg_color {
+  background: rgba(20, 23, 58, 1);
+  border-radius: 16px;
+  border: 1px solid rgba(38, 41, 76, 1);
 }
 
 //.flex {

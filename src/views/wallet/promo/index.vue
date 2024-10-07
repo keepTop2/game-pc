@@ -1,5 +1,8 @@
 <template>
   <n-flex vertical class="promo_info record_page">
+    <!-- 导航 -->
+    <navTab :title="t('deposit_page_discount')" />
+
     <n-flex align="center" class="tab_top">
       <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
         :key="index" @click="clickTab(item.key)">
@@ -78,6 +81,7 @@ import { Message } from '@/utils/discreteApi';
 import { useRouter } from 'vue-router';
 import { Local } from '@/utils/storage';
 import Imgt from '@/components/Imgt.vue';
+import navTab from '../components/navTab.vue';
 
 const router = useRouter();
 const { t } = useI18n();
