@@ -3,7 +3,7 @@
     :theme-overrides="themeOverrides">
     <div class="app">
       <Header v-if="!['customer'].includes(route.name)" />
-      <div class="hold"></div>
+      <!-- <div class="hold"></div> -->
       <router-view></router-view>
       <Footer v-if="!['customer'].includes(route.name)" />
     </div>

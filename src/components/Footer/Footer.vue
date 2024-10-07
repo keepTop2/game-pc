@@ -7,7 +7,10 @@
                     <span>{{ key }}</span>
                 </div>
                 <template v-if="value.length">
-                    <span v-for="(item, index) in value" :key="index">{{ item?.label }}</span>
+                    <span v-for="(item, index) in value" :key="index" class="club_item">
+                        <Imgt v-if="item?.icon" :src="item?.icon" />
+                        {{ item?.label }}
+                    </span>
                 </template>
             </div>
         </div>
@@ -87,7 +90,7 @@ const clubList: any = {
     { label: '常见问题', id: 4, path: '' }, { label: '隐私政策', id: 5, path: '' }, { label: '服务条款', id: 6, path: '' },
     { label: '公司资质', id: 7, path: '' }, { label: '反洗钱政策', id: 8, path: '' }, { label: '下载APP', id: 8, path: '' }, { label: '联系客服', id: 9, path: '' }],
     '关于我们': [{ label: '自研游戏', id: 1, path: '' }, { label: '代理合作', id: 2, path: '' }, { label: '联系方式', id: 3, path: '' }],
-    '社区': [{ label: 'Telegram', id: 1, path: '' }, { label: 'Facebook', id: 2, path: '' }, { label: 'Telephone', id: 3, path: '' }],
+    '社区': [{ label: 'Telegram', id: 1, icon: '/img/header/telegram.webp', path: '' }, { label: 'Facebook', id: 2, icon: '/img/header/faceBook.webp', path: '' }, { label: 'Telephone', id: 3, icon: '/img/header/tel.webp', path: '' }],
 }
 
 
@@ -118,6 +121,12 @@ const clubList: any = {
                 color: #B5BCCA !important;
                 margin-bottom: unset !important;
             }
+        }
+        .club_item{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
         }
 
         .club_list_item {

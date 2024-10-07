@@ -24,7 +24,8 @@
            <!--       
       主题色切换 -->
       <div class="theme">
-        <Imgt src="/img/header/day.webp" />
+        <Imgt v-if="theme=='day'" src="/img/header/day.webp" @click="changeTheme('night')" />
+        <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')"  />
       </div>
 
 
@@ -41,7 +42,7 @@
 </template>
 
 <script setup lang='ts' name="Header">
-import { reactive, onUnmounted, onMounted, defineAsyncComponent, h, watch } from 'vue';
+import {onUnmounted, onMounted, ref } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -52,147 +53,49 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 import { User } from '@/store/user';
-import { handleOpenLink } from '@/utils/others';
+// import { handleOpenLink } from '@/utils/others';
 
 import { useI18n } from "vue-i18n";
 import { NetEnumDef } from '@/netBase/NetEnumDef';
-import defaultAvatar from "/img/home/avatar.webp"
+// import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
-import { SelectRenderLabel } from 'naive-ui';
+// import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n()
 const page = Page(pinia);
-const { menuActive, settings, lang } = storeToRefs(page);
-import { Message } from "@/utils/discreteApi.ts";
+const {settings } = storeToRefs(page);
+// import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
-const userInfo = User(pinia);
-const { hasLogin, roleInfo, isForget, isReg, isLogin, isNotice, myEmail, kefuVisible, agentInfo } = storeToRefs(userInfo);
+// const userInfo = User(pinia);
+// const {  kefuVisible, agentInfo } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
+const theme = ref('day')
 
 
-const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
-const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
-const Forget = defineAsyncComponent(() => import('@/components/Forget.vue'));
-const NoticeDialog = defineAsyncComponent(() => import('@/components/NoticeDialog.vue'));
+// 主题色切换
+const changeTheme = (value:any)=>{
 
-const menu = [
-  {
-    icon: 'qianbao1',
-    name: 'home_page_myWallet',
-    url: '/wallet/walletInfo',
-  },
-  {
-    icon: 'Group39341',
-    name: 'home_page_rechargeRecord',
-    url: '/wallet/rechargeRecord',
-  },
-  {
-    icon: 'Group39342',
-    name: 'home_page_withdrawRecord',
-    url: '/wallet/withdrawRecord',
-  },
-  {
-    icon: 'Group39345',
-    name: 'home_page_accountsRecord',
-    url: '/wallet/accountsRecord',
-  },
-  {
-    icon: 'Group39343',
-    name: 'home_page_betRecord',
-    url: '/wallet/betRecord',
-  },
-  {
-    icon: 'Group39344',
-    name: 'home_page_auditRecord',
-    url: '/wallet/auditRecord',
-  },
-
-  // {
-  //   icon: 'diannaodenglujilu1',
-  //   name: 'home_page_loginRecord',
-  //   url: '/wallet/loginRecord',
-  // },
-  {
-    icon: 'diannaodenglujilu1',
-    name: 'home_page_waterRecord',
-    url: '/wallet/waterRecord',
-  },
-  {
-    icon: 'Group39346',
-    name: 'home_page_paymentManagement',
-    url: '/wallet/paymentManagement',
-  },
-  {
-    icon: 'Group39347',
-    name: 'home_page_myPromo',
-    url: '/wallet/myPromo',
-  },
-  {
-    icon: 'youxiang2',
-    name: 'home_page_myEmail',
-    url: '/wallet/myEmail',
-  },
-  {
-    icon: 'Group39348',
-    name: 'home_page_onlineService',
-    url: 'kf',
-  },
-  {
-    icon: 'Group39349',
-    name: 'home_page_securitySettings',
-    url: '/wallet/securitySettings',
-  },
-  {
-    icon: 'tuichu1',
-    name: 'home_page_logout',
-    url: '444',
-    value: 444,
-  },
-]
-const state: any = reactive({
-  userInfo: null,
-  active: 0,
-  slider: true,
-  icons: [
-    {
-      icon: 'shequ',
-      color: '#8e82c2',
-      tips: 'home_page_community',
-      url: 'sq'
-    },
-    {
-      icon: 'Group39337',
-      color: '#8e82c2',
-      tips: 'home_page_customerService',
-      url: 'kf'
-    },
-    {
-      icon: 'youxiang',
-      color: '#8e82c2',
-      tips: 'home_page_email',
-      url: '/wallet/myEmail',
-    },
-    {
-      icon: 'APPxiazai1',
-      color: '#8e82c2',
-      tips: 'home_page_downloadApp',
-      url: 'dw'
-    },
-  ],
-})
-
-const renderLabel: SelectRenderLabel = (option: any) => {
-  return h('div', {}, t(option.label))
+console.log(value)
+theme.value = value
 }
-const openLink = (item: any) => {
-  if (item.url) {
-    handleOpenLink(item.url)
-  }
 
-}
+
+
+
+
+
+// const renderLabel: SelectRenderLabel = (option: any) => {
+//   return h('div', {}, t(option.label))
+// }
+// const openLink = (item: any) => {
+//   if (item.url) {
+//     handleOpenLink(item.url)
+//   }
+
+// }
 
 // wait页面跳转来的逻辑处理
 const params: any = new URL(location.href).searchParams;
@@ -215,82 +118,7 @@ if (paramsObj.user_level) { // agent_level
   localStorage.setItem('agent_infodata', sessionStorage.getItem('agent_infodata') || '')
   localStorage.setItem('device_id', sessionStorage.getItem('device_id') || '')
 }
-const iconClick = async (item: any) => {
-  console.log(item)
-  if (item.url) {
-    switch (item.url) {
-      // 客服
-      case 'kf':
-        handleOpenLink(settings.value.serviceTelegram)
-        break;
-      case 'dw':
-        handleOpenLink(settings.value.appDownTipList.app_down_url)
-        break;
-      case 'sq':
-        break;
-      case '/wallet/myEmail':
-        router.push(item.url)
-        await page.setMenuActive(9, 'home_page_myEmail')
 
-        break;
-      default:
-        router.push(item.url)
-        break;
-    }
-
-
-  }
-}
-const menuClick = async (item: any, j: number) => {
-  if (item.value == 444) {
-    Dialog.warning({
-      showIcon: false,
-      title: t('home_page_logout'),
-      content: t('home_page_confirmSignOut'),
-      positiveText: t('home_page_confirm'),
-      negativeText: t('home_page_cancel'),
-      onPositiveClick: async () => {
-        Local.remove('user')
-        Local.remove('roleInfo')
-        Local.set('menuActive', '')
-        Local.set('menuName', '')
-        await User(pinia).setHasLogin(false)
-        location.href = '/'
-      },
-      onNegativeClick: () => {
-
-      },
-    })
-  } else if (item.url == 'kf') {
-    if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
-      Message.error('用户被封禁')
-    } else {
-      kefuVisible.value = true
-      return
-    }
-  }
-  else {
-    await page.setMenuActive(j, item.name)
-    router.push(item.url)
-  }
-
-
-}
-const valueChange = async (item: any) => {
-
-  await page.setLang(item)
-}
-const onLoginOpen = async () => {
-  state.active = 1
-  await User(pinia).setLogin(true)
-
-};
-
-const onRegisterOpen = async () => {
-  state.active = 2
-  await User(pinia).setReg(true)
-
-};
 
 const onHander_check_version = async (message: any) => {
   if (message.result != NetEnumDef.check_version_result.cvr_yes) {
@@ -329,9 +157,9 @@ const onHander_system_notice = async (message: any) => {
   }
 }
 
-const avatarLoadError = (e: any) => {
-  e.target.src = defaultAvatar
-}
+// const avatarLoadError = (e: any) => {
+//   e.target.src = defaultAvatar
+// }
 const onHandler_system_msg = async (m: any) => {
   // console.error('----系统消息', m)
   if (m.code == 903) {
@@ -454,18 +282,7 @@ onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_check_version, null);
 
 });
-watch(
-  () => route.path,
-  async (n: any) => {
-    if (n) {
-      let index = menu.findIndex((e: any) => e.url == n)
 
-      if (index != -1) {
-        await page.setMenuActive(index, menu[index].name)
-      }
-    }
-  }
-)
 
 
 </script>
@@ -518,7 +335,7 @@ watch(
  display: flex;
  justify-content: center;
   // border-bottom: 2px solid var(--c-border);
-  position: fixed;
+  position: relative;
   z-index: 100;
 
   >div {
@@ -581,6 +398,7 @@ watch(
         font-weight: 500;
         color: #FFF;
         font-size: 20px;
+        cursor: pointer;
       }
 
       .login_btn {
@@ -604,6 +422,7 @@ watch(
       img{
         width: 102px;
         height: 56px;
+        cursor: pointer;
       }
     }
 
