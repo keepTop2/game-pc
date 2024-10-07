@@ -11,38 +11,55 @@
       </div>
 
       <div class="search">
-        <Imgt src="/img/header/search.webp"  />
+        <Imgt src="/img/header/search.webp" />
       </div>
       <!--       
       登录注册区域 -->
       <div class="login_wrap">
-        <div>Login</div>
-        <n-button>Sign Up</n-button>
+        <div @click="onLoginOpen">Login</div>
+        <n-button @click="onRegisterOpen">Sign Up</n-button>
 
       </div>
 
-           <!--       
+      <!--       
       主题色切换 -->
       <div class="theme">
-        <Imgt v-if="theme=='day'" src="/img/header/day.webp" @click="changeTheme('night')" />
-        <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')"  />
+        <Imgt v-if="theme == 'day'" src="/img/header/day.webp" @click="changeTheme('night')" />
+        <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')" />
       </div>
 
 
-               <!--       
+      <!--       
       头像 语言 -->
       <div class="avatar">
-       <div> <Imgt src="/img/header/avatar.webp" class="avatar_logo" /></div>
-       <div> <Imgt src="/img/header/lang.webp" class="lang_logo" /></div>
+        <div>
+          <Imgt src="/img/header/avatar.webp" class="avatar_logo" />
+        </div>
+        <div>
+          <Imgt src="/img/header/lang.webp" class="lang_logo" />
+        </div>
       </div>
 
-    </div>
 
+      <!-- 弹窗登录 -->
+      <n-modal :show="isLogin" :mask-closable="false">
+        <div class="change_card1 ">
+          <Login v-if="isLogin" />
+        </div>
+      </n-modal>
+      <!-- 注册 -->
+      <n-modal :show="isReg" :mask-closable="false">
+        <div class="login_from_box">
+          <Register v-if="isReg" />
+        </div>
+      </n-modal>
+
+    </div>
   </header>
 </template>
 
 <script setup lang='ts' name="Header">
-import {onUnmounted, onMounted, ref } from 'vue';
+import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive } from 'vue';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Local, needLoginApi } from '@/utils/storage';
@@ -63,24 +80,45 @@ import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import Imgt from '@/components/Imgt.vue';
+
+const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
+const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
+
+
 const { t } = useI18n()
 const page = Page(pinia);
-const {settings } = storeToRefs(page);
+const { settings } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
-// const userInfo = User(pinia);
-// const {  kefuVisible, agentInfo } = storeToRefs(userInfo);
+const userInfo = User(pinia);
+const { isLogin, isReg } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 const theme = ref('day')
-
+const state: any = reactive({
+  userInfo: null,
+  active: 0,
+  slider: true,
+})
 
 // 主题色切换
-const changeTheme = (value:any)=>{
+const changeTheme = (value: any) => {
 
-console.log(value)
-theme.value = value
+  console.log(value)
+  theme.value = value
 }
+// 打开登录弹窗
+const onLoginOpen = async () => {
+  state.active = 1
+  await User(pinia).setLogin(true)
+
+};
+// 打开注册弹窗
+const onRegisterOpen = async () => {
+  state.active = 2
+  await User(pinia).setReg(true)
+
+};
 
 
 
@@ -332,8 +370,8 @@ onUnmounted(() => {
 .header {
   width: 100%;
   height: 95px;
- display: flex;
- justify-content: center;
+  display: flex;
+  justify-content: center;
   // border-bottom: 2px solid var(--c-border);
   position: relative;
   z-index: 100;
@@ -345,11 +383,13 @@ onUnmounted(() => {
     height: 100%;
     width: 1562px;
     box-sizing: border-box;
-    .home_logo{
+
+    .home_logo {
       height: 68px;
       width: 186px;
     }
-    .fiba{
+
+    .fiba {
       width: 162px;
       height: 42px;
       margin-left: 16px;
@@ -382,6 +422,7 @@ onUnmounted(() => {
       display: flex;
       align-items: center;
       margin-left: 24px;
+
       img {
         width: 60px;
         height: 60px;
@@ -391,7 +432,7 @@ onUnmounted(() => {
     .login_wrap {
       display: flex;
       align-items: center;
-      gap:10px;
+      gap: 10px;
       margin-left: 20px;
 
       div {
@@ -415,11 +456,12 @@ onUnmounted(() => {
       }
     }
 
-    .theme{
+    .theme {
       margin-left: 20px;
       display: flex;
       align-items: center;
-      img{
+
+      img {
         width: 102px;
         height: 56px;
         cursor: pointer;
@@ -427,16 +469,17 @@ onUnmounted(() => {
     }
 
 
-    .avatar{
+    .avatar {
       display: flex;
       align-items: center;
 
-      .avatar_logo{
+      .avatar_logo {
         margin-left: 16px;
         height: 53px;
         width: 53px;
       }
-      .lang_logo{
+
+      .lang_logo {
         margin-left: 15px;
         width: 32px;
         height: 24px;
