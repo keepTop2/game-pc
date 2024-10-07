@@ -4,7 +4,7 @@
       <Login v-if="isLogin" />
     </div>
   </n-modal>
-
+  <RegPop></RegPop>
   <n-modal :show="isReg" :mask-closable="false">
     <div class="change_card1">
       <Register v-if="isReg" />
@@ -141,6 +141,7 @@ const route = useRoute();
 
 const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
 const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
+const RegPop = defineAsyncComponent(() => import('@/components/RegPop.vue'));
 const Forget = defineAsyncComponent(() => import('@/components/Forget.vue'));
 const NoticeDialog = defineAsyncComponent(() => import('@/components/NoticeDialog.vue'));
 

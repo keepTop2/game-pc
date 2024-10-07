@@ -58,17 +58,17 @@ const themeOverrides: GlobalThemeOverrides = {
     // textColor1: '#8d81c1',
     primaryColor: '#5A47B2',
     primaryColorHover: '#000',
-    borderRadius: '12px',
+    borderRadius: '8px',
   },
-  Tabs:{
-    tabTextColorLine:'#fff',
-    tabTextColorActiveLine:'#fff',
-    tabTextColorHoverLine:'#AEAEB0',
-    tabBorderColor:'#212443'
-   
+  Tabs: {
+    tabTextColorLine: '#fff',
+    tabTextColorActiveLine: '#fff',
+    tabTextColorHoverLine: '#AEAEB0',
+    tabBorderColor: '#212443'
+
   },
   Button: {
-    textColor: '#5A47B2',
+    textColor: '#fff',
     textColorHover: '#fff',
     textColorFocus: '#fff',
     textColorPressed: '#fff',
@@ -273,7 +273,7 @@ onMounted(async () => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url(/img/home/bg.webp) ;
+  background: url(/img/home/bg.webp);
   background-size: 5%;
 }
 </style>

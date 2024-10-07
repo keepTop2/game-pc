@@ -35,7 +35,7 @@
             <Imgt v-if="activeTab === 1 && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha" @click="refresh_captcha" />
             <iconpark-icon v-if="activeTab === 1&& item.name == 'captcha'" icon-id="Group39366" class="refresh" color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
             <span v-if="activeTab === 2">
-              <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest" class="captcha_btn"
+              <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest" class="captcha_btn login_btn"
                 :disabled="item.disabled">{{ emailLoadingCount ? emailLoadingCount : t('home_page_getcode')
                 }}</n-button>
             </span>
@@ -47,6 +47,7 @@
       t('home_page_reg')
     }}</n-button>
   </div>
+
   </div>
 
 </template>
@@ -397,6 +398,8 @@ const onHander_check_version = async (message: any) => {
 }
 const onClose = async () => {
   await User(pinia).setReg(false)
+  await User(pinia).setRegPopShow(true)
+
 }
 
 onMounted(() => {
@@ -430,12 +433,10 @@ onUnmounted(() => {
 @timestamp: `new Date().getTime()`;
 
 .captcha_btn {
+  width: 100px;
+height: 40px;
   color: #fff;
-  width: 94px;
-  font-size: 14px;
-  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
-  background-size: 100% 100%;
-  height: 32px;
+  font-size: 16px;
   margin-left: 9px;
 }
 </style>

@@ -9,6 +9,7 @@ import { TRoleInfo, TUserInfo, TVIPInfo } from '@/utils/types';
 interface UserState {
   isLogin: boolean;
   isReg: boolean;
+  regPopShow: boolean
   isForget: boolean;
   isNotice: boolean;
   noticeList: any;
@@ -30,6 +31,7 @@ export const User = defineStore('userInfo', {
     wsOpen: false,
     isLogin: false,
     isReg: false,
+    regPopShow: false,
     isForget: false,
     isNotice: false, // 公告开关
     noticeList: [], // 公告列表
@@ -75,6 +77,9 @@ export const User = defineStore('userInfo', {
     },
     async setReg(value: boolean) {
       this.isReg = value;
+    },
+    async setRegPopShow(value: boolean) {
+      this.regPopShow = value;
     },
     async setForget(value: boolean) {
       this.isForget = value;
