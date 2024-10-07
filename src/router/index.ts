@@ -183,6 +183,18 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '我的邮箱' },
         component: () => import('@/views/wallet/myEmail/index.vue'),
       },
+      {
+        path: 'deposit',
+        name: 'deposit',
+        meta: { title: 'deposit_page_deposit' },
+        component: () => import('@/views/wallet/deposit/depositFirst.vue'),
+      },
+      {
+        path: 'withdraw',
+        name: 'withdraw',
+        meta: { title: 'proxy_page_withDraw' },
+        component: () => import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
+      },
     ]
   },
 

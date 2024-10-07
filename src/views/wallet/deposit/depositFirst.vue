@@ -1,55 +1,42 @@
 <template>
-  <!-- <Deposit v-if="showDeposit" />-->
-  <n-modal class="deposit_modal" :show="showMyModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
+  <!-- 导航 -->
+  <navTab :title="t('deposit_page_deposit')" />
+  <div class="list_box bg_color">
+    <div class="txt_title">{{t('rechargeRecord_page_method')}}</div>
+    <n-flex class="body vertical center t_md">
+      <!-- 充值列表选择 -->
+      <n-flex justify="center" align="center"
+              :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curDepositWay.payname === item.payname ? 'active' : ''}`"
+              v-for="(item, index) in usdtRecharge"
+              @click="chooseWay(item)"
+              :key="index">
+        <div v-if="item.status === 0" class="bank_wh">
+          <Imgt src="/img/payment/wh_bank.webp" />
+          <span>{{ t('addBank_page_bankPay_wh') }}</span>
         </div>
-        <div class="body vertical center t_md">
-          <!-- 充值列表选择 -->
-          <n-flex justify="space-between" align="center"
-            :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curDepositWay.payname === item.payname ? 'active' : ''}`"
-            v-for="(item, index) in usdtRecharge" :key="index">
-            <div v-if="item.status === 0" class="bank_wh">
-              <Imgt src="/img/payment/wh_bank.webp" />
-              <span>{{ t('addBank_page_bankPay_wh') }}</span>
-            </div>
-            <n-flex align="center" class="item_list_l">
-              <div class="bank_icon">
-                <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
-              </div>
-              <div class="bank_txt">
-                <n-flex class="bank_name">
-                  {{ t(`api_${item.payname}`) }}
-                  <a class="wh_icon" @click="onCloseSm(item)"></a>
-                </n-flex>
-                <div class="bank_limit">
-                  <template v-if="['usdt'].includes(item.payname?.toLowerCase())">
-                    {{ verifyNumberComma(String(item.minrecharge * usdtObj.rate)) }} ~
-                    {{ verifyNumberComma(String(item.maxrecharge * usdtObj.rate)) }}
-                  </template>
-                  <template v-else>
-                    {{ verifyNumberComma(String(item.minrecharge)) }} ~
-                    {{ verifyNumberComma(String(item.maxrecharge)) }}
-                  </template>
-                </div>
-              </div>
-            </n-flex>
-            <div class="item_list_r">
-              <a @click="chooseWay(item)"> {{ t('deposit_page_use') }} </a>
-            </div>
-          </n-flex>
-          <div class="cz_btn">
-            <a @click="goToDeposit"> {{ t('deposit_page_rechargeNow') }} </a>
+        <n-flex align="center" justify="center" class="item_list_l">
+          <div class="bank_icon">
+            <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
+            <a class="wh_icon" @click="onCloseSm(item)"></a>
           </div>
-        </div>
-      </div>
-    </n-card>
-  </n-modal>
+          <div class="bank_txt">
+            <div class="bank_name">
+              {{ t(`api_${item.payname}`) }}
+            </div>
+            <div class="bank_limit">
+              <template v-if="['usdt'].includes(item.payname?.toLowerCase())">
+                {{ verifyNumberComma(String(item.minrecharge * usdtObj.rate)) }}~{{ verifyNumberComma(String(item.maxrecharge * usdtObj.rate)) }}
+              </template>
+              <template v-else>
+                {{ verifyNumberComma(String(item.minrecharge)) }}~{{ verifyNumberComma(String(item.maxrecharge)) }}
+              </template>
+            </div>
+          </div>
+        </n-flex>
+      </n-flex>
+    </n-flex>
+  </div>
+
   <!-- 充值说明 -->
   <n-modal class="deposit_sm_modal" :show="showSmModal" :mask-closable="false">
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -78,103 +65,94 @@
   </n-modal>
 
   <!-- 充值第二步 -->
-  <n-modal class="deposit_sm_modal" :show="showSecModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <!--          <span class="icon_back button"><Imgt src="/img/home/back.webp" alt="" @click="goBackList" /></span>-->
-          <span class="weight_5 t_md">{{ t('deposit_page_deposit') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onCloseSec" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
-        </div>
-        <div class="body vertical center t_md body_sec">
-          <n-form ref="formRef" class="w_full">
-            <n-form-item :label="t('rechargeRecord_page_method')">
-              <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.method" :options="mtdList" />
-            </n-form-item>
-            <n-form-item class="yh-item" :label="t('level_page_code')">
-              <n-select v-model:value="form.discount" :options="dcList" />
-              <!-- 选择优惠后 -->
-              <div v-if="form.discount" class="choose-yh">
-                <div>
-                  {{ curDiscount.ratio > 0 ?
-                    t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
-                  }}
-                  ：{{ verifyNumberComma(String(curDiscount.limit)) }}
-                </div>
-                <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio')
-                  }}：{{ curDiscount.ratio }}%
-                </div>
-                <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
-                <div>{{ t('deposit_page_minimum')
-                  }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}
-                </div>
+  <div class="deposit_second bg_color">
+    <div class="txt_title">{{t('deposit_page_deposit')}}</div>
+    <div class="form_container vertical">
+      <div class="body vertical center t_md body_sec">
+        <n-form ref="formRef" label-placement="left" class="w_full">
+          <n-form-item class="yh-item" :label="t('level_page_code')">
+            <n-select v-model:value="form.discount" :options="dcList" />
+            <!-- 选择优惠后 -->
+            <div v-if="form.discount" class="choose-yh">
+              <div>
+                {{ curDiscount.ratio > 0 ?
+                t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
+                }}
+                ：{{ verifyNumberComma(String(curDiscount.limit)) }}
               </div>
-            </n-form-item>
-            <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" class="yh_item"
-              :label="t('deposit_page_netWork')">
-              <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.network_type"
-                :options="netWorkArr" />
-            </n-form-item>
-            <!-- 银行卡充值独有 -->
-            <n-form-item v-if="curDepositWay.payname?.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
-              <n-flex class="choose-bank">
-                <n-flex align="center" class="choose-bank-l">
-                  <n-flex class="bank_cicon" v-if="chooseBank.value">
-                    <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
-                  </n-flex>
-                  <span class="bank_cname"> {{ chooseBank.label }} </span>
-                </n-flex>
-                <n-button :bordered="false" class="change-btn" @click="showChangeBank">
-                  {{ t('deposit_page_changeWay')
-                  }}
-                </n-button>
-              </n-flex>
-            </n-form-item>
-            <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
-              <n-input @blur="inputBlur" @input="validateInput" size="large" v-model:value="form.amount"
-                :placeholder="t('deposit_page_enterMon')">
-                <template #suffix>
-                  <a @click="form.amount = ''" class="refresh_icon"></a>
-                </template>
-              </n-input>
-              <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between"
-                class="flex usdt_box">
-                <span>USDT: {{ countUsdtMon() }}</span>
-                <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
-                  }}</span>
-              </n-flex>
-              <span v-show="isShowError" style="color: #d03050">{{ t('deposit_page_minDeposit') }}: {{
-                verifyNumberComma(String(countMinMax().min)) }}</span>
-            </n-form-item>
-            <n-flex class="kjje_div">
-              <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
-                :key="index">
-                {{ item.label }}
-              </a>
-            </n-flex>
-          </n-form>
-          <div class="btn_zone flex w_full">
-            <n-button :bordered="false" class="submit_btn  weight_5 center pointer" :disabled="loading" block
-              @click="onSubmit">{{
-                t('deposit_page_rechargeNow') }}
-            </n-button>
-          </div>
-          <div class="cz_tips">
-            <div v-show="form.amount" class="txt">
-              {{ t('deposit_page_arrival') }}：{{ verifyNumberComma(String(arriveAmount), false) }}
-              {{ t('accountsRecord_page_dong') }}
+              <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio')
+                }}：{{ curDiscount.ratio }}%
+              </div>
+              <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
+              <div>{{ t('deposit_page_minimum')
+                }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}
+              </div>
             </div>
-            <n-flex justify="center" class="tip">
-              <span class="icon"></span>
-              <span> {{ t('deposit_page_depositTips') }} </span>
+          </n-form-item>
+          <n-form-item v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" class="yh_item"
+                       :label="t('deposit_page_netWork')">
+            <n-select :placeholder="t('deposit_page_chooseWay')" v-model:value="form.network_type"
+                      :options="netWorkArr" />
+          </n-form-item>
+          <!-- 银行卡充值独有 -->
+          <n-form-item v-if="curDepositWay.payname?.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
+            <n-flex class="choose-bank">
+              <n-flex align="center" class="choose-bank-l">
+                <n-flex class="bank_cicon" v-if="chooseBank.value">
+                  <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
+                </n-flex>
+                <span class="bank_cname"> {{ chooseBank.label }} </span>
+              </n-flex>
+              <n-button :bordered="false" class="change-btn" @click="showChangeBank">
+                {{ t('deposit_page_changeWay')
+                }}
+              </n-button>
             </n-flex>
+          </n-form-item>
+         <n-flex justify="space-between">
+           <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
+             <n-input @blur="inputBlur" @input="validateInput" size="large" v-model:value="form.amount"
+                      :placeholder="t('deposit_page_enterMon')">
+             </n-input>
+           </n-form-item>
+           <n-flex justify="center" align="center" class="button button_color" @click="form.amount = ''">{{t('重置')}}</n-flex>
+         </n-flex>
+          <div class="error_box">
+            <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between"
+                    class="flex usdt_box">
+              <span>USDT: {{ countUsdtMon() }}</span>
+              <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
+                }}</span>
+            </n-flex>
+            <span v-show="isShowError" style="color: #d03050">
+              {{ t('deposit_page_minDeposit') }}: {{verifyNumberComma(String(countMinMax().min)) }}
+            </span>
           </div>
+          <n-flex class="kjje_div">
+            <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+               :key="index">
+              {{ item.label }}
+            </a>
+          </n-flex>
+        </n-form>
+        <div class="btn_zone">
+          <n-flex align="center" justify="center" class="submit_btn weight_5 pointer button_color"
+                    @click="onSubmit">{{t('deposit_page_rechargeNow') }}
+          </n-flex>
+        </div>
+        <div class="cz_tips">
+          <div v-show="form.amount" class="txt">
+            {{ t('deposit_page_arrival') }}：{{ verifyNumberComma(String(arriveAmount), false) }}
+            {{ t('accountsRecord_page_dong') }}
+          </div>
+          <n-flex justify="center" align="center" class="tip">
+            <span class="icon"></span>
+            <span> {{ t('deposit_page_depositTips') }} </span>
+          </n-flex>
         </div>
       </div>
-    </n-card>
-  </n-modal>
+    </div>
+  </div>
 
   <!-- 交易所列表 -->
   <n-modal class="deposit_sm_modal" :show="showModal" :mask-closable="false">
@@ -213,7 +191,7 @@ import { TShopInfo } from '@/utils/types';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
-// import Deposit from '@/views/wallet/components/Deposit.vue';
+import navTab from '../components/navTab.vue';
 import { Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType, removeComma, verifyNumberComma } from '@/utils/others';
 import Imgt from '@/components/Imgt.vue';
@@ -285,10 +263,6 @@ const chooseMoneyArr = [
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 const bankAllList = ref([]); // 充值银行选择列表
 
-// const minDepositObj = ref({
-//   show: false,
-//   mon: 0, // 最低充值金额
-// });
 const netWorkArr = [
   { label: t('deposit_page_chooseNetWork'), value: 0 },
   { label: 'TRC20', value: 1 },
@@ -445,9 +419,7 @@ const openModal = () => {
   showMyModal.value = !showMyModal.value;
   // getShopInfo();
 };
-const onClose = () => {
-  showMyModal.value = false;
-};
+
 const onCloseSm = (data: any) => {
   curWay.value = data;
   Local.set('curExplainWay', data);
@@ -457,19 +429,6 @@ const onCloseSec = () => {
   showSecModal.value = !showSecModal.value;
 };
 
-// 去充值
-const goToDeposit = () => {
-  if (!curDepositWay.value?.payname) {
-    return Message.error(t('method_error'));
-  }
-  onClose();
-  showSecModal.value = true;
-};
-// 返回充值列表
-// const goBackList = () => {
-//   showMyModal.value = true;
-//   showSecModal.value = false;
-// }
 // 选择充值方式
 const chooseWay = (data: any) => {
   form.value.method = data.paymenttype;
@@ -517,7 +476,7 @@ const onSubmit = () => {
   if (form.value.discount && numMon < curDiscount.value.threshold) {
     return Message.error(t('deposit_page_min_discount', { minDis: verifyNumberComma(String(curDiscount.value.threshold)) }))
   }
-  // minDepositObj.value.show = false;
+
   loading.value = true;
   handleSubmit();
 };
@@ -665,26 +624,31 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import '@/assets/CommonForm.less';
+//@import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
-
-.deposit_modal {
-  font-size: 16px;
-  width: 650px !important;
-
+.txt_title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.list_box {
+  padding: 40px;
   .body {
-    gap: 15px !important;
+    gap: 14px !important;
 
     .item_list {
+      cursor: pointer;
       position: relative;
-      width: 536px;
-      height: 96px;
-      padding: 0 17px 10px;
-      background: url('/img/payment/listBg.webp?t=@{timestamp}') center no-repeat;
-      background-size: 100%;
+      width: 192px;
+      height: 140px;
+      padding: 12px;
+      background: rgba(33, 36, 67, 1);
+      border: 1px solid rgba(38, 41, 76, 1);
+      border-radius: 16px;
 
       &.active {
-        background-image: url('/img/payment/listBg_active.webp?t=@{timestamp}');
+        background: url('/img/payment/listBg_active.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
       }
 
       &.wh_item {
@@ -712,60 +676,143 @@ defineExpose({
       .item_list_l {
 
         .bank_icon {
+          position: relative;
+          width: 100%;
+          text-align: center;
           img {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
+          }
+          .wh_icon {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            right: 0;
+            background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
+            background-size: 100%;
           }
         }
 
         .bank_txt {
-          padding-top: 3px;
-
-          .bank_name {
-            .wh_icon {
-              width: 16px;
-              height: 16px;
-              background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
-              background-size: 100%;
-            }
-          }
-
-          .bank_limit {
-            margin-top: 13px;
-            color: #fabb2d;
-          }
-        }
-      }
-
-      .item_list_r {
-        a {
-          display: inline-block;
           text-align: center;
-          width: 90px;
-          height: 36px;
-          line-height: 36px;
-          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
-          background-size: 100%;
+          font-size: 16px;
+          .bank_limit {
+            margin-top: 6px;
+            color: rgba(250, 201, 5, 1);
+          }
         }
       }
-
+    }
+  }
+}
+.deposit_second {
+  padding: 40px;
+  margin: 20px 0;
+  :deep(.n-form-item) {
+    .n-form-item-label {
+      min-width: 150px;
+      text-align: left;
+      color: rgba(174, 174, 176, 1);
+    }
+  }
+  .kjje_div {
+    gap: 20px !important;
+    .kj_item {
+      width: 120px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      font-weight: 700;
+      border-radius: 8px;
+      background: rgba(31, 38, 77, 1);
+    }
+  }
+  .btn_zone {
+    margin: 60px auto 20px;
+    .submit_btn {
+      width: 330px;
+      height: 40px;
+    }
+  }
+  .cz_tips {
+    font-size: 14px;
+    text-align: center;
+    color: rgba(229, 74, 69, 1);
+    .txt {
+      color: rgba(69, 229, 123, 1);
+      margin-bottom: 6px;
     }
 
-    .cz_btn {
-      a {
-        font-size: 18px;
-        display: block;
-        width: 382px;
-        height: 54px;
-        line-height: 52px;
-        text-align: center;
-        margin: 20px auto 0;
-        background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
+    .tip {
+      gap: 8px !important;
+
+      .icon {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
+      }
+    }
+  }
+  .body_sec {
+    ::v-deep(.n-form-item-blank) {
+      display: block;
+    }
+
+    .money_input {
+      :deep(.n-form-item-blank) {
+        width: 725px;
+      }
+      :deep(.n-input-number) {
+        width: 100%;
+
+        .n-input {
+          .n-input__input-el {
+            height: 100%;
+          }
+        }
+      }
+    }
+
+    .yh-item {
+      .choose-yh {
+        font-size: 16px;
+        color: #8e82c2;
+        height: 178px;
+        padding: 17px;
+        background: url('/img/payment/yh_bg.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
+
+        >div {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .choose-bank {
+      gap: 10px !important;
+    }
+    .error_box {
+      margin-bottom: 20px;
+      padding-left: 150px;
+      .usdt_box {
+        width: 100%;
+        font-size: 16px;
+        .button {
+          text-decoration: underline;
+          //color: #5971FF;
+          background-image: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+          color: #9E1EFF; // 兜底颜色，防止文字裁剪不生效
+          background-clip: text;
+          -webkit-background-clip: text; // 背景被裁减为文字的前景色
+          -webkit-text-fill-color: transparent; // 文字填充为透明，优先级比color高。
+        }
       }
     }
 
   }
+
 }
 
 .deposit_sm_modal {
@@ -803,107 +850,6 @@ defineExpose({
         }
       }
     }
-  }
-
-  .body_sec {
-    .refresh_icon {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      background: url('/img/payment/Vector.webp?t=@{timestamp}') center no-repeat;
-      background-size: 100%;
-    }
-
-    .money_input {
-      ::v-deep(.n-input-number) {
-        width: 100%;
-
-        .n-input {
-          .n-input__input-el {
-            height: 100%;
-          }
-
-          .n-input__suffix {
-            button {
-              display: none;
-            }
-          }
-        }
-      }
-    }
-
-    .kjje_div {
-      gap: 20px !important;
-
-      .kj_item {
-        width: 110px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-    }
-
-    .btn_zone {
-      margin: 10px auto;
-    }
-
-    .cz_tips {
-      font-size: 12px;
-      text-align: center;
-      color: #D16363;
-
-      .txt {
-        color: #60D580;
-        margin-bottom: 10px;
-      }
-
-      .tip {
-        gap: 4px !important;
-
-        .icon {
-          display: inline-block;
-          width: 12px;
-          height: 12px;
-          background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
-          background-size: 100%;
-        }
-      }
-    }
-
-    .yh-item {
-      ::v-deep(.n-form-item-blank) {
-        display: block;
-      }
-
-      .choose-yh {
-        font-size: 16px;
-        color: #8e82c2;
-        height: 178px;
-        padding: 17px;
-        background: url('/img/payment/yh_bg.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-
-        >div {
-          margin-bottom: 10px;
-        }
-      }
-    }
-
-    .choose-bank {
-      gap: 10px !important;
-    }
-
-    .usdt_box {
-      width: 100%;
-
-      .button {
-        text-decoration: underline;
-        color: #5971FF;
-      }
-    }
-
   }
 
   .exchange_list {

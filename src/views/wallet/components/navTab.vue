@@ -1,5 +1,5 @@
 <template>
-  <n-flex align="center" class="nav_box">
+  <n-flex align="center" class="nav_box bg_color">
     <n-flex align="center" class="nav_l">
       <span>{{title}}</span>
       <n-flex align="center" class="nav_icon" v-if="showIcon">
@@ -62,9 +62,7 @@ const clickShow = () => {
   margin-bottom: 20px;
   width: 1100px;
   height: 68px;
-  background: rgba(20, 23, 58, 1);
-  border-radius: 16px;
-  border: 1px solid rgba(38, 41, 76, 1);
+
   .nav_l {
     .nav_icon {
       gap: 16px !important;

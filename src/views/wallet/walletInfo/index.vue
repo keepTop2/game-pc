@@ -1,13 +1,13 @@
 <template>
-  <depositFirst ref="depositFirModal" @haveBankList="haveBankList" />
-  <Withdraw v-if="showWithdraw" :myBankList="myBankList" />
+<!--  <depositFirst ref="depositFirModal" @haveBankList="haveBankList" />-->
+<!--  <Withdraw v-if="showWithdraw" :myBankList="myBankList" />-->
   <RedeemCode v-if="showRedeemCode" />
 
   <!--  提款校验-->
   <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList" />
 
   <!-- 提款 -->
-  <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />
+<!--  <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />-->
 
   <!-- 导航 -->
   <navTab :title="t('钱包')" :showIcon="true"
@@ -16,88 +16,8 @@
           @moneyShow="moneyShow"
   />
   <n-spin :show="loading">
-<!--    <n-flex vertical>
-      <div class="process">
-        <div class="userInfo">
-          <div class="usrProfile">
-            <Imgt @click="showAvSetting" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar"
-              alt="" title="点击设置"/>
-            <div class="userName">
-              <p class="size1">{{ userInfo.full_name || userInfo.real_name || roleInfo.nickname }}</p>
-              <div class="mount">
-                <div class="flex">
-                  <p class="size2">{{ totalMoneyTxt }}</p>
-                  <Imgt :class="`pointer ${refreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
-                    @click="refreshWallet" />
-                  <Imgt v-if="!eyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt=""
-                    @click="moneyShow" />
-                  <Imgt v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="moneyShow" />
-                </div>
-                &lt;!&ndash; <n-dropdown trigger="click" :options="currencyList" @select="handleCurrencyChange">
-                                    <n-button>
-                                        <div class="usdBtn" block>
-                                            <Imgt src="/img/payment/T.webp" class="T" />
-                                            <p class="size4">{{ currencyList.filter((cur) => cur.key ===
-                                                currencyUnit)[0].label }}</p>
-                                            <Imgt src="/img/payment/down.webp" class="down" />
-                                        </div>
-                                    </n-button>
-                                </n-dropdown>&ndash;&gt;
-              </div>
-            </div>
-          </div>
-          <n-flex justify="space-around" class="transaction">
-            <div class="button" block @click="openDepositFir">
-              <p class="size2"> {{ t('deposit_page_deposit') }} </p>
-            </div>
-            &lt;!&ndash;            <div class="button" block @click="goToWithdraw">&ndash;&gt;
-            &lt;!&ndash;              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>&ndash;&gt;
-            &lt;!&ndash;            </div>&ndash;&gt;
-            <div class="button" block @click="goCalibration">
-              <p class="size2"> {{ t('walletInfo_page_withdraw') }} </p>
-            </div>
-
-            <div class="button" block @click="() => showRedeemCodeModal(true)">
-              <p class="size2"> {{ t('walletInfo_page_code') }} </p>
-            </div>
-          </n-flex>
-        </div>
-        <div class="vip">
-          <div class="vip1">
-            <p class="size3">VIP{{ Number(VIPinfo.current_vip_level) }}</p>
-            <Imgt src="/img/payment/king.webp" class="king" />
-          </div>
-          <div class="vip1">
-            <p class="size3">VIP{{ Number(VIPinfo.current_vip_level) + 1 || 1 }}</p>
-            <Imgt src="/img/payment/king.webp" class="king" />
-          </div>
-        </div>
-        <n-progress class="processBar" type="line" :color="themeVars.warningColor" :percentage="target.progress"
-          :show-indicator="false" :indicator-text-color="themeVars.warningColor" />
-        <div class="processFooter">
-          <p class="size3">{{ t('level_page_needBet') + ': ' + verifyNumberComma(String(target.bet_money)) }}</p>
-          &lt;!&ndash;<p class="size3"><a @click="openLevelRule"><u>{{ t('walletInfo_page_rule') }}</u></a></p>&ndash;&gt;
-        </div>
-      </div>
-    </n-flex>-->
-    <!--        <n-flex vertical>
-            <span class="title size1">{{ t('walletInfo_page_wallet') }}</span>
-            <n-flex justify="space-between" class="info_data">
-                <n-flex vertical justify="space-around">
-                    <div class="total_account">
-                        <span class="size2 gray">{{ t('walletInfo_page_totalA') }}</span>
-                        <span class="size2">{{ gameMoney }}</span>
-                    </div>
-                    <div class="central_wallet">
-                        <span class="size2 gray">{{ t(EAllWallets.center) }}</span>
-                        <span class="size2">{{ bankMoney }}</span>
-                    </div>
-                </n-flex>
-
-            </n-flex>
-        </n-flex>-->
     <n-flex vertical class="venue_wallet">
-      <n-flex vertical class="game_wallet">
+      <n-flex vertical class="game_wallet bg_color">
         <n-flex justify="space-between" align="center" class="game_wallet_top">
           <div class="top_left">
             <div class="top_mon_box">
@@ -135,7 +55,11 @@
         <div class="money-all-div">
           <n-flex justify="space-between" class="money_input">
             <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
-              :placeholder="t('walletInfo_page_tranferTxt')" clearable />
+                     :placeholder="t('walletInfo_page_tranferTxt')" >
+              <template #suffix>
+                <a @click="tranMoney = ''" class="refresh_icon"></a>
+              </template>
+            </n-input>
 
             <n-flex class="kjje_div">
               <a :class="`kj_item ${tranMoney === item.value ? 'active' : ''}`" v-for="(item, index) in chooseMoneyArr"
@@ -200,11 +124,11 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { ref, onMounted, onUnmounted } from 'vue';
 import useWalletInfo from './useWalletInfo';
-import Withdraw from '@/views/wallet/components/Withdraw.vue';
-import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
+// import Withdraw from '@/views/wallet/components/Withdraw.vue';
+// import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
-import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
+// import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
 
 import navTab from '../components/navTab.vue';
 // import { Message } from "@/utils/discreteApi.ts";
@@ -226,7 +150,7 @@ const route = useRoute();
 // const levelRule = defineAsyncComponent(() => import('@/views/level/rules.vue'));
 // const levelModal = ref();
 const depositFirModal = ref();
-const haveBank = ref(false);
+// const haveBank = ref(false);
 
 
 // 打开充值第一个弹窗
@@ -236,9 +160,9 @@ const haveBank = ref(false);
 //   }
 //   depositFirModal.value.openModal();
 // }
-const haveBankList = (e: any) => {
-  haveBank.value = e
-}
+// const haveBankList = (e: any) => {
+//   haveBank.value = e
+// }
 
 const withdrawMoneyShow = ref(false)
 
@@ -287,7 +211,7 @@ const {
   // showRedeemCodeModal,
   // showTransferModal,
   // showDeposit,
-  showWithdraw,
+  // showWithdraw,
   showRedeemCode,
   // showTransfer,
   // roleInfo,
@@ -314,7 +238,7 @@ const {
   slideValue,
   chooseFastMon,
   calibrationRef,
-  withdrawMoneyRef,
+  // withdrawMoneyRef,
   countMonRate,
   inputBlur,
 } = useWalletInfo()
