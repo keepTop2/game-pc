@@ -101,7 +101,7 @@ const state: any = reactive({
   slider: true,
 })
 
-// 主题色切换
+// 主题色切换1
 const changeTheme = (value: any) => {
 
   console.log(value)
