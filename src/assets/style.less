@@ -6,6 +6,7 @@
 }
 
 input {
+
   &:-webkit-autofill,
   textarea:-webkit-autofill,
   select:-webkit-autofill {
@@ -63,7 +64,21 @@ input {
   }
 }
 
+.n-base-selection {
+  border-radius: 8px;
+
+  .n-base-selection-label {
+    height: 40px;
+    background: rgba(33, 36, 67, 1) !important;
+  }
+
+  .n-base-selection__border {
+    border-color: rgba(38, 41, 76, 1) !important;
+  }
+}
+
 .n-input {
+  height: 40px;
   background: rgba(33, 36, 67, 1);
   border-radius: 8px;
 
@@ -74,10 +89,13 @@ input {
   .n-input__border {
     border: 0;
   }
+
   .n-input__input-el,
   .n-input__placeholder,
   .n-input__placeholder span {
     font-size: 14px;
+    height: 40px;
+    line-height: 40px;
   }
 
   .n-input__suffix {
@@ -95,7 +113,7 @@ input {
   }
 }
 
-.n-base-clear > .n-base-clear__clear {
+.n-base-clear>.n-base-clear__clear {
   height: auto;
 }
 
@@ -131,8 +149,7 @@ input {
   }
 }
 
-.n-base-selection:not(.n-base-selection--disabled).n-base-selection--active
-  .n-base-selection-label {
+.n-base-selection:not(.n-base-selection--disabled).n-base-selection--active .n-base-selection-label {
   background: #372771;
 }
 
@@ -229,7 +246,7 @@ input {
       align-items: center;
       cursor: pointer;
 
-      > b {
+      >b {
         display: inline-block;
         vertical-align: middle;
         width: 13px;
@@ -282,7 +299,7 @@ input {
     height: 608px;
   }
 
-  > span {
+  >span {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -318,7 +335,7 @@ input {
     background-color: #372771;
     font-size: 16px;
 
-    > span {
+    >span {
       display: inline-block;
       height: 40px;
       text-align: center;
@@ -351,8 +368,7 @@ input {
   color: #fff;
   background-size: 100% 100%;
   cursor: pointer;
-  border-image: url('/img/login/login.webp?t=@{timestamp}') 0 15 0 15 fill / 0px
-    15px stretch stretch !important;
+  border-image: url('/img/login/login.webp?t=@{timestamp}') 0 15 0 15 fill / 0px 15px stretch stretch !important;
   box-shadow: 0 2px 4px 0 #241760;
   border-radius: 12px !important;
 }
@@ -483,6 +499,7 @@ input {
   border-radius: 8px;
   text-align: center;
   background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+
   .n-button__border {
     border: none;
   }

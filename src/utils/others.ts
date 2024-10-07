@@ -120,6 +120,7 @@ export const getFastestUrl = (): Promise<string> => {
         // let localUrl = StorageMgr.instance.get(this.fastestUrlKey);
         // if (localUrl) {
         // }
+
         // function httpToWs(httpUrl: string) {
         //     if (httpUrl.startsWith("https://")) {
         //         return "wss://" + httpUrl.substr(8);
