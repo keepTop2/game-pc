@@ -49,11 +49,12 @@
       </n-modal>
       <!-- 注册 -->
       <n-modal :show="isReg" :mask-closable="false">
-        <div class="login_from_box">
+        <div class="change_card1">
           <Register v-if="isReg" />
         </div>
       </n-modal>
-
+      <!-- 忘记密码 -->
+      <RegPop></RegPop>
     </div>
   </header>
 </template>
@@ -83,7 +84,7 @@ import Imgt from '@/components/Imgt.vue';
 
 const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
 const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
-
+const RegPop = defineAsyncComponent(() => import('@/components/RegPop.vue'));
 
 const { t } = useI18n()
 const page = Page(pinia);
@@ -642,9 +643,9 @@ onUnmounted(() => {
 }
 
 .change_card1 {
-  width: 850px;
-  min-height: 415px;
-  background-color: #231353;
+  border-radius: 16px;
+  border: 1px solid #26294C;
+  background-color: #14173A;
 }
 
 .change_card {
@@ -656,14 +657,7 @@ onUnmounted(() => {
   background-color: #231353;
 }
 
-.login_from_box {
-  display: block;
-  width: 524px;
-  min-height: 415px;
-  background-color: #231353;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-}
+
 
 .community_box {
 

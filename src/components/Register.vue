@@ -1,49 +1,57 @@
 <template>
-  <div class="forget_title">
-    <span class="title">{{ t('home_page_signUp') }}</span>
-    <i class="close pointer">
-      <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
-    </i>
-  </div>
-  <div class="login_form">
-    <div class="tab">
+  <div class="login_from_box">
+    <!-- <span class="title">{{ t('home_page_signUp') }}</span> -->
+    <Imgt src="/img/login/silder.webp" alt="" />
+    <span class="close">
+      <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.4rem"></iconpark-icon>
+    </span>
+    <div class="login_form">
+      <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
+        <n-tab-pane :name="value" :tab="t(name)" v-for="({ name, value }) in tabList" :key="value"> </n-tab-pane>
+      </n-tabs>
+      <!-- <div class="tab">
       <span :class="activeTab === value ? 'pointer active' : 'pointer'" v-for="({ name, value }) in tabList"
         :key="value" @click="changeTab(value)">{{ name }}</span>
-    </div>
-    <n-form :model="state.register" :rules="state.registerRules" :show-label="false" ref="registerFormRef">
-      <template v-for="item in state.registerList">
-        <n-form-item first v-if="!item.view || activeTab === item.view" :path="item.name">
-          <n-select :placeholder="t('home_page_chooseHb')" v-if="item.hasPop" v-model:value="state.register.currency"
-            :options="state.currencyList">
-          </n-select>
+    </div> -->
+      <n-form :model="state.register" :rules="state.registerRules" :show-label="false" ref="registerFormRef">
+        <template v-for="item in state.registerList">
+          <n-form-item first v-if="!item.view || activeTab === item.view" :path="item.name">
+            <n-select :placeholder="t('home_page_chooseHb')" v-if="item.hasPop" v-model:value="state.register.currency"
+              :options="state.currencyList">
+            </n-select>
 
-          <n-input @change="changeIpt(item.name)" v-if="!item.hasPop" clearable @keyup.enter="handleSubmit"
-            :type="item.type" size="large" v-model:value="state.register[item.name]" :placeholder="item.placeholder">
-            <template #suffix v-if="item.changeRightIcon">
-              <iconpark-icon @click="iconClick(item)" :icon-id="item.changeRightIcon" color="#8e82c2"
-                size="1rem"></iconpark-icon>
-            </template>
-          </n-input>
-          <template v-if="item.name === 'captcha'">
-            <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
+            <n-input @change="changeIpt(item.name)" v-if="!item.hasPop" clearable @keyup.enter="handleSubmit"
+              :type="item.type" size="large" v-model:value="state.register[item.name]" :placeholder="item.placeholder">
+              <template #suffix v-if="item.changeRightIcon">
+                <iconpark-icon @click="iconClick(item)" :icon-id="item.changeRightIcon" color="#8e82c2"
+                  size="1rem"></iconpark-icon>
+              </template>
+            </n-input>
+            <template v-if="item.name === 'captcha'">
+              <!-- <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
               <Imgt :src="captchaURL" alt="captchaURL" />
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
-            </span>
-            <span v-if="activeTab === 2">
-              <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest" class="captcha_btn login_btn"
-                :disabled="item.disabled">{{ emailLoadingCount ? emailLoadingCount : t('home_page_getcode')
-                }}</n-button>
-            </span>
-          </template>
-        </n-form-item>
-      </template>
-    </n-form>
-    <n-button :bordered="false" class="submit_btn pointer" :loading="loading" block @click="onSubmit">{{
-      t('home_page_reg')
-    }}</n-button>
+            </span> -->
+              <Imgt v-if="activeTab === 1 && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha"
+                @click="refresh_captcha" />
+              <iconpark-icon v-if="activeTab === 1 && item.name == 'captcha'" icon-id="Group39366" class="refresh"
+                color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
+              <span v-if="activeTab === 2">
+                <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest"
+                  class="captcha_btn login_btn" :disabled="item.disabled">{{ emailLoadingCount ? emailLoadingCount :
+                    t('home_page_getcode')
+                  }}</n-button>
+              </span>
+            </template>
+          </n-form-item>
+        </template>
+      </n-form>
+      <n-button :bordered="false" class="login_btn" :loading="loading" block @click="onSubmit">{{
+        t('home_page_reg')
+        }}</n-button>
+    </div>
+
   </div>
-
-
 
 </template>
 
@@ -426,84 +434,6 @@ onUnmounted(() => {
 
 <style lang="less" scoped>
 @timestamp: `new Date().getTime()`;
-
-.login_form {
-  padding: 40px 60px;
-
-  .tab {
-    width: 100%;
-    display: flex;
-
-    >span {
-      flex: 1;
-      font-size: 16px;
-      text-align: center;
-      border-radius: 12px;
-      box-shadow: inset 0 0 2px 0 #1e153e;
-      background-color: #372771;
-    }
-  }
-
-  .submit_btn {
-    height: 45px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: #ebefff;
-    border: 1px solid linear-gradient(to bottom, #82caff -100%, #646cff, #9266ff);
-    border-image-slice: 1;
-    border-radius: 16px;
-    background-image: url('/img/login/login.webp?t=@{timestamp}');
-    background-size: cover;
-  }
-
-  // }
-}
-
-.forget_title {
-  margin: 0;
-  width: 100%;
-  position: relative;
-  height: 50px;
-  line-height: 50px;
-  font-size: 16px;
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-
-  >i {
-    position: absolute;
-    top: 18px;
-    right: 15px;
-    background: none;
-  }
-}
-
-.btn {
-  width: 130px;
-  height: 40px;
-  box-sizing: border-box;
-  border-radius: 10px;
-  border: 1px solid #322c59;
-  background-color: #131421;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  vertical-align: middle;
-  margin-left: 9px;
-
-  img {
-    width: 55px;
-    height: 22px;
-    vertical-align: middle;
-  }
-}
 
 .captcha_btn {
   width: 100px;
