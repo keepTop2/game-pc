@@ -55,10 +55,17 @@ const { t } = useI18n();
 const themeOverrides: GlobalThemeOverrides = {
 
   common: {
-    textColor1: '#8d81c1',
+    // textColor1: '#8d81c1',
     primaryColor: '#5A47B2',
     primaryColorHover: '#000',
     borderRadius: '12px',
+  },
+  Tabs:{
+    tabTextColorLine:'#fff',
+    tabTextColorActiveLine:'#fff',
+    tabTextColorHoverLine:'#AEAEB0',
+    tabBorderColor:'#212443'
+   
   },
   Button: {
     textColor: '#5A47B2',
@@ -68,11 +75,11 @@ const themeOverrides: GlobalThemeOverrides = {
     paddingMedium: 0
   },
   Input: {
-    color: '#1d0e4a',
+    color: '#212443',
     border: '1px solid #5A47B2',
     borderRadius: '12px',
-    colorFocusError: '#1d0e4a',
-    colorFocus: '#1d0e4a',
+    colorFocusError: '#212443',
+    colorFocus: '#212443',
     textColor: '#fff',
     placeholderColor: '#8e82c2',
 
@@ -266,6 +273,7 @@ onMounted(async () => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: radial-gradient(circle at 50% 4%, var(--bg-f-color), var(--bg-t-color) 66%);
+  background: url(/img/home/bg.webp) ;
+  background-size: 5%;
 }
 </style>

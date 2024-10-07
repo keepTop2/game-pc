@@ -3,7 +3,7 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main_setting">
       <h4 class="top_title">
-        <span>禁言</span>
+        <span>{{ t('chat_page_mute') }}</span>
         <i>
           <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
@@ -12,16 +12,17 @@
         <n-radio-group v-model:value="choose" name="radiogroup">
           <n-radio v-for="(item, index) in list" :key="item.id" :value="item.id">
             <div class="radio_item">
-              <span class="label">{{ item.label }}</span>
-              <n-input v-model:value="list[index].day" placeholder="" style="width:85%"
-                :allow-input="onlyAllowNumber" />
-              <span>天</span>
+              <span class="label">{{t( item.label )}}</span>
+              <n-input-number v-model:value="list[index].day" :min="0.1" :max="99"  :show-button="false"
+                style="width:85%"   />
+
+              <span>{{ t('chat_page_day') }}</span>
             </div>
           </n-radio>
         </n-radio-group>
         <div class="btn_group">
-          <div class="btn_close" @click="isShow = false">取消</div>
-          <div class="btn_save" @click="saveClick">{{t('chat_page_save')}}</div>
+          <div class="btn_close" @click="isShow = false">{{  t('home_page_cancel')  }}</div>
+          <div class="btn_save" @click="saveClick">{{ t('chat_page_save') }}</div>
         </div>
       </div>
     </div>
@@ -48,14 +49,14 @@ const props = defineProps({
     default: () => ({}),
   }
 });
-const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
+
 const { encodeInput, encodeParams }: any = usechatHooks(props.stateData)
 
 const list = ref([
-  { label: '禁言用户', id: 1, day: '' },
-  { label: '封锁用户', id: 2, day: '' },
-  { label: '禁言IP', id: 3, day: '' },
-  { label: '封锁IP', id: 4, day: '' },
+  { label: 'chat_page_ban_user', id: 1, day: '' },
+  { label: 'chat_page_block_user', id: 2, day: '' },
+  { label: 'chat_page_ban_ip', id: 3, day: '' },
+  { label: 'chat_page_block_ip', id: 4, day: '' },
 ])
 const choose = ref()
 const emit = defineEmits(['update:visible']);
@@ -77,19 +78,25 @@ const saveClick = () => {
   //   int32 days = 4; // 天数
   // }
 
+  const state = props.stateData
+  if (!state.userData?.id) {
+    Message.error('请先选择用户')
+    return
+  }
+
   if (!choose.value) {
     Message.error('请先选择')
     return
   }
-  const state = props.stateData
   const requestid = state.requestid;
   const type = 25; //
   var payload = {
     deviceid: state.deviceID,
     id: state.userData.id,
-    days: list.value[choose.value - 1].day,
+    days: Number(list.value[choose.value - 1]?.day),
     mtype: choose.value
   }
+
   const actionType = choose.value < 3 ? 'MuteReq' : 'ForbidReq'
   const decodedata = encodeParams(payload, actionType)
   const encodedRequest = encodeInput(type, requestid, decodedata);

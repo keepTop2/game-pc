@@ -73,13 +73,19 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'levelRule' },
         component: () => import('@/views/level/rules.vue'),
       },
-    ],
-  },
-  {
-    path: '/openGame',
-    name: 'openGame',
-    meta: { title: 'openGame' },
-    component: () => import('@/views/openGame/index.vue'),
+      {
+        path: 'club/:openType',
+        name: 'club',
+        meta: { title: 'home_page_club' },
+        component: () => import('@/views/club/newClub.vue'),
+      },
+      {
+        path: 'club/next',
+        name: 'clubNext',
+        meta: { title: 'home_page_club' },
+        component: () => import('@/views/club/clubNext.vue'),
+      },
+    ]
   },
   // {
   //   path: '/proxy',
