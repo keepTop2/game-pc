@@ -168,7 +168,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'myPromo',
         name: 'myPromo',
-        meta: { title: '我的优惠' },
+        meta: { title: 'deposit_page_discount' },
         component: () => import('@/views/wallet/promo/index.vue'),
       },
       {

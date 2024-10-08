@@ -2,6 +2,8 @@
     <div class="payment">
         <Sidebar />
         <n-flex vertical class="main">
+          <!-- 导航 -->
+          <navTab v-if="!['/wallet/walletInfo'].includes(route.path)" :title="t(`${route.meta.title}`)" />
 <!--            <div class="head">
                 <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />
                 <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>
@@ -16,12 +18,13 @@
 // import { storeToRefs } from 'pinia';
 // import { Page } from '@/store/page';
 import Sidebar from '@/views/wallet/Sidebar.vue'
+import navTab from './components/navTab.vue';
 // const page = Page(pinia);
 // const { menuName } = storeToRefs(page);
-// import { useI18n } from "vue-i18n";
-// import { useRouter } from 'vue-router';
-// const { t } = useI18n()
-// const router = useRouter()
+import { useI18n } from "vue-i18n";
+import { useRoute } from 'vue-router';
+const { t } = useI18n()
+const route = useRoute()
 
 </script>
 

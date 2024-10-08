@@ -1,6 +1,5 @@
 <template>
-  <!-- 导航 -->
-  <navTab :title="t('deposit_page_deposit')" />
+
   <div class="list_box bg_color">
     <div class="txt_title">{{t('rechargeRecord_page_method')}}</div>
     <n-flex class="body vertical center t_md">
@@ -191,7 +190,6 @@ import { TShopInfo } from '@/utils/types';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
-import navTab from '../components/navTab.vue';
 import { Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType, removeComma, verifyNumberComma } from '@/utils/others';
 import Imgt from '@/components/Imgt.vue';
