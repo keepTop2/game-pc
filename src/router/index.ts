@@ -64,12 +64,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/gameMain/proxyIntroduction/index.vue'),
       },
       {
-        path: 'levelInfo',
-        name: 'levelInfo',
-        meta: { title: 'levelInfo' },
-        component: () => import('@/views/level/levelInfo.vue'),
-      },
-      {
         path: 'levelRule',
         name: 'levelRule',
         meta: { title: 'levelRule' },
@@ -194,6 +188,12 @@ const routes: RouteRecordRaw[] = [
         name: 'withdraw',
         meta: { title: 'proxy_page_withDraw' },
         component: () => import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
+      },
+      {
+        path: 'levelInfo',
+        name: 'levelInfo',
+        meta: { title: 'VIP特权' },
+        component: () => import('@/views/level/levelInfo.vue'),
       },
     ]
   },

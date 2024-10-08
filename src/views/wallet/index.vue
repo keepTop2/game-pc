@@ -3,7 +3,7 @@
         <Sidebar />
         <n-flex vertical class="main">
           <!-- 导航 -->
-          <navTab v-if="!['/wallet/walletInfo'].includes(route.path)" :title="t(`${route.meta.title}`)" />
+          <navTab v-if="!['/wallet/walletInfo', '/wallet/levelInfo'].includes(route.path)" :title="t(`${route.meta.title}`)" />
 <!--            <div class="head">
                 <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />
                 <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>

@@ -79,7 +79,7 @@ const state: any = reactive({
     {
       icon: 'txxlicon04',
       name: 'VIP',
-      url: 'vip',
+      url: 'levelInfo',
     },
     {
       icon: 'txxlicon05',
