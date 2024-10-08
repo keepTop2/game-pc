@@ -1,5 +1,5 @@
 @import './global.less';
-@timestamp: `new Date().getTime()`;
+@timestamp: `new Date() .getTime() `;
 
 ::-webkit-scrollbar {
   display: none;
@@ -17,7 +17,6 @@ input {
     transition: background-color 50000s ease-in-out 0s;
   }
 }
-
 
 .n-button--primary-type {
   box-shadow: 0 2px 4px 0 #220e55;
@@ -63,8 +62,19 @@ input {
     color: #c3c3c3;
     font-size: 14px;
   }
+}
 
+.n-base-selection {
+  border-radius: 8px;
 
+  .n-base-selection-label {
+    height: 40px;
+    background: rgba(33, 36, 67, 1) !important;
+  }
+
+  .n-base-selection__border {
+    border-color: rgba(38, 41, 76, 1) !important;
+  }
 }
 .n-base-selection {
   border-radius: 8px;
@@ -117,8 +127,7 @@ input {
 }
 
 .n-popover:not(.n-popover--raw) {
-
-  background: rgba(17, 13, 78, .9)
+  background: rgba(17, 13, 78, 0.9);
 }
 
 .n-base-selection {
@@ -217,10 +226,6 @@ input {
     height: auto;
   }
 
-
-
-
-
   .code_box {
     width: 94px;
     height: 40px;
@@ -257,7 +262,7 @@ input {
         height: 13px;
         background-color: #fff;
         border: 1px solid #3d3d3d;
-        margin-right: 2px
+        margin-right: 2px;
       }
 
       .checkbox_click {
@@ -266,9 +271,7 @@ input {
       }
     }
 
-
     .forgot {
-
       display: flex;
       justify-content: space-between;
     }
@@ -296,19 +299,9 @@ input {
     &:hover {
       transform: scale(1.05);
     }
-
   }
 
-  .login_btn {
-    height: 52px;
-    font-size: 18px;
-    color: #fff;
-    border-radius: 8px;
-    background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-    box-shadow: 0.5px 0.5px 1px 0px #9B9EFF inset;
 
-    cursor: pointer;
-  }
 
   >img {
     width: 329px;
@@ -369,6 +362,15 @@ input {
   }
 }
 
+.login_btn {
+  height: 52px;
+  font-size: 18px;
+  color: #fff;
+  background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+  box-shadow: 0.5px 0.5px 1px 0px #9B9EFF inset;
+  cursor: pointer;
+}
+
 .btn_block {
   height: 52px;
   font-size: 18px;
@@ -379,7 +381,6 @@ input {
   box-shadow: 0 2px 4px 0 #241760;
   border-radius: 12px !important;
 }
-
 
 .btn {
   width: 130px;
@@ -410,7 +411,6 @@ input {
   padding: 0;
 
   .n-dialog__title {
-
     // height: 50px;
     color: #fff;
     display: block;
@@ -446,7 +446,6 @@ input {
     justify-content: center;
     padding-bottom: 20px;
 
-
     .n-button {
       color: #fff;
       font-size: 18px;
@@ -464,7 +463,6 @@ input {
     }
 
     .n-button--default-type {
-
       background: url('/img/dialog/unclick.webp?t=@{timestamp}') no-repeat;
       background-size: cover;
     }
@@ -478,7 +476,6 @@ input {
 .n-dialog.n-modal {
   width: 494px;
   min-height: 288px;
-
 }
 
 .n-dialog.n-dialog--icon-left.n-dialog--closable .n-dialog__title {
@@ -500,4 +497,18 @@ input {
   opacity: 1 !important;
   transform: translateX(-50%) translateZ(0) !important;
   z-index: 1;
+}
+
+.n-button {
+  color: #fff;
+  font-size: 20px;
+  width: 142px;
+  height: 52px;
+  border-radius: 8px;
+  text-align: center;
+  background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+
+  .n-button__border {
+    border: none;
+  }
 }

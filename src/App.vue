@@ -3,7 +3,7 @@
     :theme-overrides="themeOverrides">
     <div class="app">
       <Header v-if="!['customer'].includes(route.name)" />
-      <div class="hold"></div>
+      <!-- <div class="hold"></div> -->
       <router-view></router-view>
       <Footer v-if="!['customer'].includes(route.name)" />
     </div>
@@ -13,8 +13,8 @@
 <script setup lang="ts">
 
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import Header from '@/components/NewHeader.vue';
+import Footer from '@/components/Footer/Footer.vue';
 import { onMounted } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -58,17 +58,17 @@ const themeOverrides: GlobalThemeOverrides = {
     // textColor1: '#8d81c1',
     primaryColor: '#5A47B2',
     primaryColorHover: '#000',
-    borderRadius: '12px',
+    borderRadius: '8px',
   },
-  Tabs:{
-    tabTextColorLine:'#fff',
-    tabTextColorActiveLine:'#fff',
-    tabTextColorHoverLine:'#AEAEB0',
-    tabBorderColor:'#212443'
-   
+  Tabs: {
+    tabTextColorLine: '#fff',
+    tabTextColorActiveLine: '#fff',
+    tabTextColorHoverLine: '#AEAEB0',
+    tabBorderColor: '#212443'
+
   },
   Button: {
-    textColor: '#5A47B2',
+    textColor: '#fff',
     textColorHover: '#fff',
     textColorFocus: '#fff',
     textColorPressed: '#fff',
@@ -266,14 +266,14 @@ onMounted(async () => {
 </script>
 <style lang="less" scoped>
 .hold {
-  height: 80px;
+  height: 95px;
 }
 
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url(/img/home/bg.webp) ;
+  background: url(/img/home/bg.webp);
   background-size: 5%;
 }
 </style>

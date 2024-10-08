@@ -6,9 +6,9 @@
     </span>
     <div class="login_form">
       <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
-      <n-tab-pane :name="i" :tab="t(tab.name)" v-for="(tab, i) in tabList" :key="i"> </n-tab-pane>
+        <n-tab-pane :name="i" :tab="t(tab.name)" v-for="(tab, i) in tabList" :key="i"> </n-tab-pane>
 
-    </n-tabs>
+      </n-tabs>
       <!-- <div class="tab">
         <span :class="state.active == i ? 'active' : ''" v-for="(tab, i) in tabList" :key="i" @click="changeTab(i)">{{
           t(tab.name) }}</span>
@@ -35,12 +35,14 @@
               <template #suffix v-if="item.slot">
                 <iconpark-icon v-if="item.changeRightIcon" @click="iconClick(item)" :icon-id="item.changeRightIcon"
                   color="#8e82c2" size="1rem"></iconpark-icon>
-              
+
               </template>
             </n-input>
             <!-- <span   class="btn"> -->
-              <Imgt v-if="item.slot && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha" @click="refresh_captcha" />
-              <iconpark-icon v-if="item.slot && item.name == 'captcha'" icon-id="Group39366" class="refresh" color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
+            <Imgt v-if="item.slot && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha"
+              @click="refresh_captcha" />
+            <iconpark-icon v-if="item.slot && item.name == 'captcha'" icon-id="Group39366" class="refresh"
+              color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
             <!-- </span> -->
           </n-form-item>
         </template>
@@ -497,5 +499,4 @@ onUnmounted(async () => {
   position: absolute;
   font-size: 18px;
 }
-
 </style>

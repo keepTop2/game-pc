@@ -6,47 +6,51 @@
       <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.4rem"></iconpark-icon>
     </span>
     <div class="login_form">
-    <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
-      <n-tab-pane :name="value" :tab="t(name)" v-for="({ name, value }) in tabList" :key="value"> </n-tab-pane>
-    </n-tabs>
-    <!-- <div class="tab">
+      <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
+        <n-tab-pane :name="value" :tab="t(name)" v-for="({ name, value }) in tabList" :key="value"> </n-tab-pane>
+      </n-tabs>
+      <!-- <div class="tab">
       <span :class="activeTab === value ? 'pointer active' : 'pointer'" v-for="({ name, value }) in tabList"
         :key="value" @click="changeTab(value)">{{ name }}</span>
     </div> -->
-    <n-form :model="state.register" :rules="state.registerRules" :show-label="false" ref="registerFormRef">
-      <template v-for="item in state.registerList">
-        <n-form-item first v-if="!item.view || activeTab === item.view" :path="item.name">
-          <n-select :placeholder="t('home_page_chooseHb')" v-if="item.hasPop" v-model:value="state.register.currency"
-            :options="state.currencyList">
-          </n-select>
+      <n-form :model="state.register" :rules="state.registerRules" :show-label="false" ref="registerFormRef">
+        <template v-for="item in state.registerList">
+          <n-form-item first v-if="!item.view || activeTab === item.view" :path="item.name">
+            <n-select :placeholder="t('home_page_chooseHb')" v-if="item.hasPop" v-model:value="state.register.currency"
+              :options="state.currencyList">
+            </n-select>
 
-          <n-input @change="changeIpt(item.name)" v-if="!item.hasPop" clearable @keyup.enter="handleSubmit"
-            :type="item.type" size="large" v-model:value="state.register[item.name]" :placeholder="item.placeholder">
-            <template #suffix v-if="item.changeRightIcon">
-              <iconpark-icon @click="iconClick(item)" :icon-id="item.changeRightIcon" color="#8e82c2"
-                size="1rem"></iconpark-icon>
-            </template>
-          </n-input>
-          <template v-if="item.name === 'captcha'">
-            <!-- <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
+            <n-input @change="changeIpt(item.name)" v-if="!item.hasPop" clearable @keyup.enter="handleSubmit"
+              :type="item.type" size="large" v-model:value="state.register[item.name]" :placeholder="item.placeholder">
+              <template #suffix v-if="item.changeRightIcon">
+                <iconpark-icon @click="iconClick(item)" :icon-id="item.changeRightIcon" color="#8e82c2"
+                  size="1rem"></iconpark-icon>
+              </template>
+            </n-input>
+            <template v-if="item.name === 'captcha'">
+              <!-- <span v-if="activeTab === 1" @click="refresh_captcha" class="btn pointer">
               <Imgt :src="captchaURL" alt="captchaURL" />
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
             </span> -->
-            <Imgt v-if="activeTab === 1 && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha" @click="refresh_captcha" />
-            <iconpark-icon v-if="activeTab === 1&& item.name == 'captcha'" icon-id="Group39366" class="refresh" color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
-            <span v-if="activeTab === 2">
-              <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest" class="captcha_btn"
-                :disabled="item.disabled">{{ emailLoadingCount ? emailLoadingCount : t('home_page_getcode')
-                }}</n-button>
-            </span>
-          </template>
-        </n-form-item>
-      </template>
-    </n-form>
-    <n-button :bordered="false" class="login_btn" :loading="loading" block @click="onSubmit">{{
-      t('home_page_reg')
-    }}</n-button>
-  </div>
+              <Imgt v-if="activeTab === 1 && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha"
+                @click="refresh_captcha" />
+              <iconpark-icon v-if="activeTab === 1 && item.name == 'captcha'" icon-id="Group39366" class="refresh"
+                color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
+              <span v-if="activeTab === 2">
+                <n-button :bordered="false" :loading="item.loading" @click="onEmailRequest"
+                  class="captcha_btn login_btn" :disabled="item.disabled">{{ emailLoadingCount ? emailLoadingCount :
+                    t('home_page_getcode')
+                  }}</n-button>
+              </span>
+            </template>
+          </n-form-item>
+        </template>
+      </n-form>
+      <n-button :bordered="false" class="login_btn" :loading="loading" block @click="onSubmit">{{
+        t('home_page_reg')
+        }}</n-button>
+    </div>
+
   </div>
 
 </template>
@@ -397,6 +401,8 @@ const onHander_check_version = async (message: any) => {
 }
 const onClose = async () => {
   await User(pinia).setReg(false)
+  await User(pinia).setRegPopShow(true)
+
 }
 
 onMounted(() => {
@@ -430,12 +436,10 @@ onUnmounted(() => {
 @timestamp: `new Date().getTime()`;
 
 .captcha_btn {
+  width: 100px;
+  height: 40px;
   color: #fff;
-  width: 94px;
-  font-size: 14px;
-  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
-  background-size: 100% 100%;
-  height: 32px;
+  font-size: 16px;
   margin-left: 9px;
 }
 </style>
