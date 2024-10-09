@@ -5,7 +5,7 @@
       <h4 class="top_title">
         <span>转账</span>
         <i>
-          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+          <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
       </h4>
       <div class="main_body">

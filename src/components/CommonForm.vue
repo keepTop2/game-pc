@@ -5,7 +5,7 @@
                 <div class="header rel center">
                     <span class="weight_5 t_md">{{ title }}</span>
                     <span class="close abs center pointer t-sm">
-                        <iconpark-icon @click="emits('onClose')" icon-id="Group39368" color="#fff"
+                        <iconpark-icon @click="emits('onClose')" icon-id="tanctongyguanb" color="#fff"
                             size="1rem"></iconpark-icon>
                     </span>
                 </div>

@@ -275,15 +275,11 @@ onMounted(async () => {
 }
 
 .app {
+  width: 1400px;
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url(/img/home/bg.webp);
-  background-size: 5%;
-  .main_container{
-    width: 1400px;
-    margin: 0 auto;
-  }
 
 }
 </style>

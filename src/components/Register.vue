@@ -3,7 +3,7 @@
     <!-- <span class="title">{{ t('home_page_signUp') }}</span> -->
     <Imgt src="/img/login/silder.webp" alt="" />
     <span class="close">
-      <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.4rem"></iconpark-icon>
+      <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff" size="1.4rem"></iconpark-icon>
     </span>
     <div class="login_form">
       <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
@@ -48,7 +48,7 @@
       </n-form>
       <n-button :bordered="false" class="login_btn" :loading="loading" block @click="onSubmit">{{
         t('home_page_reg')
-        }}</n-button>
+      }}</n-button>
     </div>
 
   </div>

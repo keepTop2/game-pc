@@ -5,7 +5,7 @@
         <h4 class="forget_title">
           <span>{{ t('email_title') }}</span>
           <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
           </i>
         </h4>
 

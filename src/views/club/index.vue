@@ -212,7 +212,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_jrjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -241,7 +241,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_cjjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onCloseCreate" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onCloseCreate" icon-id="tanctongyguanb" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">

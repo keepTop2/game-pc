@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <Sidebar />
+        <!-- <Sidebar /> -->
         <div class="content">
             <!-- <div class="head">
                 <Imgt src="/img/home/back.webp" alt="" @click="router.push('/')" />
@@ -67,8 +67,8 @@ const queryTitle = () => {
 }
 
 .content {
-    margin: 32px 0 30px 20px;
-    width: 1400px;
+    // margin: 32px 0 30px 20px;
+    // width: 1400px;
 
     // >.head {
     //     height: 45px;

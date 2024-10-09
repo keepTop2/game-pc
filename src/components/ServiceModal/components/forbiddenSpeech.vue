@@ -5,23 +5,23 @@
       <h4 class="top_title">
         <span>{{ t('chat_page_mute') }}</span>
         <i>
-          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+          <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
       </h4>
       <div class="main_body">
         <n-radio-group v-model:value="choose" name="radiogroup">
           <n-radio v-for="(item, index) in list" :key="item.id" :value="item.id">
             <div class="radio_item">
-              <span class="label">{{t( item.label )}}</span>
-              <n-input-number v-model:value="list[index].day" :min="0.1" :max="99"  :show-button="false"
-                style="width:85%"   />
+              <span class="label">{{ t(item.label) }}</span>
+              <n-input-number v-model:value="list[index].day" :min="0.1" :max="99" :show-button="false"
+                style="width:85%" />
 
               <span>{{ t('chat_page_day') }}</span>
             </div>
           </n-radio>
         </n-radio-group>
         <div class="btn_group">
-          <div class="btn_close" @click="isShow = false">{{  t('home_page_cancel')  }}</div>
+          <div class="btn_close" @click="isShow = false">{{ t('home_page_cancel') }}</div>
           <div class="btn_save" @click="saveClick">{{ t('chat_page_save') }}</div>
         </div>
       </div>
