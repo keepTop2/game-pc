@@ -209,6 +209,12 @@ const routes: RouteRecordRaw[] = [
           },
         ]
       },
+      {
+        path: 'proxyCooperation',
+        name: 'proxyCooperation',
+        meta: { title: 'proxy_page_agent' },
+        component: () => import('@/views/wallet/proxyCooperation/index.vue'),
+      },
     ]
   },
 
