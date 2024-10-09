@@ -5,14 +5,13 @@
         <h4 class="top_title">
           <span>{{ t('chat_page_shortcut_set') }}</span>
           <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff"
-                           size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
           <n-flex align="center" class="tab_top">
             <a :class="`tab_item tab_item_${item.id} ${curTab === item.id ? 'active' : ''}`"
-               v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
+              v-for="(item, index) in tabArr" :key="index" @click="clickTab(item.id)">
               {{ item.title }}
             </a>
           </n-flex>
@@ -21,15 +20,13 @@
             <n-flex class="input_box">
               <!-- 下拉选择-->
               <div v-show="showSelect" class="select_list">
-                <n-flex align="center" justify="center"
-                        :class="`select_item ${ite.id === curType ? 'active' : ''}`"
-                        @click="clickSelect(ite.id)" v-for="(ite, idx) in dataCateList" :key="idx">
+                <n-flex align="center" justify="center" :class="`select_item ${ite.id === curType ? 'active' : ''}`"
+                  @click="clickSelect(ite.id)" v-for="(ite, idx) in dataCateList" :key="idx">
                   {{ ite.title }}
                 </n-flex>
               </div>
               <n-flex align="center" justify="center" class="n_select drop_down_99999" @click="clickShowSelect">
-                <span class="select_txt"
-                      :title="dataCateList.find((item: any) => item.id === curType)?.title">
+                <span class="select_txt" :title="dataCateList.find((item: any) => item.id === curType)?.title">
                   {{ dataCateList.find((item: any) => item.id === curType)?.title }}
                 </span>
                 <i :class="`n-base-icon n-base-suffix__arrow ${showSelect ? 'selectIcon' : ''}`">
@@ -61,27 +58,23 @@
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
-                <n-flex class="table_list" align="center" v-for="(item, index) in dataList"
-                        :key="index">
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataList" :key="index">
                   <n-flex justify="center" class="list_lx">
                     <!-- 下拉选择-->
                     <div v-show="item.showSelect" class="select_list">
                       <n-flex align="center" justify="center"
-                              :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
-                              @click="clickSelectList(ite.id, index)"
-                              v-for="(ite, idx) in dataCateList" :key="idx">
+                        :class="`select_item ${ite.id === item.qhcid ? 'active' : ''}`"
+                        @click="clickSelectList(ite.id, index)" v-for="(ite, idx) in dataCateList" :key="idx">
                         {{ ite.title }}
                       </n-flex>
                     </div>
                     <n-flex align="center" justify="center" :class="`n_select n_select_list drop_down_${index}`"
-                            @click="clickShowSelectList(index)">
-                      <span class="select_txt"
-                            :title="dataCateList.find((ite: any) => ite.id === item.qhcid)?.title">
-                     {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
-                    </span>
+                      @click="clickShowSelectList(index)">
+                      <span class="select_txt" :title="dataCateList.find((ite: any) => ite.id === item.qhcid)?.title">
+                        {{ dataCateList.find((ite: any) => ite.id === item.qhcid)?.title }}
+                      </span>
 
-                      <i
-                        v-if="item.deviceid"
+                      <i v-if="item.deviceid"
                         :class="`n-base-icon n-base-suffix__arrow ${item.showSelect ? 'selectIcon' : ''}`">
                         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -92,34 +85,27 @@
                     </n-flex>
                   </n-flex>
                   <span class="list_kjy">
-                     <!-- 官方的不能编辑 -->
+                    <!-- 官方的不能编辑 -->
                     <n-input v-model:value="item.content" placeholder="此处修改快捷语" :disabled="!item.deviceid"
-                             style="text-align: left" clearable />
+                      style="text-align: left" clearable />
                   </span>
                   <n-flex class="list_item" justify="center">
-                    <div class="coverSwitch" :data-value="item.istop"
-                         @click="handleBeforeChange(item, 'istop', index)"></div>
-                    <n-switch class="switch"
-                              v-model:value="item.istop"
-                              :checked-value="1"
-                              :unchecked-value="2"
-                              @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
+                    <div class="coverSwitch" :data-value="item.istop" @click="handleBeforeChange(item, 'istop', index)">
+                    </div>
+                    <n-switch class="switch" v-model:value="item.istop" :checked-value="1" :unchecked-value="2"
+                      @update:value="(e: any) => { handleUpdateValue(e, 'istop', index) }">
                     </n-switch>
                   </n-flex>
                   <n-flex class="list_item" justify="center">
                     <div class="coverSwitch" :data-value="item.istop"
-                         @click="handleBeforeChange(item, 'isautorsp', index)"></div>
-                    <n-switch class="switch"
-                              v-model:value="item.isautorsp"
-                              :checked-value="1"
-                              :unchecked-value="2"
-                              @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
+                      @click="handleBeforeChange(item, 'isautorsp', index)"></div>
+                    <n-switch class="switch" v-model:value="item.isautorsp" :checked-value="1" :unchecked-value="2"
+                      @update:value="(e: any) => { handleUpdateValue(e, 'isautorsp', index) }">
                     </n-switch>
                   </n-flex>
                   <!-- 官方的不能删除 -->
                   <span v-if="!item.deviceid" class="list_item"></span>
-                  <span v-else class="list_item button" @click="removeList(item, index)"
-                        style="color: #ff2424">
+                  <span v-else class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
                     {{ t('paymentManagement_page_delete') }}
                   </span>
                 </n-flex>
@@ -130,8 +116,8 @@
           </div>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
-            <n-flex v-show="showEdit" @click="changeEdit" align="center" justify="center"
-                    class="button">{{ t('home_page_modify') }}
+            <n-flex v-show="showEdit" @click="changeEdit" align="center" justify="center" class="button">{{
+              t('home_page_modify') }}
             </n-flex>
             <n-flex align="center" justify="center" class="button" @click="addQuick">{{ t('chat_page_save') }}</n-flex>
           </n-flex>
@@ -209,10 +195,10 @@ const dataList: any = ref([
 ]);
 
 const isShow = computed({
-  get: function() {
+  get: function () {
     return props.visible;
   },
-  set: function(value) {
+  set: function (value) {
     emit('update:visible', value);
   },
 });
@@ -360,7 +346,7 @@ const addQuick = () => {
   dataList.value.map((item: any) => {
     item.content = item.content.trim();
     if (!item.content) {
-      emptyCount ++
+      emptyCount++
     }
   })
   if (emptyCount > 0) {
@@ -449,7 +435,7 @@ watch(() => props.quickPhrasesList, (n) => {
       box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
       background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
-      > i {
+      >i {
         position: absolute;
         top: 5px;
         right: 15px;
@@ -525,7 +511,8 @@ watch(() => props.quickPhrasesList, (n) => {
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+          -webkit-line-clamp: 2;
+          /* 这里是超出几行省略 */
           overflow: hidden;
         }
 
@@ -731,7 +718,7 @@ watch(() => props.quickPhrasesList, (n) => {
         gap: 8px 34px !important;
         margin-top: 80px;
 
-        > div {
+        >div {
           width: 178px;
           height: 54px;
           background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;

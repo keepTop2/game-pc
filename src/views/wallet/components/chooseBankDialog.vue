@@ -6,7 +6,7 @@
         <div class="header rel center">
           <span class="weight_5 t_md">{{ t('paymentManagement_page_chBank') }}</span>
           <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onCloseBank" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
+            <iconpark-icon @click="onCloseBank" icon-id="tanctongyguanb" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
         <div class="body vertical center t_md body_sec">

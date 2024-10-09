@@ -2,7 +2,7 @@
   <div class="login_from_box">
     <Imgt src="/img/login/silder.webp" alt="" />
     <span class="close">
-      <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1.4rem"></iconpark-icon>
+      <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff" size="1.4rem"></iconpark-icon>
     </span>
     <div class="login_form">
       <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab">
@@ -372,7 +372,7 @@ const handleCaptchaReceive = (captcha: any) => {
 }
 
 const loginSuccess = async (message: any) => {
-  console.log(88888888,message)
+  console.log(88888888, message)
   state.loading = false
   const last_user_id = localStorage.getItem('last_user_id')
   if (last_user_id != message.user_id) {

@@ -5,7 +5,8 @@
     <div class="flex payment_management">
       <div class="rel bank" v-for="(item, index) in myBankList" :key="index">
         <span v-if="index !== 0" class="abs pointer center close">
-          <iconpark-icon @click="() => removeBank(item)" icon-id="Group39368" color="#fff" size="0.7em"></iconpark-icon>
+          <iconpark-icon @click="() => removeBank(item)" icon-id="tanctongyguanb" color="#fff"
+            size="0.7em"></iconpark-icon>
         </span>
 
         <n-flex justify="space-between" align="flex-end" class="abs number">

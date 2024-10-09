@@ -6,7 +6,7 @@
                     <div class="header rel center">
                         <span class="weight_5 t_md">{{ t(ETransfer[showTransfer.method]) }}</span>
                         <span class="close abs center pointer t_sm">
-                            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff"
+                            <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff"
                                 size="1rem"></iconpark-icon>
                         </span>
                     </div>
@@ -35,7 +35,7 @@
                                 <n-input type="text" size="large" v-model:value="amount"
                                     :placeholder="t('transfer_page_inputAmount')" />
                                 <div class="abs pointer select_total" @click="selectTotal">{{
-        t('transfer_page_allMoney') }}</div>
+                                    t('transfer_page_allMoney') }}</div>
                             </n-form-item>
                         </n-form>
                         <div class="submit_btn  weight_5 center pointer" block @click="onSubmit">

@@ -6,7 +6,7 @@
         <h4 class="top_title">
           <span>{{ t('chat_page_category_man') }}</span>
           <i>
-            <iconpark-icon @click="closeWin" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="closeWin" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
@@ -31,18 +31,16 @@
                 <div>{{ t('home_page_nomore_data') }}</div>
               </div>
               <div v-else>
-                <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList"
-                        :key="index">
+                <n-flex class="table_list" align="center" v-for="(item, index) in dataCateList" :key="index">
                   <n-flex justify="center" class="list_lx">
                     <n-input v-model:value="item.title" :placeholder="t('chat_page_type_tip')"
-                             style="text-align: left" />
+                      style="text-align: left" />
                   </n-flex>
                   <span class="list_kjy">
                     {{ item?.num || 0 }}
                   </span>
                   <span v-if="!item.deviceid || item?.num" class="list_item"></span>
-                  <span v-else class="list_item button" @click="removeList(item, index)"
-                        style="color: #ff2424">
+                  <span v-else class="list_item button" @click="removeList(item, index)" style="color: #ff2424">
                     {{ t('paymentManagement_page_delete') }}
                   </span>
                 </n-flex>
@@ -52,7 +50,8 @@
           </div>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
-            <n-flex align="center" justify="center" @click="closeWin" class="button">{{ t('proxy_page_close') }}</n-flex>
+            <n-flex align="center" justify="center" @click="closeWin" class="button">{{ t('proxy_page_close')
+              }}</n-flex>
             <n-flex align="center" justify="center" class="button" @click="addCateQuick">{{ t('chat_page_save') }}
             </n-flex>
           </n-flex>
@@ -102,10 +101,10 @@ const isLoading = ref(false);
 const dataCateList: any = ref([]);
 
 const isShow = computed({
-  get: function() {
+  get: function () {
     return props.visible;
   },
-  set: function(value) {
+  set: function (value) {
     emit('update:visible', value);
   },
 });
@@ -169,10 +168,10 @@ const addCateQuick = () => {
   dataCateList.value.map((item: any) => {
     item.title = item.title.trim();
     if (!item.title) {
-      emptyCount ++
+      emptyCount++
     }
     if (item.title.length > 12) {
-      legCount ++
+      legCount++
     }
   })
   if (emptyCount > 0) {
@@ -256,7 +255,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
       box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
       background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
-      > i {
+      >i {
         position: absolute;
         top: 5px;
         right: 15px;
@@ -378,7 +377,7 @@ watch(() => props.quickPhrasesCateList, (n) => {
         gap: 8px 31px !important;
         margin-top: 90px;
 
-        > div {
+        >div {
           width: 170px;
           height: 50px;
           background: url('/img/serviceModal/btnCancel.webp?t=@{timestamp}') center no-repeat;

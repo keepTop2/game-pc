@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <OverLoading v-model:visible="isLoading" ></OverLoading>
+    <OverLoading v-model:visible="isLoading"></OverLoading>
   </div>
 </template>
 <script setup lang="ts" name="home">
@@ -154,8 +154,8 @@ const platformItemClick = async (item: any, i: number) => {
       'zh-CN': 1
     }
     if (!Local.get('user')) {
-        await User(pinia).setLogin(true)
-        return
+      await User(pinia).setLogin(true)
+      return
     }
     isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
@@ -176,24 +176,24 @@ const onClickGame = (item: any, idx: any) => {
 }
 
 const gameUrlResult = (message: any) => {
-    isLoading.value = false
-    Local.set('gameUrl', message.url)
-    if (message.code != 0) {
-        Message.error(message.msg)
-        return
-    }
+  isLoading.value = false
+  Local.set('gameUrl', message.url)
+  if (message.code != 0) {
+    Message.error(message.msg)
+    return
+  }
 
-    if (newTab.value) {
-        newTab.value.close()
-    }
+  if (newTab.value) {
+    newTab.value.close()
+  }
 
-    if (message.url.indexOf('<!doctype html>') != -1) {
-        newTab.value = window.open('', '_blank');
-        newTab.value.document.open();
-        newTab.value.document.write(message.url);
-    } else {
-        newTab.value = window.open(message.url, '_blank')
-    }
+  if (message.url.indexOf('<!doctype html>') != -1) {
+    newTab.value = window.open('', '_blank');
+    newTab.value.document.open();
+    newTab.value.document.write(message.url);
+  } else {
+    newTab.value = window.open(message.url, '_blank')
+  }
 }
 
 onBeforeMount(() => {
@@ -201,7 +201,7 @@ onBeforeMount(() => {
 })
 onMounted(() => {
   MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
 })
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
@@ -217,8 +217,8 @@ onUnmounted(() => {
 }
 
 .content {
-  margin: 32px 0 30px 90px;
-  width: 1200px;
+  // margin: 32px 0 30px 90px;
+  // width: 1200px;
 
   .announcement {
     position: relative;
@@ -266,6 +266,7 @@ onUnmounted(() => {
       height: 12.39583rem;
       width: 100%;
       cursor: pointer;
+
       img {
         height: 100%;
         width: 100%;

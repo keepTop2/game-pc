@@ -1,9 +1,9 @@
 <template>
   <header class="header">
     <div>
-      <div>
-        <Imgt src="/img/header/logo.webp" class="logo home_logo" @click="router.push('/')" />
-        <Imgt src="/img/header/fiba.webp" class="logo fiba" />
+      <div class="logo_box">
+        <Imgt src="/img/header/logo.webp" class="home_logo" @click="router.push('/')" />
+        <Imgt src="/img/header/fiba.webp" class="fiba" />
       </div>
       <div class="welcome">
         <Imgt src="/img/header/tips.webp" @click="router.push('/')" />
@@ -378,12 +378,12 @@ onUnmounted(() => {
   z-index: 100;
 
   >div {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    width: 1562px;
-    box-sizing: border-box;
+
 
     .home_logo {
       height: 68px;
@@ -393,14 +393,19 @@ onUnmounted(() => {
     .fiba {
       width: 162px;
       height: 42px;
-      margin-left: 16px;
+      margin-left: 11px;
+    }
+
+    .logo_box {
+      display: flex;
+      align-items: center;
     }
 
     // justify-content: space-between;
     .welcome {
-      width: 384px;
+      width: 424px;
       height: 60px;
-      margin-left: 20px;
+      margin-left: 30px;
       border-radius: 100px;
       background: #0B0B0B;
       display: flex;
@@ -422,7 +427,7 @@ onUnmounted(() => {
     .search {
       display: flex;
       align-items: center;
-      margin-left: 24px;
+      margin-left: 44px;
 
       img {
         width: 60px;
@@ -434,7 +439,8 @@ onUnmounted(() => {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-left: 20px;
+      margin-left: 24px;
+      width: 215px;
 
       div {
         font-weight: 500;
@@ -475,13 +481,13 @@ onUnmounted(() => {
       align-items: center;
 
       .avatar_logo {
-        margin-left: 16px;
+        margin-left: 20px;
         height: 53px;
         width: 53px;
       }
 
       .lang_logo {
-        margin-left: 15px;
+        margin-left: 20px;
         width: 32px;
         height: 24px;
       }
