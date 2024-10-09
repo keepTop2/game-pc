@@ -6,7 +6,7 @@
       <NewMenu></NewMenu>
       <!-- <div class="hold"></div> -->
       <router-view></router-view>
-      <Footer v-if="!['customer'].includes(route.name)" />
+      <Footer v-if="!['customer', 'openGame'].includes(route.name)" />
     </div>
   </n-config-provider>
 </template>

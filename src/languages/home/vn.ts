@@ -46,6 +46,7 @@ export default {
     home_page_clubCreated: 'Câu lạc bộ đã được tạo',
     home_page_game: 'Trò chơi',
     home_page_live: 'Video',
+    home_page_hot: 'Hot',
     home_page_slot: 'Điện tử',
     home_page_eSports: 'Thể thao điện tử',
     home_page_fishing: 'câu cá',

@@ -1,7 +1,7 @@
 export default {
     home_page_nomore_data: "暂无数据",
     // 导航栏
-    home_page_seachGame: '搜索游戏',
+    home_page_seachGame: '请输入游戏名称进行搜索',
     home_page_login: '登录',
     home_page_signUp: '注册',
     home_page_vi: 'VN',
@@ -47,6 +47,7 @@ export default {
     home_page_clubCreated: '已创建俱乐部',
     home_page_game: '游戏',
     home_page_live: '视讯',
+    home_page_hot: '热门',
     home_page_slot: '电子',
     home_page_eSports: '电竞',
     home_page_fishing: '捕鱼',
