@@ -1,8 +1,6 @@
 <template>
-  <!--<n-modal class="level_modal" v-model:show="showModal" preset="card">
-    <template #header>
-      <div class="level_title level_title_sec">{{ t('level_page_member') }}</div>
-    </template>-->
+  <!-- 导航 -->
+  <navTab :title="t(`VIP特权`)" :secTitle="t('加入PKBET 臻享特权服务')" />
   <div class="level_content">
     <div class="level_info">
       <div class="level_info_top">
@@ -76,30 +74,21 @@
     </div>
 
   </div>
-  <!--  </n-modal>-->
 
   <!-- 奖励派发说明 -->
-  <n-modal :show="ruleModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('level_page_paiTitle') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="ruleModal = false" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
-          </span>
-        </div>
-        <div class="body vertical center">
-          <div class="list-tip"> {{ t('level_page_paiRule_1') }}</div>
-          <div class="list-tip"> {{ t('level_page_paiRule_2') }}</div>
-          <div class="list-tip"> {{ t('level_page_paiRule_3') }}</div>
-        </div>
+  <ModalDialog v-model:visible="ruleModal" title="level_page_paiTitle">
+    <template #content>
+      <div class="content_box">
+        <div class="list_tip"> {{ t('level_page_paiRule_1') }}</div>
+        <div class="list_tip"> {{ t('level_page_paiRule_2') }}</div>
+        <div class="list_tip"> {{ t('level_page_paiRule_3') }}</div>
       </div>
-    </n-card>
-  </n-modal>
+    </template>
+  </ModalDialog>
 
 </template>
 
-<script setup lang='ts' name="levelInfo">
+<script setup lang='ts' >
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
@@ -112,6 +101,8 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { verifyNumberComma } from '@/utils/others.ts';
 import Imgt from '@/components/Imgt.vue';
+import navTab from '../wallet/components/navTab.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
 
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
@@ -687,16 +678,11 @@ onUnmounted(() => {
   }
 
 }
-
-.form_card {
-  .form_container {
-    .body {
-      gap: 10px !important;
-
-      .list-tip {
-        font-size: 16px;
-      }
-    }
+.content_box {
+  padding: 30px 35px;
+  .list_tip {
+    font-size: 16px;
   }
 }
+
 </style>
