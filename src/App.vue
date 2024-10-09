@@ -17,7 +17,7 @@
 <script setup lang="ts">
 
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
-import Header from '@/components/NewHeader.vue';
+import Header from '@/components/NewHeader/NewHeader.vue';
 import NewMenu from '@/components/NewMenu.vue';
 import Footer from '@/components/Footer/Footer.vue';
 import { onMounted } from 'vue';
