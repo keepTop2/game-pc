@@ -3,8 +3,9 @@
     <!-- <Sidebar /> -->
     <div class="content">
       <div class="announcement">
-        <n-carousel draggable v-if="bannerArr">
-          <Imgt class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)" />
+      <div class="carousel_wrap">
+        <n-carousel draggable >
+          <Imgt class="carousel"  src="/img/header/carousel1.webp" />
         </n-carousel>
         <p style="height: 40px;">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
@@ -13,6 +14,10 @@
               }}</span>
           </n-carousel>
         </p>
+      </div>
+      <div class="carousel_wrap_des">
+        <Imgt class="carousel"  src="/img/header/carousel2.webp" />
+      </div>
       </div>
       <div class="game_detail" v-for="(item, i) in state.tabs" :key="i">
 
@@ -154,23 +159,38 @@ onUnmounted(() => {
 
 .home {
   display: flex;
+  width: 100%;
 
 }
 
 .content {
-  margin: 32px 0 30px 90px;
+  margin: 32px 0 30px 10px;
   width:100%;
 
   .announcement {
     position: relative;
+    display: flex;
+    img{
+      object-fit: cover;
+    }
 
-    height: 320px;
+    height: 424px;
+    .carousel_wrap{
+      width: 941px;
+      height: 100%;
+      margin-right: 15px;
+      
+    }
+    .carousel_wrap_des{
+      width: 444px;
+      height: 100%;
+    }
 
     >p {
       position: absolute;
       bottom: 0px;
       left: 0;
-      width: 1171px;
+      width: 100%;
       height: 40px;
       padding: 0 14.5px;
       background-color: rgba(0, 0, 0, .3);
@@ -338,8 +358,9 @@ onUnmounted(() => {
 }
 
 .carousel {
-  width: 1200px;
-  height: 320px;
+  width: 100%;
+  height: 424px;
   object-fit: cover;
+  border-radius: 16px;
 }
 </style>
