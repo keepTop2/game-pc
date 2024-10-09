@@ -1,28 +1,32 @@
 <template>
-    <div>
+    <div class="game-detail-container">
         <div class="game-title">
-        <span class="input_box">
-            <n-input clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
-                @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
-                <template #suffix>
-                    <iconpark-icon icon-id="Group39336" color="#8e82c2" size="1rem" style="cursor:pointer"
-                        @click="onClickSearch"></iconpark-icon>
-                </template>
-            </n-input>
-        </span>
-        <div class="game_list">
-            <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
-                @click="onClickTab(v)">
-                <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
-                    size="1rem"></iconpark-icon> -->
-                <span>{{ unserialize(v.kind_name) }}</span>
-            </div>
-            <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
-                <p>{{ t("common_favorite") }}</p>
+            <span class="input-box">
+                <n-input :placeholder="t('home_page_seachGame')" v-model:value="queryGame" @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
+                    <template #prefix>
+                        <img class="search-icon" src="/img/game/search.webp" alt="search" />
+                    </template>
+                </n-input>
+                <span class="button">搜索</span>
+            </span>
+            <div class="game_list">
+                <!-- <transition name="fade"> -->
+                    <div :class="{game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
+                        @click="onClickTab(v)">
+                        <span>{{ unserialize(v.kind_name) }}</span>
+                    </div>
+                <!-- </transition> -->
+                
+                <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
+                    <span>
+                        <img src="/img/game/label_fav_a.webp" alt="" v-if="activeTab == TabType.FAVORITE">
+                        <img src="/img/game/label_fav.webp" alt="" v-else>
+                    </span>
+                    <span>{{ t("common_favorite") }}</span>
+                </div>
             </div>
         </div>
-        </div>
-        <div class="games">
+        <div class="game-content">
             <div class="game-detail">
                 <div v-if="activeTab == TabType.FAVORITE">
                     <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
@@ -65,15 +69,15 @@
                     </n-infinite-scroll>
                 </div>
             </div>
-            <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
-                v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
         </div>
+        <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
+            v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
         <Loading v-model:visible="isLoading" ></Loading>
     </div>
 </template>
 
 <script setup lang='ts'>
-import { onBeforeMount, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, reactive, ref, watch, defineProps } from 'vue';
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import pinia from '@/store/index';
@@ -128,6 +132,14 @@ const imgPrefix = 'http://18.167.175.195:8033/uploads/'
 const TabType = {
     FAVORITE: 88
 }
+const labels = [{all: 'all'}, {hot: 'hot'}, {recent: 'recent'}, {fav: 'fav'}];
+
+const props = defineProps({
+  platform_id: null,
+  venue_id: null,
+  name: null,
+  active: null,
+});
 
 
 const getHomeData = () => {
@@ -309,7 +321,7 @@ const gameUrlResult = (message: any) => {
 }
 
 onBeforeMount(() => {
-    const { platform_id, venue_id, name, active } = route.query
+    const { platform_id, venue_id, name, active } = props
     getInitData(platform_id, venue_id)
     gameName.value = name as string
     platformId.value = platform_id
@@ -349,125 +361,230 @@ watch(
 <style lang='less' scoped>
 @timestamp: `new Date().getTime()`;
 
-.game-title {
-    width: 1200px;
-    // height: 72px;
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 22px;
-    color: #8d81c1;
-    font-size: 18px;
-    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+.nodata {
+    color: #9497A1;
+}
 
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%), radial-gradient(circle at 50% 50%, #361e79, #22203e 100%);
-    margin-top: 30px;
-
-    >.input_box {
+.game-detail-container {
+    position: relative;
+    min-height: 110vh;
+    .game-title {
+        margin: 25px 0;
         display: flex;
-        width: 100%;
-        margin-bottom: 20px;
         align-items: center;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 18px;
+        position: relative;
 
-        :deep(.n-input) {
-            .n-input__border {
-                border: 1px solid #322c59;
-            }
-
-            .n-input__placeholder {
-                color: #8e82c2;
-            }
-        }
-
-        :deep(.n-input .n-input__input-el) {
-            height: 40px;
-
-        }
-    }
-
-    .game_list {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-
-        >div {
+        >.input-box {
             display: flex;
             align-items: center;
-            flex-direction: row;
-            justify-content: center;
-            width: 169px;
-            height: 52px;
-            cursor: pointer;
 
-            // >span {
-                // margin-left: 6px;
-            // }
+            :deep(.n-input) {
+                height: 56px;
+                width: 395px;
+                border-radius: 8px;
+                color: #fff;
+                background: #030309;
+
+                &.n-input--focus {
+                    background-color: #030309 !important;
+                }
+                
+                .n-input_wrapper {
+                    padding: 0 20px;
+                }
+
+                .n-input__input-el {
+                    caret-color: #fff;
+                    height: 100%;
+                    font-size: 16px;
+                    padding: 0 5px;
+                }
+
+                .n-input__textarea-el {
+                    caret-color: #fff;
+                    height: 100%;
+                    font-size: 16px;
+                    padding: 0 5px;
+                }
+                
+                .n-input__placeholder {
+                    height: 100%;
+                    span {
+                        color: #9497A1;
+                        font-size: 16px;
+                        letter-spacing: 2px;
+                        margin-left: 2px;
+                    }        
+                }
+                
+                .n-input__border {
+                    border: none;
+                }
+                
+                .n-input__state-border {
+                    border: none;
+                    box-shadow: none;
+                }
+                
+                .search-icon {
+                    z-index: 6;
+                    width: 22px;
+                    height: 22px;
+                }
+            }
+
+
+        }
+
+        .button {
+            width: 111px;
+            height: 48px;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+            text-align: center;
+            line-height: 48px;
+            margin-left: 15px;
+        }
+
+        .game_list {
+            height: 85.885px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: absolute;
+            top: 55px;
+            right: 0px;
+            background-color: #0B0B0B;
+            padding-left: 35px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 35px;
+                height: 100%;
+                clip-path: polygon(0 0, 100% 0, 0 100%);
+                background: url('/img/home/bg.webp') no-repeat;
+                background-size: 100% 100%;
+                background-position: center center;
+            }
+
+            >div {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                justify-content: center;
+                width: 169px;
+                height: 52px;
+                cursor: pointer;
+                color: #AFB6BD;
+                font-weight: 500;
+                font-size: 20px;
+                gap: 5px;
+
+                &.game_active {
+                    // color: #fff;
+                    // background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
+                    // background-size: 100% 100%;
+                    &::after {
+                        position: absolute;
+                        bottom: 10px;
+                        content: '';
+                        height: 5px;
+                        width: 70px;
+                        border-radius: 100px;
+                        border-bottom: 1px solid #000;
+                        background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+                    }
+                }
+                img {
+                    width: 24px;
+                    height: 24px;
+                }
+                >span {
+                    line-height: 16px;
+                }
+            }
+
+            .fade-enter-active, .fade-leave-active {
+                transition: opacity 0.5s ease;
+            }
+
+            .fade-enter, .fade-leave-to {
+                opacity: 0;
+            }
         }
     }
 
+    .game-content {
+        position: relative;
+        .game-detail {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 38px;
+            width: 100%;
 
-    .game_active {
-        color: #fff;
-        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
-        background-size: 100% 100%;
-    }
-}
+            >div {
+                margin-top: 30px;
 
-.game-detail {
-    display: flex;
-    flex-direction: column;
+                .game-list {
+                    display: grid;
+                    grid-template-columns: repeat(5, 1fr);
+                    gap: 10px;
 
-    >div {
-        margin-top: 30px;
+                    .item {
+                        height: 238px;
+                        position: relative;
 
-        .game-list {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+                        .game-img {
+                            width: 100%;
+                            height: 100%;
+                            cursor: pointer;
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
 
-            .item {
-                height: 238px;
-                position: relative;
-
-                .game-img {
-                    width: 100%;
-                    height: 100%;
-                    cursor: pointer;
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
+                        .fav {
+                            position: absolute;
+                            top: 10px;
+                            right: 15px;
+                        }
                     }
-                }
-
-                .fav {
-                    position: absolute;
-                    top: 10px;
-                    right: 15px;
                 }
             }
         }
     }
-}
 
-.pagination {
-    margin: 30px 0 40px 0;
-    justify-content: center;
+    .pagination {
+        margin: 30px 0 40px 0;
+        justify-content: center;
+        position: absolute;
+        justify-content: center;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
 
-    :deep(.n-pagination-item) {
-        font-size: 16px;
-        background: #372771;
-        border: 1.4px solid #5A47B2;
-        color: #8D81C1;
-        border-radius: 10px;
-    }
+        :deep(.n-pagination-item) {
+            font-size: 16px;
+            background: #372771;
+            border: 1.4px solid #5A47B2;
+            color: #8D81C1;
+            border-radius: 10px;
+        }
 
-    :deep(.n-pagination-item--active) {
-        background: url(/img/home/sbtnBG.webp) no-repeat;
-        background-size: 100% 100%;
-        color: #fff;
+        :deep(.n-pagination-item--active) {
+            background: url(/img/home/sbtnBG.webp) no-repeat;
+            background-size: 100% 100%;
+            color: #fff;
+        }
     }
 }
 </style>

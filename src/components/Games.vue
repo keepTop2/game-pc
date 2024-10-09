@@ -29,7 +29,12 @@ const state: any = reactive({
     gameActive: 0,
     count: 6,
     tabs: [
-
+        {
+            icon: 'Group39324',
+            name: 'home_page_hot',
+            color: 'collect',
+            value: '',
+        },
         {
             icon: 'Group39096',
             name: 'home_page_slot',

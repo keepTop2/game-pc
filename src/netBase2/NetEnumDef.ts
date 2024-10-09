@@ -102,17 +102,7 @@ export module NetEnumDef {
         game_type_shuangdan = 44,
         game_type_mjhlsecond = 45,
         game_type_dataosha = 46,
-        game_type_pdk = 47,
-        game_type_bj = 48,
-        game_type_tx = 49,
-        game_type_sss = 50,
-        game_type_baijiale = 51,
-        game_type_yxx = 52,
-        game_type_omh = 53,
-        game_type_zhajinhua = 54,
-        game_type_lhd = 55,
-        game_type_sedie = 56,
-        game_type_shaibao = 57
+        game_type_pdk = 47
     };
     export enum room_type
     {
@@ -121,6 +111,11 @@ export module NetEnumDef {
         room_senior = 3,
         room_master = 4,
         room_regal = 5
+    };
+    export enum game_status
+    {
+        game_status_normal = 1,
+        game_status_maintenance = 2
     };
     export enum sex
     {
@@ -144,165 +139,10 @@ export module NetEnumDef {
         transfer_log_type_in = 1,
         transfer_log_type_out = 2
     };
-    export enum zjh_card_type
-    {
-        zjh_three_kind = 1,
-        zjh_straight_flush = 2,
-        zjh_flush = 3,
-        zjh_straight = 4,
-        zjh_pair = 5,
-        zjh_normal = 6
-    };
-    export enum zjh_game_status
-    {
-        zjh_game_status_idle = 1,
-        zjh_game_status_gaming = 2,
-        zjh_game_status_allin = 3,
-        zjh_game_status_settlement = 4
-    };
-    export enum zjh_role_status
-    {
-        zjh_role_status_idle = 1,
-        zjh_role_status_prepared = 2,
-        zjh_role_status_gaming = 3
-    };
     export enum role_prepare_action
     {
         prepare_action_do = 1,
         prepare_action_undo = 2
-    };
-    export enum shz_bibei_bet
-    {
-        shz_bibei_bet_minus = 1,
-        shz_bibei_bet_normal = 2,
-        shz_bibei_bet_plus = 3
-    };
-    export enum shz_bibei_dice
-    {
-        shz_bibei_dice_small = 1,
-        shz_bibei_dice_medium = 2,
-        shz_bibei_dice_big = 3
-    };
-    export enum dn_game_status
-    {
-        dn_game_status_idle = 1,
-        dn_game_compete_banker = 2,
-        dn_game_bet_times = 3,
-        dn_game_select_cards = 4,
-        dn_game_status_settlement = 5
-    };
-    export enum dn_role_status
-    {
-        dn_role_status_idle = 1,
-        dn_role_status_prepared = 2,
-        dn_role_status_robing = 3,
-        dn_role_status_beting_times = 4,
-        dn_role_status_unselected = 5,
-        dn_role_status_selected = 6
-    };
-    export enum dn_card_type
-    {
-        dn_mini = 1,
-        dn_bomb = 2,
-        dn_five_flower = 3,
-        dn_niuniu = 4,
-        dn_niu_nine = 5,
-        dn_niu_eight = 6,
-        dn_niu_seven = 7,
-        dn_niu_six = 8,
-        dn_niu_five = 9,
-        dn_niu_four = 10,
-        dn_niu_three = 11,
-        dn_niu_two = 12,
-        dn_niu_one = 13,
-        dn_normal = 14
-    };
-    export enum dot21_game_status
-    {
-        dot21_game_status_idle = 1,
-        dot21_game_status_buying_insurance = 2,
-        dot21_game_status_operator = 3,
-        dot21_game_status_banker = 4
-    };
-    export enum dot21_role_status
-    {
-        dot21_role_status_idle = 1,
-        dot21_role_status_beting = 2,
-        dot21_role_status_buying_insurance = 3,
-        dot21_role_status_getting_card = 4,
-        dot21_role_status_wating = 5
-    };
-    export enum niu100_game_status
-    {
-        niu100_game_status_start_counting = 1,
-        niu100_game_status_beting = 2,
-        niu100_game_status_comparing = 3
-    };
-    export enum bjl_game_status
-    {
-        bjl_game_status_start_counting = 1,
-        bjl_game_status_beting = 2,
-        bjl_game_status_comparing = 3
-    };
-    export enum bjl_pool
-    {
-        bjl_pool_player = 1,
-        bjl_pool_banker = 2,
-        bjl_pool_tie = 3,
-        bjl_pool_player_king = 4,
-        bjl_pool_banker_king = 5
-    };
-    export enum texas_card_type
-    {
-        texas_three_kind = 1,
-        texas_straight_flush = 2,
-        texas_flush = 3,
-        texas_straight = 4,
-        texas_pair = 5,
-        texas_normal = 6
-    };
-    export enum texas_game_status
-    {
-        texas_game_status_idle = 1,
-        texas_game_status_gaming = 2,
-        texas_game_status_allin = 3
-    };
-    export enum texas_role_status
-    {
-        texas_role_status_idle = 1,
-        texas_role_status_prepared = 2,
-        texas_role_status_gaming = 3
-    };
-    export enum bmw_game_status
-    {
-        bmw_game_status_start_counting = 1,
-        bmw_game_status_beting = 2,
-        bmw_game_status_comparing = 3
-    };
-    export enum fqzs_game_status
-    {
-        fqzs_game_status_start_counting = 1,
-        fqzs_game_status_beting = 2,
-        fqzs_game_status_comparing = 3
-    };
-    export enum zjh100_game_status
-    {
-        zjh100_game_status_start_counting = 1,
-        zjh100_game_status_beting = 2,
-        zjh100_game_status_comparing = 3
-    };
-    export enum laba_icon_type
-    {
-        laba_icon_single_seven = 1,
-        laba_icon_double_seven = 2,
-        laba_icon_three_seven = 3,
-        laba_icon_three_bar = 4,
-        laba_icon_fangkuai = 5,
-        laba_icon_hua = 6,
-        laba_icon_xin = 7,
-        laba_icon_tao = 8,
-        laba_icon_wild = 9,
-        laba_icon_bonus = 10
     };
 
     export function get_proto_version()

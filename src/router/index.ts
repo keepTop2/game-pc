@@ -1,5 +1,3 @@
-
-
 import { Local } from '@/utils/storage';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
@@ -62,12 +60,6 @@ const routes: RouteRecordRaw[] = [
         name: 'proxyIntroduction',
         meta: { title: 'proxyIntroduction' },
         component: () => import('@/views/gameMain/proxyIntroduction/index.vue'),
-      },
-      {
-        path: 'levelInfo',
-        name: 'levelInfo',
-        meta: { title: 'levelInfo' },
-        component: () => import('@/views/level/levelInfo.vue'),
       },
       {
         path: 'levelRule',
@@ -168,7 +160,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'myPromo',
         name: 'myPromo',
-        meta: { title: '我的优惠' },
+        meta: { title: 'deposit_page_discount' },
         component: () => import('@/views/wallet/promo/index.vue'),
       },
       {
@@ -194,6 +186,12 @@ const routes: RouteRecordRaw[] = [
         name: 'withdraw',
         meta: { title: 'proxy_page_withDraw' },
         component: () => import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
+      },
+      {
+        path: 'levelInfo',
+        name: 'levelInfo',
+        meta: { title: 'VIP特权' },
+        component: () => import('@/views/level/levelInfo.vue'),
       },
     ]
   },

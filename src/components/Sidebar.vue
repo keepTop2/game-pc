@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <div class="game_records">
+        <!-- <div class="game_records">
             <div
                 @click="router.push({ path: '/gameMain/gameRecords', query: { name: 'home_page_recentGameHistory' } })">
                 <iconpark-icon icon-id="Group39319" color="#fff" size="1.5em"></iconpark-icon>
@@ -17,13 +17,13 @@
                     <span>{{ t(game.name) }}</span>
                 </p>
             </div>
-        </div>
+        </div>-->
         <!-- 游戏 -->
         <div class="sidebar_public">
             <p> {{ t(state.gameList.title) }} </p>
             <div>
                 <p :class="state.active == game.name ? 'hover' : ''" v-for="(game, g) in state.gameList.list" :key="g"
-                    @click="itemClick(game)">
+                    @click="onClickGame(game, g)">
                     <Imgt :src="game.icon" alt="" class="float_img" v-if="game.float" />
                     <iconpark-icon v-else :icon-id="game.icon" :color="game.color" size="1rem"></iconpark-icon>
                     <span>{{ t(game.name) }}</span>
@@ -63,7 +63,7 @@
     </div>
 </template>
 <script lang="ts" setup name="sider">
-import { onMounted, onUnmounted, reactive, watch } from "vue";
+import { onBeforeMount, onMounted, onUnmounted, reactive, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
@@ -76,8 +76,7 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
-const { activityTitleList } = storeToRefs(Page(pinia));
-
+const { activityTitleList, homeGameData } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 
 // const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
@@ -118,6 +117,13 @@ const state: any = reactive({
     gameList: {
         title: 'home_page_game',
         list: [
+            {
+                icon: 'Group39324',
+                name: 'home_page_hot',
+                url: '/gameMain/gamingPlatform',
+                color: '',
+                value: '',
+            },
             {
                 icon: 'Group39096',
                 name: 'home_page_slot',
@@ -220,6 +226,24 @@ const activityItemClick = (key: any) => {
         }
     )
 }
+// 游戏
+const getHomeData = () => {
+  for (let i in state.gameList.list) {
+    const item = state.gameList.list[i]
+    const name = t(item.name, 1, { locale: 'zh' })
+    const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
+    state.gameList.list[i].value = data
+  }
+}
+const onClickGame = (item: any, idx: any) => {
+    router.push({
+        path: '/gameMain/gamingPlatform',
+        query: {
+            id: idx,
+            name: item.name,
+        }
+    })
+}
 const itemClick = (item: any) => {
     if (item.url) {
         router.push(
@@ -252,6 +276,9 @@ const setIconLink = (str: string) => {
 const handleActivetys = async (res: any) => {
     await Page(pinia).setActivityTitleList(res.promo)
 }
+onBeforeMount(() => {
+  getHomeData()
+})
 onMounted(async () => {
     if (route.query.name) {
         state.active = route.query.name
