@@ -10,13 +10,15 @@
                         <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                         <div>{{ t('home_page_nomore_data') }}</div>
                     </div>
-                    <n-scrollbar ref="scrollRef" content-class="game-list-scroll" x-scrollable @wheel.prevent="handleScroll" :size="2" x-placement="bottom"  v-else>
+                    <n-scrollbar ref="scrollRef" content-class="game-list-scroll" x-scrollable
+                        @wheel.prevent="handleScroll" :size="2" x-placement="bottom" v-else>
                         <div class="game-list">
                             <div class="game-img all">
                                 <Imgt src="/img/game/all_icon.webp" />
                                 <span>全部</span>
                             </div>
-                            <div class="game-img" v-for="(v, i) in result.list" :key="i" @click="platformItemClick(v, i)">
+                            <div class="game-img" v-for="(v, i) in result.list" :key="i"
+                                @click="platformItemClick(v, i)">
                                 <img :src="imgPrefix + v.picture_pc" :alt="v.name[langs[lang]]">
                                 <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
                             </div>
@@ -25,8 +27,9 @@
                 </div>
             </div>
         </div>
-        <GameDetail :platform_id="params.platform_id" :venue_id="params.venue_id" :name="params.name"  :key="params.platform_id + params.venue_id + params.name" v-if="params.platform_id"/>
-        <OverLoading v-model:visible="isLoading" ></OverLoading>
+        <GameDetail :platform_id="params.platform_id" :venue_id="params.venue_id" :name="params.name"
+            :key="params.platform_id + params.venue_id + params.name" v-if="params.platform_id" />
+        <OverLoading v-model:visible="isLoading"></OverLoading>
     </div>
 </template>
 
@@ -67,11 +70,11 @@ const langs: any = {
     vn: 'vi-VN',
     en: 'en-US',
 };
-const params:any = reactive({
-  platform_id: null,
-  venue_id: null,
-  name: null,
-  active: null,
+const params: any = reactive({
+    platform_id: null,
+    venue_id: null,
+    name: null,
+    active: null,
 })
 
 const state: any = reactive({
@@ -152,7 +155,7 @@ const gameUrlResult = (message: any) => {
 }
 
 const platformItemClick = async (item: any, _: number) => {
-    
+
     if (item.has_next == 1) {
         const langs: any = {
             zh: 'zh-CN',
@@ -173,9 +176,9 @@ const platformItemClick = async (item: any, _: number) => {
         // })
     } else {
         let langObj: any = {
-        'en-US': 3,
-        'vi-VN': 2,
-        'zh-CN': 1
+            'en-US': 3,
+            'vi-VN': 2,
+            'zh-CN': 1
         }
         if (!Local.get('user')) {
             await User(pinia).setLogin(true)
@@ -192,7 +195,7 @@ const platformItemClick = async (item: any, _: number) => {
 
 const handleScroll = (e: WheelEvent): void => {
     if (scrollRef.value) {
-        scrollRef.value.scrollBy({left: e.deltaY})
+        scrollRef.value.scrollBy({ left: e.deltaY })
     }
 };
 
@@ -203,7 +206,7 @@ watch(
     }
 )
 onMounted(() => {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     getHomeData()
 })
 onUnmounted(() => {
@@ -217,9 +220,9 @@ onUnmounted(() => {
 @timestamp: `new Date().getTime()`;
 
 .game_platform {
-    max-width: 1400px;
+    // max-width: 1400px;
     margin: 20px 0;
-    
+
     >img {
         width: 100%;
     }
@@ -268,13 +271,14 @@ onUnmounted(() => {
 
         .game-list-scroll {
             overflow: hidden;
+
             .game-list {
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 margin: 12px 0;
                 position: relative;
-                
+
                 .game-img {
                     width: 146px;
                     min-width: 146px;
@@ -284,16 +288,17 @@ onUnmounted(() => {
                     border-radius: 8px;
                     font-size: 10px;
                     margin-left: 10px;
-                    
+
                     &::first-child {
                         margin-left: 0;
                     }
+
                     img {
                         height: 100%;
                         width: 100%;
                         pointer-events: none;
                     }
-                    
+
                     &.all {
                         display: flex;
                         justify-content: center;
@@ -301,10 +306,12 @@ onUnmounted(() => {
                         background-image: url('/img/game/btn_bg.webp');
                         background-repeat: no-repeat;
                         background-size: 100% 100%;
+
                         img {
                             width: 42px;
                             height: 42px;
                         }
+
                         span {
                             color: #FFF;
                             text-align: center;
@@ -314,13 +321,13 @@ onUnmounted(() => {
                         }
                     }
                 }
-    
+
                 .fav {
                     position: absolute;
                     top: 10px;
                     right: 15px;
                 }
-    
+
             }
 
         }

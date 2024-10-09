@@ -5,7 +5,7 @@
         <h4 class="forget_title">
           <span>{{ t(state.formData?.title) }}</span>
           <i>
-            <iconpark-icon @click="closeDialog" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="closeDialog" icon-id="tanctongyguanb" color="#fff" size="1rem"></iconpark-icon>
           </i>
         </h4>
         <div class="login_form">

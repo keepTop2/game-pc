@@ -3,33 +3,31 @@
     <n-card class="avatar_set" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="main_setting">
         <h4 class="top_title">
-          <span>{{t('自定义头像')}}</span>
+          <span>{{ t('自定义头像') }}</span>
           <i>
-            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
           <!-- 表格 -->
           <n-flex class="table_box">
             <n-flex justify="center" class="list_item" v-for="(item, index) in dataList" :key="index">
-              <Imgt :class="curTab == item.value && 'active'" :src="`/img/head_icons/${item.value}.webp`" @click="clickTab(item)"/>
+              <Imgt :class="curTab == item.value && 'active'" :src="`/img/head_icons/${item.value}.webp`"
+                @click="clickTab(item)" />
             </n-flex>
             <n-flex justify="center" class="list_item">
-              <n-upload
-                :max="1"
-                @before-upload="beforeUpload"
-                accept=".jpg,.jpeg,.png,.gif,.webp"
-                :default-file-list="fileList"
-                list-type="image-card"
-              >
+              <n-upload :max="1" @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif,.webp"
+                :default-file-list="fileList" list-type="image-card">
                 点击上传
               </n-upload>
             </n-flex>
           </n-flex>
           <!-- 底部 -->
           <n-flex align="center" justify="center" class="btn_bottom">
-            <n-flex align="center" justify="center" class="button" @click="submitAction">{{ t('home_page_confirm') }}</n-flex>
-            <n-flex align="center" justify="center" class="button" @click="isShow = false">{{ t('home_page_cancel') }}</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="submitAction">{{ t('home_page_confirm')
+              }}</n-flex>
+            <n-flex align="center" justify="center" class="button" @click="isShow = false">{{ t('home_page_cancel')
+              }}</n-flex>
           </n-flex>
 
         </div>
@@ -60,18 +58,18 @@ const { roleInfo } = storeToRefs(UserStore);
 
 const curTab: any = ref(roleInfo.value.head_photo);
 const dataList: any = ref([
-  {value: '1001'},
-  {value: '1002'},
-  {value: '1003'},
-  {value: '1004'},
-  {value: '1005'},
-  {value: '1006'},
-  {value: '1007'},
-  {value: '1008'},
-  {value: '1009'},
-  {value: '1010'},
-  {value: '1011'},
-  {value: '1012'},
+  { value: '1001' },
+  { value: '1002' },
+  { value: '1003' },
+  { value: '1004' },
+  { value: '1005' },
+  { value: '1006' },
+  { value: '1007' },
+  { value: '1008' },
+  { value: '1009' },
+  { value: '1010' },
+  { value: '1011' },
+  { value: '1012' },
 ]);
 const fileList = ref([])
 
@@ -106,19 +104,19 @@ const beforeUpload = (data: any) => {
     body: formData,
   })
     .then(response => response.json()).then(response => {
-    if (response.status == 200 || response.status == 'success') {
-      const urlImg = response.data.path
-      Message.success(response.message)
-      console.log('&&&&&', urlImg)
-    } else {
-      Message.error(response.message)
-    }
-  })
+      if (response.status == 200 || response.status == 'success') {
+        const urlImg = response.data.path
+        Message.success(response.message)
+        console.log('&&&&&', urlImg)
+      } else {
+        Message.error(response.message)
+      }
+    })
 }
 
 watch(() => roleInfo.value, (n) => {
   if (n) {
-   console.log('====', n)
+    console.log('====', n)
   }
 })
 
@@ -165,30 +163,38 @@ watch(() => roleInfo.value, (n) => {
 
       .table_box {
         gap: 30px !important;
+
         .list_item {
           width: 120px;
+
           img {
             cursor: pointer;
             width: 116px;
             border: 2px solid #231353;
             border-radius: 50%;
+
             &.active {
               border-color: #ad95f6;
             }
           }
+
           :deep(.n-upload) {
             display: flex;
             justify-content: center;
             align-items: center;
             background: #616161;
             border-radius: 10px;
+
             .n-upload-file-list {
               display: flex;
               width: 100%;
               height: 100%;
-              .n-upload-trigger--image-card, .n-upload-file {
+
+              .n-upload-trigger--image-card,
+              .n-upload-file {
                 width: 100%;
                 height: 100%;
+
                 .n-upload-dragger {
                   background: none;
                 }

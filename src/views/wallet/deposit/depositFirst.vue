@@ -1,6 +1,5 @@
 <template>
-  <!-- 导航 -->
-  <navTab :title="t('deposit_page_deposit')" />
+
   <div class="list_box bg_color">
     <div class="txt_title">{{t('rechargeRecord_page_method')}}</div>
     <n-flex class="body vertical center t_md">
@@ -38,31 +37,24 @@
   </div>
 
   <!-- 充值说明 -->
-  <n-modal class="deposit_sm_modal" :show="showSmModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('deposit_page_instructions') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="showSmModal = false" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
-        </div>
-        <div class="body vertical center t_md">
-          <n-flex align="center" justify="center" class="sm_txt">
-            <div class="sm_content">
-              <Imgt :src="`/img/payment/sm/sm_${curWay.payname}.webp`" />
-            </div>
-          </n-flex>
-          <n-flex justify="space-between" class="bank_list_item">
-            <a :class="`${curWay.payname === item.payname ? 'active' : ''}`" v-for="(item, index) in usdtRecharge"
-              @click="chooseSmWay(item)" :key="index">
-              <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
-            </a>
-          </n-flex>
-        </div>
+  <ModalDialog v-model:visible="showSmModal" title="deposit_page_instructions">
+    <template #content>
+      <div class="deposit_shuom">
+        <n-flex align="center" justify="center" class="sm_txt">
+          <div class="sm_content">
+            <Imgt :src="`/img/payment/sm/sm_${curWay.payname}.webp`" />
+          </div>
+        </n-flex>
+        <n-flex justify="space-between" class="bank_list_item">
+          <a :class="`${curWay.payname === item.payname ? 'active' : ''}`" v-for="(item, index) in usdtRecharge"
+             @click="chooseSmWay(item)" :key="index">
+            <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
+          </a>
+        </n-flex>
       </div>
-    </n-card>
-  </n-modal>
+
+    </template>
+  </ModalDialog>
 
   <!-- 充值第二步 -->
   <div class="deposit_second bg_color">
@@ -155,27 +147,20 @@
   </div>
 
   <!-- 交易所列表 -->
-  <n-modal class="deposit_sm_modal" :show="showModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('deposit_page_exchange') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="showModal = false" icon-id="Group39368" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
-        </div>
-        <div class="body center t_md exchange_list body_sec">
-          <div class="ex_list_item button" v-for="(item, index) in exchangeArr" :key="index"
-            @click="openWin(item.value)">
-            <div class="icon">
-              <Imgt :src="`/img/payment/usdt/logo${index + 1}.webp`" />
-            </div>
-            <span>{{ item.label }}</span>
+  <ModalDialog v-model:visible="showModal" title="deposit_page_exchange">
+    <template #content>
+      <div class="exchange_list">
+        <div class="ex_list_item button" v-for="(item, index) in exchangeArr" :key="index"
+             @click="openWin(item.value)">
+          <div class="icon">
+            <Imgt :src="`/img/payment/usdt/logo${index + 1}.webp`" />
           </div>
+          <span>{{ item.label }}</span>
         </div>
       </div>
-    </n-card>
-  </n-modal>
+    </template>
+  </ModalDialog>
+
   <!-- 选择银行弹窗 -->
   <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList" ref="chooseBankModal"
     @selectBank="selectBank" />
@@ -191,10 +176,10 @@ import { TShopInfo } from '@/utils/types';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { Local } from '@/utils/storage';
-import navTab from '../components/navTab.vue';
 import { Message } from '@/utils/discreteApi';
 import { bankPayMethods, bankPayType, removeComma, verifyNumberComma } from '@/utils/others';
 import Imgt from '@/components/Imgt.vue';
+import ModalDialog from '@/components/ModalDialog.vue'
 
 const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
@@ -815,9 +800,9 @@ defineExpose({
 
 }
 
-.deposit_sm_modal {
-
-  .body {
+.tips_sm_modal {
+  // 充值说明
+  .deposit_shuom {
     .sm_txt {
       font-size: 24px;
       width: 375px;
@@ -832,7 +817,6 @@ defineExpose({
         }
       }
     }
-
     .bank_list_item {
       width: 100%;
       gap: initial !important;
@@ -856,17 +840,17 @@ defineExpose({
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 40px 40px !important;
+    padding: 20px !important;
 
     .ex_list_item {
       display: flex;
       flex-wrap: wrap;
       align-content: center;
       justify-content: center;
-      width: 112px;
-      height: 112px;
-      background: url('/img/payment/usdt/itembg.webp?t=@{timestamp}') center no-repeat;
-      background-size: 100%;
+      width: 142px;
+      height: 142px;
+      background: none;
+      font-size: 16px;
 
       &:nth-child(n + 4) {
         margin-top: 15px;
@@ -878,8 +862,8 @@ defineExpose({
         margin-bottom: 10px;
 
         img {
-          width: 36px;
-          height: 36px;
+          width: 56px;
+          height: 56px;
         }
       }
     }

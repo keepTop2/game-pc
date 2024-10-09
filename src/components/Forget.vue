@@ -3,7 +3,7 @@
     <h4 class="forget_title">
       <span>{{ state.formData?.title }}</span>
       <i>
-        <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+        <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff" size="1rem"></iconpark-icon>
       </i>
     </h4>
     <div class="login_form">
@@ -131,40 +131,40 @@ const state: any = reactive({
         },
       ],
       phoneCode: [
-            {
-                required: !0,
-                trigger: "blur",
-                validator: (rule: any, value: string) => {
-                    if (!value) {
-                        return new Error(t('home_page_enterSmsCode'))
-                    } else
-                        if (verifyPhoneCaptcha(rule, value)) {
-                            return true
-                        } else {
-                            return new Error(t('home_page_smsCodeFormatIncorrect'))
-                        }
-                },
+        {
+          required: !0,
+          trigger: "blur",
+          validator: (rule: any, value: string) => {
+            if (!value) {
+              return new Error(t('home_page_enterSmsCode'))
+            } else
+              if (verifyPhoneCaptcha(rule, value)) {
+                return true
+              } else {
+                return new Error(t('home_page_smsCodeFormatIncorrect'))
+              }
+          },
 
 
 
-            },
-        ],
-        emailCode: [
-            {
-                required: !0,
-                trigger: "blur",
-                validator: (rule: any, value: string) => {
-                    if (!value) {
-                        return new Error(t('home_page_enterSmsCode'))
-                    } else
-                        if (verifyCaptcha(rule, value)) {
-                            return true
-                        } else {
-                            return new Error(t('home_page_smsCodeFormatIncorrect'))
-                        }
-                },
-            },
-        ],
+        },
+      ],
+      emailCode: [
+        {
+          required: !0,
+          trigger: "blur",
+          validator: (rule: any, value: string) => {
+            if (!value) {
+              return new Error(t('home_page_enterSmsCode'))
+            } else
+              if (verifyCaptcha(rule, value)) {
+                return true
+              } else {
+                return new Error(t('home_page_smsCodeFormatIncorrect'))
+              }
+          },
+        },
+      ],
       email: [
         {
           key: 'email',
@@ -373,9 +373,9 @@ const submitNext = () => {
   // 效验
 
   if (state.formData.step == 1) {
-    
+
     formRef.value?.validate((errors: any) => {
-   
+
       if (!errors) {
         changePassword(state.formData.formParams, 1)
 

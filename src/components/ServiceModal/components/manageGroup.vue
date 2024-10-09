@@ -3,9 +3,9 @@
   <n-modal to="body" v-model:show="isShow" :mask-closable="false" transform-origin="center">
     <div class="main_setting">
       <h4 class="top_title">
-        <span>{{t(stepTitle[step]) }}</span>
+        <span>{{ t(stepTitle[step]) }}</span>
         <i>
-          <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
+          <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
         </i>
       </h4>
       <div class="main_body">
@@ -68,7 +68,8 @@
           <div class="title">{{ t('chat_page_conversion') }}</div>
           <div class="user_list">
             <n-checkbox-group v-model:value="chatitemIdList">
-              <n-checkbox :value="item" v-for="item in itemList.filter((i: any) => i.deep != '0'&&!i.chatgroupid)" :key="item.id">
+              <n-checkbox :value="item" v-for="item in itemList.filter((i: any) => i.deep != '0' && !i.chatgroupid)"
+                :key="item.id">
                 <div class="list_item">
                   <div class="user_info">
                     <div class="avatar">
@@ -78,7 +79,8 @@
                     </div>
                     <span>{{ item.TUsername }}</span>
                   </div>
-                  <div class="high_proxy" :style="{ background: deepObj[item.deep|| item.agentlevel] ? deepObj[item.deep|| item.agentlevel].color : '' }">
+                  <div class="high_proxy"
+                    :style="{ background: deepObj[item.deep || item.agentlevel] ? deepObj[item.deep || item.agentlevel].color : '' }">
                     {{ t(setLabel(item)) }}</div>
                 </div>
               </n-checkbox>
@@ -212,7 +214,7 @@ const saveGroup = () => {
     return
   }
   console.log(4444444,)
-  if (chatitemIdList.value.length=='0') {
+  if (chatitemIdList.value.length == '0') {
     Message.error('请添加对话');
     return
   }
@@ -355,7 +357,7 @@ const isShow = computed({
 
       span {
         width: 100%;
-       word-break: break-all;
+        word-break: break-all;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 3;

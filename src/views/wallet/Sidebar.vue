@@ -62,67 +62,67 @@ const visibleSetting = ref(false);
 const state: any = reactive({
   sideList: [
     {
-      icon: 'qianbao1',
+      icon: 'txxlicon01',
       name: '钱包',
       url: 'walletInfo',
     },
     {
-      icon: 'qianbao1',
+      icon: 'txxlicon02',
       name: 'deposit_page_deposit',
       url: 'deposit',
     },
     {
-      icon: 'qianbao1',
+      icon: 'txxlicon03',
       name: 'proxy_page_withDraw',
       url: 'withdraw',
     },
     {
-      icon: 'qianbao1',
+      icon: 'txxlicon04',
       name: 'VIP',
-      url: 'vip',
+      url: 'levelInfo',
     },
     {
-      icon: 'qianbao1',
+      icon: 'txxlicon05',
       name: '代理',
       url: 'agent',
     },
     {
-      icon: 'Group39346',
+      icon: 'txxlicon06',
       name: '支付',
       url: 'paymentManagement',
     },
     {
-      icon: 'Group39347',
+      icon: 'txxlicon07',
       name: '活动',
       url: 'activity',
     },
     {
-      icon: 'Group39347',
+      icon: 'txxlicon08',
       name: '优惠',
       url: 'myPromo',
     },
     {
-      icon: 'Group39347',
+      icon: 'txxlicon15',
       name: '记录',
       url: 'record',
     },
     {
-      icon: 'Group39347',
+      icon: 'txxlicon10',
       name: '兑换码',
       url: 'redeemCode',
     },
     {
-      icon: 'youxiang-jihuo',
+      icon: 'txxlicon11',
       name: '邮件',
       url: 'myEmail',
     },
     {
-      icon: 'Group39349',
+      icon: 'txxlicon12',
       name: '安全',
       url: 'securitySettings',
     },
     {
-      icon: 'Group39348',
+      icon: 'txxlicon13',
       name: '反馈',
       url: settings.value.serviceTelegram,
     },

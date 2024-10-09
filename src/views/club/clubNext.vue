@@ -28,7 +28,7 @@
     </div>
     <n-flex class="club_list_tab" align="center">
       <div :class="`btn_type ${curGmaeType === item.key ? 'active' : ''}`" v-for="(item, index) in curGmaeArr"
-         :key="index" @click="clickTabGame(item.key)">
+        :key="index" @click="clickTabGame(item.key)">
         <Imgt :src="`/img/club/new/game${index + 1}.webp`" />
         <div>
           {{ item.title }}
@@ -38,8 +38,7 @@
 
     <n-flex class="top_box">
       <n-flex class="item_list item_list_next button" v-for="(item, index) in listData"
-              :style="{ 'background-image': `url(/img/club/new/bgn${index + 1}.webp)` }"
-              :key="index" @click="goToPage(item)">
+        :style="{ 'background-image': `url(/img/club/new/bgn${index + 1}.webp)` }" :key="index" @click="goToPage(item)">
         <n-flex align="flex-end" justify="center" class="item_list_l">
           <Imgt :src="`/img/club/new/${item.icon}.webp`" />
         </n-flex>
@@ -52,9 +51,9 @@
     <div class="bottom_box">
       <n-flex align="center" justify="space-between">
         <n-flex class="tab_list">
-          <n-flex align="center" :class="`item_list button ${curTab === item.value && 'active'}`" v-for="(item, index) in tabData"
-                  :key="index" @click="clickTab(item.value)">
-            <span class="txt"> {{t(item.label)}} </span>
+          <n-flex align="center" :class="`item_list button ${curTab === item.value && 'active'}`"
+            v-for="(item, index) in tabData" :key="index" @click="clickTab(item.value)">
+            <span class="txt"> {{ t(item.label) }} </span>
           </n-flex>
         </n-flex>
         <n-flex justify="center" align="center" class="tab_right button button_color">
@@ -77,16 +76,22 @@
             <div>{{ t(item.name) }}</div>
             <n-flex class="txt_dec">
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/renIcon.webp`" /> </span>
-                <span>{{item.count}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/renIcon.webp`" />
+                </span>
+                <span>{{ item.count }}</span>
               </n-flex>
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/bankIcon.webp`" /> </span>
-                <span>{{item.minBet}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/bankIcon.webp`" />
+                </span>
+                <span>{{ item.minBet }}</span>
               </n-flex>
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/monIcon.webp`" /> </span>
-                <span>{{item.rate}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/monIcon.webp`" />
+                </span>
+                <span>{{ item.rate }}</span>
               </n-flex>
             </n-flex>
           </n-flex>
@@ -106,16 +111,22 @@
             <div>{{ t(item.name) }}</div>
             <n-flex class="txt_dec">
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/renIcon.webp`" /> </span>
-                <span>{{item.count}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/renIcon.webp`" />
+                </span>
+                <span>{{ item.count }}</span>
               </n-flex>
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/bankIcon.webp`" /> </span>
-                <span>{{item.minBet}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/bankIcon.webp`" />
+                </span>
+                <span>{{ item.minBet }}</span>
               </n-flex>
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/monIcon.webp`" /> </span>
-                <span>{{item.rate}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/monIcon.webp`" />
+                </span>
+                <span>{{ item.rate }}</span>
               </n-flex>
             </n-flex>
           </n-flex>
@@ -136,22 +147,28 @@
             <div>{{ t(item.name) }}</div>
             <div class="txt_dec">
               <n-flex class="item_bb">
-                <span class="icon"> <Imgt :src="`/img/club/new/renIcon.webp`" /> </span>
-                <span>{{t('报名人数')}}: {{item.num}}</span>
+                <span class="icon">
+                  <Imgt :src="`/img/club/new/renIcon.webp`" />
+                </span>
+                <span>{{ t('报名人数') }}: {{ item.num }}</span>
               </n-flex>
               <n-flex class="time_box">
-               <div class="it_left">
-                 <n-flex class="item_bb size_12">
-                   <span class="icon"> <Imgt :src="`/img/club/new/bankIcon.webp`" /> </span>
-                   <span>{{t('开始时间')}}: {{item.startTime}}</span>
-                 </n-flex>
-                 <n-flex class="item_bb size_12">
-                   <span class="icon"> <Imgt :src="`/img/club/new/monIcon.webp`" /> </span>
-                   <span>{{t('结束时间')}}: {{item.endTime}}</span>
-                 </n-flex>
-               </div>
+                <div class="it_left">
+                  <n-flex class="item_bb size_12">
+                    <span class="icon">
+                      <Imgt :src="`/img/club/new/bankIcon.webp`" />
+                    </span>
+                    <span>{{ t('开始时间') }}: {{ item.startTime }}</span>
+                  </n-flex>
+                  <n-flex class="item_bb size_12">
+                    <span class="icon">
+                      <Imgt :src="`/img/club/new/monIcon.webp`" />
+                    </span>
+                    <span>{{ t('结束时间') }}: {{ item.endTime }}</span>
+                  </n-flex>
+                </div>
                 <n-flex align="center" justify="center" class="it_right button button_color">
-                   报名
+                  报名
                 </n-flex>
               </n-flex>
 
@@ -170,7 +187,7 @@
         <div class="header">
           <span class="title">{{ t('club_page_jrjlb') }}</span>
           <span class="close pointer">
-            <iconpark-icon @click="onClose" icon-id="Group39368" color="#fff" size="1rem"></iconpark-icon>
+            <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff" size="1rem"></iconpark-icon>
           </span>
         </div>
         <div class="form_body">
@@ -181,7 +198,8 @@
           </n-form>
 
           <n-flex class="form_footer" justify="space-between">
-            <button class="c_join_btn button_color" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit" style="width: 100%"> {{ t('搜素') }} </button>
+            <button class="c_join_btn button_color" :disabled="(!canJoin || !joinParams.id)" @click="onSubmit"
+              style="width: 100%"> {{ t('搜素') }} </button>
           </n-flex>
         </div>
       </div>
@@ -217,13 +235,13 @@ const curTitle = ref('俱乐部');
 const curTab = ref('joinClub'); // joinClub, joinPlay
 
 const tabData = ref([
-  { label: '经典', value: 'joinClub', icon: 'icon_club'},
-  { label: '6+', value: 'joinPlay', icon: 'icon_game'},
-  { label: '赛事', value: 'event', icon: 'icon_game'},
+  { label: '经典', value: 'joinClub', icon: 'icon_club' },
+  { label: '6+', value: 'joinPlay', icon: 'icon_game' },
+  { label: '赛事', value: 'event', icon: 'icon_game' },
 ]);
 const listData = ref([
-  { label: '新建牌局', value: 'joinPlay', icon: 'icon1'},
-  { label: '快速开始', value: 'start', icon: 'icon4'},
+  { label: '新建牌局', value: 'joinPlay', icon: 'icon1' },
+  { label: '快速开始', value: 'start', icon: 'icon4' },
 ]);
 const curGmaeType = ref('dz');
 const curGmaeArr = [
@@ -331,7 +349,7 @@ const goToPage = (item: any) => {
   }
 }
 const showJoinAc = () => {
-  joinParams.value = {id: ''}
+  joinParams.value = { id: '' }
   showJoinModal.value = true
 }
 const showCreateAc = () => {
@@ -465,6 +483,7 @@ defineExpose({
 <style lang='less' scoped>
 @timestamp: `new Date().getTime()`;
 @import '@/assets/club.less';
+
 .top_bg {
   margin: 16px 0;
   padding: 35px 32px;
@@ -473,31 +492,37 @@ defineExpose({
   background: url('/img/club/new/topBg.webp?t=@{timestamp}') center no-repeat;
   background-size: 100%;
   gap: 17px !important;
+
   .item_list_l {
     img {
       width: 148px;
       height: 148px;
     }
   }
+
   .item_list_r {
     flex: 1;
-    > div {
+
+    >div {
       width: 100%;
       font-size: 20px;
       font-weight: 600;
     }
+
     .item_top {
-       .button {
-         width: 96px;
-         height: 36px;
-         border-radius: 8px;
-         font-size: 16px;
-       }
+      .button {
+        width: 96px;
+        height: 36px;
+        border-radius: 8px;
+        font-size: 16px;
+      }
     }
+
     .txt_dec {
       width: 656px;
       font-size: 14px;
       color: rgba(175, 182, 189, 1);
+
       .txt_con {
         word-break: break-all;
         text-overflow: ellipsis;
@@ -507,10 +532,12 @@ defineExpose({
         overflow: hidden;
       }
     }
+
     .item_bottom {
       gap: 2px !important;
       font-size: 14px;
       color: rgba(181, 164, 255, 1);
+
       .icon {
         width: 16px;
         height: 16px;
@@ -520,12 +547,15 @@ defineExpose({
     }
   }
 }
+
 .top_banner {
   margin-bottom: 20px;
+
   img {
     width: 100%;
   }
 }
+
 .club_list_tab {
   background: linear-gradient(180deg, #0A0B22 0%, #000000 100%);
   border: 1px solid #000;
@@ -533,14 +563,17 @@ defineExpose({
   padding: 24px 48px;
   gap: 40px !important;
   margin-bottom: 20px;
+
   .btn_type {
     font-size: 16px;
     text-align: center;
+
     img {
       width: 128px;
     }
   }
 }
+
 .top_box {
   gap: 24px !important;
 }

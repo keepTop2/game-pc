@@ -4,7 +4,7 @@
   <div class="main">
 
     <h4 class="top_title">
-      <span>{{ t('chat_page_with_user',{user:state.userData.TUsername}) }}</span>
+      <span>{{ t('chat_page_with_user', { user: state.userData.TUsername }) }}</span>
 
       <div class="forbidden">
         <div class="forbidden_btn" @click="visibleForbidden = true"
@@ -12,7 +12,7 @@
           {{ t('chat_page_mute') }}
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon @click="isShow = false" class="clo" icon-id="Group39368" color="#fff" size="1.2rem"
+        <iconpark-icon @click="isShow = false" class="clo" icon-id="tanctongyguanb" color="#fff" size="1.2rem"
           style="margin-top: 6px;"></iconpark-icon>
       </div>
     </h4>

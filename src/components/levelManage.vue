@@ -5,7 +5,7 @@
 
             <div class="model_box_title">
                 <span>{{ t('proxy_page_tagManage') }}</span>
-                <iconpark-icon @click="closeModal" class="box_title_close" name="Group39368"
+                <iconpark-icon @click="closeModal" class="box_title_close" name="tanctongyguanb"
                     size="1rem"></iconpark-icon>
             </div>
 

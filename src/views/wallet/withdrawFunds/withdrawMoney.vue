@@ -3,9 +3,6 @@
   <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName"
     :myBankList="mySecBankList" />
 
-  <!-- 导航 -->
-  <navTab :title="t('proxy_page_withDraw')" />
-
   <div class="form_container vertical">
     <div class="body vertical center t_md body_sec">
       <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
@@ -108,7 +105,6 @@ import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
-import navTab from '../components/navTab.vue';
 import { Message } from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
 import pinia from '@/store';

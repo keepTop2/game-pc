@@ -3,6 +3,7 @@
     :theme-overrides="themeOverrides">
     <div class="app">
       <Header v-if="!['customer'].includes(route.name)" />
+      <NewMenu></NewMenu>
       <!-- <div class="hold"></div> -->
       <router-view></router-view>
       <Footer v-if="!['customer', 'openGame'].includes(route.name)" />
@@ -14,6 +15,7 @@
 
 import { NConfigProvider, GlobalThemeOverrides, zhCN, dateZhCN, viVN, dateViVN, enUS, dateEnUS } from "naive-ui";
 import Header from '@/components/NewHeader.vue';
+import NewMenu from '@/components/NewMenu.vue';
 import Footer from '@/components/Footer/Footer.vue';
 import { onMounted } from 'vue';
 import pinia from '@/store/index';
@@ -270,10 +272,11 @@ onMounted(async () => {
 }
 
 .app {
+  width: 1400px;
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url(/img/home/bg.webp);
-  background-size: 5%;
+
 }
 </style>

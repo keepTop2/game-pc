@@ -1,7 +1,15 @@
 <template>
   <n-flex align="center" class="nav_box bg_color">
     <n-flex align="center" class="nav_l">
-      <span>{{title}}</span>
+      <n-flex align="center" class="nav_title">
+        <span>
+          {{title}}
+        </span>
+        <span v-show="secTitle" class="sec_title">
+          ｜{{secTitle}}
+        </span>
+      </n-flex>
+
       <n-flex align="center" class="nav_icon" v-if="showIcon">
         <n-flex align="center">
           <Imgt v-if="!refreshObj.isEyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt=""
@@ -29,6 +37,10 @@ import Imgt from '@/components/Imgt.vue';
 // const { t } = useI18n();
 const props = defineProps({
   title: {
+    type: String,
+    default: '',
+  },
+  secTitle: {
     type: String,
     default: '',
   },
@@ -64,6 +76,14 @@ const clickShow = () => {
   height: 68px;
 
   .nav_l {
+    .nav_title {
+      gap: 3px !important;
+      .sec_title {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(174, 174, 176, 1);
+      }
+    }
     .nav_icon {
       gap: 16px !important;
       img {
