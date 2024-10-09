@@ -124,7 +124,7 @@ const langs: any = {
     vn: 'vi-VN',
     en: 'en-US',
 };
-const imgPrefix = 'http://18.162.112.52:8033/uploads/'
+const imgPrefix = 'http://18.167.175.195:8033/uploads/'
 const TabType = {
     FAVORITE: 88
 }

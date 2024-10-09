@@ -1,7 +1,7 @@
 export default {
     home_page_nomore_data: "暂无数据",
     // 导航栏
-    home_page_seachGame: '搜索游戏',
+    home_page_seachGame: '请输入游戏名称进行搜索',
     home_page_login: '登录',
     home_page_signUp: '注册',
     home_page_vi: 'VN',

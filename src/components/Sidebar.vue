@@ -63,7 +63,7 @@
     </div>
 </template>
 <script lang="ts" setup name="sider">
-import { onMounted, onUnmounted, reactive, watch } from "vue";
+import { onBeforeMount, onMounted, onUnmounted, reactive, watch } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
@@ -76,8 +76,7 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
-const { activityTitleList } = storeToRefs(Page(pinia));
-
+const { activityTitleList, homeGameData } = storeToRefs(Page(pinia));
 const { t } = useI18n();
 
 // const club = defineAsyncComponent(() => import('@/views/club/index.vue'));
@@ -227,12 +226,21 @@ const activityItemClick = (key: any) => {
         }
     )
 }
+// 游戏
+const getHomeData = () => {
+  for (let i in state.gameList.list) {
+    const item = state.gameList.list[i]
+    const name = t(item.name, 1, { locale: 'zh' })
+    const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
+    state.gameList.list[i].value = data
+  }
+}
 const onClickGame = (item: any, idx: any) => {
     router.push({
         path: '/gameMain/gamingPlatform',
         query: {
             id: idx,
-            name: item.name
+            name: item.name,
         }
     })
 }
@@ -268,6 +276,9 @@ const setIconLink = (str: string) => {
 const handleActivetys = async (res: any) => {
     await Page(pinia).setActivityTitleList(res.promo)
 }
+onBeforeMount(() => {
+  getHomeData()
+})
 onMounted(async () => {
     if (route.query.name) {
         state.active = route.query.name

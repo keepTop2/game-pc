@@ -1,45 +1,37 @@
 <template>
     <div class="game-content">
-        <!-- <div class="game_platform">
-            <Imgt src="/img/home/banner1.webp" alt="" />
-        </div> -->
-        <div class="announcement">
-            <n-carousel autoplay draggable v-if="bannerArr">
-                <Imgt class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)" />
-            </n-carousel>
-            <p style="height: 40px;">
-                <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-                <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
-                    <p v-for="(v, i) in textAnnouncement" :key="i" style="margin-left: 5px;" class="carousel_span">{{
-                        t(v)
-                    }}</p>
-                </n-carousel>
-            </p>
+        <div class="game_platform">
+            <Imgt :src="`/img/game/${route.query.name}.webp`" alt="" />
         </div>
         <div class="games">
             <div class="game-detail">
-                <div>
+                <div class="game-list-container">
                     <div class="nodata" v-if="!result.list.length">
                         <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
                         <div>{{ t('home_page_nomore_data') }}</div>
                     </div>
-                    <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
+                    <n-scrollbar ref="scrollRef" content-class="game-list-scroll" x-scrollable @wheel.prevent="handleScroll" :size="2" x-placement="bottom"  v-else>
                         <div class="game-list">
+                            <div class="game-img all">
+                                <Imgt src="/img/game/all_icon.webp" />
+                                <span>全部</span>
+                            </div>
                             <div class="game-img" v-for="(v, i) in result.list" :key="i" @click="platformItemClick(v, i)">
                                 <img :src="imgPrefix + v.picture_pc" :alt="v.name[langs[lang]]">
                                 <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
                             </div>
                         </div>
-                    </n-infinite-scroll>
+                    </n-scrollbar>
                 </div>
             </div>
         </div>
+        <GameDetail :platform_id="params.platform_id" :venue_id="params.venue_id" :name="params.name"  :key="params.platform_id + params.venue_id + params.name" v-if="params.platform_id"/>
         <OverLoading v-model:visible="isLoading" ></OverLoading>
     </div>
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
@@ -56,25 +48,31 @@ import { Message } from '@/utils/discreteApi';
 import { Local } from '@/utils/storage';
 import { User } from '@/store/user';
 import OverLoading from '@/components/Loading.vue'
+import GameDetail from '@/components/GameDetail.vue'
 
 const {
     lang,
     homeGameData,
-    bannerArr,
-    textAnnouncement,
 } = storeToRefs(Page(pinia));
-const imgPrefix = 'http://18.162.112.52:8033/uploads/'
+const imgPrefix = 'http://18.167.175.195:8033/uploads/'
 const router = useRouter()
 const result: any = reactive({
     list: []
 })
 const isLoading = ref(false)
 let newTab = ref()
+const scrollRef = ref<HTMLElement>()
 const langs: any = {
     zh: 'zh-CN',
     vn: 'vi-VN',
     en: 'en-US',
 };
+const params:any = reactive({
+  platform_id: null,
+  venue_id: null,
+  name: null,
+  active: null,
+})
 
 const state: any = reactive({
     tabs: <{}>[
@@ -123,28 +121,13 @@ const state: any = reactive({
     ],
 })
 
-watch(
-    () => route.query.id,
-    () => {
-        getHomeData()
-    }
-)
-
-onMounted(() => {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
-    getHomeData()
-})
-onUnmounted(() => {
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
-})
-
-
 const getHomeData = () => {
     const id = route.query.id as string
     const item = state.tabs[id]
     const name = t(item.name, 1, { locale: 'zh' })
     const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
     result.list = data.three_platform
+    platformItemClick(result.list[0], 0)
 }
 
 const gameUrlResult = (message: any) => {
@@ -168,22 +151,26 @@ const gameUrlResult = (message: any) => {
     }
 }
 
-const platformItemClick = async (item: any, i: number) => {
+const platformItemClick = async (item: any, _: number) => {
+    
     if (item.has_next == 1) {
         const langs: any = {
             zh: 'zh-CN',
             vn: 'vi-VN',
             en: 'en-US',
         };
-        router.push({
-        path: '/gameMain/gameDetail',
-        query: {
-            id: i,
-            platform_id:item.id,
-            venue_id:item.three_game_kind[0].id,
-            name: item.name[langs[lang.value]].toUpperCase(),
-        }
-        })
+        params.platform_id = item.id
+        params.venue_id = item.three_game_kind[0].id
+        params.name = item.name[langs[lang.value]].toUpperCase()
+        // router.push({
+        // path: '/gameMain/gameDetail',
+        // query: {
+        //     id: i,
+        //     platform_id:item.id,
+        //     venue_id:item.three_game_kind[0].id,
+        //     name: item.name[langs[lang.value]].toUpperCase(),
+        // }
+        // })
     } else {
         let langObj: any = {
         'en-US': 3,
@@ -203,16 +190,38 @@ const platformItemClick = async (item: any, i: number) => {
     }
 }
 
+const handleScroll = (e: WheelEvent): void => {
+    if (scrollRef.value) {
+        scrollRef.value.scrollBy({left: e.deltaY})
+    }
+};
+
+watch(
+    () => route.query.id,
+    () => {
+        getHomeData()
+    }
+)
+onMounted(() => {
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    getHomeData()
+})
+onUnmounted(() => {
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
+
+})
+
 </script>
 
 <style lang='less' scoped>
-.game_platform {
-    width: 1200px;
-    display: flex;
-    flex-direction: column;
+@timestamp: `new Date().getTime()`;
 
+.game_platform {
+    max-width: 1400px;
+    margin: 20px 0;
+    
     >img {
-        margin-top: 20px
+        width: 100%;
     }
 }
 
@@ -250,30 +259,70 @@ const platformItemClick = async (item: any, i: number) => {
     display: flex;
     flex-direction: column;
 
-    >div {
-        margin-top: 30px;
+    .game-list-container {
+        height: 96px;
+        overflow-y: hidden;
+        border-radius: 16px;
+        border: 1px solid #181C25;
+        background: linear-gradient(180deg, #0A0B22 0%, #000 100%);
 
-        .game-list {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-
-            .game-img {
-                height: 238px;
+        .game-list-scroll {
+            overflow: hidden;
+            .game-list {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                margin: 12px 0;
                 position: relative;
-                width: 100%;
-                cursor: pointer;
-                img {
-                    height: 100%;
-                    width: 100%;
+                
+                .game-img {
+                    width: 146px;
+                    min-width: 146px;
+                    height: 72px;
+                    cursor: pointer;
+                    background: #22283A;
+                    border-radius: 8px;
+                    font-size: 10px;
+                    margin-left: 10px;
+                    
+                    &::first-child {
+                        margin-left: 0;
+                    }
+                    img {
+                        height: 100%;
+                        width: 100%;
+                        pointer-events: none;
+                    }
+                    
+                    &.all {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-image: url('/img/game/btn_bg.webp');
+                        background-repeat: no-repeat;
+                        background-size: 100% 100%;
+                        img {
+                            width: 42px;
+                            height: 42px;
+                        }
+                        span {
+                            color: #FFF;
+                            text-align: center;
+                            font-size: 32px;
+                            font-weight: 500;
+                            margin-left: 3px;
+                        }
+                    }
                 }
+    
+                .fav {
+                    position: absolute;
+                    top: 10px;
+                    right: 15px;
+                }
+    
             }
 
-            .fav {
-                position: absolute;
-                top: 10px;
-                right: 15px;
-            }
         }
     }
 }
