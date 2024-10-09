@@ -8,7 +8,7 @@
         <div :class="{'active_item_bg': active_id == item.id}"></div>
       </div>
       <div class="menu_wrap_list_ban">
-        <Imgt src="/img/menu/ban.webp" />
+        <!-- <Imgt src="/img/menu/ban.webp" /> -->
       </div>
     </div>
     <div class="menu_wrap_other">
@@ -117,6 +117,13 @@ const itemClick = (item: any) => {
       left: 0;
       top: 45px;
       z-index: 1;
+      width: 1010px;
+      height: 68px;
+      border-radius: 16px;
+      background: url('/img/menu/ban.webp?t=@{timestamp}') no-repeat;
+      background-size: 100% 100%;
+
+
     }
   }
 
