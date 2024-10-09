@@ -193,6 +193,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'VIP特权' },
         component: () => import('@/views/level/levelInfo.vue'),
       },
+      {
+        path: 'proxyCooperation',
+        name: 'proxyCooperation',
+        meta: { title: 'proxy_page_agent' },
+        component: () => import('@/views/wallet/proxyCooperation/index.vue'),
+      },
     ]
   },
 
