@@ -2,11 +2,14 @@
   <n-config-provider style="width: 100%;" :locale="Language[lang].global" :date-locale="Language[lang].date"
     :theme-overrides="themeOverrides">
     <div class="app">
+    <div class="main_container">
       <Header v-if="!['customer'].includes(route.name)" />
       <NewMenu></NewMenu>
       <!-- <div class="hold"></div> -->
       <router-view></router-view>
       <Footer v-if="!['customer'].includes(route.name)" />
+    </div>
+     
     </div>
   </n-config-provider>
 </template>
@@ -277,5 +280,10 @@ onMounted(async () => {
   flex-direction: column;
   background: url(/img/home/bg.webp);
   background-size: 5%;
+  .main_container{
+    width: 1400px;
+    margin: 0 auto;
+  }
+
 }
 </style>

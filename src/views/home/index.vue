@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Sidebar />
+    <!-- <Sidebar /> -->
     <div class="content">
       <div class="announcement">
         <n-carousel draggable v-if="bannerArr">
