@@ -8,75 +8,75 @@ const useHeaderHooks = () =>{
 
   const menu = [
     {
-      icon: 'qianbao1',
+      icon: 'txxlicon01',
       name: '钱包',
       url: '/wallet/walletInfo',
     },
     {
-      icon: 'Group39341',
+      icon: 'txxlicon02',
       name: '充值',
       url: '/wallet/rechargeRecord',
     },
     {
-      icon: 'Group39342',
+      icon: 'txxlicon03',
       name: '提款',
       url: '/wallet/withdrawRecord',
     },
     {
-      icon: 'Group39345',
+      icon: 'txxlicon04',
       name: 'VIP',
       url: '/wallet/accountsRecord',
     },
     {
-      icon: 'Group39343',
+      icon: 'txxlicon05',
       name: '代理',
       url: '/wallet/betRecord',
     },
     {
-      icon: 'Group39344',
+      icon: 'txxlicon06',
       name: '支付',
       url: '/wallet/auditRecord',
     },
   
     {
-      icon: 'diannaodenglujilu1',
+      icon: 'txxlicon07',
       name: '活动',
       url: '/wallet/waterRecord',
     },
     {
-      icon: 'Group39347',
+      icon: 'txxlicon08',
       name: '优惠',
       url: '/wallet/myPromo',
     },
     {
-      icon: 'youxiang2',
+      icon: 'txxlicon09',
       name: '奖励',
       url: '/wallet/myEmail',
     },
     {
-      icon: 'Group39348',
+      icon: 'txxlicon10',
       name: '兑换码',
       url: 'kf',
     },
     {
-      icon: 'Group39349',
+      icon: 'txxlicon11',
       name: '邮件',
       url: '/wallet/securitySettings',
     },
     {
-      icon: 'tuichu1',
+      icon: 'txxlicon12',
       name: '安全',
       url: '444',
       value: 444,
     },
     {
-      icon: 'tuichu1',
+      icon: 'txxlicon13',
       name: '反馈',
       url: '444',
       value: 444,
     },
     {
-      icon: 'tuichu1',
+      icon: 'txxlicon14',
       name: '退出登录',
       url: '444',
       value: 444,
