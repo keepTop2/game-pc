@@ -28,13 +28,6 @@ const props:any = defineProps({
     type: Boolean,
     default: false,
   },
-  markDateMore: Array,
-  textTop: Array,
-  sundayStart: Boolean,
-  agoDayHide: String,
-  futureDayHide: String,
-  data: Array,
-  dayNum: Object,
 });
 const emit = defineEmits(['update:visible']);
 
