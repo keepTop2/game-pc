@@ -58,7 +58,8 @@ const itemClick = (item: any) => {
 
 .menu_wrap {
   display: flex;
-  width: 1450;
+  width: 100%;
+  height: 100px;
   margin: 0 auto;
 
 
@@ -70,6 +71,7 @@ const itemClick = (item: any) => {
     align-items: center;
     justify-content: space-between;
     width: 1010px;
+    margin-left: 50px;
   
 
     .menu_wrap_item {
@@ -117,7 +119,7 @@ const itemClick = (item: any) => {
       left: 0;
       top: 45px;
       z-index: 1;
-      width: 1010px;
+      width:1010px;
       height: 68px;
       border-radius: 16px;
       background: url('/img/menu/ban.webp?t=@{timestamp}') no-repeat;
@@ -133,6 +135,10 @@ const itemClick = (item: any) => {
     display: flex;
     align-items: center;
     gap: 10px;
+    img{
+      width: 88px;
+      height: 82px;
+    }
 
     div {
       display: flex;

@@ -61,7 +61,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon11',
       name: '邮件',
-      url: '/wallet/securitySettings',
+      url: '/wallet/myEmail',
     },
     {
       icon: 'txxlicon12',
