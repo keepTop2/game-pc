@@ -33,14 +33,14 @@
       </div>
 
 
-           <!--       
+      <!--       
       账号信息 -->
-      <div class="account"  v-if="hasLogin">
-       <div class="account_bit">
-       <span>BIT</span>
-       <Imgt src="/img/header/bit.webp" />
-       </div>
-       <div>999,999.99</div>
+      <div class="account" v-if="hasLogin">
+        <div class="account_bit">
+          <span>BIT</span>
+          <Imgt src="/img/header/bit.webp" />
+        </div>
+        <div>999,999.99</div>
       </div>
 
 
@@ -59,8 +59,7 @@
             <div class="menu_box">
               <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
                 @click="menuClick(item, i)">
-                <iconpark-icon :icon-id="item.icon" :color="menuActive == i ? '#14173A' : '#8e82c2'"
-                  size="1.2rem"></iconpark-icon>
+                <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
                 <span>{{ item.name }}</span>
               </p>
             </div>
@@ -515,6 +514,7 @@ onUnmounted(() => {
         height: 60px;
       }
     }
+
     .email_wrap {
       display: flex;
       align-items: center;
@@ -566,21 +566,24 @@ onUnmounted(() => {
         cursor: pointer;
       }
     }
-    .account{
+
+    .account {
       display: flex;
       flex-direction: column;
       align-items: center;
       color: #FFFFFF;
       font-size: 20px;
       margin-left: 10px;
-      img{
+
+      img {
         height: 30px;
         width: 30px;
       }
-     .account_bit{
-      display: flex;
-      align-items: center;
-    }
+
+      .account_bit {
+        display: flex;
+        align-items: center;
+      }
     }
 
 
@@ -745,7 +748,7 @@ onUnmounted(() => {
   flex-direction: column;
 
   >p {
-    color: #8e82c2;
+    color: #fff;
     padding: 10px 10px;
     margin: 0;
     // color: #fff;
@@ -760,7 +763,8 @@ onUnmounted(() => {
   }
 
   .active {
-    color: #fff;
+    color: #8e82c2;
+
   }
 }
 
