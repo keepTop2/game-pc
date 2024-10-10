@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'home',
     meta: { title: 'home' },
-    component: () => import('@/views/home/index.vue'),
+    component: () => import('@/views/newHome/index.vue'),
   },
   {
     path: '/customer',

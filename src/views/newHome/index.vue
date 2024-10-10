@@ -3,8 +3,9 @@
     <!-- <Sidebar /> -->
     <div class="content">
       <div class="announcement">
-        <n-carousel draggable v-if="bannerArr">
-          <Imgt class="carousel" v-for="(v, i) in bannerArr" :key="i" :src="t(v)" />
+      <div class="carousel_wrap">
+        <n-carousel draggable >
+          <Imgt class="carousel"  src="/img/header/carousel1.webp" />
         </n-carousel>
         <p style="height: 40px;">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
@@ -14,7 +15,12 @@
           </n-carousel>
         </p>
       </div>
-      <div class="game_detail" v-for="(item, idx) in state.tabs" :key="idx">
+      <div class="carousel_wrap_des">
+        <Imgt class="carousel"  src="/img/header/carousel2.webp" />
+      </div>
+      </div>
+      <div class="game_detail" v-for="(item, i) in state.tabs" :key="i">
+
         <div class="game_list">
           <p class="game_type">
             <span class="text">
@@ -23,32 +29,32 @@
               </b>
               <span>{{ t(item.name) }}</span>
             </span>
-            <span class="more" @click="onClickGame(item, idx)">{{ t('home_page_more') }}</span>
+            <span class="more" @click="allPlatForm(item)">{{ t('home_page_more') }}</span>
           </p>
           <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
-            :show-arrow="true" :show-dots="false">
-            <div class="game-img" v-for="(v, j) in item.value?.three_platform" :key="j"
-              @click="platformItemClick(v, idx)">
-              <img :src="imgPrefix + v.picture_pc" :alt="v.name[langs[lang]]" />
-            </div>
+            show-arrow>
+            <Imgt @click="platformItemClick(item)" class="game_img" :src="`/img/cards/${v}.png`"
+              v-for="(v, j) in [0, 1, 2, 3, 4]" :key="j" />
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
                   <iconpark-icon class="left" icon-id="Vector2" size=".8rem" @click="prev"></iconpark-icon>
                   <iconpark-icon class="right" icon-id="Vector" size=".8rem" @click="next"></iconpark-icon>
                 </span>
+
               </div>
+
             </template>
+
           </n-carousel>
         </div>
       </div>
     </div>
-    <OverLoading v-model:visible="isLoading"></OverLoading>
   </div>
 </template>
 <script setup lang="ts" name="home">
 import Sidebar from '@/components/Sidebar.vue';
-import { onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
@@ -58,34 +64,16 @@ import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { Message } from '@/utils/discreteApi';
-import { Local } from '@/utils/storage';
-import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
-import { NetPacket } from '@/netBase/NetPacket';
-import { Net } from '@/net/Net';
-import { User } from '@/store/user';
-import OverLoading from '@/components/Loading.vue'
 const { t } = useI18n();
 const router = useRouter()
 const page = Page(pinia);
-const { bannerArr, textAnnouncement, homeGameData, lang } = storeToRefs(page);
-const imgPrefix = 'http://18.167.175.195:8033/uploads/'
-const isLoading = ref(false)
-let newTab = ref()
-const langs: any = {
-  zh: 'zh-CN',
-  vn: 'vi-VN',
-  en: 'en-US',
-};
+// const isVisible = ref(0);
+const { bannerArr, textAnnouncement } = storeToRefs(page);
+
 const state: any = reactive({
-  tabs: <{}>[
-    {
-      icon: 'Group39324',
-      name: 'home_page_hot',
-      color: 'lottery',
-      value: '',
-    },
+  // gameActive: 0,
+  tabs: [
+
     {
       icon: 'Group39096',
       name: 'home_page_slot',
@@ -96,6 +84,13 @@ const state: any = reactive({
       icon: 'Group39095',
       name: 'home_page_live',
       color: 'live',
+      value: '',
+    },
+
+    {
+      icon: 'Group39097',
+      name: 'home_page_eSports',
+      color: 'gaming',
       value: '',
     },
     {
@@ -111,12 +106,6 @@ const state: any = reactive({
       value: '',
     },
     {
-      icon: 'Group1556235261',
-      name: 'home_page_pokerGame',
-      color: 'gaming',
-      value: '',
-    },
-    {
       icon: 'Group1556235309',
       name: 'home_page_lotteryGame',
       color: 'lottery',
@@ -124,88 +113,45 @@ const state: any = reactive({
     },
   ],
 })
-
-
-
-const getHomeData = () => {
-  for (let i in state.tabs) {
-    const item = state.tabs[i]
-    const name = t(item.name, 1, { locale: 'zh' })
-    const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
-    state.tabs[i].value = data
-  }
-}
-
-const platformItemClick = async (item: any, i: number) => {
-  if (item.has_next == 1) {
-    router.push({
-      path: '/gameMain/gameDetail',
-      query: {
-        id: i,
-        platform_id: item.id,
-        venue_id: item.three_game_kind[0].id,
-        name: item.name[langs[lang.value]].toUpperCase(),
-      }
-    })
-  } else {
-    let langObj: any = {
-      'en-US': 3,
-      'vi-VN': 2,
-      'zh-CN': 1
+const platformItemClick = (item: any) => {
+  console.log(item);
+  router.push({
+    path: '/gameMain/gameDetail',
+    query: {
+      id: 1,
+      name: '首页跳转'
     }
-    if (!Local.get('user')) {
-      await User(pinia).setLogin(true)
-      return
-    }
-    isLoading.value = true
-    let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = item.id;
-    tb.kindId = item.three_game_kind_id;
-    tb.lang = langObj[lang.value];
-    Net.instance.sendRequest(tb);
-  }
+  })
+
 }
-const onClickGame = (item: any, idx: any) => {
+const allPlatForm = (item: any) => {
+  console.log(item);
   router.push({
     path: '/gameMain/gamingPlatform',
     query: {
-      id: idx,
+      id: 1,
       name: item.name
     }
   })
 }
+// const getGameList = (res: any) => {
+//   debugger
+//   console.log(res);
 
-const gameUrlResult = (message: any) => {
-  isLoading.value = false
-  Local.set('gameUrl', message.url)
-  if (message.code != 0) {
-    Message.error(message.msg)
-    return
-  }
-
-  if (newTab.value) {
-    newTab.value.close()
-  }
-
-  if (message.url.indexOf('<!doctype html>') != -1) {
-    newTab.value = window.open('', '_blank');
-    newTab.value.document.open();
-    newTab.value.document.write(message.url);
-  } else {
-    newTab.value = window.open(message.url, '_blank')
-  }
-}
-
-onBeforeMount(() => {
-  getHomeData()
-})
+// }
 onMounted(() => {
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
-})
+
+
+  // MessageEvent2.addMsgEvent(
+  //   NetMsgType.msgType.msg_notify_platform_gametype_list,
+  //   getGameList
+  // );
+
+
+});
 onUnmounted(() => {
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
-})
+  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_platform_gametype_list, null);
+});
 </script>
 
 <style lang="less" scoped>
@@ -213,23 +159,38 @@ onUnmounted(() => {
 
 .home {
   display: flex;
+  width: 100%;
 
 }
 
 .content {
-  margin: 32px 0 30px 90px;
+  margin: 32px 0 30px 10px;
   width:100%;
 
   .announcement {
     position: relative;
+    display: flex;
+    img{
+      object-fit: cover;
+    }
 
-    height: 320px;
+    height: 424px;
+    .carousel_wrap{
+      width: 941px;
+      height: 100%;
+      margin-right: 15px;
+      
+    }
+    .carousel_wrap_des{
+      width: 444px;
+      height: 100%;
+    }
 
     >p {
       position: absolute;
       bottom: 0px;
       left: 0;
-      width: 1171px;
+      width: 100%;
       height: 40px;
       padding: 0 14.5px;
       background-color: rgba(0, 0, 0, .3);
@@ -238,6 +199,9 @@ onUnmounted(() => {
       align-items: center;
       color: #fff;
       font-size: 16px;
+      // border-bottom-left-radius: 15px;
+      // border-bottom-right-radius: 15px;
+
     }
   }
 
@@ -262,15 +226,12 @@ onUnmounted(() => {
       align-items: center;
     }
 
-    .game-img {
-      height: 12.39583rem;
-      width: 100%;
-      cursor: pointer;
 
-      img {
-        height: 100%;
-        width: 100%;
-      }
+
+    .game_img {
+      width: 238px;
+      height: 238px;
+      object-fit: cover;
     }
   }
 
@@ -397,8 +358,9 @@ onUnmounted(() => {
 }
 
 .carousel {
-  width: 1200px;
-  height: 320px;
+  width: 100%;
+  height: 424px;
   object-fit: cover;
+  border-radius: 16px;
 }
 </style>

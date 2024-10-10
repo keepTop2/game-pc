@@ -14,11 +14,15 @@
         <Imgt src="/img/header/search.webp" />
       </div>
       <!--       
-      登录注册区域 -->
-      <div class="login_wrap">
+      邮件 -->
+      <div class="email_wrap" v-if="hasLogin">
+        <Imgt src="/img/header/email.webp" />
+        <Imgt src="/img/header/collect.webp" />
+      </div>
+
+      <div class="login_wrap" v-if="!hasLogin">
         <div @click="onLoginOpen">Login</div>
         <n-button @click="onRegisterOpen">Sign Up</n-button>
-
       </div>
 
       <!--       
@@ -30,10 +34,36 @@
 
 
       <!--       
+      账号信息 -->
+      <div class="account" v-if="hasLogin">
+        <div class="account_bit">
+          <span>BIT</span>
+          <Imgt src="/img/header/bit.webp" />
+        </div>
+        <div>999,999.99</div>
+      </div>
+
+
+      <!--       
       头像 语言 -->
       <div class="avatar">
         <div>
-          <Imgt src="/img/header/avatar.webp" class="avatar_logo" />
+          <n-popover trigger="hover" display-directive="show" :arrow="false">
+            <template #trigger>
+              <span class="avatar_wrap">
+                <Imgt @error="avatarLoadError"
+                  :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar_logo" />
+                <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
+              </span>
+            </template>
+            <div class="menu_box">
+              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
+                @click="menuClick(item, i)">
+                <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
+                <span>{{ item.name }}</span>
+              </p>
+            </div>
+          </n-popover>
         </div>
         <div>
           <Imgt src="/img/header/lang.webp" class="lang_logo" />
@@ -75,24 +105,24 @@ import { User } from '@/store/user';
 
 import { useI18n } from "vue-i18n";
 import { NetEnumDef } from '@/netBase/NetEnumDef';
-// import defaultAvatar from "/img/home/avatar.webp"
+import defaultAvatar from "/img/home/avatar.webp"
 import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
 // import { SelectRenderLabel } from 'naive-ui';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net, getLocale } from '@/net/Net';
 import Imgt from '@/components/Imgt.vue';
-
+import useHeaderHooks from './useHooks'
 const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
 const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
 const RegPop = defineAsyncComponent(() => import('@/components/RegPop.vue'));
 
 const { t } = useI18n()
 const page = Page(pinia);
-const { settings } = storeToRefs(page);
+const { menuActive, settings, lang } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
-const { isLogin, isReg } = storeToRefs(userInfo);
+const { hasLogin, isLogin, isReg, roleInfo } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 const theme = ref('day')
@@ -101,6 +131,17 @@ const state: any = reactive({
   active: 0,
   slider: true,
 })
+
+
+const { menu } = useHeaderHooks()
+
+
+
+
+
+const avatarLoadError = (e: any) => {
+  e.target.src = defaultAvatar
+}
 
 // 主题色切换1
 const changeTheme = (value: any) => {
@@ -120,6 +161,44 @@ const onRegisterOpen = async () => {
   await User(pinia).setReg(true)
 
 };
+
+
+
+const menuClick = async (item: any, j: number) => {
+  if (item.value == 444) {
+    Dialog.warning({
+      showIcon: false,
+      title: t('home_page_logout'),
+      content: t('home_page_confirmSignOut'),
+      positiveText: t('home_page_confirm'),
+      negativeText: t('home_page_cancel'),
+      onPositiveClick: async () => {
+        Local.remove('user')
+        Local.remove('roleInfo')
+        Local.set('menuActive', '')
+        Local.set('menuName', '')
+        await User(pinia).setHasLogin(false)
+        location.href = '/'
+      },
+      onNegativeClick: () => {
+
+      },
+    })
+  } else if (item.url == 'kf') {
+    // if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
+    //   Message.error('用户被封禁')
+    // } else {
+    //   kefuVisible.value = true
+    //   return
+    // }
+  }
+  else {
+    await page.setMenuActive(j, item.name)
+    router.push(item.url)
+  }
+
+
+}
 
 
 
@@ -383,7 +462,8 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     height: 100%;
-
+    width: 100%;
+    box-sizing: border-box;
 
     .home_logo {
       height: 68px;
@@ -435,6 +515,18 @@ onUnmounted(() => {
       }
     }
 
+    .email_wrap {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+
+      img {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+      }
+    }
+
     .login_wrap {
       display: flex;
       align-items: center;
@@ -475,21 +567,48 @@ onUnmounted(() => {
       }
     }
 
+    .account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #FFFFFF;
+      font-size: 20px;
+      margin-left: 10px;
+
+      img {
+        height: 30px;
+        width: 30px;
+      }
+
+      .account_bit {
+        display: flex;
+        align-items: center;
+      }
+    }
+
 
     .avatar {
       display: flex;
       align-items: center;
 
+      .avatar_wrap {
+        display: flex;
+        align-items: center;
+      }
+
       .avatar_logo {
         margin-left: 20px;
         height: 53px;
         width: 53px;
+        cursor: pointer;
+        border-radius: 50%;
       }
 
       .lang_logo {
         margin-left: 20px;
         width: 32px;
         height: 24px;
+        cursor: pointer;
       }
     }
 
@@ -629,7 +748,7 @@ onUnmounted(() => {
   flex-direction: column;
 
   >p {
-    color: #8e82c2;
+    color: #fff;
     padding: 10px 10px;
     margin: 0;
     // color: #fff;
@@ -644,7 +763,8 @@ onUnmounted(() => {
   }
 
   .active {
-    color: #fff;
+    color: #8e82c2;
+
   }
 }
 
