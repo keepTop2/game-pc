@@ -73,10 +73,10 @@
     </div>
 </template>
 <script setup lang="ts" name="footer">
-import { useI18n } from "vue-i18n";
+// import { useI18n } from "vue-i18n";
 import Imgt from '@/components/Imgt.vue';
 import { useRouter } from 'vue-router';
-const { t } = useI18n();
+// const { t } = useI18n();
 const router = useRouter();
 const clubList: any = {
     '俱乐部': [{ label: '俱乐部首页', id: 1, path: '' }, { label: '德州扑克', id: 2, path: '' }, { label: '21点', id: 3, path: '' },
@@ -122,7 +122,8 @@ const clubList: any = {
                 margin-bottom: unset !important;
             }
         }
-        .club_item{
+
+        .club_item {
             display: flex;
             align-items: center;
             gap: 5px;

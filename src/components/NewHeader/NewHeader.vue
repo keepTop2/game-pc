@@ -118,7 +118,7 @@ const RegPop = defineAsyncComponent(() => import('@/components/RegPop.vue'));
 
 const { t } = useI18n()
 const page = Page(pinia);
-const { menuActive, settings, lang } = storeToRefs(page);
+const { menuActive } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);

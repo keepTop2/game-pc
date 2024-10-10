@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-import Sidebar from '@/components/Sidebar.vue';
+// import Sidebar from '@/components/Sidebar.vue';
 import { onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
@@ -218,7 +218,7 @@ onUnmounted(() => {
 
 .content {
   margin: 32px 0 30px 90px;
-  width:100%;
+  width: 100%;
 
   .announcement {
     position: relative;

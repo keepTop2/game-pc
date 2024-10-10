@@ -2,7 +2,8 @@
     <div class="game-detail-container">
         <div class="game-title">
             <span class="input-box">
-                <n-input :placeholder="t('home_page_seachGame')" v-model:value="queryGame" @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
+                <n-input :placeholder="t('home_page_seachGame')" v-model:value="queryGame" @keyup.enter="onClickSearch"
+                    :disabled="activeTab == TabType.FAVORITE">
                     <template #prefix>
                         <img class="search-icon" src="/img/game/search.webp" alt="search" />
                     </template>
@@ -11,12 +12,12 @@
             </span>
             <div class="game_list">
                 <!-- <transition name="fade"> -->
-                    <div :class="{game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
-                        @click="onClickTab(v)">
-                        <span>{{ unserialize(v.kind_name) }}</span>
-                    </div>
+                <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
+                    @click="onClickTab(v)">
+                    <span>{{ unserialize(v.kind_name) }}</span>
+                </div>
                 <!-- </transition> -->
-                
+
                 <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
                     <span>
                         <img src="/img/game/label_fav_a.webp" alt="" v-if="activeTab == TabType.FAVORITE">
@@ -72,7 +73,7 @@
         </div>
         <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
             v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
-        <Loading v-model:visible="isLoading" ></Loading>
+        <Loading v-model:visible="isLoading"></Loading>
     </div>
 </template>
 
@@ -83,7 +84,7 @@ import { MessageEvent2 } from "@/net/MessageEvent2";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
-import { useRoute, useRouter } from 'vue-router';
+// import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
@@ -93,8 +94,8 @@ import { User } from '@/store/user';
 import Loading from '@/components/Loading.vue'
 
 const { t } = useI18n();
-const route = useRoute()
-const router = useRouter()
+// const route = useRoute()
+// const router = useRouter()
 const {
     lang,
     homeGameData
@@ -132,20 +133,20 @@ const imgPrefix = 'http://18.167.175.195:8033/uploads/'
 const TabType = {
     FAVORITE: 88
 }
-const labels = [{all: 'all'}, {hot: 'hot'}, {recent: 'recent'}, {fav: 'fav'}];
+// const labels = [{ all: 'all' }, { hot: 'hot' }, { recent: 'recent' }, { fav: 'fav' }];
 
 const props = defineProps({
-  platform_id: null,
-  venue_id: null,
-  name: null,
-  active: null,
+    platform_id: null,
+    venue_id: null,
+    name: null,
+    active: null,
 });
 
 
 const getHomeData = () => {
-  const data  = homeGameData.value[activeKind.value]?.three_platform
-  const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
-  threeGameKinds.value = item?.three_game_kind
+    const data = homeGameData.value[activeKind.value]?.three_platform
+    const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
+    threeGameKinds.value = item?.three_game_kind
 }
 
 const isFav = (v: any) => {
@@ -197,25 +198,25 @@ const onPlayGame = async (v: any) => {
 }
 
 const onPlayGameFav = async (v: any) => {
-  if (!Local.get('user')) {
-      await User(pinia).setLogin(true)
-      return
-  }
-  let langObj: any = {
-    'en-US': 3,
-    'vi-VN': 2,
-    'zh-CN': 1
-  }
-  const favorites = Local.get('favorites') || []
-  const data = favorites.map((e:any) => {return {'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3]}})
-  const item = data.find((e:any) => e.gameId == v.gameId)
-  isLoading.value = true
-  let tb = NetPacket.req_3rd_game_login();
-  tb.agentId = item.agentId;
-  tb.kindId = item.kindId;
-  tb.gameId = item.gameId;
-  tb.lang = langObj[lang.value];
-  Net.instance.sendRequest(tb);
+    if (!Local.get('user')) {
+        await User(pinia).setLogin(true)
+        return
+    }
+    let langObj: any = {
+        'en-US': 3,
+        'vi-VN': 2,
+        'zh-CN': 1
+    }
+    const favorites = Local.get('favorites') || []
+    const data = favorites.map((e: any) => { return { 'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3] } })
+    const item = data.find((e: any) => e.gameId == v.gameId)
+    isLoading.value = true
+    let tb = NetPacket.req_3rd_game_login();
+    tb.agentId = item.agentId;
+    tb.kindId = item.kindId;
+    tb.gameId = item.gameId;
+    tb.lang = langObj[lang.value];
+    Net.instance.sendRequest(tb);
 }
 
 
@@ -251,22 +252,22 @@ const pageChange = (page: number) => { // 切换页码
 }
 
 const getFavs = () => {
-  const gameId = Local.get('favorites') || []
-  const gameIds = gameId.map((e:any) => e.split('__')[0])
-  favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
+    const gameId = Local.get('favorites') || []
+    const gameIds = gameId.map((e: any) => e.split('__')[0])
+    favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
 }
 
 const onAddFavorite = (v: any) => {
-  let favorites = Local.get('favorites') || []
-  const gameIds = favorites.map((e:any) => e.split('__')[0])
-  if (gameIds.includes(v.gameId)) {
-    favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
-  } else {
-    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
-    favorites.push(item)
-  }
-  Local.set('favorites', favorites)
-  getFavs()
+    let favorites = Local.get('favorites') || []
+    const gameIds = favorites.map((e: any) => e.split('__')[0])
+    if (gameIds.includes(v.gameId)) {
+        favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
+    } else {
+        const item = v.gameId + '__' + platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
+        favorites.push(item)
+    }
+    Local.set('favorites', favorites)
+    getFavs()
 }
 
 const unserialize = (v: string) => {
@@ -333,14 +334,14 @@ onMounted(() => {
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     getFavs()
 })
 onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
 
 watch(
@@ -368,6 +369,7 @@ watch(
 .game-detail-container {
     position: relative;
     min-height: 110vh;
+
     .game-title {
         margin: 25px 0;
         display: flex;
@@ -391,7 +393,7 @@ watch(
                 &.n-input--focus {
                     background-color: #030309 !important;
                 }
-                
+
                 .n-input_wrapper {
                     padding: 0 20px;
                 }
@@ -409,26 +411,27 @@ watch(
                     font-size: 16px;
                     padding: 0 5px;
                 }
-                
+
                 .n-input__placeholder {
                     height: 100%;
+
                     span {
                         color: #9497A1;
                         font-size: 16px;
                         letter-spacing: 2px;
                         margin-left: 2px;
-                    }        
+                    }
                 }
-                
+
                 .n-input__border {
                     border: none;
                 }
-                
+
                 .n-input__state-border {
                     border: none;
                     box-shadow: none;
                 }
-                
+
                 .search-icon {
                     z-index: 6;
                     width: 22px;
@@ -487,6 +490,7 @@ watch(
                 gap: 5px;
 
                 &.game_active {
+
                     // color: #fff;
                     // background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
                     // background-size: 100% 100%;
@@ -501,20 +505,24 @@ watch(
                         background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
                     }
                 }
+
                 img {
                     width: 24px;
                     height: 24px;
                 }
+
                 >span {
                     line-height: 16px;
                 }
             }
 
-            .fade-enter-active, .fade-leave-active {
+            .fade-enter-active,
+            .fade-leave-active {
                 transition: opacity 0.5s ease;
             }
 
-            .fade-enter, .fade-leave-to {
+            .fade-enter,
+            .fade-leave-to {
                 opacity: 0;
             }
         }
@@ -522,6 +530,7 @@ watch(
 
     .game-content {
         position: relative;
+
         .game-detail {
             display: flex;
             flex-direction: column;
@@ -545,6 +554,7 @@ watch(
                             width: 100%;
                             height: 100%;
                             cursor: pointer;
+
                             img {
                                 width: 100%;
                                 height: 100%;

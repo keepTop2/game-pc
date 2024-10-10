@@ -34,11 +34,11 @@
 </template>
 
 <script setup lang='ts'>
-import { onBeforeMount, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
@@ -58,7 +58,7 @@ const {
     homeGameData,
 } = storeToRefs(Page(pinia));
 const imgPrefix = 'http://18.167.175.195:8033/uploads/'
-const router = useRouter()
+// const router = useRouter()
 const result: any = reactive({
     list: []
 })

@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang='ts' name="Header">
-import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive } from 'vue';
+import { ref } from 'vue';
 
 const active_id = ref(1)
 
@@ -131,7 +131,7 @@ const itemClick = (item: any) => {
       left: 0;
       top: 45px;
       z-index: 1;
-      width:1010px;
+      width: 1010px;
       height: 68px;
       border-radius: 16px;
       background: url('/img/menu/ban.webp?t=@{timestamp}') no-repeat;
@@ -147,7 +147,8 @@ const itemClick = (item: any) => {
     display: flex;
     align-items: center;
     gap: 10px;
-    img{
+
+    img {
       width: 88px;
       height: 82px;
     }

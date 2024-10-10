@@ -3,21 +3,21 @@
     <!-- <Sidebar /> -->
     <div class="content">
       <div class="announcement">
-      <div class="carousel_wrap">
-        <n-carousel draggable >
-          <Imgt class="carousel"  src="/img/header/carousel1.webp" />
-        </n-carousel>
-        <p style="height: 40px;">
-          <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-          <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
-            <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px;" class="carousel_span">{{ t(v)
-              }}</span>
+        <div class="carousel_wrap">
+          <n-carousel draggable>
+            <Imgt class="carousel" src="/img/header/carousel1.webp" />
           </n-carousel>
-        </p>
-      </div>
-      <div class="carousel_wrap_des">
-        <Imgt class="carousel"  src="/img/header/carousel2.webp" />
-      </div>
+          <p style="height: 40px;">
+            <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
+            <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
+              <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px;" class="carousel_span">{{ t(v)
+                }}</span>
+            </n-carousel>
+          </p>
+        </div>
+        <div class="carousel_wrap_des">
+          <Imgt class="carousel" src="/img/header/carousel2.webp" />
+        </div>
       </div>
       <div class="game_detail" v-for="(item, i) in state.tabs" :key="i">
 
@@ -53,7 +53,7 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-import Sidebar from '@/components/Sidebar.vue';
+// import Sidebar from '@/components/Sidebar.vue';
 import { onMounted, onUnmounted, reactive } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
@@ -68,7 +68,7 @@ const { t } = useI18n();
 const router = useRouter()
 const page = Page(pinia);
 // const isVisible = ref(0);
-const { bannerArr, textAnnouncement } = storeToRefs(page);
+const { textAnnouncement } = storeToRefs(page);
 
 const state: any = reactive({
   // gameActive: 0,
@@ -165,23 +165,26 @@ onUnmounted(() => {
 
 .content {
   margin: 32px 0 30px 10px;
-  width:100%;
+  width: 100%;
 
   .announcement {
     position: relative;
     display: flex;
-    img{
+
+    img {
       object-fit: cover;
     }
 
     height: 424px;
-    .carousel_wrap{
+
+    .carousel_wrap {
       width: 941px;
       height: 100%;
       margin-right: 15px;
-      
+
     }
-    .carousel_wrap_des{
+
+    .carousel_wrap_des {
       width: 444px;
       height: 100%;
     }
