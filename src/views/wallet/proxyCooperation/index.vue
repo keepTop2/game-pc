@@ -87,7 +87,7 @@ const router = useRouter();
 const openIntro = () => {
     // emits('openIntro');
     // closeModal()
-    router.push({ name: 'proxyIntroduction' })
+    router.push('/wallet/proxyIntroduction')
 }
 
 // const showModal = ref(false)

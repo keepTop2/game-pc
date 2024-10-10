@@ -199,6 +199,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'proxy_page_agent' },
         component: () => import('@/views/wallet/proxyCooperation/index.vue'),
       },
+      {
+        path: 'proxyIntroduction',
+        name: 'proxyIntroduction',
+        meta: { title: 'proxy_page_agentRule' },
+        component: () => import('@/views/wallet/proxyIntroduction/index.vue'),
+      },
     ]
   },
 
