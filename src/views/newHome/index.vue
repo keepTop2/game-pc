@@ -181,7 +181,7 @@ onUnmounted(() => {
 }
 
 .content {
-  margin: 32px 0 30px 10px;
+  margin: 32px 0;
   width: 100%;
 
   .announcement {
