@@ -10,7 +10,7 @@
                     <span class="item_title">{{ t('proxy_page_casino') }}：</span>
                     <span>{{ proxyInfo.level == 0 ? t('wanjia') : IdentityMap[proxyInfo.level] }}</span>
                 </div>
-                <div class="item">
+                <div class="item item_margin">
                     <span class="item_title">{{ t('proxy_page_casinoFc') }}：</span>
                     <span>{{ !proxyInfo.level ? '0%(VND)' : proxyInfo.ratio ? `${proxyInfo.ratio * 100}%(VND)` :
                         '0%(VND)' }} </span>
@@ -54,11 +54,11 @@
             <span>{{ t('proxy_page_url') }}：</span>
             <a v-if="proxyInfo.s_link" :href="proxyInfo.s_link" target="_blank">{{ proxyInfo.s_link }}</a>
             <span v-else> -- </span>
-            <n-flex align="center" justify="center" class="button button_color"
+            <n-flex align="center" justify="center" class="button n-button"
               @click="copyToClipboard(proxyInfo.s_link)">{{ t('proxy_page_copy') }}
             </n-flex>
-            <n-flex align="center" justify="center" class="button button_color" style="width: 140px;"
-              @click="openIntro">{{ t('proxy_page_agentRule') }}
+            <n-flex align="center" justify="center" class="button n-button" style="width: 140px;" @click="openIntro">{{
+                t('proxy_page_agentRule') }}
             </n-flex>
         </n-flex>
 
@@ -228,6 +228,7 @@ const copyToClipboard = (text: string) => {
         display: flex;
         line-height: 16px;
         padding-bottom: 12px;
+        align-items: center;
 
         .item {
             width: 50%;
@@ -235,7 +236,7 @@ const copyToClipboard = (text: string) => {
 
             .item_title {
                 font-weight: 400;
-                color: #8E82C2;
+                color: #AEAEB0;
             }
 
             .green {
@@ -274,6 +275,11 @@ const copyToClipboard = (text: string) => {
         margin: 40px 0 40px 0;
         gap: none;
         color: #fff;
+
+        .button {
+            height: 40px;
+            font-size: 18px;
+        }
 
         a {
             color: #5971FF;
