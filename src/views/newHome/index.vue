@@ -74,7 +74,7 @@
 </template>
 <script setup lang="ts" name="home">
 // import Sidebar from '@/components/Sidebar.vue';
-import { onMounted, onUnmounted, reactive } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import Imgt from "@/components/Imgt.vue";
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
