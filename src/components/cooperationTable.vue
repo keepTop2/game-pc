@@ -5,28 +5,28 @@
         <!-- Tabs -->
         <n-flex class="tabs" align="center">
             <n-flex align="center" justify="center" class="tabs_item"
-              :class="{ 'button button_color active_tab': activeTab == 1 }" @click="changeTab(1)">{{
+              :class="{ 'button n-button active_tab': activeTab == 1 }" @click="changeTab(1)">{{
                 t('proxy_page_report') }}
             </n-flex>
             <n-flex align="center" justify="center" class="tabs_item"
-              :class="{ 'button button_color active_tab': activeTab == 2 }" @click="changeTab(2)">{{
+              :class="{ 'button n-button active_tab': activeTab == 2 }" @click="changeTab(2)">{{
                 t('proxy_page_directly') }}
             </n-flex>
             <n-flex align="center" justify="center" class="tabs_item"
-              :class="{ 'button button_color active_tab': activeTab == 3 }" @click="changeTab(3)">{{
+              :class="{ 'button n-button active_tab': activeTab == 3 }" @click="changeTab(3)">{{
                 t('proxy_page_teamReport') }}
             </n-flex>
         </n-flex>
 
         <!-- 搜索 -->
         <n-flex class="search_box" justify="flex-start" align="center">
-            <DateSelect style="flex:1" :styleMode="2" @submit="changeDate" />
-            <n-select class="level" v-model:value="params.search_lev" :options="levels" />
-            <div class="search_btn" @click="search">{{ t('proxy_page_search') }}</div>
+            <DateSelect style="flex:1" :styleMode="0" @submit="changeDate" />
+            <n-select class="level search_select" v-model:value="params.search_lev" :options="levels" />
+            <div class="search_btn n-button" @click="search">{{ t('proxy_page_search') }}</div>
         </n-flex>
 
         <!-- 表格 -->
-        <div class="table white_table">
+        <div class="table">
             <n-flex class="tr th">
                 <div class="td" v-for="(item, i) in tableHeader" :key="i">{{ item.title }}</div>
             </n-flex>
@@ -54,7 +54,7 @@
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
 
-            <div class="t_loading">
+            <div class="t_loading" v-if="loading">
                 <n-spin v-show="loading" />
             </div>
         </div>
@@ -182,6 +182,7 @@ const resultHandle = (rs: any) => { // 数据处理
     setTimeout(() => {
         loading.value = false
     }, 300)
+    console.log('rs', rs)
     result.total_page = rs.total || 0
     result.list = rs.records || []
 }
@@ -200,7 +201,7 @@ const rowHandle = (row: any, key: string) => { // 格子数据处理
             rs = Number(val).toLocaleString()
             break
         case "operate":
-            rs = (userInfo.value.full_name == row.username && activeTab.value != 1) ? '-' : `<span  class="td_btn" style="color: #80FF44;cursor: pointer;user-select: none;">${t('proxy_page_manage')}</span>`
+            rs = (userInfo.value.full_name == row.username && activeTab.value != 1) ? '-' : `<span  class="td_btn" style="background: linear-gradient(to bottom, #5567FF, #9E1EFF);background-clip: text;color: transparent;cursor: pointer;user-select: none;display: inline-block;">${t('proxy_page_manage')}</span>`
             break
         default:
             rs = val
@@ -279,38 +280,43 @@ onUnmounted(() => {
         .active_tab {
             color: #fff;
         }
+
+        .button {
+            height: 40px;
+            font-size: 18px;
+        }
     }
 
     .search_box {
         margin: 20px 0;
 
         .level {
-            width: 150px;
-            height: 36px;
+            width: 160px;
             margin-left: 10px;
 
-            :deep(.n-base-selection) {
-                border-radius: 10px;
+            // :deep(.n-base-selection) {
+            //     border-radius: 10px;
+            //     border: #AEAEB0 solid 2px;
+            // }
 
-            }
-
-            :deep(.n-base-selection-label) {
-                background: #372771;
-                height: 36px;
-            }
+            // :deep(.n-base-selection-label) {
+            //     background: #0D0E2E;
+            //     height: 36px;
+            // }
         }
 
         .search_btn {
-            width: 150px;
-            margin-left: 6px;
-            background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
-            background-size: 100% 112%;
-            color: #fff;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            width: 100px;
+            font-size: 18px;
+            // margin-left: 6px;
+            // background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
+            // background-size: 100% 112%;
+            // color: #fff;
+            height: 40px;
+            // display: flex;
+            // align-items: center;
+            // justify-content: center;
+            // cursor: pointer;
         }
     }
 
