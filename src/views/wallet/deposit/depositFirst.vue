@@ -113,7 +113,7 @@
             <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between"
                     class="flex usdt_box">
               <span>USDT: {{ countUsdtMon() }}</span>
-              <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
+              <span class="button gradient_txt" @click="showModal = true">{{ t('deposit_page_toExchange')
                 }}</span>
             </n-flex>
             <span v-show="isShowError" style="color: #d03050">
@@ -609,116 +609,13 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-//@import '@/assets/CommonForm.less';
+@import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
-.txt_title {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-.list_box {
-  padding: 40px;
-  .body {
-    gap: 14px !important;
 
-    .item_list {
-      cursor: pointer;
-      position: relative;
-      width: 192px;
-      height: 140px;
-      padding: 12px;
-      background: rgba(33, 36, 67, 1);
-      border: 1px solid rgba(38, 41, 76, 1);
-      border-radius: 16px;
-
-      &.active {
-        background: url('/img/payment/listBg_active.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-
-      &.wh_item {
-        pointer-events: none;
-      }
-
-      .bank_wh {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        background: rgba(0, 0, 0, .7);
-        width: 100%;
-        height: 100%;
-        border-radius: 8px;
-        top: -3px;
-        left: -3px;
-
-        img {
-          width: 50px;
-          margin-right: 5px;
-        }
-      }
-
-      .item_list_l {
-
-        .bank_icon {
-          position: relative;
-          width: 100%;
-          text-align: center;
-          img {
-            width: 56px;
-            height: 56px;
-          }
-          .wh_icon {
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            right: 0;
-            background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
-            background-size: 100%;
-          }
-        }
-
-        .bank_txt {
-          text-align: center;
-          font-size: 16px;
-          .bank_limit {
-            margin-top: 6px;
-            color: rgba(250, 201, 5, 1);
-          }
-        }
-      }
-    }
-  }
-}
 .deposit_second {
   padding: 40px;
   margin: 20px 0;
-  :deep(.n-form-item) {
-    .n-form-item-label {
-      min-width: 150px;
-      text-align: left;
-      color: rgba(174, 174, 176, 1);
-    }
-  }
-  .kjje_div {
-    gap: 20px !important;
-    .kj_item {
-      width: 120px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      font-weight: 700;
-      border-radius: 8px;
-      background: rgba(31, 38, 77, 1);
-    }
-  }
-  .btn_zone {
-    margin: 60px auto 20px;
-    .submit_btn {
-      width: 330px;
-      height: 40px;
-    }
-  }
+
   .cz_tips {
     font-size: 14px;
     text-align: center;
@@ -786,12 +683,6 @@ defineExpose({
         font-size: 16px;
         .button {
           text-decoration: underline;
-          //color: #5971FF;
-          background-image: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-          color: #9E1EFF; // 兜底颜色，防止文字裁剪不生效
-          background-clip: text;
-          -webkit-background-clip: text; // 背景被裁减为文字的前景色
-          -webkit-text-fill-color: transparent; // 文字填充为透明，优先级比color高。
         }
       }
     }
