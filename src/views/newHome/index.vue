@@ -3,151 +3,165 @@
     <!-- <Sidebar /> -->
     <div class="content">
       <div class="announcement">
-      <div class="carousel_wrap">
-        <n-carousel draggable >
-          <Imgt class="carousel"  src="/img/header/carousel1.webp" />
-        </n-carousel>
-        <p style="height: 40px;">
-          <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-          <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
-            <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px;" class="carousel_span">{{ t(v)
-              }}</span>
+        <div class="carousel_wrap">
+          <n-carousel draggable>
+            <Imgt class="carousel" src="/img/header/carousel1.webp" />
           </n-carousel>
-        </p>
+          <p style="height: 40px">
+            <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
+            <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
+              <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px" class="carousel_span">{{ t(v)
+                }}</span>
+            </n-carousel>
+          </p>
+        </div>
+        <div class="carousel_wrap_des">
+          <Imgt class="carousel" src="/img/header/carousel2.webp" />
+        </div>
       </div>
-      <div class="carousel_wrap_des">
-        <Imgt class="carousel"  src="/img/header/carousel2.webp" />
-      </div>
-      </div>
-      <div class="game_detail" v-for="(item, i) in state.tabs" :key="i">
 
+      <div class="game_detail">
         <div class="game_list">
           <p class="game_type">
             <span class="text">
-              <b :class="item.color">
-                <iconpark-icon :icon-id="item.icon" color="#fff" size="1rem"></iconpark-icon>
-              </b>
-              <span>{{ t(item.name) }}</span>
+              <span>即将开赛</span>
             </span>
-            <span class="more" @click="allPlatForm(item)">{{ t('home_page_more') }}</span>
+            <span class="more">{{ t("home_page_more") }}</span>
           </p>
-          <n-carousel style="position: static;" :slides-per-view="5" :space-between="20" :loop="false" draggable
+          <n-carousel style="position: static" :slides-per-view="3.5" :space-between="10" :loop="false" draggable
             show-arrow>
-            <Imgt @click="platformItemClick(item)" class="game_img" :src="`/img/cards/${v}.png`"
-              v-for="(v, j) in [0, 1, 2, 3, 4]" :key="j" />
+            <Imgt class="game_img" :src="`/img/home/kaisai.png`" v-for="i in 8" :key="i" />
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon class="left" icon-id="Vector2" size=".8rem" @click="prev"></iconpark-icon>
-                  <iconpark-icon class="right" icon-id="Vector" size=".8rem" @click="next"></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
-
               </div>
-
             </template>
-
           </n-carousel>
         </div>
       </div>
+
+      <!-- 热门优惠 -->
+      <div class="game_detail re_men">
+        <div class="game_list">
+          <p class="game_type">
+            <span class="text">
+              <span>热门优惠</span>
+            </span>
+            <span class="more">{{ t("home_page_more") }}</span>
+          </p>
+          <n-carousel style="position: static" :slides-per-view="3" :space-between="10" :loop="false" draggable
+            show-arrow>
+            <Imgt class="game_img" :src="`/img/home/remen.png`" v-for="i in 8" :key="i" />
+            <template #arrow="{ prev, next }">
+              <div class="game_seach">
+                <span>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                </span>
+              </div>
+            </template>
+          </n-carousel>
+        </div>
+      </div>
+
+      <!-- 首页其他 -->
+      <homeOther></homeOther>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="home">
-import Sidebar from '@/components/Sidebar.vue';
-import { onMounted, onUnmounted, reactive } from 'vue';
-import Imgt from '@/components/Imgt.vue';
+// import Sidebar from '@/components/Sidebar.vue';
+import { onMounted, onUnmounted, reactive } from "vue";
+import Imgt from "@/components/Imgt.vue";
 // import { NetMsgType } from "@/netBase/NetMsgType";
 // import { MessageEvent2 } from "@/net/MessageEvent2";
-
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { Page } from '@/store/page';
-import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import homeOther from "./homeOther.vue";
+import pinia from "@/store/index";
+import { storeToRefs } from "pinia";
+import { Page } from "@/store/page";
+import { useI18n } from "vue-i18n";
+// import { useRouter } from "vue-router";
 const { t } = useI18n();
-const router = useRouter()
+// const router = useRouter();
 const page = Page(pinia);
 // const isVisible = ref(0);
 const { bannerArr, textAnnouncement } = storeToRefs(page);
 
-const state: any = reactive({
-  // gameActive: 0,
-  tabs: [
+// const state: any = reactive({
+//   // gameActive: 0,
+//   tabs: [
+//     {
+//       icon: "Group39096",
+//       name: "home_page_slot",
+//       color: "slot_machine",
+//       value: "",
+//     },
+//     {
+//       icon: "Group39095",
+//       name: "home_page_live",
+//       color: "live",
+//       value: "",
+//     },
 
-    {
-      icon: 'Group39096',
-      name: 'home_page_slot',
-      color: 'slot_machine',
-      value: '',
-    },
-    {
-      icon: 'Group39095',
-      name: 'home_page_live',
-      color: 'live',
-      value: '',
-    },
-
-    {
-      icon: 'Group39097',
-      name: 'home_page_eSports',
-      color: 'gaming',
-      value: '',
-    },
-    {
-      icon: 'Group39098',
-      name: 'home_page_fishing',
-      color: 'fish',
-      value: '',
-    },
-    {
-      icon: 'Group39099',
-      name: 'home_page_sportsGame',
-      color: 'sports',
-      value: '',
-    },
-    {
-      icon: 'Group1556235309',
-      name: 'home_page_lotteryGame',
-      color: 'lottery',
-      value: '',
-    },
-  ],
-})
-const platformItemClick = (item: any) => {
-  console.log(item);
-  router.push({
-    path: '/gameMain/gameDetail',
-    query: {
-      id: 1,
-      name: '首页跳转'
-    }
-  })
-
-}
-const allPlatForm = (item: any) => {
-  console.log(item);
-  router.push({
-    path: '/gameMain/gamingPlatform',
-    query: {
-      id: 1,
-      name: item.name
-    }
-  })
-}
+//     {
+//       icon: "Group39097",
+//       name: "home_page_eSports",
+//       color: "gaming",
+//       value: "",
+//     },
+//     {
+//       icon: "Group39098",
+//       name: "home_page_fishing",
+//       color: "fish",
+//       value: "",
+//     },
+//     {
+//       icon: "Group39099",
+//       name: "home_page_sportsGame",
+//       color: "sports",
+//       value: "",
+//     },
+//     {
+//       icon: "Group1556235309",
+//       name: "home_page_lotteryGame",
+//       color: "lottery",
+//       value: "",
+//     },
+//   ],
+// });
+// const platformItemClick = (item: any) => {
+//   console.log(item);
+//   router.push({
+//     path: "/gameMain/gameDetail",
+//     query: {
+//       id: 1,
+//       name: "首页跳转",
+//     },
+//   });
+// };
+// const allPlatForm = (item: any) => {
+//   console.log(item);
+//   router.push({
+//     path: "/gameMain/gamingPlatform",
+//     query: {
+//       id: 1,
+//       name: item.name,
+//     },
+//   });
+// };
 // const getGameList = (res: any) => {
 //   debugger
 //   console.log(res);
 
 // }
 onMounted(() => {
-
-
   // MessageEvent2.addMsgEvent(
   //   NetMsgType.msgType.msg_notify_platform_gametype_list,
   //   getGameList
   // );
-
-
 });
 onUnmounted(() => {
   // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_platform_gametype_list, null);
@@ -155,33 +169,38 @@ onUnmounted(() => {
 </script>
 
 <style lang="less" scoped>
-@timestamp: `new Date().getTime()`;
+@timestamp: `new Date() .getTime() `;
 
 .home {
   display: flex;
   width: 100%;
+}
 
+:deep(.n-carousel__dots) {
+  display: none;
 }
 
 .content {
   margin: 32px 0 30px 10px;
-  width:100%;
+  width: 100%;
 
   .announcement {
     position: relative;
     display: flex;
-    img{
+
+    img {
       object-fit: cover;
     }
 
     height: 424px;
-    .carousel_wrap{
+
+    .carousel_wrap {
       width: 941px;
       height: 100%;
       margin-right: 15px;
-      
     }
-    .carousel_wrap_des{
+
+    .carousel_wrap_des {
       width: 444px;
       height: 100%;
     }
@@ -193,7 +212,7 @@ onUnmounted(() => {
       width: 100%;
       height: 40px;
       padding: 0 14.5px;
-      background-color: rgba(0, 0, 0, .3);
+      background-color: rgba(0, 0, 0, 0.3);
       margin: 0;
       display: flex;
       align-items: center;
@@ -201,23 +220,19 @@ onUnmounted(() => {
       font-size: 16px;
       // border-bottom-left-radius: 15px;
       // border-bottom-right-radius: 15px;
-
     }
   }
-
-
 }
 
-.game_detail {
+:deep(.game_detail) {
   position: relative;
 
   .game_list {
-    width: 1200px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     // align-items: center;
-
 
     box-sizing: border-box;
 
@@ -226,11 +241,9 @@ onUnmounted(() => {
       align-items: center;
     }
 
-
-
     .game_img {
-      width: 238px;
-      height: 238px;
+      width: 395px;
+      height: 215px;
       object-fit: cover;
     }
   }
@@ -266,7 +279,6 @@ onUnmounted(() => {
 
       .gaming {
         background-image: linear-gradient(to right, #8931d5 21%, #c255e8 100%);
-
       }
 
       .fish {
@@ -280,35 +292,41 @@ onUnmounted(() => {
 
     >.more {
       width: 90px;
-      height: 36px;
+      height: 40px;
       display: flex;
       font-size: 16px;
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      border: solid 1.4px #5a47b2;
-      background-color: #372771;
+      border: solid 1.4px #282747;
+      background-color: #282747;
       cursor: pointer;
-      color: #8d81c1;
+      color: #c6c4f5;
+      margin-right: 110px;
 
       &:hover {
         color: #fff;
-        background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
+        background: url("/img/dialog/click.webp?t=@{timestamp}") no-repeat;
         background-size: 100% 100%;
       }
     }
   }
-
-
-
 }
 
-.game_seach {
+.re_men {
+  .game_img {
+    width: 453px !important;
+    height: 262px !important;
+    object-fit: cover;
+  }
+}
+
+:deep(.game_seach) {
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  right: 100px;
+  right: 0px;
   top: 20px;
   z-index: 1;
   // >b {
@@ -317,8 +335,6 @@ onUnmounted(() => {
   //     justify-content: center;
 
   // }
-
-
 
   span {
     display: flex;
@@ -330,22 +346,21 @@ onUnmounted(() => {
     >.left,
     .right {
       display: inline-block;
-      width: 37px;
-      height: 37px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #372771;
+      background-color: #282747;
       border-radius: 10px;
-      border: solid 1.4px #5a47b2;
+      border: solid 1.4px #282747;
       margin-left: 10px;
-
     }
 
     .left:hover,
     .right:hover {
       color: #fff;
-      background: url('/img/home/sbtnBG.webp?t=@{timestamp}') no-repeat;
+      background: url("/img/home/sbtnBG.webp?t=@{timestamp}") no-repeat;
       background-size: cover;
     }
   }
