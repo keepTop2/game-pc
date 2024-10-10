@@ -55,7 +55,7 @@
         </p>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
-          <n-carousel style="position: static;margin-left:20px" :slides-per-view="7.2" :loop="false" draggable
+          <n-carousel style="position: static;margin-left:35px;width:97.5%" :slides-per-view="7.2" :loop="false" draggable
             show-arrow>
             <div v-for="i in 10" :key="i" :class="['match_list', { active_match: match_id == i }]"
               @click="matchClick(i)">
@@ -349,6 +349,7 @@ const matchClick = (i: any) => {
     justify-content: center;
     color: #FFFFFF80;
     cursor: pointer;
+    margin-left: -2px;
   }
 
   .active_match {
