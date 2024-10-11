@@ -108,6 +108,32 @@
       height: 40px;
     }
   }
+
+  .cz_tips {
+    font-size: 14px;
+    text-align: center;
+    color: rgba(229, 74, 69, 1);
+    .txt {
+      color: rgba(69, 229, 123, 1);
+      margin-bottom: 6px;
+      .txt_con {
+        gap: 7px !important;
+      }
+    }
+
+    .tip {
+      gap: 8px !important;
+
+      .icon {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
+        background-size: 100%;
+      }
+    }
+  }
+
 }
 
 // 充值和提现--结束
@@ -128,18 +154,6 @@
       .money_input {
         ::v-deep(.n-input-number) {
           width: 100%;
-
-          .n-input {
-            .n-input__input-el {
-              height: 100%;
-            }
-
-            .n-input__suffix {
-              button {
-                display: none;
-              }
-            }
-          }
         }
       }
 
@@ -165,38 +179,38 @@
         }
       }
 
-      .btn_zone {
-        display: flex;
-        gap: 34px;
-        height: 45px;
-
-        >div {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .cancel_btn {
-          color: #fff;
-          width: 100%;
-          border-radius: 12px;
-          border-style: solid;
-          border: 1px solid var(--c-bg-1);
-          background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
-        }
-
-        .submit_btn {
-          width: 100%;
-          color: var(--c-bg-6);
-          border-radius: 16px;
-          background-image: url('/img/login/login.webp?t=@{timestamp}');
-          background-size: cover;
-
-          &.fixed_bg {
-            background-size: 100% 112%;
-          }
-        }
-      }
+      //.btn_zone {
+      //  display: flex;
+      //  gap: 34px;
+      //  height: 45px;
+      //
+      //  >div {
+      //    display: flex;
+      //    align-items: center;
+      //    justify-content: center;
+      //  }
+      //
+      //  .cancel_btn {
+      //    color: #fff;
+      //    width: 100%;
+      //    border-radius: 12px;
+      //    border-style: solid;
+      //    border: 1px solid var(--c-bg-1);
+      //    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+      //  }
+      //
+      //  .submit_btn {
+      //    width: 100%;
+      //    color: var(--c-bg-6);
+      //    border-radius: 16px;
+      //    background-image: url('/img/login/login.webp?t=@{timestamp}');
+      //    background-size: cover;
+      //
+      //    &.fixed_bg {
+      //      background-size: 100% 112%;
+      //    }
+      //  }
+      //}
 
       :deep(.n-form) {
         .n-input {
@@ -207,9 +221,6 @@
             font-size: 16px;
             background-color: var(--n-color);
 
-            .n-input__input-el {
-              height: 100%;
-            }
           }
         }
 
@@ -251,17 +262,17 @@
             }
           }
 
-          .change-btn {
-            border-radius: 0;
-            font-size: 16px;
-            color: #fff;
-            text-align: center;
-            width: 90px;
-            height: 36px;
-            line-height: 36px;
-            background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
-            background-size: 100%;
-          }
+          //.change-btn {
+          //  border-radius: 0;
+          //  font-size: 16px;
+          //  color: #fff;
+          //  text-align: center;
+          //  width: 90px;
+          //  height: 36px;
+          //  line-height: 36px;
+          //  background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
+          //  background-size: 100%;
+          //}
 
         }
       }
