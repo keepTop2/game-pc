@@ -30,7 +30,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon05',
       name: '代理',
-      url: '/wallet/betRecord',
+      url: '/wallet/proxyCooperation',
     },
     {
       icon: 'txxlicon06',
