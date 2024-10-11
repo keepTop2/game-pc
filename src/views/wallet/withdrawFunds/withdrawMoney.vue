@@ -44,7 +44,6 @@
           </div>
         </n-flex>
       </div>
-
     </template>
   </ModalDialog>
 
@@ -52,7 +51,7 @@
     <div class="body vertical center t_md body_sec">
       <n-form ref="formRef" label-placement="left" class="w_full" :model="form" :rules="rules">
 
-        <n-form-item class="not_input" :label="t('withdraw_page_canAmount')">
+        <n-form-item class="not_input input_avi" :label="t('withdraw_page_canAmount')">
           <n-input autocomplete="off" readonly size="large" v-model:value="form.maxValue" >
             <template #suffix>
               <div class="pointer gradient_txt" @click="onCloseSec"> {{ t('withdraw_page_cunqu') }}</div>
@@ -111,8 +110,8 @@
             {{ item.label }}
           </a>
         </n-flex>
-        <div class="switchVisible">
-          <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
+        <n-flex class="switchVisible">
+          <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
             <n-input ref="inputRef" clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
               :type="changeRightInfo.type" @keydown.enter.prevent>
               <template #suffix>
@@ -122,7 +121,7 @@
             </n-input>
           </n-form-item>
           <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
-        </div>
+        </n-flex>
 
       </n-form>
       <div class="btn_zone">
@@ -130,9 +129,55 @@
         </n-flex>
       </div>
       <div v-show="form.amount" class="cz_tips">
-        <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
+        <div class="txt">
+          <n-flex class="txt_con" align="center" justify="center">
+            <span>{{ t('deposit_page_arrival') }}：{{ form.amount }}</span>
+            <n-tooltip placement="top-end" trigger="hover">
+              <template #trigger>
+                <iconpark-icon class="pointer" icon-id="iconyiwen" size=".8rem"></iconpark-icon>
+              </template>
+              <div
+                style="
+                width: 224px;
+                height: 80px;
+                padding: 14px;
+                /*background:  rgba(33, 36, 67, 1);*/
+                /*border: 1px solid rgba(38, 41, 76, 1)*/
+              "
+              >
+                交易金额包括交易手续费和税费
+                兑换汇率：₫1223=1USDT
+              </div>
+            </n-tooltip>
+          </n-flex>
+        </div>
+        <n-flex justify="center" align="center" class="tip">
+<!--          <span class="icon"></span>-->
+          <span> {{ t('Kindtips') }} </span>
+        </n-flex>
       </div>
     </div>
+
+    <!-- 资金密码弹窗 -->
+    <ModalDialog v-model:visible="showPwdModal" title="deposit_page_instructions">
+      <template #content>
+        <div class="pay_pwd_con">
+          <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
+            <n-input ref="inputRef" autocomplete="off" v-if="switchVisible" v-model:value="form.password"
+                     :type="changeRightInfo.type" @keydown.enter.prevent>
+              <template #suffix>
+                <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
+                               size="1.5em"></iconpark-icon>
+              </template>
+            </n-input>
+          </n-form-item>
+          <n-flex align="center" justify="center" class="button_color button" @click="handleSubmit">
+            {{t('home_page_confirm')}}
+          </n-flex>
+        </div>
+      </template>
+    </ModalDialog>
+
   </div>
 
 </template>
@@ -186,8 +231,7 @@ const isCanWithdraw = ref(false); // 是否可提现
 const isHasOrder = ref(false); // 是否存在未审核的提现订单
 const mySecBankList = ref(myBankList);
 
-console.log('&&&&&&&&---', myBankList)
-
+const showPwdModal = ref(false);
 const showSmModal = ref(false);
 const curWay = ref({ payname: '' });
 const curPayWay = ref({ payname: '' }); // 当前选择的提款方式
@@ -309,7 +353,8 @@ const onSubmit = () => {
         return Message.error(t('withdraw_page_maxAmount', { maxAmount: mySecBankList.value.max_withdraw_money }))
       }
       form.value.address = mySecBankList.value.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
-      handleSubmit()
+      showPwdModal.value = true // 显示资金密码
+      // handleSubmit()
     } else {
       console.log(errors);
     }
@@ -464,6 +509,17 @@ const railStyle = ({ focused, checked }: {
 @import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
 
+.pay_pwd_con {
+  padding: 50px 87px 100px;
+  :deep(.n-form-item-label__text) {
+    color: #fff;
+  }
+  .button {
+    width: 330px;
+    height: 40px;
+    margin-top: 20px;
+  }
+}
 .mr_t_5 {
   margin-top: 6px;
 }
@@ -490,6 +546,15 @@ const railStyle = ({ focused, checked }: {
       border-radius: 12px;
     }
     .not_input {
+      :deep(.n-input__input-el) {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      &.input_avi {
+        :deep(.n-input__input-el) {
+          color: rgba(250, 201, 5, 1);
+        }
+      }
       .pointer {
         font-size: 16px;
       }
@@ -622,10 +687,7 @@ const railStyle = ({ focused, checked }: {
       position: relative;
 
       .switch {
-        position: absolute;
-        top: 0;
-        right: 0;
-
+        margin-top: 10px;
         //background-color: #fff;
         .n-switch__rail {
           width: 50px !important;
