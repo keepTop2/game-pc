@@ -39,7 +39,7 @@
               </template>
             </n-input>
             <!-- <span   class="btn"> -->
-            <Imgt v-if="item.slot && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha"
+            <n-image lazy v-if="item.slot && item.name == 'captcha'" :src="captchaURL" class="captcha"
               @click="refresh_captcha" />
             <iconpark-icon v-if="item.slot && item.name == 'captcha'" icon-id="Group39366" class="refresh"
               color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>

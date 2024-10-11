@@ -48,7 +48,7 @@
       头像 语言 -->
       <div class="avatar">
         <div>
-          <n-popover trigger="hover" display-directive="show" :arrow="false">
+          <n-popover trigger="hover" display-directive="show" :show-arrow="false">
             <template #trigger>
               <span class="avatar_wrap">
                 <Imgt @error="avatarLoadError"
