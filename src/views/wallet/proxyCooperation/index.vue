@@ -55,7 +55,7 @@
             <a v-if="proxyInfo.s_link" :href="proxyInfo.s_link" target="_blank">{{ proxyInfo.s_link }}</a>
             <span v-else> -- </span>
             <n-flex align="center" justify="center" class="button n-button"
-              @click="copyToClipboard(proxyInfo.s_link)">{{ t('proxy_page_copy') }}
+                @click="copyToClipboard(proxyInfo.s_link)">{{ t('proxy_page_copy') }}
             </n-flex>
             <n-flex align="center" justify="center" class="button n-button" style="width: 140px;" @click="openIntro">{{
                 t('proxy_page_agentRule') }}
@@ -79,7 +79,7 @@ import { IdentityMap } from "@/enums/proxyEnum";
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
-import Imgt from '@/components/Imgt.vue';
+// import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n()
 const router = useRouter();
