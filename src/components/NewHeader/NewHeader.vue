@@ -84,6 +84,12 @@
         </div>
       </n-modal>
       <!-- 忘记密码 -->
+      <n-modal :show="isForget" :mask-closable="false">
+        <div class="change_card1">
+          <Forget v-if="isForget" />
+        </div>
+      </n-modal>
+      <!-- 进入免费夺宝入口 -->
       <RegPop></RegPop>
     </div>
   </header>
@@ -122,7 +128,7 @@ const { menuActive } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
-const { hasLogin, isLogin, isReg, roleInfo } = storeToRefs(userInfo);
+const { hasLogin, isLogin, isReg, isForget, roleInfo } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 const theme = ref('day')
