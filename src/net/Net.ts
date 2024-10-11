@@ -325,12 +325,12 @@ export class Net {
         let messageStruct = MessageMap.getMessage(msgID);
         if (messageStruct == null) {
             //找不到对应的解码结构体时，循环消息ringbuffer的标识也要往后移，跳过这条消息的数据
-            this.ringBuffer.addHead(bodyLen - 2);
+            this.ringBuffer.addHead(bodyLen - 4);
             console.log("msgID not register", msgID);
             return;
         }
         this.timeOut = 40;
-        let message = this.ringBuffer.decode_msg_body(messageStruct, bodyLen - 2);
+        let message = this.ringBuffer.decode_msg_body(messageStruct, bodyLen - 4);
         if (message.code != 1) {
 
             if (message.message) {
