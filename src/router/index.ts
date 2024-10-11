@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/level/rules.vue'),
       },
       {
-        path: 'club/:openType',
+        path: 'club',
         name: 'club',
         meta: { title: 'home_page_club' },
         component: () => import('@/views/club/newClub.vue'),

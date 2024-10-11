@@ -418,18 +418,6 @@ const onSubmitCreate = () => {
 //   console.log('俱乐部列表==', res);
 // };
 
-// watch(
-//   () => route.params.openType,
-//   (n) => {
-//     // getClubList();
-//     curTab.value = n;
-//     curTitle.value = n === 'club' ? t('club_page_club') : t('club_page_ycj');
-//   },
-//   {
-//     deep: true,
-//   },
-// );
-
 onUnmounted(() => {
   // 取消监听
   // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_create_club, null);
