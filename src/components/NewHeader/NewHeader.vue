@@ -3,7 +3,7 @@
     <div>
       <div class="logo_box">
         <Imgt src="/img/header/logo.webp" class="home_logo" @click="router.push('/')" />
-        <Imgt src="/img/header/fiba.webp" class="fiba" />
+        <Imgt src="/img/header/fiba.webp" class="fiba" v-if="!isSearch" />
       </div>
       <div class="welcome">
         <Imgt src="/img/header/tips.webp" @click="router.push('/')" />
@@ -11,12 +11,23 @@
       </div>
 
       <div class="search">
-        <Imgt src="/img/header/search.webp" />
+        <n-input size="large" placeholder="搜索" :class="{ input_ac: isSearch }">
+          <template #prefix>
+            <iconpark-icon
+              icon-id="gliconshous"
+              size="1.2rem"
+              @click="search"
+              style="margin-left: 4px"
+            ></iconpark-icon>
+          </template>
+        </n-input>
+
+        <!-- <Imgt src="/img/header/search.webp" @click="search" v-if="!isSearch" /> -->
       </div>
       <!--       
       邮件 -->
       <div class="email_wrap" v-if="hasLogin">
-        <Imgt src="/img/header/email.webp" />
+        <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
         <Imgt src="/img/header/collect.webp" />
       </div>
 
@@ -28,10 +39,13 @@
       <!--       
       主题色切换 -->
       <div class="theme">
-        <Imgt v-if="theme == 'day'" src="/img/header/day.webp" @click="changeTheme('night')" />
+        <Imgt
+          v-if="theme == 'day'"
+          src="/img/header/day.webp"
+          @click="changeTheme('night')"
+        />
         <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')" />
       </div>
-
 
       <!--       
       账号信息 -->
@@ -40,9 +54,8 @@
           <span>BIT</span>
           <Imgt src="/img/header/bit.webp" />
         </div>
-        <div>999,999.99</div>
+        <div>{{ verifyNumberComma(String(roleInfo.money)) }}</div>
       </div>
-
 
       <!--       
       头像 语言 -->
@@ -51,14 +64,28 @@
           <n-popover trigger="hover" display-directive="show" :arrow="false">
             <template #trigger>
               <span class="avatar_wrap">
-                <Imgt @error="avatarLoadError"
-                  :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" class="avatar_logo" />
-                <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
+                <Imgt
+                  @error="avatarLoadError"
+                  :src="
+                    `/img/head_icons/${roleInfo.head_photo}.webp` ||
+                    '/img/home/avatar.webp'
+                  "
+                  class="avatar_logo"
+                />
+                <iconpark-icon
+                  icon-id="Group39340"
+                  color="#8e82c2"
+                  size="1rem"
+                ></iconpark-icon>
               </span>
             </template>
             <div class="menu_box">
-              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
-                @click="menuClick(item, i)">
+              <p
+                :class="menuActive == i ? 'active' : ''"
+                v-for="(item, i) in menu"
+                :key="i"
+                @click="menuClick(item, i)"
+              >
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
                 <span>{{ item.name }}</span>
               </p>
@@ -70,10 +97,9 @@
         </div>
       </div>
 
-
       <!-- 弹窗登录 -->
       <n-modal :show="isLogin" :mask-closable="false">
-        <div class="change_card1 ">
+        <div class="change_card1">
           <Login v-if="isLogin" />
         </div>
       </n-modal>
@@ -89,34 +115,34 @@
   </header>
 </template>
 
-<script setup lang='ts' name="Header">
-import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive } from 'vue';
-import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
-import { Local, needLoginApi } from '@/utils/storage';
-import { useRoute, useRouter } from 'vue-router';
+<script setup lang="ts" name="Header">
+import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive } from "vue";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { Local, needLoginApi } from "@/utils/storage";
+import { useRoute, useRouter } from "vue-router";
 
-import { Dialog } from '@/utils/discreteApi';
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { Page } from '@/store/page';
-import { User } from '@/store/user';
-// import { handleOpenLink } from '@/utils/others';
+import { Dialog } from "@/utils/discreteApi";
+import pinia from "@/store/index";
+import { storeToRefs } from "pinia";
+import { Page } from "@/store/page";
+import { User } from "@/store/user";
+import { verifyNumberComma } from "@/utils/others";
 
 import { useI18n } from "vue-i18n";
-import { NetEnumDef } from '@/netBase/NetEnumDef';
-import defaultAvatar from "/img/home/avatar.webp"
-import { convertDateToObject, convertObjectToDateString } from '@/utils/dateTime';
+import { NetEnumDef } from "@/netBase/NetEnumDef";
+import defaultAvatar from "/img/home/avatar.webp";
+import { convertDateToObject, convertObjectToDateString } from "@/utils/dateTime";
 // import { SelectRenderLabel } from 'naive-ui';
-import { NetPacket } from '@/netBase/NetPacket';
-import { Net, getLocale } from '@/net/Net';
-import Imgt from '@/components/Imgt.vue';
-import useHeaderHooks from './useHooks'
-const Login = defineAsyncComponent(() => import('@/components/Login.vue'));
-const Register = defineAsyncComponent(() => import('@/components/Register.vue'));
-const RegPop = defineAsyncComponent(() => import('@/components/RegPop.vue'));
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net, getLocale } from "@/net/Net";
+import Imgt from "@/components/Imgt.vue";
+import useHeaderHooks from "./useHooks";
+const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
+const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
+const RegPop = defineAsyncComponent(() => import("@/components/RegPop.vue"));
 
-const { t } = useI18n()
+const { t } = useI18n();
 const page = Page(pinia);
 const { menuActive } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
@@ -125,85 +151,65 @@ const userInfo = User(pinia);
 const { hasLogin, isLogin, isReg, roleInfo } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
-const theme = ref('day')
+const theme = ref("day");
 const state: any = reactive({
   userInfo: null,
   active: 0,
   slider: true,
-})
+});
 
-
-const { menu } = useHeaderHooks()
-
-
-
-
+const { menu, search, isSearch } = useHeaderHooks();
 
 const avatarLoadError = (e: any) => {
-  e.target.src = defaultAvatar
-}
+  e.target.src = defaultAvatar;
+};
 
 // 主题色切换1
 const changeTheme = (value: any) => {
-
-  console.log(value)
-  theme.value = value
-}
+  console.log(value);
+  theme.value = value;
+};
 // 打开登录弹窗
 const onLoginOpen = async () => {
-  state.active = 1
-  await User(pinia).setLogin(true)
-
+  state.active = 1;
+  await User(pinia).setLogin(true);
 };
 // 打开注册弹窗
 const onRegisterOpen = async () => {
-  state.active = 2
-  await User(pinia).setReg(true)
-
+  state.active = 2;
+  await User(pinia).setReg(true);
 };
-
-
 
 const menuClick = async (item: any, j: number) => {
   if (item.value == 444) {
     Dialog.warning({
       showIcon: false,
-      title: t('home_page_logout'),
-      content: t('home_page_confirmSignOut'),
-      positiveText: t('home_page_confirm'),
-      negativeText: t('home_page_cancel'),
+      title: t("home_page_logout"),
+      content: t("home_page_confirmSignOut"),
+      positiveText: t("home_page_confirm"),
+      negativeText: t("home_page_cancel"),
       onPositiveClick: async () => {
-        Local.remove('user')
-        Local.remove('roleInfo')
-        Local.set('menuActive', '')
-        Local.set('menuName', '')
-        await User(pinia).setHasLogin(false)
-        location.href = '/'
+        Local.remove("user");
+        Local.remove("roleInfo");
+        Local.set("menuActive", "");
+        Local.set("menuName", "");
+        await User(pinia).setHasLogin(false);
+        location.href = "/";
       },
-      onNegativeClick: () => {
-
-      },
-    })
-  } else if (item.url == 'kf') {
+      onNegativeClick: () => {},
+    });
+  } else if (item.url == "kf") {
     // if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
     //   Message.error('用户被封禁')
     // } else {
     //   kefuVisible.value = true
     //   return
     // }
+  } else {
+    await page.setMenuActive(j, item.name);
+    router.push(item.url);
   }
-  else {
-    await page.setMenuActive(j, item.name)
-    router.push(item.url)
-  }
-
-
-}
-
-
-
-
-
+};
 
 // const renderLabel: SelectRenderLabel = (option: any) => {
 //   return h('div', {}, t(option.label))
@@ -221,59 +227,60 @@ const paramsObj: any = {};
 params.forEach((value: any, key: any) => {
   paramsObj[key] = value;
 });
-if (paramsObj.user_level) { // agent_level
-  localStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
-  localStorage.setItem('agent_level', paramsObj.user_level)
-  localStorage.setItem('device_id', paramsObj.device_id)
+if (paramsObj.user_level) {
+  // agent_level
+  localStorage.setItem("agent_infodata", JSON.stringify(paramsObj));
+  localStorage.setItem("agent_level", paramsObj.user_level);
+  localStorage.setItem("device_id", paramsObj.device_id);
   // 缓存
-  sessionStorage.setItem('agent_infodata', JSON.stringify(paramsObj))
-  sessionStorage.setItem('agent_level', paramsObj.user_level)
-  sessionStorage.setItem('device_id', paramsObj.device_id)
+  sessionStorage.setItem("agent_infodata", JSON.stringify(paramsObj));
+  sessionStorage.setItem("agent_level", paramsObj.user_level);
+  sessionStorage.setItem("device_id", paramsObj.device_id);
   // kefuVisible.value = true
-  router.push('/customer')
+  router.push("/customer");
 } else {
-  localStorage.setItem('agent_level', sessionStorage.getItem('agent_level') || '')
-  localStorage.setItem('agent_infodata', sessionStorage.getItem('agent_infodata') || '')
-  localStorage.setItem('device_id', sessionStorage.getItem('device_id') || '')
+  localStorage.setItem("agent_level", sessionStorage.getItem("agent_level") || "");
+  localStorage.setItem("agent_infodata", sessionStorage.getItem("agent_infodata") || "");
+  localStorage.setItem("device_id", sessionStorage.getItem("device_id") || "");
 }
-
 
 const onHander_check_version = async (message: any) => {
   if (message.result != NetEnumDef.check_version_result.cvr_yes) {
     console.log("check version failed");
     return;
   }
-  needLoginApi()
-}
+  needLoginApi();
+};
 const onHander_system_notice = async (message: any) => {
   if (message.notice_list?.length) {
-    const dialogList: any = message.notice_list.filter((item: any) => item.position == 1)
+    const dialogList: any = message.notice_list.filter((item: any) => item.position == 1);
 
-    const paomaList: any = message.notice_list.filter((item: any) => item.position == 0)
+    const paomaList: any = message.notice_list.filter((item: any) => item.position == 0);
 
     // 弹窗公告
-    let localIds = [] // 本地记录的不再显示
+    let localIds = []; // 本地记录的不再显示
     try {
-      localIds = JSON.parse(localStorage.getItem('readed_notice_ids') || '[]')
+      localIds = JSON.parse(localStorage.getItem("readed_notice_ids") || "[]");
     } catch {
-      localIds = []
+      localIds = [];
     }
-    const list: any = dialogList.filter((item: any) => !localIds.includes(item.title)).sort((a: any, b: any) => {
-      return b.priority - a.priority
-    })
+    const list: any = dialogList
+      .filter((item: any) => !localIds.includes(item.title))
+      .sort((a: any, b: any) => {
+        return b.priority - a.priority;
+      });
     if (list.length) {
-
-      await getLocale() // 获取最新翻译文案
-      await User(pinia).setNoticeList(list)
-      User(pinia).setNotice(true)
+      await getLocale(); // 获取最新翻译文案
+      await User(pinia).setNoticeList(list);
+      User(pinia).setNotice(true);
     }
 
     // 轮播公告
     paomaList.forEach((item: any) => {
-      page.setTextAnnouncementMore(t(item.title) + ' - ' + t(item.content))
-    })
+      page.setTextAnnouncementMore(t(item.title) + " - " + t(item.content));
+    });
   }
-}
+};
 
 // const avatarLoadError = (e: any) => {
 //   e.target.src = defaultAvatar
@@ -281,91 +288,89 @@ const onHander_system_notice = async (message: any) => {
 const onHandler_system_msg = async (m: any) => {
   // console.error('----系统消息', m)
   if (m.code == 903) {
-    if (m.Params[0] == 1) { // 弹窗公告
+    if (m.Params[0] == 1) {
+      // 弹窗公告
       try {
-        const list: any = [{
-          content: `system_notice_content_${m.Params[3]}`,
-          title: `system_notice_title_${m.Params[2]}`,
-          position: 1,
-          priority: m.priority,
-          type: m.Params[1],
-        }]
-        await getLocale() // 获取最新翻译文案
+        const list: any = [
+          {
+            content: `system_notice_content_${m.Params[3]}`,
+            title: `system_notice_title_${m.Params[2]}`,
+            position: 1,
+            priority: m.priority,
+            type: m.Params[1],
+          },
+        ];
+        await getLocale(); // 获取最新翻译文案
 
-        await User(pinia).setNoticeList(list)
-        User(pinia).setNotice(true)
+        await User(pinia).setNoticeList(list);
+        User(pinia).setNotice(true);
       } catch {
-        console.error('error msg', m)
+        console.error("error msg", m);
       }
     } else {
-      if (m.Params && m.Params.length == 6) { // 跑马灯
+      if (m.Params && m.Params.length == 6) {
+        // 跑马灯
         // ***[0]*** 在 [3] 获得 [4] 金币奖励！
-        const str = t('home_notice_mixtext', {
+        const str = t("home_notice_mixtext", {
           user: `${m.Params[0]?.substr(0, 4)}***`,
-          game: m.Params[3] ? t(m.Params[3]) : '',
-          money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0
-        })
-        page.setTextAnnouncementMore(str)
+          game: m.Params[3] ? t(m.Params[3]) : "",
+          money: m.Params[4] ? Number(m.Params[4]).toLocaleString() : 0,
+        });
+        page.setTextAnnouncementMore(str);
       }
     }
   }
-}
+};
 
-MessageEvent2.addMsgEvent(
-  NetMsgType.msgType.msg_notify_loading_end,
-  async () => {
-    await User(pinia).setLoadingEnd(true)
-  }
-);
-
+MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_loading_end, async () => {
+  await User(pinia).setLoadingEnd(true);
+});
 
 // 重复登录
-MessageEvent2.addMsgEvent(
-  NetMsgType.msgType.msg_notify_repeat_login,
-  async () => {
-    Local.remove('user')
-    Local.remove('roleInfo')
-    Local.set('menuActive', '')
-    Local.set('menuName', '')
-    await User(pinia).setHasLogin(false)
-    Dialog.warning({
-      showIcon: false,
-      maskClosable: false,
-      title: t('home_page_offlineNotification'),
-      content: t('home_page_offlineContent', { time: convertObjectToDateString(convertDateToObject(new Date())) }),
-      positiveText: t('home_page_offlineConfirm'),
-      onPositiveClick: async () => {
-        location.href = '/'
-        await User(pinia).setLogin(true)
-      },
-      onClose: async () => {
-        location.href = '/'
-      },
+MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () => {
+  Local.remove("user");
+  Local.remove("roleInfo");
+  Local.set("menuActive", "");
+  Local.set("menuName", "");
+  await User(pinia).setHasLogin(false);
+  Dialog.warning({
+    showIcon: false,
+    maskClosable: false,
+    title: t("home_page_offlineNotification"),
+    content: t("home_page_offlineContent", {
+      time: convertObjectToDateString(convertDateToObject(new Date())),
+    }),
+    positiveText: t("home_page_offlineConfirm"),
+    onPositiveClick: async () => {
+      location.href = "/";
+      await User(pinia).setLogin(true);
+    },
+    onClose: async () => {
+      location.href = "/";
+    },
+  });
+  // Dialog.warning({
+  //   showIcon: false,
+  //   maskClosable: false,
+  //   title: '重复登录',
+  //   content: '您的账号上次在2024-05-28 19:20:02于另一台安卓手机登录，如非本人操作，则密码可能泄露，建议您修改密码',
+  //   positiveText: '修改密码',
+  //   negativeText: '关闭',
+  //   onPositiveClick: async () => {
+  //     Local.remove('user')
+  //     await User(pinia).setHasLogin(false)
+  //     router.push('/')
+  //   },
+  //   onNegativeClick: () => {
 
-    })
-    // Dialog.warning({
-    //   showIcon: false,
-    //   maskClosable: false,
-    //   title: '重复登录',
-    //   content: '您的账号上次在2024-05-28 19:20:02于另一台安卓手机登录，如非本人操作，则密码可能泄露，建议您修改密码',
-    //   positiveText: '修改密码',
-    //   negativeText: '关闭',
-    //   onPositiveClick: async () => {
-    //     Local.remove('user')
-    //     await User(pinia).setHasLogin(false)
-    //     router.push('/')
-    //   },
-    //   onNegativeClick: () => {
-
-    //   },
-    // onClose: async () => {
-    //   Local.remove('user')
-    //   await User(pinia).setHasLogin(false)
-    //   router.push('/')
-    // },
-    // })
-  }
-);
+  //   },
+  // onClose: async () => {
+  //   Local.remove('user')
+  //   await User(pinia).setHasLogin(false)
+  //   router.push('/')
+  // },
+  // })
+});
 
 onMounted(async () => {
   let req_check_version_req = NetPacket.req_check_version();
@@ -377,36 +382,25 @@ onMounted(async () => {
     onHander_check_version
   );
 
-
-  Local.set('agentid', route.query.uid || '0')
-  if (Local.get('menuActive')) {
-    await page.setMenuActive(Local.get('menuActive'), Local.get('menuName'))
+  Local.set("agentid", route.query.uid || "0");
+  if (Local.get("menuActive")) {
+    await page.setMenuActive(Local.get("menuActive"), Local.get("menuName"));
   }
-
-
 
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_send_system_notice,
     onHander_system_notice
   );
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_sys_msg,
-    onHandler_system_msg
-  );
-
-})
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_sys_msg, onHandler_system_msg);
+});
 
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_check_version, null);
-
 });
-
-
-
 </script>
 
-<style lang='less' scoped>
-@timestamp: `new Date().getTime()`;
+<style lang="less" scoped>
+@timestamp: `new Date() .getTime() `;
 
 .header-bg-img {
   background-blend-mode: color-burn;
@@ -422,7 +416,7 @@ onUnmounted(() => {
   border-radius: 10px;
   background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
-  >span {
+  > span {
     width: 56px;
     height: 30px;
     box-sizing: border-box;
@@ -431,7 +425,6 @@ onUnmounted(() => {
     padding: 6.7px 9px;
     border-radius: 10px;
     background-color: #131421;
-
   }
 
   span {
@@ -456,7 +449,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 100;
 
-  >div {
+  > div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -479,6 +472,9 @@ onUnmounted(() => {
     .logo_box {
       display: flex;
       align-items: center;
+      img {
+        cursor: pointer;
+      }
     }
 
     // justify-content: space-between;
@@ -487,7 +483,7 @@ onUnmounted(() => {
       height: 60px;
       margin-left: 30px;
       border-radius: 100px;
-      background: #0B0B0B;
+      background: #0b0b0b;
       display: flex;
       align-items: center;
 
@@ -497,7 +493,7 @@ onUnmounted(() => {
       }
 
       .title {
-        color: #9497A1;
+        color: #9497a1;
         font-size: 20px;
         font-weight: 500;
         margin-left: 50px;
@@ -512,6 +508,42 @@ onUnmounted(() => {
       img {
         width: 60px;
         height: 60px;
+        cursor: pointer;
+      }
+      .input_ac {
+        width: 260px !important;
+        transition: all 1s ease;
+      }
+      .n-input {
+        height: 60px;
+        background: #000223;
+        width: 60px;
+        border: 1px solid #36445e;
+        border-radius: 100px;
+        will-change: width;
+        transition: all 500ms;
+        cursor: pointer;
+        &:deep(.n-input__placeholder) {
+          height: 60px;
+          line-height: 60px;
+          font-size: 20px;
+          padding-left: 10px;
+          span {
+            height: 60px;
+            line-height: 60px;
+            font-size: 20px;
+          }
+        }
+        &:deep(.n-input__input-el) {
+          height: 60px;
+          line-height: 60px;
+          font-size: 20px;
+          span {
+            height: 60px;
+            line-height: 60px;
+            font-size: 20px;
+          }
+        }
       }
     }
 
@@ -524,6 +556,7 @@ onUnmounted(() => {
         width: 60px;
         height: 60px;
         margin-right: 10px;
+        cursor: pointer;
       }
     }
 
@@ -536,7 +569,7 @@ onUnmounted(() => {
 
       div {
         font-weight: 500;
-        color: #FFF;
+        color: #fff;
         font-size: 20px;
         cursor: pointer;
       }
@@ -548,10 +581,9 @@ onUnmounted(() => {
         line-height: 52px;
         text-align: center;
         font-weight: 500;
-        color: #FFF;
+        color: #fff;
         font-size: 20px;
-        background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-
+        background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
       }
     }
 
@@ -571,7 +603,7 @@ onUnmounted(() => {
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #FFFFFF;
+      color: #ffffff;
       font-size: 20px;
       margin-left: 10px;
 
@@ -585,7 +617,6 @@ onUnmounted(() => {
         align-items: center;
       }
     }
-
 
     .avatar {
       display: flex;
@@ -612,24 +643,21 @@ onUnmounted(() => {
       }
     }
 
-
-
-
     .user_box {
       text-align: end;
 
-      >span {
+      > span {
         margin-right: 10px;
       }
 
-      >.login_box {
+      > .login_box {
         display: flex;
         justify-content: space-around;
         width: 180px;
         margin-left: 40px;
         color: #fff;
 
-        >span {
+        > span {
           min-width: 62px;
           height: 32px;
           display: flex;
@@ -641,21 +669,19 @@ onUnmounted(() => {
           // border: solid 1px #5a47b2;
           // background-color: #402c95;
 
-          border-image: url('/img/home/unactive1.webp?t=@{timestamp}') 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill /
+            0px 10px stretch stretch;
           // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url('/img/home/active1.webp?t=@{timestamp}') 0 30 0 30 fill / 0px 10px stretch stretch;
-
+          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px
+            10px stretch stretch;
         }
       }
     }
   }
-
-
-
 
   .user_info {
     display: flex;
@@ -673,7 +699,6 @@ onUnmounted(() => {
         justify-content: center;
       }
 
-
       img {
         width: 42px;
         height: 42px;
@@ -682,8 +707,7 @@ onUnmounted(() => {
       }
     }
 
-
-    >p {
+    > p {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -693,7 +717,7 @@ onUnmounted(() => {
       border-radius: 10px;
       background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
-      >span {
+      > span {
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -703,7 +727,7 @@ onUnmounted(() => {
         padding: 0 6px;
         color: #fff;
 
-        >img {
+        > img {
           width: 24px;
           height: 24px;
         }
@@ -726,15 +750,19 @@ onUnmounted(() => {
     &:hover {
       border-image-source: linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       border-image-slice: 1;
-      background-image: radial-gradient(circle at 50% 0%, #1170ff, #1154ff 56%, #6b11ff 90%), linear-gradient(to bottom, #fff 0%, #8cacff 103%);
+      background-image: radial-gradient(
+          circle at 50% 0%,
+          #1170ff,
+          #1154ff 56%,
+          #6b11ff 90%
+        ),
+        linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       background-origin: border-box;
       background-clip: content-box, border-box;
       color: #fff;
       border: none;
     }
   }
-
-
 }
 
 .text_color {
@@ -747,7 +775,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
 
-  >p {
+  > p {
     color: #fff;
     padding: 10px 10px;
     margin: 0;
@@ -756,7 +784,7 @@ onUnmounted(() => {
     align-items: center;
     cursor: pointer;
 
-    >span {
+    > span {
       margin-left: 8px;
       font-size: 16px;
     }
@@ -764,14 +792,13 @@ onUnmounted(() => {
 
   .active {
     color: #8e82c2;
-
   }
 }
 
 .change_card1 {
   border-radius: 16px;
-  border: 1px solid #26294C;
-  background-color: #14173A;
+  border: 1px solid #26294c;
+  background-color: #14173a;
 }
 
 .change_card {
@@ -783,17 +810,14 @@ onUnmounted(() => {
   background-color: #231353;
 }
 
-
-
 .community_box {
-
   display: flex;
   align-items: center;
   font-size: 16px;
   color: #8e82c2;
   cursor: pointer;
 
-  >span {
+  > span {
     margin-left: 12px;
   }
 }

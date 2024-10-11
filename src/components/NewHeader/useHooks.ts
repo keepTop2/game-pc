@@ -1,8 +1,8 @@
 
 
+import {ref} from "vue";
 
-
-
+const isSearch = ref(false)
 const useHeaderHooks = () =>{
 
 
@@ -83,6 +83,10 @@ const useHeaderHooks = () =>{
     },
   ]
 
+  const search = ()=>{
+    isSearch.value = true
+  }
+
 
 
 
@@ -90,7 +94,9 @@ const useHeaderHooks = () =>{
 
 
 return {
-  menu
+  menu,
+  search,
+  isSearch
 }
 
 }
