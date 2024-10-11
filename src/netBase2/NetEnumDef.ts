@@ -102,7 +102,21 @@ export module NetEnumDef {
         game_type_shuangdan = 44,
         game_type_mjhlsecond = 45,
         game_type_dataosha = 46,
-        game_type_pdk = 47
+        game_type_pdk = 47,
+        game_type_bj = 48,
+        game_type_tx = 49,
+        game_type_sss = 50,
+        game_type_baijiale = 51,
+        game_type_yxx = 52,
+        game_type_omh = 53,
+        game_type_zhajinhua = 54,
+        game_type_lhd = 55,
+        game_type_sedie = 56,
+        game_type_shaibao = 57,
+        game_type_talapai = 58,
+        game_type_catte = 59,
+        game_type_sangong = 60,
+        game_type_hkfive = 61
     };
     export enum room_type
     {
@@ -143,6 +157,52 @@ export module NetEnumDef {
     {
         prepare_action_do = 1,
         prepare_action_undo = 2
+    };
+    export enum tx_game_status
+    {
+        tx_game_status_idle = 1,
+        tx_game_status_pre_flop = 2,
+        tx_game_status_flop = 3,
+        tx_game_status_turn = 4,
+        tx_game_status_river = 5,
+        tx_game_status_settlement = 6
+    };
+    export enum tx_role_status
+    {
+        tx_role_status_idle = 1,
+        tx_role_status_gaming = 2,
+        tx_role_status_operator = 3
+    };
+    export enum tx_short_type
+    {
+        tx_short_type_no = 1,
+        tx_short_type_yes = 2
+    };
+    export enum tx_bet_type
+    {
+        tx_bet_type_limit = 1,
+        tx_bet_type_pod_limit = 2,
+        tx_bet_type_no_limit = 3,
+        tx_bet_type_allin = 4
+    };
+    export enum tx_blind_type
+    {
+        tx_blind_type_normal = 1,
+        tx_blind_type_rand = 2,
+        tx_blind_type_all = 3
+    };
+    export enum tx_cards_type
+    {
+        tx_cards_type_high_card = 1,
+        tx_cards_type_one_pair = 2,
+        tx_cards_type_two_pair = 3,
+        tx_cards_type_three_of_a_kind = 4,
+        tx_cards_type_straight = 5,
+        tx_cards_type_flush = 6,
+        tx_cards_type_full_house = 7,
+        tx_cards_type_four_of_a_kind = 8,
+        tx_cards_type_straight_flush = 9,
+        tx_cards_type_royal_flush = 10
     };
 
     export function get_proto_version()
