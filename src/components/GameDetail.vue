@@ -2,7 +2,7 @@
     <div class="game-detail-container">
         <div class="game-title">
             <span class="input-box">
-                <n-input :placeholder="t('home_page_seachGame')" v-model:value="queryGame" @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
+                <n-input :placeholder="t('home_page_seachGame')" v-model:value="queryGame" @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAV">
                     <template #prefix>
                         <img class="search-icon" src="/img/game/search.webp" alt="search" />
                     </template>
@@ -10,25 +10,30 @@
                 <span class="button">搜索</span>
             </span>
             <div class="game_list">
-                <!-- <transition name="fade"> -->
-                    <div :class="{game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
+                    <!-- <div :class="{game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
                         @click="onClickTab(v)">
                         <span>{{ unserialize(v.kind_name) }}</span>
-                    </div>
-                <!-- </transition> -->
-                
-                <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
+                    </div> -->
+                <div v-for="(item, idx) in state.tabs" :class="{ game_active: activeTab == item.type }" @click="onClickTab(item)">
                     <span>
-                        <img src="/img/game/label_fav_a.webp" alt="" v-if="activeTab == TabType.FAVORITE">
+                        <img :src="`/img/game/label_${item.name}_a.webp`" alt="" v-if="activeTab == item">
+                        <img :src="`/img/game/label_${item.name}.webp`" alt="" v-else>
+                    </span>
+                    <span>{{ t(item.icon) }}</span>
+                    <!-- <span>{{ unserialize(v.kind_name) }}</span> -->
+                </div> 
+                <!-- <div :class="{ game_active: activeTab == TabType.FAV }" @click="onClickFavorite(TabType.FAV)">
+                    <span>
+                        <img src="/img/game/label_fav_a.webp" alt="" v-if="activeTab == TabType.FAV">
                         <img src="/img/game/label_fav.webp" alt="" v-else>
                     </span>
                     <span>{{ t("common_favorite") }}</span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="game-content">
             <div class="game-detail">
-                <div v-if="activeTab == TabType.FAVORITE">
+                <div v-if="activeTab == TabType.FAV">
                     <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
                         <div class="game-list">
                             <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGameFav(v)">
@@ -93,8 +98,6 @@ import { User } from '@/store/user';
 import Loading from '@/components/Loading.vue'
 
 const { t } = useI18n();
-const route = useRoute()
-const router = useRouter()
 const {
     lang,
     homeGameData
@@ -130,9 +133,39 @@ const langs: any = {
 };
 const imgPrefix = 'http://18.167.175.195:8033/uploads/'
 const TabType = {
-    FAVORITE: 88
+    ALL: 0,
+    HOT: 1,
+    RECENT: 2,
+    FAV: 3
 }
-const labels = [{all: 'all'}, {hot: 'hot'}, {recent: 'recent'}, {fav: 'fav'}];
+const state: any = reactive({
+    tabs: <{}>[
+        {
+            type: -1,
+            name: 'all',
+            icon: 'label_all',
+            value: '',
+        },
+        {
+            type: 0,
+            name: 'hot',
+            icon: 'label_hot',
+            value: '',
+        },
+        {
+            type: -3,
+            name: 'recent',
+            icon: 'label_recent',
+            value: '',
+        },
+        {
+            type: -2,
+            name: 'fav',
+            icon: 'label_fav',
+            value: '',
+        },
+    ],
+})
 
 const props = defineProps({
   platform_id: null,
@@ -144,7 +177,7 @@ const props = defineProps({
 
 const getHomeData = () => {
   const data  = homeGameData.value[activeKind.value]?.three_platform
-  const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
+  const item = data?.find((e: any) => e.name[langs[lang.value]].toUpperCase() == gameName.value)
   threeGameKinds.value = item?.three_game_kind
 }
 
@@ -157,11 +190,11 @@ const handlePlatform = (res: any) => {
     if (res.kind && res.kind.length) {
         gameKinds.value = res.kind
         if (!isVenudId.value) {
-            activeTab.value = venueId.value
+            // activeTab.value = venueId.value
             isVenudId.value = true
         }
     } else {
-        const kinds = threeGameKinds.value.map((e: any) => { return { 'kindId': e.id, 'kind_name': JSON.stringify(e.name) } })
+        const kinds = threeGameKinds.value?.map((e: any) => { return { 'kindId': e.id, 'kind_name': JSON.stringify(e.name) } })
         gameKinds.value = kinds
     }
     result.list = res.info
@@ -220,18 +253,18 @@ const onPlayGameFav = async (v: any) => {
 
 
 const onClickTab = (v: any) => {
-    activeTab.value = v.kindId
+    activeTab.value = v.type
     queryGame.value = ''
     resetData()
     queryData()
 }
 
-const onClickFavorite = (i: number) => {
-    queryGame.value = ''
-    activeTab.value = i
-    resetData()
-    getFavs()
-}
+// const onClickFavorite = (i: number) => {
+//     queryGame.value = ''
+//     activeTab.value = i
+//     resetData()
+//     getFavs()
+// }
 
 const onClickSearch = () => {
     if (!queryGame.value) {
@@ -256,18 +289,18 @@ const getFavs = () => {
   favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
 }
 
-const onAddFavorite = (v: any) => {
-  let favorites = Local.get('favorites') || []
-  const gameIds = favorites.map((e:any) => e.split('__')[0])
-  if (gameIds.includes(v.gameId)) {
-    favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
-  } else {
-    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
-    favorites.push(item)
-  }
-  Local.set('favorites', favorites)
-  getFavs()
-}
+// const onAddFavorite = (v: any) => {
+//   let favorites = Local.get('favorites') || []
+//   const gameIds = favorites.map((e:any) => e.split('__')[0])
+//   if (gameIds.includes(v.gameId)) {
+//     favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
+//   } else {
+//     const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
+//     favorites.push(item)
+//   }
+//   Local.set('favorites', favorites)
+//   getFavs()
+// }
 
 const unserialize = (v: string) => {
     const data = JSON.parse(v)
@@ -292,10 +325,17 @@ const resetData = () => {
 const queryData = () => { // 查询
     loading.value = true
     const query = NetPacket.req_get_games_in_platform()
-    query.agentId = platformId.value
-    query.kindId = activeTab.value
+    // query.agentId = platformId.value
+    // query.kindId = activeTab.value
+    // query.page = params.page
+    // query.pageSize = pageSize.value
+    // query.is_lable = 0
+
+    query.agentId = 1
+    query.kindId = -1
     query.page = params.page
-    query.pageSize = pageSize.value
+    query.pageSize = 1
+    query.is_lable = 1
     Net.instance.sendRequest(query);
 }
 
@@ -587,4 +627,11 @@ watch(
         }
     }
 }
+</style>
+<style lang='less'>
+
+.content {
+    max-width: 100%;
+}
+
 </style>
