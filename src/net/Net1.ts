@@ -18,7 +18,7 @@ class IWebsocket {
     conectWebsocket(urlOut?: string) {
         // 对webSocket连接创建回调
         return new Promise((resolve, reject) => {
-            let url: string = urlOut || 'ws://18.167.175.195:9001/ws';
+            let url: string = urlOut || 'ws://18.167.175.195:9001';
             this.instance = new Rwebsocket(url);
             this.instance.onopen = (evt) => {
                 console.log("websocket-连接成功", evt);
