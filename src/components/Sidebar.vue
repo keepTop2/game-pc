@@ -59,7 +59,7 @@
         </div>
 
         <!-- 俱乐部 -->
-<!--        <club ref="clubModal" :openType="openType" />-->
+        <!--        <club ref="clubModal" :openType="openType" />-->
     </div>
 </template>
 <script lang="ts" setup name="sider">
@@ -228,12 +228,13 @@ const activityItemClick = (key: any) => {
 }
 // 游戏
 const getHomeData = () => {
-  for (let i in state.gameList.list) {
-    const item = state.gameList.list[i]
-    const name = t(item.name, 1, { locale: 'zh' })
-    const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
-    state.gameList.list[i].value = data
-  }
+    for (let i in state.gameList.list) {
+        const item = state.gameList.list[i]
+        const name = t(item.name, 1, { locale: 'zh' })
+        const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
+        state.gameList.list[i].value = data
+
+    }
 }
 const onClickGame = (item: any, idx: any) => {
     router.push({
@@ -277,7 +278,7 @@ const handleActivetys = async (res: any) => {
     await Page(pinia).setActivityTitleList(res.promo)
 }
 onBeforeMount(() => {
-  getHomeData()
+    getHomeData()
 })
 onMounted(async () => {
     if (route.query.name) {

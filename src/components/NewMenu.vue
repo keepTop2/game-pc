@@ -30,24 +30,37 @@
 
 <script setup lang='ts' name="Header">
 import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive } from 'vue';
-
+// import { storeToRefs } from 'pinia';
+// import pinia from '@/store/index';
+// import { Page } from '@/store/page';
+import { useRouter } from 'vue-router';
+// const { activityTitleList, homeGameData } = storeToRefs(Page(pinia));
+// console.log(homeGameData);
+const router = useRouter();
 const active_id = ref(1)
 
 const menuList = [
-  { label: '首页', icon: '/img/menu/menu_1.webp', url: '/', id: 1 },
-  { label: '俱乐部', icon: '/img/menu/menu_2.webp', url: '', id: 2 },
-  { label: '赛程', icon: '/img/menu/menu_3.webp', url: '', id: 3 },
-  { label: '棋牌', icon: '/img/menu/menu_4.webp', url: '', id: 4 },
-  { label: '电子', icon: '/img/menu/menu_5.webp', url: '', id: 5 },
-  { label: '真人', icon: '/img/menu/menu_6.webp', url: '', id: 6 },
-  { label: '捕鱼', icon: '/img/menu/menu_7.webp', url: '', id: 7 },
-  { label: '彩票', icon: '/img/menu/menu_8.webp', url: '', id: 8 },
-  { label: '电竞', icon: '/img/menu/menu_9.webp', url: '', id: 9 },
+  { label: '首页', icon: '/img/menu/menu_1.webp', url: '/', id: 7 },
+  { label: '俱乐部', icon: '/img/menu/menu_2.webp', url: '', id: 8 },
+  { label: '赛程', icon: '/img/menu/menu_3.webp', url: '', id: 9 },
+  { label: '棋牌', icon: '/img/menu/menu_4.webp', url: '', id: 5 },
+  { label: '电子', icon: '/img/menu/menu_5.webp', url: '', id: 1 },
+  { label: '真人', icon: '/img/menu/menu_6.webp', url: '', id: 3 },
+  { label: '捕鱼', icon: '/img/menu/menu_7.webp', url: '', id: 2 },
+  { label: '彩票', icon: '/img/menu/menu_8.webp', url: '', id: 6 },
+  { label: '体育', icon: '/img/menu/menu_9.webp', url: '', id: 4 },
 ]
 
 
 const itemClick = (item: any) => {
   active_id.value = item.id
+  router.push({
+    path: '/gameMain/gamingPlatform',
+    query: {
+      id: item.id,
+      name: item.name
+    }
+  })
 }
 
 
