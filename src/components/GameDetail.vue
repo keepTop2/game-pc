@@ -332,10 +332,10 @@ const queryData = () => { // 查询
     // query.is_lable = 0
 
     query.agentId = 1
-    query.kindId = -1
-    query.page = params.page
+    query.kindId = 1
+    query.page = 1
     query.pageSize = 1
-    query.is_lable = 1
+    query.is_lable = 0
     Net.instance.sendRequest(query);
 }
 

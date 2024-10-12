@@ -77,7 +77,7 @@ export class RingBuffer {
 
     decode_msg_id() {
         let msgID = EncodeUtils.ByteToUint16(this.list, this.head);
-        this.addHead(2);
+        this.addHead(4);
         return msgID;
     }
 
