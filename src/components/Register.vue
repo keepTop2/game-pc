@@ -32,8 +32,9 @@
               <Imgt :src="captchaURL" alt="captchaURL" />
               <iconpark-icon icon-id="Group39366" color="#8e82c2" size="1.5rem"></iconpark-icon>
             </span> -->
-              <Imgt v-if="activeTab === 1 && item.name == 'captcha'" :src="captchaURL" alt="captchaURL" class="captcha"
+              <n-image lazy v-if="activeTab === 1 && item.name == 'captcha'" :src="captchaURL" class="captcha"
                 @click="refresh_captcha" />
+
               <iconpark-icon v-if="activeTab === 1 && item.name == 'captcha'" icon-id="Group39366" class="refresh"
                 color="#8e82c2" size="2.2rem" @click="refresh_captcha"></iconpark-icon>
               <span v-if="activeTab === 2">

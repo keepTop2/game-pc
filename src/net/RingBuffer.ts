@@ -3,7 +3,7 @@ import { EncodeUtils } from "./EncodeUtils";
 export class RingBuffer {
     private size = 0;
     private list: any = [];
-    // private capacity:number = 0;
+    // private capacity = 0;
     private head = 0;
     private tail = 0;
 
@@ -76,7 +76,7 @@ export class RingBuffer {
     }
 
     decode_msg_id() {
-        let msgID = EncodeUtils.ByteToUint16(this.list, this.head);
+        let msgID = EncodeUtils.ByteTouInt32(this.list, this.head);
         this.addHead(4);
         return msgID;
     }
