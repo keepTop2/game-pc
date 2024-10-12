@@ -86,6 +86,7 @@
         <div v-for="item in tableHead" class="table_head">
           <span>{{ item }}</span>
         </div>
+        <span class="more">{{ t('home_page_more') }}</span>
       </div>
       <div class="table_body_wrap">
         <div v-for="item in tableData" class="table_head">
@@ -367,12 +368,35 @@ const matchClick = (i: any) => {
 
   .table_head_wrap {
     display: flex;
+    position: relative;
 
     .table_head {
       flex: 1;
       display: flex;
       justify-content: center;
       color: #ffffff;
+    }
+    .more{
+      position: absolute;
+      right: 0;
+     
+      width: 90px;
+      height: 40px;
+      display: flex;
+      font-size: 16px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: solid 1.4px #282747;
+      background-color: #282747;
+      cursor: pointer;
+      color: #c6c4f5;
+      &:hover {
+        color: #fff;
+        background: url("/img/dialog/click.webp?t=@{timestamp}") no-repeat;
+        background-size: 100% 100%;
+      }
+
     }
   }
 
