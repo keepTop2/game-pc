@@ -13,12 +13,7 @@
       <div class="search">
         <n-input size="large" placeholder="搜索" :class="{ input_ac: isSearch }">
           <template #prefix>
-            <iconpark-icon
-              icon-id="gliconshous"
-              size="1.2rem"
-              @click="search"
-              style="margin-left: 4px"
-            ></iconpark-icon>
+            <iconpark-icon icon-id="gliconshous" size="1.2rem" @click="search" style="margin-left: 4px"></iconpark-icon>
           </template>
         </n-input>
 
@@ -39,11 +34,7 @@
       <!--       
       主题色切换 -->
       <div class="theme">
-        <Imgt
-          v-if="theme == 'day'"
-          src="/img/header/day.webp"
-          @click="changeTheme('night')"
-        />
+        <Imgt v-if="theme == 'day'" src="/img/header/day.webp" @click="changeTheme('night')" />
         <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')" />
       </div>
 
@@ -64,36 +55,29 @@
           <n-popover trigger="hover" display-directive="show" :show-arrow="false">
             <template #trigger>
               <span class="avatar_wrap">
-                <Imgt
-                  @error="avatarLoadError"
-                  :src="
-                    `/img/head_icons/${roleInfo.head_photo}.webp` ||
-                    '/img/home/avatar.webp'
-                  "
-                  class="avatar_logo"
-                />
-                <iconpark-icon
-                  icon-id="Group39340"
-                  color="#8e82c2"
-                  size="1rem"
-                ></iconpark-icon>
+                <Imgt @error="avatarLoadError" :src="`/img/head_icons/${roleInfo.head_photo}.webp` ||
+                  '/img/home/avatar.webp'
+                  " class="avatar_logo" />
+                <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
               </span>
             </template>
             <div class="menu_box">
-              <p
-                :class="menuActive == i ? 'active' : ''"
-                v-for="(item, i) in menu"
-                :key="i"
-                @click="menuClick(item, i)"
-              >
+              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
+                @click="menuClick(item, i)">
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
                 <span>{{ item.name }}</span>
               </p>
             </div>
           </n-popover>
         </div>
-        <div>
-          <Imgt src="/img/header/lang.webp" class="lang_logo" />
+        <div class="country_box">
+
+          <n-popselect v-model:value="lang" :render-label="renderLabel" :options="settings.lang_list"
+            @update:value="valueChange" trigger="click">
+            <span>
+              <Imgt :src="`/img/header/${lang}.webp`" alt="country" />
+            </span>
+          </n-popselect>
         </div>
       </div>
 
@@ -122,7 +106,7 @@
 </template>
 
 <script setup lang="ts" name="Header">
-import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive } from "vue";
+import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive, h } from "vue";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { Local, needLoginApi } from "@/utils/storage";
@@ -144,13 +128,15 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { Net, getLocale } from "@/net/Net";
 import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
+import { SelectRenderLabel } from "naive-ui";
+
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
 const RegPop = defineAsyncComponent(() => import("@/components/RegPop.vue"));
 
 const { t } = useI18n();
 const page = Page(pinia);
-const { menuActive } = storeToRefs(page);
+const { menuActive, settings, lang } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
@@ -165,11 +151,16 @@ const state: any = reactive({
 });
 
 const { menu, search, isSearch } = useHeaderHooks();
+const valueChange = async (item: any) => {
 
+  await page.setLang(item)
+}
 const avatarLoadError = (e: any) => {
   e.target.src = defaultAvatar;
 };
-
+const renderLabel: SelectRenderLabel = (option: any) => {
+  return h('div', {}, t(option.label))
+}
 // 主题色切换1
 const changeTheme = (value: any) => {
   console.log(value);
@@ -202,7 +193,7 @@ const menuClick = async (item: any, j: number) => {
         await User(pinia).setHasLogin(false);
         location.href = "/";
       },
-      onNegativeClick: () => {},
+      onNegativeClick: () => { },
     });
   } else if (item.url == "kf") {
     // if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
@@ -355,29 +346,29 @@ MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () =
       location.href = "/";
     },
   });
-  // Dialog.warning({
-  //   showIcon: false,
-  //   maskClosable: false,
-  //   title: '重复登录',
-  //   content: '您的账号上次在2024-05-28 19:20:02于另一台安卓手机登录，如非本人操作，则密码可能泄露，建议您修改密码',
-  //   positiveText: '修改密码',
-  //   negativeText: '关闭',
-  //   onPositiveClick: async () => {
-  //     Local.remove('user')
-  //     await User(pinia).setHasLogin(false)
-  //     router.push('/')
-  //   },
-  //   onNegativeClick: () => {
 
-  //   },
-  // onClose: async () => {
-  //   Local.remove('user')
-  //   await User(pinia).setHasLogin(false)
-  //   router.push('/')
-  // },
-  // })
 });
+// Dialog.warning({
+//   showIcon: false,
+//   maskClosable: false,
+//   title: '重复登录',
+//   content: '您的账号上次在2024-05-28 19:20:02于另一台安卓手机登录，如非本人操作，则密码可能泄露，建议您修改密码',
+//   positiveText: '修改密码',
+//   negativeText: '关闭',
+//   onPositiveClick: async () => {
+//     Local.remove('user')
+//     await User(pinia).setHasLogin(false)
+//     router.push('/')
+//   },
+//   onNegativeClick: () => {
 
+//   },
+//   onClose: async () => {
+//     Local.remove('user')
+//     await User(pinia).setHasLogin(false)
+//     router.push('/')
+//   },
+// })
 onMounted(async () => {
   let req_check_version_req = NetPacket.req_check_version();
   req_check_version_req.version = 1;
@@ -416,32 +407,15 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 58px;
-  height: 32px;
+  margin-left: 20px;
+
   cursor: pointer;
-  border-radius: 10px;
-  background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
-  > span {
-    width: 56px;
-    height: 30px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 6.7px 9px;
-    border-radius: 10px;
-    background-color: #131421;
-  }
 
-  span {
-    display: flex;
-    align-items: center;
-    vertical-align: middle;
-  }
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 24px;
     vertical-align: middle;
   }
 }
@@ -455,7 +429,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 100;
 
-  > div {
+  >div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -478,6 +452,7 @@ onUnmounted(() => {
     .logo_box {
       display: flex;
       align-items: center;
+
       img {
         cursor: pointer;
       }
@@ -516,10 +491,12 @@ onUnmounted(() => {
         height: 60px;
         cursor: pointer;
       }
+
       .input_ac {
         width: 260px !important;
         transition: all 1s ease;
       }
+
       .n-input {
         height: 60px;
         background: #000223;
@@ -529,21 +506,25 @@ onUnmounted(() => {
         will-change: width;
         transition: all 500ms;
         cursor: pointer;
+
         &:deep(.n-input__placeholder) {
           height: 60px;
           line-height: 60px;
           font-size: 20px;
           padding-left: 10px;
+
           span {
             height: 60px;
             line-height: 60px;
             font-size: 20px;
           }
         }
+
         &:deep(.n-input__input-el) {
           height: 60px;
           line-height: 60px;
           font-size: 20px;
+
           span {
             height: 60px;
             line-height: 60px;
@@ -641,29 +622,24 @@ onUnmounted(() => {
         border-radius: 50%;
       }
 
-      .lang_logo {
-        margin-left: 20px;
-        width: 32px;
-        height: 24px;
-        cursor: pointer;
-      }
+
     }
 
     .user_box {
       text-align: end;
 
-      > span {
+      >span {
         margin-right: 10px;
       }
 
-      > .login_box {
+      >.login_box {
         display: flex;
         justify-content: space-around;
         width: 180px;
         margin-left: 40px;
         color: #fff;
 
-        > span {
+        >span {
           min-width: 62px;
           height: 32px;
           display: flex;
@@ -675,15 +651,13 @@ onUnmounted(() => {
           // border: solid 1px #5a47b2;
           // background-color: #402c95;
 
-          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill /
-            0px 10px stretch stretch;
+          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px 10px stretch stretch;
           // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px
-            10px stretch stretch;
+          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px 10px stretch stretch;
         }
       }
     }
@@ -713,7 +687,7 @@ onUnmounted(() => {
       }
     }
 
-    > p {
+    >p {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -723,7 +697,7 @@ onUnmounted(() => {
       border-radius: 10px;
       background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
-      > span {
+      >span {
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -733,7 +707,7 @@ onUnmounted(() => {
         padding: 0 6px;
         color: #fff;
 
-        > img {
+        >img {
           width: 24px;
           height: 24px;
         }
@@ -756,12 +730,10 @@ onUnmounted(() => {
     &:hover {
       border-image-source: linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       border-image-slice: 1;
-      background-image: radial-gradient(
-          circle at 50% 0%,
+      background-image: radial-gradient(circle at 50% 0%,
           #1170ff,
           #1154ff 56%,
-          #6b11ff 90%
-        ),
+          #6b11ff 90%),
         linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       background-origin: border-box;
       background-clip: content-box, border-box;
@@ -781,7 +753,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
 
-  > p {
+  >p {
     color: #fff;
     padding: 10px 10px;
     margin: 0;
@@ -790,7 +762,7 @@ onUnmounted(() => {
     align-items: center;
     cursor: pointer;
 
-    > span {
+    >span {
       margin-left: 8px;
       font-size: 16px;
     }
@@ -823,7 +795,7 @@ onUnmounted(() => {
   color: #8e82c2;
   cursor: pointer;
 
-  > span {
+  >span {
     margin-left: 12px;
   }
 }
