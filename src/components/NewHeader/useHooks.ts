@@ -25,7 +25,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon04',
       name: 'VIP',
-      url: '/wallet/accountsRecord',
+      url: '/wallet/levelInfo',
     },
     {
       icon: 'txxlicon05',

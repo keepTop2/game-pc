@@ -62,12 +62,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/gameMain/proxyIntroduction/index.vue'),
       },
       {
-        path: 'levelRule',
-        name: 'levelRule',
-        meta: { title: 'levelRule' },
-        component: () => import('@/views/level/rules.vue'),
-      },
-      {
         path: 'club/:openType',
         name: 'club',
         meta: { title: 'home_page_club' },
@@ -191,7 +185,13 @@ const routes: RouteRecordRaw[] = [
         path: 'levelInfo',
         name: 'levelInfo',
         meta: { title: 'VIP特权' },
-        component: () => import('@/views/level/levelInfo.vue'),
+        component: () => import('@/views/wallet/level/levelInfo.vue'),
+      },
+      {
+        path: 'levelRule',
+        name: 'levelRule',
+        meta: { title: 'levelRule' },
+        component: () => import('@/views/wallet/level/rules.vue'),
       },
     ]
   },

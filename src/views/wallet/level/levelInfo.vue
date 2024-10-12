@@ -101,7 +101,7 @@ import pinia from '@/store';
 import { User } from '@/store/user';
 import { verifyNumberComma } from '@/utils/others.ts';
 import Imgt from '@/components/Imgt.vue';
-import navTab from '../wallet/components/navTab.vue';
+import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 
 // 从 store 获取 vipinfo 数据
