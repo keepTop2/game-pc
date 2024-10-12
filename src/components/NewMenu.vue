@@ -59,7 +59,8 @@ const itemClick = (item: any) => {
   margin: 0 auto;
   display: flex;
   align-items: first baseline;
-  justify-content: space-between;
+  position: relative;
+  height: 120px;
 
   .menu_wrap_list {
     // background: url('/img/menu/ban.webp?t=@{timestamp}') no-repeat;
@@ -69,6 +70,7 @@ const itemClick = (item: any) => {
     align-items: center;
     justify-content: space-between;
     width: 1010px;
+    height: 100%;
 
     :first-child {
       margin: 0 28px;
@@ -116,6 +118,7 @@ const itemClick = (item: any) => {
       img {
         scale: 1.2;
         margin-bottom: 5px;
+        margin-top: -5px;
       }
     }
 
@@ -133,11 +136,19 @@ const itemClick = (item: any) => {
   }
 
   .menu_wrap_other {
-
+    position: absolute;
+    right: 0;
+    top: 30px;
+    height: 100%;
     // margin-left: 40px;
     display: flex;
     align-items: center;
     gap: 10px;
+
+    img {
+      width: 88px;
+      height: 82px;
+    }
 
     div {
       display: flex;
