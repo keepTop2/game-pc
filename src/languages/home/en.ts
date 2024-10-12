@@ -76,6 +76,8 @@ export default {
     label_hot: 'HOT',
     label_recent: 'RECENT',
     label_fav: 'FAVORITE',
+    success: 'success',
+    fail: 'fail',
     // 登录弹窗
     home_page_accountLogin: 'Account login',
     home_page_loginSuccess: 'Login successful',

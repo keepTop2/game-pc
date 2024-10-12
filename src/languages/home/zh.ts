@@ -79,6 +79,8 @@ export default {
     label_hot: '热门',
     label_recent: '最近',
     label_fav: '收藏',
+    success: '成功',
+    fail: '失败',
 
     // 登录弹窗
     home_page_accountLogin: '账号登录',

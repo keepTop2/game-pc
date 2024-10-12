@@ -10,65 +10,33 @@
                 <span class="button">搜索</span>
             </span>
             <div class="game_list">
-                    <!-- <div :class="{game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
-                        @click="onClickTab(v)">
-                        <span>{{ unserialize(v.kind_name) }}</span>
-                    </div> -->
-                <div v-for="(item, idx) in state.tabs" :class="{ game_active: activeTab == item.type }" @click="onClickTab(item)">
+                <div v-for="(item, idx) in state.tabs" :class="{ game_active: activeTab == item.type }" @click="onClickTab(item)" :key="idx">
                     <span>
-                        <img :src="`/img/game/label_${item.name}_a.webp`" alt="" v-if="activeTab == item">
+                        <img :src="`/img/game/label_${item.name}_a.webp`" alt="" v-if="activeTab == item.type">
                         <img :src="`/img/game/label_${item.name}.webp`" alt="" v-else>
                     </span>
                     <span>{{ t(item.icon) }}</span>
                     <!-- <span>{{ unserialize(v.kind_name) }}</span> -->
                 </div> 
-                <!-- <div :class="{ game_active: activeTab == TabType.FAV }" @click="onClickFavorite(TabType.FAV)">
-                    <span>
-                        <img src="/img/game/label_fav_a.webp" alt="" v-if="activeTab == TabType.FAV">
-                        <img src="/img/game/label_fav.webp" alt="" v-else>
-                    </span>
-                    <span>{{ t("common_favorite") }}</span>
-                </div> -->
             </div>
         </div>
         <div class="game-content">
             <div class="game-detail">
-                <div v-if="activeTab == TabType.FAV">
-                    <n-infinite-scroll style="height: 100vh" :distance="10" @load="" v-if="favoriteData.length">
-                        <div class="game-list">
-                            <div class="item" v-for="(v, i) in favoriteData" :key="i" @click="onPlayGameFav(v)">
-                                <div class="game-img">
-                                    <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
-                                </div>
-                                <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                    v-if="isFav(v)"></iconpark-icon>
-                                <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                    v-else></iconpark-icon>
-                                <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
-                            </div>
-                        </div>
-                    </n-infinite-scroll>
-                    <div class="nodata" v-else>
+                <div class="game-detail-data" style="min-height: 500px">
+                    <div class="nodata" v-if="!result.list.length && !loading" >
                         <img src="/img/wallet/nodata.webp" alt="nodata">
                         <div>{{ t('home_page_nomore_data') }}</div>
                     </div>
-                </div>
-                <div v-else>
-                    <div class="nodata" v-if="!result.list.length && !loading">
-                        <img src="/img/wallet/nodata.webp" alt="nodata">
-                        <div>{{ t('home_page_nomore_data') }}</div>
-                    </div>
-                    <n-infinite-scroll style="height: 100vh" :distance="10" v-else>
+                    <n-infinite-scroll :distance="10" v-else>
                         <div class="game-list">
-                            <div class="item" v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
-                                <div class="game-img">
+                            <div class="item" v-for="(v, i) in result.list" :key="i" >
+                                <div class="game-img" @click.stop="onPlayGame(v)">
                                     <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
                                 </div>
-                                <iconpark-icon name="xx2" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                    v-if="isFav(v)"></iconpark-icon>
-                                <iconpark-icon name="xx1" class="fav" size="25" @click.stop="onAddFavorite(v)"
-                                    v-else></iconpark-icon>
-                                <!-- <div class="title">{{ unserialize(v.name) }}</div> -->
+                                <div class="game-info">
+                                    <span class="title">{{ unserialize(v.name) }}</span>
+                                    <img class="heart" src="/img/game/heart_on.webp" alt="heart_on" @click.stop="onClickFav(v)">
+                                </div>
                             </div>
                         </div>
                     </n-infinite-scroll>
@@ -229,34 +197,53 @@ const onPlayGame = async (v: any) => {
     Net.instance.sendRequest(tb);
 }
 
-const onPlayGameFav = async (v: any) => {
-  if (!Local.get('user')) {
-      await User(pinia).setLogin(true)
-      return
-  }
-  let langObj: any = {
-    'en-US': 3,
-    'vi-VN': 2,
-    'zh-CN': 1
-  }
-  const favorites = Local.get('favorites') || []
-  const data = favorites.map((e:any) => {return {'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3]}})
-  const item = data.find((e:any) => e.gameId == v.gameId)
-  isLoading.value = true
-  let tb = NetPacket.req_3rd_game_login();
-  tb.agentId = item.agentId;
-  tb.kindId = item.kindId;
-  tb.gameId = item.gameId;
-  tb.lang = langObj[lang.value];
-  Net.instance.sendRequest(tb);
+const handleFav = (v: any) => {
+    if (v.rlt == 0) {
+        Message.success(t('success'))
+    } else {
+        Message.error(t('fail'))
+    }
 }
 
+// const onPlayGameFav = async (v: any) => {
+//   if (!Local.get('user')) {
+//       await User(pinia).setLogin(true)
+//       return
+//   }
+//   let langObj: any = {
+//     'en-US': 3,
+//     'vi-VN': 2,
+//     'zh-CN': 1
+//   }
+//   const favorites = Local.get('favorites') || []
+//   const data = favorites.map((e:any) => {return {'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3]}})
+//   const item = data.find((e:any) => e.gameId == v.gameId)
+//   isLoading.value = true
+//   let tb = NetPacket.req_3rd_game_login();
+//   tb.agentId = item.agentId;
+//   tb.kindId = item.kindId;
+//   tb.gameId = item.gameId;
+//   tb.lang = langObj[lang.value];
+//   Net.instance.sendRequest(tb);
+// }
 
 const onClickTab = (v: any) => {
     activeTab.value = v.type
     queryGame.value = ''
     resetData()
     queryData()
+}
+
+const onClickFav = async (v: any) => {
+    if (!Local.get('user')) {
+        await User(pinia).setLogin(true)
+        return
+    }
+
+    let tb = NetPacket.req_modify_collect();
+    tb.agentId = platformId.value;
+    tb.gameId = v.gameId;
+    Net.instance.sendRequest(tb);
 }
 
 // const onClickFavorite = (i: number) => {
@@ -325,17 +312,11 @@ const resetData = () => {
 const queryData = () => { // 查询
     loading.value = true
     const query = NetPacket.req_get_games_in_platform()
-    // query.agentId = platformId.value
-    // query.kindId = activeTab.value
-    // query.page = params.page
-    // query.pageSize = pageSize.value
-    // query.is_lable = 0
-
-    query.agentId = 1
-    query.kindId = 1
-    query.page = 1
-    query.pageSize = 1
-    query.is_lable = 0
+    query.agentId = platformId.value
+    query.kindId = venueId.value
+    query.page = params.page
+    query.pageSize = pageSize.value
+    query.is_lable = activeTab.value == 0 ? 1 : 0
     Net.instance.sendRequest(query);
 }
 
@@ -361,6 +342,7 @@ const gameUrlResult = (message: any) => {
 }
 
 onBeforeMount(() => {
+    activeTab.value = state.tabs[0].type
     const { platform_id, venue_id, name, active } = props
     getInitData(platform_id, venue_id)
     gameName.value = name as string
@@ -374,6 +356,7 @@ onMounted(() => {
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_modify_collect, handleFav);
     getFavs()
 })
 onUnmounted(() => {
@@ -381,6 +364,7 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_req_modify_collect,null);
 })
 
 watch(
@@ -401,13 +385,9 @@ watch(
 <style lang='less' scoped>
 @timestamp: `new Date().getTime()`;
 
-.nodata {
-    color: #9497A1;
-}
-
 .game-detail-container {
     position: relative;
-    min-height: 110vh;
+    min-height: 65vh;
     .game-title {
         margin: 25px 0;
         display: flex;
@@ -473,6 +453,7 @@ watch(
                     z-index: 6;
                     width: 22px;
                     height: 22px;
+                    margin-left: 10px;
                 }
             }
 
@@ -495,7 +476,7 @@ watch(
             justify-content: flex-end;
             align-items: center;
             position: absolute;
-            top: 55px;
+            top: 0px;
             right: 0px;
             background-color: #0B0B0B;
             padding-left: 35px;
@@ -530,6 +511,7 @@ watch(
                     // color: #fff;
                     // background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
                     // background-size: 100% 100%;
+                    color: #B5A4FF;
                     &::after {
                         position: absolute;
                         bottom: 10px;
@@ -563,33 +545,62 @@ watch(
     .game-content {
         position: relative;
         .game-detail {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 38px;
+            background: #0B0B0B;
             width: 100%;
+            margin-top: 30px;
 
-            >div {
-                margin-top: 30px;
-
+            .game-detail-data {
+                position: relative;
+                padding: 10px 8px 10px 12px;
                 .game-list {
-                    display: grid;
-                    grid-template-columns: repeat(5, 1fr);
-                    gap: 10px;
-
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 12px 9px;
+                    flex-wrap: wrap;
+                    
                     .item {
-                        height: 238px;
+                        width: 164px;
+                        height: 205px;
                         position: relative;
+                        background: transparent;
 
                         .game-img {
-                            width: 100%;
-                            height: 100%;
+                            background: transparent;
+                            width: 164px;
+                            height: 164px;
                             cursor: pointer;
                             img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
+                                border-top-left-radius: 10px;
+                                border-top-right-radius: 10px;
+                                width: 164px;
+                                height: 164px;
+                                object-fit: none;
                             }
+                        }
+
+                        .game-info {
+                            border-bottom-left-radius: 10px;
+                            border-bottom-right-radius: 10px;
+                            background: #222222;
+                            color: #FFFFFF;
+                            font-size: 16px;
+                            font-weight: 500;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            height: 41px;
+                            padding: 0 10px;
+                            .title {
+                                overflow-x: scroll;
+                                white-space: nowrap;
+                            }
+                            .heart {
+                                width: 20px;
+                                height: 20px;
+                                margin-top: 3px;
+                                cursor: pointer
+                            } 
                         }
 
                         .fav {
@@ -598,19 +609,26 @@ watch(
                             right: 15px;
                         }
                     }
+
+                }
+
+                .nodata {
+                    color: #AFB6BD;
+                    padding: 0;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                 }
             }
         }
     }
 
     .pagination {
-        margin: 30px 0 40px 0;
+        padding: 40px 0 50px 0;
         justify-content: center;
-        position: absolute;
         justify-content: center;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
+        background: #0B0B0B;
 
         :deep(.n-pagination-item) {
             font-size: 16px;
