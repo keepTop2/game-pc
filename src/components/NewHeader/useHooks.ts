@@ -49,10 +49,15 @@ const useHeaderHooks = () =>{
       url: '/wallet/myPromo',
     },
     {
-      icon: 'txxlicon09',
-      name: '奖励',
-      url: '/wallet/myEmail',
+      icon: 'txxlicon15',
+      name: '记录',
+      url: '/wallet/records/rechargeRecord',
     },
+    // {
+    //   icon: 'txxlicon09',
+    //   name: '奖励',
+    //   url: '/wallet/myEmail',
+    // },
     {
       icon: 'txxlicon10',
       name: '兑换码',
