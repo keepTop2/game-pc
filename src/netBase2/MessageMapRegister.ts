@@ -1,6 +1,7 @@
 import { MessageMap } from "@/net/MessageMap";
 import { NetPacket } from "@/netBase/NetPacket";
 
+
 export module MessageMapRegister {
 	export function register() {
 		MessageMap.addMsgMap(NetPacket.stime);
@@ -562,6 +563,8 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_get_kind_in_platform);
 		MessageMap.addMsgMap(NetPacket.req_look_for_game_name);
 		MessageMap.addMsgMap(NetPacket.notify_look_for_game_name);
+		MessageMap.addMsgMap(NetPacket.req_all_collected);
+		MessageMap.addMsgMap(NetPacket.notify_all_collected);
 		MessageMap.addMsgMap(NetPacket.prize_info);
 		MessageMap.addMsgMap(NetPacket.video_info);
 		MessageMap.addMsgMap(NetPacket.req_share_vote_info);
