@@ -104,7 +104,7 @@ const state: any = reactive({
     {
       icon: 'txxlicon15',
       name: '记录',
-      url: 'record',
+      url: 'records/rechargeRecord',
     },
     {
       icon: 'txxlicon10',

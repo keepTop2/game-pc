@@ -32,7 +32,7 @@ const route = useRoute()
 .payment {
   width: 1400px;
   margin: 0 auto;
-  padding-top: 14px;
+  padding: 40px 0 40px;
   display: flex;
   flex: 1;
 }

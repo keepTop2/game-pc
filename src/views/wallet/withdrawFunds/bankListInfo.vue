@@ -1,131 +1,119 @@
 <template>
-  <n-modal class="deposit_modal" :show="showBankListModal" :mask-closable="false">
-    <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <div class="form_container vertical">
-        <div class="header rel center">
-          <span class="weight_5 t_md">{{ t('walletInfo_page_selectBank') }}</span>
-          <span class="close abs center pointer t_sm">
-            <iconpark-icon @click="onClose" icon-id="tanctongyguanb" color="#fff" size="1.5em"></iconpark-icon>
-          </span>
-        </div>
-
-
-        <div class="body vertical center t_md bank_sec_list">
-          <n-flex justify="space-between" align="center" class="w_full" vertical>
-            <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
-              <n-flex align="center" class=" bank_item">
-                <div class="bank_l_icon">
-                  <Imgt :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
+  <ModalDialog v-model:visible="showBankListModal" title="walletInfo_page_selectBank">
+    <template #content>
+      <div class="body vertical center t_md bank_sec_list">
+        <n-flex justify="space-between" align="center" class="w_full" vertical>
+          <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
+            <n-flex align="center" class=" bank_item">
+              <div class="bank_l_icon">
+                <Imgt :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
+              </div>
+              <div class="bank_l_name">
+                <div class="info-text">
+                  <p>
+                    <span>{{ item.bankName }}</span>
+                    <span>{{ item.name }}</span>
+                  </p>
+                  <p class="p_account">{{ item.bankCode }}</p>
                 </div>
-                <div class="bank_l_name">
-                  <div class="info-text">
-                    <p>
-                      <span>{{ item.bankName }}</span>
-                      <span>{{ item.name }}</span>
-                    </p>
-                    <p class="p_account">{{ item.bankCode }}</p>
-                  </div>
-                  <div class="utilization-bank">
-                    <n-button v-if="!item.isUse" :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
-                      {{ t('paymentManagement_page_choose') }}
-                    </n-button>
-                    <n-button @click="bankCheck(index, 'isDefault')"
-                      :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
-                      {{ item.isDefault ? t('paymentManagement_page_default_bank') :
-                        t('paymentManagement_page_set_default') }}
-                    </n-button>
-                  </div>
-                </div>
-              </n-flex>
-            </div>
-
-            <div v-if="!(bankList.length >= 6)">
-              <div class="bank_list_add" v-show="!addBankFlag">
-                <div class="center" @click="flagBank(true)">
-                  <Imgt src="/img/wallet/bankAdd.webp" alt="nodata" />
-                  <span>{{ t('paymentManagement_page_new_bank') }}</span>
+                <div class="utilization-bank">
+                  <n-button v-if="!item.isUse" :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
+                    {{ t('paymentManagement_page_choose') }}
+                  </n-button>
+                  <n-button @click="bankCheck(index, 'isDefault')"
+                            :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
+                    {{ item.isDefault ? t('paymentManagement_page_default_bank') :
+                    t('paymentManagement_page_set_default') }}
+                  </n-button>
                 </div>
               </div>
+            </n-flex>
+          </div>
+
+          <div v-if="!(bankList.length >= 6)">
+            <div class="bank_list_add" v-show="!addBankFlag">
+              <div class="center" @click="flagBank(true)">
+                <Imgt src="/img/wallet/bankAdd.webp" alt="nodata" />
+                <span>{{ t('paymentManagement_page_new_bank') }}</span>
+              </div>
+            </div>
+          </div>
+
+
+          <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
+            <div class="add-bank-text">
+              <p>{{ t('paymentManagement_page_add_one_bank') }}</p>
+              <Imgt src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)" />
             </div>
 
-
-            <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
-              <div class="add-bank-text">
-                <p>{{ t('paymentManagement_page_add_one_bank') }}</p>
-                <Imgt src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)" />
-              </div>
-
-              <n-form-item :label="t('addBank_page_pChooseBank')">
-                <n-flex class="choose-bank">
-                  <n-flex align="center" class="choose-bank-l">
+            <n-form-item :label="t('addBank_page_pChooseBank')">
+              <n-flex class="choose-bank">
+                <n-flex align="center" class="choose-bank-l">
                     <span v-show="chooseBank.value" class="bank_cicon">
                       <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
                     </span>
-                    <span class="bank_cname"> {{ chooseBank.label }} </span>
-                  </n-flex>
-                  <a class="change-btn" @click="showChangeBank"> {{ t('deposit_page_changeWay') }} </a>
+                  <span class="bank_cname"> {{ chooseBank.label }} </span>
                 </n-flex>
-              </n-form-item>
+                <a class="change-btn" @click="showChangeBank"> {{ t('deposit_page_changeWay') }} </a>
+              </n-flex>
+            </n-form-item>
 
-              <n-form-item :label="t('addBank_page_bankCard')" path="bankCode">
-                <n-input size="large" type="number" v-model:value="form.bankCode"
-                  :placeholder="t('paymentManagement_page_chCardNo')">
-                  <template #suffix>
-                    <a class="refresh_icon"></a>
-                  </template>
-                </n-input>
-              </n-form-item>
+            <n-form-item :label="t('addBank_page_bankCard')" path="bankCode">
+              <n-input size="large" type="number" v-model:value="form.bankCode"
+                       :placeholder="t('paymentManagement_page_chCardNo')">
+                <template #suffix>
+                  <a class="refresh_icon"></a>
+                </template>
+              </n-input>
+            </n-form-item>
 
-              <n-form-item :label="t('addBank_page_name')" path="accountName">
-                <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
-                  :placeholder="t('paymentManagement_page_enterBank')">
-                  <template #suffix>
-                    <a class="refresh_icon"></a>
-                  </template>
-                </n-input>
-              </n-form-item>
-
-
-              <!--              <n-form-item label="手机号" path="phone">-->
-              <!--                <n-input clearable size="large" v-model:value="form.phone"-->
-              <!--                         :placeholder="'请输入手机号'"></n-input>-->
-              <!--              </n-form-item>-->
+            <n-form-item :label="t('addBank_page_name')" path="accountName">
+              <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
+                       :placeholder="t('paymentManagement_page_enterBank')">
+                <template #suffix>
+                  <a class="refresh_icon"></a>
+                </template>
+              </n-input>
+            </n-form-item>
 
 
-              <!--              <n-form-item :label="'验证码'">-->
-              <!--                <n-input clearable size="large" v-model:value="form.phoneCode"-->
-              <!--                         :placeholder="'请输入6位数验证码'"></n-input>-->
-              <!--                <n-button :bordered="false" :loading="phoneCodeLoading"-->
-              <!--                          @click="submitSendPhoneCode" class="btn"-->
-              <!--                          :disabled="phoneCodeDisabled">发送-->
-              <!--                </n-button>-->
-              <!--              </n-form-item>-->
+            <!--              <n-form-item label="手机号" path="phone">-->
+            <!--                <n-input clearable size="large" v-model:value="form.phone"-->
+            <!--                         :placeholder="'请输入手机号'"></n-input>-->
+            <!--              </n-form-item>-->
 
 
-              <div class="cz_btn with_sec_btn">
-                <a @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
-                <!--                <a @click="goToDeposit"> 确认 </a>-->
-              </div>
-              <!--              <div class="error">-->
-              <!--                <Imgt src="/img/wallet/tipsWarning.webp" alt="nodata" />-->
-              <!--                <span>输入信息错误</span>-->
-              <!--                </div>-->
+            <!--              <n-form-item :label="'验证码'">-->
+            <!--                <n-input clearable size="large" v-model:value="form.phoneCode"-->
+            <!--                         :placeholder="'请输入6位数验证码'"></n-input>-->
+            <!--                <n-button :bordered="false" :loading="phoneCodeLoading"-->
+            <!--                          @click="submitSendPhoneCode" class="btn"-->
+            <!--                          :disabled="phoneCodeDisabled">发送-->
+            <!--                </n-button>-->
+            <!--              </n-form-item>-->
 
-            </n-form>
 
-          </n-flex>
-          <!-- 充值列表选择 -->
+            <div class="cz_btn with_sec_btn">
+              <a @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
+              <!--                <a @click="goToDeposit"> 确认 </a>-->
+            </div>
+            <!--              <div class="error">-->
+            <!--                <Imgt src="/img/wallet/tipsWarning.webp" alt="nodata" />-->
+            <!--                <span>输入信息错误</span>-->
+            <!--                </div>-->
 
-          <div class="tips">
-            <Imgt src="/img/wallet/bankTips.webp" />
-            <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
-          </div>
+          </n-form>
+
+        </n-flex>
+        <!-- 充值列表选择 -->
+
+        <div class="tips">
+          <Imgt src="/img/wallet/bankTips.webp" />
+          <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
         </div>
-
       </div>
-
-    </n-card>
-  </n-modal>
+    </template>
+  </ModalDialog>
 
   <!-- 选择银行弹窗 -->
   <n-modal class="deposit_sm_modal" :show="showBankModal" :mask-closable="false">
@@ -176,6 +164,7 @@ import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 import { testBankCard } from '@/utils/is.ts';
 import Imgt from '@/components/Imgt.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
 
 const { bankListInfo } = storeToRefs(Page(pinia));
 

@@ -3,7 +3,51 @@
   <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName"
     :myBankList="mySecBankList" />
 
-  <div class="form_container vertical">
+  <div class="list_box bg_color">
+    <div class="txt_title">{{t('提款方式')}}</div>
+    <n-flex class="body vertical center t_md">
+      <!-- 列表选择 -->
+      <n-flex justify="center" align="center"
+              :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curPayWay.paymethod == item.paymethod ? 'active' : ''}`"
+              v-for="(item, index) in wayArray"
+              @click="chooseWay(item)"
+              :key="index">
+        <div v-if="item.status === 0" class="bank_wh">
+          <Imgt src="/img/payment/wh_bank.webp" />
+          <span>{{ t('addBank_page_bankPay_wh') }}</span>
+        </div>
+        <n-flex align="center" justify="center" class="item_list_l">
+          <div class="bank_icon">
+            <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
+            <a class="wh_icon" @click="onCloseSm(item)"></a>
+          </div>
+          <div class="bank_txt">
+            <div class="bank_name">
+              {{ t(`api_${item.payname}`) }}
+            </div>
+            <div class="bank_limit">
+              {{ verifyNumberComma(String(item.minrecharge)) }}~{{ verifyNumberComma(String(item.maxrecharge)) }}
+            </div>
+          </div>
+        </n-flex>
+      </n-flex>
+    </n-flex>
+  </div>
+
+  <!-- 说明 -->
+  <ModalDialog v-model:visible="showSmModal" title="deposit_page_instructions">
+    <template #content>
+      <div class="deposit_shuom">
+        <n-flex align="center" justify="center" class="sm_txt">
+          <div class="sm_content">
+            -----
+          </div>
+        </n-flex>
+      </div>
+    </template>
+  </ModalDialog>
+
+  <div class="form_container vertical bg_color">
     <div class="body vertical center t_md body_sec">
       <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
         <!-- <n-form-item :label="t('walletInfo_page_availableMount')">
@@ -31,10 +75,12 @@
             </div>
           </div>
         </n-form-item>
-
-        <n-flex align="center">
+        <!-- 银行卡提款 -->
+        <n-flex v-show="curPayWay.paymethod == '1'" justify="space-between">
           <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
-            <div class="selectBank">
+            <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
+                      :options="[{label: t('paymentManagement_page_chBank'), value: 0}, ...myBankList.bank_card_info_list.map((item: any) => {return {label: item.bank_name, value: item.bank_id}})]" />
+<!--            <div class="selectBank">
               <div class="bankName">
                 <div class="icon">
                   <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
@@ -54,30 +100,47 @@
           <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay')
             }}</n-button>
         </n-flex>
+        <!-- usdt提款 -->
+        <n-flex v-show="curPayWay.paymethod == '2'"  justify="space-between">
+          <n-form-item :label="t('选择USDT地址')" style="flex: 1;">
+            <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
+                      :options="[{label: t('paymentManagement_page_chBank'), value: 0}, ...usdtBankList]" />
+          </n-form-item>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
+        </n-flex>
 
-        <n-form-item class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
-          <!-- 防止记住用户名和密码填充 -->
-          <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
-          <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large"
-            v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
-            <template #suffix>
-              <a class="refresh_icon"></a>
-            </template>
-          </n-input>
-        </n-form-item>
-
-        <div class="switchVisible">
-          <n-form-item :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
+        <n-flex justify="space-between">
+          <n-form-item style="flex: 1;" class="money_input" :label="t('walletInfo_page_withdrawalMon')" path="amount">
+            <!-- 防止记住用户名和密码填充 -->
+            <input type="text" class="hideInput" name="username-hide" autocomplete="off" />
+            <n-input @input="validateInput" @blur="inputBlur" clearable autocomplete="off" size="large"
+              v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
+            </n-input>
+          </n-form-item>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="form.amount = ''">{{t('重置')}}</n-flex>
+        </n-flex>
+        <n-flex class="kjje_div">
+          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+             :key="index">
+            {{ item.label }}
+          </a>
+        </n-flex>
+        <n-flex class="switch_Visible">
+          <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
             <n-input ref="inputRef" clearable autocomplete="off" v-if="switchVisible" v-model:value="form.password"
               :type="changeRightInfo.type" @keydown.enter.prevent>
               <template #suffix>
-                <iconpark-icon @click="iconClick" :icon-id="changeRightInfo.icon" color="#8e82c2"
-                  size="1.5em"></iconpark-icon>
+                <Imgt @click="iconClick" :src="changeRightInfo.icon" class="pointer" />
               </template>
             </n-input>
           </n-form-item>
-          <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
-        </div>
+
+          <n-flex class="switch_box">
+            <div class="coverSwitch pointer" :data-value="switchVisible" @click="handleCloseSend(switchVisible)">
+            </div>
+            <n-switch class="switch" :rail-style="railStyle" v-model:value="switchVisible" />
+          </n-flex>
+        </n-flex>
 
         <n-flex class="kjje_div">
           <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
@@ -94,6 +157,23 @@
         <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
       </div>
     </div>
+
+    <!-- 资金密码弹窗 -->
+    <ModalDialog v-model:visible="showPwdModal" title="开启/关闭资金密码">
+      <template #content>
+        <div class="pay_pwd_con">
+          <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
+            <n-input ref="inputRef" autocomplete="off" v-model:value="closeForm.withdraw_password"
+                     :type="changeRightInfo.type" @keydown.enter.prevent>
+            </n-input>
+          </n-form-item>
+          <n-flex align="center" justify="center" class="button_color button" @click="sendChangeCole(2)">
+            {{t('home_page_confirm')}}
+          </n-flex>
+        </div>
+      </template>
+    </ModalDialog>
+
   </div>
 
 </template>
@@ -113,23 +193,24 @@ import { storeToRefs } from 'pinia';
 import { verifyNumberComma, removeComma } from '@/utils/others.ts';
 import { useRouter } from 'vue-router';
 import Imgt from '@/components/Imgt.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
+import useWalletInfo from '@/views/wallet/walletInfo/useWalletInfo.ts';
 
 const router = useRouter();
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
-const props = defineProps({
-  myBankList: {
-    type: Object,
-    default: () => { }
-  }
-})
+const {
+  myBankList,
+  getMyBankList,
+} = useWalletInfo()
+const usdtBankList = ref([])
 
 const myBankName = ref(''); // 如果有已经绑定的银行卡姓名，下次绑定需要一致
 const { t } = useI18n();
 const inputRef: any = ref(null);
 const showSecModal = ref(false);
-const switchVisible = ref(true)
+const switchVisible = ref(false);
 const formRef = ref()
 const baseObj = {
   // country: 1,
@@ -138,13 +219,46 @@ const baseObj = {
   amount: '', // 金额
   bank: 0, // 银行
   address: '', // 银行卡号
+  way: '1', // 1 银行卡，2 USTD
 }
+
 const form: any = ref( // 存款表单提交
   { ...baseObj }
 );
+const closeForm: any = ref(
+  {
+    withdraw_password: '', // 验证资金密码
+  }
+)
 const isCanWithdraw = ref(false); // 是否可提现
 const isHasOrder = ref(false); // 是否存在未审核的提现订单
-const mySecBankList = ref(props.myBankList);
+const mySecBankList = ref(myBankList);
+
+const showPwdModal = ref(false);
+const showSmModal = ref(false);
+const curPayWay = ref({ paymethod: '1' }); // 当前选择的提款方式
+// setTimeout(() => {
+//   console.log(mySecBankList.value, '------')
+//   console.log(myBankList.value, '=======')
+// }, 500)
+const wayArray = ref(
+  [
+    {
+      "maxrecharge": mySecBankList.value?.max_withdraw_money || 0,
+      "minrecharge": mySecBankList.value?.min_withdraw_money || 0,
+      "paymethod": "1",
+      "payname": "bankcard_0",
+      "status": 1
+    },
+    {
+      "maxrecharge": mySecBankList.value?.max_usdt || 0,
+      "minrecharge": mySecBankList.value?.min_usdt || 0,
+      "paymethod": "2",
+      "payname": "usdt",
+      "status": 1
+    },
+  ]
+)
 
 const rules = {
   amount: [
@@ -185,17 +299,17 @@ const openBankListInfo = () => {
 }
 
 const changeRightInfo = ref({
-  icon: 'Group39364',
+  icon: '/img/wallet/eyeClose.svg',
   type: 'password'
 })
 const iconClick = () => {
   inputRef.value.blur(); // 防止光标回到首位
-  if (changeRightInfo.value.icon == "Group39364") {
+  if (changeRightInfo.value.icon == "/img/wallet/eyeClose.svg") {
     changeRightInfo.value.type = "text"
-    changeRightInfo.value.icon = "Group39365"
+    changeRightInfo.value.icon = "/img/wallet/eyeOpen.svg"
   } else {
     changeRightInfo.value.type = "password"
-    changeRightInfo.value.icon = "Group39364"
+    changeRightInfo.value.icon = "/img/wallet/eyeClose.svg"
   }
 }
 
@@ -225,9 +339,13 @@ const onCloseSec = () => {
 }
 
 const onSubmit = () => {
+  console.log('-----##', form.value)
   // 有未审核提现记录
   if (isHasOrder.value) {
     return Message.error(t('withdraw_page_fail_tips6'))
+  }
+  if (!form.value.way) {
+    return Message.error(t('请选择提款方式'))
   }
   formRef.value?.validate((errors: any) => {
     if (!errors) {
@@ -255,7 +373,7 @@ const handleSubmit = () => {
   req.bank_card_id = form.value.address; // 卡号
   req.bank_id = form.value.bank || 0; // 银行 id
   req.passwd = form.value.password;
-  req.way = 1; // 1 银行卡，2 USTD
+  req.way = form.value.way; // 1 银行卡，2 USTD
   Net.instance.sendRequest(req);
 };
 
@@ -280,6 +398,41 @@ const handleWithDrawSubmit = (res: any) => {
   }
 }
 
+const handleCloseSend = (type: any) => {
+  // 关闭资金密码需要验证资金密码才可以关闭
+  if (type && !closeForm.value.withdraw_password) {
+    showPwdModal.value = true // 显示资金密码
+    return
+  }
+  // 开启走这里
+  sendChangeCole(1)
+};
+const sendChangeCole = (type=1) => {
+  if (type == 2 && !closeForm.value.withdraw_password) {
+   return Message.error(t('资金密码不能为空'))
+  }
+  const req = NetPacket.req_open_or_close_withdraw_password();
+  req.role_id = roleInfo.value.id;
+  req.operate_type = type; // 1 开启，2 关闭, 3 查询是否开启资金密码
+  req.withdraw_password = closeForm.value.withdraw_password;
+  Net.instance.sendRequest(req);
+}
+const handleWithDrawClose = (res: any) => {
+  // const codeTxt: any = {
+  //   1: t('开启资金密码成功'),
+  //   2: t('withdraw_page_fail_tips2'),
+  //   3: t('资金密码错误'),
+  // }
+  // code 1 已关闭，2 已开启
+  if (res.code == 2) {
+    switchVisible.value = true
+  } else if (res.code == 1) {
+    switchVisible.value = false
+    // Message.error(codeTxt[res.code])
+  }
+  showPwdModal.value = false // 显示资金密码
+}
+
 // 选择快捷金额
 const chooseFastMon = (e: any) => {
   if (!form.value.amount) { form.value.amount = '0' }
@@ -288,7 +441,6 @@ const chooseFastMon = (e: any) => {
 }
 
 const handleCanWithdraw = (res: any) => {
-
   isCanWithdraw.value = !res.rlt; // rlt: 0 可提现，1 不可提现，2 存在未审核的提现订单
   isHasOrder.value = res.rlt === 2;
   setCanWithDrawMon(res);
@@ -338,21 +490,62 @@ const initReq = () => {
   Net.instance.sendRequest(NetPacket.req_can_withdraw());
 };
 
-watch(() => props.myBankList, (n) => {
+// 选择充值方式
+const chooseWay = (data: any) => {
+  form.value.way = data.paymethod;
+  curPayWay.value = data;
+};
+const onCloseSm = (data: any) => {
+  curPayWay.value = data;
+  // Local.set('curExplainSecWay', data);
+  showSmModal.value = !showSmModal.value;
+};
+
+// 获取绑定的usdt 地址列表
+const getUsdtList = () => {
+  const req = NetPacket.req_usdt_info_list();
+  Net.instance.sendRequest(req);
+}
+const handleUsdtList = (res: any) => {
+  usdtBankList.value = res.usdt_info_list.map((item: any) => {
+    return {
+      ...item,
+      label: item.usdt_addr,
+      value: item.usdt_addr,
+    }
+  })
+}
+// 清空密码输入
+watch(() => showPwdModal.value, (n) => {
+  if (!n) {
+    closeForm.value.withdraw_password = ''
+  }
+})
+watch(() => myBankList, (n) => {
   console.log('银行列表有更新--', n)
   mySecBankList.value = n;
 })
+
 onMounted(() => {
+  getUsdtList();
+  sendChangeCole(3); // 查询是否开启资金密码
+  getMyBankList();
   // setTimeout(() => initReq(), 600);
   // 可提现金额
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, handleCanWithdraw);
   // 提款提交监听
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, handleWithDrawSubmit);
+  // 开启和关闭资金密码
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_open_or_close_withdraw_password, handleWithDrawClose);
+  // 绑定的usdt 列表
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, handleUsdtList);
 
 })
 onUnmounted(() => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, null);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_open_or_close_withdraw_password, null);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, null);
 })
 
 defineExpose({
@@ -560,20 +753,38 @@ const railStyle = ({ focused, checked }: {
       }
     }
 
-    .switchVisible {
+    .switch_Visible {
       position: relative;
 
-      .switch {
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        //background-color: #fff;
-        .n-switch__rail {
-          width: 50px !important;
-          height: 20px !important;
+      .switch_box {
+        position: relative;
+        margin-top: 10px;
+        .coverSwitch {
+          position: absolute;
+          width: 60px;
+          height: 30px;
+          z-index: 9;
         }
+
+        :deep(.n-switch) {
+          .n-switch__rail {
+            width: 50px !important;
+            height: 20px !important;
+            .n-switch__button {
+              width: 16px;
+              height: 16px;
+              left: 0;
+            }
+          }
+          &.n-switch--active {
+            .n-switch__button {
+              left: calc(100% - 16px);
+            }
+          }
+        }
+
       }
+
     }
 
     .kjje_div {

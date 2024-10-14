@@ -18,7 +18,7 @@
             <n-flex class="search_row" :align="'center'">
                 <div>{{ t('auditRecord_page_time') }}</div>
                 <DateSelect @submit="changeDate" />
-                <div class="btn search_btn" @click="pageChange(1)">{{ t('proxy_page_search') }}</div>
+                <div class="search_btn n-button" @click="pageChange(1)">{{ t('proxy_page_search') }}</div>
             </n-flex>
         </n-flex>
         <!-- 表格 -->
