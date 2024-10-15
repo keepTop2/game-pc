@@ -233,7 +233,6 @@ const getHomeData = () => {
         const name = t(item.name, 1, { locale: 'zh' })
         const data = homeGameData.value.find((e: any) => e.name['zh-CN'] == name)
         state.gameList.list[i].value = data
-
     }
 }
 const onClickGame = (item: any, idx: any) => {
@@ -281,6 +280,7 @@ onBeforeMount(() => {
     getHomeData()
 })
 onMounted(async () => {
+    debugger
     if (route.query.name) {
         state.active = route.query.name
     }
@@ -288,6 +288,7 @@ onMounted(async () => {
     const req = NetPacket.req_activites();
     req.show = 0
     Net.instance.sendRequest(req);
+
     MessageEvent2.addMsgEvent(
         NetMsgType.msgType.msg_notify_activites,
         handleActivetys

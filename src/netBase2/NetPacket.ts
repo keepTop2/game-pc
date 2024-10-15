@@ -1,4 +1,4 @@
-import { EncodeUtils } from "./EncodeUtils";
+import { EncodeUtils } from "@/net/EncodeUtils";
 import { NetMsgType } from "./NetMsgType";
 
 export module NetPacket {

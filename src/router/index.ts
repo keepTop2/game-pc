@@ -43,12 +43,7 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'gameDetail' },
         component: () => import('@/views/gameMain/gameDetail/index.vue'),
       },
-      {
-        path: 'activity',
-        name: 'activity',
-        meta: { title: 'activity' },
-        component: () => import('@/views/gameMain/activity/index.vue'),
-      },
+
       {
         path: 'proxyCooperation',
         name: 'proxyCooperation',
@@ -122,6 +117,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/wallet/paymentManagement/index.vue'),
       },
       {
+        path: 'activity',
+        name: 'activity',
+        meta: { title: 'home_page_activity' },
+        component: () => import('@/views/wallet/activity/index.vue'),
+      },
+      {
         path: 'myEmail',
         name: 'myEmail',
         meta: { title: '我的邮箱' },
@@ -155,6 +156,7 @@ const routes: RouteRecordRaw[] = [
         path: 'records',
         name: 'records',
         meta: { title: 'records' },
+        redirect: { name: 'rechargeRecord' },
         component: () => import('@/views/wallet/records/index.vue'),
         children: [
           {
@@ -240,23 +242,23 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
 }
 
 router.beforeEach(async (to: any, _from: any, next: any) => {
-  if (Local.get('user')) {
-    await waitForCondition(
-      () => (wsOpen.value && loadingEnd.value), next, true
-    )
-  } else {
-    if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
-      await waitForCondition(
-        () => wsOpen.value, next, true
-      )
-    } else {
+  // if (Local.get('user')) {
+  //   await waitForCondition(
+  //     () => (wsOpen.value && loadingEnd.value), next, true
+  //   )
+  // } else {
+  //   if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
+  //     await waitForCondition(
+  //       () => wsOpen.value, next, true
+  //     )
+  //   } else {
 
-      await waitForCondition(
-        () => wsOpen.value, next, false
-      )
-    }
-  }
-
+  //     await waitForCondition(
+  //       () => wsOpen.value, next, false
+  //     )
+  //   }
+  // }
+  next()
 
 
 })
