@@ -32,15 +32,23 @@
   </div>
 </template>
 <script setup lang="ts" name="Header">
-import { ref } from "vue";
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+
+const route = useRoute();
 const active_id = ref(1);
 
 const menuList = [
   { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: 1 },
-  { label: "俱乐部", icon: "/img/menu/menu_2.webp", url: "/gameMain/club", id: 2 },
+  {
+    label: "俱乐部",
+    icon: "/img/menu/menu_2.webp",
+    url: "/gameMain/club",
+    name: "club",
+    id: 2,
+  },
   { label: "赛程", icon: "/img/menu/menu_3.webp", url: "", id: 3 },
   { label: "棋牌", icon: "/img/menu/menu_4.webp", url: "", id: 4 },
   { label: "电子", icon: "/img/menu/menu_5.webp", url: "", id: 5 },
@@ -52,9 +60,13 @@ const menuList = [
 
 const itemClick = (item: any) => {
   active_id.value = item.id;
-  router.push(`${item.url}`)
+  router.push(`${item.url}`);
 };
 
+onMounted(() => {
+  console.log(77777, route);
+  i
+});
 </script>
 
 <style lang="less" scoped>

@@ -522,7 +522,7 @@ const matchClick = (i: any) => {
 }
 
 .card_des {
-  width: 290px;
+  width: 286px;
   height: 172px;
   color: #fff;
   box-sizing: border-box;
@@ -556,7 +556,7 @@ const matchClick = (i: any) => {
 
   &:nth-child(1) {
     background: url("/img/home/match_card1.webp?t=@{timestamp}") no-repeat;
-    background-size: 103% 100%;
+    background-size: 100% 100%;
   }
 
   &:nth-child(2) {

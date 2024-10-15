@@ -95,6 +95,7 @@ const handleClick = (item: any) => {
     gap: 5px;
     cursor: pointer;
     border-bottom: 1px solid #000000;
+    white-space: nowrap;
 
     &:last-child {
       height: 50px;
