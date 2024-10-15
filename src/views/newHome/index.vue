@@ -4,14 +4,27 @@
     <div class="content">
       <div class="announcement">
         <div class="carousel_wrap">
-          <n-carousel draggable>
-            <Imgt class="carousel" src="/img/header/carousel1.webp" />
+          <n-carousel :draggable="false" autoplay :loop="true" :slides-per-view="1">
+            <div v-for="i in 5" :key="i">
+              <Imgt class="carousel" src="/img/header/carousel1.webp" />
+            </div>
           </n-carousel>
           <p style="height: 40px">
             <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-            <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
-              <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px" class="carousel_span">{{ t(v)
-                }}</span>
+            <n-carousel
+              :show-dots="false"
+              autoplay
+              draggable
+              direction="vertical"
+              v-if="textAnnouncement"
+            >
+              <span
+                v-for="(v, i) in textAnnouncement"
+                :key="i"
+                style="height: 40px"
+                class="carousel_span"
+                >{{ t(v) }}</span
+              >
             </n-carousel>
           </p>
         </div>
@@ -28,14 +41,35 @@
             </span>
             <span class="more">{{ t("home_page_more") }}</span>
           </p>
-          <n-carousel style="position: static" :slides-per-view="3.5" :space-between="10" :loop="false" draggable
-            show-arrow>
-            <Imgt class="game_img" :src="`/img/home/kaisai.png`" v-for="i in 8" :key="i" />
+          <n-carousel
+            style="position: static"
+            :slides-per-view="3.5"
+            :space-between="10"
+            :loop="false"
+            draggable
+            show-arrow
+          >
+            <Imgt
+              class="game_img"
+              :src="`/img/home/kaisai.png`"
+              v-for="i in 8"
+              :key="i"
+            />
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="fangxiangicon04"
+                    size=".8rem"
+                    @click="prev"
+                  ></iconpark-icon>
+                  <iconpark-icon
+                    class="right"
+                    icon-id="fangxiangicon01"
+                    size=".8rem"
+                    @click="next"
+                  ></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -52,14 +86,30 @@
             </span>
             <span class="more">{{ t("home_page_more") }}</span>
           </p>
-          <n-carousel style="position: static" :slides-per-view="3" :space-between="10" :loop="false" draggable
-            show-arrow>
+          <n-carousel
+            style="position: static"
+            :slides-per-view="3"
+            :space-between="10"
+            :loop="false"
+            draggable
+            show-arrow
+          >
             <Imgt class="game_img" :src="`/img/home/remen.png`" v-for="i in 8" :key="i" />
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="fangxiangicon04"
+                    size=".8rem"
+                    @click="prev"
+                  ></iconpark-icon>
+                  <iconpark-icon
+                    class="right"
+                    icon-id="fangxiangicon01"
+                    size=".8rem"
+                    @click="next"
+                  ></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -176,10 +226,6 @@ onUnmounted(() => {
   width: 100%;
 }
 
-:deep(.n-carousel__dots) {
-  display: none;
-}
-
 .content {
   margin: 32px 0;
   width: 100%;
@@ -187,6 +233,10 @@ onUnmounted(() => {
   .announcement {
     position: relative;
     display: flex;
+    :deep(.n-carousel__dot) {
+      width: 64px;
+      border-radius: 100px;
+    }
 
     img {
       object-fit: cover;
@@ -205,7 +255,7 @@ onUnmounted(() => {
       height: 100%;
     }
 
-    >p {
+    > p {
       position: absolute;
       bottom: 0px;
       left: 0;
@@ -226,6 +276,9 @@ onUnmounted(() => {
 
 :deep(.game_detail) {
   position: relative;
+  .n-carousel__dots {
+    display: none;
+  }
 
   .game_list {
     width: 100%;
@@ -236,7 +289,7 @@ onUnmounted(() => {
 
     box-sizing: border-box;
 
-    >p {
+    > p {
       display: flex;
       align-items: center;
     }
@@ -254,10 +307,10 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
 
-    >.text {
+    > .text {
       display: flex;
 
-      >b {
+      > b {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -290,7 +343,7 @@ onUnmounted(() => {
       }
     }
 
-    >.more {
+    > .more {
       width: 90px;
       height: 40px;
       display: flex;
@@ -343,7 +396,7 @@ onUnmounted(() => {
     cursor: pointer;
     color: #8d81c1;
 
-    >.left,
+    > .left,
     .right {
       display: inline-block;
       width: 40px;
