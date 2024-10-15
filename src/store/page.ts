@@ -131,8 +131,7 @@ export const Page = defineStore('page', {
                     list.push(e.tag)
                 }
             })
-            console.log(list);
-            debugger
+
 
             if (list.length > 0) {
                 let obj: any = {
@@ -151,8 +150,7 @@ export const Page = defineStore('page', {
                 })
                 this.activityList = value
                 this.activityTitleList = obj
-                console.log(this.activityTitleList);
-                debugger
+
             }
 
 

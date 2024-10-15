@@ -1,10 +1,6 @@
 <template>
-  <n-config-provider
-    style="width: 100%"
-    :locale="Language[lang].global"
-    :date-locale="Language[lang].date"
-    :theme-overrides="themeOverrides"
-  >
+  <n-config-provider style="width: 100%" :locale="Language[lang].global" :date-locale="Language[lang].date"
+    :theme-overrides="themeOverrides">
     <div class="app">
       <div class="main_container">
         <Header v-if="!['customer'].includes(route.name)" />
@@ -83,6 +79,9 @@ const themeOverrides: GlobalThemeOverrides = {
     tabTextColorActiveLine: "#fff",
     tabTextColorHoverLine: "#AEAEB0",
     tabBorderColor: "#212443",
+  },
+  Form: {
+    labelTextColor: '#AFB6BD',
   },
   Button: {
     textColor: "#fff",

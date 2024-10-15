@@ -49,19 +49,6 @@
             </div>
 
         </div>
-        <!-- <n-tabs animated v-if="activityTitleList" justify-content="space-evenly" type="card" @update:value="tabChange">
-            <n-tab-pane :name="i" :tab="t(g)" v-for="(game, g, i) in activityTitleList" :key="i">
-                <div class="activity_img">
-                    <template v-for="(item, i) in activityTitleList[state.name]" :key="i">
-                        <Imgt @click="popDetail(item)" :src="activityDetail(String(item.name))"
-                            v-if="activityDetail(String(item.name))" />
-                    </template>
-
-
-</div>
-</n-tab-pane>
-
-</n-tabs> -->
         <n-modal v-model:show="state.showModal">
             <n-card :title="t('activity_page_detail')" closable @close="state.showModal = false" :bordered="false"
                 size="huge" role="dialog" aria-modal="true">
@@ -73,6 +60,8 @@
     <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
+    <TabForm></TabForm>
+
 </template>
 
 <script setup lang='ts'>
@@ -88,6 +77,7 @@ import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 // import Calendar from '@/components/Calendar.vue'
+import TabForm from '@/components/TabForm.vue'
 const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();
@@ -218,7 +208,7 @@ onUnmounted(() => {
     border-radius: 16px;
     background: linear-gradient(350deg, #090B32 7.62%, #0D1042 92.38%);
     padding: 40px;
-    min-height: 786px;
+    min-height: 766px;
     box-sizing: border-box;
 
     .activity_img {

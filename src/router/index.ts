@@ -162,6 +162,7 @@ const routes: RouteRecordRaw[] = [
         path: 'records',
         name: 'records',
         meta: { title: 'records' },
+        redirect: { name: 'rechargeRecord' },
         component: () => import('@/views/wallet/records/index.vue'),
         children: [
           {

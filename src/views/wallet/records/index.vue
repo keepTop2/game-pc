@@ -4,8 +4,8 @@
         <!-- Tabs -->
         <n-flex class="tabs" align="center">
             <n-flex align="center" justify="center" class="tabs_item"
-              :class="{ 'button n-button active_tab': activeTab == item.id }" @click="changeTab(item)"
-              v-for="(item, index) in titleArr" :key="index">{{ item.title }}
+                :class="{ 'button n-button active_tab': activeTab == item.id }" @click="changeTab(item)"
+                v-for="(item, index) in titleArr" :key="index">{{ item.title }}
             </n-flex>
         </n-flex>
         <router-view></router-view>
@@ -16,6 +16,7 @@
 import { ref, reactive } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
+import WithdrawRecord from "@/views/wallet/records/withdrawRecord";
 const router = useRouter();
 
 const { t } = useI18n()
