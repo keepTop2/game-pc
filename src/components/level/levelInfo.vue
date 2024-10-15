@@ -1,96 +1,76 @@
 <template>
   <!-- 导航 -->
-
-  <div class="vip_detail_header" v-if="isDetail">
-    <navTab :title="t(`VIP详情`)" />
-    <Imgt class="return" src="/img/payment/return.webp" alt=""
-              @click="goDetail()" />
-  </div>
-  <navTab :title="t(`VIP特权`)" :secTitle="t('加入PKBET 臻享特权服务')" v-else/>
- 
+  <navTab :title="t(`VIP特权`)" :secTitle="t('加入PKBET 臻享特权服务')" />
   <div class="level_content">
     <div class="level_info">
-      <!-- <div class="level_info_top">
-      </div> -->
-      <div class="level_info_vip_all">
-        <n-scrollbar ref="scrollRef" content-class="level_info_vip_l" x-scrollable
-            @wheel.prevent="handleScroll" :size="2" x-placement="bottom">
-            <div class="level_info_vip_l_container">
-              <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData" :key="index" @click.stop="(e: any) => { clickTab(e, item.key) }">
-                <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
-                <div class="l">
-                  <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
-                  <div class="txt"> {{ t('level_page_rebate')}}  <span>{{ levelDataAll.daily_rebate || 0 }}</span></div>
-                </div>
-                <div class="m">返水记录</div>
-                <div class="r" @click.stop="getRebate">领取</div>
-              </div>
-            </div>
-        </n-scrollbar>
+      <div class="level_info_top">
       </div>
-      <Rules v-if="isDetail"/>
-      <n-spin :show="loading" v-else>
+      <n-spin :show="loading">
         <div class="level_info_pross">
           <n-flex class="level_info_vip" justify="space-between">
-            <!-- <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }}</div>
-            <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }} -->
-            <div class="l_info_pro" :class="{active: curTab === item.key}" v-for="(item, index) in levelListData" :key="index">{{item.level}}</div>
+            <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }}</div>
+            <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }}
+            </div>
           </n-flex>
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
               :style="`width: ${vipProcss().rateStr}`"> </span></div>
-          <div class="vip_detail">
-            <div class="l">
-              <div class="t">距离下一等级：VIP{{ levelDataAll.current_vip_level + 1 }}</div>
-              <div class="b">
-                <span>流水</span>
-                <span class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
-                  :style="`width: ${vipProcss().rateStr}`"> </span></span>
-                <span>{{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</span>
-              </div>
-            </div>
-            <div class="button" @click="goDetail(1)">查看VIP详情</div>
-          </div>
+          <n-flex class="level_info_txt" justify="space-between">
+            <div> {{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</div>
+            <a @click="openLevelRule"> {{ t('level_page_paiTitle') }} </a>
+          </n-flex>
         </div>
 
-        <!-- <n-flex justify="space-between" align="center" class="level_info_jl">
+        <n-flex justify="space-between" align="center" class="level_info_jl">
           <n-flex align="center" class="level_info_jl_l">
             <span class="jl_amount"> <span> {{ t('level_page_rebate')
                 }} </span> {{ levelDataAll.daily_rebate || 0 }}
             </span>
             <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
           </n-flex>
-        </n-flex> -->
- 
-        <div class="level_list_sec">
-          <n-flex class="level_info_txt" justify="space-between">
-            <span> VIP{{ curTab }}特权</span>
-            <span @click="openLevelRule"> {{ t('level_page_paiTitle') }} </span>
+          <n-flex align="center" class="level_info_jl_r">
+            <span class="line_icon"></span>
+            <n-flex class="lq_btn" justify="center" align="center">
+              <span class="lq_icon"></span>
+              <span @click="getRebate"> {{ t('level_page_lq') }} </span>
+            </n-flex>
           </n-flex>
+        </n-flex>
+
+        <div class="level_info_vip_all">
+          <n-flex id="scroll_box" class="level_info_vip_l">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
+              :key="index" @click="(e: any) => { clickTab(e, item.key) }">
+              <!--   <Imgt v-if="curTab === item.key" :src="`/img/level/level_${item.key}.webp`" alt="vip" />
+                   <Imgt v-else :src="`/img/level/level_${item.key}_not.webp`" alt="vip" />-->
+              <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
+
+
+            </div>
+          </n-flex>
+        </div>
+        <div class="level_list_sec">
           <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
             <span>{{ t('level_page_unlock') }}</span>
           </div>
-          <div class="list_item" v-for="(item, index) in levelDyData" :key="index">
+          <n-flex class="list_item" align="center" v-for="(item, index) in levelDyData" :key="index">
             <div class="list_item_l">
               <div class="title_big"> {{ t(item.title) }}</div>
-              <!-- <div> {{ item.titleSec }}</div> -->
+              <div> {{ item.titleSec }}</div>
             </div>
-            <n-flex class="list_item_r" >
+            <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
-                <!-- <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`"> -->
-                <div class="list_item_bg">
-                  <div class="item_txt"> 
-                    <p>{{ t(item_1.name) }}</p>
-                    <p class="amount">100.000</p>
-                  </div>
+                <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`">
                   <div class="item_img">
                     <Imgt :src="`/img/level/${item_1.icon}.webp`" />
                   </div>
+                  <div> {{ t(item_1.name) }}</div>
                 </div>
               </div>
             </n-flex>
-          </div>
+          </n-flex>
         </div>
       </n-spin>
+
     </div>
 
   </div>
@@ -99,18 +79,9 @@
   <ModalDialog v-model:visible="ruleModal" title="level_page_paiTitle">
     <template #content>
       <div class="content_box">
-        <div class="list_tip">
-          <p> {{ t('level_page_paiRule_11') }}</p>
-          <p> {{ t('level_page_paiRule_1') }}</p>
-        </div>
-        <div class="list_tip">
-          <p> {{ t('level_page_paiRule_22') }}</p>
-          <p> {{ t('level_page_paiRule_2') }}</p>
-        </div>
-        <div class="list_tip">
-          <p>{{ t('level_page_paiRule_33') }}</p>
-          <p>{{ t('level_page_paiRule_3') }}</p>
-        </div>
+        <div class="list_tip"> {{ t('level_page_paiRule_1') }}</div>
+        <div class="list_tip"> {{ t('level_page_paiRule_2') }}</div>
+        <div class="list_tip"> {{ t('level_page_paiRule_3') }}</div>
       </div>
     </template>
   </ModalDialog>
@@ -132,8 +103,6 @@ import { verifyNumberComma } from '@/utils/others.ts';
 import Imgt from '@/components/Imgt.vue';
 import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-import router from '@/router';
-import Rules from './rules.vue';
 
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
@@ -150,10 +119,9 @@ const levelDataAll: any = ref({
   vip_level_reward_config: [],
 });
 
-const scrollRef = ref<HTMLElement>()
+
 const loading = ref(false);
 const curTab = ref(1);
-const isDetail = ref(false);
 const levelListData = ref(
   [
     { level: 'VIP1', key: 1 },
@@ -162,10 +130,10 @@ const levelListData = ref(
     { level: 'VIP4', key: 4 },
     { level: 'VIP5', key: 5 },
     { level: 'VIP6', key: 6 },
-    { level: 'VIP7', key: 7 },
-    { level: 'VIP8', key: 8 },
-    { level: 'VIP9', key: 9 },
-    { level: 'VIP10', key: 10 },
+    { level: 'VIP6', key: 7 },
+    { level: 'VIP6', key: 8 },
+    { level: 'VIP6', key: 9 },
+    { level: 'VIP6', key: 10 },
   ],
 );
 const levelDyData = ref(
@@ -219,8 +187,8 @@ const levelDyData = ref(
     {
       key: 'tq', title: 'level_page_private', titleSec: 'PRIVATE PRIVILEGES',
       child: [
-        { name: 'level_page_secretary', icon: 'level_vip', levelArr: [8, 9, 10] },
-        { name: 'level_page_reception', icon: 'level_game', levelArr: [8, 9, 10] },
+        { name: 'level_page_secretary', icon: 'level_sw', levelArr: [8, 9, 10] },
+        { name: 'level_page_reception', icon: 'level_gb', levelArr: [8, 9, 10] },
         // { name: 'level_page_month_gift', icon: 'level_lj', levelArr: [8, 9, 10] },
       ],
     },
@@ -246,8 +214,8 @@ const resultHandle = (res: any) => {
   }, 300);
   // levelDataAll.value = res;
   if (Object.keys(VIPinfo.value).length > 0) {
-    levelDataAll.value = levelDataAll.value
-    curTab.value = levelDataAll.value.current_vip_level + 1;
+    levelDataAll.value = VIPinfo.value;
+    curTab.value = levelDataAll.value.current_vip_level;
   }
 };
 // money: 0, result: 2 // 1 成功，2 失败
@@ -360,20 +328,6 @@ const clickTab = (e: any, key: any) => {
   });
 };
 
-const handleScroll = (e: WheelEvent): void => {
-    if (scrollRef.value) {
-        scrollRef.value.scrollBy({ left: e.deltaY })
-    }
-};
-
-const goDetail = (v?: number) => {
-  if (v) {
-    isDetail.value = true
-  } else {
-    isDetail.value = false
-  }
-}
-
 // 已关闭窗口
 // watch(
 //   () => showModal.value,
@@ -398,7 +352,6 @@ watch(
 
 onMounted(() => {
   openModal();
-  isDetail.value = false;
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_claim_status, null);
@@ -408,7 +361,6 @@ onUnmounted(() => {
 <style lang='less' scoped>
 @import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
-
 
 .level_info {
   color: #fff;
@@ -423,110 +375,83 @@ onUnmounted(() => {
   }
 
   .level_info_pross {
-    border-radius: 0;
-    background: #14173A;
-    padding: 10px 20px 40px;
-    border-radius: 0 0 16px 16px;
-    margin-bottom: 20px;
+    margin: 42px 0 20px;
 
     .level_info_vip {
-      width: 100%;
+      width: 98.5%;
+      margin-left: 12px;
 
       >div {
         position: relative;
         font-size: 14px;
+        width: 70px;
+        height: 20px;
         line-height: 20px;
         text-align: center;
+        border: solid 1px #fff;
         border-radius: 14px;
-        background-image: none;
-        padding: 12px 4px;
-        color: #fff;
-        font-weight: 500;
-        font-size: 14px;
+        background-image: linear-gradient(to right, #b58b22 6%, #ebac0d 28%, #f7c445 83%);
 
-        &.l_info_pro {
-          &.active {
-            color: #0A0A0A;
-            background-image: url('/img/level/level_active.webp');
-            background-size: 44px 44px;
-            background-repeat: no-repeat;
-            background-position: center;
-          }
+        &::before {
+          content: '';
+          position: absolute;
+          display: inline-block;
+          width: 30px;
+          height: 26px;
+          background: url('/img/level/level_icon_1.webp?t=@{timestamp}') center no-repeat;
+          background-size: 100%;
+          left: -12px;
+          top: -3px;
         }
+
+        &.l_info_pro_r {
+          background-image: linear-gradient(to right, #2a146c 6%, #362192 28%, #432ea2 83%);
+          color: #8d81c1;
+          border-color: #322c59;
+
+          &::before {
+            background-image: url('/img/level/level_icon_2.webp?t=@{timestamp}');
+          }
+
+        }
+
       }
     }
 
     .item_pro {
-      width: 100%;
       margin: 12px 0;
       position: relative;
       flex: auto;
-      height: 12px;
-      border-radius: 12px;
+      height: 38px;
+      border-radius: 20px;
       box-shadow: inset 0 0 4px 0 #000;
-      border: 1px solid #26294C;
-      background: #121324;
+      background-blend-mode: color-burn, overlay, normal;
+      background: url('/img/level/level_pro_jd.webp?t=@{timestamp}') center no-repeat;
 
       .pro_inner {
-        display: inline-block !important;
-        height: 10px;
+        display: inline-block;
+        height: 21px;
         position: absolute;
-        left: 0;
-        top: 0;
+        left: 8px;
+        top: 10px;
         border-radius: 12px;
-        border-radius: 7px;
-        background: linear-gradient(90deg, #FF8000 0%, #FFD633 100%);
-      }
-    }
-    
-    .vip_detail {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 16px;
-      border: 1px solid #26294C;
-      background: #212443;
-      height: 124px;
-      padding: 0 30px;
-
-      .l {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        flex-direction: column;
-        width: 80%;
-        font-size: 16px;
-        font-weight: 500;
-        .t {
-          margin-bottom: 15px;
-        }
-        .b {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 98%;
-          span {
-            white-space: nowrap;
-            &.item_pro {
-              margin: 0 12px;
-            }
-          }
-        }
-      }
-      .button {
-          width: 23%;
-          height: 48px;
-          border-radius: 8px;
-          background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-          text-align: center;
-          line-height: 48px;
-          margin-left: 15px;
-          font-size: 16px;
-          font-weight: 600;
+        box-shadow: inset 0 0 8px 0 #fff;
+        border-style: solid;
+        border-width: 1px;
+        border-image-source: linear-gradient(to bottom, #fff, #fff5de);
+        border-image-slice: 1;
+        background-image: linear-gradient(to bottom, #ffdb84, #f6c544 75%, #ffdb84 125%), linear-gradient(to bottom, #fff, #fff5de);
+        background-origin: border-box;
+        background-clip: content-box, border-box;
       }
     }
 
-    
+    .level_info_txt {
+      a {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
 
   }
 
@@ -602,40 +527,41 @@ onUnmounted(() => {
 
   .level_info_vip_all {
     width: 100%;
-    border-radius: 16px 16px 0 0;
-    background: #14173A;
 
     .level_info_vip_l {
-      overflow: hidden;
+      margin: 40px 0 20px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      padding-bottom: 8px;
       flex-flow: nowrap !important;
+      gap: 0 !important;
 
-      .level_info_vip_l_container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin: 12px 0;
-        position: relative;
+      &::-webkit-scrollbar {
+        display: block;
+        height: 5px
       }
-      // &::-webkit-scrollbar {
-      //   display: block;
-      //   height: 5px
-      // }
 
-      // &::-webkit-scrollbar-thumb {
-      //   background: #a7b7d7;
-      //   border-radius: 8px
-      // }
+      &::-webkit-scrollbar-thumb {
+        background: #a7b7d7;
+        border-radius: 8px
+      }
 
       .vip_item {
+        flex-shrink: 0;
         cursor: pointer;
+        width: 168px;
+        height: 42px;
         transition: .3s;
         position: relative;
-        opacity: .5;
+
 
         img {
-          height: 200px;
-          width: 345px;
-          margin-right: 10px;
+          width: 100%;
+          opacity: .5;
+        }
+
+        &:nth-child(n+2) {
+          margin-left: 10px;
         }
 
         &:active {
@@ -643,74 +569,9 @@ onUnmounted(() => {
         }
 
         &.active {
-          opacity: 1;
           img {
+            opacity: 1;
           }
-        }
-
-        .l {
-          font-size: 14px;
-          font-weight: 500;
-          color: #fff;
-          height: 32px;
-          border-radius: 6px;
-          border: 1px solid #5973AC;
-          background: #5A74AD;
-          box-shadow: 0px 2px 3px 0px #324C85 inset, 0px 0.5px 1px 0px rgba(255, 255, 255, 0.50);
-          position: absolute;
-          bottom: 15px;
-          left: 10px;
-          width: 53%;
-          line-height: 32px;
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          img {
-            height: 18px;
-            width: 15.27px;
-            margin: 0 3px 0 5px;
-          }
-          .txt {
-            white-space: nowrap;
-            overflow: scroll;
-            span {
-              font-weight: 600;
-              text-shadow: 0px 0.972px 0px #995403;
-              font-size: 14px;
-              font-weight: 600;
-              color: #FFD56D;
-            }
-          }
-        }
-        .m {
-          position: absolute;
-          bottom: 15px;
-          right: 72px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #fff;
-          height: 32px;
-          border-radius: 6px;
-          border: 1px solid #5973AC;
-          background: #5A74AD;
-          box-shadow: 0px 2px 3px 0px #324C85 inset, 0px 0.5px 1px 0px rgba(255, 255, 255, 0.50);
-          line-height: 32px;
-          padding: 0 10px;
-        }
-        .r {
-          position: absolute;
-          bottom: 15px;
-          right: 16px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #fff;
-          height: 32px;
-          border-radius: 6px;
-          border: 1px solid #5973AC;
-          background: #5A74AD;
-          box-shadow: 0px 2px 3px 0px #324C85 inset, 0px 0.5px 1px 0px rgba(255, 255, 255, 0.50);
-          line-height: 32px;
-          padding: 0 10px;
         }
 
       }
@@ -720,40 +581,6 @@ onUnmounted(() => {
 
   .level_list_sec {
     position: relative;
-    border-radius: 16px;
-    border: 1px solid #26294C;
-    background: #14173A;
-    padding: 40px;
-
-    .level_info_txt {
-      position: relative;
-      margin-bottom: 20px;
-      span:first-child {
-        color: #FFF;
-        font-size: 20px;
-        font-weight: 500;
-      }
-      span:last-child {
-        cursor: pointer;
-        text-align: right;
-        font-size: 16px;
-        font-weight: 500;
-        text-decoration-line: underline;
-        background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        &::after {
-          content: '';
-          width: 95px;
-          height: 2px;
-          background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-          position: absolute;
-          top: 22px;
-          right: 0;
-        }
-      }
-    }
 
     .vip_top_disabled {
       position: absolute;
@@ -771,64 +598,68 @@ onUnmounted(() => {
 
     .list_item {
       position: relative;
-      margin-bottom: 30px;
-     
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      flex-direction: column;
+      height: 120px;
+      margin-bottom: 20px;
+      background: url('/img/level/level_l_bg.webp?t=@{timestamp}') center no-repeat;
+      background-size: 100%;
+
+      &::before {
+        content: '';
+        position: absolute;
+        display: inline-block;
+        width: 421px;
+        height: 42px;
+        background: url('/img/level/level_1_bg.webp?t=@{timestamp}') no-repeat;
+        background-size: contain;
+        left: 240px;
+        bottom: 10px;
+      }
+
+      &:nth-child(2) {
+        &::before {
+          background-image: url('/img/level/level_2_bg.webp?t=@{timestamp}')
+        }
+      }
+
+      &:nth-child(3) {
+        &::before {
+          background-image: url('/img/level/level_3_bg.webp?t=@{timestamp}')
+        }
+      }
+
+      &:nth-child(4) {
+        &::before {
+          background-image: url('/img/level/level_4_bg.webp?t=@{timestamp}')
+        }
+      }
 
       .list_item_l {
+        width: 202px;
         text-align: center;
-        margin-bottom: 10px;
 
         .title_big {
-          font-size: 16px;
-          font-weight: 500;
-          text-align: left;
+          font-size: 20px;
         }
 
       }
 
       .list_item_r {
+        margin-left: 80px;
         flex: auto;
-        gap: 20px 2px !important;
 
         .list_item_r_item {
+          //width: 16.67%;
+          width: 160px;
           text-align: center;
-          margin-right: 15px;
 
-          .list_item_bg {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 192px;
-            height: 74px;
-            background: url('/img/level/viptq_bj.webp') center no-repeat;
-            background-size: 100%;
-            padding: 0 15px;
+          .item_img {
+            height: 46px;
 
-            .item_txt {
-              p {
-                font-size: 14px;
-                font-weight: 700;
-                margin: 0;
-                &.amount {
-                    color: #FAC905;
-                    font-size: 14px;
-                    font-weight: 700;
-                }
-              }
-            }
-            .item_img {
-              height: 60px;
-  
-              img {
-                height: 100%;
-              }
+            img {
+              width: 44px;
+              height: 100%;
             }
           }
-
 
           .not {
             opacity: .5;
@@ -847,32 +678,10 @@ onUnmounted(() => {
   }
 
 }
-
 .content_box {
   padding: 30px 35px;
   .list_tip {
     font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 16px;
-    p {
-      margin-bottom: 5px;
-      margin-top: 5px;
-      &:last-child {
-        margin-left: 18px;
-      }
-    }
-  }
-}
-
-.vip_detail_header {
-  position: relative;
-  .return {
-    position: absolute;
-    right: 20px;
-    top: 16px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
   }
 }
 

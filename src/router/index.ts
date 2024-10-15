@@ -65,7 +65,7 @@ const routes: RouteRecordRaw[] = [
         path: 'levelRule',
         name: 'levelRule',
         meta: { title: 'levelRule' },
-        component: () => import('@/views/level/rules.vue'),
+        component: () => import('@/views/wallet/level/rules.vue'),
       },
       {
         path: 'club',

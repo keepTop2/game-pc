@@ -5,7 +5,7 @@
     </template>-->
   <div class="level_content">
     <div class="level_rules">
-      <div class="level_tip"><span class="f">{{ t('level_page_rule') }}</span> <span class="b">| {{ t('level_page_pRule') }}</span></div>
+      <div class="level_tip"> {{ t('level_page_pRule') }}</div>
 
       <div class="level_list">
         <n-flex justify="space-around" class="le_l_header">
@@ -68,10 +68,10 @@
         <span>{{ t('level_page_rule_sec_4') }}</span><br>
         <span>{{ t('level_page_rule_sec_5') }}</span><br>
         {{ t('level_page_rule_sec_6') }}<br>
-        <span>{{ t('level_page_rule_sec_7') }}</span><br>
+        {{ t('level_page_rule_sec_7') }}<br>
         <span>{{ t('level_page_rule_sec_8') }}</span><br>
-        <span>{{ t('level_page_rule_sec_9') }}</span><br>
-        <span>{{ t('level_page_rule_sec_10') }}</span>
+        {{ t('level_page_rule_sec_9') }}<br>
+        {{ t('level_page_rule_sec_10') }}
       </div>
     </div>
   </div>
@@ -142,43 +142,30 @@ watch(
 
   .level_tip {
     margin-bottom: 5px;
-    font-weight: 500;
-    .f {
-      color: #fff;
-      font-size: 20px;
-    }
-    .b {
-      color: #AEAEB0;
-      font-size: 14px;
-    }
+    color: #A2A5DE;
 
     &.level_tip_sec {
       margin-top: 20px;
-      margin-bottom: 10px;
-      font-size: 20px;
-      font-weight: 600;
     }
   }
 
   .level_list {
     font-size: 14px;
     margin-bottom: 20px;
-    border-radius: 10px;
 
     .le_l_header {
+      gap: 0 !important;
       position: relative;
-      height: 40px;
-      border-radius: 10px 10px 0px 0px;
-      border: 1px solid #26294C;
-      background: #1B1F4B;
+      height: 65px;
+      background: url('/img/level/headerBg.webp?t=@{timestamp}') center no-repeat;
+      background-size: 100%;
+      background-position-y: 15px;
 
       span {
-        height: 40px;
-        line-height: 40px;
+        height: 50px;
+        line-height: 80px;
         flex: 1;
         text-align: center;
-        border-right: 1px solid #26294C;
-        border-bottom: 1px solid #26294C;
       }
     }
 
@@ -191,9 +178,11 @@ watch(
     }
 
     .le_l_content {
-      width: 100%;
+      width: 99.5%;
       margin: 0 auto;
-      border-radius: 0 0 10px 10px;
+      border-radius: 0 0 8px 8px;
+      background-color: #2f1d7d;
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.39), 0 2px 2px 0 rgba(0, 0, 0, 0.34), 0 5px 3px 0 rgba(0, 0, 0, 0.2), 0 8px 3px 0 rgba(0, 0, 0, 0.06), 0 13px 3px 0 rgba(0, 0, 0, 0.01);
 
       .le_l_l {
         width: 75%;
@@ -208,27 +197,19 @@ watch(
         }
 
         .le_l_l_tr {
+
           &:nth-child(2n+1) {
-            background: #14173A;
-            color: #AEAEB0;
-            border-bottom: 1px solid #26294C;
+            background: #27155c;
+            color: #8e82c2;
           }
 
           &:nth-child(2n) {
-            background: #0D0E2E;
-            color: #AEAEB0;
-            border-bottom: 1px solid #26294C;
-          }
-
-          &:last-child {
-            border-radius: 0 0 10px 10px;
+            background: #2f1d7d;
           }
 
           span {
             height: 40px;
             line-height: 40px;
-            border-right: 1px solid #26294C;
-            border-bottom: 1px solid #26294C;
           }
         }
 
@@ -239,8 +220,7 @@ watch(
 
   .level_tip_content {
     font-size: 16px;
-    line-height: 35px;
-    margin: 40px 0;
+    line-height: 30px;
 
     span {
       display: inline-block;
