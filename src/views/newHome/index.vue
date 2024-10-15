@@ -4,7 +4,7 @@
     <div class="content">
       <div class="announcement">
         <div class="carousel_wrap">
-          <n-carousel :draggable="false" autoplay :loop="true" :slides-per-view="1">
+          <n-carousel :draggable="false" autoplay :loop="true">
             <div v-for="i in 5" :key="i">
               <Imgt class="carousel" src="/img/header/carousel1.webp" />
             </div>

@@ -65,7 +65,6 @@ const itemClick = (item: any) => {
 
 onMounted(() => {
   console.log(77777, route);
-  i
 });
 </script>
 
