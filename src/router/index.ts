@@ -43,12 +43,7 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'gameDetail' },
         component: () => import('@/views/gameMain/gameDetail/index.vue'),
       },
-      {
-        path: 'activity',
-        name: 'activity',
-        meta: { title: 'activity' },
-        component: () => import('@/views/gameMain/activity/index.vue'),
-      },
+
       {
         path: 'proxyCooperation',
         name: 'proxyCooperation',
@@ -120,6 +115,12 @@ const routes: RouteRecordRaw[] = [
         name: 'paymentManagement',
         meta: { title: '支付管理' },
         component: () => import('@/views/wallet/paymentManagement/index.vue'),
+      },
+      {
+        path: 'activity',
+        name: 'activity',
+        meta: { title: 'home_page_activity' },
+        component: () => import('@/views/wallet/activity/index.vue'),
       },
       {
         path: 'myEmail',

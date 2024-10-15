@@ -2,9 +2,10 @@
     <div class="payment">
         <Sidebar />
         <n-flex vertical class="main">
-          <!-- 导航 -->
-          <navTab v-if="!['/wallet/walletInfo', '/wallet/levelInfo'].includes(route.path)" :title="t(`${route.meta.title}`)" />
-<!--            <div class="head">
+            <!-- 导航 -->
+            <navTab v-if="!['/wallet/walletInfo', '/wallet/levelInfo', '/wallet/activity'].includes(route.path)"
+                :title="t(`${route.meta.title}`)" />
+            <!--            <div class="head">
                 <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />
                 <span>{{ t('wallet_page_home') }}>{{ t(menuName) }}</span>
             </div>-->
@@ -30,11 +31,11 @@ const route = useRoute()
 
 <style lang='less' scoped>
 .payment {
-  width: 1400px;
-  margin: 0 auto;
-  padding: 40px 0 40px;
-  display: flex;
-  flex: 1;
+    width: 1400px;
+    margin: 0 auto;
+    padding: 40px 0 40px;
+    display: flex;
+    flex: 1;
 }
 
 .main {

@@ -49,14 +49,14 @@ export const Page = defineStore('page', {
         themeColor: 'dayMode', // 日间模式 dayMode， 夜间模式 nightMode
     }),
     actions: {
-      // 设置皮肤
-      async setTheme(value: any) {
-        if (value) {
-          this.themeColor = value
-        }
-        Local.set('themeColor', this.themeColor)
-        document.documentElement.setAttribute('theme', this.themeColor)
-      },
+        // 设置皮肤
+        async setTheme(value: any) {
+            if (value) {
+                this.themeColor = value
+            }
+            Local.set('themeColor', this.themeColor)
+            document.documentElement.setAttribute('theme', this.themeColor)
+        },
         // 获取未读消息数量
         async getUnread(isFirst = false) {
             if (isFirst) {
@@ -124,27 +124,38 @@ export const Page = defineStore('page', {
             let list: Array<string> = []
 
 
-            let obj: any = {}
+
 
             value.map((e: any) => {
                 if (i18n.global.t(e.pic_link).indexOf('http') != -1) {
                     list.push(e.tag)
                 }
             })
-            let newList = Array.from(new Set(list))
+            console.log(list);
+            debugger
 
-            newList.map((e: any) => {
-                obj[e] = []
-                value.map((j: any) => {
-                    if (j.tag == e) {
+            if (list.length > 0) {
+                let obj: any = {
+                    home_page_all: value
+                }
+                let newList = Array.from(new Set(list))
 
-                        obj[e].push(j)
-                    }
+                newList.map((e: any) => {
+                    obj[e] = []
+                    value.map((j: any) => {
+                        if (j.tag == e) {
+
+                            obj[e].push(j)
+                        }
+                    })
                 })
-            })
-            this.activityList = value
-            this.activityTitleList = obj
-            console.log(this.activityTitleList);
+                this.activityList = value
+                this.activityTitleList = obj
+                console.log(this.activityTitleList);
+                debugger
+            }
+
+
 
         },
 
