@@ -246,23 +246,23 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
 }
 
 router.beforeEach(async (to: any, _from: any, next: any) => {
-  if (Local.get('user')) {
-    await waitForCondition(
-      () => (wsOpen.value && loadingEnd.value), next, true
-    )
-  } else {
-    if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
-      await waitForCondition(
-        () => wsOpen.value, next, true
-      )
-    } else {
+  // if (Local.get('user')) {
+  //   await waitForCondition(
+  //     () => (wsOpen.value && loadingEnd.value), next, true
+  //   )
+  // } else {
+  //   if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
+  //     await waitForCondition(
+  //       () => wsOpen.value, next, true
+  //     )
+  //   } else {
 
-      await waitForCondition(
-        () => wsOpen.value, next, false
-      )
-    }
-  }
-
+  //     await waitForCondition(
+  //       () => wsOpen.value, next, false
+  //     )
+  //   }
+  // }
+  next()
 
 
 })
