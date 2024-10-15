@@ -10,7 +10,7 @@
             <div>
                 <img src="/img/activity/image.webp" alt="">
                 <p>
-                    <i>数字精彩</i>
+                    <i>数字竞猜</i>
                     <span>活动详情
                         <iconpark-icon class="icon" icon-id="huodiconjinr" size=".7rem"></iconpark-icon>
                     </span>
@@ -20,7 +20,7 @@
             <div>
                 <img src="/img/activity/image.webp" alt="">
                 <p>
-                    <i>数字精彩</i>
+                    <i>首存优惠</i>
                     <span>活动详情
                         <iconpark-icon class="icon" icon-id="huodiconjinr" size=".7rem"></iconpark-icon>
                     </span>
@@ -30,7 +30,7 @@
             <div>
                 <img src="/img/activity/image.webp" alt="">
                 <p>
-                    <i>数字精彩</i>
+                    <i>签到</i>
                     <span>活动详情
                         <iconpark-icon class="icon" icon-id="huodiconjinr" size=".7rem"></iconpark-icon>
                     </span>
