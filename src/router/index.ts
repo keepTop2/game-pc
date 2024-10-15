@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/level/rules.vue'),
       },
       {
-        path: 'club/:openType',
+        path: 'club',
         name: 'club',
         meta: { title: 'home_page_club' },
         component: () => import('@/views/club/newClub.vue'),
@@ -108,54 +108,6 @@ const routes: RouteRecordRaw[] = [
         name: 'securitySettings',
         meta: { title: 'securitySettings' },
         component: () => import('@/views/wallet/securitySettings/index.vue'),
-      },
-      {
-        path: 'rechargeRecord',
-        name: 'rechargeRecord',
-        meta: { title: 'rechargeRecord' },
-        component: () => import('@/views/wallet/rechargeRecord/index.vue'),
-      },
-      {
-        path: 'withdrawRecord',
-        name: 'withdrawRecord',
-        meta: { title: 'withdrawRecord' },
-        component: () => import('@/views/wallet/withdrawRecord/index.vue'),
-      },
-      {
-        path: 'accountsRecord',
-        name: 'accountsRecord',
-        meta: { title: 'accountsRecord' },
-        component: () => import('@/views/wallet/accountsRecord/index.vue'),
-      },
-      {
-        path: 'proxyRecord',
-        name: 'proxyRecord',
-        meta: { title: 'proxyRecord' },
-        component: () => import('@/views/wallet/proxyRecord/index.vue'),
-      },
-      {
-        path: 'betRecord',
-        name: 'betRecord',
-        meta: { title: 'betRecord' },
-        component: () => import('@/views/wallet/betRecord/index.vue'),
-      },
-      {
-        path: 'auditRecord',
-        name: 'auditRecord',
-        meta: { title: 'auditRecord' },
-        component: () => import('@/views/wallet/auditRecord/index.vue'),
-      },
-      {
-        path: 'loginRecord',
-        name: 'loginRecord',
-        meta: { title: 'loginRecord' },
-        component: () => import('@/views/wallet/loginRecord/index.vue'),
-      },
-      {
-        path: 'waterRecord',
-        name: 'waterRecord',
-        meta: { title: 'waterRecord' },
-        component: () => import('@/views/wallet/waterRecord/index.vue'),
       },
       {
         path: 'myPromo',
@@ -204,6 +156,62 @@ const routes: RouteRecordRaw[] = [
         name: 'proxyIntroduction',
         meta: { title: 'proxy_page_agentRule' },
         component: () => import('@/views/wallet/proxyIntroduction/index.vue'),
+      },
+      {
+        path: 'records',
+        name: 'records',
+        meta: { title: 'records' },
+        component: () => import('@/views/wallet/records/index.vue'),
+        children: [
+          {
+            path: 'rechargeRecord',
+            name: 'rechargeRecord',
+            meta: { title: 'mine_myload' },
+            component: () => import('@/views/wallet/records/rechargeRecord/index.vue'),
+          },
+          {
+            path: 'withdrawRecord',
+            name: 'withdrawRecord',
+            meta: { title: 'mine_mywithdraw' },
+            component: () => import('@/views/wallet/records/withdrawRecord/index.vue'),
+          },
+          {
+            path: 'betRecord',
+            name: 'betRecord',
+            meta: { title: 'mine_mybet' },
+            component: () => import('@/views/wallet/records/betRecord/index.vue'),
+          },
+          {
+            path: 'accountsRecord',
+            name: 'accountsRecord',
+            meta: { title: 'mine_myaudit' },
+            component: () => import('@/views/wallet/records/accountsRecord/index.vue'),
+          },
+          {
+            path: 'auditRecord',
+            name: 'auditRecord',
+            meta: { title: 'recharge_inspect_record' },
+            component: () => import('@/views/wallet/records/auditRecord/index.vue'),
+          },
+          {
+            path: 'waterRecord',
+            name: 'waterRecord',
+            meta: { title: 'home_page_waterRecord' },
+            component: () => import('@/views/wallet/records/waterRecord/index.vue'),
+          },
+          {
+            path: 'proxyRecord',
+            name: 'proxyRecord',
+            meta: { title: 'proxyRecord' },
+            component: () => import('@/views/wallet/records/proxyRecord/index.vue'),
+          },
+          {
+            path: 'loginRecord',
+            name: 'loginRecord',
+            meta: { title: 'home_page_loginRecord' },
+            component: () => import('@/views/wallet/records/loginRecord/index.vue'),
+          },
+        ]
       },
     ]
   },

@@ -559,6 +559,8 @@ export module NetMsgType {
         msg_notify_get_kind_in_platform: 5606,
         msg_req_look_for_game_name: 5607,
         msg_notify_look_for_game_name: 5608,
+        msg_req_all_collected: 5609,
+        msg_notify_all_collected: 5610,
         msg_prize_info: 5701,
         msg_video_info: 5702,
         msg_req_share_vote_info: 5703,
