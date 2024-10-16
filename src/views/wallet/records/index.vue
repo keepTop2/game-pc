@@ -4,12 +4,14 @@
         <!-- Tabs -->
         <n-flex class="tabs" align="center">
             <n-flex align="center" justify="center" class="tabs_item"
-                :class="{ 'button n-button active_tab': activeTab == item.id }" @click="changeTab(item)"
-                v-for="(item, index) in titleArr" :key="index">{{ item.title }}
+                :class="{ 'button n-button active_tab': activeTab == index }" @click="changeTab(index)"
+                v-for="(item, index) in titleArr" :key="index">{{ t(item.title) }}
             </n-flex>
         </n-flex>
-        <TabForm :form-params-list="titleArr[0].formParamsList"></TabForm>
-        <router-view></router-view>
+        <TabForm :formParams="titleArr[0].formParams" :form-params-list="titleArr[0].formParamsList"
+            :loading="titleArr[0].loading" :columns="titleArr[0].columns" :data="titleArr[0].data"
+            @send-seach="queryData"></TabForm>
+        <!-- <router-view></router-view> -->
     </div>
 </template>
 
@@ -18,14 +20,14 @@ import { ref, reactive, computed, onUnmounted, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
 import TabForm from '@/components/TabForm.vue'
-import { WithdrawStatusMap } from '@/enums/walletEnum';
+import { RechagreStatusMap, WithdrawStatusMap } from '@/enums/walletEnum';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { convertObjectToDateString } from '@/utils/dateTime';
 const router = useRouter();
-const optionsStatus = computed(() => { // 状态
+const withdrawOptionsStatus = computed(() => { // 状态
     const options = Object.keys(WithdrawStatusMap()).map((key: string) => {
         return {
             label: WithdrawStatusMap()[key],
@@ -35,12 +37,91 @@ const optionsStatus = computed(() => { // 状态
     options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
     return options
 })
+const rechargeOptionsStatus = computed(() => { // 状态
+    const options = Object.keys(RechagreStatusMap()).map((key: string) => {
+        return {
+            label: RechagreStatusMap()[key],
+            value: Number(key)
+        }
+    })
+    options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
+    return options
+})
+
+const recharTableHeader = computed(() => {
+    return [ // 表头
+        { title: t('rechargeRecord_page_method'), key: 'way_id', align: 'center' },
+        { title: t('accountsRecord_page_hb'), key: 'currency', align: 'center' },
+        { title: t('rechargeRecord_page_amount'), key: 'pay_money', align: 'center' },
+        { title: t('auditRecord_page_state'), key: 'order_status', align: 'center' },
+        { title: t('auditRecord_page_startTime'), key: 'pay_time', align: 'center' },
+    ]
+})
+const withdrawTableHeader = computed(() => {
+    return [ // 表头
+        { title: t('withdrawRecord_page_wMethod'), key: 'way_id', align: 'center' },
+        { title: t('accountsRecord_page_hb'), key: 'currency', align: 'center' },
+        { title: t('withdrawRecord_page_wAmount'), key: 'pay_money', align: 'center' },
+        { title: t('auditRecord_page_state'), key: 'order_status', align: 'center' },
+        { title: t('auditRecord_page_startTime'), key: 'pay_time', align: 'center' },
+    ]
+})
 const { t } = useI18n()
+const state = reactive({
+    loading: false,
+    formParams: {
+        page: 1,
+        status: 9,
+        currency: 0,
+        start_time: '',
+        end_time: ''
+    },
+    // 各类输入框集合
+    formParamsList: [],
+    // 表格表头
+    columns: [],
+    // 表格数据
+    data: [],
+})
 const titleArr: any = reactive([
     {
-        title: t('mine_myload'),
+        title: 'mine_myload',
         id: 1,
         url: 'rechargeRecord',
+        type: 'recharge',
+        formParams: {
+            page: 1,
+            status: 9,
+            currency: 0,
+        },
+        // 各类输入框集合
+        formParamsList: [
+            {
+                span: 8,
+                type: 'select',
+                label: 'auditRecord_page_state',
+                path: 'status',
+                placeholder: '请选择状态',
+                options: rechargeOptionsStatus
+            },
+            {
+                span: 8,
+                type: 'daterange',
+                label: 'auditRecord_page_time',
+                path: 'path',
+                placeholder: '请选择',
+            }
+        ],
+        // 表格表头
+        columns: recharTableHeader,
+        // 表格数据
+        data: [],
+    },
+    {
+        title: 'mine_mywithdraw',
+        id: 2,
+        url: 'withdrawRecord',
+        type: 'withdraw',
         loading: false,
         formParams: {
             page: 1,
@@ -52,73 +133,40 @@ const titleArr: any = reactive([
             {
                 span: 8,
                 type: 'select',
-                label: t('auditRecord_page_state'),
+                label: 'auditRecord_page_state',
                 path: 'status',
                 placeholder: '请选择状态',
-                options: optionsStatus
+                options: withdrawOptionsStatus
             },
             {
                 span: 8,
                 type: 'daterange',
-                label: t('auditRecord_page_time'),
+                label: 'auditRecord_page_time',
                 path: 'path',
                 placeholder: '请选择',
-
-
             }
         ],
         // 表格表头
-        columns: [
-            { title: t('withdrawRecord_page_wMethod'), key: 'way_id' },
-            { title: t('accountsRecord_page_hb'), key: 'currency' },
-            { title: t('withdrawRecord_page_wAmount'), key: 'pay_money' },
-            { title: t('auditRecord_page_state'), key: 'order_status' },
-            { title: t('auditRecord_page_startTime'), key: 'pay_time' },
-            // {
-            //     title: 'Action',
-            //     key: 'actions',
-            // render(row: any) {
-            //     return h(
-            //         NButton,
-            //         {
-            //             size: 'small',
-            //             onClick: () => sendMail(row)
-            //         },
-            //         { default: () => 'Send Email' }
-            //     )
-            // }
-            // }
-        ],
+        columns: withdrawTableHeader,
+        //  [
+        // {
+        //     title: 'Action',
+        //     key: 'actions',
+        // render(row: any) {
+        //     return h(
+        //         NButton,
+        //         {
+        //             size: 'small',
+        //             onClick: () => sendMail(row)
+        //         },
+        //         { default: () => 'Send Email' }
+        //     )
+        // }
+        // }
+        // ],
 
         // 表格数据
-        data: [
-            {
-                key: 0,
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                tags: ['nice', 'developer']
-            },
-            {
-                key: 1,
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                tags: ['wow']
-            },
-            {
-                key: 2,
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sidney No. 1 Lake Park',
-                tags: ['cool', 'teacher']
-            }
-        ],
-    },
-    {
-        title: t('mine_mywithdraw'),
-        id: 2,
-        url: 'withdrawRecord'
+        data: [],
     },
     {
         title: t('mine_mybet'),
@@ -153,29 +201,43 @@ const titleArr: any = reactive([
 
 ])
 
-const activeTab = ref(1)
-const changeTab = (item: any) => {
-    activeTab.value = item.id
-    router.push(item.url);
+const activeTab = ref(0)
+const changeTab = (index: number) => {
+    activeTab.value = index
+    state.formParams = {
+        page: 1,
+        status: 9,
+        currency: 0,
+        start_time: '',
+        end_time: ''
+    }
+    state.columns = titleArr[activeTab.value].columns
+    state.data = []
+    state.formParamsList = titleArr[activeTab.value].formParamsList
+    queryData()
+    // router.push(item.url);
 }
 const queryData = () => { // 查询
-    titleArr[0].total_page = 0
-    titleArr[0].data = []
-    const query = NetPacket.req_get_withdraw_record_list()
-    Object.assign(query.start_time, titleArr[0].formParams.start_time)
-    Object.assign(query.end_time, titleArr[0].formParams.end_time)
-    query.page = titleArr[0].formParams.page
-    query.status = titleArr[0].formParams.status
-    query.currency = titleArr[0].formParams.currency
-    titleArr[0].loading = true
+    console.log(state.formParams);
+    let type = `req_get_${titleArr[activeTab.value].type}_record_list`
+    const query = NetPacket[type]()
+    if (state.formParams.start_time) {
+        query.start_time = state.formParams.start_time
+        query.end_time = state.formParams.end_time
+    }
+    query.page = state.formParams.page
+    query.status = state.formParams.status
+    query.currency = state.formParams.currency
+    state.loading = true
     Net.instance.sendRequest(query);
 }
 const resultHandle = (rs: any) => { // 数据处理
     setTimeout(() => {
-        titleArr[0].loading = false
+        state.loading = false
     }, 300)
-    titleArr[0].total_page = rs.total_page || 0
-    titleArr[0].data = (rs.withdraw_record_list || []).sort((a: any, b: any) => {
+    state.formParams.page = rs.total_page || 0
+    let type = `${titleArr[activeTab.value].type}_record_list`
+    state.data = (rs[type] || []).sort((a: any, b: any) => {
         return Date.parse(convertObjectToDateString(b.pay_time)) - Date.parse(convertObjectToDateString(a.pay_time))
     })
 }

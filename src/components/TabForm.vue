@@ -1,31 +1,41 @@
 <template>
     <div class="login_form">
 
-        <n-form ref="formRef" :model="props.formParams" label-placement="left">
+        <n-form ref="formRef" :loading="props.loading" :model="props.formParams" label-placement="left">
             <n-grid :cols="24" :x-gap="24">
                 <template v-for="(item, i) in props.formParamsList" :key="i">
-                    <n-form-item-gi :span="item.span" :label="item.label" :path="item.path">
-                        <n-select v-if="item.type == 'select'" v-model:value="state.formParams[item.path]"
+                    <n-form-item-gi :span="item.span" :label="t(item.label)" :path="item.path">
+                        <n-select v-if="item.type == 'select'" v-model:value="props.formParams[item.path]"
                             :placeholder="item.placeholder" :options="item.options" />
-                        <n-date-picker v-if="item.type == 'daterange'" v-model:value="state.formParams[item.path]"
-                            type="daterange" />
+                        <n-date-picker v-if="item.type == 'daterange'" :is-date-disabled="disabledDate"
+                            v-model:value="state.date" type="daterange" :format="'yyyy/MM/dd'"
+                            :on-confirm="chooseTime" />
+
                     </n-form-item-gi>
 
                 </template>
 
-                <n-gi :span="8">
-                    <div style="display: flex; justify-content: flex-end">
-                        <n-button round type="primary" @click="handleValidateButtonClick">
-                            搜索
-                        </n-button>
-                    </div>
-                </n-gi>
+
             </n-grid>
         </n-form>
+
+        <div class="seach_btn">
+            <n-button round type="primary" @click="seach">
+                搜索
+            </n-button>
+        </div>
+
     </div>
     <div class="table">
-        <n-data-table striped :bordered="false" :single-line="false" :columns="state.columns" :data="state.data"
-            :pagination="state.pagination" />
+        <n-data-table striped :bordered="false" :single-line="false" :columns="props.columns" :data="props.data"
+            :pagination="state.pagination">
+            <template #empty>
+                <div class="nodata">
+                    <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
+                    <div>{{ t('home_page_nomore_data') }}</div>
+                </div>
+            </template>
+        </n-data-table>
     </div>
 </template>
 
@@ -33,17 +43,24 @@
 import { ref, reactive, h } from "vue";
 import { useI18n } from 'vue-i18n';
 import { NButton } from "naive-ui";
+import { convertDateToObject } from "@/utils/dateTime";
 const { t } = useI18n();
-const emit = defineEmits(['changeTab', 'submitData', 'nextChange']);
+const emit = defineEmits(['changeTab', 'sendSeach', 'nextChange']);
 const props = defineProps({
 
     formParams: {
-        type: Object,
+        type: Object as any,
     },
     formParamsList: {
         type: Array<any>,
     },
-    addBtn: {
+    columns: {
+        type: Array<any>,
+    },
+    data: {
+        type: Array<any>,
+    },
+    loading: {
         type: Boolean,
     },
 
@@ -55,105 +72,34 @@ const props = defineProps({
 const formRef = ref();
 
 const state: any = reactive({
-    // 查询参数集合
-    formParams: {
-        mobile: '',
-        phoneCode: '',
-    },
-    // 各类输入框集合
-    formParamsList: [
-        {
-            span: 8,
-            type: 'select',
-            label: 'Select',
-            path: 'path',
-            placeholder: '请选择',
-            options: [
-                {
-                    label: '我是1号',
-                    value: 1
-                },
-                {
-                    label: '我是2号',
-                    value: 2
-                },
-                {
-                    label: '我是3号',
-                    value: 3
-                },
-            ]
-        },
-        {
-            span: 8,
-            type: 'daterange',
-            label: 'Select',
-            path: 'path',
-            placeholder: '请选择',
+    date: [new Date(), new Date()],
 
-
-        }
-    ],
-    // 表格表头
-    columns: [
-        {
-            title: 'Name',
-            key: 'name'
-        },
-        {
-            title: 'Age',
-            key: 'age'
-        },
-        {
-            title: 'Address',
-            key: 'address'
-        },
-        {
-            title: 'Tags',
-            key: 'tags',
-        },
-        {
-            title: 'Action',
-            key: 'actions',
-            // render(row: any) {
-            //     return h(
-            //         NButton,
-            //         {
-            //             size: 'small',
-            //             onClick: () => sendMail(row)
-            //         },
-            //         { default: () => 'Send Email' }
-            //     )
-            // }
-        }
-    ],
-    // 表格数据
-    data: [
-        {
-            key: 0,
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer']
-        },
-        {
-            key: 1,
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['wow']
-        },
-        {
-            key: 2,
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-            tags: ['cool', 'teacher']
-        }
-    ],
 
 })
+const chooseTime = () => { // 手动选择时间
+    props.formParams.start_time = convertDateToObject(state.date[0])
+    props.formParams.end_time = convertDateToObject(state.date[1])
+}
+const seach = () => {
+    emit('sendSeach');
+}
 
+const disabledDate = (d: any) => {
+    const now = new Date();
+    // 获取今天的日期
+    const dayOfWeek = now.getDay();
+    // 计算本周一的日期
+    const distanceToMonday = (dayOfWeek + 6) % 7;  // 计算从今天到上一个星期一的天数
+    const thisMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - distanceToMonday, 0, 0, 0);
+    // 计算下周一的日期
+    const nextMonday = new Date(thisMonday.getFullYear(), thisMonday.getMonth(), thisMonday.getDate() + 8, 0, 0, 0);
 
+    // 获取90天前的时间戳
+    const ninetyDaysAgo = now.getTime() - 90 * 24 * 60 * 60 * 1000;
+
+    // 判断是否在今天24:00之前且在90天以内
+    return !(d < nextMonday && d >= ninetyDaysAgo);
+}
 
 
 
@@ -181,4 +127,16 @@ const resetFormValue = () => { state.formData.formParams = state.formInitValue }
 </script>
 <style lang="less" scoped>
 @timestamp: `new Date().getTime()`;
+
+.login_form {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    >.seach_btn>button {
+        width: 100px;
+        height: 40px;
+
+    }
+}
 </style>
