@@ -8,7 +8,7 @@
                         <n-select v-if="item.type == 'select'" v-model:value="props.formParams[item.path]"
                             :placeholder="item.placeholder" :options="item.options" />
                         <n-date-picker v-if="item.type == 'daterange'" :is-date-disabled="disabledDate"
-                            v-model:value="state.date" type="daterange" :format="'yyyy/MM/dd'"
+                            v-model:value="state.date" type="daterange" format="yyyy/MM/dd" :show-suffix="false"
                             :on-confirm="chooseTime" />
 
                     </n-form-item-gi>
@@ -28,7 +28,7 @@
     </div>
     <div class="table">
         <n-data-table striped :bordered="false" :single-line="false" :columns="props.columns" :data="props.data"
-            :pagination="state.pagination">
+            :pagination="state.pageData">
             <template #empty>
                 <div class="nodata">
                     <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
@@ -72,15 +72,20 @@ const props = defineProps({
 const formRef = ref();
 
 const state: any = reactive({
-    date: [new Date(), new Date()],
+    pageData: {
+        itemCount: 1,
+        defaultPageSize: 20
+    },
+    date: null,
 
 
 })
-const chooseTime = () => { // 手动选择时间
-    props.formParams.start_time = convertDateToObject(state.date[0])
-    props.formParams.end_time = convertDateToObject(state.date[1])
+const chooseTime = (date: any) => { // 手动选择时间
+    props.formParams.start_time = convertDateToObject(date[0])
+    props.formParams.end_time = convertDateToObject(date[1])
 }
 const seach = () => {
+
     emit('sendSeach');
 }
 
@@ -131,7 +136,7 @@ const resetFormValue = () => { state.formData.formParams = state.formInitValue }
 .login_form {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+
 
     >.seach_btn>button {
         width: 100px;

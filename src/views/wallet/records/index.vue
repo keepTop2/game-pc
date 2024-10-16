@@ -8,9 +8,8 @@
                 v-for="(item, index) in titleArr" :key="index">{{ t(item.title) }}
             </n-flex>
         </n-flex>
-        <TabForm :formParams="titleArr[0].formParams" :form-params-list="titleArr[0].formParamsList"
-            :loading="titleArr[0].loading" :columns="titleArr[0].columns" :data="titleArr[0].data"
-            @send-seach="queryData"></TabForm>
+        <TabForm :formParams="state.formParams" :form-params-list="state.formParamsList" :loading="state.loading"
+            :columns="state.columns" :data="state.data" @send-seach="queryData"></TabForm>
         <!-- <router-view></router-view> -->
     </div>
 </template>
@@ -18,7 +17,6 @@
 <script setup lang='ts'>
 import { ref, reactive, computed, onUnmounted, onMounted } from 'vue';
 import { useI18n } from "vue-i18n";
-import { useRouter } from 'vue-router';
 import TabForm from '@/components/TabForm.vue'
 import { RechagreStatusMap, WithdrawStatusMap } from '@/enums/walletEnum';
 import { NetPacket } from '@/netBase/NetPacket';
@@ -26,7 +24,6 @@ import { Net } from '@/net/Net';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { convertObjectToDateString } from '@/utils/dateTime';
-const router = useRouter();
 const withdrawOptionsStatus = computed(() => { // 状态
     const options = Object.keys(WithdrawStatusMap()).map((key: string) => {
         return {
@@ -69,6 +66,10 @@ const withdrawTableHeader = computed(() => {
 const { t } = useI18n()
 const state = reactive({
     loading: false,
+    pageData: {
+        itemCount: 1,
+        defaultPageSize: 20
+    },
     formParams: {
         page: 1,
         status: 9,
@@ -105,7 +106,7 @@ const titleArr: any = reactive([
                 options: rechargeOptionsStatus
             },
             {
-                span: 8,
+                span: 10,
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
@@ -222,9 +223,10 @@ const queryData = () => { // 查询
     let type = `req_get_${titleArr[activeTab.value].type}_record_list`
     const query = NetPacket[type]()
     if (state.formParams.start_time) {
-        query.start_time = state.formParams.start_time
-        query.end_time = state.formParams.end_time
+        Object.assign(query.start_time, state.formParams.start_time)
+        Object.assign(query.end_time, state.formParams.end_time)
     }
+    debugger
     query.page = state.formParams.page
     query.status = state.formParams.status
     query.currency = state.formParams.currency
@@ -242,6 +244,8 @@ const resultHandle = (rs: any) => { // 数据处理
     })
 }
 onMounted(() => {
+    state.columns = titleArr[activeTab.value].columns
+    state.formParamsList = titleArr[activeTab.value].formParamsList
     // 回执监听
     MessageEvent2.addMsgEvent(
         NetMsgType.msgType.msg_notify_get_withdraw_record_list,
