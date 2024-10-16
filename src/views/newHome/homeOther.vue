@@ -51,7 +51,7 @@
             最新赛事排行
           </span>
         </div>
-        <span class="more">{{ t('home_page_more') }}</span>
+        <span class="more" @click="router.push('/gameMain/ranking')">{{ t('home_page_more') }}</span>
         </p>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
@@ -205,10 +205,10 @@ import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n();
 import { ref } from "vue"
-
+import { useRouter } from 'vue-router';
 const tab_id = ref(1)
 const match_id = ref(1)
-
+const router = useRouter();
 const tabList = [
   { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
   { label: '棋牌', icon: 'jqdjiconun02', active_icon: 'jqdjiconnn02', id: 2 },

@@ -14,10 +14,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/newHome/index.vue'),
   },
   {
-    path: '/customer',
+    path: '/customer', // 聊天室
     name: 'customer',
     meta: { title: '' },
     component: () => import('@/views/home/customer.vue'),
+
   },
   {
     path: '/gameMain',
@@ -74,7 +75,13 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'home_page_club' },
         component: () => import('@/views/club/clubNext.vue'),
       },
-    ]
+      {
+        path: 'ranking',  //赛事排行
+        name: 'ranking',
+        meta: { title: 'ranking' },
+        component: () => import('@/views/newHome/ranking/index.vue'),
+      },
+    ],
   },
   // {
   //   path: '/proxy',
@@ -86,7 +93,7 @@ const routes: RouteRecordRaw[] = [
   //   ]
   // },
   {
-    path: '/wallet',
+    path: '/wallet',  //钱包
     name: 'wallet',
     redirect: { name: 'walletInfo' },
     meta: { title: 'wallet' },
@@ -138,7 +145,8 @@ const routes: RouteRecordRaw[] = [
         path: 'withdraw',
         name: 'withdraw',
         meta: { title: 'proxy_page_withDraw' },
-        component: () => import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
+        component: () =>
+          import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
       },
       {
         path: 'levelInfo',
@@ -169,55 +177,62 @@ const routes: RouteRecordRaw[] = [
             path: 'rechargeRecord',
             name: 'rechargeRecord',
             meta: { title: 'mine_myload' },
-            component: () => import('@/views/wallet/records/rechargeRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/rechargeRecord/index.vue'),
           },
           {
             path: 'withdrawRecord',
             name: 'withdrawRecord',
             meta: { title: 'mine_mywithdraw' },
-            component: () => import('@/views/wallet/records/withdrawRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/withdrawRecord/index.vue'),
           },
           {
             path: 'betRecord',
             name: 'betRecord',
             meta: { title: 'mine_mybet' },
-            component: () => import('@/views/wallet/records/betRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/betRecord/index.vue'),
           },
           {
             path: 'accountsRecord',
             name: 'accountsRecord',
             meta: { title: 'mine_myaudit' },
-            component: () => import('@/views/wallet/records/accountsRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/accountsRecord/index.vue'),
           },
           {
             path: 'auditRecord',
             name: 'auditRecord',
             meta: { title: 'recharge_inspect_record' },
-            component: () => import('@/views/wallet/records/auditRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/auditRecord/index.vue'),
           },
           {
             path: 'waterRecord',
             name: 'waterRecord',
             meta: { title: 'home_page_waterRecord' },
-            component: () => import('@/views/wallet/records/waterRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/waterRecord/index.vue'),
           },
           {
             path: 'proxyRecord',
             name: 'proxyRecord',
             meta: { title: 'proxyRecord' },
-            component: () => import('@/views/wallet/records/proxyRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/proxyRecord/index.vue'),
           },
           {
             path: 'loginRecord',
             name: 'loginRecord',
             meta: { title: 'home_page_loginRecord' },
-            component: () => import('@/views/wallet/records/loginRecord/index.vue'),
+            component: () =>
+              import('@/views/wallet/records/loginRecord/index.vue'),
           },
-        ]
+        ],
       },
-    ]
+    ],
   },
-
 ];
 const router = createRouter({
   routes,
@@ -226,17 +241,16 @@ const router = createRouter({
 
 const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
   return new Promise(async () => {
-    let timer
+    let timer;
     if (condition()) {
-      clearTimeout(timer)
-      timer = null
+      clearTimeout(timer);
+      timer = null;
       if (isNext) {
-        next(isNext)
+        next(isNext);
       } else {
-        await User(pinia).setLogin(true)
-        next('/')
+        await User(pinia).setLogin(true);
+        next('/');
       }
-
     } else {
       timer = setTimeout(() => {
         console.log(55555);
@@ -244,8 +258,8 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
         waitForCondition(condition, next, isNext);
       }, 200);
     }
-  })
-}
+  });
+};
 
 router.beforeEach(async (to: any, _from: any, next: any) => {
   // if (Local.get('user')) {
@@ -264,15 +278,13 @@ router.beforeEach(async (to: any, _from: any, next: any) => {
   //     )
   //   }
   // }
-  next()
-
-
-})
+  next();
+});
 router.afterEach(() => {
   try {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch {
-    console.error('滚动到顶部失败')
+    console.error('滚动到顶部失败');
   }
-})
+});
 export default router;
