@@ -88,7 +88,7 @@ const titleArr: any = reactive([
     {
         title: 'mine_myload',
         id: 1,
-        url: 'rechargeRecord',
+        url: 'records',
         type: 'recharge',
         formParams: {
             page: 1,

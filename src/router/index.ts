@@ -156,58 +156,57 @@ const routes: RouteRecordRaw[] = [
         path: 'records',
         name: 'records',
         meta: { title: 'records' },
-        redirect: { name: 'rechargeRecord' },
         component: () => import('@/views/wallet/records/index.vue'),
-        children: [
-          {
-            path: 'rechargeRecord',
-            name: 'rechargeRecord',
-            meta: { title: 'mine_myload' },
-            component: () => import('@/views/wallet/records/rechargeRecord/index.vue'),
-          },
-          {
-            path: 'withdrawRecord',
-            name: 'withdrawRecord',
-            meta: { title: 'mine_mywithdraw' },
-            component: () => import('@/views/wallet/records/withdrawRecord/index.vue'),
-          },
-          {
-            path: 'betRecord',
-            name: 'betRecord',
-            meta: { title: 'mine_mybet' },
-            component: () => import('@/views/wallet/records/betRecord/index.vue'),
-          },
-          {
-            path: 'accountsRecord',
-            name: 'accountsRecord',
-            meta: { title: 'mine_myaudit' },
-            component: () => import('@/views/wallet/records/accountsRecord/index.vue'),
-          },
-          {
-            path: 'auditRecord',
-            name: 'auditRecord',
-            meta: { title: 'recharge_inspect_record' },
-            component: () => import('@/views/wallet/records/auditRecord/index.vue'),
-          },
-          {
-            path: 'waterRecord',
-            name: 'waterRecord',
-            meta: { title: 'home_page_waterRecord' },
-            component: () => import('@/views/wallet/records/waterRecord/index.vue'),
-          },
-          {
-            path: 'proxyRecord',
-            name: 'proxyRecord',
-            meta: { title: 'proxyRecord' },
-            component: () => import('@/views/wallet/records/proxyRecord/index.vue'),
-          },
-          {
-            path: 'loginRecord',
-            name: 'loginRecord',
-            meta: { title: 'home_page_loginRecord' },
-            component: () => import('@/views/wallet/records/loginRecord/index.vue'),
-          },
-        ]
+        // children: [
+        //   {
+        //     path: 'rechargeRecord',
+        //     name: 'rechargeRecord',
+        //     meta: { title: 'mine_myload' },
+        //     component: () => import('@/views/wallet/records/rechargeRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'withdrawRecord',
+        //     name: 'withdrawRecord',
+        //     meta: { title: 'mine_mywithdraw' },
+        //     component: () => import('@/views/wallet/records/withdrawRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'betRecord',
+        //     name: 'betRecord',
+        //     meta: { title: 'mine_mybet' },
+        //     component: () => import('@/views/wallet/records/betRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'accountsRecord',
+        //     name: 'accountsRecord',
+        //     meta: { title: 'mine_myaudit' },
+        //     component: () => import('@/views/wallet/records/accountsRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'auditRecord',
+        //     name: 'auditRecord',
+        //     meta: { title: 'recharge_inspect_record' },
+        //     component: () => import('@/views/wallet/records/auditRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'waterRecord',
+        //     name: 'waterRecord',
+        //     meta: { title: 'home_page_waterRecord' },
+        //     component: () => import('@/views/wallet/records/waterRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'proxyRecord',
+        //     name: 'proxyRecord',
+        //     meta: { title: 'proxyRecord' },
+        //     component: () => import('@/views/wallet/records/proxyRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'loginRecord',
+        //     name: 'loginRecord',
+        //     meta: { title: 'home_page_loginRecord' },
+        //     component: () => import('@/views/wallet/records/loginRecord/index.vue'),
+        //   },
+        // ]
       },
       {
         path: 'proxyCooperation',
@@ -226,56 +225,56 @@ const routes: RouteRecordRaw[] = [
         name: 'records',
         meta: { title: 'records' },
         component: () => import('@/views/wallet/records/index.vue'),
-        children: [
-          {
-            path: 'rechargeRecord',
-            name: 'rechargeRecord',
-            meta: { title: 'mine_myload' },
-            component: () => import('@/views/wallet/records/rechargeRecord/index.vue'),
-          },
-          {
-            path: 'withdrawRecord',
-            name: 'withdrawRecord',
-            meta: { title: 'mine_mywithdraw' },
-            component: () => import('@/views/wallet/records/withdrawRecord/index.vue'),
-          },
-          {
-            path: 'betRecord',
-            name: 'betRecord',
-            meta: { title: 'mine_mybet' },
-            component: () => import('@/views/wallet/records/betRecord/index.vue'),
-          },
-          {
-            path: 'accountsRecord',
-            name: 'accountsRecord',
-            meta: { title: 'mine_myaudit' },
-            component: () => import('@/views/wallet/records/accountsRecord/index.vue'),
-          },
-          {
-            path: 'auditRecord',
-            name: 'auditRecord',
-            meta: { title: 'recharge_inspect_record' },
-            component: () => import('@/views/wallet/records/auditRecord/index.vue'),
-          },
-          {
-            path: 'waterRecord',
-            name: 'waterRecord',
-            meta: { title: 'home_page_waterRecord' },
-            component: () => import('@/views/wallet/records/waterRecord/index.vue'),
-          },
-          {
-            path: 'proxyRecord',
-            name: 'proxyRecord',
-            meta: { title: 'proxyRecord' },
-            component: () => import('@/views/wallet/records/proxyRecord/index.vue'),
-          },
-          {
-            path: 'loginRecord',
-            name: 'loginRecord',
-            meta: { title: 'home_page_loginRecord' },
-            component: () => import('@/views/wallet/records/loginRecord/index.vue'),
-          },
-        ]
+        // children: [
+        //   {
+        //     path: 'rechargeRecord',
+        //     name: 'rechargeRecord',
+        //     meta: { title: 'mine_myload' },
+        //     component: () => import('@/views/wallet/records/rechargeRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'withdrawRecord',
+        //     name: 'withdrawRecord',
+        //     meta: { title: 'mine_mywithdraw' },
+        //     component: () => import('@/views/wallet/records/withdrawRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'betRecord',
+        //     name: 'betRecord',
+        //     meta: { title: 'mine_mybet' },
+        //     component: () => import('@/views/wallet/records/betRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'accountsRecord',
+        //     name: 'accountsRecord',
+        //     meta: { title: 'mine_myaudit' },
+        //     component: () => import('@/views/wallet/records/accountsRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'auditRecord',
+        //     name: 'auditRecord',
+        //     meta: { title: 'recharge_inspect_record' },
+        //     component: () => import('@/views/wallet/records/auditRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'waterRecord',
+        //     name: 'waterRecord',
+        //     meta: { title: 'home_page_waterRecord' },
+        //     component: () => import('@/views/wallet/records/waterRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'proxyRecord',
+        //     name: 'proxyRecord',
+        //     meta: { title: 'proxyRecord' },
+        //     component: () => import('@/views/wallet/records/proxyRecord/index.vue'),
+        //   },
+        //   {
+        //     path: 'loginRecord',
+        //     name: 'loginRecord',
+        //     meta: { title: 'home_page_loginRecord' },
+        //     component: () => import('@/views/wallet/records/loginRecord/index.vue'),
+        //   },
+        // ]
       },
     ]
   },
@@ -310,22 +309,22 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
 }
 
 router.beforeEach(async (to: any, _from: any, next: any) => {
-  // if (Local.get('user')) {
-  //   await waitForCondition(
-  //     () => (wsOpen.value && loadingEnd.value), next, true
-  //   )
-  // } else {
-  //   if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
-  //     await waitForCondition(
-  //       () => wsOpen.value, next, true
-  //     )
-  //   } else {
+  if (Local.get('user')) {
+    await waitForCondition(
+      () => (wsOpen.value && loadingEnd.value), next, true
+    )
+  } else {
+    if (['home', 'gameMain', 'proxyIntroduction', 'gamingPlatform', 'gameRecords', 'gameDetail', 'activity', 'customer'].includes(to.name)) {
+      await waitForCondition(
+        () => wsOpen.value, next, true
+      )
+    } else {
 
-  //     await waitForCondition(
-  //       () => wsOpen.value, next, false
-  //     )
-  //   }
-  // }
+      await waitForCondition(
+        () => wsOpen.value, next, false
+      )
+    }
+  }
   next()
 
 
