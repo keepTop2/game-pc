@@ -1,24 +1,21 @@
-<!-- @garen：快捷选择有两种类型，现在只改了新版的快捷选择 ，旧版的快捷选择暂时不管-->
 <template>
     <n-flex :align="'center'" class="date_select" :class="'date_select_' + props.styleMode">
-        <n-flex :align="'center'" v-if="props.styleMode == 1">
-            <div class="date_item" :class="{ 'active_item': active == String(key) }" @click="changeTime(key)"
-              v-for="(val, key) in showOptions" :key="key">{{ val }}
+        <n-flex :align="'center'">
+            <div class="date_item" :class="{ 'active_item': active == key }" @click="changeTime(key)"
+                v-for="(val, key) in showOptions" :key="key">{{ val }}
             </div>
         </n-flex>
-        <n-select v-else-if="props.styleMode == 0" class=" search_select date_item" v-model:value="active"
-          :options="showOptions" />
         <n-date-picker :is-date-disabled="disabledDate" input-readonly class="date_select_box" :format="'yyyy/MM/dd'"
-          :on-confirm="chooseTime" :show-suffix="false" v-model:value="timeObj.range" type="daterange">
+            :on-confirm="chooseTime" v-model:value="timeObj.range" type="daterange">
             <template #separator>
-                <span style="color: #AEAEB0;">~</span>
+                <span style="color: #8D84C5;">-</span>
             </template>
         </n-date-picker>
     </n-flex>
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref, onMounted, computed, PropType, watch } from 'vue';
+import { reactive, ref, onMounted, computed, PropType } from 'vue';
 import { convertDateToObject } from "@/utils/dateTime"
 import { useI18n } from "vue-i18n";
 
@@ -31,7 +28,7 @@ const props = defineProps({
     fasters: { // 快捷选项
         type: Array as PropType<string[]>,
         default: () => ['1', '2', '3']
-    },
+    }
 })
 const emits = defineEmits(['submit'])
 const active = ref('2') // 当前激活快捷项
@@ -47,37 +44,17 @@ const fasterOptions: FasterOptionsType = computed(() => {
     }
 })
 const showOptions = computed(() => {
-    if (props.styleMode == 1) {
-        const obj: FasterOptionsType = {}
-        props.fasters.forEach(key => {
-            obj[key] = fasterOptions.value[key]
-        })
-        return obj
-
-    } else {
-        const arr: any = []
-        props.fasters.forEach(key => {
-            if (fasterOptions.value[key]) {
-                arr.push({
-                    label: fasterOptions.value[key],  // 对应的选项值作为 label
-                    value: key                        // key 作为 value
-                })
-            }
-        })
-        return arr
-    }
+    const obj: FasterOptionsType = {}
+    props.fasters.forEach(key => {
+        obj[key] = fasterOptions.value[key]
+    })
+    return obj
 })
 const changeTime = (key: number | string) => { // 切换快捷选项
     active.value = String(key)
     timeCalc(String(key))
     submit()
 }
-watch(() => active.value, (n) => {
-    if (props.styleMode == 0) {
-        timeCalc(String(n))
-        submit()
-    }
-})
 const chooseTime = () => { // 手动选择时间
     active.value = '0' // 清除快捷选项
     submit()
@@ -154,46 +131,11 @@ onMounted(() => {
 })
 
 </script>
+
 <style lang='less' scoped>
-@import '@/assets/recordPage.less';
 @timestamp: `new Date().getTime()`;
 
 .date_select {
-    .active_item {
-        height: 40px;
-        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
-        background-size: 100% 114%;
-        border: 1.4px solid rgba(90, 71, 178, 0);
-        color: #fff;
-    }
-
-    .date_select_box {
-        width: 246px;
-        height: 40px !important;
-        box-sizing: border-box;
-
-        :deep(.n-input) {
-            background: #14173A;
-            height: 40px;
-            font-size: 16px;
-            border: #AEAEB0 solid 2px;
-
-            .n-input__input-el {
-                height: 40px;
-                color: #AEAEB0;
-            }
-        }
-    }
-}
-
-.date_select_2 {
-    flex-direction: row-reverse !important;
-
-    .date_item {
-        width: 150px;
-        margin: 0 0 0 6px;
-    }
-
     .date_item {
         border: 1.4px solid rgba(90, 71, 178, 1);
         height: 36px;
@@ -210,6 +152,40 @@ onMounted(() => {
     }
 
     .active_item {
+        height: 36px;
+        background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
+        background-size: 100% 114%;
+        border: 1.4px solid rgba(90, 71, 178, 0);
+        color: #fff;
+    }
+
+    .date_select_box {
+        width: 350px;
+        height: 36px !important;
+        box-sizing: border-box;
+
+        :deep(.n-input) {
+            background: #372771;
+            height: 38px;
+            font-size: 16px;
+
+            .n-input__input-el {
+                height: 38px;
+                color: #8D84C5;
+            }
+        }
+    }
+}
+
+.date_select_2 {
+    flex-direction: row-reverse !important;
+
+    .date_item {
+        width: 150px;
+        margin: 0 0 0 6px;
+    }
+
+    .active_item {
         background: url('/img/home/btnBG3.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 125%;
         background-position-y: 20%;
@@ -218,32 +194,6 @@ onMounted(() => {
     .date_select_box {
         flex: 1;
         margin-right: 6px
-    }
-}
-
-.date_select_0 {
-    flex-direction: row-reverse !important;
-
-    :deep(.n-input__suffix) {
-        display: none;
-    }
-
-    .date_item {
-        width: 160px;
-        height: 36px;
-        margin: 0;
-        background: #14173A;
-        color: #fff;
-    }
-
-    .date_select_box {
-        // flex: 1;
-        height: 40px;
-        margin-right: 6px
-    }
-
-    .search_select {
-        height: 36px;
     }
 }
 </style>

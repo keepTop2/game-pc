@@ -35,17 +35,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, onUnmounted } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from "vue-i18n";
 import { TTabList } from "@/utils/types";
-// import { storeToRefs } from "pinia";
-// import pinia from "@/store";
-// import { Page } from '@/store/page';
+import { storeToRefs } from "pinia";
+import pinia from "@/store";
+import { Page } from '@/store/page';
 import Imgt from '@/components/Imgt.vue';
-import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
-import { NetPacket } from '@/netBase/NetPacket';
-import { Net } from '@/net/Net';
 
 const props = defineProps({
   isDepositBank: {
@@ -59,8 +55,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['selectBank']);
 const { t } = useI18n();
-// const page = Page(pinia);
-// const { bankListInfo } = storeToRefs(page);
+const page = Page(pinia);
+const { bankListInfo } = storeToRefs(page);
 const showBankModal = ref(false);
 // 银行列表
 const bkList = ref<any>([]);
@@ -70,75 +66,28 @@ const onCloseBank = () => {
   showBankModal.value = !showBankModal.value
 }
 
-// const handleBankList = () => {
-//   console.log('-----====', bankListInfo.value)
-//   console.log('&&&&&&&&===', props.bankAllList)
-//   if (props.isDepositBank) { // 充值
-//     bkList.value = [...props.bankAllList];
-//     const curBankArr: any = [];
-//     props.bankAllList.map((item: any) => {
-//       bankListInfo.value.map((ite: any) => {
-//         if (ite.value === item.value) {
-//           curBankArr.push({
-//             ...ite,
-//             label: item.label
-//           })
-//         }
-//       })
-//     });
-//     bkList.value = curBankArr.sort((a: any, b: any) => {
-//       return b.status - a.status
-//     });
-//   } else { // 其他 绑定银行，提现等
-//     bkList.value = [...bankListInfo.value];
-//   }
-//   originBkList.value = [...bkList.value];
-// }
-const getBankList = () => {
-  const req = NetPacket.req_bank_name_list();
-  Net.instance.sendRequest(req);
-};
-const handleBankList = (res: any) => {
-  console.log('------aaaa', res)
-  // 添加银行维护状态，0 维护，1 开启
-  const newArr = res.bank_name_list.map((item: any, index: number) => {
-    return {
-      value: item.bank_id,
-      label: item.bank_name,
-      status: res.status_list[index]
-    }
-  });
-  bkList.value = newArr.sort((a: any, b: any) => {
-    return b.status - a.status
-  });
-  originBkList.value = [...bkList.value];
-}
-// 充值单独用的银行列表
-const getDepositBankList = () => {
-  const req = NetPacket.req_pay_name_list();
-  Net.instance.sendRequest(req);
-}
-// 充值获取的银行列表
-const handleBankAllList = (res: any) => {
-  console.log('------bbb', res)
-  const curBankArr: any = [];
-  res.pay_name_list.map((item: any) => {
-    bkList.value.map((ite: any) => {
-      if (ite.value === item.pay_id) {
-        curBankArr.push({
-          ...ite,
-          label: item.pay_name
-        })
-      }
-    })
-    // return {
-    //   value: item.pay_id,
-    //   label: item.pay_name
-    // }
-  });
-  bkList.value = curBankArr.sort((a: any, b: any) => {
-    return b.status - a.status
-  });
+const handleBankList = () => {
+  // console.log('-----====', bankListInfo.value)
+  // console.log('&&&&&&&&===', props.bankAllList)
+  if (props.isDepositBank) { // 充值
+    bkList.value = [...props.bankAllList];
+    const curBankArr: any = [];
+    props.bankAllList.map((item: any) => {
+      bankListInfo.value.map((ite: any) => {
+        if (ite.value === item.value) {
+          curBankArr.push({
+            ...ite,
+            label: item.label
+          })
+        }
+      })
+    });
+    bkList.value = curBankArr.sort((a: any, b: any) => {
+      return b.status - a.status
+    });
+  } else { // 其他 绑定银行，提现等
+    bkList.value = [...bankListInfo.value];
+  }
   originBkList.value = [...bkList.value];
 }
 // 输入字符串匹配银行
@@ -165,41 +114,29 @@ const clickBank = (e: any) => {
   emit('selectBank', e)
 }
 
-// watch(
-//   () => bankListInfo.value,
-//   (n) => {
-//     console.log('999999--', n)
-//     handleBankList();
-//   },
-//   {
-//     deep: true,
-//   }
-// )
-// watch(
-//   () => showBankModal.value,
-//   (n) => {
-//     if (n) {
-//       bkList.value = [...originBkList.value]
-//     }
-//   }
-// )
+watch(
+  () => bankListInfo.value,
+  (n) => {
+    console.log('999999', n)
+    handleBankList();
+  },
+  {
+    deep: true,
+  }
+)
+watch(
+  () => showBankModal.value,
+  (n) => {
+    if (n) {
+      bkList.value = [...originBkList.value]
+    }
+  }
+)
+
 
 onMounted(() => {
-  getBankList();
-  if (props.isDepositBank) {
-    getDepositBankList();
-  } else {
-    // getBankList();
-  }
-
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, handleBankAllList);
+  handleBankList();
 })
-onUnmounted(() => {
-  // 取消监听
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, null);
-});
 
 defineExpose({
   onCloseBank

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <!-- <Sidebar /> -->
+    <Sidebar />
     <div class="content">
       <div class="announcement">
         <n-carousel draggable v-if="bannerArr">
@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-// import Sidebar from '@/components/Sidebar.vue';
+import Sidebar from '@/components/Sidebar.vue';
 import { onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 // import { NetMsgType } from "@/netBase/NetMsgType";
@@ -217,8 +217,8 @@ onUnmounted(() => {
 }
 
 .content {
-  margin: 32px 0;
-  width: 100%;
+  // margin: 32px 0 30px 90px;
+  // width: 1200px;
 
   .announcement {
     position: relative;

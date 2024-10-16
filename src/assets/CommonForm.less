@@ -138,6 +138,7 @@
 
 // 充值和提现--结束
 
+
 .form_card {
   font-size: 16px;
 
@@ -154,6 +155,18 @@
       .money_input {
         ::v-deep(.n-input-number) {
           width: 100%;
+
+          .n-input {
+            .n-input__input-el {
+              height: 100%;
+            }
+
+            .n-input__suffix {
+              button {
+                display: none;
+              }
+            }
+          }
         }
       }
 
@@ -179,38 +192,38 @@
         }
       }
 
-      //.btn_zone {
-      //  display: flex;
-      //  gap: 34px;
-      //  height: 45px;
-      //
-      //  >div {
-      //    display: flex;
-      //    align-items: center;
-      //    justify-content: center;
-      //  }
-      //
-      //  .cancel_btn {
-      //    color: #fff;
-      //    width: 100%;
-      //    border-radius: 12px;
-      //    border-style: solid;
-      //    border: 1px solid var(--c-bg-1);
-      //    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
-      //  }
-      //
-      //  .submit_btn {
-      //    width: 100%;
-      //    color: var(--c-bg-6);
-      //    border-radius: 16px;
-      //    background-image: url('/img/login/login.webp?t=@{timestamp}');
-      //    background-size: cover;
-      //
-      //    &.fixed_bg {
-      //      background-size: 100% 112%;
-      //    }
-      //  }
-      //}
+      .btn_zone {
+        display: flex;
+        gap: 34px;
+        height: 45px;
+
+        >div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .cancel_btn {
+          color: #fff;
+          width: 100%;
+          border-radius: 12px;
+          border-style: solid;
+          border: 1px solid var(--c-bg-1);
+          background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+        }
+
+        .submit_btn {
+          width: 100%;
+          color: var(--c-bg-6);
+          border-radius: 16px;
+          background-image: url('/img/login/login.webp?t=@{timestamp}');
+          background-size: cover;
+
+          &.fixed_bg {
+            background-size: 100% 112%;
+          }
+        }
+      }
 
       :deep(.n-form) {
         .n-input {
@@ -224,6 +237,9 @@
             background-color: var(--n-color);
             border-radius: 8px;
 
+            .n-input__input-el {
+              height: 100%;
+            }
           }
         }
 

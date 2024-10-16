@@ -372,6 +372,7 @@ const handleCaptchaReceive = (captcha: any) => {
 }
 
 const loginSuccess = async (message: any) => {
+  console.log(88888888, message)
   state.loading = false
   const last_user_id = localStorage.getItem('last_user_id')
   if (last_user_id != message.user_id) {

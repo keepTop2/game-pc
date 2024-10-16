@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'home',
     meta: { title: 'home' },
-    component: () => import('@/views/newHome/index.vue'),
+    component: () => import('@/views/home/index.vue'),
   },
   {
     path: '/customer',
@@ -60,7 +60,7 @@ const routes: RouteRecordRaw[] = [
         path: 'levelRule',
         name: 'levelRule',
         meta: { title: 'levelRule' },
-        component: () => import('@/views/level/rules.vue'),
+        component: () => import('@/views/wallet/level/rules.vue'),
       },
       {
         path: 'club',
@@ -144,19 +144,13 @@ const routes: RouteRecordRaw[] = [
         path: 'levelInfo',
         name: 'levelInfo',
         meta: { title: 'VIP特权' },
-        component: () => import('@/views/level/levelInfo.vue'),
+        component: () => import('@/views/wallet/level/levelInfo.vue'),
       },
       {
-        path: 'proxyCooperation',
-        name: 'proxyCooperation',
-        meta: { title: 'proxy_page_agent' },
-        component: () => import('@/views/wallet/proxyCooperation/index.vue'),
-      },
-      {
-        path: 'proxyIntroduction',
-        name: 'proxyIntroduction',
-        meta: { title: 'proxy_page_agentRule' },
-        component: () => import('@/views/wallet/proxyIntroduction/index.vue'),
+        path: 'levelRule',
+        name: 'levelRule',
+        meta: { title: 'levelRule' },
+        component: () => import('@/views/wallet/level/rules.vue'),
       },
       {
         path: 'records',

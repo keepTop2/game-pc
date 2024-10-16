@@ -15,7 +15,7 @@
 
 <script setup lang='ts'>
 import { onMounted, reactive, watch } from 'vue';
-// import Sidebar from '@/components/Sidebar.vue';
+import Sidebar from '@/components/Sidebar.vue';
 import { useRoute } from 'vue-router';
 // import { useI18n } from 'vue-i18n';
 // import { storeToRefs } from 'pinia';

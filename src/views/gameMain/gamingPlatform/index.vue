@@ -27,18 +27,18 @@
                 </div>
             </div>
         </div>
-        <GameDetail :platform_id="params.platform_id" :venue_id="params.venue_id" :name="params.name"
+        <GameDetail :platform_id="params.platform_id" :venue_id="params.venue_id" :name="params.name" :active="params.active"
             :key="params.platform_id + params.venue_id + params.name" v-if="params.platform_id" />
         <OverLoading v-model:visible="isLoading"></OverLoading>
     </div>
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
@@ -58,7 +58,7 @@ const {
     homeGameData,
 } = storeToRefs(Page(pinia));
 const imgPrefix = 'http://18.167.175.195:8033/uploads/'
-// const router = useRouter()
+const router = useRouter()
 const result: any = reactive({
     list: []
 })
@@ -165,6 +165,7 @@ const platformItemClick = async (item: any, _: number) => {
         params.platform_id = item.id
         params.venue_id = item.three_game_kind[0].id
         params.name = item.name[langs[lang.value]].toUpperCase()
+        params.active = item.id
         // router.push({
         // path: '/gameMain/gameDetail',
         // query: {
@@ -297,6 +298,7 @@ onUnmounted(() => {
                         height: 100%;
                         width: 100%;
                         pointer-events: none;
+                        color: #fff;
                     }
 
                     &.all {

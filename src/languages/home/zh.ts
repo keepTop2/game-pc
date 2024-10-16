@@ -75,6 +75,12 @@ export default {
     // 游戏部分
     home_page_all: '全部',
     home_page_more: '更多',
+    label_all: '全部',
+    label_hot: '热门',
+    label_recent: '最近',
+    label_fav: '收藏',
+    success: '成功',
+    fail: '失败',
 
     // 登录弹窗
     home_page_accountLogin: '账号登录',
@@ -176,4 +182,5 @@ export default {
     'Youtube Channel': 'Youtube频道',
     'messenger': 'messenger',
     'telegram': '小飞机',
+
 }

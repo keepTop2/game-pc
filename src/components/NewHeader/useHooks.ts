@@ -25,7 +25,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon04',
       name: 'VIP',
-      url: '/wallet/accountsRecord',
+      url: '/wallet/levelInfo',
     },
     {
       icon: 'txxlicon05',
@@ -49,15 +49,10 @@ const useHeaderHooks = () =>{
       url: '/wallet/myPromo',
     },
     {
-      icon: 'txxlicon15',
-      name: '记录',
-      url: '/wallet/records/rechargeRecord',
+      icon: 'txxlicon09',
+      name: '奖励',
+      url: '/wallet/myEmail',
     },
-    // {
-    //   icon: 'txxlicon09',
-    //   name: '奖励',
-    //   url: '/wallet/myEmail',
-    // },
     {
       icon: 'txxlicon10',
       name: '兑换码',

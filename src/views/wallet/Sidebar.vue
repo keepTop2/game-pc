@@ -84,7 +84,7 @@ const state: any = reactive({
     {
       icon: 'txxlicon05',
       name: '代理',
-      url: 'proxyCooperation',
+      url: 'agent',
     },
     {
       icon: 'txxlicon06',

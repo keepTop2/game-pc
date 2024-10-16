@@ -1,23 +1,29 @@
 <!-- 层级管理弹窗 -->
 <template>
-    <!-- 奖励派发说明 -->
-    <ModalDialog v-model:visible="showModal" title="proxy_page_tagManage">
-        <template #content>
-            <div class="model_box level_manage">
-                <div class="model_box_content content">
-                    <div class="subtitle">{{ t('proxy_page_account') }}</div>
-                    <div class="item" style="padding: 0 16px">{{ levelInfo.username || '--' }}</div>
-                    <div class="subtitle">{{ t('proxy_page_agentCj') }}</div>
-                    <n-select class="item" v-model:value="level" :options="levels" />
-                    <div class="tip">{{ t('proxy_page_tips') }}</div>
-                    <div class="btns">
-                        <!-- <div class="btn" @click="closeModal">{{ t('proxy_page_close') }}</div> -->
-                        <div class="btn n-button" @click="submitData">{{ t('proxy_page_modify') }}</div>
-                    </div>
+    <n-modal v-model:show="showModal" :mask-closable="false">
+        <div class="model_box level_manage">
+
+            <div class="model_box_title">
+                <span>{{ t('proxy_page_tagManage') }}</span>
+                <iconpark-icon @click="closeModal" class="box_title_close" name="tanctongyguanb"
+                    size="1rem"></iconpark-icon>
+            </div>
+
+            <div class="model_box_content content">
+                <div class="subtitle">{{ t('proxy_page_account') }}</div>
+                <div class="item" style="padding: 0 16px">{{ levelInfo.username || '--' }}</div>
+                <div class="subtitle">{{ t('proxy_page_agentCj') }}</div>
+                <n-select class="item" v-model:value="level" :options="levels" />
+                <div class="tip">{{ t('proxy_page_tips') }}</div>
+                <div class="btns">
+                    <div class="btn" @click="closeModal">{{ t('proxy_page_close') }}</div>
+                    <n-spin :show="loading">
+                        <div class="btn primary_btn" @click="submitData">{{ t('proxy_page_modify') }}</div>
+                    </n-spin>
                 </div>
             </div>
-        </template>
-    </ModalDialog>
+        </div>
+    </n-modal>
 </template>
 
 <script setup lang='ts'>
@@ -29,7 +35,6 @@ import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { Message } from "@/utils/discreteApi";
 import { useI18n } from "vue-i18n";
-import ModalDialog from '@/components/ModalDialog.vue';
 
 const { t } = useI18n()
 const emits = defineEmits(['success'])
@@ -134,9 +139,9 @@ defineExpose({
             line-height: 40px;
             border-radius: 12px;
             box-sizing: border-box;
-            // background-color: #1D0E4A;
+            background-color: #1D0E4A;
             color: #fff;
-            border: #AEAEB0 solid 2px;
+            border: 1px solid #322C59;
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.4) inset;
 
             ::v-deep(.n-base-selection) {
@@ -159,7 +164,7 @@ defineExpose({
 
         .tip {
             margin-bottom: 40px;
-            color: #AEAEB0;
+            color: #8E82C2;
             text-align: right;
         }
 
@@ -169,14 +174,22 @@ defineExpose({
             justify-content: space-between;
 
             .btn {
-                width: 100%;
-                height: 40px;
+                width: 170px;
+                height: 46px;
+                border: 1px solid;
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(175, 158, 255, 0.1) 100%);
+                border: none;
+                border-radius: 12px;
                 font-size: 18px;
                 color: #EBEFFF;
                 cursor: pointer;
-                margin-left: 0;
             }
 
+            .primary_btn {
+                color: #fff;
+                background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
+                background-size: 100% 112%;
+            }
         }
     }
 }

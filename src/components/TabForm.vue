@@ -1,9 +1,9 @@
 <template>
     <div class="login_form">
 
-        <n-form ref="formRef" :model="state.formParams" label-placement="left">
+        <n-form ref="formRef" :model="props.formParams" label-placement="left">
             <n-grid :cols="24" :x-gap="24">
-                <template v-for="(item, i) in state.formParamsList" :key="i">
+                <template v-for="(item, i) in props.formParamsList" :key="i">
                     <n-form-item-gi :span="item.span" :label="item.label" :path="item.path">
                         <n-select v-if="item.type == 'select'" v-model:value="state.formParams[item.path]"
                             :placeholder="item.placeholder" :options="item.options" />
@@ -16,7 +16,7 @@
                 <n-gi :span="8">
                     <div style="display: flex; justify-content: flex-end">
                         <n-button round type="primary" @click="handleValidateButtonClick">
-                            验证
+                            搜索
                         </n-button>
                     </div>
                 </n-gi>
@@ -35,7 +35,23 @@ import { useI18n } from 'vue-i18n';
 import { NButton } from "naive-ui";
 const { t } = useI18n();
 const emit = defineEmits(['changeTab', 'submitData', 'nextChange']);
+const props = defineProps({
 
+    formParams: {
+        type: Object,
+    },
+    formParamsList: {
+        type: Array<any>,
+    },
+    addBtn: {
+        type: Boolean,
+    },
+
+    rules: {
+        // 参数验证示例  如果是模糊搜索 则不传该参数
+        type: Object,
+    },
+})
 const formRef = ref();
 
 const state: any = reactive({
