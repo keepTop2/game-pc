@@ -11,7 +11,7 @@ import CommonForm from '@/components/CommonForm.vue';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { User } from '@/store/user';
-import { Page } from '@/store/page';
+// import { Page } from '@/store/page';
 import { Wallet } from '@/store/wallet';
 import { testBankCard, testBankName, replaceChinese } from '@/utils/is';
 
@@ -78,9 +78,9 @@ const form: any = reactive({
       name: 'bank',
       label: 'addBank_page_pChooseBank',
       placeholder: 'addBank_page_pChoose',
-      // hasPop: true,
+      disabled: true,
       // opts: bkList.value,
-      inputFilter: true, // 是否输入过滤
+      // inputFilter: true, // 是否输入过滤
       showRight: true,
       btnText: 'deposit_page_changeWay',
       chooseBank: { label: '', value: '' }, // 选择的银行卡
@@ -227,14 +227,14 @@ const selectBank = (e: any) => {
   form.data.bank = e.value;
   form.fields.bank.chooseBank = e;
 }
-const getBankList = () => {
-  const req = NetPacket.req_bank_name_list();
-  Net.instance.sendRequest(req);
-};
+// const getBankList = () => {
+//   const req = NetPacket.req_bank_name_list();
+//   Net.instance.sendRequest(req);
+// };
 
-const handleBankList = async (res: any) => {
-  await Page(pinia).setBankListInfo(res.bank_name_list, res.status_list)
-};
+// const handleBankList = async (res: any) => {
+//   await Page(pinia).setBankListInfo(res.bank_name_list, res.status_list)
+// };
 
 watch(
   () => props.myBankName,
@@ -257,9 +257,9 @@ watch(
 )
 
 onMounted(() => {
-  getBankList();
+  // getBankList();
   setBaseData();
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, handleBankList);
   // 绑定银行卡
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
   // 监听手机号验证码返回
@@ -270,7 +270,7 @@ onMounted(() => {
 });
 onUnmounted(() => {
   // 取消监听
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
+  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_bank_name_list, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
 });

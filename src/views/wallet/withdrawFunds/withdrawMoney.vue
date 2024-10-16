@@ -4,12 +4,14 @@
     :myBankList="mySecBankList" />
 
   <div class="list_box bg_color">
-    <div class="txt_title">{{ t('提款方式') }}</div>
+    <div class="txt_title">{{t('提款方式')}}</div>
     <n-flex class="body vertical center t_md">
       <!-- 列表选择 -->
       <n-flex justify="center" align="center"
-        :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curPayWay.paymethod == item.paymethod ? 'active' : ''}`"
-        v-for="(item, index) in wayArray" @click="chooseWay(item)" :key="index">
+              :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curPayWay.paymethod == item.paymethod ? 'active' : ''}`"
+              v-for="(item, index) in wayArray"
+              @click="chooseWay(item)"
+              :key="index">
         <div v-if="item.status === 0" class="bank_wh">
           <Imgt src="/img/payment/wh_bank.webp" />
           <span>{{ t('addBank_page_bankPay_wh') }}</span>
@@ -47,38 +49,35 @@
 
   <div class="form_container vertical bg_color">
     <div class="body vertical center t_md body_sec">
-      <n-form ref="formRef" class="w_full" :model="form" :rules="rules">
-        <!-- <n-form-item :label="t('walletInfo_page_availableMount')">
-          <n-flex justify="center" align="center" class="wit_not_finish" v-if="isHasOrder">
-            {{ t('withdraw_page_fail_wait') }} </n-flex>
-          <n-input size="large" disabled v-model:value="form.maxValue" />
-        </n-form-item> -->
-        <n-form-item>
-          <div class="item_box">
-            <div class="withdraw_item can_withdraw">
-              <span class="text"> {{ t('withdraw_page_canAmount') }}：</span>
-              <span class="amount">{{ form.maxValue }}</span>
-              <div class="link_positon" @click="onCloseSec"> {{ t('withdraw_page_cunqu') }}</div>
-            </div>
-            <div class="line"></div>
-            <div class="withdraw_item">
-              <span class="text"> {{ t('withdraw_page_locknAmount') }}：</span>
-              <span class="amount">{{ withdrawData.canot_withdraw }}</span>
-              <div class="link_positon" @click="$router.push('auditRecord')"> {{ t('withdraw_page_lockedDetail') }}
-              </div>
-            </div>
-            <div class="withdraw_item">
-              <span class="text"> {{ t('withdraw_page_needFlowAmount') }}：</span>
-              <span class="amount">{{ withdrawData.turnover }}</span>
-            </div>
-          </div>
+      <n-form ref="formRef" label-placement="left" class="w_full" :model="form" :rules="rules">
+
+        <n-form-item class="not_input input_avi" :label="t('withdraw_page_canAmount')">
+          <n-input autocomplete="off" readonly size="large" v-model:value="form.maxValue" >
+            <template #suffix>
+              <div class="pointer gradient_txt" @click="onCloseSec"> {{ t('withdraw_page_cunqu') }}</div>
+            </template>
+          </n-input>
+        </n-form-item>
+        <n-form-item class="not_input" :label="t('withdraw_page_locknAmount')">
+          <n-input autocomplete="off" readonly size="large" v-model:value="withdrawData.canot_withdraw" >
+            <template #suffix>
+              <div class="pointer gradient_txt" @click="$router.push('auditRecord')"> {{ t('withdraw_page_lockedDetail') }}</div>
+            </template>
+          </n-input>
+        </n-form-item>
+        <n-form-item class="not_input" :label="t('withdraw_page_needFlowAmount')">
+          <n-input autocomplete="off" readonly size="large" v-model:value="withdrawData.turnover" >
+          </n-input>
         </n-form-item>
         <!-- 银行卡提款 -->
         <n-flex v-show="curPayWay.paymethod == '1'" justify="space-between">
           <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
-            <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
-              :options="[{ label: t('paymentManagement_page_chBank'), value: 0 }, ...myBankList.bank_card_info_list.map((item: any) => { return { label: item.bank_name, value: item.bank_id } })]" />
-            <!--            <div class="selectBank">
+            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('walletInfo_page_selectBank')">
+              <template #suffix>
+                <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
+              </template>
+            </n-input>
+<!--            <div class="selectBank">
               <div class="bankName">
                 <div class="icon">
                   <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
@@ -95,17 +94,18 @@
               </div>
             </div>-->
           </n-form-item>
-          <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay')
-            }}</n-button>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
         </n-flex>
         <!-- usdt提款 -->
-        <n-flex v-show="curPayWay.paymethod == '2'" justify="space-between">
+        <n-flex v-show="curPayWay.paymethod == '2'"  justify="space-between">
           <n-form-item :label="t('选择USDT地址')" style="flex: 1;">
-            <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
-              :options="[{ label: t('paymentManagement_page_chBank'), value: 0 }, ...usdtBankList]" />
+            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('walletInfo_page_selectBank')">
+              <template #suffix>
+                <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
+              </template>
+            </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5"
-            @click="openBankListInfo">{{ t('更换') }}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
         </n-flex>
 
         <n-flex justify="space-between">
@@ -116,11 +116,11 @@
               v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
             </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5"
-            @click="form.amount = ''">{{ t('重置') }}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="form.amount = ''">{{t('重置')}}</n-flex>
         </n-flex>
         <n-flex class="kjje_div">
-          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)" :key="index">
+          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
+             :key="index">
             {{ item.label }}
           </a>
         </n-flex>
@@ -141,18 +141,38 @@
           </n-flex>
         </n-flex>
 
-        <n-flex class="kjje_div">
-          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)" :key="index">
-            {{ item.label }}
-          </a>
-        </n-flex>
       </n-form>
-      <div class="btn_zone flex w_full">
-        <div class="submit_btn  weight_5 center pointer" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}
-        </div>
+      <div class="btn_zone">
+        <n-flex align="center" justify="center" class="submit_btn weight_5 pointer button_color" @click="onSubmit">{{ t('walletInfo_page_immediatelyMon') }}
+        </n-flex>
       </div>
       <div v-show="form.amount" class="cz_tips">
-        <div class="txt"> {{ t('deposit_page_arrival') }}：{{ form.amount }} </div>
+        <div class="txt">
+          <n-flex class="txt_con" align="center" justify="center">
+            <span>{{ t('deposit_page_arrival') }}：{{ form.amount }}</span>
+            <n-tooltip placement="top-end" trigger="hover">
+              <template #trigger>
+                <iconpark-icon class="pointer" icon-id="iconyiwen" size=".8rem"></iconpark-icon>
+              </template>
+              <div
+                style="
+                width: 224px;
+                height: 80px;
+                padding: 14px;
+                /*background:  rgba(33, 36, 67, 1);*/
+                /*border: 1px solid rgba(38, 41, 76, 1)*/
+              "
+              >
+                交易金额包括交易手续费和税费
+                兑换汇率：₫1223=1USDT
+              </div>
+            </n-tooltip>
+          </n-flex>
+        </div>
+        <n-flex justify="center" align="center" class="tip">
+<!--          <span class="icon"></span>-->
+          <span> {{ t('Kindtips') }} </span>
+        </n-flex>
       </div>
     </div>
 
@@ -162,11 +182,11 @@
         <div class="pay_pwd_con">
           <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
             <n-input ref="inputRef" autocomplete="off" v-model:value="closeForm.withdraw_password"
-              :type="changeRightInfo.type" @keydown.enter.prevent>
+                     :type="changeRightInfo.type" @keydown.enter.prevent>
             </n-input>
           </n-form-item>
           <n-flex align="center" justify="center" class="button_color button" @click="sendChangeCole(2)">
-            {{ t('home_page_confirm') }}
+            {{t('home_page_confirm')}}
           </n-flex>
         </div>
       </template>
@@ -215,7 +235,7 @@ const baseObj = {
   maxValue: '0', // 可提现金额
   password: '',
   amount: '', // 金额
-  bank: 0, // 银行
+  bank: '', // 银行
   address: '', // 银行卡号
   way: '1', // 1 银行卡，2 USTD
 }
@@ -405,9 +425,9 @@ const handleCloseSend = (type: any) => {
   // 开启走这里
   sendChangeCole(1)
 };
-const sendChangeCole = (type = 1) => {
+const sendChangeCole = (type=1) => {
   if (type == 2 && !closeForm.value.withdraw_password) {
-    return Message.error(t('资金密码不能为空'))
+   return Message.error(t('资金密码不能为空'))
   }
   const req = NetPacket.req_open_or_close_withdraw_password();
   req.role_id = roleInfo.value.id;
@@ -450,8 +470,8 @@ const withdrawData = ref({
 // 设置可提现金额
 const setCanWithDrawMon = (data: any) => {
   console.log('--setCanWithDrawMon--', data);
-  withdrawData.value.turnover = data?.turnover
-  withdrawData.value.canot_withdraw = data?.canot_withdraw
+  withdrawData.value.turnover = verifyNumberComma(String(data?.turnover))
+  withdrawData.value.canot_withdraw = verifyNumberComma(String(data?.canot_withdraw))
   if (isCanWithdraw.value) {
     form.value.maxValue = verifyNumberComma(String(data.can_withdraw))
   } else { // 不可以提现，可提现金额置为 0
@@ -575,9 +595,24 @@ const railStyle = ({ focused, checked }: {
 @import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
 
-.deposit_modal {
+.pay_pwd_con {
+  padding: 50px 87px 100px;
+  :deep(.n-form-item-label__text) {
+    color: #fff;
+  }
+  .button {
+    width: 330px;
+    height: 40px;
+    margin-top: 20px;
+  }
+}
+.mr_t_5 {
+  margin-top: 6px;
+}
+.form_container {
+  margin-top: 20px;
+  padding: 40px;
   font-size: 16px;
-  width: 650px !important;
 
   .hideInput {
     position: absolute;
@@ -596,95 +631,78 @@ const railStyle = ({ focused, checked }: {
       height: 100%;
       border-radius: 12px;
     }
-
-    .item_box {
-      display: flex;
-      flex-direction: column;
-      background: #20114C;
-      width: 100%;
-      border-radius: 10px;
-
-      .withdraw_item {
-        padding: 10px;
-        position: relative;
-
-        .link_positon {
-          position: absolute;
-          right: 10px;
-          top: 10px;
-          text-decoration: underline;
-          cursor: pointer;
+    .not_input {
+      :deep(.n-input__input-el) {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      &.input_avi {
+        :deep(.n-input__input-el) {
+          color: rgba(250, 201, 5, 1);
         }
       }
-
-      .can_withdraw {
-        font-size: 18px;
-
-        .amount {
-          font-size: 18px;
-          color: #F1C232;
-          font-weight: bold;
-        }
-
-        border-bottom: 1px solid #3C3671;
+      .pointer {
+        font-size: 16px;
       }
-
     }
+    //.item-list {
+    //  width: 536px;
+    //  height: 96px;
+    //  padding: 15px 17px 10px;
+    //  background: url('/img/payment/listBg.webp?t=@{timestamp}') center no-repeat;
+    //  background-size: 100%;
+    //
+    //  &.active {
+    //    background-image: url('/img/payment/listBg_active.webp?t=@{timestamp}');
+    //  }
+    //
+    //  .item-list-l {
+    //
+    //    .bank-icon {
+    //      img {
+    //        width: 50px;
+    //        height: 50px;
+    //      }
+    //    }
+    //
+    //    .bank-txt {
+    //      padding-top: 3px;
+    //
+    //      .bank-name {
+    //        .wh-icon {
+    //          width: 16px;
+    //          height: 16px;
+    //          background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
+    //          background-size: 100%;
+    //        }
+    //      }
+    //
+    //      .bank-limit {
+    //        margin-top: 13px;
+    //        color: #fabb2d;
+    //      }
+    //    }
+    //  }
+    //
+    //  .item-list-r {
+    //    a {
+    //      margin-top: 8px;
+    //      display: inline-block;
+    //      text-align: center;
+    //      width: 90px;
+    //      height: 36px;
+    //      line-height: 36px;
+    //      background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
+    //      background-size: 100%;
+    //    }
+    //  }
+    //
+    //}
 
-    .item-list {
-      width: 536px;
-      height: 96px;
-      padding: 15px 17px 10px;
-      background: url('/img/payment/listBg.webp?t=@{timestamp}') center no-repeat;
-      background-size: 100%;
-
-      &.active {
-        background-image: url('/img/payment/listBg_active.webp?t=@{timestamp}');
-      }
-
-      .item-list-l {
-
-        .bank-icon {
-          img {
-            width: 50px;
-            height: 50px;
-          }
-        }
-
-        .bank-txt {
-          padding-top: 3px;
-
-          .bank-name {
-            .wh-icon {
-              width: 16px;
-              height: 16px;
-              background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
-              background-size: 100%;
-            }
-          }
-
-          .bank-limit {
-            margin-top: 13px;
-            color: #fabb2d;
-          }
-        }
-      }
-
-      .item-list-r {
-        a {
-          margin-top: 8px;
-          display: inline-block;
-          text-align: center;
-          width: 90px;
-          height: 36px;
-          line-height: 36px;
-          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
-          background-size: 100%;
-        }
-      }
-
+    .kjje_div {
+      margin-top: 30px;
+      margin-bottom: 30px;
     }
-
     .btn {
       color: #fff;
       height: 40px !important;
@@ -757,7 +775,6 @@ const railStyle = ({ focused, checked }: {
       .switch_box {
         position: relative;
         margin-top: 10px;
-
         .coverSwitch {
           position: absolute;
           width: 60px;
@@ -769,14 +786,12 @@ const railStyle = ({ focused, checked }: {
           .n-switch__rail {
             width: 50px !important;
             height: 20px !important;
-
             .n-switch__button {
               width: 16px;
               height: 16px;
               left: 0;
             }
           }
-
           &.n-switch--active {
             .n-switch__button {
               left: calc(100% - 16px);
@@ -788,18 +803,6 @@ const railStyle = ({ focused, checked }: {
 
     }
 
-    .kjje_div {
-      gap: 20px !important;
-
-      .kj_item {
-        width: 110px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-    }
 
   }
 }

@@ -1,5 +1,5 @@
 <template>
-    <n-modal :show="showForm" :mask-closable="false">
+    <n-modal class="tips_sm_modal" :show="showForm" :mask-closable="false">
         <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
             <div class="form_container vertical">
                 <div class="header rel center">
@@ -9,7 +9,7 @@
                             size="1rem"></iconpark-icon>
                     </span>
                 </div>
-                <div class="body vertical center t_md">
+                <div class="body_box vertical center t_md">
                     <div v-if="tabList?.length && curShowTab" class="tab center">
                         <span :class="activeTab === value ? 'pointer active' : 'pointer'"
                             v-for="({ label, value }) in tabList" :key="value" @click="emits('changeTab', value)">
@@ -32,11 +32,14 @@
 
                                 <n-flex v-if="!item.hasPop && item.name === 'bank'" align="center"
                                     class="choose-bank-l">
-                                    <span class="bank-cicon" v-if="item.chooseBank.value">
-                                        <Imgt :src="`/img/bankIcon/bank_logo_${item.chooseBank.value}.webp`"
-                                            :alt="item.chooseBank.label" />
-                                    </span>
-                                    <span class="bank-cname"> {{ item.chooseBank.label }} </span>
+                                  <n-input
+                                           :type="item.type || 'text'" size="large" v-model:value="item.chooseBank.label"
+                                           :disabled="item?.disabled"
+                                           :placeholder="item.placeholder ? t(`${item.placeholder}`) : ''" >
+                                    <template #suffix>
+                                      <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
+                                    </template>
+                                  </n-input>
                                 </n-flex>
 
                                 <n-input v-if="!item.hasPop && item.name !== 'bank'" clearable
@@ -53,19 +56,18 @@
                         </template>
                     </n-form>
                     <div class="btn_zone flex w_full">
-                        <div v-if="cancel" class="button cancel_btn t-lg weight_5 center pointer" block
-                            @click="emits('onCancel')">{{ cancel
-                            }}</div>
-                        <div :class="!!cancel && 'fixed_bg'" class="button submit_btn t-lg weight_5 center pointer"
+                        <n-flex align="center" justify="center" v-if="cancel" class="button cancel_btn weight_5 pointer" block
+                            @click="emits('onCancel')">{{ cancel }}</n-flex>
+                        <n-flex align="center" justify="center" :class="!!cancel && 'fixed_bg'" class="button_color button submit_btn weight_5 pointer"
                             block @click="emits('onSubmit')">
                             {{ submitText }}
-                        </div>
+                        </n-flex>
                     </div>
 
-                    <n-flex v-if="showMyBank?.show" align="center" class="bottom-tip">
+<!--                    <n-flex v-if="showMyBank?.show" align="center" class="bottom-tip">
                         <span class="gth-icon"></span>
                         {{ t('paymentManagement_page_max_bank', { num: showMyBank.length || 0 }) }}
-                    </n-flex>
+                    </n-flex>-->
 
                 </div>
             </div>
@@ -77,7 +79,7 @@
 import { TForm, TTabList } from '@/utils/types/formTypes';
 import { onMounted, ref } from 'vue';
 import { useI18n } from "vue-i18n";
-import Imgt from '@/components/Imgt.vue';
+// import Imgt from '@/components/Imgt.vue';
 
 const props = defineProps<{
     title: string;
@@ -105,4 +107,27 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
+// 弹窗提示
+.tips_sm_modal {
+  &.form_card {
+    width: 504px !important;
+
+    :deep(.n-card__content) {
+      padding: 0 !important;
+
+      .header {
+        position: relative;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 2px solid rgba(38, 41, 76, 1);
+
+        .close {
+          right: 20px;
+        }
+      }
+    }
+  }
+}
 </style>
