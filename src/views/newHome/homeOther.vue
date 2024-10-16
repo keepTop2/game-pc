@@ -269,6 +269,7 @@ const matchClick = (i: any) => {
     gap: 55px;
     margin-left: 32px;
 
+
     div {
       cursor: pointer;
       display: flex;
