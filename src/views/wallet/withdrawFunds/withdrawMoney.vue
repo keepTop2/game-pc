@@ -4,14 +4,12 @@
     :myBankList="mySecBankList" />
 
   <div class="list_box bg_color">
-    <div class="txt_title">{{t('提款方式')}}</div>
+    <div class="txt_title">{{ t('提款方式') }}</div>
     <n-flex class="body vertical center t_md">
       <!-- 列表选择 -->
       <n-flex justify="center" align="center"
-              :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curPayWay.paymethod == item.paymethod ? 'active' : ''}`"
-              v-for="(item, index) in wayArray"
-              @click="chooseWay(item)"
-              :key="index">
+        :class="`item_list ${item.status === 0 ? 'wh_item' : ''} ${curPayWay.paymethod == item.paymethod ? 'active' : ''}`"
+        v-for="(item, index) in wayArray" @click="chooseWay(item)" :key="index">
         <div v-if="item.status === 0" class="bank_wh">
           <Imgt src="/img/payment/wh_bank.webp" />
           <span>{{ t('addBank_page_bankPay_wh') }}</span>
@@ -79,8 +77,8 @@
         <n-flex v-show="curPayWay.paymethod == '1'" justify="space-between">
           <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
             <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
-                      :options="[{label: t('paymentManagement_page_chBank'), value: 0}, ...myBankList.bank_card_info_list.map((item: any) => {return {label: item.bank_name, value: item.bank_id}})]" />
-<!--            <div class="selectBank">
+              :options="[{ label: t('paymentManagement_page_chBank'), value: 0 }, ...myBankList.bank_card_info_list.map((item: any) => { return { label: item.bank_name, value: item.bank_id } })]" />
+            <!--            <div class="selectBank">
               <div class="bankName">
                 <div class="icon">
                   <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
@@ -95,18 +93,19 @@
                       backItemInfo.account_number.length) }}
                 </span>
               </div>
-            </div>
+            </div>-->
           </n-form-item>
           <n-button :bordered="false" class="btn" @click="openBankListInfo">{{ t('deposit_page_changeWay')
             }}</n-button>
         </n-flex>
         <!-- usdt提款 -->
-        <n-flex v-show="curPayWay.paymethod == '2'"  justify="space-between">
+        <n-flex v-show="curPayWay.paymethod == '2'" justify="space-between">
           <n-form-item :label="t('选择USDT地址')" style="flex: 1;">
             <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
-                      :options="[{label: t('paymentManagement_page_chBank'), value: 0}, ...usdtBankList]" />
+              :options="[{ label: t('paymentManagement_page_chBank'), value: 0 }, ...usdtBankList]" />
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5"
+            @click="openBankListInfo">{{ t('更换') }}</n-flex>
         </n-flex>
 
         <n-flex justify="space-between">
@@ -117,11 +116,11 @@
               v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
             </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="form.amount = ''">{{t('重置')}}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5"
+            @click="form.amount = ''">{{ t('重置') }}</n-flex>
         </n-flex>
         <n-flex class="kjje_div">
-          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
-             :key="index">
+          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)" :key="index">
             {{ item.label }}
           </a>
         </n-flex>
@@ -143,8 +142,7 @@
         </n-flex>
 
         <n-flex class="kjje_div">
-          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
-            :key="index">
+          <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)" :key="index">
             {{ item.label }}
           </a>
         </n-flex>
@@ -164,11 +162,11 @@
         <div class="pay_pwd_con">
           <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
             <n-input ref="inputRef" autocomplete="off" v-model:value="closeForm.withdraw_password"
-                     :type="changeRightInfo.type" @keydown.enter.prevent>
+              :type="changeRightInfo.type" @keydown.enter.prevent>
             </n-input>
           </n-form-item>
           <n-flex align="center" justify="center" class="button_color button" @click="sendChangeCole(2)">
-            {{t('home_page_confirm')}}
+            {{ t('home_page_confirm') }}
           </n-flex>
         </div>
       </template>
@@ -407,9 +405,9 @@ const handleCloseSend = (type: any) => {
   // 开启走这里
   sendChangeCole(1)
 };
-const sendChangeCole = (type=1) => {
+const sendChangeCole = (type = 1) => {
   if (type == 2 && !closeForm.value.withdraw_password) {
-   return Message.error(t('资金密码不能为空'))
+    return Message.error(t('资金密码不能为空'))
   }
   const req = NetPacket.req_open_or_close_withdraw_password();
   req.role_id = roleInfo.value.id;
@@ -759,6 +757,7 @@ const railStyle = ({ focused, checked }: {
       .switch_box {
         position: relative;
         margin-top: 10px;
+
         .coverSwitch {
           position: absolute;
           width: 60px;
@@ -770,12 +769,14 @@ const railStyle = ({ focused, checked }: {
           .n-switch__rail {
             width: 50px !important;
             height: 20px !important;
+
             .n-switch__button {
               width: 16px;
               height: 16px;
               left: 0;
             }
           }
+
           &.n-switch--active {
             .n-switch__button {
               left: calc(100% - 16px);
