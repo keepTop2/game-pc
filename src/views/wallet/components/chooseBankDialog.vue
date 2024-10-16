@@ -1,6 +1,6 @@
 <template>
   <!-- 选择银行弹窗 -->
-  <n-modal class="deposit_sm_modal" :show="showBankModal" :mask-closable="false">
+  <n-modal class="tips_sm_modal" :show="showBankModal" :mask-closable="false">
     <n-card class="form_card" :bordered="false" size="huge" role="dialog" aria-modal="true">
       <div class="form_container vertical">
         <div class="header rel center">
@@ -9,7 +9,7 @@
             <iconpark-icon @click="onCloseBank" icon-id="tanctongyguanb" color="#fff" size="1.5em"></iconpark-icon>
           </span>
         </div>
-        <div class="body vertical center t_md body_sec">
+        <div class="body_bank_list vertical">
           <n-input size="large" @input="handleInput" :placeholder="t('deposit_page_inputBank')">
             <template #suffix>
               <a class="refresh_icon search_icon"></a>
@@ -210,64 +210,92 @@ defineExpose({
 <style lang="less" scoped>
 @import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
+// 弹窗提示
+.tips_sm_modal {
+  &.form_card {
+    width: 504px !important;
 
-// 选择银行
-.bank_list {
-  width: 100%;
-  min-width: 492px;
-  margin: 0 auto;
-  gap: 20px 18px !important;
-  max-height: 310px;
-  overflow-y: auto;
+    :deep(.n-card__content) {
+      padding: 0 !important;
 
-  .bank_item {
-    position: relative;
-    cursor: pointer;
-    font-size: 14px;
-    width: 176px;
-    height: 46px;
-    background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
-    background-size: 100%;
+      .header {
+        position: relative;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 2px solid rgba(38, 41, 76, 1);
 
-    &:active {
-      transform: scale(.95);
-    }
-
-    &.wh_item {
-      pointer-events: none;
-    }
-
-    .bank_wh {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      background: rgba(0, 0, 0, .7);
-      width: 100%;
-      height: 100%;
-      border-radius: 8px;
-
-      span {
-        margin-left: 5px;
+        .close {
+          right: 20px;
+        }
       }
-    }
-
-    .bank_l_icon {
-      display: flex;
-      width: 28px;
-      height: 28px;
-      margin-left: 8px;
-      border-radius: 50%;
-
-      img {
-        width: 100%;
-        border-radius: 50%;
-      }
-    }
-
-    .bank_l_name {
-      max-width: 120px;
     }
   }
 }
+
+// 选择银行
+.body_bank_list {
+  padding: 40px;
+
+  .bank_list {
+    width: 100%;
+    min-width: 492px;
+    margin: 0 auto;
+    gap: 20px 18px !important;
+    max-height: 310px;
+    overflow-y: auto;
+
+    .bank_item {
+      position: relative;
+      cursor: pointer;
+      font-size: 14px;
+      width: 176px;
+      height: 46px;
+      background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
+      background-size: 100%;
+
+      &:active {
+        transform: scale(.95);
+      }
+
+      &.wh_item {
+        pointer-events: none;
+      }
+
+      .bank_wh {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        background: rgba(0, 0, 0, .7);
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+
+        span {
+          margin-left: 5px;
+        }
+      }
+
+      .bank_l_icon {
+        display: flex;
+        width: 28px;
+        height: 28px;
+        margin-left: 8px;
+        border-radius: 50%;
+
+        img {
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      .bank_l_name {
+        max-width: 120px;
+      }
+    }
+  }
+}
+
 </style>

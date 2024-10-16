@@ -102,7 +102,7 @@
     }
   }
   .btn_zone {
-    margin: 60px auto 20px;
+    margin: 0 auto 0;
     .submit_btn {
       width: 330px;
       height: 40px;
@@ -147,9 +147,9 @@
 
   .form_container {
 
-    .body {
+    .body_box {
       gap: 20px;
-      padding: 40px 60px;
+      padding: 50px 87px;
 
       .money_input {
         ::v-deep(.n-input-number) {
@@ -214,18 +214,25 @@
 
       :deep(.n-form) {
         .n-input {
-          border-radius: 12px;
+          border-radius: 8px;
 
           .n-input-wrapper {
+            padding-left: 12px;
+            padding-right: 12px;
             height: 40px;
             font-size: 16px;
             background-color: var(--n-color);
+            border-radius: 8px;
 
           }
         }
 
         .n-form-item {
+          display: block;
           .n-form-item-label {
+            height: 22px;
+            line-height: 1;
+            min-height: auto;
             color: #fff;
           }
 
@@ -235,44 +242,18 @@
           }
 
           .choose-bank-l {
-            gap: 10px !important;
-            width: 270px;
-            height: 38px;
-            padding-left: 8px;
-            background: url('/img/payment/inputBg.webp?t=@{timestamp}') center no-repeat;
-            background-size: 100%;
-
-            .bank-cicon {
-              display: flex;
-              width: 24px;
-              height: 24px;
-              border-radius: 50%;
-              background: #fff;
-              border: solid 1.5px #d6cdff;
-
-              img {
-                width: 100%;
-                border-radius: 50%;
-              }
-            }
-
-            .bank-cname {
-              width: 220px;
-              line-height: 16px;
-            }
+            flex: 1;
           }
 
-          //.change-btn {
-          //  border-radius: 0;
-          //  font-size: 16px;
-          //  color: #fff;
-          //  text-align: center;
-          //  width: 90px;
-          //  height: 36px;
-          //  line-height: 36px;
-          //  background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
-          //  background-size: 100%;
-          //}
+          .change-btn {
+            border-radius: 8px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+          }
 
         }
       }
