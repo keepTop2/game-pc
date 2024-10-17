@@ -60,7 +60,7 @@
     <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
-    <TabForm></TabForm>
+
 
 </template>
 
@@ -77,7 +77,7 @@ import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 // import Calendar from '@/components/Calendar.vue'
-import TabForm from '@/components/TabForm.vue'
+
 const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();

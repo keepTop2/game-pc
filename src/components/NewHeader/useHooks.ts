@@ -1,9 +1,9 @@
 
 
-import {ref} from "vue";
+import { ref } from "vue";
 
 const isSearch = ref(false)
-const useHeaderHooks = () =>{
+const useHeaderHooks = () => {
 
 
   const menu = [
@@ -15,7 +15,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon02',
       name: '充值',
-      url: '/wallet/rechargeRecord',
+      url: '/wallet/records',
     },
     {
       icon: 'txxlicon03',
@@ -25,7 +25,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon04',
       name: 'VIP',
-      url: '/wallet/accountsRecord',
+      url: '/wallet/levelInfo',
     },
     {
       icon: 'txxlicon05',
@@ -37,7 +37,7 @@ const useHeaderHooks = () =>{
       name: '支付',
       url: '/wallet/auditRecord',
     },
-  
+
     {
       icon: 'txxlicon07',
       name: '活动',
@@ -51,7 +51,7 @@ const useHeaderHooks = () =>{
     {
       icon: 'txxlicon15',
       name: '记录',
-      url: '/wallet/records/rechargeRecord',
+      url: '/wallet/records',
     },
     // {
     //   icon: 'txxlicon09',
@@ -88,7 +88,7 @@ const useHeaderHooks = () =>{
     },
   ]
 
-  const search = ()=>{
+  const search = () => {
     isSearch.value = true
   }
 
@@ -98,11 +98,11 @@ const useHeaderHooks = () =>{
 
 
 
-return {
-  menu,
-  search,
-  isSearch
-}
+  return {
+    menu,
+    search,
+    isSearch
+  }
 
 }
 

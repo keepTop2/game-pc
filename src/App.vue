@@ -99,6 +99,12 @@ const themeOverrides: GlobalThemeOverrides = {
     textColor: "#fff",
     placeholderColor: "#8e82c2",
   },
+  DataTable: {
+    borderColor: '#26294C',
+    thTextColor: '#fff',
+    thColor: '#1B1F4B',
+    thPaddingMedium: '9px'
+  },
   Dialog: {},
   Card: {},
   Modal: {},

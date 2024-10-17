@@ -342,7 +342,7 @@ export class Net {
         }
         // console.log("DecodeMessage==>", this.getMsgType(msgID));
 
-        if (![18, 10].includes(msgID)) {
+        if (![18, 10, 1004, 1007].includes(msgID)) {
             console.log(
                 `返回协议的id为 ==> ${msgID}
 协议字段为 ==> ${this.getMsgType(msgID)}

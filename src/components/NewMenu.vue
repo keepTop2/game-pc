@@ -1,12 +1,8 @@
 <template>
   <div class="menu_wrap">
     <div class="menu_wrap_list">
-      <div
-        v-for="item in menuList"
-        :key="item.id"
-        :class="['menu_wrap_item', { active_item: active_id == item.id }]"
-        @click="itemClick(item)"
-      >
+      <div v-for="item in menuList" :key="item.id" :class="['menu_wrap_item', { active_item: active_id == item.id }]"
+        @click="itemClick(item)">
         <Imgt :src="item.icon" />
         <span>{{ item.label }}</span>
         <div :class="{ active_item_bg: active_id == item.id }"></div>

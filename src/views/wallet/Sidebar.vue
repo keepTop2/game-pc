@@ -1,16 +1,14 @@
 <template>
   <div class="sidebar">
     <div class="top_av">
-      <Imgt @click="showAvSetting"
-            :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'"
-            class="avatar"
-            alt="" title="点击设置" />
+      <Imgt @click="showAvSetting" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'"
+        class="avatar" alt="" title="点击设置" />
       <n-flex justify="center" class="userName">
-        <span
-          :title="info.full_name || info.real_name || roleInfo.nickname">{{ info.full_name || info.real_name || roleInfo.nickname
+        <span :title="info.full_name || info.real_name || roleInfo.nickname">{{ info.full_name || info.real_name ||
+          roleInfo.nickname
           }}</span>
         <span class="txt_vip"
-              :style="{ 'background-image': `url(/img/level/new/v${Number(VIPinfo.current_vip_level)}.webp)` }"></span>
+          :style="{ 'background-image': `url(/img/level/new/v${Number(VIPinfo.current_vip_level)}.webp)` }"></span>
       </n-flex>
     </div>
     <div class="top_wallet">
@@ -23,11 +21,9 @@
       </n-flex>
     </div>
     <n-flex class="nav_item bg_color">
-      <p class="pointer" :class="menuActive == i ? 'active' : ''"
-         v-for="(list, i) in state.sideList" :key="i"
-         @click="itemClick(list, i)">
-        <iconpark-icon :icon-id="list.icon" :color="menuActive == i ? '#fff' : '#fff'"
-                       size="1.67rem"></iconpark-icon>
+      <p class="pointer" :class="menuActive == i ? 'active' : ''" v-for="(list, i) in state.sideList" :key="i"
+        @click="itemClick(list, i)">
+        <iconpark-icon :icon-id="list.icon" :color="menuActive == i ? '#fff' : '#fff'" size="1.67rem"></iconpark-icon>
         <span>{{ t(list.name) }}</span>
       </p>
     </n-flex>
@@ -104,7 +100,7 @@ const state: any = reactive({
     {
       icon: 'txxlicon15',
       name: '记录',
-      url: 'records/rechargeRecord',
+      url: 'records',
     },
     {
       icon: 'txxlicon10',
@@ -190,6 +186,7 @@ const showAvSetting = () => {
 </script>
 <style lang='less' scoped>
 @timestamp: `new Date().getTime()`;
+
 .sidebar {
   width: 280px;
   box-sizing: border-box;
@@ -264,7 +261,7 @@ const showAvSetting = () => {
     gap: 10px !important;
     padding: 20px;
 
-    > p {
+    >p {
       font-size: 14px;
       width: 72px;
       height: 72px;
@@ -273,7 +270,7 @@ const showAvSetting = () => {
       margin: 0;
       cursor: pointer;
 
-      > span {
+      >span {
         display: block;
         line-height: 14px;
       }

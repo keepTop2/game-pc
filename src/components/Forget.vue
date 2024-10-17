@@ -7,16 +7,11 @@
       </i>
     </h4>
     <div class="login_form">
-      <n-tabs v-if="state.formData?.tabList" type="line" animated justify-content="space-evenly"
-        @update:value="changeTab">
-        <n-tab-pane :name="tab.value" :tab="t(tab.name)" v-for="(tab, i) in state.formData.tabList" :key="i">
-        </n-tab-pane>
 
-      </n-tabs>
-      <!-- <div class="tab" v-if="state.formData?.tabList">
+      <div class="tab" v-if="state.formData?.tabList">
         <span :class="state.formData.active == tab.value ? 'active' : ''" v-for="(tab, i) in state.formData.tabList"
           :key="i" @click="changeTab(tab.value)">{{ tab.name }}</span>
-      </div> -->
+      </div>
       <n-form :model="state.formData?.formParams" :rules="state.formData?.rules" :show-label="state.formData?.showLabel"
         ref="formRef">
         <template v-for="item in state.formData?.list">
@@ -41,7 +36,7 @@
             </n-input>
 
             <n-button :bordered="false" :loading="item.loading" @click="submitSend(item)"
-              v-if="item.slot && item.type == 'code'" class="login_btn btn" :disabled="item.btnDisabled">{{
+              v-if="item.slot && item.type == 'code'" class="btn" :disabled="item.btnDisabled">{{
                 item.timeText
               }}</n-button>
           </n-form-item>
@@ -577,11 +572,9 @@ onUnmounted(() => {
 
 .login_from_box {
   display: block;
-  width: 504px;
-  height: auto;
 
   >.login_form {
-    padding: 40px 87px 50px;
+    padding: 60px 40px 46px;
 
     >.tab {
       width: 100%;
@@ -600,13 +593,13 @@ onUnmounted(() => {
   margin: 0;
   width: 100%;
   position: relative;
-  height: 60px;
-  line-height: 60px;
-  font-size: 20px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
   color: #fff;
   text-align: center;
-  border-bottom: 2px solid #26294C;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
   >i {
     position: absolute;
@@ -617,16 +610,15 @@ onUnmounted(() => {
 }
 
 .set_password {
-  margin-bottom: 0px !important;
+  margin-bottom: 20px;
 }
 
 .btn {
   color: #fff;
   width: 90px;
   font-size: 14px;
-  height: 40px !important;
-  margin-top: 0 !important;
-
+  background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
+  background-size: contain;
 
 }
 

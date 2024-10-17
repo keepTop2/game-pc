@@ -73,6 +73,12 @@ export default {
     // 游戏部分
     home_page_all: 'tất cả',
     home_page_more: 'Hơn',
+    label_all: 'TẤT CẢ',
+    label_hot: 'NỔI BẬT',
+    label_recent: 'MỚI NHẤT',
+    label_fav: 'YÊU THÍCH',
+    success: 'thành công',
+    fail: 'thất bại',
     // 登录弹窗
     home_page_accountLogin: 'Đăng nhập tài khoản',
     home_page_loginSuccess: 'Đăng nhập thành công',

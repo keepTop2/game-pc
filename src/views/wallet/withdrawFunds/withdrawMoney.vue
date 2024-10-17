@@ -72,8 +72,11 @@
         <!-- 银行卡提款 -->
         <n-flex v-show="curPayWay.paymethod == '1'" justify="space-between">
           <n-form-item :label="t('walletInfo_page_selectBank')" style="flex: 1;">
-            <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
-                      :options="[{label: t('paymentManagement_page_chBank'), value: 0}, ...myBankList.bank_card_info_list.map((item: any) => {return {label: item.bank_name, value: item.bank_id}})]" />
+            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('walletInfo_page_selectBank')">
+              <template #suffix>
+                <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
+              </template>
+            </n-input>
 <!--            <div class="selectBank">
               <div class="bankName">
                 <div class="icon">
@@ -96,8 +99,11 @@
         <!-- usdt提款 -->
         <n-flex v-show="curPayWay.paymethod == '2'"  justify="space-between">
           <n-form-item :label="t('选择USDT地址')" style="flex: 1;">
-            <n-select disabled v-if="myBankList" v-model:value="backItemInfo.bank_id"
-                      :options="[{label: t('paymentManagement_page_chBank'), value: 0}, ...usdtBankList]" />
+            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('walletInfo_page_selectBank')">
+              <template #suffix>
+                <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
+              </template>
+            </n-input>
           </n-form-item>
           <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
         </n-flex>

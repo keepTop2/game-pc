@@ -75,28 +75,28 @@ const useWalletInfo = () => {
     console.log('roleInfo--------', roleInfo.value)
     res.bank_card_info_list = res.bank_card_info_list.reverse(); // 反转，需要跟支付管理那里一致
     myBankList.value = res;
-    // 未绑定银行卡跳转到绑定银行卡
+    // // 未绑定银行卡跳转到绑定银行卡
     if (!myBankList.value.bank_card_info_list || myBankList.value.bank_card_info_list.length == 0) {
       console.log('没有绑定银行===')
       // router.push('/wallet/paymentManagement')
-      // calibrationRef.value.openModal();
+      calibrationRef.value.openModal();
       return
     }
     // 未绑定手机号码
     if (!userInfo.value.mobile) {
       console.log('没有手机号码===')
       // router.push('/wallet/securitySettings?openDialogType=bindPhone')
-      // calibrationRef.value.openModal();
+      calibrationRef.value.openModal();
       return
     }
     // 未绑定资金密码
     if (!roleInfo.value.withdraw_pwd) {
       console.log('没有资金密码===')
       // router.push('/wallet/securitySettings?openDialogType=bindPayPwd')
-      // calibrationRef.value.openModal();
+      calibrationRef.value.openModal();
       return
     }
-    // withdrawMoneyRef.value.openModal();
+    withdrawMoneyRef.value.openModal();
     // showWithdrawModal(true)
   }
 
