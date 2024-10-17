@@ -105,11 +105,11 @@ watchEffect(() => {
 .menu_wrap {
   display: flex;
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 17px;
   display: flex;
   align-items: first baseline;
   position: relative;
-  height: 120px;
+  height: 133px;
 
   .menu_wrap_list {
     // background: url('/img/menu/ban.webp?t=@{timestamp}') no-repeat;
@@ -187,7 +187,7 @@ watchEffect(() => {
   .menu_wrap_other {
     position: absolute;
     right: 0;
-    top: 30px;
+    top: 20px;
     height: 100%;
     // margin-left: 40px;
     display: flex;
