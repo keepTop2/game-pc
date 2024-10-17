@@ -56,6 +56,15 @@ a, button, .button {
     display: flex;
     flex-direction: column;
 }
+// 渐变文字
+.gradient_txt {
+  //color: #5971FF;
+  background-image: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+  color: #9E1EFF; // 兜底颜色，防止文字裁剪不生效
+  background-clip: text;
+  -webkit-background-clip: text; // 背景被裁减为文字的前景色
+  -webkit-text-fill-color: transparent; // 文字填充为透明，优先级比color高。
+}
 // 公共按钮颜色
 .button_color {
   width: 120px;

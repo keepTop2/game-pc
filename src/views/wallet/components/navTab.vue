@@ -23,7 +23,7 @@
       </n-flex>
     </n-flex>
     <n-flex class="nav_r">
-     
+
     </n-flex>
   </n-flex>
 </template>

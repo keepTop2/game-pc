@@ -87,20 +87,13 @@
                       :options="netWorkArr" />
           </n-form-item>
           <!-- 银行卡充值独有 -->
-          <n-form-item v-if="curDepositWay.payname?.indexOf('bankcard') > -1" :label="t('addBank_page_pChooseBank')">
-            <n-flex class="choose-bank">
-              <n-flex align="center" class="choose-bank-l">
-                <n-flex class="bank_cicon" v-if="chooseBank.value">
-                  <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
-                </n-flex>
-                <span class="bank_cname"> {{ chooseBank.label }} </span>
-              </n-flex>
-              <n-button :bordered="false" class="change-btn" @click="showChangeBank">
-                {{ t('deposit_page_changeWay')
-                }}
-              </n-button>
-            </n-flex>
-          </n-form-item>
+          <n-flex justify="space-between" v-if="curDepositWay.payname?.indexOf('bankcard') > -1">
+            <n-form-item :label="t('addBank_page_pChooseBank')" style="flex: 1">
+              <n-select disabled :placeholder="t('paymentManagement_page_chBank')" v-model:value="form.bank" />
+            </n-form-item>
+            <n-flex justify="center" align="center" class="button button_color" @click="showChangeBank">{{t('deposit_page_changeWay')}}</n-flex>
+          </n-flex>
+
          <n-flex justify="space-between">
            <n-form-item class="money_input" :label="t('rechargeRecord_page_amount')">
              <n-input @blur="inputBlur" @input="validateInput" size="large" v-model:value="form.amount"
@@ -113,7 +106,7 @@
             <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between"
                     class="flex usdt_box">
               <span>USDT: {{ countUsdtMon() }}</span>
-              <span class="button" @click="showModal = true">{{ t('deposit_page_toExchange')
+              <span class="button gradient_txt" @click="showModal = true">{{ t('deposit_page_toExchange')
                 }}</span>
             </n-flex>
             <span v-show="isShowError" style="color: #d03050">
@@ -162,7 +155,7 @@
   </ModalDialog>
 
   <!-- 选择银行弹窗 -->
-  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" :bankAllList="bankAllList" ref="chooseBankModal"
+  <chooseBankDialog v-if="showSecModal" :isDepositBank="true" ref="chooseBankModal"
     @selectBank="selectBank" />
 
 </template>
@@ -188,7 +181,7 @@ const chooseBankModal = ref();
 const { t } = useI18n();
 const showMyModal = ref(false);
 const showSmModal = ref(false);
-const showSecModal = ref(false);
+const showSecModal = ref(true);
 const usdtRecharge = ref<any>(); // 充值银行列表
 const legalRecharge = ref<any>([]);
 const curWay = ref({ payname: '' });
@@ -246,7 +239,7 @@ const chooseMoneyArr = [
   { label: '100,000,000', value: 100000000 },
 ];
 const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
-const bankAllList = ref([]); // 充值银行选择列表
+// const bankAllList = ref([]); // 充值银行选择列表
 
 const netWorkArr = [
   { label: t('deposit_page_chooseNetWork'), value: 0 },
@@ -319,6 +312,7 @@ const countUsdtMon = () => {
 
 // 打开银行弹窗
 const openChooseBank = () => {
+  console.log('=======***',  chooseBankModal.value)
   chooseBankModal.value.onCloseBank();
 };
 // 参数重置
@@ -534,11 +528,12 @@ const getDepositBankList = () => {
   Net.instance.sendRequest(req);
 };
 // 充值单独用的银行列表
-const handleDepositBank = (res: any) => {
-  bankAllList.value = res.pay_name_list.map((item: any) => {
-    return { value: item.pay_id, label: item.pay_name };
-  });
-};
+// const handleDepositBank = (res: any) => {
+//   console.log('######充值银行列表', res)
+//   bankAllList.value = res.pay_name_list.map((item: any) => {
+//     return { value: item.pay_id, label: item.pay_name };
+//   });
+// };
 // 选择方式
 const chooseSmWay = (data: any) => {
   Local.set('curExplainWay', data);
@@ -586,20 +581,18 @@ watch(
 );
 
 onMounted(() => {
-  setTimeout(() => {
-    getDepositBankList();
-    getShopInfo();
-  }, 600);
+  getDepositBankList();
+  getShopInfo();
   // 获取银行信息
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, handleShopInfoRes);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, handleDepositSubmit);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, handleDepositBank);
+  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, handleDepositBank);
 });
 onUnmounted(() => {
   Local.remove('curDiscountData'); // 重置
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_recharge_from_third, null);
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, null);
+  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_pay_name_list, null);
 });
 
 defineExpose({
@@ -609,137 +602,13 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-//@import '@/assets/CommonForm.less';
+@import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
-.txt_title {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
-.list_box {
-  padding: 40px;
-  .body {
-    gap: 14px !important;
 
-    .item_list {
-      cursor: pointer;
-      position: relative;
-      width: 192px;
-      height: 140px;
-      padding: 12px;
-      background: rgba(33, 36, 67, 1);
-      border: 1px solid rgba(38, 41, 76, 1);
-      border-radius: 16px;
-
-      &.active {
-        background: url('/img/payment/listBg_active.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-
-      &.wh_item {
-        pointer-events: none;
-      }
-
-      .bank_wh {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        background: rgba(0, 0, 0, .7);
-        width: 100%;
-        height: 100%;
-        border-radius: 8px;
-        top: -3px;
-        left: -3px;
-
-        img {
-          width: 50px;
-          margin-right: 5px;
-        }
-      }
-
-      .item_list_l {
-
-        .bank_icon {
-          position: relative;
-          width: 100%;
-          text-align: center;
-          img {
-            width: 56px;
-            height: 56px;
-          }
-          .wh_icon {
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            right: 0;
-            background: url('/img/payment/wh.webp?t=@{timestamp}') center no-repeat;
-            background-size: 100%;
-          }
-        }
-
-        .bank_txt {
-          text-align: center;
-          font-size: 16px;
-          .bank_limit {
-            margin-top: 6px;
-            color: rgba(250, 201, 5, 1);
-          }
-        }
-      }
-    }
-  }
-}
 .deposit_second {
   padding: 40px;
   margin: 20px 0;
-  :deep(.n-form-item) {
-    .n-form-item-label {
-      min-width: 150px;
-      text-align: left;
-      color: rgba(174, 174, 176, 1);
-    }
-  }
-  .kjje_div {
-    gap: 20px !important;
-    .kj_item {
-      width: 120px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      font-weight: 700;
-      border-radius: 8px;
-      background: rgba(31, 38, 77, 1);
-    }
-  }
-  .btn_zone {
-    margin: 60px auto 20px;
-    .submit_btn {
-      width: 330px;
-      height: 40px;
-    }
-  }
-  .cz_tips {
-    font-size: 14px;
-    text-align: center;
-    color: rgba(229, 74, 69, 1);
-    .txt {
-      color: rgba(69, 229, 123, 1);
-      margin-bottom: 6px;
-    }
 
-    .tip {
-      gap: 8px !important;
-
-      .icon {
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-    }
-  }
   .body_sec {
     ::v-deep(.n-form-item-blank) {
       display: block;
@@ -749,15 +618,15 @@ defineExpose({
       :deep(.n-form-item-blank) {
         width: 725px;
       }
-      :deep(.n-input-number) {
-        width: 100%;
-
-        .n-input {
-          .n-input__input-el {
-            height: 100%;
-          }
-        }
-      }
+      //:deep(.n-input-number) {
+      //  width: 100%;
+      //
+      //  .n-input {
+      //    .n-input__input-el {
+      //      height: 100%;
+      //    }
+      //  }
+      //}
     }
 
     .yh-item {
@@ -786,12 +655,6 @@ defineExpose({
         font-size: 16px;
         .button {
           text-decoration: underline;
-          //color: #5971FF;
-          background-image: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-          color: #9E1EFF; // 兜底颜色，防止文字裁剪不生效
-          background-clip: text;
-          -webkit-background-clip: text; // 背景被裁减为文字的前景色
-          -webkit-text-fill-color: transparent; // 文字填充为透明，优先级比color高。
         }
       }
     }
