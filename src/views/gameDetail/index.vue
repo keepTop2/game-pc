@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="game_detail">
+        <img src="" alt="">
         <div class="game-title">
             <span class="input_box">
                 <n-input clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
@@ -16,11 +17,11 @@
                     size="1rem"></iconpark-icon> -->
                     <span>全部</span>
                 </div>
-                <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
+                <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in threeGameKinds" :key="i"
                     @click="onClickTab(v)">
                     <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
                     size="1rem"></iconpark-icon> -->
-                    <span>{{ unserialize(v.kind_name) }}</span>
+                    <span>{{ unserialize(v.name) }}</span>
                 </div>
                 <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
                     <p>{{ t("common_favorite") }}</p>
@@ -98,6 +99,7 @@ const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
 const { lang, homeGameData } = storeToRefs(Page(pinia));
+console.log('1222', homeGameData.value);
 
 const activeTab = ref(0)
 const queryGame = ref("")
@@ -134,9 +136,15 @@ const TabType = {
 
 // 获取场馆下所有平台
 const getHomeData = () => {
-    const data = homeGameData.value[activeKind.value]?.three_platform
+    // console.log(activeKind.value);
+
+    const data = homeGameData.value.find((e: any) => (e.id == Number(activeKind.value)))
     // const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
-    threeGameKinds.value = data
+    // console.log(homeGameData.value);
+    // console.log(data.three_platform  );
+
+    threeGameKinds.value = data.three_platform
+
 }
 
 const isFav = (v: any) => {
@@ -260,11 +268,16 @@ const onAddFavorite = (v: any) => {
     getFavs()
 }
 
-const unserialize = (v: string) => {
-    const data = JSON.parse(v)
-    return data[langs[lang.value]]
-}
 
+const unserialize = (v: any) => {
+    let obj: any = {
+        en: 'en-US',
+        zh: 'zh-CN',
+        vn: 'vi-VN'
+    }
+    // const data = JSON.parse(v)
+    return v[obj[lang.value]]
+}
 const getInitData = (agentId: any, kindId: any) => {
     const req = NetPacket.req_get_kind_in_platform();
     req.agentId = agentId
@@ -312,20 +325,24 @@ const gameUrlResult = (message: any) => {
 }
 
 onBeforeMount(() => {
-    const { platform_id, venue_id, name, active } = route.query
-    getInitData(platform_id, venue_id)
-    gameName.value = name as string
-    platformId.value = platform_id
-    venueId.value = venue_id
-    activeKind.value = venue_id
-    getHomeData()
+    // const { platform_id, venue_id, name, active } = route.query
+    // getInitData(platform_id, venue_id)
+    // gameName.value = name as string
+    // platformId.value = platform_id
+    // venueId.value = venue_id
+
 })
 onMounted(() => {
+    const { venue_id } = route.query
+    activeKind.value = venue_id
+
+    getHomeData()
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     getFavs()
+    queryData()
 })
 onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
@@ -333,7 +350,15 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
-
+watch(
+    () => route.query.venue_id,
+    (a) => {
+        if (a) {
+            activeKind.value = a
+            getHomeData()
+        }
+    }
+)
 watch(
     () => result.list,
     (a: any) => {

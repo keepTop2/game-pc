@@ -1,17 +1,18 @@
 <template>
   <div class="menu_wrap">
     <div class="menu_wrap_list">
-      <div v-for="item in menuList" :key="item.id" :class="['menu_wrap_item', { active_item: active_id == item.id }]"
+      <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item" :class="active_id == item.id && 'active_item'"
         @click="itemClick(item)">
         <Imgt :src="item.icon" />
         <span>{{ item.label }}</span>
-        <div :class="{ active_item_bg: active_id == item.id }"></div>
+        <div :class="active_id == item.id && 'active_item_bg'"></div>
       </div>
-      <div v-for="item in homeGameData" :key="item.id"
-        :class="['menu_wrap_item', { active_item: active_id == item.id }]" @click="itemGameClick(item)">
+
+      <div v-for="(item, i) in homeGameData" :key="i" class="menu_wrap_item"
+        :class="active_id == item.id && 'active_item'" @click="itemGameClick(item)">
         <Imgt :src="item.icon" />
         <span>{{ unserialize(item.name) }}</span>
-        <div :class="{ active_item_bg: active_id == item.id }"></div>
+        <div :class="active_id == item.id && 'active_item_bg'"></div>
       </div>
       <div class="menu_wrap_list_ban">
         <!-- <Imgt src="/img/menu/ban.webp" /> -->
@@ -34,19 +35,18 @@
   </div>
 </template>
 <script setup lang="ts" name="Header">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { Page } from '@/store/page';
 const { homeGameData } = storeToRefs(Page(pinia));
-
 const router = useRouter();
 const {
   lang
 } = storeToRefs(Page(pinia));
 const route = useRoute();
-const active_id = ref(1);
+const active_id = ref(0);
 const unserialize = (v: any) => {
   let obj: any = {
     en: 'en-US',
@@ -80,6 +80,8 @@ const itemClick = (item: any) => {
   router.push(`${item.url}`);
 };
 const itemGameClick = (item: any) => {
+  console.log(item);
+
   active_id.value = item.id;
   router.push({
     path: '/gameDetail',
@@ -88,9 +90,13 @@ const itemGameClick = (item: any) => {
     }
   })
 }
-onMounted(() => {
-  console.log(77777, route);
+// 监听counter.count的变化
+watchEffect(() => {
+  // 执行相应的操作
+  console.log(`count变为${homeGameData.value[0].id}`);
 });
+
+
 </script>
 
 <style lang="less" scoped>
