@@ -89,7 +89,12 @@
           <!-- 银行卡充值独有 -->
           <n-flex justify="space-between" v-if="curDepositWay.payname?.indexOf('bankcard') > -1">
             <n-form-item :label="t('addBank_page_pChooseBank')" style="flex: 1">
-              <n-select disabled :placeholder="t('paymentManagement_page_chBank')" v-model:value="form.bank" />
+<!--              <n-select disabled :placeholder="t('paymentManagement_page_chBank')" v-model:value="form.bank" />-->
+              <n-input disabled v-model:value="chooseBank.label" :placeholder="t('walletInfo_page_selectBank')">
+                <template #suffix>
+                  <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
+                </template>
+              </n-input>
             </n-form-item>
             <n-flex justify="center" align="center" class="button button_color" @click="showChangeBank">{{t('deposit_page_changeWay')}}</n-flex>
           </n-flex>
@@ -521,6 +526,7 @@ const showChangeBank = () => {
 const selectBank = (e: any) => {
   form.value.bank = e.value;
   chooseBank.value = e;
+  console.log('-----aa', chooseBank.value)
 };
 // 充值单独用的银行列表
 const getDepositBankList = () => {
@@ -610,6 +616,13 @@ defineExpose({
   margin: 20px 0;
 
   .body_sec {
+    .kjje_div {
+      margin-bottom: 60px !important;
+    }
+    .btn_zone {
+      margin-bottom: 20px;
+    }
+
     ::v-deep(.n-form-item-blank) {
       display: block;
     }
