@@ -14,7 +14,10 @@
         </div>
       </div>
       <div class="match_list">
-        <div class="match_list_item"></div>
+        <div class="match_list_item">
+          <Imgt src="/img/ranking/card_img.webp" />
+          <div class="card_main"></div>
+        </div>
       </div>
     </div>
 
@@ -80,6 +83,15 @@ const tabClick = (item: any) => {
       height: 140px;
       background: url("/img/game/bg_card1.webp?t=@{timestamp}") no-repeat;
       background-size: 100% 100%;
+      display: flex;
+      align-items: center;
+      img {
+        width: 112px;
+        height: 112px;
+      }
+      .card_main {
+        flex: 1;
+      }
     }
   }
 
