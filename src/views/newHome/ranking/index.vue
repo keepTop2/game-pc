@@ -1,6 +1,6 @@
 <template>
   <div class="box_wrap">
-    <Imgt src="/img/game/topimg.webp" />
+    <Imgt src="/img/game/topimg.webp" class="topimg" />
     <div class="box_main">
       <div class="box_title">
         <span class="label">最新赛事排行</span>
@@ -55,7 +55,18 @@
             <span>{{ item.label }}</span>
           </div>
         </div>
-        <Imgt src="/img/game/desimg.webp" />
+        <Imgt src="/img/game/desimg.webp" class="des_img" />
+
+        <matchDes v-show="tab_id == 1"></matchDes>
+        <div v-show="tab_id == 2" class="bonus_list">
+          <div class="bonus_item" v-for="i in 5" :key="i">
+            <div class="bonus_item_title">
+              <div>第一名获得</div>
+              <div>2,888,888</div>
+            </div>
+            <Imgt :src="`/img/ranking/bonus_${i}.webp`" class="bonus_img" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -63,6 +74,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import matchDes from "../components/matchDes.vue";
 const tab_id = ref(1);
 const tabList = [
   { label: "赛况", id: 1 },
@@ -88,7 +100,11 @@ const getRandomValue = () => {
 @timestamp: `new Date() .getTime() `;
 
 .box_wrap {
-  margin-top: 15px;
+  margin-top: 25px;
+  width: 1400px;
+  .topimg {
+    width: 1400px;
+  }
 }
 
 .box_main {
@@ -148,16 +164,21 @@ const getRandomValue = () => {
 
   .box_list {
     height: 607px;
-    width: 100%;
+    width: 1400px;
     border-radius: 16px;
     padding: 24px 20px;
     box-sizing: border-box;
+    justify-content: center;
     background: linear-gradient(
         180deg,
         rgba(13, 15, 48, 0.288) 0%,
         rgba(17, 20, 60, 0.6) 100%
       ),
       linear-gradient(0deg, rgba(20, 23, 58, 0.69), rgba(20, 23, 58, 0.69));
+
+    .des_img {
+      width: 100%;
+    }
   }
 }
 
@@ -219,6 +240,44 @@ const getRandomValue = () => {
       border-radius: 100px;
       background: linear-gradient(180deg, #5a6cff 0%, #7e1cff 100%);
     }
+  }
+}
+
+.bonus_list {
+  display: flex;
+  gap: 15px;
+  margin-top: 12px;
+}
+
+.bonus_item {
+  background: url("/img/ranking/bonus_bg.webp?t=@{timestamp}") no-repeat;
+  background-size: 100% 100%;
+  width: 260px;
+  height: 152px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  .bonus_item_title {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    div {
+      &:nth-child(1) {
+        font-size: 16px;
+      }
+      &:nth-child(2) {
+        font-size: 24px;
+        font-weight: 600;
+      }
+    }
+  }
+  .bonus_img {
+    position: absolute;
+    left: 12px;
+    top: 0;
   }
 }
 </style>
