@@ -5,6 +5,7 @@ interface WalletState {
     showWithdraw: boolean;
     showRedeemCode: boolean;
     showAddBank: boolean;
+    showAddUsdt: boolean;
     showDialogTransfer: boolean;
     showTransfer: {
         method: string;
@@ -20,6 +21,7 @@ export const Wallet = defineStore({
         showWithdraw: false,
         showRedeemCode: false,
         showAddBank: false,
+        showAddUsdt: false,
         showDialogTransfer: false,
         showTransfer: { method: 'in', from: '', to: '' }
     }),
@@ -35,6 +37,9 @@ export const Wallet = defineStore({
         },
         setShowAddBank(v: boolean) {
             this.showAddBank = v;
+        },
+        setShowAddUsdt(v: boolean) {
+          this.showAddUsdt = v;
         },
         setDialogShowTransfer(v: boolean) {
           this.showDialogTransfer = v;
