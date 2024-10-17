@@ -11,13 +11,14 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'home',
     meta: { title: 'home' },
-    component: () => import('@/views/home/index.vue'),
+    component: () => import('@/views/newHome/index.vue'),
   },
   {
-    path: '/customer',
+    path: '/customer', // 聊天室
     name: 'customer',
     meta: { title: '' },
     component: () => import('@/views/home/customer.vue'),
+
   },
   {
     path: '/gameMain',
@@ -74,7 +75,13 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'home_page_club' },
         component: () => import('@/views/club/clubNext.vue'),
       },
-    ]
+      {
+        path: 'ranking',  //赛事排行
+        name: 'ranking',
+        meta: { title: 'ranking' },
+        component: () => import('@/views/newHome/ranking/index.vue'),
+      },
+    ],
   },
   // {
   //   path: '/proxy',
@@ -86,7 +93,7 @@ const routes: RouteRecordRaw[] = [
   //   ]
   // },
   {
-    path: '/wallet',
+    path: '/wallet',  //钱包
     name: 'wallet',
     redirect: { name: 'walletInfo' },
     meta: { title: 'wallet' },
@@ -138,7 +145,8 @@ const routes: RouteRecordRaw[] = [
         path: 'withdraw',
         name: 'withdraw',
         meta: { title: 'proxy_page_withDraw' },
-        component: () => import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
+        component: () =>
+          import('@/views/wallet/withdrawFunds/withdrawMoney.vue'),
       },
       {
         path: 'levelInfo',
@@ -276,9 +284,8 @@ const routes: RouteRecordRaw[] = [
         //   },
         // ]
       },
-    ]
+    ],
   },
-
 ];
 const router = createRouter({
   routes,
@@ -287,17 +294,16 @@ const router = createRouter({
 
 const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
   return new Promise(async () => {
-    let timer
+    let timer;
     if (condition()) {
-      clearTimeout(timer)
-      timer = null
+      clearTimeout(timer);
+      timer = null;
       if (isNext) {
-        next(isNext)
+        next(isNext);
       } else {
-        await User(pinia).setLogin(true)
-        next('/')
+        await User(pinia).setLogin(true);
+        next('/');
       }
-
     } else {
       timer = setTimeout(() => {
         console.log(55555);
@@ -305,8 +311,8 @@ const waitForCondition = (condition: Function, next: any, isNext: boolean) => {
         waitForCondition(condition, next, isNext);
       }, 200);
     }
-  })
-}
+  });
+};
 
 router.beforeEach(async (to: any, _from: any, next: any) => {
   if (Local.get('user')) {
@@ -333,7 +339,7 @@ router.afterEach(() => {
   try {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch {
-    console.error('滚动到顶部失败')
+    console.error('滚动到顶部失败');
   }
-})
+});
 export default router;
