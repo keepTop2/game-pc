@@ -14,9 +14,28 @@
         </div>
       </div>
       <div class="match_list">
-        <div class="match_list_item">
+        <div
+          class="match_list_item"
+          v-for="i in 6"
+          :key="i"
+          :style="{
+            'background-image': `url(/img/game/bg_card${getRandomValue()}.webp)`,
+          }"
+        >
           <Imgt src="/img/ranking/card_img.webp" />
-          <div class="card_main"></div>
+          <div class="card_main">
+            <div class="card_main_title">德州比赛-多人奖金赛</div>
+            <div class="card_main_num">报名人数：62</div>
+            <div class="card_main_time">
+              <div class="card_main_time_l">
+                <span>开始时间:2024-07-01 12:30:00</span>
+                <span>开始时间:2024-07-01 12:30:00</span>
+              </div>
+              <div>
+                <n-button style="height: 36px; width: 98px">报名</n-button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -43,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 const tab_id = ref(1);
 const tabList = [
   { label: "赛况", id: 1 },
@@ -55,6 +74,13 @@ const tabList = [
 
 const tabClick = (item: any) => {
   tab_id.value = item.id;
+};
+
+const getRandomValue = () => {
+  const randomNumber = Math.random() * 3; // 生成一个0到2.9之间的随机数
+
+  const intValue = Math.floor(randomNumber); // 向下取整
+  return intValue + 1; // 返回1到3之间的整数
 };
 </script>
 
@@ -78,19 +104,44 @@ const tabClick = (item: any) => {
   }
 
   .match_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
     .match_list_item {
       width: 453px;
       height: 140px;
-      background: url("/img/game/bg_card1.webp?t=@{timestamp}") no-repeat;
       background-size: 100% 100%;
       display: flex;
       align-items: center;
+      padding: 14px;
       img {
         width: 112px;
         height: 112px;
       }
       .card_main {
+        margin-left: 11px;
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        .card_main_title {
+          font-size: 20px;
+          color: #fff;
+        }
+        .card_main_num {
+          font-size: 14px;
+          color: #afb6bd;
+        }
+        .card_main_time {
+          display: flex;
+          gap: 25px;
+          .card_main_time_l {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            color: #afb6bd;
+          }
+        }
       }
     }
   }
