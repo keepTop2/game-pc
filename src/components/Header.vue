@@ -154,7 +154,7 @@ const menu = [
   {
     icon: 'Group39341',
     name: 'home_page_rechargeRecord',
-    url: '/wallet/rechargeRecord',
+    url: '/wallet/records',
   },
   {
     icon: 'Group39342',

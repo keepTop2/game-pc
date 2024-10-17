@@ -3,22 +3,21 @@
     <n-flex align="center" class="nav_l">
       <n-flex align="center" class="nav_title">
         <span>
-          {{title}}
+          {{ title }}
         </span>
         <span v-show="secTitle" class="sec_title">
-          ｜{{secTitle}}
+          ｜{{ secTitle }}
         </span>
       </n-flex>
 
       <n-flex align="center" class="nav_icon" v-if="showIcon">
         <n-flex align="center">
-          <Imgt v-if="!refreshObj.isEyeOpen" :class="`pointer`" src="/img/payment/eyes_close.webp" alt=""
-             @click="clickShow" />
-          <Imgt v-else :class="`pointer`" src="/img/payment/eyes_open.webp" alt="" @click="clickShow" />
+          <iconpark-icon class="pointer" @click="clickShow"
+            :icon-id="refreshObj.isEyeOpen ? 'gerenchakanicon' : 'gerenyincangicon'" size="1.2rem"></iconpark-icon>
         </n-flex>
         <n-flex align="center">
-          <Imgt :class="`pointer ${refreshObj.isRefreshFlag ? 'active' : ''}`" src="/img/payment/refresh.webp" alt=""
-                @click="clickRefresh" />
+          <iconpark-icon @click="clickRefresh" :class="`pointer ${refreshObj.isRefreshFlag ? 'active' : ''}`"
+            icon-id="denglushuaxinicon" size="1.2rem"></iconpark-icon>
         </n-flex>
       </n-flex>
     </n-flex>
@@ -78,25 +77,22 @@ const clickShow = () => {
   .nav_l {
     .nav_title {
       gap: 3px !important;
+
       .sec_title {
         font-size: 14px;
         font-weight: 500;
         color: rgba(174, 174, 176, 1);
       }
     }
+
     .nav_icon {
       gap: 16px !important;
-      img {
-        width: 24px;
-        height: 24px;
-
-        &.active {
-          transition: all 1s ease-in-out;
-          transform: rotate(720deg);
-        }
-      }
     }
+  }
 
+  .active {
+    transition: all 1s ease-in-out;
+    transform: rotate(720deg);
   }
 }
 </style>
