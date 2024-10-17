@@ -24,7 +24,7 @@
             <n-flex class="list_item_r">
               <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
               <template v-else>
-                <n-flex class="set_box mr_color button" @click="doDefaultBank(item)">
+                <n-flex class="button_color set_box mr_color button" @click="doDefaultBank(item)">
                   {{ t('paymentManagement_page_set_default') }}
                 </n-flex>
               </template>
@@ -41,7 +41,7 @@
       </div>
 
       <!-- USDT -->
-      <n-flex class="num_tips">
+      <n-flex class="num_tips num_tips_up">
         <span>{{t('USDT')}} | </span>
         <span>{{ t('paymentManagement_page_max_usdt', { num: myUsdtList?.length || 0 }) }}</span>
       </n-flex>
@@ -51,21 +51,23 @@
             <iconpark-icon @click="() => removeUsdt(item)" icon-id="tanctongyguanb" color="#fff"
                            size="0.7em"></iconpark-icon>
           </span>
-
-          <n-flex justify="space-between" align="flex-end" class="abs number">
-            <div class="">
-              <div>{{ item.usdt_addr }}</div>
-              {{ item.desc }}
-            </div>
-            <n-flex class="list_item_r">
-              <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
-              <template v-else>
-                <n-flex class="set_box mr_color button" @click="doDefaultUsdt(item)">
-                  {{ t('paymentManagement_page_set_default') }}
-                </n-flex>
-              </template>
+          <div class="abs number">
+            <div class="txt_wl">{{t('网络')}}: {{netWorkArr.find((ite: any) => ite.value == item.usdt_type)?.label}}</div>
+            <n-flex justify="space-between" align="flex-end">
+              <n-flex class="bank_txt">
+                <div align="start" class="txt_1"> {{t('地址')}}: <span>{{ item.usdt_addr }}</span></div>
+                {{t('备注')}}: {{ item.desc }}
+              </n-flex>
+              <n-flex class="list_item_r">
+                <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
+                <template v-else>
+                  <n-flex class="set_box mr_color button" @click="doDefaultUsdt(item)">
+                    {{ t('paymentManagement_page_set_default') }}
+                  </n-flex>
+                </template>
+              </n-flex>
             </n-flex>
-          </n-flex>
+          </div>
           <Imgt class="abs bank_img" :src="item.bankImgURL" :alt="item.bank_name" />
 <!--          <span v-if="index === 0" class="icon_tip">
             <span class="skew_text">{{ t('paymentManagement_page_inUse') }}</span>
@@ -104,7 +106,10 @@ const myBankName = ref(); // 如果有已经绑定的银行卡姓名，下次绑
 const loading = ref(false)
 const curOperate = ref({}); // 当前操作的数据
 const operateType = ref(); // 操作类型，del 删除，default 设为默认银行卡
-
+const netWorkArr = [
+  { label: 'TRC20', value: 1 },
+  { label: 'ERC20', value: 2 },
+];
 
 // 获取已绑定的银行账号
 const getMyBankList = () => {
@@ -118,11 +123,10 @@ const handleMyBankList = (res: any) => {
   }, 300)
   myBankName.value = res.cardholder_name || '';
   showAddBankRef.value = true;
-  showAddUsdtRef.value = true;
-  myBankList.value = res.bank_card_info_list.map((item: any) => (
+  myBankList.value = res.bank_card_info_list.map((item: any, index: number) => (
     {
       ...item,
-      bankImgURL: '/img/payment/mockBank.webp',
+      bankImgURL: index === (res.bank_card_info_list.length - 1) ? '/img/payment/defalutBank.webp' : '/img/payment/mockBank.webp',
     }
   )).reverse();
 }
@@ -221,9 +225,14 @@ const handleMyUsdtList = (res: any) => {
   setTimeout(() => {
     loading.value = false
   }, 300)
-  myBankName.value = res.cardholder_name || '';
-  showAddBankRef.value = true;
-  myUsdtList.value = res.usdt_info_list.reverse();
+  showAddUsdtRef.value = true;
+  myUsdtList.value = res.usdt_info_list ?
+   res.usdt_info_list.map((item: any) => (
+      {
+        ...item,
+        bankImgURL: '/img/payment/usdt_bg.webp',
+      }
+    )).reverse() : [];
 }
 // 删除银行
 const removeUsdt = (item: any) => {
