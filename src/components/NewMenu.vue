@@ -7,6 +7,12 @@
         <span>{{ item.label }}</span>
         <div :class="{ active_item_bg: active_id == item.id }"></div>
       </div>
+      <div v-for="item in homeGameData" :key="item.id"
+        :class="['menu_wrap_item', { active_item: active_id == item.id }]" @click="itemGameClick(item)">
+        <Imgt :src="item.icon" />
+        <span>{{ unserialize(item.name) }}</span>
+        <div :class="{ active_item_bg: active_id == item.id }"></div>
+      </div>
       <div class="menu_wrap_list_ban">
         <!-- <Imgt src="/img/menu/ban.webp" /> -->
       </div>
@@ -30,35 +36,58 @@
 <script setup lang="ts" name="Header">
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { storeToRefs } from 'pinia';
+import pinia from '@/store/index';
+import { Page } from '@/store/page';
+const { homeGameData } = storeToRefs(Page(pinia));
 
 const router = useRouter();
-
+const {
+  lang
+} = storeToRefs(Page(pinia));
 const route = useRoute();
 const active_id = ref(1);
-
+const unserialize = (v: any) => {
+  let obj: any = {
+    en: 'en-US',
+    zh: 'zh-CN',
+    vn: 'vi-VN'
+  }
+  // const data = JSON.parse(v)
+  return v[obj[lang.value]]
+}
 const menuList = [
-  { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: 1 },
+  { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: 0 },
   {
     label: "俱乐部",
     icon: "/img/menu/menu_2.webp",
     url: "/gameMain/club",
     name: "club",
-    id: 2,
+    id: 99,
   },
-  { label: "赛程", icon: "/img/menu/menu_3.webp", url: "", id: 3 },
-  { label: "棋牌", icon: "/img/menu/menu_4.webp", url: "", id: 4 },
-  { label: "电子", icon: "/img/menu/menu_5.webp", url: "", id: 5 },
-  { label: "真人", icon: "/img/menu/menu_6.webp", url: "", id: 6 },
-  { label: "捕鱼", icon: "/img/menu/menu_7.webp", url: "", id: 7 },
-  { label: "彩票", icon: "/img/menu/menu_8.webp", url: "", id: 8 },
-  { label: "电竞", icon: "/img/menu/menu_9.webp", url: "", id: 9 },
+  { label: "赛程", icon: "/img/menu/menu_3.webp", url: "", id: 100 },
+  // { label: "棋牌", icon: "/img/menu/menu_4.webp", url: "", id: 4 },
+  // { label: "电子", icon: "/img/menu/menu_5.webp", url: "", id: 5 },
+  // { label: "真人", icon: "/img/menu/menu_6.webp", url: "", id: 6 },
+  // { label: "捕鱼", icon: "/img/menu/menu_7.webp", url: "", id: 7 },
+  // { label: "彩票", icon: "/img/menu/menu_8.webp", url: "", id: 8 },
+  // { label: "电竞", icon: "/img/menu/menu_9.webp", url: "", id: 9 },
 ];
+
 
 const itemClick = (item: any) => {
   active_id.value = item.id;
   router.push(`${item.url}`);
 };
-
+const itemGameClick = (item: any) => {
+  active_id.value = item.id;
+  router.push({
+    path: '/gameDetail',
+    query: {
+      venue_id: item.id,
+    }
+  })
+}
 onMounted(() => {
   console.log(77777, route);
 });

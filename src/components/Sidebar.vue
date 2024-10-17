@@ -280,7 +280,7 @@ onBeforeMount(() => {
     getHomeData()
 })
 onMounted(async () => {
-    debugger
+
     if (route.query.name) {
         state.active = route.query.name
     }

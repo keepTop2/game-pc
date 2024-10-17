@@ -45,7 +45,7 @@ import { useI18n } from 'vue-i18n';
 import { NButton } from "naive-ui";
 import { convertDateToObject } from "@/utils/dateTime";
 const { t } = useI18n();
-const emit = defineEmits(['changeTab', 'sendSeach', 'nextChange']);
+const emit = defineEmits(['pageChange', 'sendSeach', 'nextChange']);
 const props = defineProps({
 
     formParams: {
@@ -74,9 +74,14 @@ const formRef = ref();
 const state: any = reactive({
     pageData: {
         itemCount: 1,
-        defaultPageSize: 20
+        defaultPageSize: 20,
+        onChange: (page: number) => {//切换第几页时
+            emit('pageChange', page)
+        }
+
+
     },
-    date: null,
+
 
 
 })

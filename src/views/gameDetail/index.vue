@@ -1,26 +1,31 @@
 <template>
     <div>
         <div class="game-title">
-        <span class="input_box">
-            <n-input clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
-                @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
-                <template #suffix>
-                    <iconpark-icon icon-id="Group39336" color="#8e82c2" size="1rem" style="cursor:pointer"
-                        @click="onClickSearch"></iconpark-icon>
-                </template>
-            </n-input>
-        </span>
-        <div class="game_list">
-            <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
-                @click="onClickTab(v)">
-                <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
+            <span class="input_box">
+                <n-input clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
+                    @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
+                    <template #suffix>
+                        <iconpark-icon icon-id="Group39336" color="#8e82c2" size="1rem" style="cursor:pointer"
+                            @click="onClickSearch"></iconpark-icon>
+                    </template>
+                </n-input>
+            </span>
+            <div class="game_list">
+                <div :class="{ game_active: activeTab == -1 }" @click="onClickTab(-1)">
+                    <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
                     size="1rem"></iconpark-icon> -->
-                <span>{{ unserialize(v.kind_name) }}</span>
+                    <span>全部</span>
+                </div>
+                <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
+                    @click="onClickTab(v)">
+                    <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
+                    size="1rem"></iconpark-icon> -->
+                    <span>{{ unserialize(v.kind_name) }}</span>
+                </div>
+                <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
+                    <p>{{ t("common_favorite") }}</p>
+                </div>
             </div>
-            <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
-                <p>{{ t("common_favorite") }}</p>
-            </div>
-        </div>
         </div>
         <div class="games">
             <div class="game-detail">
@@ -68,7 +73,7 @@
             <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
                 v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
         </div>
-        <Loading v-model:visible="isLoading" ></Loading>
+        <Loading v-model:visible="isLoading"></Loading>
     </div>
 </template>
 
@@ -88,13 +93,11 @@ import { Message } from '@/utils/discreteApi';
 import { User } from '@/store/user';
 import Loading from '@/components/Loading.vue'
 
+
 const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
-const {
-    lang,
-    homeGameData
-} = storeToRefs(Page(pinia));
+const { lang, homeGameData } = storeToRefs(Page(pinia));
 
 const activeTab = ref(0)
 const queryGame = ref("")
@@ -129,11 +132,11 @@ const TabType = {
     FAVORITE: 88
 }
 
-
+// 获取场馆下所有平台
 const getHomeData = () => {
-  const data  = homeGameData.value[activeKind.value]?.three_platform
-  const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
-  threeGameKinds.value = item?.three_game_kind
+    const data = homeGameData.value[activeKind.value]?.three_platform
+    // const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
+    threeGameKinds.value = data
 }
 
 const isFav = (v: any) => {
@@ -185,25 +188,25 @@ const onPlayGame = async (v: any) => {
 }
 
 const onPlayGameFav = async (v: any) => {
-  if (!Local.get('user')) {
-      await User(pinia).setLogin(true)
-      return
-  }
-  let langObj: any = {
-    'en-US': 3,
-    'vi-VN': 2,
-    'zh-CN': 1
-  }
-  const favorites = Local.get('favorites') || []
-  const data = favorites.map((e:any) => {return {'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3]}})
-  const item = data.find((e:any) => e.gameId == v.gameId)
-  isLoading.value = true
-  let tb = NetPacket.req_3rd_game_login();
-  tb.agentId = item.agentId;
-  tb.kindId = item.kindId;
-  tb.gameId = item.gameId;
-  tb.lang = langObj[lang.value];
-  Net.instance.sendRequest(tb);
+    if (!Local.get('user')) {
+        await User(pinia).setLogin(true)
+        return
+    }
+    let langObj: any = {
+        'en-US': 3,
+        'vi-VN': 2,
+        'zh-CN': 1
+    }
+    const favorites = Local.get('favorites') || []
+    const data = favorites.map((e: any) => { return { 'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3] } })
+    const item = data.find((e: any) => e.gameId == v.gameId)
+    isLoading.value = true
+    let tb = NetPacket.req_3rd_game_login();
+    tb.agentId = item.agentId;
+    tb.kindId = item.kindId;
+    tb.gameId = item.gameId;
+    tb.lang = langObj[lang.value];
+    Net.instance.sendRequest(tb);
 }
 
 
@@ -239,22 +242,22 @@ const pageChange = (page: number) => { // 切换页码
 }
 
 const getFavs = () => {
-  const gameId = Local.get('favorites') || []
-  const gameIds = gameId.map((e:any) => e.split('__')[0])
-  favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
+    const gameId = Local.get('favorites') || []
+    const gameIds = gameId.map((e: any) => e.split('__')[0])
+    favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
 }
 
 const onAddFavorite = (v: any) => {
-  let favorites = Local.get('favorites') || []
-  const gameIds = favorites.map((e:any) => e.split('__')[0])
-  if (gameIds.includes(v.gameId)) {
-    favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
-  } else {
-    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
-    favorites.push(item)
-  }
-  Local.set('favorites', favorites)
-  getFavs()
+    let favorites = Local.get('favorites') || []
+    const gameIds = favorites.map((e: any) => e.split('__')[0])
+    if (gameIds.includes(v.gameId)) {
+        favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
+    } else {
+        const item = v.gameId + '__' + platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
+        favorites.push(item)
+    }
+    Local.set('favorites', favorites)
+    getFavs()
 }
 
 const unserialize = (v: string) => {
@@ -314,21 +317,21 @@ onBeforeMount(() => {
     gameName.value = name as string
     platformId.value = platform_id
     venueId.value = venue_id
-    activeKind.value = active
+    activeKind.value = venue_id
     getHomeData()
 })
 onMounted(() => {
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     getFavs()
 })
 onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
 
 watch(
@@ -402,7 +405,7 @@ watch(
             cursor: pointer;
 
             // >span {
-                // margin-left: 6px;
+            // margin-left: 6px;
             // }
         }
     }
@@ -435,6 +438,7 @@ watch(
                     width: 100%;
                     height: 100%;
                     cursor: pointer;
+
                     img {
                         width: 100%;
                         height: 100%;

@@ -86,6 +86,7 @@ export const Page = defineStore('page', {
         },
 
         async setHomePageGameData(data: any) {
+            data.shift()
             this.homeGameData = data
         },
         async setSettings(value: any) {
