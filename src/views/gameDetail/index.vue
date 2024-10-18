@@ -1,27 +1,54 @@
 <template>
-    <div>
-        <div class="game-title">
-        <span class="input_box">
-            <n-input clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
-                @keyup.enter="onClickSearch" :disabled="activeTab == TabType.FAVORITE">
-                <template #suffix>
-                    <iconpark-icon icon-id="Group39336" color="#8e82c2" size="1rem" style="cursor:pointer"
-                        @click="onClickSearch"></iconpark-icon>
-                </template>
-            </n-input>
-        </span>
+    <div class="game_detail">
+        <Imgt class="game_img" :src="`/img/game/${activeKind}.webp`" />
         <div class="game_list">
-            <div :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in gameKinds" :key="i"
-                @click="onClickTab(v)">
-                <!-- <iconpark-icon :icon-id="v.icon" :color="{'#fff': activeTab == i}"
-                    size="1rem"></iconpark-icon> -->
-                <span>{{ unserialize(v.kind_name) }}</span>
+            <n-carousel :slides-per-view="8.8" :space-between="10" :loop="false" draggable :show-arrow="false"
+                :show-dots="false">
+                <!-- <Imgt class="game_img" :src="`/img/home/kaisai.png`" v-for="i in 8" :key="i" /> -->
+                <span class="game_plat" :class="{ game_active: activeTab == -1 }" @click="onClickTab(-1)">全部</span>
+                <span class="game_plat" :class="{ game_active: activeTab == v.kindId }" v-for="(v, i) in threeGameKinds"
+                    :key="i" @click="onClickTab(v)">{{ unserialize(v.name) }}</span>
+            </n-carousel>
+
+
+
+        </div>
+        <div class="game-title">
+            <div class="input_box">
+                <n-input type="text" clearable :placeholder="t('home_page_seachGame')" v-model:value="queryGame"
+                    size="large" @keyup.enter="onClickSearch">
+                    <template #prefix>
+                        <iconpark-icon icon-id="gliconshous" color="#8e82c2" size="1rem"
+                            style="cursor:pointer"></iconpark-icon>
+                    </template>
+                </n-input>
+                <n-button class="login_btn" :bordered="false" block @click="onClickSearch">{{
+                    t('home_page_login') }}</n-button>
             </div>
-            <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
-                <p>{{ t("common_favorite") }}</p>
+            <div>
+                <n-tabs default-value="oasis">
+                    <template #prefix>
+                        Prefix
+                    </template>
+                    <n-tab-pane name="oasis" tab="Oasis">
+                        Wonderwall
+                    </n-tab-pane>
+                    <n-tab-pane name="the beatles" tab="the Beatles">
+                        Hey Jude
+                    </n-tab-pane>
+                    <n-tab-pane name="jay chou" tab="周杰伦">
+                        七里香
+                    </n-tab-pane>
+                    <template #suffix>
+                        Suffix
+                    </template>
+                </n-tabs>
             </div>
         </div>
+        <div :class="{ game_active: activeTab == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
+            <p>{{ t("common_favorite") }}</p>
         </div>
+
         <div class="games">
             <div class="game-detail">
                 <div v-if="activeTab == TabType.FAVORITE">
@@ -68,7 +95,7 @@
             <n-pagination :default-page-size="pageSize" class="pagination" @update:page="pageChange"
                 v-model:page="params.page" :item-count="result.total_page" v-show="result.total_page" />
         </div>
-        <Loading v-model:visible="isLoading" ></Loading>
+        <Loading v-model:visible="isLoading"></Loading>
     </div>
 </template>
 
@@ -88,13 +115,12 @@ import { Message } from '@/utils/discreteApi';
 import { User } from '@/store/user';
 import Loading from '@/components/Loading.vue'
 
+
 const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
-const {
-    lang,
-    homeGameData
-} = storeToRefs(Page(pinia));
+const { lang, homeGameData } = storeToRefs(Page(pinia));
+console.log('1222', homeGameData.value);
 
 const activeTab = ref(0)
 const queryGame = ref("")
@@ -129,11 +155,17 @@ const TabType = {
     FAVORITE: 88
 }
 
-
+// 获取场馆下所有平台
 const getHomeData = () => {
-  const data  = homeGameData.value[activeKind.value]?.three_platform
-  const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
-  threeGameKinds.value = item?.three_game_kind
+    // console.log(activeKind.value);
+
+    const data = homeGameData.value.find((e: any) => (e.id == Number(activeKind.value)))
+    // const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
+    // console.log(homeGameData.value);
+    // console.log(data.three_platform  );
+
+    threeGameKinds.value = data.three_platform
+
 }
 
 const isFav = (v: any) => {
@@ -185,25 +217,25 @@ const onPlayGame = async (v: any) => {
 }
 
 const onPlayGameFav = async (v: any) => {
-  if (!Local.get('user')) {
-      await User(pinia).setLogin(true)
-      return
-  }
-  let langObj: any = {
-    'en-US': 3,
-    'vi-VN': 2,
-    'zh-CN': 1
-  }
-  const favorites = Local.get('favorites') || []
-  const data = favorites.map((e:any) => {return {'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3]}})
-  const item = data.find((e:any) => e.gameId == v.gameId)
-  isLoading.value = true
-  let tb = NetPacket.req_3rd_game_login();
-  tb.agentId = item.agentId;
-  tb.kindId = item.kindId;
-  tb.gameId = item.gameId;
-  tb.lang = langObj[lang.value];
-  Net.instance.sendRequest(tb);
+    if (!Local.get('user')) {
+        await User(pinia).setLogin(true)
+        return
+    }
+    let langObj: any = {
+        'en-US': 3,
+        'vi-VN': 2,
+        'zh-CN': 1
+    }
+    const favorites = Local.get('favorites') || []
+    const data = favorites.map((e: any) => { return { 'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3] } })
+    const item = data.find((e: any) => e.gameId == v.gameId)
+    isLoading.value = true
+    let tb = NetPacket.req_3rd_game_login();
+    tb.agentId = item.agentId;
+    tb.kindId = item.kindId;
+    tb.gameId = item.gameId;
+    tb.lang = langObj[lang.value];
+    Net.instance.sendRequest(tb);
 }
 
 
@@ -239,29 +271,34 @@ const pageChange = (page: number) => { // 切换页码
 }
 
 const getFavs = () => {
-  const gameId = Local.get('favorites') || []
-  const gameIds = gameId.map((e:any) => e.split('__')[0])
-  favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
+    const gameId = Local.get('favorites') || []
+    const gameIds = gameId.map((e: any) => e.split('__')[0])
+    favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
 }
 
 const onAddFavorite = (v: any) => {
-  let favorites = Local.get('favorites') || []
-  const gameIds = favorites.map((e:any) => e.split('__')[0])
-  if (gameIds.includes(v.gameId)) {
-    favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
-  } else {
-    const item = v.gameId + '__' +  platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
-    favorites.push(item)
-  }
-  Local.set('favorites', favorites)
-  getFavs()
+    let favorites = Local.get('favorites') || []
+    const gameIds = favorites.map((e: any) => e.split('__')[0])
+    if (gameIds.includes(v.gameId)) {
+        favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
+    } else {
+        const item = v.gameId + '__' + platformId.value + '__' + activeTab.value + '__' + imgPrefix + v.gamePicturePC
+        favorites.push(item)
+    }
+    Local.set('favorites', favorites)
+    getFavs()
 }
 
-const unserialize = (v: string) => {
-    const data = JSON.parse(v)
-    return data[langs[lang.value]]
-}
 
+const unserialize = (v: any) => {
+    let obj: any = {
+        en: 'en-US',
+        zh: 'zh-CN',
+        vn: 'vi-VN'
+    }
+    // const data = JSON.parse(v)
+    return v[obj[lang.value]]
+}
 const getInitData = (agentId: any, kindId: any) => {
     const req = NetPacket.req_get_kind_in_platform();
     req.agentId = agentId
@@ -309,28 +346,40 @@ const gameUrlResult = (message: any) => {
 }
 
 onBeforeMount(() => {
-    const { platform_id, venue_id, name, active } = route.query
-    getInitData(platform_id, venue_id)
-    gameName.value = name as string
-    platformId.value = platform_id
-    venueId.value = venue_id
-    activeKind.value = active
-    getHomeData()
+    // const { platform_id, venue_id, name, active } = route.query
+    // getInitData(platform_id, venue_id)
+    // gameName.value = name as string
+    // platformId.value = platform_id
+    // venueId.value = venue_id
+
 })
 onMounted(() => {
+    const { venue_id } = route.query
+    activeKind.value = venue_id
+
+    getHomeData()
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,gameUrlResult);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     getFavs()
+    queryData()
 })
 onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
-    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result,null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
-
+watch(
+    () => route.query.venue_id,
+    (a) => {
+        if (a) {
+            activeKind.value = a
+            getHomeData()
+        }
+    }
+)
 watch(
     () => result.list,
     (a: any) => {
@@ -349,63 +398,100 @@ watch(
 <style lang='less' scoped>
 @timestamp: `new Date().getTime()`;
 
-.game-title {
-    width: 1200px;
-    // height: 72px;
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 22px;
-    color: #8d81c1;
-    font-size: 18px;
-    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%), radial-gradient(circle at 50% 50%, #361e79, #22203e 100%);
-    margin-top: 30px;
-
-    >.input_box {
-        display: flex;
+.game_detail {
+    .game_img {
         width: 100%;
-        margin-bottom: 20px;
-        align-items: center;
-
-        :deep(.n-input) {
-            .n-input__border {
-                border: 1px solid #322c59;
-            }
-
-            .n-input__placeholder {
-                color: #8e82c2;
-            }
-        }
-
-        :deep(.n-input .n-input__input-el) {
-            height: 40px;
-
-        }
+        height: 320px;
     }
 
     .game_list {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
+        width: 1400px;
+        height: 96px;
+        overflow: hidden;
+        border-radius: 16px;
+        border: 1px solid #181C25;
+        background: linear-gradient(180deg, #0A0B22 0%, #000 100%);
+        color: #fff;
+        padding: 12px;
 
-        >div {
-            display: flex;
-            align-items: center;
-            flex-direction: row;
-            justify-content: center;
-            width: 169px;
-            height: 52px;
+
+        .game_plat {
+            width: 146px;
+            height: 72px;
+            text-align: center;
+            line-height: 72px;
+            border-radius: 8px;
+            background: #22283A;
+            display: inline-block;
+            margin-right: 10px;
             cursor: pointer;
-
-            // >span {
-                // margin-left: 6px;
-            // }
         }
+
+
+
+
     }
+}
+
+.game-title {
+    height: 85.88px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    color: #8d81c1;
+    font-size: 18px;
+
+
+    >.input_box {
+        display: flex;
+
+        width: 522px;
+
+
+        height: 56px;
+
+        align-items: center;
+
+        .login_btn {
+            width: 111px;
+            height: 48px;
+            margin-left: 18px;
+        }
+
+        :deep(.n-input) {
+
+            border-radius: 8px;
+            background: #030309;
+            //     .n-input__input {
+            //         display: flex;
+            //         align-items: center;
+            //     }
+
+            .n-input__input-el {
+                font-size: 18px;
+            }
+
+            .n-input__border {
+                border: none;
+            }
+
+            .n-input__placeholder {
+                color: #9497A1;
+
+
+
+                >span {
+
+                    font-size: 16px;
+                }
+            }
+        }
+
+
+    }
+
+
 
 
     .game_active {
@@ -435,6 +521,7 @@ watch(
                     width: 100%;
                     height: 100%;
                     cursor: pointer;
+
                     img {
                         width: 100%;
                         height: 100%;

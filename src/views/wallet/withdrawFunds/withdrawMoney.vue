@@ -699,10 +699,6 @@ const railStyle = ({ focused, checked }: {
     //
     //}
 
-    .kjje_div {
-      margin-top: 30px;
-      margin-bottom: 30px;
-    }
     .btn {
       color: #fff;
       height: 40px !important;

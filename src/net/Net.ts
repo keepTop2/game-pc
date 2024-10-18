@@ -30,6 +30,8 @@ export const getSetting = async () => {
     await Page(pinia).setSettings(settings)
     const homeGameDataRes = await fetch(settings.home_game_data + new Date().getTime())
     const homeGameData = await homeGameDataRes.json()
+    console.dir('000000', homeGameData);
+
     await Page(pinia).setHomePageGameData(homeGameData)
     await getLocale()
     // 获取未读数量

@@ -86,7 +86,10 @@ export const Page = defineStore('page', {
         },
 
         async setHomePageGameData(data: any) {
-            this.homeGameData = data
+
+            this.homeGameData = data.filter((e: any) => e.id != 0)
+            console.dir('33333', this.homeGameData);
+
         },
         async setSettings(value: any) {
             this.settings = value

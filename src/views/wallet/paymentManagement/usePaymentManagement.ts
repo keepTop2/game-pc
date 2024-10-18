@@ -15,5 +15,6 @@ export default () => {
     ];
 
     const showAddBankModal = (v: boolean) => wallet.setShowAddBank(v);
-    return { MOCKPAYMENTS, showAddBankModal };
+    const showAddUsdtModal = (v: boolean) => wallet.setShowAddUsdt(v);
+    return { MOCKPAYMENTS, showAddBankModal, showAddUsdtModal };
 };
