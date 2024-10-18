@@ -2,12 +2,10 @@
 <template>
     <div class="record_page coop_table">
         <!-- Tabs -->
-        <n-flex class="tabs" align="center">
-            <n-flex align="center" justify="center" class="tabs_item"
-                :class="{ 'button n-button active_tab': activeTab == index }" @click="changeTab(index)"
-                v-for="(item, index) in titleArr" :key="index">{{ t(item.title) }}
-            </n-flex>
-        </n-flex>
+        <div class="tabs">
+            <span class="tabs_item" :class="{ 'active_tab': activeTab == index }" @click="changeTab(index)"
+                v-for="(item, index) in titleArr" :key="index">{{ t(item.title) }}</span>
+        </div>
         <TabForm :formParams="state.formParams" :form-params-list="state.formParamsList" :loading="state.loading"
             :columns="state.columns" :data="state.data" @send-seach="queryData"></TabForm>
         <!-- <router-view></router-view> -->
@@ -226,7 +224,7 @@ const queryData = () => { // 查询
         Object.assign(query.start_time, state.formParams.start_time)
         Object.assign(query.end_time, state.formParams.end_time)
     }
-    debugger
+
     query.page = state.formParams.page
     query.status = state.formParams.status
     query.currency = state.formParams.currency
@@ -267,22 +265,34 @@ onUnmounted(() => {
     .tabs {
         margin-bottom: 40px;
         border-radius: 14px;
-        padding: 4px;
+        height: 40px;
+        padding: 2px;
         background: #0D0E2E;
+        display: flex;
+        align-items: center;
 
         .tabs_item {
-            min-width: 106px;
+            // min-width: 106px;
+            padding: 9px 18px;
             color: #AEAEB0;
+            height: 38px;
+            box-sizing: border-box;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
 
         .active_tab {
             color: #fff;
+            width: auto;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+            box-shadow: 0.5px 0.5px 1px 0px #9B9EFF inset;
+
         }
 
-        .button {
-            height: 40px;
-            font-size: 18px;
-        }
+
     }
 
 }

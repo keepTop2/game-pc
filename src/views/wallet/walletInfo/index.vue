@@ -1,10 +1,10 @@
 <template>
 <!--  <depositFirst ref="depositFirModal" @haveBankList="haveBankList" />-->
 <!--  <Withdraw v-if="showWithdraw" :myBankList="myBankList" />-->
-  <RedeemCode v-if="showRedeemCode" />
+<!--  <RedeemCode v-if="showRedeemCode" />-->
 
   <!--  提款校验-->
-  <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList" />
+<!--  <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList" />-->
 
   <!-- 提款 -->
 <!--  <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />-->
@@ -126,8 +126,8 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import useWalletInfo from './useWalletInfo';
 // import Withdraw from '@/views/wallet/components/Withdraw.vue';
 // import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
-import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
-import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
+// import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
+// import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
 // import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
 
 import navTab from '../components/navTab.vue';
@@ -164,7 +164,7 @@ const depositFirModal = ref();
 //   haveBank.value = e
 // }
 
-const withdrawMoneyShow = ref(false)
+// const withdrawMoneyShow = ref(false)
 
 // const goCalibration = () => {
 //   withdrawMoneyShow.value = true
@@ -212,7 +212,7 @@ const {
   // showTransferModal,
   // showDeposit,
   // showWithdraw,
-  showRedeemCode,
+  // showRedeemCode,
   // showTransfer,
   // roleInfo,
   // userInfo,
@@ -223,7 +223,7 @@ const {
   refreshFlag,
   // getAllMoney,
   // goToWithdraw,
-  myBankList,
+  // myBankList,
   eyeOpen,
   totalMoneyTxt,
   moneyShow,
@@ -237,7 +237,7 @@ const {
   slideStr,
   slideValue,
   chooseFastMon,
-  calibrationRef,
+  // calibrationRef,
   // withdrawMoneyRef,
   countMonRate,
   inputBlur,

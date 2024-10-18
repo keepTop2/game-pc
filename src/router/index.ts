@@ -21,6 +21,12 @@ const routes: RouteRecordRaw[] = [
 
   },
   {
+    path: '/gameDetail',
+    name: 'gameDetail',
+    meta: { title: 'gameDetail' },
+    component: () => import('@/views/gameDetail/index.vue'),
+  },
+  {
     path: '/gameMain',
     name: 'gameMain',
     meta: { title: 'gameMain' },
@@ -38,12 +44,7 @@ const routes: RouteRecordRaw[] = [
         meta: { title: 'gamingPlatform' },
         component: () => import('@/views/gameMain/gamingPlatform/index.vue'),
       },
-      {
-        path: 'gameDetail',
-        name: 'gameDetail',
-        meta: { title: 'gameDetail' },
-        component: () => import('@/views/gameMain/gameDetail/index.vue'),
-      },
+
 
       {
         path: 'proxyCooperation',
