@@ -10,7 +10,8 @@
 
       <div v-for="(item, i) in homeGameData" :key="i" class="menu_wrap_item"
         :class="active_id == item.id && 'active_item'" @click="itemGameClick(item)">
-        <Imgt :src="item.icon" />
+        <!-- <Imgt :src="item.icon" /> -->
+        <Imgt :src="`/img/menu/${item.id}.webp`" />
         <span>{{ unserialize(item.name) }}</span>
         <div :class="active_id == item.id && 'active_item_bg'"></div>
       </div>
