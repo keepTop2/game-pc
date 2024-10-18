@@ -39,9 +39,9 @@
       }
 
       .number {
-        padding: 0 10px 0 16px;
+        padding: 20px 10px 20px 16px;
         width: 100%;
-        bottom: 15px;
+        height: 100%;
         left: 0;
         font-size: 13px;
         z-index: 10;
@@ -50,29 +50,36 @@
           font-size: 20px;
           font-weight: 600;
         }
-        .bank_txt {
-          max-width: 200px;
-          .txt_1 {
-            word-wrap: break-word;
-            span {
-              display: inline-block;
-              max-width: 160px;
+        .txt_bottom {
+          position: absolute;
+          bottom: 20px;
+          .bank_txt {
+            width: 200px;
+            .txt_1 {
+              display: flex;
+              white-space: nowrap;
+              .txt_add {
+                display: inline-block;
+                max-width: 180px;
+                word-wrap: break-word;
+                white-space: wrap;
+              }
+            }
+            .txt_bz {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }
+
         .list_item_r {
           .set_box {
             width: auto;
             height: 28px;
-            padding: 4px 13.5px;
-            color: #C0C2DB;
+            padding: 4px 12px;
             background: rgba(31, 38, 77, 1);
             border-radius: 8px;
-
-            &.mr_color {
-              color: #fff;
-              background: #1382E7;
-            }
           }
         }
       }
@@ -108,7 +115,7 @@
         flex-grow: 0;
         border-radius: 4px;
         background-color: rgba(204, 198, 198, 0.42);
-        z-index: 10;
+        z-index: 99;
       }
 
       &.add_bank {

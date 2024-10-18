@@ -53,15 +53,18 @@
           </span>
           <div class="abs number">
             <div class="txt_wl">{{t('网络')}}: {{netWorkArr.find((ite: any) => ite.value == item.usdt_type)?.label}}</div>
-            <n-flex justify="space-between" align="flex-end">
-              <n-flex class="bank_txt">
-                <div align="start" class="txt_1"> {{t('地址')}}: <span>{{ item.usdt_addr }}</span></div>
-                {{t('备注')}}: {{ item.desc }}
-              </n-flex>
+            <n-flex class="txt_bottom" justify="space-between" align="flex-end">
+              <div class="bank_txt">
+                <div class="txt_1">
+                  <span>{{t('地址')}}:</span>
+                  <span class="txt_add">{{ item.usdt_addr }}</span>
+                </div>
+                <div class="txt_bz">{{t('备注')}}: {{ item.desc }}</div>
+              </div>
               <n-flex class="list_item_r">
                 <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
                 <template v-else>
-                  <n-flex class="set_box mr_color button" @click="doDefaultUsdt(item)">
+                  <n-flex class="button_color set_box mr_color button" @click="doDefaultUsdt(item)">
                     {{ t('paymentManagement_page_set_default') }}
                   </n-flex>
                 </template>
@@ -100,8 +103,8 @@ const { t } = useI18n();
 const { showAddBankModal, showAddUsdtModal } = usePaymentManagement();
 const showAddBankRef = ref(false);
 const showAddUsdtRef = ref(false);
-const myBankList = ref();
-const myUsdtList = ref();
+const myBankList = ref([]);
+const myUsdtList = ref([]);
 const myBankName = ref(); // 如果有已经绑定的银行卡姓名，下次绑定需要一致
 const loading = ref(false)
 const curOperate = ref({}); // 当前操作的数据
@@ -239,7 +242,19 @@ const removeUsdt = (item: any) => {
   operateType.value = 'del';
   // showDelBankRef.value = true;
   curOperate.value = item;
-  console.log(item);
+  Dialog.warning({
+    showIcon: false,
+    title: t('paymentManagement_page_tips'),
+    content: t('paymentManagement_page_tipContent'),
+    positiveText: t('home_page_confirm'),
+    negativeText: t('home_page_cancel'),
+    onPositiveClick: () => {
+      operateUsdt(item)
+    },
+    onNegativeClick: () => {
+
+    },
+  })
 };
 const operateUsdt = (item: any) => {
   item = curOperate.value;
