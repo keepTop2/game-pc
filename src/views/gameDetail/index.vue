@@ -1,6 +1,6 @@
 <template>
     <div class="game_detail">
-        <Imgt class="game_img" :src="`/img/game/${activeKind}.webp`" />
+        <Imgt class="game_img" :src="`/img/game/${venueId}.webp`" />
         <div class="game_list">
             <n-carousel :slides-per-view="8.8" :space-between="10" :loop="false" draggable :show-arrow="false"
                 :show-dots="false">
@@ -25,23 +25,21 @@
                 <n-button class="login_btn" :bordered="false" block @click="onClickSearch">{{
                     t('home_page_login') }}</n-button>
             </div>
-            <div>
-                <n-tabs default-value="oasis">
-                    <template #prefix>
-                        Prefix
-                    </template>
-                    <n-tab-pane name="oasis" tab="Oasis">
-                        Wonderwall
+            <div class="tab_box">
+                <n-tabs :default-value="activeKind" @update:value="changeLableTab">
+                    <n-tab-pane :name="item.id" v-for="(item, i) in state.kindList" :key="i">
+                        <template #tab>
+                            <div class="tab_div">
+                                <iconpark-icon class="right"
+                                    :icon-id="activeKind == item.id ? item.activeIcon : item.icon"
+                                    size="1.2rem"></iconpark-icon>
+                                <span :class="activeKind == item.id && 'n-tabs-tab--active'">{{ item.name }}</span>
+                            </div>
+                        </template>
+
                     </n-tab-pane>
-                    <n-tab-pane name="the beatles" tab="the Beatles">
-                        Hey Jude
-                    </n-tab-pane>
-                    <n-tab-pane name="jay chou" tab="周杰伦">
-                        七里香
-                    </n-tab-pane>
-                    <template #suffix>
-                        Suffix
-                    </template>
+
+
                 </n-tabs>
             </div>
         </div>
@@ -120,7 +118,7 @@ const { t } = useI18n();
 const route = useRoute()
 const router = useRouter()
 const { lang, homeGameData } = storeToRefs(Page(pinia));
-console.log('1222', homeGameData.value);
+
 
 const activeTab = ref(0)
 const queryGame = ref("")
@@ -134,15 +132,49 @@ const result: any = reactive({ // 结果
     total_page: 0,
     list: []
 })
+const state = reactive({
+    kindList: [
+        {
+            name: '全部',
+            icon: 'all',
+            activeIcon: 'allun',
+            id: '-1'
+        },
+        {
+            name: '热门',
+            icon: 'hot',
+            activeIcon: 'hotun',
+            id: '1' // 获取热门需将 is_lable 设置为1  其他为0
+        },
+        {
+            name: '最近',
+            icon: 'zuijin',
+            activeIcon: 'zuijinun',
+            id: '-3'
+        },
+        {
+            name: '收藏',
+            icon: 'shoucang',
+            activeIcon: 'shoucangun',
+            id: '-2'
+        },
+
+    ]
+})
 let gameName = ref('')
 let gameKinds = ref<any>([])
 let favoriteData = ref<any[]>([])
 let resultList: any = reactive([])
 let pageSize = ref<number>(20)
-let platformId = ref<any>(0)
+// 游戏平台id
+let platformId = ref<any>(-1)
+//场馆id
 let venueId = ref<any>(0)
+// 是否获取火热的游戏
+let is_lable = ref(0)
 let isVenudId = ref<boolean>(false)
-let activeKind = ref<any>(0)
+// 右侧标签id
+let activeKind = ref<any>(-1)
 let threeGameKinds = ref<any[]>([])
 let newTab = ref()
 const langs: any = {
@@ -157,17 +189,24 @@ const TabType = {
 
 // 获取场馆下所有平台
 const getHomeData = () => {
-    // console.log(activeKind.value);
-
-    const data = homeGameData.value.find((e: any) => (e.id == Number(activeKind.value)))
+    const data = homeGameData.value.find((e: any) => (e.id == Number(venueId.value)))
     // const item = data?.find((e: any) => e.name[lang.value].toUpperCase() == gameName.value)
-    // console.log(homeGameData.value);
-    // console.log(data.three_platform  );
 
     threeGameKinds.value = data.three_platform
 
 }
+//切换右侧标签事件
+const changeLableTab = (item: any) => {
+    activeKind.value = item
+    if (item == 1) {
+        is_lable.value = 1
+    } else {
+        is_lable.value = 0
+    }
+    queryData()
+    console.log(item);
 
+}
 const isFav = (v: any) => {
     return favoriteData.value.some((e: any) => e.gameId == v.gameId)
 }
@@ -318,7 +357,8 @@ const queryData = () => { // 查询
     loading.value = true
     const query = NetPacket.req_get_games_in_platform()
     query.agentId = platformId.value
-    query.kindId = activeTab.value
+    query.kindId = activeKind.value
+    query.is_lable = is_lable.value
     query.page = params.page
     query.pageSize = pageSize.value
     Net.instance.sendRequest(query);
@@ -355,7 +395,7 @@ onBeforeMount(() => {
 })
 onMounted(() => {
     const { venue_id } = route.query
-    activeKind.value = venue_id
+    venueId.value = venue_id
 
     getHomeData()
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
@@ -375,7 +415,7 @@ watch(
     () => route.query.venue_id,
     (a) => {
         if (a) {
-            activeKind.value = a
+            venueId.value = a
             getHomeData()
         }
     }
@@ -426,11 +466,42 @@ watch(
             margin-right: 10px;
             cursor: pointer;
         }
-
-
-
-
     }
+
+    .tab_box {
+        // width: 386px;
+        // height: 85.885px;
+        background-color: #0B0B0B;
+        padding: 14px 24px 23.88px 50px;
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+
+        &:before {
+            width: 120px;
+            height: 0;
+            margin: 100px auto;
+            border-left: 80px solid transparent;
+            border-top: 150px solid #00C1AE;
+        }
+
+        .tab_div {
+            display: flex;
+            align-items: center;
+        }
+
+        :deep(.n-tabs) {
+            .n-tabs-tab {
+                font-size: 20px;
+                color: #AFB6BD;
+                margin-left: 3px;
+                padding-bottom: 10px;
+            }
+
+            .n-tabs-tab--active {
+                color: #B5A4FF;
+            }
+        }
+    }
+
 }
 
 .game-title {
@@ -490,9 +561,6 @@ watch(
 
 
     }
-
-
-
 
     .game_active {
         color: #fff;

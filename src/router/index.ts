@@ -80,7 +80,14 @@ const routes: RouteRecordRaw[] = [
         path: 'ranking',  //赛事排行
         name: 'ranking',
         meta: { title: 'ranking' },
-        component: () => import('@/views/newHome/ranking/index.vue'),
+        component: () => import('@/views/ranking/index.vue'),
+      },
+
+      {
+        path: 'recentAwards',  //近期大奖
+        name: 'recentAwards',
+        meta: { title: 'recentAwards' },
+        component: () => import('@/views/recentAwards/index.vue'),
       },
     ],
   },
