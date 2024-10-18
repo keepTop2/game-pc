@@ -2,36 +2,7 @@
   <div class="home">
     <!-- <Sidebar /> -->
     <div class="content">
-      <div class="announcement">
-        <div class="carousel_wrap">
-          <n-carousel :draggable="false" autoplay :loop="true">
-            <div v-for="i in 5" :key="i">
-              <Imgt class="carousel" src="/img/header/carousel1.webp" />
-            </div>
-          </n-carousel>
-          <p style="height: 40px">
-            <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-            <n-carousel
-              :show-dots="false"
-              autoplay
-              draggable
-              direction="vertical"
-              v-if="textAnnouncement"
-            >
-              <span
-                v-for="(v, i) in textAnnouncement"
-                :key="i"
-                style="height: 40px"
-                class="carousel_span"
-                >{{ t(v) }}</span
-              >
-            </n-carousel>
-          </p>
-        </div>
-        <div class="carousel_wrap_des">
-          <Imgt class="carousel" src="/img/header/carousel2.webp" />
-        </div>
-      </div>
+      <carouselWrap></carouselWrap>
 
       <div class="game_detail">
         <div class="game_list">
@@ -133,12 +104,9 @@ import pinia from "@/store/index";
 import { storeToRefs } from "pinia";
 import { Page } from "@/store/page";
 import { useI18n } from "vue-i18n";
+import carouselWrap from "./components/carouselWrap.vue";
 // import { useRouter } from "vue-router";
 const { t } = useI18n();
-// const router = useRouter();
-const page = Page(pinia);
-// const isVisible = ref(0);
-const { textAnnouncement } = storeToRefs(page);
 
 // const state: any = reactive({
 //   // gameActive: 0,
@@ -229,49 +197,6 @@ onUnmounted(() => {
 .content {
   margin: 32px 0;
   width: 100%;
-
-  .announcement {
-    position: relative;
-    display: flex;
-    :deep(.n-carousel__dot) {
-      width: 64px;
-      border-radius: 100px;
-    }
-
-    img {
-      object-fit: cover;
-    }
-
-    height: 424px;
-
-    .carousel_wrap {
-      width: 941px;
-      height: 100%;
-      margin-right: 15px;
-    }
-
-    .carousel_wrap_des {
-      width: 444px;
-      height: 100%;
-    }
-
-    > p {
-      position: absolute;
-      bottom: 0px;
-      left: 0;
-      width: 100%;
-      height: 40px;
-      padding: 0 14.5px;
-      background-color: rgba(0, 0, 0, 0.3);
-      margin: 0;
-      display: flex;
-      align-items: center;
-      color: #fff;
-      font-size: 16px;
-      // border-bottom-left-radius: 15px;
-      // border-bottom-right-radius: 15px;
-    }
-  }
 }
 
 :deep(.game_detail) {
