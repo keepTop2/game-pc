@@ -34,7 +34,7 @@
             赠送
             <span>300%</span>
           </div>
-          <n-button style="height: 40px; width: 154px">存款开始游戏</n-button>
+          <div class="free_btn sign_up" style="width: 154px">存款开始游戏</div>
         </div>
 
         <div v-else>
@@ -47,7 +47,8 @@
             </div>
           </div>
           <div class="btn_group">
-            <n-button style="height: 40px; width: 140px">Sign Up</n-button>
+            <!-- <n-button style="height: 40px; width: 140px">Sign Up</n-button> -->
+            <div class="free_btn sign_up" @click="isReg = true">Sign Up</div>
             <div class="free_btn">Free Game</div>
           </div>
           <div class="community_icon">
@@ -129,6 +130,7 @@ const { t } = useI18n();
   padding-top: 80px;
   padding-left: 30px;
   .carousel_man {
+    height: 246px;
     position: absolute;
     right: 0;
     bottom: 0;
@@ -164,30 +166,37 @@ const { t } = useI18n();
     }
   }
 }
+.free_btn {
+  width: 140px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+  font-size: 16px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  cursor: pointer;
+}
+.sign_up {
+  border: none;
+  background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
+}
 
 .btn_group {
   margin-top: 58px;
   display: flex;
   gap: 12px;
-  .free_btn {
-    width: 140px;
-    height: 40px;
-    border-radius: 8px;
-    border: 1px solid #fff;
-    font-size: 16px;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    cursor: pointer;
-  }
 }
 .community_icon {
   display: flex;
   margin-top: 24px;
   gap: 15px;
   cursor: pointer;
+  img {
+    height: 40px;
+  }
 }
 .activity_wrap {
   display: flex;

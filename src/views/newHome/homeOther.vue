@@ -18,7 +18,7 @@
           </div>
 
         </div>
-        <span class="more">{{ t('home_page_more') }}</span>
+        <span class="more" @click="router.push('/gameMain/recentAwards')">{{ t('home_page_more') }}</span>
         </p>
         <n-carousel style="position: static;" :slides-per-view="8" :space-between="10" :loop="false" draggable
           show-arrow>

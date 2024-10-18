@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import matchDes from "../components/matchDes.vue";
+import matchDes from "../newHome/components/matchDes.vue";
 const tab_id = ref(1);
 const tabList = [
   { label: "赛况", id: 1 },
