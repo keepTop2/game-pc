@@ -2,6 +2,8 @@
 
   <BankListInfo v-if="bankListInfoShow" ref="bankListInfoRef" @bindBankCheck="checkBankInfo" :myBankName="myBankName"
     :myBankList="mySecBankList" />
+  <UsdtListInfo v-if="usdtListInfoShow" ref="usdtListInfoRef" @bindBankCheck="checkUsdtInfo" :myBankName="myBankName"
+                :myBankList="usdtBankList" />
 
   <div class="list_box bg_color">
     <div class="txt_title">{{t('提款方式')}}</div>
@@ -59,7 +61,7 @@
           </n-input>
         </n-form-item>
         <n-form-item class="not_input" :label="t('withdraw_page_locknAmount')">
-          <n-input autocomplete="off" readonly size="large" v-model:value="withdrawData.canot_withdraw" >
+          <n-input autocomplete="off" readonly size="large" :value="withdrawData.canot_withdraw" >
             <template #suffix>
               <div class="pointer gradient_txt" @click="$router.push('auditRecord')"> {{ t('withdraw_page_lockedDetail') }}</div>
             </template>
@@ -77,22 +79,6 @@
                 <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
               </template>
             </n-input>
-<!--            <div class="selectBank">
-              <div class="bankName">
-                <div class="icon">
-                  <Imgt :src="`/img/bankIcon/bank_logo_${backItemInfo.bank_id}.webp`"
-                    :alt="backItemInfo.bank_name" />
-                </div>
-                <span>{{ backItemInfo.bank_name }}</span>
-              </div>
-              <div class="mantissa">
-                <span>
-                  {{ t('walletInfo_page_tailNumber') }}：{{
-                    backItemInfo.account_number.substring(backItemInfo.account_number.length - 4,
-                      backItemInfo.account_number.length) }}
-                </span>
-              </div>
-            </div>-->
           </n-form-item>
           <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
         </n-flex>
@@ -105,7 +91,7 @@
               </template>
             </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openUsdtListInfo">{{t('更换')}}</n-flex>
         </n-flex>
 
         <n-flex justify="space-between">
@@ -205,6 +191,7 @@ import { NetPacket } from "@/netBase/NetPacket";
 import { Net } from "@/net/Net";
 import { Message } from "@/utils/discreteApi";
 import BankListInfo from '@/views/wallet/withdrawFunds/bankListInfo.vue';
+import UsdtListInfo from '@/views/wallet/withdrawFunds/usdtListInfo.vue';
 import pinia from '@/store';
 import { User } from '@/store/user';
 import { storeToRefs } from 'pinia';
@@ -300,7 +287,9 @@ const rules = {
   ]
 }
 const bankListInfoRef = ref()
+const usdtListInfoRef = ref()
 const bankListInfoShow = ref(false)
+const usdtListInfoShow = ref(false)
 
 const inputBlur = () => {
   form.value.amount = verifyNumberComma(String(form.value.amount))
@@ -309,10 +298,18 @@ const inputBlur = () => {
 const validateInput = () => {
   form.value.amount = form.value.amount.replace(/[^0-9]/g, '');
 }
+// 打开银行卡弹窗
 const openBankListInfo = () => {
   bankListInfoShow.value = true
   nextTick(() => {
     bankListInfoRef.value.openModal()
+  })
+}
+// 打开usdt弹窗
+const openUsdtListInfo = () => {
+  usdtListInfoShow.value = true
+  nextTick(() => {
+    usdtListInfoRef.value.openModal()
   })
 }
 
@@ -357,7 +354,8 @@ const onCloseSec = () => {
 }
 
 const onSubmit = () => {
-  console.log('-----##', form.value)
+  mySecBankList.value.max_withdraw_money = 20000000
+  console.log('-----form', form.value)
   // 有未审核提现记录
   if (isHasOrder.value) {
     return Message.error(t('withdraw_page_fail_tips6'))
@@ -368,7 +366,7 @@ const onSubmit = () => {
   formRef.value?.validate((errors: any) => {
     if (!errors) {
       const numMon = removeComma(form.value.amount);
-      if (!form.value.bank) {
+      if (!form.value.bank && curPayWay.value.paymethod == '1') {
         return Message.error(t('paymentManagement_page_chBank'))
       }
       if (numMon < mySecBankList.value.min_withdraw_money) {
@@ -377,14 +375,17 @@ const onSubmit = () => {
       if (numMon > mySecBankList.value.max_withdraw_money) {
         return Message.error(t('withdraw_page_maxAmount', { maxAmount: mySecBankList.value.max_withdraw_money }))
       }
-      form.value.address = mySecBankList.value.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
+      // 银行卡
+      // if (curPayWay.value.paymethod == '1') {
+      //   form.value.address = mySecBankList.value.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
+      // }
       handleSubmit()
     } else {
       console.log(errors);
     }
   });
 }
-
+// 提款提交
 const handleSubmit = () => {
   const req = NetPacket.req_apply_withdraw();
   req.money = removeComma(form.value.amount);
@@ -392,6 +393,7 @@ const handleSubmit = () => {
   req.bank_id = form.value.bank || 0; // 银行 id
   req.passwd = form.value.password;
   req.way = form.value.way; // 1 银行卡，2 USTD
+  console.log('--提款参数----', req)
   Net.instance.sendRequest(req);
 };
 
@@ -464,8 +466,8 @@ const handleCanWithdraw = (res: any) => {
   setCanWithDrawMon(res);
 };
 const withdrawData = ref({
-  turnover: 0,
-  canot_withdraw: 0,
+  turnover: '0',
+  canot_withdraw: '0',
 })
 // 设置可提现金额
 const setCanWithDrawMon = (data: any) => {
@@ -484,27 +486,37 @@ const backItemInfo = ref({
   account_number: 'xxxxxxx',
   bank_id: 0
 })
-
+// 银行
 const getInfo = () => {
   console.log('*******==', mySecBankList.value)
   let bankListItem = mySecBankList.value.bank_card_info_list[0]
   myBankName.value = mySecBankList.value.cardholder_name || ''
   console.log('===当前选择的提款银行信息--', bankListItem)
-  form.value.bank = bankListItem.bank_id || 0
-  backItemInfo.value.bank_name = bankListItem.bank_name || ''
-  backItemInfo.value.account_number = bankListItem.account_number || 'xxxxxxx'
-  backItemInfo.value.bank_id = bankListItem.bank_id || 0
+  checkBankInfo(bankListItem)
+}
+// usdt
+const getUsdtInfo = () => {
+  let bankListItem = usdtBankList.value[0]
+  console.log('===当前选择的usdt提款银行信息--', usdtBankList.value, bankListItem)
+  checkUsdtInfo(bankListItem)
 }
 
 const checkBankInfo = (item: any) => {
-  console.log('--更换银行--')
+  console.log('--更换银行--', item)
   const { bank_id, account_number, bank_name } = item
   form.value.bank = bank_id
+  form.value.address = account_number
   backItemInfo.value.bank_name = bank_name || ''
   backItemInfo.value.account_number = account_number || 'xxxxxxx'
   backItemInfo.value.bank_id = bank_id || 0
 }
-
+const checkUsdtInfo = (item: any) => {
+  console.log('--更换usdt--', item)
+  const { usdt_addr } = item
+  form.value.bank = 0;
+  form.value.address = usdt_addr || ''
+  backItemInfo.value.bank_name = usdt_addr || ''
+}
 const initReq = () => {
   form.value.maxValue = verifyNumberComma(String(roleInfo.value.bank_money))
   Net.instance.sendRequest(NetPacket.req_can_withdraw());
@@ -512,8 +524,15 @@ const initReq = () => {
 
 // 选择充值方式
 const chooseWay = (data: any) => {
+  console.log('--切换--', data)
   form.value.way = data.paymethod;
   curPayWay.value = data;
+  // 银行
+  if (data.paymethod == 1) {
+    getInfo();
+  } else {
+    getUsdtInfo();
+  }
 };
 const onCloseSm = (data: any) => {
   curPayWay.value = data;
@@ -533,7 +552,7 @@ const handleUsdtList = (res: any) => {
       label: item.usdt_addr,
       value: item.usdt_addr,
     }
-  })
+  }).reverse()
 }
 // 清空密码输入
 watch(() => showPwdModal.value, (n) => {

@@ -56,10 +56,10 @@
             <n-flex class="txt_bottom" justify="space-between" align="flex-end">
               <div class="bank_txt">
                 <div class="txt_1">
-                  <span>{{t('地址')}}:</span>
+                  <span>{{t('paymentManagement_page_address')}}:</span>
                   <span class="txt_add">{{ item.usdt_addr }}</span>
                 </div>
-                <div class="txt_bz">{{t('备注')}}: {{ item.desc }}</div>
+                <div class="txt_bz">{{t('paymentManagement_page_remark')}}: {{ item.desc }}</div>
               </div>
               <n-flex class="list_item_r">
                 <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
@@ -103,8 +103,8 @@ const { t } = useI18n();
 const { showAddBankModal, showAddUsdtModal } = usePaymentManagement();
 const showAddBankRef = ref(false);
 const showAddUsdtRef = ref(false);
-const myBankList = ref([]);
-const myUsdtList = ref([]);
+const myBankList: any = ref([]);
+const myUsdtList: any = ref([]);
 const myBankName = ref(); // 如果有已经绑定的银行卡姓名，下次绑定需要一致
 const loading = ref(false)
 const curOperate = ref({}); // 当前操作的数据
