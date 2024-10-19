@@ -83,6 +83,10 @@ export const needLoginApi = async () => {
 		Net.instance.sendRequest(req_user_info);
 		let vipInfoReq = NetPacket.req_vip_info();
 		Net.instance.sendRequest(vipInfoReq);
+		// 获取所有收藏id集合
+
+		const query = NetPacket.req_all_collected()
+		Net.instance.sendRequest(query);
 
 	}
 

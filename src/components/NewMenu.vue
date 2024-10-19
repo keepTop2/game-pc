@@ -41,6 +41,7 @@ import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from 'pinia';
 import pinia from '@/store/index';
 import { Page } from '@/store/page';
+import { Local } from "@/utils/storage";
 const { homeGameData } = storeToRefs(Page(pinia));
 const router = useRouter();
 const {
@@ -80,10 +81,9 @@ const itemClick = (item: any) => {
   active_id.value = item.id;
   router.push(`${item.url}`);
 };
-const itemGameClick = (item: any) => {
-  console.log(item);
-
+const itemGameClick = async (item: any) => {
   active_id.value = item.id;
+  await Page(pinia).setMenuActive(item.id, item.name);
   router.push({
     path: '/gameDetail',
     query: {
