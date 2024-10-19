@@ -1,7 +1,7 @@
 <template>
   <ModalDialog v-model:visible="showBankListModal" title="walletInfo_page_selectBank">
     <template #content>
-      <div class="body vertical center t_md bank_sec_list">
+      <div class="vertical center t_md bank_sec_list">
         <n-flex justify="space-between" align="center" class="w_full" vertical>
           <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
             <n-flex align="center" class=" bank_item">
@@ -14,17 +14,21 @@
                     <span>{{ item.bankName }}</span>
                     <span>{{ item.name }}</span>
                   </p>
-                  <p class="p_account">{{ item.bankCode }}</p>
+                  <p class="p_account">{{`${t('addBank_page_bankCard')}: ${item.bankCode}`}}</p>
                 </div>
                 <div class="utilization-bank">
-                  <n-button v-if="!item.isUse" :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
-                    {{ t('paymentManagement_page_choose') }}
-                  </n-button>
-                  <n-button @click="bankCheck(index, 'isDefault')"
-                            :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
-                    {{ item.isDefault ? t('paymentManagement_page_default_bank') :
-                    t('paymentManagement_page_set_default') }}
-                  </n-button>
+                  <div class="btn_cs" v-if="item.isDefault">
+                    {{t('usdt_default')}}
+                  </div>
+                  <div v-else>
+                    <n-button v-if="!item.isUse" @click="removeBank(item)" :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
+                      {{ t('paymentManagement_page_delete') }}
+                    </n-button>
+                    <n-button @click="bankCheck(index, 'isDefault')"
+                              :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
+                      {{t('paymentManagement_page_set_default') }}
+                    </n-button>
+                  </div>
                 </div>
               </div>
             </n-flex>
@@ -33,12 +37,11 @@
           <div v-if="!(bankList.length >= 6)">
             <div class="bank_list_add" v-show="!addBankFlag">
               <div class="center" @click="flagBank(true)">
-                <Imgt src="/img/wallet/bankAdd.webp" alt="nodata" />
+                <iconpark-icon icon-id="gerentianjiaicon" size="1.5rem"></iconpark-icon>
                 <span>{{ t('paymentManagement_page_new_bank') }}</span>
               </div>
             </div>
           </div>
-
 
           <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
             <div class="add-bank-text">
@@ -76,41 +79,17 @@
               </n-input>
             </n-form-item>
 
-
-            <!--              <n-form-item label="手机号" path="phone">-->
-            <!--                <n-input clearable size="large" v-model:value="form.phone"-->
-            <!--                         :placeholder="'请输入手机号'"></n-input>-->
-            <!--              </n-form-item>-->
-
-
-            <!--              <n-form-item :label="'验证码'">-->
-            <!--                <n-input clearable size="large" v-model:value="form.phoneCode"-->
-            <!--                         :placeholder="'请输入6位数验证码'"></n-input>-->
-            <!--                <n-button :bordered="false" :loading="phoneCodeLoading"-->
-            <!--                          @click="submitSendPhoneCode" class="btn"-->
-            <!--                          :disabled="phoneCodeDisabled">发送-->
-            <!--                </n-button>-->
-            <!--              </n-form-item>-->
-
-
             <div class="cz_btn with_sec_btn">
               <a @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
-              <!--                <a @click="goToDeposit"> 确认 </a>-->
             </div>
-            <!--              <div class="error">-->
-            <!--                <Imgt src="/img/wallet/tipsWarning.webp" alt="nodata" />-->
-            <!--                <span>输入信息错误</span>-->
-            <!--                </div>-->
-
           </n-form>
 
         </n-flex>
-        <!-- 充值列表选择 -->
 
-        <div class="tips">
+<!--        <div class="tips">
           <Imgt src="/img/wallet/bankTips.webp" />
           <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
-        </div>
+        </div>-->
       </div>
     </template>
   </ModalDialog>
@@ -157,7 +136,7 @@ import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { TTabList } from "@/utils/types";
-import { Message } from "@/utils/discreteApi.ts";
+import { Dialog, Message } from "@/utils/discreteApi.ts";
 import pinia from '@/store';
 import { storeToRefs } from 'pinia';
 // import { MessageMap } from '@/net/MessageMap.ts';
@@ -189,7 +168,7 @@ const baseObj = {
   accountName: props.myBankName,
 }
 const form = ref({ ...baseObj })
-
+const curOperate = ref({}); // 当前操作的数据
 const formRef = ref()
 const submit = () => {
   if (!form.value.bank_id) {
@@ -264,10 +243,9 @@ const bankCheck = (index: number, key: string) => {
     });
   }
 
-  if (key === 'isUse') {
+  if (key === 'isDefault') {
     emit('bindBankCheck', data[index])
     openModal()
-  } else {
     handleBankId(data[index])
   }
   // console.log(data[index], '--data[index][key]-');
@@ -352,6 +330,51 @@ const handleDefaultBank = (res: any) => {
   }
 }
 
+// 删除银行
+const removeBank = (item: any) => {
+  curOperate.value = item;
+  // console.log(item);
+  Dialog.warning({
+    showIcon: false,
+    title: t('paymentManagement_page_tips'),
+    content: t('paymentManagement_page_tipContent'),
+    positiveText: t('home_page_confirm'),
+    negativeText: t('home_page_cancel'),
+    onPositiveClick: () => {
+      operateBank(item)
+    },
+    onNegativeClick: () => {
+
+    },
+  })
+};
+
+const operateBank = (item: any) => {
+  item = curOperate.value;
+  let req;
+  req = NetPacket.req_del_bank_card_info();
+  req.bankcard = `${item.bank_id}_${item.account_number}`;
+  Net.instance.sendRequest(req);
+}
+const handleDelBankList = (res: any) => {
+  if (res.result === 0) {
+    Message.success(t('proxy_page_caoZuo'))
+    getMyBankList();
+  } else {
+    Message.error(t('proxy_page_caoZuoFail'))
+  }
+}
+
+const handleDelUsdtList = (res: any) => {
+  // showDelBankRef.value = false
+  if (res.result === 0) {
+    Message.success(t('proxy_page_caoZuo'))
+    // getMyUsdtList();
+  } else {
+    Message.error(t('proxy_page_caoZuoFail'))
+  }
+}
+
 watch(() => showBankListModal.value, (n) => {
   // 打开
   if (n) {
@@ -373,12 +396,17 @@ onMounted(() => {
   // 设置默认
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, handleDefaultBank);
+  // 删除
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, handleDelBankList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, handleDelUsdtList);
 })
 
 onUnmounted(() => {
   // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, null);
 })
 
 
@@ -392,276 +420,263 @@ defineExpose({
 @import '@/assets/CommonForm.less';
 @timestamp: `new Date().getTime()`;
 
-.deposit_modal {
-  font-size: 16px;
-  width: 494px !important;
+.bank_sec_list {
+  padding: 30px 35px;
+  gap: 20px !important;
 
-  .body {
-    gap: 15px !important;
+  .w_full {
+    gap: 20px !important;
+  }
+  .bank_list {
+    flex-wrap: nowrap !important;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    width: 434px;
+    padding: 16px;
+    height: 102px;
+    background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
+    background-size: 100%;
 
-    .bank_list {
-      width: 100%;
-      margin: 0 auto 30px;
+    &.bank_used {
+      border-color: #1BCC58;
+    }
+
+    .bank_item {
+      gap: 14px !important;
+      cursor: pointer;
+      font-size: 14px;
       flex-wrap: nowrap !important;
-      border-radius: 16px;
-      border: 2px solid #5A47B2;
 
-      &.bank_used {
-        border-color: #0cc41e;
-      }
+      .bank_l_icon {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #D6CDFF;
+        text-align: center;
+        flex: none;
 
-      .bank_item {
-        cursor: pointer;
-        font-size: 14px;
-        width: 100%;
-        padding: 0 18px 0 18px;
-        height: 90px;
-        background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-        flex-wrap: nowrap !important;
-
-        .bank_l_icon {
-          width: 54px;
-          height: 54px;
-          line-height: 54px;
-          text-align: center;
-          flex: none;
-
-          img {
-            width: 40px;
-            transform: translateY(7px);
-          }
-
-          //background-color: #ef1111;
-          //margin-left: 18px;
+        &::after {
+          content: '';
+          position: absolute;
+          top: -5px;
+          left: 62px;
+          width: 1px;
+          height: 48px;
+          background: url("/img/payment/line2.webp?t=@{timestamp}") no-repeat;
+          background-size: 100%;
         }
 
-        .bank_l_name {
-          display: flex;
-          justify-content: space-between;
-          width: 100%;
-          margin-left: 15px;
+        img {
+          width: 42px;
+          transform: translateY(7px);
+        }
 
-          .utilization-bank {
+        //background-color: #ef1111;
+        //margin-left: 18px;
+      }
+
+      .bank_l_name {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-left: 15px;
+
+        .info-text {
+          flex: 1;
+        }
+
+        .utilization-bank {
+          width: 80px;
+          //flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          margin-left: 8px;
+
+          .btn_cs {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            margin-left: 8px;
-
-            .btn-bank {
-              min-width: 75px;
-              height: 22px;
-              padding: 0 5px;
-              border: none !important;
-              font-size: 12px;
-              color: rgba(192, 194, 219, 1);
-              background-color: rgba(33, 16, 81, 1);
-            }
-
-            .btn-bank-use {
-              color: rgba(255, 255, 255, 1);
-              background-color: rgba(12, 196, 30, 1);
-            }
-
-            .btn-bank-default {
-              color: rgba(255, 255, 255, 1);
-              background-color: rgba(19, 130, 231, 1);
-            }
-
-            .btn-bank:nth-child(2) {
-              margin-top: 10px;
-            }
+            min-width: 80px;
+            height: 28px;
+            border-radius: 8px;
+            background: #525566;
+          }
+          .btn-bank {
+            width: auto;
+            min-width: 80px;
+            height: 28px;
+            padding: 0 5px;
+            border: none !important;
+            font-size: 12px;
+             &:first-child {
+               background: #0CC41E;
+             }
           }
 
-          .info-text {
+          .btn-bank-use {
+            color: rgba(255, 255, 255, 1);
+            background-color: rgba(12, 196, 30, 1);
+          }
 
-            p {
+          .btn-bank-default {
+            color: rgba(255, 255, 255, 1);
+            background-color: rgba(19, 130, 231, 1);
+          }
+
+          .btn-bank:nth-child(2) {
+            margin-top: 10px;
+          }
+        }
+
+        .info-text {
+          p {
+            font-size: 14px;
+          }
+
+          p:nth-child(1) {
+            span:nth-child(2) {
+              margin-left: 10px;
               font-size: 14px;
-              margin-right: 10px;
-            }
-
-            p:nth-child(1) {
-              span:nth-child(2) {
-                margin-left: 10px;
-
-                font-size: 14px;
-              }
-            }
-
-            p:nth-child(2) {
-              text-align: right;
-              font-size: 18px;
-              font-weight: 600;
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 2;
-              overflow: hidden;
-              text-overflow: ellipsis;
             }
           }
 
-          //max-width: 120px;
-        }
-      }
-    }
-
-    .bank_list_add {
-      cursor: pointer;
-      font-size: 14px;
-      width: 374px;
-      padding: 0 18px 0 18px;
-      gap: 8px 12px;
-      height: 90px;
-      background-color: rgba(29, 14, 74, 1);
-      box-shadow: 0 4.47px 4.47px 0 rgba(0, 0, 0, 0.25) inset;
-      border: 3px solid rgba(78, 59, 153, 1);
-      border-radius: 10px;
-
-      .center {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        img {
-          width: 30px;
-          height: 30px;
-        }
-
-        span {
-          margin-top: 6px;
-          color: rgba(142, 130, 194, 1);
-          font-size: 13px;
-        }
-      }
-    }
-
-    .bank-add-form {
-      padding: 17px 19px;
-      //gap: 8px 12px;
-      background-color: rgba(29, 14, 74, 1);
-      box-shadow: 0 4.47px 4.47px 0 rgba(0, 0, 0, 0.25) inset;
-      border: 3px solid rgba(78, 59, 153, 1);
-      border-radius: 10px;
-      box-sizing: border-box;
-
-      .add-bank-text {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        img {
-          cursor: pointer;
-        }
-      }
-
-      .choose-bank {
-        flex-flow: nowrap !important;
-        gap: 10px !important;
-
-        .choose-bank-l {
-          width: 235px !important;
-          background-image: url('/img/payment/inputBgSmall.webp?t=@{timestamp}') !important;
-
-          .bank_cicon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #fff;
-            border: 2px solid #D6CDFF;
-
-            img {
-              width: 22px;
-            }
-          }
-
-          .bank_cname {
-            line-height: 16px;
+          p:nth-child(2) {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
 
-        .change-btn {
-          display: inline-block;
-          text-align: center;
-          width: 90px;
-          height: 36px;
-          line-height: 36px;
-          background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
-          background-size: 100%;
-        }
-      }
-
-      .btn {
-        color: #fff;
-        height: 40px !important;
-        width: 90px;
-        font-size: 14px;
-        background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
-        background-size: contain;
-      }
-
-      .error {
-        margin-top: 20px;
-        text-align: center;
-
-        img {
-          width: 14px;
-          height: 14px;
-          margin-right: 4px;
-          vertical-align: middle;
-        }
-
-        color: rgba(209, 99, 99, 1);
+        //max-width: 120px;
       }
     }
+  }
 
-    .tips {
-      margin-top: 20px;
-      min-width: 374px;
-      gap: 8px 12px;
+  .bank_list_add {
+    cursor: pointer;
+    font-size: 14px;
+    width: 434px;
+    height: 102px;
+    border: 1px dashed #fff;
+    border-radius: 8px;
 
-      img {
-        width: 12px;
-        height: 12px;
-        margin-right: 4px;
-        vertical-align: middle;
-      }
-
-      span {
-        color: rgba(142, 130, 194, 1);
-        font-size: 11px;
-      }
-
-      //padding: 0 18px 0 18px;
-    }
-
-    .cz_btn {
+    .center {
       display: flex;
+      width: 100%;
+      height: 100%;
       align-items: center;
       justify-content: center;
+      gap: 10px;
 
-      a {
-        font-size: 18px;
-        display: block;
-        width: 382px;
-        height: 54px;
-        line-height: 52px;
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .bank-add-form {
+    padding: 17px 19px;
+    //gap: 8px 12px;
+    background-color: rgba(29, 14, 74, 1);
+    box-shadow: 0 4.47px 4.47px 0 rgba(0, 0, 0, 0.25) inset;
+    border: 3px solid rgba(78, 59, 153, 1);
+    border-radius: 10px;
+    box-sizing: border-box;
+
+    .add-bank-text {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      img {
+        cursor: pointer;
+      }
+    }
+
+    .choose-bank {
+      flex-flow: nowrap !important;
+      gap: 10px !important;
+
+      .choose-bank-l {
+        width: 235px !important;
+        background-image: url('/img/payment/inputBgSmall.webp?t=@{timestamp}') !important;
+
+        .bank_cicon {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #fff;
+          border: 2px solid #D6CDFF;
+
+          img {
+            width: 22px;
+          }
+        }
+
+        .bank_cname {
+          line-height: 16px;
+        }
+      }
+
+      .change-btn {
+        display: inline-block;
         text-align: center;
-        margin: 20px auto 0;
-        background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
+        width: 90px;
+        height: 36px;
+        line-height: 36px;
+        background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
         background-size: 100%;
       }
     }
 
   }
+
+  //.tips {
+  //  margin-top: 20px;
+  //  min-width: 374px;
+  //  gap: 8px 12px;
+  //
+  //  img {
+  //    width: 12px;
+  //    height: 12px;
+  //    margin-right: 4px;
+  //    vertical-align: middle;
+  //  }
+  //
+  //  span {
+  //    color: rgba(142, 130, 194, 1);
+  //    font-size: 11px;
+  //  }
+  //}
+
+  .cz_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      font-size: 18px;
+      display: block;
+      width: 382px;
+      height: 54px;
+      line-height: 52px;
+      text-align: center;
+      margin: 20px auto 0;
+      background: url('/img/payment/sub_btn.webp?t=@{timestamp}') center no-repeat;
+      background-size: 100%;
+    }
+  }
 }
 
 
 .deposit_sm_modal {
-
   .body {
     .sm-txt {
       font-size: 24px;
@@ -670,10 +685,8 @@ defineExpose({
       margin: 0 auto;
       background: #17a1fb;
     }
-
     .bank_list_item {
       width: 100%;
-
       a {
         img {
           width: 30px;
@@ -693,46 +706,6 @@ defineExpose({
 
       &.search_icon {
         background-image: url('/img/payment/search_icon.webp?t=@{timestamp}');
-      }
-    }
-
-    .kjje_div {
-      gap: 20px !important;
-
-      .kj_item {
-        width: 110px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: url('/img/payment/monBg.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-    }
-
-    .btn_zone {
-      margin: 10px auto;
-    }
-
-    .cz_tips {
-      font-size: 12px;
-      text-align: center;
-      color: #D16363;
-
-      .txt {
-        color: #60D580;
-        margin-bottom: 10px;
-      }
-
-      .tip {
-        gap: 4px !important;
-
-        .icon {
-          display: inline-block;
-          width: 12px;
-          height: 12px;
-          background: url('/img/payment/error_icon.webp?t=@{timestamp}') center no-repeat;
-          background-size: 100%;
-        }
       }
     }
 
