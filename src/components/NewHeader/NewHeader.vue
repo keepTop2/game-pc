@@ -13,8 +13,13 @@
       <div class="search">
         <n-input size="large" placeholder="搜索" :class="{ input_ac: isSearch }">
           <template #prefix>
-            <iconpark-icon icon-id="gliconshous" size="1.2rem" @click="search" class="input_icon"
-              style="margin-left: 4px"></iconpark-icon>
+            <iconpark-icon
+              icon-id="gliconshous"
+              size="1.2rem"
+              @click="search"
+              class="input_icon"
+              style="margin-left: 4px"
+            ></iconpark-icon>
           </template>
         </n-input>
 
@@ -35,7 +40,11 @@
       <!--       
       主题色切换 -->
       <div class="theme">
-        <Imgt v-if="theme == 'day'" src="/img/header/day.webp" @click="changeTheme('night')" />
+        <Imgt
+          v-if="theme == 'day'"
+          src="/img/header/day.webp"
+          @click="changeTheme('night')"
+        />
         <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')" />
       </div>
 
@@ -55,16 +64,29 @@
         <div>
           <n-popover trigger="hover" display-directive="show" :show-arrow="false">
             <template #trigger>
-              <span class="avatar_wrap">
-                <Imgt @error="avatarLoadError" :src="`/img/head_icons/${roleInfo.head_photo}.webp` ||
-                  '/img/home/avatar.webp'
-                  " class="avatar_logo" />
-                <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
+              <span class="avatar_wrap" @click="visibleSetting = true">
+                <Imgt
+                  @error="avatarLoadError"
+                  :src="
+                    `/img/head_icons/${roleInfo.head_photo}.webp` ||
+                    '/img/home/avatar.webp'
+                  "
+                  class="avatar_logo"
+                />
+                <iconpark-icon
+                  icon-id="Group39340"
+                  color="#8e82c2"
+                  size="1rem"
+                ></iconpark-icon>
               </span>
             </template>
             <div class="menu_box">
-              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
-                @click="menuClick(item, i)">
+              <p
+                :class="menuActive == i ? 'active' : ''"
+                v-for="(item, i) in menu"
+                :key="i"
+                @click="menuClick(item, i)"
+              >
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
                 <span>{{ item.name }}</span>
               </p>
@@ -72,8 +94,13 @@
           </n-popover>
         </div>
         <div class="country_box">
-          <n-popselect v-model:value="lang" :render-label="renderLabel" :options="settings.lang_list"
-            @update:value="valueChange" trigger="click">
+          <n-popselect
+            v-model:value="lang"
+            :render-label="renderLabel"
+            :options="settings.lang_list"
+            @update:value="valueChange"
+            trigger="click"
+          >
             <span>
               <Imgt :src="`/img/header/${lang}.webp`" alt="country" />
             </span>
@@ -101,6 +128,9 @@
       </n-modal>
       <!-- 进入免费夺宝入口 -->
       <RegPop></RegPop>
+
+      <!-- 头像设置 -->
+      <avatarSettings v-model:visible="visibleSetting" />
     </div>
   </header>
 </template>
@@ -118,7 +148,7 @@ import { storeToRefs } from "pinia";
 import { Page } from "@/store/page";
 import { User } from "@/store/user";
 import { verifyNumberComma } from "@/utils/others";
-
+import avatarSettings from "@/views/wallet/components/avatarSettings.vue";
 import { useI18n } from "vue-i18n";
 import { NetEnumDef } from "@/netBase/NetEnumDef";
 import defaultAvatar from "/img/home/avatar.webp";
@@ -144,6 +174,7 @@ const { hasLogin, isLogin, isReg, isForget, roleInfo } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
 const theme = ref("day");
+const visibleSetting = ref(false);
 const state: any = reactive({
   userInfo: null,
   active: 0,
@@ -192,7 +223,7 @@ const menuClick = async (item: any, j: number) => {
         await User(pinia).setHasLogin(false);
         location.href = "/";
       },
-      onNegativeClick: () => { },
+      onNegativeClick: () => {},
     });
   } else if (item.url == "kf") {
     // if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
@@ -434,7 +465,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 100;
 
-  >div {
+  > div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -618,6 +649,7 @@ onUnmounted(() => {
       .avatar_wrap {
         display: flex;
         align-items: center;
+        cursor: pointer;
       }
 
       .avatar_logo {
@@ -632,18 +664,18 @@ onUnmounted(() => {
     .user_box {
       text-align: end;
 
-      >span {
+      > span {
         margin-right: 10px;
       }
 
-      >.login_box {
+      > .login_box {
         display: flex;
         justify-content: space-around;
         width: 180px;
         margin-left: 40px;
         color: #fff;
 
-        >span {
+        > span {
           min-width: 62px;
           height: 32px;
           display: flex;
@@ -655,13 +687,15 @@ onUnmounted(() => {
           // border: solid 1px #5a47b2;
           // background-color: #402c95;
 
-          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill /
+            0px 10px stretch stretch;
           // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px
+            10px stretch stretch;
         }
       }
     }
@@ -691,7 +725,7 @@ onUnmounted(() => {
       }
     }
 
-    >p {
+    > p {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -701,7 +735,7 @@ onUnmounted(() => {
       border-radius: 10px;
       background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
-      >span {
+      > span {
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -711,7 +745,7 @@ onUnmounted(() => {
         padding: 0 6px;
         color: #fff;
 
-        >img {
+        > img {
           width: 24px;
           height: 24px;
         }
@@ -734,10 +768,12 @@ onUnmounted(() => {
     &:hover {
       border-image-source: linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       border-image-slice: 1;
-      background-image: radial-gradient(circle at 50% 0%,
+      background-image: radial-gradient(
+          circle at 50% 0%,
           #1170ff,
           #1154ff 56%,
-          #6b11ff 90%),
+          #6b11ff 90%
+        ),
         linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       background-origin: border-box;
       background-clip: content-box, border-box;
@@ -757,7 +793,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
 
-  >p {
+  > p {
     color: #fff;
     padding: 10px 10px;
     margin: 0;
@@ -766,7 +802,7 @@ onUnmounted(() => {
     align-items: center;
     cursor: pointer;
 
-    >span {
+    > span {
       margin-left: 8px;
       font-size: 16px;
     }
@@ -799,7 +835,7 @@ onUnmounted(() => {
   color: #8e82c2;
   cursor: pointer;
 
-  >span {
+  > span {
     margin-left: 12px;
   }
 }

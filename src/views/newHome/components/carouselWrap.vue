@@ -34,7 +34,13 @@
             赠送
             <span>300%</span>
           </div>
-          <div class="free_btn sign_up" style="width: 154px">存款开始游戏</div>
+          <div
+            class="free_btn sign_up"
+            style="width: 154px"
+            @click="router.push('/wallet/records')"
+          >
+            存款开始游戏
+          </div>
         </div>
 
         <div v-else>
@@ -72,11 +78,13 @@ import { Page } from "@/store/page";
 import { useI18n } from "vue-i18n";
 import { User } from "@/store/user";
 const page = Page(pinia);
+import { useRouter } from "vue-router";
 // const isVisible = ref(0);
 const { textAnnouncement } = storeToRefs(page);
 const userInfo = User(pinia);
-const { hasLogin, isLogin, isReg, isForget, roleInfo } = storeToRefs(userInfo);
+const { hasLogin, isReg } = storeToRefs(userInfo);
 const { t } = useI18n();
+const router = useRouter();
 </script>
 
 <style lang="less" scoped>

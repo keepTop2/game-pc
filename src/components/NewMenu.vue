@@ -20,11 +20,11 @@
       </div>
     </div>
     <div class="menu_wrap_other">
-      <div>
+      <div @click="router.push('/wallet/activity')">
         <Imgt src="/img/menu/menu_10.webp" />
         <span>活动</span>
       </div>
-      <div>
+      <div @click="router.push('/wallet/levelInfo')">
         <Imgt src="/img/menu/menu_11.webp" />
         <span>VIP</span>
       </div>
@@ -38,26 +38,23 @@
 <script setup lang="ts" name="Header">
 import { ref, onMounted, computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { storeToRefs } from 'pinia';
-import pinia from '@/store/index';
-import { Page } from '@/store/page';
-import { Local } from "@/utils/storage";
+import { storeToRefs } from "pinia";
+import pinia from "@/store/index";
+import { Page } from "@/store/page";
 const { homeGameData } = storeToRefs(Page(pinia));
 const router = useRouter();
-const {
-  lang
-} = storeToRefs(Page(pinia));
+const { lang } = storeToRefs(Page(pinia));
 const route = useRoute();
 const active_id = ref(0);
 const unserialize = (v: any) => {
   let obj: any = {
-    en: 'en-US',
-    zh: 'zh-CN',
-    vn: 'vi-VN'
-  }
+    en: "en-US",
+    zh: "zh-CN",
+    vn: "vi-VN",
+  };
   // const data = JSON.parse(v)
-  return v[obj[lang.value]]
-}
+  return v[obj[lang.value]];
+};
 const menuList = [
   { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: 0 },
   {
@@ -76,7 +73,6 @@ const menuList = [
   // { label: "电竞", icon: "/img/menu/menu_9.webp", url: "", id: 9 },
 ];
 
-
 const itemClick = (item: any) => {
   active_id.value = item.id;
   router.push(`${item.url}`);
@@ -85,19 +81,17 @@ const itemGameClick = async (item: any) => {
   active_id.value = item.id;
   await Page(pinia).setMenuActive(item.id, item.name);
   router.push({
-    path: '/gameDetail',
+    path: "/gameDetail",
     query: {
       venue_id: item.id,
-    }
-  })
-}
+    },
+  });
+};
 // 监听counter.count的变化
 watchEffect(() => {
   // 执行相应的操作
   console.log(`count变为${homeGameData.value[0].id}`);
 });
-
-
 </script>
 
 <style lang="less" scoped>
