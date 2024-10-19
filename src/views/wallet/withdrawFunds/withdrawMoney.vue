@@ -503,6 +503,7 @@ const getUsdtInfo = () => {
 
 const checkBankInfo = (item: any) => {
   console.log('--更换银行--', item)
+  if (!item) return
   const { bank_id, account_number, bank_name } = item
   form.value.bank = bank_id
   form.value.address = account_number
@@ -512,6 +513,7 @@ const checkBankInfo = (item: any) => {
 }
 const checkUsdtInfo = (item: any) => {
   console.log('--更换usdt--', item)
+  if (!item) return
   const { usdt_addr } = item
   form.value.bank = 0;
   form.value.address = usdt_addr || ''
