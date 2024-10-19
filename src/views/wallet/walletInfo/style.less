@@ -7,7 +7,6 @@
   padding: 40px;
 
   .game_wallet_top {
-
     .title {
       font-size: 16px;
       font-weight: 500;
@@ -78,7 +77,6 @@
     }
 
     .top_center {
-
       .zz_btn {
         gap: 5px !important;
         border-radius: 8px;
@@ -104,19 +102,21 @@
     .money_input {
       margin: 30px 0 44px;
 
-      .refresh_icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        background: url('/img/payment/Vector.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-      }
-
       ::v-deep(.n-input) {
+        font-size: 16px;
         width: 250px;
         height: 40px;
         line-height: 40px;
-        border-radius: 12px;
+        border-radius: 8px;
+        background: rgba(33, 36, 67, 1);
+
+        .n-input__input-el,
+        .n-input__placeholder,
+        .n-input__placeholder span {
+          font-size: 14px;
+          height: 40px;
+          line-height: 40px;
+        }
       }
 
       .btn_ch {
@@ -204,66 +204,3 @@
   width: 120px;
   height: 40px;
 }
-
-
-.size0 {
-  font-size: 24px;
-  line-height: 24px;
-}
-
-.size1 {
-  font-size: 20px;
-  line-height: 20px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.size2 {
-  font-size: 16px;
-  line-height: 16px;
-}
-
-.size3 {
-  font-size: 14px;
-  line-height: 14px;
-}
-
-.size4 {
-  font-size: 12px;
-  line-height: 12px;
-}
-
-//.n-button {
-//  padding: 0;
-//  height: auto;
-//  --n-bezier: none !important;
-//  --n-bezier-ease-out: none !important;
-//  --n-ripple-duration: none !important;
-//  --n-opacity-disabled: none !important;
-//  --n-wave-opacity: none !important;
-//  font-weight: none !important;
-//  --n-color: none !important;
-//  --n-color-hover: none !important;
-//  --n-color-pressed: none !important;
-//  --n-color-focus: none !important;
-//  --n-color-disabled: none !important;
-//  --n-ripple-color: none !important;
-//  --n-text-color: none !important;
-//  --n-text-color-hover: none !important;
-//  --n-text-color-pressed: none !important;
-//  --n-text-color-focus: none !important;
-//  --n-text-color-disabled: none !important;
-//  --n-border: none !important;
-//  --n-font-size: none !important;
-//  --n-padding: none !important;
-//  --n-icon-size: none !important;
-//  --n-icon-margin: none !important;
-//  --n-border-hover: none !important;
-//  --n-border-pressed: none !important;
-//  --n-border-focus: none !important;
-//  --n-border-disabled: none !important;
-//  --n-width: none !important;
-//  --n-height: none !important;
-//  --n-border-radius: none !important;
-//  --n-border: none !important;
-//}

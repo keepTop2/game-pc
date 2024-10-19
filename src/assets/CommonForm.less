@@ -1,5 +1,10 @@
 @timestamp: `new Date().getTime()`;
 
+:deep(.n-form-item) {
+  .n-form-item-feedback-wrapper {
+    min-height: 5px;
+  }
+}
 :deep(.n-input) {
    height: 40px;
    background: rgba(33, 36, 67, 1);
@@ -31,6 +36,15 @@
    //  background-color: transparent;
    //}
  }
+:deep(.n-select) {
+  .n-base-selection {
+    border-color: #26294C;
+    .n-base-selection-label {
+      background: #212443 !important;
+    }
+  }
+}
+
 
 // 充值和提现--开始
 .txt_title {

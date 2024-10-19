@@ -76,10 +76,6 @@ const route = useRoute()
 
 }
 
-.size1 {
-    font-size: 20px;
-}
-
 .back_button {
     cursor: pointer;
     width: 19.2px;

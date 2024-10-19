@@ -258,7 +258,7 @@ const showAvSetting = () => {
 
   .nav_item {
     text-align: center;
-    gap: 10px !important;
+    gap: 8px !important;
     padding: 20px;
 
     >p {
@@ -269,6 +269,7 @@ const showAvSetting = () => {
       transform-style: preserve-3d;
       margin: 0;
       cursor: pointer;
+      border: 1px solid #14173a;
 
       >span {
         display: block;
@@ -280,7 +281,7 @@ const showAvSetting = () => {
       border-radius: 12px;
       color: #fff;
       background: rgba(33, 36, 67, 1);
-      border: 1px solid rgba(38, 41, 76, 1)
+      border-color: rgba(38, 41, 76, 1)
     }
   }
 

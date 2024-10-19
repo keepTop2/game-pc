@@ -99,7 +99,7 @@
         <!-- usdt提款 -->
         <n-flex v-show="curPayWay.paymethod == '2'"  justify="space-between">
           <n-form-item :label="t('选择USDT地址')" style="flex: 1;">
-            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('walletInfo_page_selectBank')">
+            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('选择USDT地址')">
               <template #suffix>
                 <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
               </template>
@@ -340,12 +340,12 @@ const chooseMoneyArr = [
   { label: '100,000,000', value: 100000000 },
 ];
 
-const openModal = () => {
-  showSecModal.value = true;
-  nextTick(() => {
-    getBaseData();
-  })
-}
+// const openModal = () => {
+//   showSecModal.value = true;
+//   nextTick(() => {
+//     getBaseData();
+//   })
+// }
 const getBaseData = () => {
   form.value = { ...baseObj }
   initReq(); // 获取可提现金额
@@ -486,6 +486,7 @@ const backItemInfo = ref({
 })
 
 const getInfo = () => {
+  console.log('*******==', mySecBankList.value)
   let bankListItem = mySecBankList.value.bank_card_info_list[0]
   myBankName.value = mySecBankList.value.cardholder_name || ''
   console.log('===当前选择的提款银行信息--', bankListItem)
@@ -496,6 +497,7 @@ const getInfo = () => {
 }
 
 const checkBankInfo = (item: any) => {
+  console.log('--更换银行--')
   const { bank_id, account_number, bank_name } = item
   form.value.bank = bank_id
   backItemInfo.value.bank_name = bank_name || ''
@@ -545,10 +547,10 @@ watch(() => myBankList, (n) => {
 })
 
 onMounted(() => {
+  getMyBankList();
   getUsdtList();
   sendChangeCole(3); // 查询是否开启资金密码
-  getMyBankList();
-  // setTimeout(() => initReq(), 600);
+  setTimeout(() => getBaseData(), 500);
   // 可提现金额
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, handleCanWithdraw);
   // 提款提交监听
@@ -566,9 +568,9 @@ onUnmounted(() => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, null);
 })
 
-defineExpose({
-  openModal
-});
+// defineExpose({
+//   openModal
+// });
 
 const railStyle = ({ focused, checked }: {
   focused: boolean
