@@ -1,15 +1,25 @@
 <template>
   <div class="menu_wrap">
     <div class="menu_wrap_list">
-      <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item" :class="active_id == item.id && 'active_item'"
-        @click="itemClick(item)">
+      <div
+        v-for="(item, i) in menuList"
+        :key="i"
+        class="menu_wrap_item"
+        :class="active_id == item.id && 'active_item'"
+        @click="itemClick(item)"
+      >
         <Imgt :src="item.icon" />
         <span>{{ item.label }}</span>
         <div :class="active_id == item.id && 'active_item_bg'"></div>
       </div>
 
-      <div v-for="(item, i) in homeGameData" :key="i" class="menu_wrap_item"
-        :class="active_id == item.id && 'active_item'" @click="itemGameClick(item)">
+      <div
+        v-for="(item, i) in homeGameData"
+        :key="i"
+        class="menu_wrap_item"
+        :class="active_id == item.id && 'active_item'"
+        @click="itemGameClick(item)"
+      >
         <!-- <Imgt :src="item.icon" /> -->
         <Imgt :src="`/img/menu/${item.id}.webp`" />
         <span>{{ unserialize(item.name) }}</span>
@@ -20,11 +30,11 @@
       </div>
     </div>
     <div class="menu_wrap_other">
-      <div>
+      <div @click="router.push('/wallet/activity')">
         <Imgt src="/img/menu/menu_10.webp" />
         <span>活动</span>
       </div>
-      <div>
+      <div @click="router.push('/wallet/levelInfo')">
         <Imgt src="/img/menu/menu_11.webp" />
         <span>VIP</span>
       </div>
@@ -38,25 +48,23 @@
 <script setup lang="ts" name="Header">
 import { ref, onMounted, computed, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { storeToRefs } from 'pinia';
-import pinia from '@/store/index';
-import { Page } from '@/store/page';
+import { storeToRefs } from "pinia";
+import pinia from "@/store/index";
+import { Page } from "@/store/page";
 const { homeGameData } = storeToRefs(Page(pinia));
 const router = useRouter();
-const {
-  lang
-} = storeToRefs(Page(pinia));
+const { lang } = storeToRefs(Page(pinia));
 const route = useRoute();
 const active_id = ref(0);
 const unserialize = (v: any) => {
   let obj: any = {
-    en: 'en-US',
-    zh: 'zh-CN',
-    vn: 'vi-VN'
-  }
+    en: "en-US",
+    zh: "zh-CN",
+    vn: "vi-VN",
+  };
   // const data = JSON.parse(v)
-  return v[obj[lang.value]]
-}
+  return v[obj[lang.value]];
+};
 const menuList = [
   { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: 0 },
   {
@@ -75,7 +83,6 @@ const menuList = [
   // { label: "电竞", icon: "/img/menu/menu_9.webp", url: "", id: 9 },
 ];
 
-
 const itemClick = (item: any) => {
   active_id.value = item.id;
   router.push(`${item.url}`);
@@ -85,19 +92,17 @@ const itemGameClick = (item: any) => {
 
   active_id.value = item.id;
   router.push({
-    path: '/gameDetail',
+    path: "/gameDetail",
     query: {
       venue_id: item.id,
-    }
-  })
-}
+    },
+  });
+};
 // 监听counter.count的变化
 watchEffect(() => {
   // 执行相应的操作
   console.log(`count变为${homeGameData.value[0].id}`);
 });
-
-
 </script>
 
 <style lang="less" scoped>
