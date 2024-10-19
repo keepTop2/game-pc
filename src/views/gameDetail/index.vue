@@ -60,6 +60,7 @@
                     <n-grid :x-gap="7" :y-gap="12" :cols="8">
                         <n-grid-item v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
                             <div class="game_box">
+                                {{ imgPrefix + v.gamePicturePC }}
                                 <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
                                 <div>
                                     <span>{{ unserialize(v.name, true) }}</span>
@@ -109,6 +110,9 @@ const isLoading = ref(false)
 // 加载更多
 const loading = ref(false)
 const params: any = reactive({ // 参数
+    isLoad: false,
+    isEnd: false,
+    pageSize: 32,
     page: 1,
 })
 const result: any = reactive({ // 结果
@@ -152,7 +156,7 @@ const state = reactive({
 let gameKinds = ref<any>([])
 let favoriteData = ref<any[]>([])
 let resultList: any = reactive([])
-let pageSize = ref<number>(32)
+
 // 游戏平台id  -1为查看全部的游戏
 let agentId = ref<any>(-1)
 // 是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
@@ -217,7 +221,16 @@ const handlePlatform = (res: any) => {
 }
 
 const handleGames = (res: any) => {
-    result.list = res.info
+    isLoading.value = false
+    if (res.info.length < params.pageSize) {
+        params.isEnd = true
+    }
+    if (params.isLoad) {
+        result.list = [...result.list, ...res.info]
+    } else {
+        result.list = res.info
+    }
+
     result.total_page = res.total
     loading.value = false
 }
@@ -279,7 +292,7 @@ const onClickFavorite = (i: number) => {
     queryGame.value = ''
     agentId.value = i
     resetData()
-    getFavs()
+
 }
 // 搜索游戏
 const onClickSearch = () => {
@@ -296,29 +309,6 @@ const onClickSearch = () => {
     Net.instance.sendRequest(tb)
 }
 
-const pageChange = (page: number) => { // 切换页码
-    params.page = page
-    queryData()
-}
-
-const getFavs = () => {
-    const gameId = Local.get('favorites') || []
-    const gameIds = gameId.map((e: any) => e.split('__')[0])
-    favoriteData.value = resultList.filter((e: any) => gameIds.includes(e.gameId))
-}
-
-const onAddFavorite = (v: any) => {
-    let favorites = Local.get('favorites') || []
-    const gameIds = favorites.map((e: any) => e.split('__')[0])
-    if (gameIds.includes(v.gameId)) {
-        favorites = favorites.filter((e: any) => e.split('__')[0] != v.gameId)
-    } else {
-        const item = v.gameId + '__' + agentId.value + '__' + agentId.value + '__' + imgPrefix + v.gamePicturePC
-        favorites.push(item)
-    }
-    Local.set('favorites', favorites)
-    getFavs()
-}
 // 解析游戏名和平台名
 const unserialize = (v: any, isPlatform: boolean) => {
     let obj: any = {
@@ -331,29 +321,24 @@ const unserialize = (v: any, isPlatform: boolean) => {
     }
     return v[obj[lang.value]]
 }
-const getInitData = (agentId: any, kindId: any) => {
-    const req = NetPacket.req_get_kind_in_platform();
-    req.agentId = agentId
-    req.kindId = kindId
-    req.pageSize = pageSize.value
-    Net.instance.sendRequest(req);
-}
 
 const resetData = () => {
     loading.value = false
     params.page = 1
+    params.isLoad = false
     result.total_page = 0
     result.list = []
 }
 
 const queryData = () => { // 查询
     loading.value = true
+    isLoading.value = true
     const query = NetPacket.req_get_games_in_platform()
     query.agentId = agentId.value
     query.kindId = kindId.value
     query.is_lable = is_lable.value
     query.page = params.page
-    query.pageSize = pageSize.value
+    query.pageSize = params.pageSize
     Net.instance.sendRequest(query);
 }
 
@@ -378,7 +363,12 @@ const gameUrlResult = (message: any) => {
     }
 }
 const onLoad = async () => {
-    console.log(11111);
+    if (params.isEnd) return
+    if (!loading.value) {
+        params.isLoad = true
+        params.page++
+        queryData()
+    }
 
 };
 
@@ -427,14 +417,13 @@ onBeforeMount(() => {
 onMounted(() => {
     const { venue_id } = route.query
     kindId.value = Number(venue_id)
-    getHomeData()
+
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_modify_collect, resCollect);
-
-    getFavs()
+    getHomeData()
     queryData()
 })
 onUnmounted(() => {
@@ -448,6 +437,7 @@ watch(
     (a) => {
         if (a) {
             kindId.value = Number(a)
+            resetData()
             getHomeData()
             queryData()
         }
@@ -462,7 +452,7 @@ watch(
                 resultList.push(e)
             }
         }
-        getFavs()
+
     },
     { deep: true, }
 )
