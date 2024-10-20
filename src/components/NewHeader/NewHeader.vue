@@ -132,6 +132,7 @@
       <!-- 头像设置 -->
       <avatarSettings v-model:visible="visibleSetting" />
     </div>
+    <RedeemCode v-if="showRedeemCode" />
   </header>
 </template>
 
@@ -159,6 +160,7 @@ import { Net, getLocale } from "@/net/Net";
 import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
+import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
@@ -171,6 +173,7 @@ const { menuActive, settings, lang } = storeToRefs(page);
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
 const { hasLogin, isLogin, isReg, isForget, roleInfo } = storeToRefs(userInfo);
+
 const router = useRouter();
 const route = useRoute();
 const theme = ref("day");
@@ -181,7 +184,7 @@ const state: any = reactive({
   slider: true,
 });
 
-const { menu, search, isSearch } = useHeaderHooks();
+const { menu, search, isSearch, showRedeemCodeModal, showRedeemCode } = useHeaderHooks();
 const valueChange = async (item: any) => {
   await page.setLang(item);
 };
@@ -225,7 +228,9 @@ const menuClick = async (item: any, j: number) => {
       },
       onNegativeClick: () => {},
     });
-  } else if (item.url == "kf") {
+  } else if (item.url == "redeemCode") { // 兑换码
+    showRedeemCodeModal(true)
+  }  else if (item.url == "kf") {
     // if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
     //   Message.error('用户被封禁')
     // } else {

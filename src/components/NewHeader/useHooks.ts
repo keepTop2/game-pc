@@ -1,10 +1,15 @@
 
 
 import { ref } from "vue";
+import pinia from "@/store";
+import { storeToRefs } from 'pinia';
+import { Wallet } from '@/store/wallet';
+
 
 const isSearch = ref(false)
 const useHeaderHooks = () => {
-
+  const wallet = Wallet(pinia);
+  const { showRedeemCode } = storeToRefs(wallet);
 
   const menu = [
     {
@@ -61,7 +66,7 @@ const useHeaderHooks = () => {
     {
       icon: 'txxlicon10',
       name: '兑换码',
-      url: 'kf',
+      url: 'redeemCode',
     },
     {
       icon: 'txxlicon11',
@@ -91,7 +96,7 @@ const useHeaderHooks = () => {
   const search = () => {
     isSearch.value = true
   }
-
+  const showRedeemCodeModal = (v: boolean) => wallet.setShowRedeemCode(v);
 
 
 
@@ -99,6 +104,8 @@ const useHeaderHooks = () => {
 
 
   return {
+    showRedeemCodeModal,
+    showRedeemCode,
     menu,
     search,
     isSearch

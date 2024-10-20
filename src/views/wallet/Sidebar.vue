@@ -30,6 +30,7 @@
 
     <!-- 头像设置 -->
     <avatarSettings v-model:visible="visibleSetting" />
+    <RedeemCode v-if="showRedeemCode" />
   </div>
 </template>
 <script lang="ts" setup name="sider">
@@ -44,6 +45,7 @@ import { User } from '@/store/user';
 import { Message } from '@/utils/discreteApi.ts';
 import avatarSettings from './components/avatarSettings.vue';
 import { verifyNumberComma } from '@/utils/others.ts';
+import { Wallet } from '@/store/wallet';
 
 const { t } = useI18n();
 const page = Page(pinia);
@@ -54,6 +56,9 @@ const { info, kefuVisible, agentInfo } = storeToRefs(userInfo);
 const { VIPinfo, roleInfo } = storeToRefs(UserStore);
 const router = useRouter();
 const visibleSetting = ref(false);
+const wallet = Wallet(pinia);
+const showRedeemCodeModal = (v: boolean) => wallet.setShowRedeemCode(v);
+const { showRedeemCode } = storeToRefs(wallet);
 
 const state: any = reactive({
   sideList: [
@@ -155,6 +160,7 @@ const state: any = reactive({
   ],
 });
 
+
 const itemClick = async (item: any, i: number) => {
   await page.setMenuActive(i, item.name);
   let str = item.url.substring(0, 4);
@@ -171,6 +177,10 @@ const itemClick = async (item: any, i: number) => {
       return;
     }
   }
+  if (item.url == "redeemCode") { // 兑换码
+    showRedeemCodeModal(true)
+    return
+  }  
   if (str === 'http' || str === 'www.') {
     handleOpenLink(item.url);
   } else {
