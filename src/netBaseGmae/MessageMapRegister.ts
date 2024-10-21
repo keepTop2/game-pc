@@ -262,6 +262,8 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_room_update);
 		MessageMap.addMsgMap(NetPacket.req_room_close);
 		MessageMap.addMsgMap(NetPacket.req_room_open);
+		MessageMap.addMsgMap(NetPacket.req_room_current_desk);
+		MessageMap.addMsgMap(NetPacket.notify_room_current_desk);
 		MessageMap.addMsgMap(NetPacket.scratch_item);
 		MessageMap.addMsgMap(NetPacket.req_scratch_ticket);
 		MessageMap.addMsgMap(NetPacket.notify_scratch_ticket);
