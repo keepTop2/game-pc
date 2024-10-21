@@ -92,7 +92,6 @@ import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { Dialog, Message } from "@/utils/discreteApi.ts";
-import Imgt from '@/components/Imgt.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 
 const netWorkArr = [
@@ -332,37 +331,6 @@ defineExpose({
       font-size: 14px;
       flex-wrap: nowrap !important;
 
-      //.bank_l_icon {
-      //  position: relative;
-      //  width: 48px;
-      //  height: 48px;
-      //  line-height: 48px;
-      //  border-radius: 50%;
-      //  background: #fff;
-      //  border: 1px solid #D6CDFF;
-      //  text-align: center;
-      //  flex: none;
-      //
-      //  &::after {
-      //    content: '';
-      //    position: absolute;
-      //    top: -5px;
-      //    left: 62px;
-      //    width: 1px;
-      //    height: 48px;
-      //    background: url("/img/payment/line2.webp?t=@{timestamp}") no-repeat;
-      //    background-size: 100%;
-      //  }
-      //
-      //  img {
-      //    width: 42px;
-      //    transform: translateY(7px);
-      //  }
-      //
-      //  //background-color: #ef1111;
-      //  //margin-left: 18px;
-      //}
-
       .bank_l_name {
         display: flex;
         justify-content: space-between;
@@ -517,42 +485,6 @@ defineExpose({
         cursor: pointer;
       }
     }
-
-    //.choose-bank {
-    //  flex-flow: nowrap !important;
-    //  gap: 10px !important;
-    //
-    //  .choose-bank-l {
-    //    width: 235px !important;
-    //    background-image: url('/img/payment/inputBgSmall.webp?t=@{timestamp}') !important;
-    //
-    //    .bank_cicon {
-    //      width: 24px;
-    //      height: 24px;
-    //      border-radius: 50%;
-    //      background: #fff;
-    //      border: 2px solid #D6CDFF;
-    //
-    //      img {
-    //        width: 22px;
-    //      }
-    //    }
-    //
-    //    .bank_cname {
-    //      line-height: 16px;
-    //    }
-    //  }
-    //
-    //  .change-btn {
-    //    display: inline-block;
-    //    text-align: center;
-    //    width: 90px;
-    //    height: 36px;
-    //    line-height: 36px;
-    //    background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
-    //    background-size: 100%;
-    //  }
-    //}
 
   }
 

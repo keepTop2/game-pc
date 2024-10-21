@@ -1,6 +1,4 @@
 <template>
-<!--  <depositFirst ref="depositFirModal" @haveBankList="haveBankList" />-->
-<!--  <Withdraw v-if="showWithdraw" :myBankList="myBankList" />-->
 <!--  <RedeemCode v-if="showRedeemCode" />-->
 
   <!--  提款校验-->
@@ -124,14 +122,11 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { ref, onMounted, onUnmounted } from 'vue';
 import useWalletInfo from './useWalletInfo';
-// import Withdraw from '@/views/wallet/components/Withdraw.vue';
-// import depositFirst from '@/views/wallet/deposit/depositFirst.vue';
 // import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 // import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
-// import WithdrawMoney from '@/views/wallet/withdrawFunds/withdrawMoney.vue';
+
 
 import navTab from '../components/navTab.vue';
-// import { Message } from "@/utils/discreteApi.ts";
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { NetPacket } from '@/netBase/NetPacket.ts';
@@ -147,24 +142,9 @@ import { verifyNumberComma } from '@/utils/others.ts';
 // };
 const { t } = useI18n();
 const route = useRoute();
-// const levelRule = defineAsyncComponent(() => import('@/views/level/rules.vue'));
-// const levelModal = ref();
 const depositFirModal = ref();
-// const haveBank = ref(false);
 
-
-// 打开充值第一个弹窗
-// const openDepositFir = () => {
-//   if (!haveBank.value) {
-//     return Message.error(t('deposit_page_notPayWay'))
-//   }
-//   depositFirModal.value.openModal();
-// }
-// const haveBankList = (e: any) => {
-//   haveBank.value = e
-// }
-
-// const withdrawMoneyShow = ref(false)
+// const withdrawMoneyShow = ref(true)
 
 // const goCalibration = () => {
 //   withdrawMoneyShow.value = true
