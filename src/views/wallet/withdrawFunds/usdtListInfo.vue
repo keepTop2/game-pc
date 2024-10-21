@@ -1,20 +1,22 @@
 <template>
-  <ModalDialog v-model:visible="showBankListModal" title="walletInfo_page_selectBank">
+  <ModalDialog v-model:visible="showBankListModal" title="选择USDT">
     <template #content>
       <div class="vertical center t_md bank_sec_list">
         <n-flex justify="space-between" align="center" class="w_full" vertical>
           <div :class="`bank_list ${item.isUse ? 'bank_used' : ''}`" v-for="(item, index) in bankList" :key="index">
             <n-flex align="center" class=" bank_item">
-              <div class="bank_l_icon">
-                <Imgt :src="`/img/bankIcon/bank_logo_${item.bank_id}.webp`" :alt="item.bankName" />
-              </div>
               <div class="bank_l_name">
                 <div class="info-text">
-                  <p>
-                    <span>{{ item.bankName }}</span>
-                    <span>{{ item.name }}</span>
-                  </p>
-                  <p class="p_account">{{`${t('addBank_page_bankCard')}: ${item.bankCode}`}}</p>
+                  <div>
+                    <span>{{ `${t('deposit_page_netWork')}:${item.bankName}` }}</span>
+                  </div>
+                  <div class="p_account">
+                    <span class="txt_label">{{t('paymentManagement_page_address')}}:</span>
+                    <span class="txt_ac">{{item.bankCode}}</span>
+                  </div>
+                  <div class="txt_bz">
+                    {{ `${t('paymentManagement_page_remark')}:${item.name}` }}
+                  </div>
                 </div>
                 <div class="utilization-bank">
                   <div class="btn_cs" v-if="item.isDefault">
@@ -38,47 +40,33 @@
             <div class="bank_list_add">
               <div class="center" @click="flagBank(true)">
                 <iconpark-icon icon-id="gerentianjiaicon" size="1.5rem"></iconpark-icon>
-                <span>{{ t('paymentManagement_page_new_bank') }}</span>
+                <span>{{ t('paymentManagement_page_new_usdt') }}</span>
               </div>
             </div>
           </div>
 
           <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
             <div class="add-bank-text">
-              <div class="txt_tip">{{ t('paymentManagement_page_oneBank') }}</div>
+              <div class="txt_tip">{{ t('paymentManagement_page_oneUsdt') }}</div>
               <Imgt src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)" />
             </div>
-
-            <n-form-item :label="t('addBank_page_pChooseBank')">
-              <n-flex class="choose-bank">
-                <n-flex align="center" class="choose-bank-l">
-                    <span v-show="chooseBank.value" class="bank_cicon">
-                      <Imgt :src="`/img/bankIcon/bank_logo_${chooseBank.value}.webp`" :alt="chooseBank.label" />
-                    </span>
-                  <span class="bank_cname"> {{ chooseBank.label }} </span>
-                </n-flex>
-                <a class="change-btn button_color" @click="openChooseBank"> {{ t('paymentManagement_page_choose') }} </a>
-              </n-flex>
+            <n-form-item :label="t('deposit_page_chooseNetWork')">
+              <n-select :placeholder="t('deposit_page_chooseNetWork')" v-model:value="form.network_type"
+                        :options="[{label: t('deposit_page_chooseNetWork'), value: ''},...netWorkArr]" />
             </n-form-item>
-
-            <n-form-item :label="t('addBank_page_bankCard')" path="bankCode">
-              <n-input size="large" type="number" v-model:value="form.bankCode"
-                       :placeholder="t('paymentManagement_page_chCardNo')">
+            <n-form-item :label="t('withdraw_page_usdtAdd')" path="bankCode">
+              <n-input size="large" v-model:value="form.bankCode"
+                       :placeholder="t('paymentManagement_page_usdt_tips')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
               </n-input>
             </n-form-item>
-
-            <n-form-item :label="t('addBank_page_name')" path="accountName">
-              <n-input size="large" :disabled="!!props.myBankName" v-model:value="form.accountName"
-                       :placeholder="t('paymentManagement_page_enterBank')">
-                <template #suffix>
-                  <a class="refresh_icon"></a>
-                </template>
+            <n-form-item :label="t('paymentManagement_page_remark')" path="accountName">
+              <n-input size="large" v-model:value="form.desc"
+                       :placeholder="t('描述（选填）')">
               </n-input>
             </n-form-item>
-
             <div class="cz_btn with_sec_btn">
               <a class="button_color" @click="submit"> {{ t('paymentManagement_page_confirm') }} </a>
             </div>
@@ -94,24 +82,23 @@
     </template>
   </ModalDialog>
 
-  <!-- 选择银行弹窗 -->
-  <chooseBankDialog ref="chooseBankModal" @selectBank="selectBank" />
-
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { useI18n } from "vue-i18n";
 import { Dialog, Message } from "@/utils/discreteApi.ts";
-import { testBankCard } from '@/utils/is.ts';
 import Imgt from '@/components/Imgt.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-const chooseBankDialog = defineAsyncComponent(() => import('../components/chooseBankDialog.vue'));
 
+const netWorkArr = [
+  { label: 'TRC20', value: 1 },
+  { label: 'ERC20', value: 2 },
+];
 const emit = defineEmits(["bindBankCheck"]);
 const props = defineProps({
   myBankList: {
@@ -123,35 +110,28 @@ const props = defineProps({
     default: ''
   }
 })
-const chooseBankModal = ref();
+
 const { t } = useI18n();
 const baseObj = {
-  bank_id: '',
+  network_type: '',
   bankCode: '',
-  bankName: '',
-  accountName: props.myBankName,
+  desc: '',
 }
 const form = ref({ ...baseObj })
 const curOperate = ref({}); // 当前操作的数据
 const formRef = ref()
 const submit = () => {
-  if (!form.value.bank_id) {
-    return Message.error(t('paymentManagement_page_chBank'))
+  if (!form.value.network_type) {
+    return Message.error(t('deposit_page_chooseNetWork'))
+  }
+  if (!form.value.bankCode) {
+    return Message.error(t('paymentManagement_page_usdt_tips'))
   }
 
-  if (!form.value.bankCode) {
-    return Message.error(t('paymentManagement_page_chCardNo'))
-  }
-  if (!testBankCard(form.value.bankCode)) {
-    return Message.error(t('paymentManagement_page_tip1'))
-  }
-  if (!form.value.accountName) {
-    return Message.error(t('paymentManagement_page_chName'))
-  }
-  const req = NetPacket.req_new_bank_card_info();
-  req.bank_id = form.value.bank_id;
-  req.account_number = form.value.bankCode;
-  req.cardholder_name = props.myBankName ? props.myBankName : form.value.accountName?.replace(/\s+/g, '').toUpperCase(); // 保存需要去除空格和转大写
+  const req = NetPacket.req_add_usdt_info();
+  req.usdt_type = form.value.network_type;
+  req.usdt_addr = form.value.bankCode;
+  req.desc = form.value.desc;
   Net.instance.sendRequest(req);
 }
 
@@ -159,8 +139,9 @@ const submit = () => {
 const handleAddBankRef = (res: any) => {
   const tips: any = {
     1: 'paymentManagement_page_addBankSuc',
-    2: 'paymentManagement_page_addBankFail',
-    3: 'paymentManagement_page_acc_already',
+    2: 'paymentManagement_page_errorAdd',
+    3: 'paymentManagement_page_addBankFail',
+    4: 'paymentManagement_page_hasAdd',
   }
   if (res.result === 1) {
     Message.success(t(tips[res.result]))
@@ -175,16 +156,17 @@ const handleAddBankRef = (res: any) => {
 }
 // 获取已绑定的银行账号
 const getMyBankList = () => {
-  const req = NetPacket.req_bank_card_info_list();
+  const req = NetPacket.req_usdt_info_list();
   Net.instance.sendRequest(req);
 }
 
 const bankList = ref<any[]>([]);
 const setBankList = (res: any) => {
-  let data = res.bank_card_info_list.map((item: any, index: number) => {
-    item.bankCode = item.account_number
-    item.bankName = item.bank_name
-    item.name = '******'
+  console.log('------33333', res)
+  let data = res.map((item: any, index: number) => {
+    item.bankCode = item.usdt_addr
+    item.bankName = netWorkArr.find((it) => it.value == item.usdt_type)?.label || '-' // 协议
+    item.name = item.desc // 备注
     if (index === 0) {
       item.isDefault = true
       item.isUse = true
@@ -216,16 +198,19 @@ const bankCheck = (index: number, key: string) => {
 };
 
 const handleBankId = (item: any) => {
-  const req = NetPacket.req_set_default_bankcard();
-  req.bankcard = `${item.bank_id}_${item.account_number}`;
+  const req = NetPacket.req_set_default_usdt();
+  req.usdtaddr = `${item.usdt_addr}`;
   Net.instance.sendRequest(req);
 }
 
-const defaultBankId = (res: any) => {
-  if (res.rlt === 1) {
-    Message.error(t('paymentManagement_page_setDefaulted'))
+// 设置默认银行
+const handleDefaultUsdt = (res: any) => {
+  if (res.result === 0) {
+    Message.success(t('proxy_page_caoZuo'))
+    getMyBankList();
+    onClose(); // 关闭窗口
   } else {
-    Message.success(t('paymentManagement_page_setError'))
+    Message.error(t('proxy_page_caoZuoFail'))
   }
 }
 
@@ -242,37 +227,9 @@ const flagBank = (flag: Boolean) => {
   addBankFlag.value = flag
 };
 
-// 测试一下
-const showBankModal = ref(false);
-
-const onCloseBank = () => {
-  showBankModal.value = !showBankModal.value;
-};
-
 const baseChObj = { label: '', value: '' }
 const chooseBank = ref({ ...baseChObj }); // 选择的银行卡
 
-// 打开银行弹窗
-const openChooseBank = () => {
-  chooseBankModal.value.onCloseBank();
-}
-// 选择银行
-const selectBank = (e: any) => {
-  form.value.bank_id = e.value;
-  chooseBank.value = e;
-  form.value.bankName = e.label;
-  onCloseBank()
-}
-// 设置默认银行
-const handleDefaultBank = (res: any) => {
-  if (res.rlt === 0) {
-    Message.success(t('proxy_page_caoZuo'))
-    getMyBankList();
-    onClose(); // 关闭窗口
-  } else {
-    Message.error(t('proxy_page_caoZuoFail'))
-  }
-}
 
 // 删除银行
 const removeBank = (item: any) => {
@@ -296,11 +253,11 @@ const removeBank = (item: any) => {
 const operateBank = (item: any) => {
   item = curOperate.value;
   let req;
-  req = NetPacket.req_del_bank_card_info();
-  req.bankcard = `${item.bank_id}_${item.account_number}`;
+  req = NetPacket.req_del_usdt_info();
+  req.usdtaddr = `${item.usdt_addr}`;
   Net.instance.sendRequest(req);
 }
-const handleDelBankList = (res: any) => {
+const handleDelUsdtList = (res: any) => {
   if (res.result === 0) {
     Message.success(t('proxy_page_caoZuo'))
     getMyBankList();
@@ -313,32 +270,28 @@ watch(() => showBankListModal.value, (n) => {
   // 打开
   if (n) {
     // 绑定银行卡
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_add_usdt_info, handleAddBankRef);
   } else {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_add_usdt_info, null);
   }
 })
 watch(() => props.myBankList, (n) => {
-  console.log('需要更新当前银行列表---', n)
+  console.log('需要更新当前usdt列表---', n)
   setBankList(n);
 })
 
 onMounted(() => {
   setBankList(props.myBankList)
-  // 绑定银行卡
-  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
+
   // 设置默认
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, defaultBankId)
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, handleDefaultBank);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_usdt, handleDefaultUsdt);
   // 删除
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, handleDelBankList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, handleDelUsdtList);
 })
 
 onUnmounted(() => {
-  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, null);
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, null);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_usdt, null)
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, null);
 })
 
 
@@ -364,7 +317,7 @@ defineExpose({
     border-radius: 8px;
     border: 2px solid transparent;
     width: 434px;
-    padding: 16px;
+    padding: 13px 16px;
     height: 102px;
     background: url('/img/payment/bankBg.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
@@ -379,45 +332,67 @@ defineExpose({
       font-size: 14px;
       flex-wrap: nowrap !important;
 
-      .bank_l_icon {
-        position: relative;
-        width: 48px;
-        height: 48px;
-        line-height: 48px;
-        border-radius: 50%;
-        background: #fff;
-        border: 1px solid #D6CDFF;
-        text-align: center;
-        flex: none;
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: -5px;
-          left: 62px;
-          width: 1px;
-          height: 48px;
-          background: url("/img/payment/line2.webp?t=@{timestamp}") no-repeat;
-          background-size: 100%;
-        }
-
-        img {
-          width: 42px;
-          transform: translateY(7px);
-        }
-
-        //background-color: #ef1111;
-        //margin-left: 18px;
-      }
+      //.bank_l_icon {
+      //  position: relative;
+      //  width: 48px;
+      //  height: 48px;
+      //  line-height: 48px;
+      //  border-radius: 50%;
+      //  background: #fff;
+      //  border: 1px solid #D6CDFF;
+      //  text-align: center;
+      //  flex: none;
+      //
+      //  &::after {
+      //    content: '';
+      //    position: absolute;
+      //    top: -5px;
+      //    left: 62px;
+      //    width: 1px;
+      //    height: 48px;
+      //    background: url("/img/payment/line2.webp?t=@{timestamp}") no-repeat;
+      //    background-size: 100%;
+      //  }
+      //
+      //  img {
+      //    width: 42px;
+      //    transform: translateY(7px);
+      //  }
+      //
+      //  //background-color: #ef1111;
+      //  //margin-left: 18px;
+      //}
 
       .bank_l_name {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        margin-left: 15px;
 
         .info-text {
+          width: 78%;
           flex: 1;
+          >div {
+            font-size: 16px;
+            margin-bottom: 5px;
+            &:nth-child(n+2) {
+              font-size: 14px;
+            }
+          }
+          .p_account {
+            display: flex;
+            white-space: nowrap;
+            .txt_ac {
+              display: inline-block;
+              max-width: 270px;
+              word-wrap: break-word;
+              white-space: wrap;
+            }
+          }
+          .txt_bz {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
 
         .utilization-bank {
@@ -543,45 +518,41 @@ defineExpose({
       }
     }
 
-    .choose-bank {
-      flex-flow: nowrap !important;
-      gap: 10px !important;
-
-      .choose-bank-l {
-        gap: 10px !important;
-        width: 292px !important;
-        height: 40px;
-        background: #212443;
-        border-radius: 8px;
-        border: 1px solid #26294C;
-        padding-left: 14px;
-        color: #757575;
-
-        .bank_cicon {
-          width: 26px;
-          height: 26px;
-          border-radius: 50%;
-          background: #fff;
-          border: 2px solid #D6CDFF;
-
-          img {
-            width: 22px;
-          }
-        }
-
-        .bank_cname {
-          line-height: 16px;
-        }
-      }
-
-      .change-btn {
-        display: inline-block;
-        text-align: center;
-        width: 100px;
-        height: 40px;
-        line-height: 40px;
-      }
-    }
+    //.choose-bank {
+    //  flex-flow: nowrap !important;
+    //  gap: 10px !important;
+    //
+    //  .choose-bank-l {
+    //    width: 235px !important;
+    //    background-image: url('/img/payment/inputBgSmall.webp?t=@{timestamp}') !important;
+    //
+    //    .bank_cicon {
+    //      width: 24px;
+    //      height: 24px;
+    //      border-radius: 50%;
+    //      background: #fff;
+    //      border: 2px solid #D6CDFF;
+    //
+    //      img {
+    //        width: 22px;
+    //      }
+    //    }
+    //
+    //    .bank_cname {
+    //      line-height: 16px;
+    //    }
+    //  }
+    //
+    //  .change-btn {
+    //    display: inline-block;
+    //    text-align: center;
+    //    width: 90px;
+    //    height: 36px;
+    //    line-height: 36px;
+    //    background: url('/img/payment/go-btn.webp?t=@{timestamp}') center no-repeat;
+    //    background-size: 100%;
+    //  }
+    //}
 
   }
 

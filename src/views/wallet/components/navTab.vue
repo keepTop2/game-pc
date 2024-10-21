@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 // import { watch } from 'vue';
-import Imgt from '@/components/Imgt.vue';
+// import Imgt from '@/components/Imgt.vue';
 // import { useI18n } from 'vue-i18n';
 // import { Message } from "@/utils/discreteApi";
 
