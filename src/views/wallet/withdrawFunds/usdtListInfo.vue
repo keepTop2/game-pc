@@ -48,7 +48,7 @@
           <n-form ref="formRef" v-show="addBankFlag" :model="form" class="w_full bank-add-form">
             <div class="add-bank-text">
               <div class="txt_tip">{{ t('paymentManagement_page_oneUsdt') }}</div>
-              <Imgt src="/img/wallet/addBankClose.webp" alt="nodata" @click="flagBank(false)" />
+              <iconpark-icon @click="flagBank(false)" icon-id="tanctongyguanb" size="0.8rem"></iconpark-icon>
             </div>
             <n-form-item :label="t('deposit_page_chooseNetWork')">
               <n-select :placeholder="t('deposit_page_chooseNetWork')" v-model:value="form.network_type"
