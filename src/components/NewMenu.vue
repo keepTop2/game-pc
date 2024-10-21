@@ -36,7 +36,7 @@
   </div>
 </template>
 <script setup lang="ts" name="Header">
-import { ref, onMounted, computed, watchEffect } from "vue";
+import { ref, onMounted, computed, watchEffect, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import pinia from "@/store/index";
@@ -87,11 +87,20 @@ const itemGameClick = async (item: any) => {
     },
   });
 };
-// 监听counter.count的变化
-watchEffect(() => {
-  // 执行相应的操作
-  console.log(`count变为${homeGameData.value[0].id}`);
+onMounted(async () => {
+  if (route.query.venue_id) {
+    active_id.value = Number(route.query.venue_id)
+  }
+
 });
+watch(
+  () => route.query.venue_id,
+  async (n: any) => {
+    if (n) {
+      active_id.value = Number(route.query.venue_id)
+    }
+  }
+)
 </script>
 
 <style lang="less" scoped>
