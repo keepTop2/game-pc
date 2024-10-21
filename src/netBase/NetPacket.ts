@@ -7450,6 +7450,7 @@ export module NetPacket {
 			desk_count: 0,
 			role_count: 0,
 			is_open: 0,
+			ip_limit: 0,
 			extra1: [],
 			extra2: [],
 			extra3: [],
@@ -7471,6 +7472,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.desk_count, buf);
 				EncodeUtils.int32ToByte(tb.role_count, buf);
 				EncodeUtils.int32ToByte(tb.is_open, buf);
+				EncodeUtils.int32ToByte(tb.ip_limit, buf);
 				EncodeUtils.uInt16ToByte(tb.extra1.length, buf);
 				for (let i = 0; i < tb.extra1.length; ++i) {
 					EncodeUtils.int32ToByte(tb.extra1[i], buf);
@@ -7515,6 +7517,8 @@ export module NetPacket {
 				tb.role_count = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.ip_limit = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				let extra1_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
@@ -8034,6 +8038,55 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_room_open"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_room_current_desk() {
+		let tb: any = {
+			room_id: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_room_current_desk"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.room_id, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_room_current_desk"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_room_current_desk() {
+		let tb: any = {
+			room_id: 0,
+			desk_id: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_room_current_desk"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.room_id, buf);
+				EncodeUtils.utf8StrtoBytes(tb.desk_id, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				let desk_id_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.desk_id = desk_id_value[0];
+				startIndex += desk_id_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_room_current_desk"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -16098,6 +16151,8 @@ export module NetPacket {
 			numbers: 0,
 			cur_time: stime(),
 			open_time: stime(),
+			start_time: stime(),
+			end_time: stime(),
 			share_url: '',
 			share_words: '',
 			reason: '',
@@ -16116,6 +16171,8 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.numbers, buf);
 				tb.cur_time.encode(buf);
 				tb.open_time.encode(buf);
+				tb.start_time.encode(buf);
+				tb.end_time.encode(buf);
 				EncodeUtils.utf8StrtoBytes(tb.share_url, buf);
 				EncodeUtils.utf8StrtoBytes(tb.share_words, buf);
 				EncodeUtils.utf8StrtoBytes(tb.reason, buf);
@@ -16146,6 +16203,8 @@ export module NetPacket {
 				startIndex += 4;
 				startIndex += tb.cur_time.decode(buf, startIndex);
 				startIndex += tb.open_time.decode(buf, startIndex);
+				startIndex += tb.start_time.decode(buf, startIndex);
+				startIndex += tb.end_time.decode(buf, startIndex);
 				let share_url_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.share_url = share_url_value[0];
 				startIndex += share_url_value[1];
@@ -16181,15 +16240,19 @@ export module NetPacket {
 	export function req_numbers_record_details() {
 		let tb: any = {
 			roundid: 0,
+			page: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_numbers_record_details"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.roundid, buf);
+				EncodeUtils.int32ToByte(tb.page, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -16202,11 +16265,13 @@ export module NetPacket {
 	}
 	export function notify_numbers_record_details() {
 		let tb: any = {
+			total: 0,
 			my_records: [],
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_numbers_record_details"];
 			},
 			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.total, buf);
 				EncodeUtils.uInt16ToByte(tb.my_records.length, buf);
 				for (let i = 0; i < tb.my_records.length; ++i) {
 					tb.my_records[i].encode(buf);
@@ -16214,6 +16279,8 @@ export module NetPacket {
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
+				tb.total = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				let my_records_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
 				for (let i = 0; i < my_records_len; ++i) {
@@ -16233,15 +16300,19 @@ export module NetPacket {
 	export function req_numbers_betting_rank() {
 		let tb: any = {
 			roundid: 0,
+			page: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_numbers_betting_rank"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.roundid, buf);
+				EncodeUtils.int32ToByte(tb.page, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.page = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -16254,12 +16325,14 @@ export module NetPacket {
 	}
 	export function notify_numbers_betting_rank() {
 		let tb: any = {
+			total: 0,
 			pos: 0,
 			my_records: [],
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_numbers_betting_rank"];
 			},
 			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.total, buf);
 				EncodeUtils.int32ToByte(tb.pos, buf);
 				EncodeUtils.uInt16ToByte(tb.my_records.length, buf);
 				for (let i = 0; i < tb.my_records.length; ++i) {
@@ -16268,6 +16341,8 @@ export module NetPacket {
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
+				tb.total = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				tb.pos = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				let my_records_len = EncodeUtils.ByteToUint16(buf, startIndex);
@@ -17410,18 +17485,30 @@ export module NetPacket {
 		let tb: any = {
 			rlt: 0,
 			amount: 0,
+			vote_flag: 0,
+			join_flag: 0,
+			rank_flag: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_claim_share_vote_prize"];
 			},
 			encode: function (buf: any) {
 				EncodeUtils.int32ToByte(tb.rlt, buf);
 				EncodeUtils.int32ToByte(tb.amount, buf);
+				EncodeUtils.int32ToByte(tb.vote_flag, buf);
+				EncodeUtils.int32ToByte(tb.join_flag, buf);
+				EncodeUtils.int32ToByte(tb.rank_flag, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
 				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.amount = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.vote_flag = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.join_flag = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.rank_flag = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -23474,6 +23561,7 @@ export module NetPacket {
 			role_status: 0,
 			game_info: tx_game_info(),
 			fold: 0,
+			allin: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_tx_role_item"];
 			},
@@ -23487,6 +23575,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.role_status, buf);
 				tb.game_info.encode(buf);
 				EncodeUtils.int32ToByte(tb.fold, buf);
+				EncodeUtils.int32ToByte(tb.allin, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -23503,6 +23592,8 @@ export module NetPacket {
 				startIndex += 4;
 				startIndex += tb.game_info.decode(buf, startIndex);
 				tb.fold = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.allin = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -23553,6 +23644,7 @@ export module NetPacket {
 			current_insurance_add_time_count: 0,
 			settlement: notify_tx_settlement(),
 			time_bank: 0,
+			op_time_bank: 0,
 			end_time: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_tx_room_info"];
@@ -23581,6 +23673,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.current_insurance_add_time_count, buf);
 				tb.settlement.encode(buf);
 				EncodeUtils.int64ToByte(tb.time_bank, buf);
+				EncodeUtils.int64ToByte(tb.op_time_bank, buf);
 				EncodeUtils.int64ToByte(tb.end_time, buf);
 			},
 			decode: function (buf: any, index: number) {
@@ -23626,6 +23719,8 @@ export module NetPacket {
 				startIndex += 4;
 				startIndex += tb.settlement.decode(buf, startIndex);
 				tb.time_bank = EncodeUtils.ByteToint64(buf, startIndex);
+				startIndex += 8;
+				tb.op_time_bank = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
 				tb.end_time = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;

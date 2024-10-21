@@ -27,6 +27,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/gameDetail/index.vue'),
   },
   {
+    path: '/gameCollection',
+    name: 'gameCollection',
+    meta: { title: 'gameCollection' },
+    component: () => import('@/views/gameCollection/index.vue'),
+  },
+  {
     path: '/club',
     name: 'club',
     meta: { title: 'home_page_club' },
@@ -50,31 +56,7 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'recentAwards' },
     component: () => import('@/views/recentAwards/index.vue'),
   },
-  {
-    path: '/gameMain',
-    name: 'gameMain',
-    meta: { title: 'gameMain' },
-    component: () => import('@/views/gameMain/index.vue'),
-    children: [
-      {
-        path: 'gameRecords',
-        name: 'gameRecords',
-        meta: { title: 'gameRecords' },
-        component: () => import('@/views/gameMain/gameRecords/index.vue'),
-      },
-      {
-        path: 'gamingPlatform',
-        name: 'gamingPlatform',
-        meta: { title: 'gamingPlatform' },
-        component: () => import('@/views/gameMain/gamingPlatform/index.vue'),
-      },
 
-
-
-
-
-    ],
-  },
   {
     path: '/wallet',  //钱包
     name: 'wallet',
