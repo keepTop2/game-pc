@@ -259,6 +259,8 @@ export module NetMsgType {
         msg_notify_room_update: 2136,
         msg_req_room_close: 2137,
         msg_req_room_open: 2138,
+        msg_req_room_current_desk: 2139,
+        msg_notify_room_current_desk: 2140,
         msg_scratch_item: 2201,
         msg_req_scratch_ticket: 2202,
         msg_notify_scratch_ticket: 2203,
@@ -771,4 +773,5 @@ export module NetMsgType {
     type MsgType = typeof msgType1
 
     export const msgType: MsgType = msgType1
+
 }
