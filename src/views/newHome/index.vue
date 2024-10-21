@@ -381,6 +381,7 @@ onUnmounted(() => {
       background: #000000b2;
       font-size: 16px;
       color: #ffffff;
+      padding-left: 8px;
     }
   }
   // .game_img {
