@@ -3,8 +3,8 @@
     <div class="announcement">
       <div class="carousel_wrap">
         <n-carousel :draggable="false" autoplay :loop="true">
-          <div v-for="i in 5" :key="i">
-            <Imgt class="carousel" src="/img/header/carousel1.webp" />
+          <div v-for="img in bannerData" :key="img">
+            <Imgt class="carousel" :src="img" />
           </div>
         </n-carousel>
         <p style="height: 40px">
@@ -77,14 +77,31 @@ import { storeToRefs } from "pinia";
 import { Page } from "@/store/page";
 import { useI18n } from "vue-i18n";
 import { User } from "@/store/user";
+import { ref, onMounted } from "vue";
 const page = Page(pinia);
 import { useRouter } from "vue-router";
 // const isVisible = ref(0);
-const { textAnnouncement } = storeToRefs(page);
+const { textAnnouncement, adminI18n } = storeToRefs(page);
 const userInfo = User(pinia);
 const { hasLogin, isReg } = storeToRefs(userInfo);
 const { t } = useI18n();
 const router = useRouter();
+
+const bannerData: any = ref([]);
+
+// 获取banner图
+function getBanner() {
+  const { zh } = adminI18n.value;
+  for (const key in zh) {
+    if (key.indexOf("pc_admin_banner") > -1) {
+      bannerData.value.push(zh[key]);
+    }
+  }
+}
+
+onMounted(() => {
+  getBanner();
+});
 </script>
 
 <style lang="less" scoped>

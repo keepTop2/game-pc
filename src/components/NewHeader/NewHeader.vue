@@ -296,6 +296,8 @@ const onHander_system_notice = async (message: any) => {
       .sort((a: any, b: any) => {
         return b.priority - a.priority;
       });
+    console.log(77777777, list);
+
     if (list.length) {
       await getLocale(); // 获取最新翻译文案
       await User(pinia).setNoticeList(list);
@@ -543,6 +545,11 @@ onUnmounted(() => {
         will-change: width;
         transition: all 500ms;
         cursor: pointer;
+        &:deep(.n-input-wrapper) {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 
         &:deep(.n-input__placeholder) {
           height: 60px;
