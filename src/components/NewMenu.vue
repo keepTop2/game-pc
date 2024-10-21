@@ -1,19 +1,20 @@
 <template>
   <div class="menu_wrap">
     <div class="menu_wrap_list">
-      <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item" :class="active_id == item.id && 'active_item'"
-        @click="itemClick(item)">
+      {{ venueActive }}
+      <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item"
+        :class="venueActive == item.id && 'active_item'" @click="itemClick(item)">
         <Imgt :src="item.icon" />
         <span>{{ item.label }}</span>
-        <div :class="active_id == item.id && 'active_item_bg'"></div>
+        <div :class="venueActive == item.id && 'active_item_bg'"></div>
       </div>
 
       <div v-for="(item, i) in homeGameData" :key="i" class="menu_wrap_item"
-        :class="active_id == item.id && 'active_item'" @click="itemGameClick(item)">
+        :class="venueActive == item.id && 'active_item'" @click="itemGameClick(item)">
         <!-- <Imgt :src="item.icon" /> -->
         <Imgt :src="`/img/menu/${item.id}.webp`" />
         <span>{{ unserialize(item.name) }}</span>
-        <div :class="active_id == item.id && 'active_item_bg'"></div>
+        <div :class="venueActive == item.id && 'active_item_bg'"></div>
       </div>
       <div class="menu_wrap_list_ban">
         <!-- <Imgt src="/img/menu/ban.webp" /> -->
@@ -41,9 +42,11 @@ import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import pinia from "@/store/index";
 import { Page } from "@/store/page";
+import { Local } from "@/utils/storage";
 const { homeGameData } = storeToRefs(Page(pinia));
+
 const router = useRouter();
-const { lang } = storeToRefs(Page(pinia));
+const { venueActive, settings, lang } = storeToRefs(Page(pinia));
 const route = useRoute();
 const active_id = ref(0);
 const unserialize = (v: any) => {
@@ -56,11 +59,11 @@ const unserialize = (v: any) => {
   return v[obj[lang.value]];
 };
 const menuList = [
-  { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: 0 },
+  { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: -1 },
   {
     label: "俱乐部",
     icon: "/img/menu/menu_2.webp",
-    url: "/gameMain/club",
+    url: "/club",
     name: "club",
     id: 99,
   },
@@ -73,13 +76,12 @@ const menuList = [
   // { label: "电竞", icon: "/img/menu/menu_9.webp", url: "", id: 9 },
 ];
 
-const itemClick = (item: any) => {
-  active_id.value = item.id;
+const itemClick = async (item: any) => {
+  await Page(pinia).setVenueActive(item.id);
   router.push(`${item.url}`);
 };
 const itemGameClick = async (item: any) => {
-  active_id.value = item.id;
-  await Page(pinia).setMenuActive(item.id, item.name);
+  await Page(pinia).setVenueActive(item.id);
   router.push({
     path: "/gameDetail",
     query: {
@@ -88,19 +90,19 @@ const itemGameClick = async (item: any) => {
   });
 };
 onMounted(async () => {
-  if (route.query.venue_id) {
-    active_id.value = Number(route.query.venue_id)
+  if (Local.get("venueActive")) {
+    await Page(pinia).setVenueActive(Local.get("venueActive"));
   }
-
 });
-watch(
-  () => route.query.venue_id,
-  async (n: any) => {
-    if (n) {
-      active_id.value = Number(route.query.venue_id)
-    }
-  }
-)
+// watch(
+//   () => route.query.venue_id,
+//   async (n: any) => {
+//     if (n) {
+//       await Page(pinia).setVenueActive(n);
+
+//     }
+//   }
+// )
 </script>
 
 <style lang="less" scoped>

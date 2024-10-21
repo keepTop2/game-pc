@@ -298,7 +298,7 @@ const goToPage = (item: any) => {
   } else if (['join', 'joinPlay'].includes(item.value)) {
     showJoinAc();
   } else {
-    router.push(`/gameMain/club/next`)
+    router.push(`/clubNext`)
   }
 }
 const showJoinAc = () => {

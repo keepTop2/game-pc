@@ -8,7 +8,7 @@ import { i18n } from '@/languages';
  */
 interface PageState {
     menuActive: number
-    menuName: string
+    venueActive: number
     countryOptions: any
     bannerArr: any
     textAnnouncement: any
@@ -33,7 +33,7 @@ const languages: any = {
 export const Page = defineStore('page', {
     state: (): PageState => ({
         menuActive: -1,
-        menuName: '',
+        venueActive: -1,
         countryOptions: null,
         bannerArr: [],
         textAnnouncement: [],
@@ -78,11 +78,16 @@ export const Page = defineStore('page', {
             }
         },
         // 获取标签下拉选择框数据
-        async setMenuActive(value: number, name: string) {
+        async setMenuActive(value: number) {
             Local.set('menuActive', value)
-            Local.set('menuName', name)
             this.menuActive = value
-            this.menuName = name
+
+        },
+        // 获取头部导航点击
+        async setVenueActive(value: number) {
+            Local.set('venueActive', value)
+            this.venueActive = value
+
         },
 
         async setHomePageGameData(data: any) {

@@ -290,7 +290,7 @@ const menuClick = async (item: any, j: number) => {
     handleOpenLink(item.url);
 
   } else {
-    await page.setMenuActive(j, item.name);
+    await page.setMenuActive(j);
     router.push(item.url);
   }
 };
@@ -476,7 +476,7 @@ onMounted(async () => {
 
   Local.set("agentid", route.query.uid || "0");
   if (Local.get("menuActive")) {
-    await page.setMenuActive(Local.get("menuActive"), Local.get("menuName"));
+    await page.setMenuActive(Local.get("menuActive"));
   }
 
   MessageEvent2.addMsgEvent(

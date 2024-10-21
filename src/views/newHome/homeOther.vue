@@ -18,7 +18,7 @@
           </div>
 
         </div>
-        <span class="more" @click="router.push('/gameMain/recentAwards')">{{ t('home_page_more') }}</span>
+        <span class="more" @click="router.push('/recentAwards')">{{ t('home_page_more') }}</span>
         </p>
         <n-carousel style="position: static;" :slides-per-view="8" :space-between="10" :loop="false" draggable
           show-arrow>
@@ -51,7 +51,7 @@
             最新赛事排行
           </span>
         </div>
-        <span class="more" @click="router.push('/gameMain/ranking')">{{ t('home_page_more') }}</span>
+        <span class="more" @click="router.push('/ranking')">{{ t('home_page_more') }}</span>
         </p>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="to_match">
-     <matchDes></matchDes>
+      <matchDes></matchDes>
       <n-button>前往</n-button>
     </div>
 
