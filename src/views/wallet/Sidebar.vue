@@ -259,7 +259,7 @@ const showAvSetting = () => {
 
   .nav_item {
     text-align: center;
-    gap: 8px !important;
+    gap: 10px !important;
     padding: 20px;
 
     >p {
