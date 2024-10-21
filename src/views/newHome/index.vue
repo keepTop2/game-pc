@@ -67,7 +67,35 @@
             draggable
             show-arrow
           >
-            <Imgt class="game_img" :src="`/img/home/remen.png`" v-for="i in 8" :key="i" />
+            <div
+              v-for="item in homeActivityList"
+              :key="item.id"
+              class="re_men_item"
+              :style="{ 'background-image': `url(${item.pic_link})` }"
+            >
+              <div class="re_men_item_des">
+                <div class="item_name">{{ item.name }}</div>
+                <div class="item_info">{{ item.details }}</div>
+                <div class="item_time">倒计时:</div>
+                <div class="time_content">
+                  <span class="time_num">2</span>
+                  <span class="time_num">1</span>
+                  <span>天</span>
+                  <span class="time_num">0</span>
+                  <span class="time_num">7</span>
+                  <span>时</span>
+                  <span class="time_num">4</span>
+                  <span class="time_num">5</span>
+                  <span>分</span>
+                </div>
+                <div class="all_total">
+                  <span>总派发:</span>
+                  <span style="color: #f2c004">2,155,471,276</span>
+                  <span>CN</span>
+                </div>
+              </div>
+            </div>
+
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -96,11 +124,12 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-// import Sidebar from '@/components/Sidebar.vue';
 import { onMounted, onUnmounted } from "vue";
 import Imgt from "@/components/Imgt.vue";
-// import { NetMsgType } from "@/netBase/NetMsgType";
-// import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
 import homeOther from "./homeOther.vue";
 import pinia from "@/store/index";
 import { storeToRefs } from "pinia";
@@ -110,6 +139,12 @@ import carouselWrap from "./components/carouselWrap.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 const { t } = useI18n();
+
+const { homeActivityList } = storeToRefs(Page(pinia));
+
+const handleActivetys = async (res: any) => {
+  await Page(pinia).setActivityTitleList(res.promo);
+};
 
 // const state: any = reactive({
 //   // gameActive: 0,
@@ -179,10 +214,10 @@ const { t } = useI18n();
 
 // }
 onMounted(() => {
-  // MessageEvent2.addMsgEvent(
-  //   NetMsgType.msgType.msg_notify_platform_gametype_list,
-  //   getGameList
-  // );
+  const req = NetPacket.req_activites();
+  req.show = 0;
+  Net.instance.sendRequest(req);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
 });
 onUnmounted(() => {
   // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_platform_gametype_list, null);
@@ -295,11 +330,64 @@ onUnmounted(() => {
 }
 
 .re_men {
-  .game_img {
-    width: 453px !important;
-    height: 262px !important;
-    object-fit: cover;
+  .re_men_item {
+    width: 453px;
+    height: 263px;
+    background-size: 100% 100%;
+    padding: 20px 30px;
+    .item_name {
+      font-size: 32px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .item_info {
+      font-size: 20px;
+      color: #ffffff;
+    }
+    .item_time {
+      font-size: 16px;
+      color: #ffffff;
+      margin-top: 20px;
+    }
+    .time_content {
+      span {
+        font-size: 20px;
+        color: #ffffff;
+      }
+      .time_num {
+        width: 26px;
+        height: 44px;
+        display: inline-block;
+        line-height: 44px;
+        text-align: center;
+        font-size: 30px;
+        color: #ffffff;
+        border-radius: 3px;
+        margin-right: 3px;
+        background: linear-gradient(
+          180deg,
+          rgba(29, 30, 37, 0.7) 0%,
+          rgba(20, 21, 27, 0.7) 100%
+        );
+      }
+    }
+    .all_total {
+      margin-top: 11px;
+      width: 202px;
+      height: 44px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      background: #000000b2;
+      font-size: 16px;
+      color: #ffffff;
+    }
   }
+  // .game_img {
+  //   width: 453px !important;
+  //   height: 262px !important;
+  //   object-fit: cover;
+  // }
 }
 
 :deep(.game_seach) {
