@@ -466,66 +466,7 @@ watch(
 
     }
 
-    .game-title {
-        height: 85.88px;
-        border-radius: 14px;
-        display: flex;
-        justify-content: space-between;
-        margin-top: 24px;
-        color: #8d81c1;
-        font-size: 18px;
 
-
-        >.input_box {
-            display: flex;
-
-            width: 522px;
-
-
-            height: 56px;
-
-            align-items: center;
-
-            .login_btn {
-                width: 111px;
-                height: 48px;
-                margin-left: 18px;
-            }
-
-            :deep(.n-input) {
-
-                border-radius: 8px;
-                background: #030309;
-                //     .n-input__input {
-                //         display: flex;
-                //         align-items: center;
-                //     }
-
-                .n-input__input-el {
-                    font-size: 18px;
-                }
-
-                .n-input__border {
-                    border: none;
-                }
-
-                .n-input__placeholder {
-                    color: #9497A1;
-
-
-
-                    >span {
-
-                        font-size: 16px;
-                    }
-                }
-            }
-
-
-        }
-
-
-    }
 }
 
 
@@ -584,29 +525,12 @@ watch(
     }
 }
 
-.game-detail {
-    display: flex;
-    flex-direction: column;
-
-    >div {}
+.game_title {
+    flex-direction: row-reverse;
 }
 
-.pagination {
-    margin: 30px 0 40px 0;
-    justify-content: center;
-
-    :deep(.n-pagination-item) {
-        font-size: 16px;
-        background: #372771;
-        border: 1.4px solid #5A47B2;
-        color: #8D81C1;
-        border-radius: 10px;
-    }
-
-    :deep(.n-pagination-item--active) {
-        background: url(/img/home/sbtnBG.webp) no-repeat;
-        background-size: 100% 100%;
-        color: #fff;
-    }
+.tab_box {
+    padding: 14px 24px 23.88px 50px;
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
 }
 </style>
