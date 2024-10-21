@@ -55,7 +55,9 @@
             <span class="text">
               <span>热门优惠</span>
             </span>
-            <span class="more">{{ t("home_page_more") }}</span>
+            <span class="more" @click="router.push('/wallet/activity')">{{
+              t("home_page_more")
+            }}</span>
           </p>
           <n-carousel
             style="position: static"
@@ -105,7 +107,8 @@ import { storeToRefs } from "pinia";
 import { Page } from "@/store/page";
 import { useI18n } from "vue-i18n";
 import carouselWrap from "./components/carouselWrap.vue";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const { t } = useI18n();
 
 // const state: any = reactive({
