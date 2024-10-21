@@ -1,5 +1,51 @@
 @timestamp: `new Date().getTime()`;
 
+:deep(.n-form-item) {
+  .n-form-item-feedback-wrapper {
+    min-height: 5px;
+  }
+}
+:deep(.n-input) {
+   height: 40px;
+   background: rgba(33, 36, 67, 1);
+   border-radius: 8px;
+   &.n-input--focus {
+     background-color: rgba(33, 36, 67, 1) !important;
+   }
+   .n-input__border {
+     border: 0;
+   }
+   .n-input__input-el,
+   .n-input__placeholder,
+   .n-input__placeholder span {
+     font-size: 14px;
+     height: 40px;
+     line-height: 40px;
+   }
+   .n-input__suffix {
+     .n-base-icon {
+       font-size: 1rem;
+     }
+   }
+   .n-input__input {
+     font-size: 16px;
+     display: flex;
+   }
+
+   //&.n-input--disabled {
+   //  background-color: transparent;
+   //}
+ }
+:deep(.n-select) {
+  .n-base-selection {
+    border-color: #26294C;
+    .n-base-selection-label {
+      background: #212443 !important;
+    }
+  }
+}
+
+
 // 充值和提现--开始
 .txt_title {
   font-size: 20px;
@@ -181,40 +227,6 @@
           }
         }
       }
-
-      //.btn_zone {
-      //  display: flex;
-      //  gap: 34px;
-      //  height: 45px;
-      //
-      //  >div {
-      //    display: flex;
-      //    align-items: center;
-      //    justify-content: center;
-      //  }
-      //
-      //  .cancel_btn {
-      //    color: #fff;
-      //    width: 100%;
-      //    border-radius: 12px;
-      //    border-style: solid;
-      //    border: 1px solid var(--c-bg-1);
-      //    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
-      //  }
-      //
-      //  .submit_btn {
-      //    width: 100%;
-      //    color: var(--c-bg-6);
-      //    border-radius: 16px;
-      //    background-image: url('/img/login/login.webp?t=@{timestamp}');
-      //    background-size: cover;
-      //
-      //    &.fixed_bg {
-      //      background-size: 100% 112%;
-      //    }
-      //  }
-      //}
-
       :deep(.n-form) {
         .n-input {
           border-radius: 8px;
@@ -226,7 +238,6 @@
             font-size: 16px;
             background-color: var(--n-color);
             border-radius: 8px;
-
           }
         }
 
@@ -261,32 +272,19 @@
         }
       }
 
-      .bottom-tip {
-        font-size: 12px;
-        color: #8E82C2;
-        gap: 4px !important;
+      //.bottom-tip {
+      //  font-size: 12px;
+      //  color: #8E82C2;
+      //  gap: 4px !important;
+      //
+      //  .gth-icon {
+      //    width: 12px;
+      //    height: 12px;
+      //    background: url('/img/payment/gth.webp?t=@{timestamp}') center no-repeat;
+      //    background-size: 100%;
+      //  }
+      //}
 
-        .gth-icon {
-          width: 12px;
-          height: 12px;
-          background: url('/img/payment/gth.webp?t=@{timestamp}') center no-repeat;
-          background-size: 100%;
-        }
-      }
-    }
-
-    .body-sec {
-      .refresh-icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        background: url('/img/payment/Vector.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
-
-        &.search-icon {
-          background-image: url('/img/payment/search_icon.webp?t=@{timestamp}');
-        }
-      }
     }
 
   }

@@ -8,6 +8,9 @@
     font-weight: 500;
     color: rgba(174, 174, 176, 1);
     margin-bottom: 20px;
+    &.num_tips_up {
+      margin-top: 20px;
+    }
     span {
       &:first-child {
         color: #fff;
@@ -18,7 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 0 15px;
+    gap: 0 14px;
 
     .bank {
       width: 330px;
@@ -36,25 +39,47 @@
       }
 
       .number {
-        padding: 0 10px 0 15px;
+        padding: 20px 10px 20px 16px;
         width: 100%;
-        bottom: 15px;
+        height: 100%;
         left: 0;
         font-size: 13px;
         z-index: 10;
 
+        .txt_wl {
+          font-size: 20px;
+          font-weight: 600;
+        }
+        .txt_bottom {
+          position: absolute;
+          bottom: 20px;
+          .bank_txt {
+            width: 200px;
+            .txt_1 {
+              display: flex;
+              white-space: nowrap;
+              .txt_add {
+                display: inline-block;
+                max-width: 180px;
+                word-wrap: break-word;
+                white-space: wrap;
+              }
+            }
+            .txt_bz {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+        }
+
         .list_item_r {
           .set_box {
+            width: auto;
             height: 28px;
-            padding: 4px 13.5px;
-            color: #C0C2DB;
-            background: #211051;
-            border-radius: 50px;
-
-            &.mr_color {
-              color: #fff;
-              background: #1382E7;
-            }
+            padding: 4px 12px;
+            background: rgba(31, 38, 77, 1);
+            border-radius: 8px;
           }
         }
       }
@@ -90,7 +115,7 @@
         flex-grow: 0;
         border-radius: 4px;
         background-color: rgba(204, 198, 198, 0.42);
-        z-index: 10;
+        z-index: 99;
       }
 
       &.add_bank {

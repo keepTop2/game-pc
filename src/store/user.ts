@@ -24,6 +24,7 @@ interface UserState {
   wsOpen: boolean;
   kefuVisible: boolean;
   agentInfo: any;
+  allCollected: any
 }
 
 export const User = defineStore('userInfo', {
@@ -63,6 +64,7 @@ export const User = defineStore('userInfo', {
       rewardList: [], //奖励邮箱数据
       email_readed: [], // 是否已读数据
     },
+    allCollected: []
   }),
   actions: {
     async setWsOpen(value: boolean) {
@@ -121,6 +123,10 @@ export const User = defineStore('userInfo', {
     async getRoleInfo(roleInfo: TRoleInfo) {
       this.roleInfo = roleInfo;
       Local.set('roleInfo', roleInfo);
+    },
+    async getCollected(data: any) {
+      this.allCollected = data;
+
     },
   },
 });

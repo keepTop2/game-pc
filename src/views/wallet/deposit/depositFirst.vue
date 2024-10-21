@@ -114,9 +114,9 @@
               <span class="button gradient_txt" @click="showModal = true">{{ t('deposit_page_toExchange')
                 }}</span>
             </n-flex>
-            <span v-show="isShowError" style="color: #d03050">
+            <div class="min_tips" v-show="isShowError" style="color: #d03050">
               {{ t('deposit_page_minDeposit') }}: {{verifyNumberComma(String(countMinMax().min)) }}
-            </span>
+            </div>
           </div>
           <n-flex class="kjje_div">
             <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
@@ -529,10 +529,10 @@ const selectBank = (e: any) => {
   console.log('-----aa', chooseBank.value)
 };
 // 充值单独用的银行列表
-const getDepositBankList = () => {
-  const req = NetPacket.req_pay_name_list();
-  Net.instance.sendRequest(req);
-};
+// const getDepositBankList = () => {
+//   const req = NetPacket.req_pay_name_list();
+//   Net.instance.sendRequest(req);
+// };
 // 充值单独用的银行列表
 // const handleDepositBank = (res: any) => {
 //   console.log('######充值银行列表', res)
@@ -587,7 +587,7 @@ watch(
 );
 
 onMounted(() => {
-  getDepositBankList();
+  // getDepositBankList();
   getShopInfo();
   // 获取银行信息
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_get_shop_info, handleShopInfoRes);
@@ -670,6 +670,10 @@ defineExpose({
           text-decoration: underline;
         }
       }
+      .min_tips {
+        margin-top: 20px;
+      }
+
     }
 
   }

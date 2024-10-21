@@ -3,38 +3,44 @@
 
   <div class="vip_detail_header" v-if="isDetail">
     <navTab :title="t(`VIP详情`)" />
-    <Imgt class="return" src="/img/payment/return.webp" alt=""
-              @click="goDetail()" />
+    <Imgt class="return" src="/img/payment/return.webp" alt="" @click="goDetail()" />
   </div>
-  <navTab :title="t(`VIP特权`)" :secTitle="t('加入PKBET 臻享特权服务')" v-else/>
- 
+  <navTab :title="t(`VIP特权`)" :secTitle="t('加入PKBET 臻享特权服务')" v-else />
+
   <div class="level_content">
     <div class="level_info">
       <!-- <div class="level_info_top">
       </div> -->
       <div class="level_info_vip_all">
-        <n-scrollbar ref="scrollRef" content-class="level_info_vip_l" x-scrollable
-            @wheel.prevent="handleScroll" :size="2" x-placement="bottom">
-            <div class="level_info_vip_l_container">
-              <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData" :key="index" @click.stop="(e: any) => { clickTab(e, item.key) }">
-                <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
-                <div class="l">
-                  <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
-                  <div class="txt"> {{ t('level_page_rebate')}}  <span>{{ levelDataAll.daily_rebate || 0 }}</span></div>
-                </div>
-                <div class="m">返水记录</div>
-                <div class="r" @click.stop="getRebate">领取</div>
+        <!-- <n-scrollbar ref="scrollRef" content-class="level_info_vip_l" x-scrollable @wheel.prevent="handleScroll"
+          :size="2" x-placement="bottom"> -->
+        <!-- <n-carousel :slides-per-view="3" class="level_info_vip_l" :space-between="10" :loop="false" draggable
+          :show-arrow="false" :show-dots="false"> -->
+        <scroll-view class="level_info_vip_l">
+          <div class="level_info_vip_l_container">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
+              :key="index" @click.stop="clickTab(item.key)">
+              <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
+              <div class="l">
+                <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
+                <div class="txt"> {{ t('level_page_rebate') }} <span>{{ levelDataAll.daily_rebate || 0 }}</span></div>
               </div>
+              <div class="m">返水记录</div>
+              <div class="r" @click.stop="getRebate">领取</div>
             </div>
-        </n-scrollbar>
+          </div>
+        </scroll-view>
+        <!-- </n-carousel> -->
+        <!-- </n-scrollbar> -->
       </div>
-      <Rules v-if="isDetail"/>
+      <Rules v-if="isDetail" />
       <n-spin :show="loading" v-else>
         <div class="level_info_pross">
           <n-flex class="level_info_vip" justify="space-between">
             <!-- <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }}</div>
             <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }} -->
-            <div class="l_info_pro" :class="{active: curTab === item.key}" v-for="(item, index) in levelListData" :key="index">{{item.level}}</div>
+            <div class="l_info_pro" :class="{ active: curTab === item.key }" v-for="(item, index) in levelListData"
+              :key="index">{{ item.level }}</div>
           </n-flex>
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
               :style="`width: ${vipProcss().rateStr}`"> </span></div>
@@ -44,7 +50,7 @@
               <div class="b">
                 <span>流水</span>
                 <span class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
-                  :style="`width: ${vipProcss().rateStr}`"> </span></span>
+                    :style="`width: ${vipProcss().rateStr}`"> </span></span>
                 <span>{{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</span>
               </div>
             </div>
@@ -60,7 +66,7 @@
             <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
           </n-flex>
         </n-flex> -->
- 
+
         <div class="level_list_sec">
           <n-flex class="level_info_txt" justify="space-between">
             <span> VIP{{ curTab }}特权</span>
@@ -74,11 +80,11 @@
               <div class="title_big"> {{ t(item.title) }}</div>
               <!-- <div> {{ item.titleSec }}</div> -->
             </div>
-            <n-flex class="list_item_r" >
+            <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
                 <!-- <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`"> -->
                 <div class="list_item_bg">
-                  <div class="item_txt"> 
+                  <div class="item_txt">
                     <p>{{ t(item_1.name) }}</p>
                     <p class="amount">100.000</p>
                   </div>
@@ -117,7 +123,7 @@
 
 </template>
 
-<script setup lang='ts' >
+<script setup lang='ts'>
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
@@ -134,7 +140,7 @@ import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 import router from '@/router';
 import Rules from './rules.vue';
-
+import ScrollView from "@/components/ScrollView.vue";
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo } = storeToRefs(UserStore);
@@ -341,29 +347,29 @@ const getRebate = () => {
   Net.instance.sendRequest(query);
 
 };
-const clickTab = (e: any, key: any) => {
+const clickTab = (key: any) => {
   curTab.value = key;
   // 添加点击滚动
-  const winWidth = document.documentElement.clientWidth / 2; // 视窗宽度的一半
-  const curBoxW = e.target.offsetWidth; // 当前容器宽度
-  const curClientX = e.clientX;
-  const targetBox: any = document.getElementById('scroll_box');
-  let scrollLeft = -curBoxW; // 向右滚动
-  // 需要向左滚动
-  if (curClientX > winWidth - curBoxW / 2) {
-    scrollLeft = curBoxW;
-  }
-  targetBox.scrollBy({
-    top: 0,
-    left: scrollLeft, // 向右滚动的距离
-    behavior: 'smooth', // 平滑滚动
-  });
+  // const winWidth = document.documentElement.clientWidth / 2; // 视窗宽度的一半
+  // const curBoxW = e.target.offsetWidth; // 当前容器宽度
+  // const curClientX = e.clientX;
+  // const targetBox: any = document.getElementById('scroll_box');
+  // let scrollLeft = -curBoxW; // 向右滚动
+  // // 需要向左滚动
+  // if (curClientX > winWidth - curBoxW / 2) {
+  //   scrollLeft = curBoxW;
+  // }
+  // targetBox.scrollBy({
+  //   top: 0,
+  //   left: scrollLeft, // 向右滚动的距离
+  //   behavior: 'smooth', // 平滑滚动
+  // });
 };
 
 const handleScroll = (e: WheelEvent): void => {
-    if (scrollRef.value) {
-        scrollRef.value.scrollBy({ left: e.deltaY })
-    }
+  if (scrollRef.value) {
+    scrollRef.value.scrollBy({ left: e.deltaY })
+  }
 };
 
 const goDetail = (v?: number) => {
@@ -414,7 +420,7 @@ onUnmounted(() => {
   color: #fff;
   font-size: 16px;
   padding: 0 6px;
-  margin-top: 20px;
+
 
   .level_info_top {
     height: 220px;
@@ -478,7 +484,7 @@ onUnmounted(() => {
         background: linear-gradient(90deg, #FF8000 0%, #FFD633 100%);
       }
     }
-    
+
     .vip_detail {
       display: flex;
       justify-content: space-between;
@@ -497,36 +503,41 @@ onUnmounted(() => {
         width: 80%;
         font-size: 16px;
         font-weight: 500;
+
         .t {
           margin-bottom: 15px;
         }
+
         .b {
           display: flex;
           justify-content: center;
           align-items: center;
           width: 98%;
+
           span {
             white-space: nowrap;
+
             &.item_pro {
               margin: 0 12px;
             }
           }
         }
       }
+
       .button {
-          width: 23%;
-          height: 48px;
-          border-radius: 8px;
-          background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
-          text-align: center;
-          line-height: 48px;
-          margin-left: 15px;
-          font-size: 16px;
-          font-weight: 600;
+        width: 23%;
+        height: 48px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+        text-align: center;
+        line-height: 48px;
+        margin-left: 15px;
+        font-size: 16px;
+        font-weight: 600;
       }
     }
 
-    
+
 
   }
 
@@ -616,6 +627,7 @@ onUnmounted(() => {
         margin: 12px 0;
         position: relative;
       }
+
       // &::-webkit-scrollbar {
       //   display: block;
       //   height: 5px
@@ -644,8 +656,8 @@ onUnmounted(() => {
 
         &.active {
           opacity: 1;
-          img {
-          }
+
+          img {}
         }
 
         .l {
@@ -665,14 +677,17 @@ onUnmounted(() => {
           display: flex;
           justify-content: flex-start;
           align-items: center;
+
           img {
             height: 18px;
             width: 15.27px;
             margin: 0 3px 0 5px;
           }
+
           .txt {
             white-space: nowrap;
             overflow: scroll;
+
             span {
               font-weight: 600;
               text-shadow: 0px 0.972px 0px #995403;
@@ -682,6 +697,7 @@ onUnmounted(() => {
             }
           }
         }
+
         .m {
           position: absolute;
           bottom: 15px;
@@ -697,6 +713,7 @@ onUnmounted(() => {
           line-height: 32px;
           padding: 0 10px;
         }
+
         .r {
           position: absolute;
           bottom: 15px;
@@ -728,11 +745,13 @@ onUnmounted(() => {
     .level_info_txt {
       position: relative;
       margin-bottom: 20px;
+
       span:first-child {
         color: #FFF;
         font-size: 20px;
         font-weight: 500;
       }
+
       span:last-child {
         cursor: pointer;
         text-align: right;
@@ -743,6 +762,7 @@ onUnmounted(() => {
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+
         &::after {
           content: '';
           width: 95px;
@@ -772,7 +792,7 @@ onUnmounted(() => {
     .list_item {
       position: relative;
       margin-bottom: 30px;
-     
+
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -813,16 +833,18 @@ onUnmounted(() => {
                 font-size: 14px;
                 font-weight: 700;
                 margin: 0;
+
                 &.amount {
-                    color: #FAC905;
-                    font-size: 14px;
-                    font-weight: 700;
+                  color: #FAC905;
+                  font-size: 14px;
+                  font-weight: 700;
                 }
               }
             }
+
             .item_img {
               height: 60px;
-  
+
               img {
                 height: 100%;
               }
@@ -850,13 +872,16 @@ onUnmounted(() => {
 
 .content_box {
   padding: 30px 35px;
+
   .list_tip {
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 16px;
+
     p {
       margin-bottom: 5px;
       margin-top: 5px;
+
       &:last-child {
         margin-left: 18px;
       }
@@ -866,6 +891,7 @@ onUnmounted(() => {
 
 .vip_detail_header {
   position: relative;
+
   .return {
     position: absolute;
     right: 20px;
@@ -875,5 +901,4 @@ onUnmounted(() => {
     cursor: pointer;
   }
 }
-
 </style>

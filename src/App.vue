@@ -222,7 +222,12 @@ const handleLoginFinish = async (data: any) => {
     }
   }
 };
+// 获取所有收藏的游戏id集合
+const resAllCollect = async (data: any) => {
 
+  await User(pinia).getCollected(data.collected);
+
+}
 onMounted(async () => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_roleinfo_msg, handleRoleInfo);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_user_info, handleUserInfo);
@@ -248,7 +253,7 @@ onMounted(async () => {
   );
   // 登录完成
   MessageEvent2.addMsgEvent(10086, handleLoginFinish);
-
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_all_collected, resAllCollect);
   await page.setLang(Local.get("lang"));
   await page.setTheme(Local.get("themeColor"));
 });

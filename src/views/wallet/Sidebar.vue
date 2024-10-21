@@ -156,7 +156,7 @@ const state: any = reactive({
 });
 
 const itemClick = async (item: any, i: number) => {
-  await page.setMenuActive(i, item.name);
+
   let str = item.url.substring(0, 4);
   if (item.name == 'home_page_onlineService') {
     // 1 => '禁言中',
@@ -174,7 +174,8 @@ const itemClick = async (item: any, i: number) => {
   if (str === 'http' || str === 'www.') {
     handleOpenLink(item.url);
   } else {
-    router.push(item.url);
+    await page.setMenuActive(i, item.name);
+    router.push((item.url));
   }
 
 };
@@ -269,6 +270,7 @@ const showAvSetting = () => {
       transform-style: preserve-3d;
       margin: 0;
       cursor: pointer;
+      border: 1px solid #14173a;
 
       >span {
         display: block;
@@ -280,7 +282,7 @@ const showAvSetting = () => {
       border-radius: 12px;
       color: #fff;
       background: rgba(33, 36, 67, 1);
-      border: 1px solid rgba(38, 41, 76, 1)
+      border-color: rgba(38, 41, 76, 1)
     }
   }
 

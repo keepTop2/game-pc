@@ -57,7 +57,7 @@
             <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
                      :placeholder="t('walletInfo_page_tranferTxt')" >
               <template #suffix>
-                <a @click="tranMoney = ''" class="refresh_icon"></a>
+                <iconpark-icon class="pointer" @click="tranMoney = ''" icon-id="denglushuaxinicon" color="#fff" size="1.2rem"></iconpark-icon>
               </template>
             </n-input>
 
@@ -246,4 +246,6 @@ const {
 
 </script>
 
-<style src="./style.less" lang='less' scoped></style>
+<style src="./style.less" lang='less' scoped>
+
+</style>
