@@ -178,6 +178,37 @@
       </template>
     </ModalDialog>
 
+    <!-- 存入保险柜 -->
+    <ModalDialog v-model:visible="showTranModal" title="存入保险柜提现">
+      <template #content>
+        <div class="tran_box">
+          <n-flex class="top_box" justify="space-between">
+            <div class="topBox">
+              <n-flex>
+                <iconpark-icon icon-id="txxlicon01-ekipha8m" color="#fff" size="1.5rem"></iconpark-icon>
+                <span>携带钱包</span>
+              </n-flex>
+              <span class="mon_box">{{totalMoneyTxt}}</span>
+            </div>
+            <div class="topBox">
+              <n-flex >
+                <iconpark-icon icon-id="txxlicon01-ekipha8m" color="#fff" size="1.5rem"></iconpark-icon>
+                <span>保险柜钱包</span>
+              </n-flex>
+              <span class="mon_box">{{verifyNumberComma(String(bankMoney))}}</span>
+            </div>
+          </n-flex>
+
+          <n-flex justify="space-between" :wrap="false" class="money_input">
+            <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
+                     :placeholder="t('addBank_page_pInput')" >
+            </n-input>
+            <n-flex align="center" justify="center" class="btn_ch button_color" @click="tranMoney = ''"> {{ t('重置') }} </n-flex>
+          </n-flex>
+        </div>
+      </template>
+    </ModalDialog>
+
   </div>
 
 </template>
@@ -208,6 +239,10 @@ const { roleInfo } = storeToRefs(UserStore);
 const {
   myBankList,
   getMyBankList,
+  totalMoneyTxt,
+  bankMoney,
+  countMonRate,
+  tranMoney,
 } = useWalletInfo()
 const usdtBankList = ref([])
 
@@ -216,6 +251,7 @@ const { t } = useI18n();
 const inputRef: any = ref(null);
 const showSecModal = ref(false);
 const switchVisible = ref(false);
+const showTranModal = ref(true);
 const formRef = ref()
 const baseObj = {
   // country: 1,
@@ -822,7 +858,36 @@ const railStyle = ({ focused, checked }: {
 
     }
 
-
   }
+
+  .tran_box {
+    padding: 30px;
+    font-size: 16px;
+    .top_box {
+      .topBox {
+        >div {
+          gap: 6px !important;
+        }
+        .mon_box {
+          display: flex;
+          align-items: center;
+          width: 212px;
+          height: 40px;
+          background: #212443;
+          border: 1px solid #26294C;
+          border-radius: 8px;
+          font-weight: 700;
+          color: #FAC904;
+          padding: 0 10px;
+          margin-top: 10px;
+        }
+      }
+    }
+    .money_input {
+      margin-top: 30px;
+      gap: 20px !important;
+    }
+  }
+
 }
 </style>
