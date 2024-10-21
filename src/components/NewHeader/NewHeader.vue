@@ -260,6 +260,7 @@ const onRegisterOpen = async () => {
 };
 
 const menuClick = async (item: any, j: number) => {
+  let str = item.url.substring(0, 4);
   if (item.value == 444) {
     return Dialog.warning({
       showIcon: false,
@@ -278,18 +279,14 @@ const menuClick = async (item: any, j: number) => {
       onNegativeClick: () => { },
     });
 
-  }
-  if (item.value = 666) {
-
+  } else if (item.value == 666) {
     if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
       return Message.error('用户被封禁');
     } else {
       kefuVisible.value = true;
       return;
     }
-  }
-  let str = item.url.substring(0, 4);
-  if (str === 'http' || str === 'www.') {
+  } else if (str === 'http' || str === 'www.') {
     handleOpenLink(item.url);
 
   } else {
