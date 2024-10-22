@@ -1,5 +1,11 @@
 <template>
   <div class="club_content">
+    <n-flex class="back_box" align="center">
+      <span class="back_icon button" @click="router.go(-1)">
+        <iconpark-icon @click="onClose" icon-id="fangxiangicon04" color="#9497A1" size="1.5rem"></iconpark-icon>
+      </span>
+      <span>一个俱乐部</span>
+    </n-flex>
     <n-flex class="top_bg">
       <n-flex justify="center" class="item_list_l">
         <Imgt :src="`/img/club/new/image.webp`" />
@@ -221,8 +227,9 @@ import Imgt from '@/components/Imgt.vue';
 // import { User } from '@/store/user.ts';
 // import pinia from '@/store';
 // import { storeToRefs } from 'pinia';
-// import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 // const UserStore = User(pinia);
 // const { roleInfo } = storeToRefs(UserStore);
 const { t } = useI18n();

@@ -1,11 +1,6 @@
 <template>
   <div class="right_side">
-    <div
-      v-for="item in opList"
-      :key="item.id"
-      class="right_side_item"
-      @click="handleClick(item)"
-    >
+    <div v-for="item in opList" :key="item.id" class="right_side_item" @click="handleClick(item)">
       <iconpark-icon :icon-id="item.icon" size="1rem"></iconpark-icon>
       <span>{{ item.label }}</span>
     </div>
@@ -28,7 +23,7 @@ import { Message } from "@/utils/discreteApi.ts";
 const userInfo = User(pinia);
 const {
   hasLogin,
-  roleInfo,
+  // roleInfo,
 
   kefuVisible,
   agentInfo,

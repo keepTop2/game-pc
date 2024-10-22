@@ -5,10 +5,10 @@
             <div>
                 <n-button :bordered="false" block class="leave" @click="leave">{{
                     t('home_page_leave')
-                }}</n-button>
+                    }}</n-button>
                 <n-button :bordered="false" block class="login_btn" @click="experience">{{
                     t('home_page_experience')
-                }}</n-button>
+                    }}</n-button>
             </div>
 
         </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, reactive } from 'vue';
+// import { onMounted, reactive } from 'vue';
 import { useI18n } from "vue-i18n";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
