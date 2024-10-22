@@ -46,6 +46,7 @@ import { Message } from '@/utils/discreteApi.ts';
 import avatarSettings from './components/avatarSettings.vue';
 import { verifyNumberComma } from '@/utils/others.ts';
 import { Wallet } from '@/store/wallet';
+import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 
 const { t } = useI18n();
 const page = Page(pinia);

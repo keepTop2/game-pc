@@ -6,7 +6,7 @@
               v-for="(val, key) in showOptions" :key="key">{{ val }}
             </div>
         </n-flex>
-        <n-select v-else-if="props.styleMode == 0" class=" search_select date_item" v-model:value="active"
+        <n-select v-else-if="props.styleMode == 0" class="search_select date_item" v-model:value="active"
           :options="showOptions" />
         <n-date-picker :is-date-disabled="disabledDate" input-readonly class="date_select_box" :format="'yyyy/MM/dd'"
           :on-confirm="chooseTime" :show-suffix="false" v-model:value="timeObj.range" type="daterange">
@@ -170,18 +170,27 @@ onMounted(() => {
     .date_select_box {
         width: 246px;
         height: 40px !important;
-        box-sizing: border-box;
 
         :deep(.n-input) {
             background: #14173A;
-            height: 40px;
+            height: 42px;
+            box-sizing: border-box;
             font-size: 16px;
             border: #AEAEB0 solid 2px;
+            border-radius: 8px !important;
 
             .n-input__input-el {
-                height: 40px;
+                min-height: 40px !important;
                 color: #AEAEB0;
             }
+            .n-input__border{
+                border: none;
+            }
+        }
+
+        :deep(.n-base-selection) {
+            min-height: auto;
+            box-sizing: border-box;
         }
     }
 }
@@ -239,11 +248,12 @@ onMounted(() => {
     .date_select_box {
         // flex: 1;
         height: 40px;
-        margin-right: 6px
+        margin-right: 6px;
     }
 
     .search_select {
-        height: 36px;
+        box-sizing: border-box;
+        height: 40px;
     }
 }
 </style>
