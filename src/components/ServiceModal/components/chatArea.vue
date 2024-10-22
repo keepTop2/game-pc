@@ -2,36 +2,70 @@
   <n-spin :show="show">
     <div class="chat_content" ref="chatContentRef">
       <div v-if="chatList.length">
-        <div class="chat_item" v-for="item in (chatList as any)" :key="item.date"
-          :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }">
+        <div
+          class="chat_item"
+          v-for="item in (chatList as any)"
+          :key="item.date"
+          :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }"
+        >
           {{ item.THeadPhoto }}
-          <Imgt v-if="item.role == '2'" :src="`/img/head_icons/${item.THeadPhoto || '1001'}.webp`" />
+          <Imgt
+            v-if="item.role == '2'"
+            :src="`/img/head_icons/${item.THeadPhoto || '1001'}.webp`"
+          />
           <div class="chat_main">
-            <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
+            <div
+              class="user_info"
+              :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }"
+            >
               <span>{{ item.name }}</span>
-              <div class="mark_kf" v-if="item.role == '2'" :style="{
-                'background': setColor(userData)
-              }">
+              <div
+                class="mark_kf"
+                v-if="item.role == '2'"
+                :style="{
+                  background: setColor(userData),
+                }"
+              >
                 {{ t(setLabel()) }}
               </div>
               <div v-else class="mark_kf_me">我</div>
               <span class="date">{{ item.date }}</span>
             </div>
-            <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
-              @click="showImg(item.content)">
-              <div class=" " v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1">
-              </div>
+            <div
+              :class="[item.role == '2' ? 'user_content' : 'me_content']"
+              v-if="!item.money"
+              @click="showImg(item.content)"
+            >
+              <div
+                class=" "
+                v-html="initMessage(item.content)"
+                v-if="item.content.indexOf('storage/uploads') == -1"
+              ></div>
               <!-- 图片视频 -->
               <div v-else>
-                <n-image v-if="item.content.includes('storage/uploads/image')" width="140"
+                <n-image
+                  v-if="item.content.includes('storage/uploads/image')"
+                  width="140"
                   :src="'http://18.167.175.195:8031/' + item.content"
-                  :previewed-img-props="{ style: { border: '8px solid white' } }" />
-                <video v-else :src="'http://18.167.175.195:8031/' + item.content" controls preload="auto" muted
-                  width="240" height="200"></video>
+                  :previewed-img-props="{ style: { border: '8px solid white' } }"
+                />
+                <video
+                  v-else
+                  :src="'http://18.167.175.195:8031/' + item.content"
+                  controls
+                  preload="auto"
+                  muted
+                  width="240"
+                  height="200"
+                ></video>
               </div>
             </div>
             <!-- 转账 -->
-            <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-else class="money">
+            <div
+              :class="[item.role == '2' ? 'user_content' : 'me_content']"
+              v-else
+              class="money"
+            >
               <div class="left">
                 <Imgt src="/img/serviceModal/transfer.webp" />
                 <div class="left_info">
@@ -42,7 +76,10 @@
               <div class="total">代理转账</div>
             </div>
           </div>
-          <Imgt v-if="item.role == 1" :src="`/img/head_icons/${roleInfo.head_photo}.webp`" />
+          <Imgt
+            v-if="item.role == 1"
+            :src="`/img/head_icons/${roleInfo.head_photo}.webp`"
+          />
         </div>
       </div>
     </div>
@@ -125,7 +162,6 @@ const chatContentRef: any = ref(null);
 const show = ref(false);
 const showImg = (content: any) => {
   console.log(content);
-
 };
 
 onMounted(() => {
@@ -186,10 +222,12 @@ onMounted(() => {
         padding: 0 8px;
         font-size: 12px;
         box-sizing: border-box;
-        background-image: radial-gradient(circle at 50% 0%,
+        background-image: radial-gradient(
+            circle at 50% 0%,
             #e9c0ad,
             #b8856d 61%,
-            #d1a28d 83%),
+            #d1a28d 83%
+          ),
           linear-gradient(to bottom, #fff, #653e2d);
       }
 
@@ -204,7 +242,7 @@ onMounted(() => {
       border-radius: 2px 12px 12px 12px;
       padding: 8px 16px;
       border: solid 1px #353b5a;
-      background-color: #322c59;
+      background-color: #282d6a;
     }
 
     .me_content {
@@ -215,7 +253,7 @@ onMounted(() => {
       align-items: center;
       max-width: 450px;
       border: solid 1px #5a47b2;
-      background-color: #402c95;
+      background-color: #5b6cff;
     }
 
     .money {

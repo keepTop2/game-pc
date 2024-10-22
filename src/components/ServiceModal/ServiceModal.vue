@@ -19,7 +19,7 @@
         <iconpark-icon
           @click="isShow = false"
           class="clo"
-          icon-id="Group39368"
+          icon-id="tanctongyguanb"
           color="#fff"
           size="1.2rem"
           style="margin-top: 6px"
@@ -281,9 +281,7 @@
                 <div
                   class="high_proxy"
                   :style="{
-                    background: deepObj[i.deep || i.agentlevel]
-                      ? deepObj[i.deep || i.agentlevel].color
-                      : deepObj['default'].color,
+                    background: setColor(i),
                   }"
                 >
                   {{ t(setLabel(i)) }}
@@ -376,18 +374,18 @@
                 accept=".jpg,.jpeg,.png,.gif"
                 :show-file-list="false"
               >
-                <iconpark-icon icon-id="ftsx01" size="1.2rem" class="pointer" />
+                <iconpark-icon icon-id="kefuicontlb01" size="1.2rem" class="pointer" />
               </n-upload>
               <n-upload
                 @before-upload="beforeUpload"
                 accept=".mp4,.avi,.mov,.wmv"
                 :show-file-list="false"
               >
-                <iconpark-icon icon-id="ftsx03" size="1.2rem" class="pointer" />
+                <iconpark-icon icon-id="kefuicontlb02" size="1.2rem" class="pointer" />
               </n-upload>
               <n-popover trigger="hover" :show-arrow="false" placement="top-end">
                 <template #trigger>
-                  <iconpark-icon icon-id="ftsx02" size="1.2rem" class="pointer" />
+                  <iconpark-icon icon-id="kefuicontlb03" size="1.2rem" class="pointer" />
                 </template>
                 <div class="emoji">
                   <EmojiPicker :native="true" @select="onSelectEmoji" />
@@ -478,14 +476,12 @@ const deepObj: any = {
   // 上级代理
   "-1": {
     label: "chat_page_up_agent",
-    color:
-      "radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)",
+    color: "linear-gradient(0deg, #CA2790, #CA2790)",
   },
   // 下级代理
   1: {
     label: "chat_page_down_agent",
-    color:
-      "radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)",
+    color: "linear-gradient(0deg, #CA2790, #CA2790)",
   },
 
   2: {
@@ -502,8 +498,7 @@ const deepObj: any = {
   //官方客服
   0: {
     label: "chat_page_customer",
-    color:
-      "radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)",
+    color: " linear-gradient(0deg, #F28639, #F28639)",
   },
   5: {
     label: "chat_page_customer",
@@ -1255,8 +1250,10 @@ onUnmounted(() => {
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
     text-align: center;
+
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+    background-color: #14173a;
+    border-bottom: 1px solid #26294c;
 
     > .forbidden {
       position: absolute;
@@ -1288,7 +1285,7 @@ onUnmounted(() => {
       padding: 16px 0px;
       height: 100%;
       width: 280px;
-      background-color: #2d1769;
+      background-color: #171b44;
       box-sizing: border-box;
 
       &:deep(.n-input__placeholder) {
@@ -1317,7 +1314,8 @@ onUnmounted(() => {
 
     .left_setting {
       width: 72px;
-      background-color: #2d1769;
+      background-color: #1b1f4b;
+
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -1355,7 +1353,7 @@ onUnmounted(() => {
       padding: 0 30px;
       height: 100%;
       width: 920px;
-      background-color: #231353;
+      background-color: #14173a;
     }
   }
 }
@@ -1385,8 +1383,8 @@ onUnmounted(() => {
   }
 
   .active_tab {
-    background: url("/img/serviceModal/tab_btn.webp?t=@{timestamp}") no-repeat;
-    background-size: 100% 112%;
+    background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
+
     color: #fff;
   }
 }
@@ -1456,7 +1454,7 @@ onUnmounted(() => {
 }
 
 .item_active {
-  background-color: #422299;
+  background-color: #282d6a;
 }
 
 .send_message {
@@ -1484,8 +1482,8 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("/img/serviceModal/send_btn.webp?t=@{timestamp}") no-repeat;
-    background-size: 100% 100%;
+    background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
+    border-radius: 8px;
     color: #fff;
   }
 
@@ -1685,7 +1683,7 @@ onUnmounted(() => {
   border-radius: 12px;
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   border: solid 1px #322c59;
-  background-color: #1d0e4a;
+  background-color: #0d0e2e;
   outline: none;
   position: relative;
   padding: 10px;
