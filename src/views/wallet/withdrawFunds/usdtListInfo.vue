@@ -11,8 +11,8 @@
                     <span>{{ `${t('deposit_page_netWork')}:${item.bankName}` }}</span>
                   </div>
                   <div class="p_account">
-                    <span class="txt_label">{{t('paymentManagement_page_address')}}:</span>
-                    <span class="txt_ac">{{item.bankCode}}</span>
+                    <span class="txt_label">{{ t('paymentManagement_page_address') }}:</span>
+                    <span class="txt_ac">{{ item.bankCode }}</span>
                   </div>
                   <div class="txt_bz">
                     {{ `${t('paymentManagement_page_remark')}:${item.name}` }}
@@ -20,15 +20,16 @@
                 </div>
                 <div class="utilization-bank">
                   <div class="btn_cs" v-if="item.isDefault">
-                    {{t('usdt_default')}}
+                    {{ t('usdt_default') }}
                   </div>
                   <div v-else>
-                    <n-button v-if="!item.isUse" @click="removeBank(item)" :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
+                    <n-button v-if="!item.isUse" @click="removeBank(item)"
+                      :class="['btn-bank', item.isUse ? '' : 'btn-bank-use']">
                       {{ t('paymentManagement_page_delete') }}
                     </n-button>
                     <n-button @click="bankCheck(index, 'isDefault')"
-                              :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
-                      {{t('paymentManagement_page_set_default') }}
+                      :class="['btn-bank', item.isDefault ? '' : 'btn-bank-default']">
+                      {{ t('paymentManagement_page_set_default') }}
                     </n-button>
                   </div>
                 </div>
@@ -52,19 +53,17 @@
             </div>
             <n-form-item :label="t('deposit_page_chooseNetWork')">
               <n-select :placeholder="t('deposit_page_chooseNetWork')" v-model:value="form.network_type"
-                        :options="[{label: t('deposit_page_chooseNetWork'), value: ''},...netWorkArr]" />
+                :options="[{ label: t('deposit_page_chooseNetWork'), value: '' }, ...netWorkArr]" />
             </n-form-item>
             <n-form-item :label="t('withdraw_page_usdtAdd')" path="bankCode">
-              <n-input size="large" v-model:value="form.bankCode"
-                       :placeholder="t('paymentManagement_page_usdt_tips')">
+              <n-input size="large" v-model:value="form.bankCode" :placeholder="t('paymentManagement_page_usdt_tips')">
                 <template #suffix>
                   <a class="refresh_icon"></a>
                 </template>
               </n-input>
             </n-form-item>
             <n-form-item :label="t('paymentManagement_page_remark')" path="accountName">
-              <n-input size="large" v-model:value="form.desc"
-                       :placeholder="t('描述（选填）')">
+              <n-input size="large" v-model:value="form.desc" :placeholder="t('描述（选填）')">
               </n-input>
             </n-form-item>
             <div class="cz_btn with_sec_btn">
@@ -74,7 +73,7 @@
 
         </n-flex>
 
-<!--        <div class="tips">
+        <!--        <div class="tips">
           <Imgt src="/img/wallet/bankTips.webp" />
           <span>{{ t('paymentManagement_page_max_bank', { num: bankList.length || 0 }) }}</span>
         </div>-->
@@ -311,6 +310,7 @@ defineExpose({
   .w_full {
     gap: 20px !important;
   }
+
   .bank_list {
     flex-wrap: nowrap !important;
     border-radius: 8px;
@@ -339,16 +339,20 @@ defineExpose({
         .info-text {
           width: 78%;
           flex: 1;
+
           >div {
             font-size: 16px;
             margin-bottom: 5px;
+
             &:nth-child(n+2) {
               font-size: 14px;
             }
           }
+
           .p_account {
             display: flex;
             white-space: nowrap;
+
             .txt_ac {
               display: inline-block;
               max-width: 270px;
@@ -356,6 +360,7 @@ defineExpose({
               white-space: wrap;
             }
           }
+
           .txt_bz {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -381,6 +386,7 @@ defineExpose({
             border-radius: 8px;
             background: #525566;
           }
+
           .btn-bank {
             width: auto;
             min-width: 80px;
@@ -388,9 +394,10 @@ defineExpose({
             padding: 0 5px;
             border: none !important;
             font-size: 12px;
-             &:first-child {
-               background: #0CC41E;
-             }
+
+            &:first-child {
+              background: #0CC41E;
+            }
           }
 
           .btn-bank-use {
@@ -464,6 +471,7 @@ defineExpose({
 
     :deep(.n-form-item) {
       grid-template-rows: 22px;
+
       .n-form-item-label {
         color: #fff;
         padding: 0;
@@ -472,6 +480,7 @@ defineExpose({
         line-height: 22px;
       }
     }
+
     .add-bank-text {
       display: flex;
       align-items: center;
@@ -481,6 +490,7 @@ defineExpose({
         color: #AEAEB0;
         margin-bottom: 10px;
       }
+
       img {
         cursor: pointer;
       }

@@ -308,9 +308,9 @@ defineExpose({
 @timestamp: `new Date().getTime()`;
 
 .change_card {
-  width: 494px;
+  // width: 494px;
   border-radius: 14px;
-  border: solid 1.4px #322c59;
+  // border: solid 1.4px #322c59;
   background-color: #231353;
 
 
@@ -362,10 +362,13 @@ defineExpose({
 
   .btn {
     color: #fff;
-    width: 90px;
-    font-size: 14px;
-    background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
-    background-size: contain;
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    // margin: 0;
+    // margin-left: 9px;
+    // background: url('/img/login/sendBtn.webp?t=@{timestamp}') no-repeat;
+    // background-size: contain;
 
   }
 
