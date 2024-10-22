@@ -19,7 +19,7 @@
         <iconpark-icon
           @click="isShow = false"
           class="clo"
-          icon-id="tanctongyguanb"
+          icon-id="Group39368"
           color="#fff"
           size="1.2rem"
           style="margin-top: 6px"
@@ -62,7 +62,9 @@
               size="1.8rem"
             ></iconpark-icon>
             <span
-              :style="{ color: state.groupType.id == item.id ? '#fff' : '#8D84C5' }"
+              :style="{
+                color: state.groupType.id == item.id ? '#fff' : '#8D84C5',
+              }"
               >{{ item.name }}</span
             >
           </div>
@@ -97,7 +99,9 @@
           </div> -->
           <n-input v-model:value="state.search" :placeholder="t('chat_page_chat_list')">
             <template #suffix>
-              <div class="new_btn" @click="searchuser">{{ t("chat_page_new_chat") }}</div>
+              <div class="new_btn" @click="searchuser">
+                {{ t("chat_page_new_chat") }}
+              </div>
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
@@ -164,9 +168,7 @@
                   <div
                     class="high_proxy"
                     :style="{
-                      background: deepObj[item.deep || item.agentlevel]
-                        ? deepObj[item.deep || item.agentlevel].color
-                        : '',
+                      background: setColor(item),
                     }"
                   >
                     <span> {{ t(setLabel(item)) }}</span>
@@ -281,7 +283,7 @@
                   :style="{
                     background: deepObj[i.deep || i.agentlevel]
                       ? deepObj[i.deep || i.agentlevel].color
-                      : '',
+                      : deepObj['default'].color,
                   }"
                 >
                   {{ t(setLabel(i)) }}
@@ -295,9 +297,9 @@
       <div class="right_content">
         <chatArea
           :chatList="state.chatMessagesList"
-          :roleInfo="roleInfo"
           :userData="state.userData"
           :deepObj="deepObj"
+          :setColor="setColor"
         >
         </chatArea>
         <!-- 快捷语选择 -->
@@ -320,9 +322,14 @@
                   <div class="short_wrap_list">
                     <span
                       class="short_wrap_title"
-                      v-for="op in quickPhrasesList.filter((ite: any) => ite.qhcid === item.id)"
+                      v-for="op in quickPhrasesList.filter(
+                        (ite: any) => ite.qhcid === item.id,
+                      )"
                       @click="chooseQuick(op)"
                       :key="op"
+                      :style="{
+                        order: op.istop == 1 ? 1 : 6,
+                      }"
                       >{{ op.content }}</span
                     >
                   </div>
@@ -360,7 +367,8 @@
                 v-if="
                   agentInfo.user_type &&
                   agentInfo.user_type == 1 &&
-                  agentInfo.moneyauth == 1
+                  agentInfo.moneyauth == 1 &&
+                  false
                 "
               />
               <n-upload
@@ -443,7 +451,7 @@ import { User } from "@/store/user";
 import Imgt from "@/components/Imgt.vue";
 import { useRoute } from "vue-router";
 import { getMinuteDifference } from "@/utils/dateTime";
-
+import { Page } from "@/store/page";
 import { Buffer } from "buffer";
 // import { Local } from "@/utils/storage";
 interface tabType {
@@ -454,7 +462,9 @@ import { useI18n } from "vue-i18n";
 
 const route = useRoute();
 const userInfo = User(pinia);
+const page = Page(pinia);
 const { roleInfo, agentInfo } = storeToRefs(userInfo);
+const { settings } = storeToRefs(page);
 const msgRef: any = ref(null);
 const groupRef: any = ref(null);
 const { t } = useI18n();
@@ -472,20 +482,39 @@ const deepObj: any = {
       "radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)",
   },
   // 下级代理
-  "1": {
-    label: "chat_page_up_agent",
+  1: {
+    label: "chat_page_down_agent",
     color:
       "radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)",
   },
-  //官方客服
-  "0": {
-    label: "chat_page_customer",
-    color: "linear-gradient(0deg, #F28639, #F28639)",
+
+  2: {
+    label: "chat_page_direct_user",
+    color:
+      "radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776)",
   },
-  "5": {
+  3: {
+    label: "chat_page_direct_user",
+    color:
+      "radial-gradient(circle at 50% 0%, #505481, #38406d 49%, #474e82 65%), linear-gradient(to bottom, #fff, #928776)",
+  },
+
+  //官方客服
+  0: {
     label: "chat_page_customer",
     color:
       "radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)",
+  },
+  5: {
+    label: "chat_page_customer",
+    color:
+      "radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%)",
+  },
+  //默认
+  default: {
+    label: "chat_page_direct_user",
+    color:
+      "radial-gradient(circle at 50% 0%, #489dc3, #3685a9 49%, #489dc3 65%), linear-gradient(to bottom, #fff, #928776)",
   },
 };
 // const onlyAllowNumber = (value: string) => !value || /^\d+$/.test(value)
@@ -509,7 +538,12 @@ const state: any = reactive({
 });
 
 // 上传图片视频
-const beforeUpload = (data: any) => {
+const beforeUpload = async (data: any) => {
+  await getAgentLevel();
+  if ([1].includes(agentInfo.value.mutetype.type_id)) {
+    Message.error(t("chat_page_file_error"));
+    return;
+  }
   const file = data.file.file;
   const fileType = file.type.split("/")[1];
   const type = file.type.includes("image")
@@ -566,8 +600,20 @@ const setLabel = (val: any) => {
     };
     return obj[val.agentlevel] || "chat_page_agent_gamer";
   } else {
-    return (deepObj[val.deep] && deepObj[val.deep].label) || "chat_page_direct_user";
+    return deepObj[val.deep] ? deepObj[val.deep].label : "chat_page_direct_user";
   }
+};
+
+const setColor = (item: any) => {
+  let color;
+  if (item.deep >= 0) {
+    color = deepObj[item.deep].color;
+  } else if (item.agentlevel == 0 || item.agentlevel == 5) {
+    color = deepObj[item.agentlevel].color;
+  } else {
+    color = deepObj["default"].color;
+  }
+  return color;
 };
 
 const chatObj: any = {};
@@ -733,7 +779,7 @@ const groupClick = (item: any) => {
 };
 
 // 发送消息
-const sendMsg = () => {
+const sendMsg = (todeviceid: any = "") => {
   if (!state.todeviceid) {
     return;
   }
@@ -765,7 +811,7 @@ const sendMsg = () => {
     var datatime = getDateFromat();
     const msgcontent = {
       fromdeviceid: state.deviceID,
-      todeviceid: state.todeviceid,
+      todeviceid: typeof todeviceid == "number" ? todeviceid : state.todeviceid,
       sendtime: datatime,
       mtype: state.messagetype, //文字类型消息
       data: msginputdata,
@@ -800,6 +846,7 @@ const sendMsg = () => {
     const decoder = new TextDecoder("utf-8");
     const decodedString2 = decoder.decode(decodedMessage1.data);
     console.log("decodedMessage1.data :", decodedString2);
+    console.log("decodedMessage1.data :", msgcontent);
     // this.sendmessages.push(this.deviceid + ":" + this.jsmessage + "(" + datatime + ")类型:" + msgcontent.mtype)
     IWebsocket.sendMessageHandler(encodedRequest);
   } else {
@@ -855,7 +902,6 @@ const getChatMsgPublic = (data: any, type?: any) => {
         });
       }
     }
-
     const messageObj = {
       cstatus: data.cstatus, // 1; // 通过 显示   等于0或者没有这个字段  就不能显示
       msgtype: data.msgtype,
@@ -868,6 +914,7 @@ const getChatMsgPublic = (data: any, type?: any) => {
       //获取到新消息如果是当前用户直接显示
       if (state.userData.todeviceid == decodeobj2.fromdeviceid) {
         state.chatMessagesList.push(messageObj);
+        allRead();
       } else {
         // 不是当前用户则未读消息加1
         const todeviceItem = chatitemList.value.find(
@@ -884,6 +931,21 @@ const getChatMsgPublic = (data: any, type?: any) => {
       autoSend(decodeobj2);
     } else {
       // 聊天记录
+      state.chatMessagesList.unshift(messageObj);
+    }
+  } else {
+    // 在审核中
+    if (data.msgtype == 3 || data.msgtype == 4) {
+      const messageObj = {
+        cstatus: data.cstatus, // 1; // 通过 显示   等于0或者没有这个字段  就不能显示
+        msgtype: data.msgtype,
+        date: decodeobj2.sendtime, // 时间
+        role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2, //角色1 我方消息 2 对方消息
+        content: `您发送的${
+          data.msgtype == 3 ? "图片" : "视频"
+        }正在审核，请耐心等待，审核通过后显示在前台`, //消息
+        name: decodeobj2.fromdeviceid == state.deviceID ? "" : state.userData.TUsername,
+      };
       state.chatMessagesList.unshift(messageObj);
     }
   }
@@ -928,7 +990,7 @@ function startTimer(decodeobj2: any) {
       const msc = quickPhrasesList.value.find((item: any) => item.isautorsp == 1);
       if (msc) {
         testMsg.value = msgRef.value.innerHTML = msc.content;
-        sendMsg();
+        sendMsg(decodeobj2.fromdeviceid);
       }
     }
   }, 1000 * 60 * 3);
@@ -1136,7 +1198,23 @@ const addModifyCateQuick = (data: any) => {
   sendShortcutCateList(data);
 };
 
+//获取用户角色
+async function getAgentLevel() {
+  state.deviceID = (localStorage.getItem("device_id") || state.deviceID) * 1;
+  if (settings.value.customer_server) {
+    // 获取角色
+    fetch(settings.value.customer_server + `/api/user/info?device_id=${state.deviceID}`)
+      .then((response) => {
+        return response.json(); // 将响应解析为 JSON
+      })
+      .then(async (res) => {
+        await User(pinia).setAgentInfo(res?.data);
+      });
+  }
+}
+
 onMounted(async () => {
+  await getAgentLevel();
   IWebsocket.conectWebsocket();
   state.root = await protobuf.load("/connect.ext.proto");
   onOpen();
@@ -1152,6 +1230,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   clear();
+  IWebsocket.close();
 });
 </script>
 <style lang="less" scoped>
@@ -1177,7 +1256,7 @@ onUnmounted(() => {
     border-top-right-radius: 14px;
     text-align: center;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-color: #14173a;
+    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
 
     > .forbidden {
       position: absolute;
@@ -1209,7 +1288,7 @@ onUnmounted(() => {
       padding: 16px 0px;
       height: 100%;
       width: 280px;
-      background-color: #171b44;
+      background-color: #2d1769;
       box-sizing: border-box;
 
       &:deep(.n-input__placeholder) {
@@ -1226,10 +1305,11 @@ onUnmounted(() => {
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #8d84c5;
 
         &:deep(.n-input) {
           .n-input__suffix {
-            color: #ffffff;
+            color: #ca2929;
           }
         }
       }
@@ -1237,11 +1317,12 @@ onUnmounted(() => {
 
     .left_setting {
       width: 72px;
-      background-color: #1b1f4b;
+      background-color: #2d1769;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;
+      border-right: 3px solid #1d0e4a;
 
       .set_item {
         margin-top: 24px;
@@ -1249,6 +1330,7 @@ onUnmounted(() => {
         flex-direction: column;
         align-items: center;
         cursor: pointer;
+        font-size: 14px;
 
         span {
           padding: 0 6px;
@@ -1303,8 +1385,7 @@ onUnmounted(() => {
   }
 
   .active_tab {
-    background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
-
+    background: url("/img/serviceModal/tab_btn.webp?t=@{timestamp}") no-repeat;
     background-size: 100% 112%;
     color: #fff;
   }
@@ -1497,7 +1578,7 @@ onUnmounted(() => {
     cursor: pointer;
     margin-top: 6px;
     padding: 0 20px;
-    min-width: 160px;
+    min-width: 120px;
     height: 40px;
     white-space: nowrap;
     display: flex;

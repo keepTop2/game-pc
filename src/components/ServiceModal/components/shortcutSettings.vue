@@ -5,7 +5,7 @@
         <h4 class="top_title">
           <span>{{ t('chat_page_shortcut_set') }}</span>
           <i>
-            <iconpark-icon @click="isShow = false" icon-id="tanctongyguanb" color="#fff" size="1.2rem"></iconpark-icon>
+            <iconpark-icon @click="isShow = false" icon-id="Group39368" color="#fff" size="1.2rem"></iconpark-icon>
           </i>
         </h4>
         <div class="main_body">
@@ -119,7 +119,8 @@
             <n-flex v-show="showEdit" @click="changeEdit" align="center" justify="center" class="button">{{
               t('home_page_modify') }}
             </n-flex>
-            <n-flex align="center" justify="center" class="button" @click="addQuick">{{ t('chat_page_save') }}</n-flex>
+            <n-flex v-show="!showEdit" align="center" justify="center" class="button" @click="addQuick">{{
+              t("chat_page_save") }}</n-flex>
           </n-flex>
 
         </div>
@@ -214,9 +215,18 @@ const showSetting = () => {
 };
 const clickTab = (e: any) => {
   // console.log('*****', e, dataListOrigin.value)
-  const newArr = dataListOrigin.value.length ? JSON.parse(JSON.stringify(dataListOrigin.value)) : [];
   curTab.value = e;
-  dataList.value = e === '0' ? newArr : newArr.filter((item: any) => item.qhcid === e);
+  filterData();
+};
+// 过滤数据
+const filterData = () => {
+  const newArr = dataListOrigin.value.length
+    ? JSON.parse(JSON.stringify(dataListOrigin.value))
+    : [];
+  dataList.value =
+    curTab.value === "0"
+      ? newArr
+      : newArr.filter((item: any) => item.qhcid === curTab.value);
 };
 const clickShowSelect = () => {
   dropDown.value = 99999;
@@ -375,7 +385,7 @@ const addQuick = () => {
   showEdit.value = true;
   setTimeout(() => {
     isLoading.value = false;
-  }, 5 * 1000);
+  }, 3 * 1000);
 };
 // 新增编辑删除快捷语
 const doActionQuick = (data: any) => {
@@ -396,14 +406,14 @@ watch(() => props.quickPhrasesCateList, (n) => {
     curType.value = dataCateList.value[0]?.id; // 默认第一条
   }
 });
-watch(() => props.quickPhrasesList, (n) => {
-  if (n.length) {
+watch(
+  () => props.quickPhrasesList,
+  (n) => {
     dataList.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
     dataListOrigin.value = n.length ? JSON.parse(JSON.stringify(n)) : [];
+    filterData();
   }
-});
-
-
+);
 </script>
 <style lang="less" scoped>
 @timestamp: `new Date().getTime()`;
