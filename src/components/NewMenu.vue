@@ -65,8 +65,8 @@
   </div>
 </template>
 <script setup lang="ts" name="Header">
-import { ref, onMounted, computed, watchEffect, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import pinia from "@/store/index";
 import { Page } from "@/store/page";
@@ -76,9 +76,9 @@ const { homeGameData } = storeToRefs(Page(pinia));
 
 
 const router = useRouter();
-const { venueActive, settings, lang } = storeToRefs(Page(pinia));
-const route = useRoute();
-const active_id = ref(0);
+const { venueActive, lang } = storeToRefs(Page(pinia));
+// const route = useRoute();
+// const active_id = ref(0);
 const unserialize = (v: any) => {
   let obj: any = {
     en: "en-US",

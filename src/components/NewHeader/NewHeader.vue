@@ -24,7 +24,7 @@
       邮件 -->
       <div class="email_wrap" v-if="hasLogin">
         <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
-        <Imgt src="/img/header/collect.webp" />
+        <Imgt src="/img/header/collect.webp" @click="router.push('/gameCollection')" />
       </div>
 
       <div class="login_wrap" v-if="!hasLogin">
@@ -602,6 +602,7 @@ onUnmounted(() => {
         will-change: width;
         transition: all 500ms;
         cursor: pointer;
+
         &:deep(.n-input-wrapper) {
           display: flex;
           justify-content: center;

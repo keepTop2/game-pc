@@ -10,15 +10,17 @@
             </n-input>
             <n-button class="login_btn" :bordered="false" block @click="onClickSearch">搜索</n-button>
         </div>
+
         <div class="tab_box">
-            <n-tabs :default-value="lableActive" @update:value="changeLableTab">
-                <n-tab-pane :name="item.id" v-for="(item, i) in state.kindList" :key="i">
+
+            <n-tabs v-model:value="state.lableActive" @update:value="changeLableTab">
+                <n-tab-pane :name="item.id" v-for="(item, i) in kindList" :key="i">
                     <template #tab>
                         <div class="tab_div">
                             <iconpark-icon class="right"
-                                :icon-id="lableActive == Number(item.key) ? item.activeIcon : item.icon"
+                                :icon-id="state.lableActive == item.id ? item.activeIcon : item.icon"
                                 size="1.2rem"></iconpark-icon>
-                            <span :class="lableActive == Number(item.key) && 'n-tabs-tab--active'">{{ item.name
+                            <span :class="state.lableActive == item.id && 'n-tabs-tab--active'">{{ item.name
                                 }}</span>
                         </div>
                     </template>
@@ -33,14 +35,20 @@
                 <img src="/img/wallet/nodata.webp" alt="nodata">
                 <div>{{ t('home_page_nomore_data') }}</div>
             </div>
-            <n-infinite-scroll style="height: 85vh" :distance="10" @load="onLoad" v-else>
+            <n-infinite-scroll style="height: 75vh" :distance="10" @load="onLoad" v-else>
                 <n-grid :x-gap="7" :y-gap="12" :cols="8">
                     <n-grid-item v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
                         <div class="game_box">
 
                             <img :src="imgPrefix + v.gamePicturePC">
                             <div>
-                                <span>{{ unserialize(v.name, true) }}</span>
+                                <n-tooltip trigger="hover">
+                                    <template #trigger>
+                                        <span class="text_hidden">{{ unserialize(v.name, true) }}</span>
+                                    </template>
+                                    {{ unserialize(v.name, true) }}
+                                </n-tooltip>
+
                                 <iconpark-icon v-if="Local.get('user')"
                                     :name="allCollected.includes(v.gameId) ? 'dianzanun' : 'dianzan'" size="1rem"
                                     @click.stop="reqCollect(v)"></iconpark-icon>
@@ -54,70 +62,99 @@
 
 
     </div>
-
+    <Loading v-model:visible="isLoading"></Loading>
     <!-- <Games></Games> -->
 
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetPacket } from '@/netBase/NetPacket';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { useI18n } from 'vue-i18n';
-// import { getRandomSign, md5, getDeviceId } from '@/net/Utils';
-// import { useRouter } from 'vue-router';
 import { Local } from '@/utils/storage';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { Message } from '@/utils/discreteApi';
 import { Page } from '@/store/page';
-import Games from "@/components/Games.vue";
-const { lang, homeGameData } = storeToRefs(Page(pinia));
+import Loading from '@/components/Loading.vue'
+// import Games from "@/components/Games.vue";
+const { lang } = storeToRefs(Page(pinia));
 const { allCollected } = storeToRefs(User(pinia));
 const imgPrefix = 'http://18.167.175.195:8032/uploads/'
 const { t } = useI18n();
 const queryGame = ref("")
+const props = defineProps({
+    // 游戏平台id  -1为查看全部的游戏
+
+    agentId: {
+        type: Number,
+        default: -1
+    },
+    // 是否属于自定义标签 
+    //为0时 则kindId取右侧tab的值  -1为全部  -2为收藏，-3为最近
+    //为1时  则kindId 为场馆id或  火热 1
+    is_lable: {
+        type: Number,
+        default: 0
+    },
+    // 右侧标签id  // -1为查找当前平台所有的游戏 //也表示场馆id
+
+    kindId: {
+        type: Number,
+        default: -2
+    },
+    // 右侧标签点击样式
+
+    lableActive: {
+        type: Number,
+    },
+    kindList: {
+        type: Array<any>,
+        default: [
+            {
+                name: '收藏',
+                icon: 'shoucang',
+                activeIcon: 'shoucangun',
+                id: -2,
+                key: 3
+            },
+            {
+                name: '最近',
+                icon: 'zuijin',
+                activeIcon: 'zuijinun',
+                id: -3,
+                key: 2
+            },
+        ]
+    },
+
+})
 // 加载更多
 const loading = ref(false)
 const isLoading = ref(false)
 const gameId = ref(null)
-// 游戏平台id  -1为查看全部的游戏
-let agentId = ref<any>(-1)
-// 是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
-let is_lable = ref(0)
-// 右侧标签id  // -1为查找当前平台所有的游戏 //也表示场馆id
-let kindId = ref(-1)
+// const agentId = ref<any>(-1)
+// const is_lable = ref(1)
+// const kindId = ref(-2)
+// let lableActive = ref(-1)
+const state = reactive({
+    agentId: -1,
+    is_lable: 1,
+    kindId: -2,
+    lableActive: -2
+})
 const params: any = reactive({ // 参数
     isLoad: false,
     isEnd: false,
     pageSize: 32,
     page: 1,
 })
-// 右侧标签点击样式
-const lableActive = ref(0)
-const state = reactive({
-    kindList: [
-        {
-            name: '收藏',
-            icon: 'shoucang',
-            activeIcon: 'shoucangun',
-            id: -2,
-            key: 3
-        },
-        {
-            name: '最近',
-            icon: 'zuijin',
-            activeIcon: 'zuijinun',
-            id: -3,
-            key: 2
-        },
+const kindList: any = ref([])
 
-
-    ]
-})
 const result: any = reactive({ // 结果
     total_page: 0,
     list: []
@@ -145,9 +182,9 @@ const onClickSearch = () => {
     }
     let tb = NetPacket.req_look_for_game_name()
     // 游戏平台id
-    tb.agentId = agentId.value;
+    tb.agentId = state.agentId;
     // 标签id
-    tb.kindId = kindId.value;
+    tb.kindId = state.kindId;
     tb.name = queryGame.value
     Net.instance.sendRequest(tb)
 }
@@ -163,8 +200,8 @@ const onPlayGame = async (v: any) => {
     }
     isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = agentId.value;
-    tb.kindId = kindId.value;
+    tb.agentId = state.agentId;
+    tb.kindId = state.kindId;
     tb.gameId = v.gameId;
     tb.lang = langObj[lang.value];
     Net.instance.sendRequest(tb);
@@ -173,23 +210,23 @@ const queryData = () => { // 查询
     loading.value = true
     isLoading.value = true
     const query = NetPacket.req_get_games_in_platform()
-    query.agentId = agentId.value
-    query.kindId = kindId.value
-    query.is_lable = is_lable.value
+    query.agentId = state.agentId
+    query.kindId = state.kindId
+    query.is_lable = state.is_lable
     query.page = params.page
     query.pageSize = params.pageSize
     Net.instance.sendRequest(query);
 }
 //切换右侧标签事件
 const changeLableTab = (item: any) => {
-    kindId.value = item
-    lableActive.value = item
+    state.kindId = item
+    state.lableActive = item
     if (item == 1) {
-        is_lable.value = 1
+        state.is_lable = 1
     } else {
-        is_lable.value = 0
+        state.is_lable = 0
     }
-    queryData()
+
     console.log(item);
 
 }
@@ -223,7 +260,7 @@ const handleQuery = (res: any) => {
 const reqCollect = async (game: any) => {
     gameId.value = game.gameId
     const query = NetPacket.req_modify_collect()
-    query.agent_id = agentId.value
+    query.agent_id = state.agentId
     query.gameId = game.gameId
 
     query.type = allCollected.value.includes(gameId.value) ? 1 : 0
@@ -269,9 +306,23 @@ const gameUrlResult = (message: any) => {
     } else {
         newTab.value = window.open(message.url, '_blank')
     }
-
+}
+const resetData = () => {
+    loading.value = false
+    params.page = 1
+    params.isLoad = false
+    params.isEnd = false
+    result.total_page = 0
+    result.list = []
 }
 onMounted(() => {
+    kindList.value = props.kindList
+    state.agentId = props.agentId
+    state.is_lable = props.is_lable
+    state.kindId = props.kindId
+    if (props.lableActive) {
+        state.lableActive = Number(props.lableActive)
+    }
     // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
@@ -286,6 +337,28 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, null);
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
+watch(
+    () => state.kindId,
+    (a) => {
+        if (a) {
+            resetData()
+            queryData()
+            // queryData()
+        }
+    }
+)
+watch(
+    () => props.agentId,
+    (a) => {
+        if (a) {
+            state.agentId = a
+            resetData()
+            queryData()
+            // queryData()
+        }
+    }
+)
+
 </script>
 
 <style lang='less' scoped>
@@ -389,7 +462,7 @@ onUnmounted(() => {
 
     .game_box {
         width: 164px;
-        // height: 205px;
+        height: 190px;
         position: relative;
         background-color: #222;
         cursor: pointer;
@@ -403,13 +476,22 @@ onUnmounted(() => {
         }
 
         >div {
+            width: 100%;
+
             display: flex;
             justify-content: space-between;
             padding: 11px 8px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
 
-            >span {
+            >.text_hidden {
+                width: 80%;
                 color: #fff;
                 font-size: 16px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }

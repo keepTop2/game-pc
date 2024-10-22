@@ -297,7 +297,7 @@ const iconClick = async (item: any) => {
         break;
       case '/wallet/myEmail':
         router.push(item.url)
-        await page.setMenuActive(9, 'home_page_myEmail')
+        await page.setMenuActive(9)
 
         break;
       default:
@@ -337,7 +337,7 @@ const menuClick = async (item: any, j: number) => {
     }
   }
   else {
-    await page.setMenuActive(j, item.name)
+    await page.setMenuActive(j)
     router.push(item.url)
   }
 
@@ -501,7 +501,7 @@ onMounted(async () => {
 
   Local.set('agentid', route.query.uid || '0')
   if (Local.get('menuActive')) {
-    await page.setMenuActive(Local.get('menuActive'), Local.get('menuName'))
+    await page.setMenuActive(Local.get('menuActive'))
   }
 
 
@@ -528,7 +528,7 @@ watch(
       let index = menu.findIndex((e: any) => e.url == n)
 
       if (index != -1) {
-        await page.setMenuActive(index, menu[index].name)
+        await page.setMenuActive(index)
       }
     }
   }
