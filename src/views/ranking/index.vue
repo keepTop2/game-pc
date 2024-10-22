@@ -6,22 +6,13 @@
         <span class="label">最新赛事排行</span>
         <div class="more">
           <span>展开</span>
-          <iconpark-icon
-            class="left"
-            icon-id="fangxiangicon02"
-            size=".8rem"
-          ></iconpark-icon>
+          <iconpark-icon class="left" icon-id="fangxiangicon02" size=".8rem"></iconpark-icon>
         </div>
       </div>
       <div class="match_list">
-        <div
-          class="match_list_item"
-          v-for="i in 6"
-          :key="i"
-          :style="{
-            'background-image': `url(/img/game/bg_card${getRandomValue()}.webp)`,
-          }"
-        >
+        <div class="match_list_item" v-for="i in 6" :key="i" :style="{
+          'background-image': `url(/img/game/bg_card${getRandomValue()}.webp)`,
+        }">
           <Imgt src="/img/ranking/card_img.webp" />
           <div class="card_main">
             <div class="card_main_title">德州比赛-多人奖金赛</div>
@@ -46,12 +37,8 @@
       </div>
       <div class="box_list">
         <div class="tab_wrap">
-          <div
-            v-for="item in tabList"
-            :key="item.id"
-            @click="tabClick(item)"
-            :class="{ tab_active: tab_id == item.id }"
-          >
+          <div v-for="item in tabList" :key="item.id" @click="tabClick(item)"
+            :class="{ tab_active: tab_id == item.id }">
             <span>{{ item.label }}</span>
           </div>
         </div>
@@ -73,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import matchDes from "../newHome/components/matchDes.vue";
 const tab_id = ref(1);
 const tabList = [
@@ -102,6 +89,7 @@ const getRandomValue = () => {
 .box_wrap {
   margin-top: 25px;
   width: 1400px;
+
   .topimg {
     width: 1400px;
   }
@@ -110,9 +98,11 @@ const getRandomValue = () => {
 .box_main {
   position: relative;
   margin-top: 10px;
+
   .box_title {
     display: flex;
     justify-content: space-between;
+
     .label {
       color: #fff;
       font-size: 30px;
@@ -124,6 +114,7 @@ const getRandomValue = () => {
     flex-wrap: wrap;
     gap: 20px;
     margin-top: 20px;
+
     .match_list_item {
       width: 453px;
       height: 140px;
@@ -131,26 +122,32 @@ const getRandomValue = () => {
       display: flex;
       align-items: center;
       padding: 14px;
+
       img {
         width: 112px;
         height: 112px;
       }
+
       .card_main {
         margin-left: 11px;
         flex: 1;
         display: flex;
         flex-direction: column;
+
         .card_main_title {
           font-size: 20px;
           color: #fff;
         }
+
         .card_main_num {
           font-size: 14px;
           color: #afb6bd;
         }
+
         .card_main_time {
           display: flex;
           gap: 25px;
+
           .card_main_time_l {
             display: flex;
             flex-direction: column;
@@ -169,11 +166,9 @@ const getRandomValue = () => {
     padding: 24px 20px;
     box-sizing: border-box;
     justify-content: center;
-    background: linear-gradient(
-        180deg,
+    background: linear-gradient(180deg,
         rgba(13, 15, 48, 0.288) 0%,
-        rgba(17, 20, 60, 0.6) 100%
-      ),
+        rgba(17, 20, 60, 0.6) 100%),
       linear-gradient(0deg, rgba(20, 23, 58, 0.69), rgba(20, 23, 58, 0.69));
 
     .des_img {
@@ -258,22 +253,26 @@ const getRandomValue = () => {
   align-items: center;
   justify-content: center;
   position: relative;
+
   .bonus_item_title {
     color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     div {
       &:nth-child(1) {
         font-size: 16px;
       }
+
       &:nth-child(2) {
         font-size: 24px;
         font-weight: 600;
       }
     }
   }
+
   .bonus_img {
     position: absolute;
     left: 12px;

@@ -88,6 +88,7 @@ const titleArr: any = reactive([
         id: 1,
         url: 'records',
         type: 'recharge',
+        netType: NetPacket.req_get_recharge_record_list,
         formParams: {
             page: 1,
             status: 9,
@@ -121,6 +122,7 @@ const titleArr: any = reactive([
         id: 2,
         url: 'withdrawRecord',
         type: 'withdraw',
+        netType: NetPacket.req_get_withdraw_record_list,
         loading: false,
         formParams: {
             page: 1,
@@ -218,8 +220,8 @@ const changeTab = (index: number) => {
 }
 const queryData = () => { // 查询
     console.log(state.formParams);
-    let type = `req_get_${titleArr[activeTab.value].type}_record_list`
-    const query = NetPacket[type]()
+    // let type: NetPacket = NetPacket[`req_get_${titleArr[activeTab.value].netType}_record_list`]
+    const query = titleArr[activeTab.value].netType()
     if (state.formParams.start_time) {
         Object.assign(query.start_time, state.formParams.start_time)
         Object.assign(query.end_time, state.formParams.end_time)
