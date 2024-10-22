@@ -65,7 +65,7 @@
                 {{ item.label }}
               </a>
             </n-flex>
-            <a class="btn_ch button_color" @click="allTranferMon"> {{ t('promo_page_all') }} </a>
+            <a class="btn_ch button_color" @click="allTranferMon(1)"> {{ t('promo_page_all') }} </a>
           </n-flex>
           <div class="slider-div">
             <n-slider :default-value="0" v-model:value="slideValue" :step="1" :tooltip="false"
