@@ -4,24 +4,38 @@
     <div class="game_detail da_jiang">
       <div class="game_list">
         <div class="game_type">
-        <div class="text">
-          <span class="text_title">
-            <Imgt class="title_img" :src="`/img/home/reward.webp`" />
-            近期大奖
-          </span>
-          <div class="tab_wrap">
-            <div v-for="item in tabList" :key="item.id" @click="tabClick(item)"
-              :class="{ tab_active: tab_id == item.id }">
-              <iconpark-icon :icon-id="tab_id == item.id ? item.active_icon : item.icon" size="1rem"></iconpark-icon>
-              <span>{{ item.label }}</span>
+          <div class="text">
+            <span class="text_title">
+              <Imgt class="title_img" :src="`/img/home/reward.webp`" />
+              近期大奖
+            </span>
+            <div class="tab_wrap">
+              <div
+                v-for="item in tabList"
+                :key="item.id"
+                @click="tabClick(item)"
+                :class="{ tab_active: tab_id == item.id }"
+              >
+                <iconpark-icon
+                  :icon-id="tab_id == item.id ? item.active_icon : item.icon"
+                  size="1rem"
+                ></iconpark-icon>
+                <span>{{ item.label }}</span>
+              </div>
             </div>
           </div>
-
+          <span class="more" @click="router.push('/recentAwards')">{{
+            t("home_page_more")
+          }}</span>
         </div>
-        <span class="more" @click="router.push('/recentAwards')">{{ t('home_page_more') }}</span>
-        </div>
-        <n-carousel style="position: static;" :slides-per-view="8" :space-between="10" :loop="false" draggable
-          show-arrow>
+        <n-carousel
+          style="position: static"
+          :slides-per-view="8"
+          :space-between="10"
+          :loop="false"
+          draggable
+          show-arrow
+        >
           <div v-for="i in 10" :key="i" class="da_jiang_list">
             <Imgt class="reward_img" :src="`/img/home/dajiang.png`" />
             <span class="text1">恭喜发财</span>
@@ -32,8 +46,18 @@
           <template #arrow="{ prev, next }">
             <div class="game_seach">
               <span>
-                <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                <iconpark-icon
+                  class="left"
+                  icon-id="fangxiangicon04"
+                  size=".8rem"
+                  @click="prev"
+                ></iconpark-icon>
+                <iconpark-icon
+                  class="right"
+                  icon-id="fangxiangicon01"
+                  size=".8rem"
+                  @click="next"
+                ></iconpark-icon>
               </span>
             </div>
           </template>
@@ -45,28 +69,49 @@
     <div class="game_detail match">
       <div class="game_list">
         <div class="game_type">
-        <div class="text">
-          <span class="text_title">
-            <Imgt class="title_img" :src="`/img/home/king.webp`" />
-            最新赛事排行
-          </span>
-        </div>
-        <span class="more" @click="router.push('/ranking')">{{ t('home_page_more') }}</span>
+          <div class="text">
+            <span class="text_title">
+              <Imgt class="title_img" :src="`/img/home/king.webp`" />
+              最新赛事排行
+            </span>
+          </div>
+          <span class="more" @click="router.push('/ranking')">{{
+            t("home_page_more")
+          }}</span>
         </div>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
-          <n-carousel style="position: static;margin-left:35px;width:97.5%" :slides-per-view="7.2" :loop="false"
-            draggable show-arrow>
-            <div v-for="i in 10" :key="i" :class="['match_list', { active_match: match_id == i }]"
-              @click="matchClick(i)">
+          <n-carousel
+            style="position: static; margin-left: 35px; width: 97.5%"
+            :slides-per-view="7.2"
+            :loop="false"
+            draggable
+            show-arrow
+          >
+            <div
+              v-for="i in 10"
+              :key="i"
+              :class="['match_list', { active_match: match_id == i }]"
+              @click="matchClick(i)"
+            >
               <span>德州扑克</span>
               <span>年度锦标赛</span>
             </div>
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="fangxiangicon04"
+                    size=".8rem"
+                    @click="prev"
+                  ></iconpark-icon>
+                  <iconpark-icon
+                    class="right"
+                    icon-id="fangxiangicon01"
+                    size=".8rem"
+                    @click="next"
+                  ></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -86,7 +131,7 @@
         <div v-for="(item, i) in tableHead" class="table_head" :key="i">
           <span>{{ item }}</span>
         </div>
-        <span class="more">{{ t('home_page_more') }}</span>
+        <span class="more">{{ t("home_page_more") }}</span>
       </div>
       <div class="table_body_wrap">
         <div v-for="(item, i) in tableData" class="table_head" :key="i">
@@ -98,8 +143,8 @@
             <Imgt class="user_img" :src="`/img/home/dajiang.png`" />
             {{ item.user }}
           </span>
-          <span style="font-size: 16px;">{{ item.score }}</span>
-          <span style="font-size: 20px;">{{ item.reward }}</span>
+          <span style="font-size: 16px">{{ item.score }}</span>
+          <span style="font-size: 20px">{{ item.reward }}</span>
         </div>
       </div>
     </div>
@@ -108,14 +153,18 @@
     <div class="game_detail collect">
       <div class="game_list">
         <div class="game_type">
-        <div class="text">
-          <span class="text_title">
-            收藏推荐
-          </span>
+          <div class="text">
+            <span class="text_title"> 收藏推荐 </span>
+          </div>
+          <span class="more">{{ t("home_page_more") }}</span>
         </div>
-        <span class="more">{{ t('home_page_more') }}</span>
-        </div>
-        <n-carousel style="position: static;margin-left:0px" :slides-per-view="1" :loop="false" draggable show-arrow>
+        <n-carousel
+          style="position: static; margin-left: 0px"
+          :slides-per-view="1"
+          :loop="false"
+          draggable
+          show-arrow
+        >
           <div v-for="i in 2" class="colect_wrap" :key="i">
             <div v-for="j in 16" :key="j" class="colect_wrap_item">
               <div v-if="j <= 5" class="colect_wrap_item_des">
@@ -124,7 +173,6 @@
                   <span>黑帮风云</span>
                   <iconpark-icon icon-id="iconyiwen" size=".8rem"></iconpark-icon>
                 </div>
-
               </div>
               <div v-else class="colect_wrap_item_des">
                 <Imgt :src="`/img/home/colect_2.png`" />
@@ -136,8 +184,6 @@
             </div>
           </div>
 
-
-
           <!-- <div v-for="i in 10" :key="i" :class="['match_list', { active_match: match_id == i }]"
               @click="matchClick(i)">
               <span>德州扑克</span>
@@ -146,76 +192,143 @@
           <template #arrow="{ prev, next }">
             <div class="game_seach">
               <span>
-                <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                <iconpark-icon
+                  class="left"
+                  icon-id="fangxiangicon04"
+                  size=".8rem"
+                  @click="prev"
+                ></iconpark-icon>
+                <iconpark-icon
+                  class="right"
+                  icon-id="fangxiangicon01"
+                  size=".8rem"
+                  @click="next"
+                ></iconpark-icon>
               </span>
             </div>
           </template>
         </n-carousel>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import Imgt from '@/components/Imgt.vue';
-import matchDes from './components/matchDes.vue'
+import { useI18n } from "vue-i18n";
+import Imgt from "@/components/Imgt.vue";
+import matchDes from "./components/matchDes.vue";
 const { t } = useI18n();
-import { ref } from "vue"
-import { useRouter } from 'vue-router';
-const tab_id = ref(1)
-const match_id = ref(1)
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+const tab_id = ref(1);
+const match_id = ref(1);
 const router = useRouter();
 const tabList = [
-  { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
-  { label: '棋牌', icon: 'jqdjiconun02', active_icon: 'jqdjiconnn02', id: 2 },
-  { label: '电子', icon: 'jqdjiconun03', active_icon: 'jqdjiconnn03', id: 3 },
-  { label: '真人', icon: 'jqdjiconun04', active_icon: 'jqdjiconnn04', id: 4 },
-  { label: '捕鱼', icon: 'jqdjiconun05', active_icon: 'jqdjiconnn05', id: 5 },
-  { label: '彩票', icon: 'jqdjiconun06', active_icon: 'jqdjiconnn06', id: 6 },
-  { label: '电竞', icon: 'jqdjiconun07', active_icon: 'jqdjiconnn07', id: 7 },
-]
+  { label: "全部", icon: "jqdjiconun01", active_icon: "jqdjiconnn01", id: 1 },
+  { label: "棋牌", icon: "jqdjiconun02", active_icon: "jqdjiconnn02", id: 2 },
+  { label: "电子", icon: "jqdjiconun03", active_icon: "jqdjiconnn03", id: 3 },
+  { label: "真人", icon: "jqdjiconun04", active_icon: "jqdjiconnn04", id: 4 },
+  { label: "捕鱼", icon: "jqdjiconun05", active_icon: "jqdjiconnn05", id: 5 },
+  { label: "彩票", icon: "jqdjiconun06", active_icon: "jqdjiconnn06", id: 6 },
+  { label: "电竞", icon: "jqdjiconun07", active_icon: "jqdjiconnn07", id: 7 },
+];
 
-const tableHead = ['名次', '参赛用户', '赛事积分', '赛事奖金']
+const tableHead = ["名次", "参赛用户", "赛事积分", "赛事奖金"];
 const tableData = [
-  { ranking: 1, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 2, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 3, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 4, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 5, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 6, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 7, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 8, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 9, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-  { ranking: 10, user: 'ABC***001', icon: '/img/home/reward.webp', score: '30000', reward: '30,000 VND' },
-]
+  {
+    ranking: 1,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 2,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 3,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 4,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 5,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 6,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 7,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 8,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 9,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+  {
+    ranking: 10,
+    user: "ABC***001",
+    icon: "/img/home/reward.webp",
+    score: "30000",
+    reward: "30,000 VND",
+  },
+];
 
 // const remarkList = [
 // { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
 // ]
 
-
-
 const tabClick = (item: any) => {
-  tab_id.value = item.id
-}
+  tab_id.value = item.id;
+};
 
 const matchClick = (i: any) => {
-  match_id.value = i
-
-}
-
-
-
+  match_id.value = i;
+};
 </script>
 
 <style lang="less" scoped>
-@timestamp: `new Date().getTime()`;
-
+@timestamp: `new Date() .getTime() `;
+.game_detail {
+  margin-top: 40px;
+}
 .da_jiang {
+  .game_seach {
+    top: 0px;
+  }
   .game_type .text {
     display: flex;
     align-items: center;
@@ -223,12 +336,11 @@ const matchClick = (i: any) => {
 
   .tab_wrap {
     display: flex;
-    color: #AFB6BD;
+    color: #afb6bd;
     font-size: 20px;
     padding-top: 3px;
     gap: 55px;
     margin-left: 32px;
-
 
     div {
       cursor: pointer;
@@ -237,35 +349,34 @@ const matchClick = (i: any) => {
       gap: 5px;
 
       &:hover {
-        color: #B5A5FF
+        color: #b5a5ff;
       }
     }
 
     .tab_active {
-      color: #B5A5FF;
+      color: #b5a5ff;
       position: relative;
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -5px;
 
         height: 3px;
         width: 100%;
         border-radius: 100px;
-        background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
-
+        background: linear-gradient(180deg, #5a6cff 0%, #7e1cff 100%);
       }
     }
   }
 
   .da_jiang_list {
-    margin-top: 44px;
+    margin-top: 64px;
     width: 156px;
     height: 186px;
-    background: linear-gradient(180deg, #0A0B22 0%, #000000 100%);
+    background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
     border: 1px solid;
-    border-image-source: linear-gradient(180deg, #181C25 0%, #000000 100%);
+    border-image-source: linear-gradient(180deg, #181c25 0%, #000000 100%);
     border-radius: 16px;
     position: relative;
     display: flex;
@@ -274,21 +385,21 @@ const matchClick = (i: any) => {
     padding-top: 65px;
 
     .text1 {
-      color: #FFFFFF;
+      color: #ffffff;
       font-size: 16px;
       font-weight: 700;
       margin-bottom: 11px;
     }
 
     .text2 {
-      color: #6A709D;
+      color: #6a709d;
       font-size: 16px;
       font-weight: 500;
       margin-bottom: 20px;
     }
 
     .text3 {
-      color: #F2C004;
+      color: #f2c004;
       font-size: 16px;
       font-weight: 500;
     }
@@ -303,9 +414,6 @@ const matchClick = (i: any) => {
     width: 80px !important;
     height: 80px !important;
   }
-
-
-
 }
 
 .text_title {
@@ -315,7 +423,6 @@ const matchClick = (i: any) => {
     width: 35px !important;
     height: 35px !important;
     margin-right: 3px;
-
   }
 }
 
@@ -323,7 +430,6 @@ const matchClick = (i: any) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .remark_img {
@@ -334,6 +440,7 @@ const matchClick = (i: any) => {
 .match {
   .match_wrap {
     position: relative;
+    margin-top: 30px;
 
     .match_img {
       width: 140px;
@@ -346,7 +453,7 @@ const matchClick = (i: any) => {
   }
 
   .match_list {
-    background: url('/img/home/match_arrow.webp?t=@{timestamp}') center no-repeat;
+    background: url("/img/home/match_arrow.webp?t=@{timestamp}") center no-repeat;
     background-size: 100%;
     display: flex;
     height: 72px;
@@ -354,18 +461,18 @@ const matchClick = (i: any) => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF80;
+    color: #ffffff80;
     cursor: pointer;
     margin-left: -2px;
   }
 
   .active_match {
-    background: url('/img/home/match_arrow_ac.webp?t=@{timestamp}') center no-repeat;
+    background: url("/img/home/match_arrow_ac.webp?t=@{timestamp}") center no-repeat;
     background-size: 100%;
   }
 
   .game_seach {
-    top: -62px;
+    top: -72px;
   }
 }
 
@@ -404,16 +511,15 @@ const matchClick = (i: any) => {
         background: url("/img/dialog/click.webp?t=@{timestamp}") no-repeat;
         background-size: 100% 100%;
       }
-
     }
   }
 
   .table_body_wrap {
     display: flex;
     flex-direction: column;
-    color: #A7B5D0;
+    color: #a7b5d0;
     width: 100%;
-    background-color: #0B0B0B;
+    background-color: #0b0b0b;
     border-radius: 8px;
     margin-top: 10px;
 
@@ -424,17 +530,15 @@ const matchClick = (i: any) => {
       height: 76px;
       align-items: center;
 
-
       span {
         flex: 1;
         text-align: center;
       }
 
       .ranking {
-
         font-size: 26px;
         font-weight: 600;
-        color: #FFFFFF;
+        color: #ffffff;
         height: 100%;
 
         img {
@@ -460,9 +564,10 @@ const matchClick = (i: any) => {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  background-color: #0B0B0B;
+  background-color: #0b0b0b;
   border-radius: 16px;
   padding: 16px 30px;
+  margin-top: 15px;
 
   .colect_wrap_item_des {
     margin-bottom: 15px;
@@ -470,8 +575,14 @@ const matchClick = (i: any) => {
     div {
       display: flex;
       justify-content: space-between;
-      color: #FFFFFF;
+      color: #ffffff;
     }
+  }
+}
+
+.collect {
+  .game_seach {
+    top: 0px;
   }
 }
 </style>

@@ -174,7 +174,7 @@ const itemClick = async (item: any, i: number) => {
   if (str === 'http' || str === 'www.') {
     handleOpenLink(item.url);
   } else {
-    await page.setMenuActive(i, item.name);
+    await page.setMenuActive(i);
     router.push((item.url));
   }
 

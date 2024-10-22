@@ -138,7 +138,7 @@ import { verifyNumberComma } from '@/utils/others.ts';
 import Imgt from '@/components/Imgt.vue';
 import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-import router from '@/router';
+// import router from '@/router';
 import Rules from './rules.vue';
 import ScrollView from "@/components/ScrollView.vue";
 // 从 store 获取 vipinfo 数据
@@ -147,8 +147,8 @@ const { VIPinfo } = storeToRefs(UserStore);
 
 const { t } = useI18n();
 const ruleModal = ref(false);
-const timerRe = ref();
-const refreshFlag = ref(false);
+// const timerRe = ref();
+// const refreshFlag = ref(false);
 const levelDataAll: any = ref({
   current_vip_level: 0,
   daily_rebate: 0,
@@ -156,7 +156,7 @@ const levelDataAll: any = ref({
   vip_level_reward_config: [],
 });
 
-const scrollRef = ref<HTMLElement>()
+// const scrollRef = ref<HTMLElement>()
 const loading = ref(false);
 const curTab = ref(1);
 const isDetail = ref(false);
@@ -327,16 +327,16 @@ const vipProcss = () => {
 
 };
 // 刷新奖励额度
-const refreshMon = () => {
-  if (!refreshFlag.value) {
-    clearTimeout(timerRe.value);
-    refreshFlag.value = true;
-    queryData();
-    timerRe.value = setTimeout(() => {
-      refreshFlag.value = false;
-    }, 1 * 1000);
-  }
-};
+// const refreshMon = () => {
+//   if (!refreshFlag.value) {
+//     clearTimeout(timerRe.value);
+//     refreshFlag.value = true;
+//     queryData();
+//     timerRe.value = setTimeout(() => {
+//       refreshFlag.value = false;
+//     }, 1 * 1000);
+//   }
+// };
 // 领取返水奖励
 const getRebate = () => {
   if (levelDataAll.value.daily_rebate === 0) {
@@ -366,11 +366,7 @@ const clickTab = (key: any) => {
   // });
 };
 
-const handleScroll = (e: WheelEvent): void => {
-  if (scrollRef.value) {
-    scrollRef.value.scrollBy({ left: e.deltaY })
-  }
-};
+
 
 const goDetail = (v?: number) => {
   if (v) {

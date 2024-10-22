@@ -5,14 +5,9 @@
         <span class="label">今日TOP榜</span>
       </div>
       <div class="match_list">
-        <div
-          class="match_list_item"
-          v-for="i in 3"
-          :key="i"
-          :style="{
-            'background-image': `url(/img/recentAward/top_bg${i}.webp)`,
-          }"
-        >
+        <div class="match_list_item" v-for="i in 3" :key="i" :style="{
+          'background-image': `url(/img/recentAward/top_bg${i}.webp)`,
+        }">
           <Imgt src="/img/recentAward/card_img.webp" />
           <div class="card_main">
             <div class="card_main_title">
@@ -69,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+// import { ref } from "vue";
 </script>
 
 <style lang="less" scoped>
@@ -78,6 +73,7 @@ import { ref } from "vue";
 .box_wrap {
   margin-top: 25px;
   width: 1400px;
+
   .topimg {
     width: 1400px;
   }
@@ -86,9 +82,11 @@ import { ref } from "vue";
 .box_main {
   position: relative;
   margin-top: 10px;
+
   .box_title {
     display: flex;
     justify-content: space-between;
+
     .label {
       color: #fff;
       font-size: 30px;
@@ -100,6 +98,7 @@ import { ref } from "vue";
     flex-wrap: wrap;
     gap: 16px;
     margin-top: 20px;
+
     .match_list_item {
       width: 456px;
       height: 172px;
@@ -108,21 +107,26 @@ import { ref } from "vue";
       align-items: center;
       padding: 18px 24px;
       box-sizing: border-box;
+
       img {
         width: 112px;
         height: 112px;
       }
+
       .card_main {
         margin-left: 11px;
         flex: 1;
         display: flex;
         flex-direction: column;
+
         .card_main_title {
           display: flex;
+
           .top {
             height: 25px;
             width: 43px;
           }
+
           .top_coin {
             height: 28px;
             width: 12px;
@@ -130,18 +134,22 @@ import { ref } from "vue";
             margin-top: -5px;
           }
         }
+
         .card_main_num {
           font-size: 20px;
           color: #ffffff;
         }
+
         .card_main_time {
           display: flex;
           gap: 25px;
+
           .card_main_time_l {
             display: flex;
             flex-direction: column;
             font-size: 14px;
             color: #afb6bd;
+
             span {
               &:nth-child(2) {
                 color: #ffd217;
@@ -170,11 +178,14 @@ import { ref } from "vue";
       justify-content: space-between;
       color: #ffffff;
     }
+
     .item_reward {
       display: flex;
+
       span {
         color: #afb6bd;
         font-size: 12px;
+
         &:nth-child(2) {
           color: #ffd217;
         }

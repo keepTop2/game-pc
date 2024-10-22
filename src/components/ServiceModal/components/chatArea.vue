@@ -2,31 +2,70 @@
   <n-spin :show="show">
     <div class="chat_content" ref="chatContentRef">
       <div v-if="chatList.length">
-        <div class="chat_item" v-for="item in (chatList as any)" :key="item.date"
-          :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }">
+        <div
+          class="chat_item"
+          v-for="item in (chatList as any)"
+          :key="item.date"
+          :style="{ justifyContent: item.role == '2' ? 'flex-start' : 'flex-end' }"
+        >
           {{ item.THeadPhoto }}
-          <Imgt v-if="item.role == '2'" :src="`/img/head_icons/${item.THeadPhoto || '1001'}.webp`" />
+          <Imgt
+            v-if="item.role == '2'"
+            :src="`/img/head_icons/${item.THeadPhoto || '1001'}.webp`"
+          />
           <div class="chat_main">
-            <div class="user_info" :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }">
+            <div
+              class="user_info"
+              :style="{ flexDirection: item.role == '2' ? 'row' : 'row-reverse' }"
+            >
               <span>{{ item.name }}</span>
-              <div class="mark_kf"  :style="{ background: deepObj[userData.deep]&&item.role == '2' ? deepObj[userData.deep].color : '' }">{{ item.role == '2' ? userRole : '我' }}</div>
+              <div
+                class="mark_kf"
+                v-if="item.role == '2'"
+                :style="{
+                  background: setColor(userData),
+                }"
+              >
+                {{ t(setLabel()) }}
+              </div>
+              <div v-else class="mark_kf_me">我</div>
               <span class="date">{{ item.date }}</span>
             </div>
-            <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-if="!item.money"
-              @click="showImg(item.content)">
-              <div class=" " v-html="initMessage(item.content)" v-if="item.content.indexOf('storage/uploads') == -1">
-              </div>
+            <div
+              :class="[item.role == '2' ? 'user_content' : 'me_content']"
+              v-if="!item.money"
+              @click="showImg(item.content)"
+            >
+              <div
+                class=" "
+                v-html="initMessage(item.content)"
+                v-if="item.content.indexOf('storage/uploads') == -1"
+              ></div>
               <!-- 图片视频 -->
               <div v-else>
-                <n-image v-if="item.content.includes('storage/uploads/image')" width="140"
+                <n-image
+                  v-if="item.content.includes('storage/uploads/image')"
+                  width="140"
                   :src="'http://18.167.175.195:8031/' + item.content"
-                  :previewed-img-props="{ style: { border: '8px solid white' } }" />
-                <video v-else :src="'http://18.167.175.195:8031/' + item.content" controls preload="auto" muted
-                  width="240" height="200"></video>
+                  :previewed-img-props="{ style: { border: '8px solid white' } }"
+                />
+                <video
+                  v-else
+                  :src="'http://18.167.175.195:8031/' + item.content"
+                  controls
+                  preload="auto"
+                  muted
+                  width="240"
+                  height="200"
+                ></video>
               </div>
             </div>
             <!-- 转账 -->
-            <div :class="[item.role == '2' ? 'user_content' : 'me_content']" v-else class="money">
+            <div
+              :class="[item.role == '2' ? 'user_content' : 'me_content']"
+              v-else
+              class="money"
+            >
               <div class="left">
                 <Imgt src="/img/serviceModal/transfer.webp" />
                 <div class="left_info">
@@ -34,12 +73,13 @@
                   <span>300,000,000,000</span>
                 </div>
               </div>
-              <div class="total">
-                代理转账
-              </div>
+              <div class="total">代理转账</div>
             </div>
           </div>
-          <Imgt v-if="item.role == 1" :src="`/img/head_icons/${roleInfo.head_photo}.webp`" />
+          <Imgt
+            v-if="item.role == 1"
+            :src="`/img/head_icons/${roleInfo.head_photo}.webp`"
+          />
         </div>
       </div>
     </div>
@@ -47,9 +87,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue';
-import usechatHooks from '../useHooks';
-import Imgt from '@/components/Imgt.vue';
+import { ref, onMounted, watch, computed } from "vue";
+import usechatHooks from "../useHooks";
+import Imgt from "@/components/Imgt.vue";
 // import btn from './btn.vue';
 // import Common from '@/utils/common';
 // import { Net } from '@/net/Net';
@@ -57,13 +97,18 @@ import Imgt from '@/components/Imgt.vue';
 // import { MessageEvent2 } from '@/net/MessageEvent2';
 // import { NetMsgType } from '@/netBase/NetMsgType';
 // import { Message } from '@/utils/discreteApi';
+import pinia from "@/store/index";
+import { storeToRefs } from "pinia";
+import { User } from "@/store/user";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+const userInfo = User(pinia);
 
-// import { useI18n } from 'vue-i18n';
-// const { t } = useI18n();
+const { roleInfo, agentInfo } = storeToRefs(userInfo);
 const props = defineProps({
   chatList: {
     type: Array,
-    default: () => ([]),
+    default: () => [],
   },
   userData: {
     type: Object,
@@ -73,56 +118,61 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  roleInfo: {
-    type: Object,
+  setColor: {
+    type: Function,
     default: () => ({}),
   },
 });
-const { initMessage }: any = usechatHooks()
+const { initMessage }: any = usechatHooks();
 const newValue = computed(() => {
-  return props.chatList.length
-})
+  return props.chatList.length;
+});
 
-const userRole = computed(()=>{
-   return props.deepObj[props.userData.deep] && props.deepObj[props.userData.deep].label || '直属玩家'
-})
+const setLabel = () => {
+  if (agentInfo.value.user_type == 1) {
+    const obj: any = {
+      0: "chat_page_customer_user",
+      5: "chat_page_agent_user",
+    };
+    return obj[props.userData.agentlevel] || "chat_page_agent_gamer";
+  } else {
+    return (
+      (props.deepObj[props.userData.deep] && props.deepObj[props.userData.deep].label) ||
+      "chat_page_direct_user"
+    );
+  }
+};
 
 function scrollToBottom() {
-  const element = chatContentRef.value
-  element.scrollTo(0, chatContentRef.value.scrollHeight)
+  const element = chatContentRef.value;
+  element.scrollTo(0, chatContentRef.value.scrollHeight);
 }
-
 
 // 监听新消息滚动到最底部
-watch(() => newValue.value, () => {
-  setTimeout(() => {
-    scrollToBottom()
-  }, 500);
+watch(
+  () => newValue.value,
+  () => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 500);
+  }
+);
 
-})
-
-const chatContentRef: any = ref(null)
-const show = ref(false)
+const chatContentRef: any = ref(null);
+const show = ref(false);
 const showImg = (content: any) => {
-  console.log(333222, content)
-}
+  console.log(content);
+};
 
 onMounted(() => {
-  show.value = true
+  show.value = true;
   setTimeout(() => {
-    show.value = false
+    show.value = false;
     // scrollToBottom()
   }, 1000);
-
-})
-
+});
 
 // const emit = defineEmits(['update:visible']);
-
-
-
-
-
 </script>
 <style lang="less" scoped>
 .chat_content {
@@ -135,13 +185,11 @@ onMounted(() => {
     display: none;
   }
 
-
   .chat_item {
     display: flex;
     margin-bottom: 20px;
     // flex-direction: row-reverse;
     //  justify-content: flex-end;
-
 
     img {
       width: 40px;
@@ -158,15 +206,29 @@ onMounted(() => {
       align-items: center;
       gap: 8px;
 
-
       .mark_kf {
         border-radius: 6px;
         height: 24px;
         line-height: 24px;
-        padding: 0 6px;
+        padding: 0 8px;
         font-size: 12px;
         box-sizing: border-box;
-       background-image: radial-gradient(circle at 50% 14%, #4c36b3 0%, #3a2786 48%, #3c279a 65%), linear-gradient(to bottom, #fff 0%, #af9eff 102%);
+      }
+
+      .mark_kf_me {
+        border-radius: 6px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 8px;
+        font-size: 12px;
+        box-sizing: border-box;
+        background-image: radial-gradient(
+            circle at 50% 0%,
+            #e9c0ad,
+            #b8856d 61%,
+            #d1a28d 83%
+          ),
+          linear-gradient(to bottom, #fff, #653e2d);
       }
 
       .date {
@@ -180,7 +242,7 @@ onMounted(() => {
       border-radius: 2px 12px 12px 12px;
       padding: 8px 16px;
       border: solid 1px #353b5a;
-      background-color: #322c59;
+      background-color: #282d6a;
     }
 
     .me_content {
@@ -190,8 +252,8 @@ onMounted(() => {
       display: flex;
       align-items: center;
       max-width: 450px;
-      border: solid 1px #353b5a;
-      background-color: #322c59;
+      border: solid 1px #5a47b2;
+      background-color: #5b6cff;
     }
 
     .money {
@@ -199,7 +261,7 @@ onMounted(() => {
       width: 287px;
       border: unset;
       cursor: pointer;
-      background-color: #F9493E;
+      background-color: #f9493e;
 
       .left {
         display: flex;
