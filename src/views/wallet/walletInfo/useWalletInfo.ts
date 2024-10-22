@@ -284,11 +284,11 @@ const useWalletInfo = () => {
     countMonRate();
   }
   // 选择全部金额
-  const allTranferMon = () => {
+  const allTranferMon = (val:number = 1) => {
     if (tranType.value === 'in') {
-      tranMoney.value = verifyNumberComma(String(gameMoney.value))
+      tranMoney.value = verifyNumberComma(String(gameMoney.value * val))
     } else {
-      tranMoney.value = verifyNumberComma(String(bankMoney.value))
+      tranMoney.value = verifyNumberComma(String(bankMoney.value * val))
     }
     countMonRate();
   }

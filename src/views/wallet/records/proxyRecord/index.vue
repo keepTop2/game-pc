@@ -57,7 +57,7 @@ import Imgt from '@/components/Imgt.vue';
 
 const page = Page(pinia);
 
-page.setMenuActive(-1, 'proxyRecord')
+page.setMenuActive(-1)
 
 const { t } = useI18n();
 const tableHeader = computed(() => {

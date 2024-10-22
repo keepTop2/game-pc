@@ -3,7 +3,7 @@
 
         <n-form ref="formRef" :loading="props.loading" :model="props.formParams" label-placement="left">
             <n-grid :cols="24" :x-gap="24">
-                <template v-for="(item, i) in props.formParamsList" :key="i">
+                <template v-for="(item, _i) in props.formParamsList" :key="_i">
                     <n-form-item-gi :span="item.span" :label="t(item.label)" :path="item.path">
                         <n-select v-if="item.type == 'select'" v-model:value="props.formParams[item.path]"
                           :placeholder="item.placeholder" :options="item.options" />
@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, h } from "vue";
+import { ref, reactive } from "vue";
 import { useI18n } from 'vue-i18n';
 import { NButton } from "naive-ui";
 import DateSelect from "@/components/DateSelect.vue"
@@ -111,15 +111,15 @@ const disabledDate = (d: any) => {
 
 
 
-const changeTab = (tabId: number) => {
-    resetInputHide()
-    emit('changeTab', tabId);
-};
-const resetInputHide = () => {
-    for (const key in state.formData.list) {
-        state.formData.list[key].show = false
-    }
-}
+// const changeTab = (tabId: number) => {
+//     resetInputHide()
+//     emit('changeTab', tabId);
+// };
+// const resetInputHide = () => {
+//     for (const key in state.formData.list) {
+//         state.formData.list[key].show = false
+//     }
+// }
 
 
 
@@ -127,7 +127,7 @@ const resetInputHide = () => {
 
 
 
-const resetFormValue = () => { state.formData.formParams = state.formInitValue }
+// const resetFormValue = () => { state.formData.formParams = state.formInitValue }
 
 
 

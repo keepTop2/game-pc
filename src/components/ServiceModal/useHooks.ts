@@ -98,6 +98,13 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     state_data.friendList = list;
 
     console.log('聊天列表', state_data.chatitemList);
+    state_data.chatitemList.forEach((item:any) => {
+      if (item.id==state.userData?.id) {
+        item.unreadnums = 0;
+      }
+      
+    });
+
   };
   //  获取客服信息
   const getChatMsg24 = (decodeobj1: any) => {
@@ -234,7 +241,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
         decodeobj1.data,
         'QuickPhrasesCListRsp',
       );
-      state_data.quickPhrasesCateList = decodeobj00.quickphrasec;
+      state_data.quickPhrasesCateList = decodeobj00.quickphrasec || [];
       console.log('快捷语分类解析后==', state_data.quickPhrasesCateList);
     }
   };
@@ -256,6 +263,9 @@ const usechatHooks = (state?: any, selectUser?: any) => {
       const decodeobj00 = decodeContent(decodeobj1.data, 'QuickPhrasesListRsp');
       state_data.quickPhrasesList = decodeobj00.quickphrase;
       console.log('快捷语解析后==', state_data.quickPhrasesList);
+    } else { // 空数据
+      console.log('没有快捷语数据---')
+      state_data.quickPhrasesList = []
     }
   };
   // 发送添加快捷语列表数据请求
@@ -300,7 +310,7 @@ const usechatHooks = (state?: any, selectUser?: any) => {
     if (setType && setType.id == 5) {
       istop = item.istop == 1 ? 6 : 1
     }
-    var payload = {
+    var payload:any = {
       id: item.id,
       deviceid: state.deviceID,
       chatgroupid: setType && setType.id == 5 ? -1 : decodeobj00.id || 0,

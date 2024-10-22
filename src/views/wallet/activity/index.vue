@@ -1,40 +1,23 @@
 <template>
   <div class="activity">
     <div class="tab">
-      <span
-        :class="state.active == i ? 'active' : ''"
-        v-for="(game, g, i) in activityTitleList"
-        :key="i"
-        @click="changeTab(i)"
-        >{{ t(g) }}</span
-      >
+      <span :class="state.active == i ? 'active' : ''" v-for="(_game, g, i) in activityTitleList" :key="i"
+        @click="changeTab(i)">{{ t(g) }}</span>
     </div>
     <div class="img_box">
       <div v-for="item in homeActivityList" :key="item.id">
         <img :src="item.pic_link" alt="" />
         <p>
           <i>{{ item.name }}</i>
-          <span
-            >活动详情
-            <iconpark-icon
-              class="icon"
-              icon-id="huodiconjinr"
-              size=".7rem"
-            ></iconpark-icon>
+          <span>活动详情
+            <iconpark-icon class="icon" icon-id="huodiconjinr" size=".7rem"></iconpark-icon>
           </span>
         </p>
       </div>
     </div>
     <n-modal v-model:show="state.showModal">
-      <n-card
-        :title="t('activity_page_detail')"
-        closable
-        @close="state.showModal = false"
-        :bordered="false"
-        size="huge"
-        role="dialog"
-        aria-modal="true"
-      >
+      <n-card :title="t('activity_page_detail')" closable @close="state.showModal = false" :bordered="false" size="huge"
+        role="dialog" aria-modal="true">
         <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />
       </n-card>
     </n-modal>
@@ -45,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, watch } from "vue";
+import { onMounted, onUnmounted, reactive } from "vue";
 import Imgt from "@/components/Imgt.vue";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { Page } from "@/store/page";
 import pinia from "@/store/index";
@@ -62,7 +45,7 @@ const { activityTitleList, homeActivityList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();
 // const router = useRouter();
-const route = useRoute();
+// const route = useRoute();
 const changeTab = (tabId: number) => {
   state.active = tabId;
   if (state.active == 1) {
@@ -73,20 +56,20 @@ const changeTab = (tabId: number) => {
     state.loginList.email.show = false;
   }
 };
-const activityDetail = (item: string) => {
-  console.log(item);
+// const activityDetail = (item: string) => {
+//   console.log(item);
 
-  let str1 = item.split("_");
-  let str2 = "";
-  if (str1.length > 0) {
-    str2 = str1[0] + "_pc_" + str1[1] + "_" + str1[2];
-  }
-  if (t(str2).indexOf("http") != -1) {
-    return t(str2);
-  } else {
-    return "";
-  }
-};
+//   let str1 = item.split("_");
+//   let str2 = "";
+//   if (str1.length > 0) {
+//     str2 = str1[0] + "_pc_" + str1[1] + "_" + str1[2];
+//   }
+//   if (t(str2).indexOf("http") != -1) {
+//     return t(str2);
+//   } else {
+//     return "";
+//   }
+// };
 
 const state: any = reactive({
   active: 0,
@@ -105,11 +88,11 @@ const state: any = reactive({
     },
   ],
 });
-const popDetail = (item: any) => {
-  state.detailImg = null;
-  state.showModal = true;
-  state.detailImg = activityDetail(item.content);
-};
+// const popDetail = (item: any) => {
+//   state.detailImg = null;
+//   state.showModal = true;
+//   state.detailImg = activityDetail(item.content);
+// };
 // const closeToast = (header: string, img: string, msg: string) => {
 //   state.toastText = {
 //     header: header,
@@ -200,7 +183,7 @@ onUnmounted(() => {
     margin-top: 20px;
     justify-content: space-between;
 
-    > div {
+    >div {
       width: 500px;
       height: 202px;
       border-radius: 12px;
@@ -209,11 +192,11 @@ onUnmounted(() => {
       flex-direction: column;
       margin-bottom: 15px;
 
-      > img {
+      >img {
         height: 160px;
       }
 
-      > p {
+      >p {
         padding: 10px 16px;
         display: flex;
         justify-content: space-between;
@@ -221,12 +204,12 @@ onUnmounted(() => {
         font-size: 16px;
         align-items: center;
 
-        > i {
+        >i {
           font-style: normal;
           color: #afb6bd;
         }
 
-        > span {
+        >span {
           cursor: pointer;
           color: #fff;
           height: 26px;
@@ -239,7 +222,7 @@ onUnmounted(() => {
             linear-gradient(180deg, #f7dc82 0%, #a76712 100%);
           box-shadow: 0.5px 0.5px 1px 0px #ffeab2 inset;
 
-          > .icon {
+          >.icon {
             margin-left: 2px;
             cursor: pointer;
           }

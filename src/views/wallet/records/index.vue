@@ -235,6 +235,7 @@ const titleArr: any = reactive([
         url: 'records',
         type: 'recharge',
         loading: false,
+        netType: NetPacket.req_get_recharge_record_list,
         formParams: {
             page: 1,
             status: 9,
@@ -276,6 +277,7 @@ const titleArr: any = reactive([
         id: 2,
         url: 'withdrawRecord',
         type: 'withdraw',
+        netType: NetPacket.req_get_withdraw_record_list,
         loading: false,
         formParams: {
             page: 1,
@@ -327,6 +329,7 @@ const titleArr: any = reactive([
         url: 'betRecord',
         type: 'bet',
         loading: false,
+        netType: NetPacket.req_get_bet_record_list,
         formParams: {
             page: 1,
             platform_id: 0,
@@ -369,6 +372,7 @@ const titleArr: any = reactive([
         url: 'accountsRecord',
         type: 'accounting_change',
         loading: false,
+        netType: NetPacket.req_get_accounting_change_record_list,
         formParams: {
             page: 1,
             type: 0,
@@ -402,6 +406,7 @@ const titleArr: any = reactive([
         url: 'auditRecord',
         type: 'audit',
         loading: false,
+        netType: NetPacket.req_get_audit_record,
         formParams: {
             page: 1,
         },
@@ -427,6 +432,7 @@ const titleArr: any = reactive([
         url: 'waterRecord',
         type: 'vip_rebate',
         loading: false,
+        netType: NetPacket.req_get_vip_rebate,
         formParams: {
             page: 1,
             type: 0,
@@ -460,6 +466,7 @@ const titleArr: any = reactive([
         url: 'proxyRecord',
         type: 'agent_accounting_change',
         loading: false,
+        netType: NetPacket.req_get_agent_accounting_change,
         formParams: {
             page: 1,
             type: 0,
@@ -493,6 +500,7 @@ const titleArr: any = reactive([
         url: 'loginRecord',
         type: 'audit',
         loading: false,
+        netType: NetPacket.req_get_audit_record,
         formParams: {
             page: 1,
         },
@@ -529,20 +537,9 @@ const changeTab = (index: number) => {
     // router.push(item.url);
     // 
 }
-const queryData = (page?: any) => { // 查询
-    if (page) {
-        state.formParams.page = page
-    }
-    console.log('查询参数', state.formParams);
-    let type = ''
-    if (activeTab.value == 4 || activeTab.value == 7) {//稽核记录登录记录api
-        type = `req_get_${titleArr[activeTab.value].type}_record`
-    } else if (activeTab.value == 5 || activeTab.value == 6) {//洗码记录api、代理账变记录api
-        type = `req_get_${titleArr[activeTab.value].type}`
-    } else {
-        type = `req_get_${titleArr[activeTab.value].type}_record_list`
-    }
-    const query = (NetPacket as any)[type]()
+const queryData = () => { // 查询
+    console.log(state.formParams);
+    const query = titleArr[activeTab.value].netType()
     if (state.formParams.start_time) {
         Object.assign(query.start_time, state.formParams.start_time)
         Object.assign(query.end_time, state.formParams.end_time)
