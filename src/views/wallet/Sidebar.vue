@@ -163,7 +163,7 @@ const state: any = reactive({
 
 
 const itemClick = async (item: any, i: number) => {
-  await page.setMenuActive(i, item.name);
+
   let str = item.url.substring(0, 4);
   if (item.name == 'home_page_onlineService') {
     // 1 => '禁言中',
@@ -185,7 +185,8 @@ const itemClick = async (item: any, i: number) => {
   if (str === 'http' || str === 'www.') {
     handleOpenLink(item.url);
   } else {
-    router.push(item.url);
+    await page.setMenuActive(i, item.name);
+    router.push((item.url));
   }
 
 };
@@ -269,7 +270,7 @@ const showAvSetting = () => {
 
   .nav_item {
     text-align: center;
-    gap: 8px !important;
+    gap: 10px !important;
     padding: 20px;
 
     >p {

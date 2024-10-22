@@ -14,21 +14,23 @@
       <div class="level_info_vip_all">
         <!-- <n-scrollbar ref="scrollRef" content-class="level_info_vip_l" x-scrollable @wheel.prevent="handleScroll"
           :size="2" x-placement="bottom"> -->
-        <n-carousel :slides-per-view="3" class="level_info_vip_l" :space-between="10" :loop="false" draggable
-          :show-arrow="false" :show-dots="false">
-          <!-- <div class="level_info_vip_l_container"> -->
-          <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
-            :key="index" @click.stop="(e: any) => { clickTab(e, item.key) }">
-            <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
-            <div class="l">
-              <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
-              <div class="txt"> {{ t('level_page_rebate') }} <span>{{ levelDataAll.daily_rebate || 0 }}</span></div>
+        <!-- <n-carousel :slides-per-view="3" class="level_info_vip_l" :space-between="10" :loop="false" draggable
+          :show-arrow="false" :show-dots="false"> -->
+        <scroll-view class="level_info_vip_l">
+          <div class="level_info_vip_l_container">
+            <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
+              :key="index" @click.stop="clickTab(item.key)">
+              <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
+              <div class="l">
+                <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
+                <div class="txt"> {{ t('level_page_rebate') }} <span>{{ levelDataAll.daily_rebate || 0 }}</span></div>
+              </div>
+              <div class="m">返水记录</div>
+              <div class="r" @click.stop="getRebate">领取</div>
             </div>
-            <div class="m">返水记录</div>
-            <div class="r" @click.stop="getRebate">领取</div>
-            <!-- </div> -->
           </div>
-        </n-carousel>
+        </scroll-view>
+        <!-- </n-carousel> -->
         <!-- </n-scrollbar> -->
       </div>
       <Rules v-if="isDetail" />
@@ -138,7 +140,7 @@ import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 import router from '@/router';
 import Rules from './rules.vue';
-
+import ScrollView from "@/components/ScrollView.vue";
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo } = storeToRefs(UserStore);
@@ -345,23 +347,23 @@ const getRebate = () => {
   Net.instance.sendRequest(query);
 
 };
-const clickTab = (e: any, key: any) => {
+const clickTab = (key: any) => {
   curTab.value = key;
   // 添加点击滚动
-  const winWidth = document.documentElement.clientWidth / 2; // 视窗宽度的一半
-  const curBoxW = e.target.offsetWidth; // 当前容器宽度
-  const curClientX = e.clientX;
-  const targetBox: any = document.getElementById('scroll_box');
-  let scrollLeft = -curBoxW; // 向右滚动
-  // 需要向左滚动
-  if (curClientX > winWidth - curBoxW / 2) {
-    scrollLeft = curBoxW;
-  }
-  targetBox.scrollBy({
-    top: 0,
-    left: scrollLeft, // 向右滚动的距离
-    behavior: 'smooth', // 平滑滚动
-  });
+  // const winWidth = document.documentElement.clientWidth / 2; // 视窗宽度的一半
+  // const curBoxW = e.target.offsetWidth; // 当前容器宽度
+  // const curClientX = e.clientX;
+  // const targetBox: any = document.getElementById('scroll_box');
+  // let scrollLeft = -curBoxW; // 向右滚动
+  // // 需要向左滚动
+  // if (curClientX > winWidth - curBoxW / 2) {
+  //   scrollLeft = curBoxW;
+  // }
+  // targetBox.scrollBy({
+  //   top: 0,
+  //   left: scrollLeft, // 向右滚动的距离
+  //   behavior: 'smooth', // 平滑滚动
+  // });
 };
 
 const handleScroll = (e: WheelEvent): void => {

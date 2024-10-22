@@ -27,79 +27,36 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/gameDetail/index.vue'),
   },
   {
-    path: '/gameMain',
-    name: 'gameMain',
-    meta: { title: 'gameMain' },
-    component: () => import('@/views/gameMain/index.vue'),
-    children: [
-      {
-        path: 'gameRecords',
-        name: 'gameRecords',
-        meta: { title: 'gameRecords' },
-        component: () => import('@/views/gameMain/gameRecords/index.vue'),
-      },
-      {
-        path: 'gamingPlatform',
-        name: 'gamingPlatform',
-        meta: { title: 'gamingPlatform' },
-        component: () => import('@/views/gameMain/gamingPlatform/index.vue'),
-      },
-
-
-      {
-        path: 'proxyCooperation',
-        name: 'proxyCooperation',
-        meta: { title: 'proxyCooperation' },
-        component: () => import('@/views/gameMain/proxyCooperation/index.vue'),
-      },
-      {
-        path: 'proxyIntroduction',
-        name: 'proxyIntroduction',
-        meta: { title: 'proxyIntroduction' },
-        component: () => import('@/views/gameMain/proxyIntroduction/index.vue'),
-      },
-      {
-        path: 'levelRule',
-        name: 'levelRule',
-        meta: { title: 'levelRule' },
-        component: () => import('@/views/wallet/level/rules.vue'),
-      },
-      {
-        path: 'club',
-        name: 'club',
-        meta: { title: 'home_page_club' },
-        component: () => import('@/views/club/newClub.vue'),
-      },
-      {
-        path: 'club/next',
-        name: 'clubNext',
-        meta: { title: 'home_page_club' },
-        component: () => import('@/views/club/clubNext.vue'),
-      },
-      {
-        path: 'ranking',  //赛事排行
-        name: 'ranking',
-        meta: { title: 'ranking' },
-        component: () => import('@/views/ranking/index.vue'),
-      },
-
-      {
-        path: 'recentAwards',  //近期大奖
-        name: 'recentAwards',
-        meta: { title: 'recentAwards' },
-        component: () => import('@/views/recentAwards/index.vue'),
-      },
-    ],
+    path: '/gameCollection',
+    name: 'gameCollection',
+    meta: { title: 'gameCollection' },
+    component: () => import('@/views/gameCollection/index.vue'),
   },
-  // {
-  //   path: '/proxy',
-  //   name: 'proxy',
-  //   meta: { title: 'proxy' },
-  //   component: () => import('@/views/proxy/index.vue'),
-  //   children: [
+  {
+    path: '/club',
+    name: 'club',
+    meta: { title: 'home_page_club' },
+    component: () => import('@/views/club/newClub.vue'),
+  },
+  {
+    path: '/clubNext',
+    name: 'clubNext',
+    meta: { title: 'home_page_club' },
+    component: () => import('@/views/club/clubNext.vue'),
+  },
+  {
+    path: '/ranking',  //赛事排行
+    name: 'ranking',
+    meta: { title: 'ranking' },
+    component: () => import('@/views/ranking/index.vue'),
+  },
+  {
+    path: '/recentAwards',  //近期大奖
+    name: 'recentAwards',
+    meta: { title: 'recentAwards' },
+    component: () => import('@/views/recentAwards/index.vue'),
+  },
 
-  //   ]
-  // },
   {
     path: '/wallet',  //钱包
     name: 'wallet',

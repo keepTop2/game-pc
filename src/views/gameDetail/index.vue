@@ -2,18 +2,11 @@
     <div class="game_detail">
         <Imgt class="game_img" :src="`/img/game/${kindId}.webp`" />
         <div class="game_plat_list">
-            <n-carousel :slides-per-view="8.8" :space-between="15" draggable :loop="false" :show-arrow="false"
-                :show-dots="false">
-                <!-- <Imgt class="game_img" :src="`/img/home/kaisai.png`" v-for="i in 8" :key="i" /> -->
-                <!-- <span class="game_plat" :class="{ game_active: agentId == -1 }"
-                    @click="onClickTab({ id: -1 })">全部</span> -->
+            <scroll-view>
                 <span class="game_plat" :class="{ game_active: agentId == v.id }" v-for="(v, i) in threeGameKinds"
                     :key="i" @click="onClickTab(v)">{{ unserialize(v.name, false) }}</span>
 
-            </n-carousel>
-
-
-
+            </scroll-view>
         </div>
         <div class="game-title">
             <div class="input_box">
@@ -45,9 +38,7 @@
                 </n-tabs>
             </div>
         </div>
-        <!-- <div :class="{ game_active: agentId == TabType.FAVORITE }" @click="onClickFavorite(TabType.FAVORITE)">
-            <p>{{ t("common_favorite") }}</p>
-        </div> -->
+
 
         <div class="games">
             <div>
@@ -60,8 +51,8 @@
                     <n-grid :x-gap="7" :y-gap="12" :cols="8">
                         <n-grid-item v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
                             <div class="game_box">
-                                {{ imgPrefix + v.gamePicturePC }}
-                                <img :src="imgPrefix + v.gamePicturePC" :alt="v.name[langs[lang]]">
+
+                                <img :src="imgPrefix + v.gamePicturePC">
                                 <div>
                                     <span>{{ unserialize(v.name, true) }}</span>
                                     <iconpark-icon v-if="Local.get('user')"
@@ -96,7 +87,7 @@ import { Local } from '@/utils/storage';
 import { Message } from '@/utils/discreteApi';
 import { User } from '@/store/user';
 import Loading from '@/components/Loading.vue'
-
+import ScrollView from "@/components/ScrollView.vue";
 
 const { t } = useI18n();
 const route = useRoute()
@@ -153,10 +144,6 @@ const state = reactive({
     ]
 })
 
-let gameKinds = ref<any>([])
-let favoriteData = ref<any[]>([])
-let resultList: any = reactive([])
-
 // 游戏平台id  -1为查看全部的游戏
 let agentId = ref<any>(-1)
 // 是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
@@ -165,19 +152,13 @@ let is_lable = ref(0)
 let kindId = ref(-1)
 // 右侧标签点击样式
 const lableActive = ref(0)
-let isVenudId = ref<boolean>(false)
+
 
 let threeGameKinds = ref<any[]>([])
 let newTab = ref()
-const langs: any = {
-    zh: 'zh-CN',
-    vn: 'vi-VN',
-    en: 'en-US',
-};
+
 const imgPrefix = 'http://18.167.175.195:8032/uploads/'
-const TabType = {
-    FAVORITE: 88
-}
+
 
 // 获取场馆下所有平台
 const getHomeData = () => {
@@ -205,20 +186,6 @@ const changeLableTab = (item: any) => {
 
 }
 
-const handlePlatform = (res: any) => {
-    resetData()
-    if (res.kind && res.kind.length) {
-        gameKinds.value = res.kind
-        if (!isVenudId.value) {
-            agentId.value = kindId.value
-            isVenudId.value = true
-        }
-    } else {
-        const kinds = threeGameKinds.value.map((e: any) => { return { 'kindId': e.id, 'kind_name': JSON.stringify(e.name) } })
-        gameKinds.value = kinds
-    }
-    result.list = res.info
-}
 
 const handleGames = (res: any) => {
     isLoading.value = false
@@ -245,37 +212,15 @@ const onPlayGame = async (v: any) => {
         return
     }
     let langObj: any = {
-        'en-US': 3,
-        'vi-VN': 2,
-        'zh-CN': 1
+        'en': 3,
+        'vi': 2,
+        'zh': 1
     }
     isLoading.value = true
     let tb = NetPacket.req_3rd_game_login();
     tb.agentId = agentId.value;
     tb.kindId = kindId.value;
     tb.gameId = v.gameId;
-    tb.lang = langObj[lang.value];
-    Net.instance.sendRequest(tb);
-}
-
-const onPlayGameFav = async (v: any) => {
-    if (!Local.get('user')) {
-        await User(pinia).setLogin(true)
-        return
-    }
-    let langObj: any = {
-        'en-US': 3,
-        'vi-VN': 2,
-        'zh-CN': 1
-    }
-    const favorites = Local.get('favorites') || []
-    const data = favorites.map((e: any) => { return { 'gameId': e.split('__')[0], 'agentId': e.split('__')[1], 'kindId': e.split('__')[2], 'img': e.split('__')[3] } })
-    const item = data.find((e: any) => e.gameId == v.gameId)
-    isLoading.value = true
-    let tb = NetPacket.req_3rd_game_login();
-    tb.agentId = item.agentId;
-    tb.kindId = item.kindId;
-    tb.gameId = item.gameId;
     tb.lang = langObj[lang.value];
     Net.instance.sendRequest(tb);
 }
@@ -288,12 +233,6 @@ const onClickTab = (v: any) => {
     queryData()
 }
 
-const onClickFavorite = (i: number) => {
-    queryGame.value = ''
-    agentId.value = i
-    resetData()
-
-}
 // 搜索游戏
 const onClickSearch = () => {
     if (!queryGame.value) {
@@ -344,12 +283,10 @@ const queryData = () => { // 查询
 
 const gameUrlResult = (message: any) => {
     isLoading.value = false
-    Local.set('gameUrl', message.url)
     if (message.code != 0) {
         Message.error(message.msg)
         return
     }
-
     if (newTab.value) {
         newTab.value.close()
     }
@@ -361,6 +298,7 @@ const gameUrlResult = (message: any) => {
     } else {
         newTab.value = window.open(message.url, '_blank')
     }
+
 }
 const onLoad = async () => {
     if (params.isEnd) return
@@ -406,19 +344,12 @@ const resCollect = async (data: any) => {
 
 }
 
-onBeforeMount(() => {
-    // const { platform_id, venue_id, name, active } = route.query
-    // getInitData(platform_id, venue_id)
-    // gameName.value = name as string
-    // agentId.value = platform_id
-    // kindId.value = venue_id
 
-})
 onMounted(() => {
     const { venue_id } = route.query
     kindId.value = Number(venue_id)
 
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
+    // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
@@ -443,19 +374,7 @@ watch(
         }
     }
 )
-watch(
-    () => result.list,
-    (a: any) => {
-        const res = resultList?.map((e: any) => e.gameId)
-        for (let e of a) {
-            if (e && !res.includes(e.gameId)) {
-                resultList.push(e)
-            }
-        }
 
-    },
-    { deep: true, }
-)
 </script>
 
 <style lang='less' scoped>
@@ -495,10 +414,13 @@ watch(
             border-radius: 8px;
             background: #22283A;
             display: inline-block;
-
+            margin-right: 10px;
             cursor: pointer;
         }
 
+        :last-child {
+            margin: 0;
+        }
 
 
         .game_active {
@@ -544,66 +466,7 @@ watch(
 
     }
 
-    .game-title {
-        height: 85.88px;
-        border-radius: 14px;
-        display: flex;
-        justify-content: space-between;
-        margin-top: 24px;
-        color: #8d81c1;
-        font-size: 18px;
 
-
-        >.input_box {
-            display: flex;
-
-            width: 522px;
-
-
-            height: 56px;
-
-            align-items: center;
-
-            .login_btn {
-                width: 111px;
-                height: 48px;
-                margin-left: 18px;
-            }
-
-            :deep(.n-input) {
-
-                border-radius: 8px;
-                background: #030309;
-                //     .n-input__input {
-                //         display: flex;
-                //         align-items: center;
-                //     }
-
-                .n-input__input-el {
-                    font-size: 18px;
-                }
-
-                .n-input__border {
-                    border: none;
-                }
-
-                .n-input__placeholder {
-                    color: #9497A1;
-
-
-
-                    >span {
-
-                        font-size: 16px;
-                    }
-                }
-            }
-
-
-        }
-
-
-    }
 }
 
 
@@ -662,29 +525,12 @@ watch(
     }
 }
 
-.game-detail {
-    display: flex;
-    flex-direction: column;
-
-    >div {}
+.game_title {
+    flex-direction: row-reverse;
 }
 
-.pagination {
-    margin: 30px 0 40px 0;
-    justify-content: center;
-
-    :deep(.n-pagination-item) {
-        font-size: 16px;
-        background: #372771;
-        border: 1.4px solid #5A47B2;
-        color: #8D81C1;
-        border-radius: 10px;
-    }
-
-    :deep(.n-pagination-item--active) {
-        background: url(/img/home/sbtnBG.webp) no-repeat;
-        background-size: 100% 100%;
-        color: #fff;
-    }
+.tab_box {
+    padding: 14px 24px 23.88px 50px;
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
 }
 </style>

@@ -3,7 +3,7 @@
     <!-- 近期大奖 -->
     <div class="game_detail da_jiang">
       <div class="game_list">
-        <p class="game_type">
+        <div class="game_type">
         <div class="text">
           <span class="text_title">
             <Imgt class="title_img" :src="`/img/home/reward.webp`" />
@@ -18,8 +18,8 @@
           </div>
 
         </div>
-        <span class="more" @click="router.push('/gameMain/recentAwards')">{{ t('home_page_more') }}</span>
-        </p>
+        <span class="more" @click="router.push('/recentAwards')">{{ t('home_page_more') }}</span>
+        </div>
         <n-carousel style="position: static;" :slides-per-view="8" :space-between="10" :loop="false" draggable
           show-arrow>
           <div v-for="i in 10" :key="i" class="da_jiang_list">
@@ -44,15 +44,15 @@
     <!-- 最新赛事排行 -->
     <div class="game_detail match">
       <div class="game_list">
-        <p class="game_type">
+        <div class="game_type">
         <div class="text">
           <span class="text_title">
             <Imgt class="title_img" :src="`/img/home/king.webp`" />
             最新赛事排行
           </span>
         </div>
-        <span class="more" @click="router.push('/gameMain/ranking')">{{ t('home_page_more') }}</span>
-        </p>
+        <span class="more" @click="router.push('/ranking')">{{ t('home_page_more') }}</span>
+        </div>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
           <n-carousel style="position: static;margin-left:35px;width:97.5%" :slides-per-view="7.2" :loop="false"
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="to_match">
-     <matchDes></matchDes>
+      <matchDes></matchDes>
       <n-button>前往</n-button>
     </div>
 
@@ -83,13 +83,13 @@
 
     <div class="table_box">
       <div class="table_head_wrap">
-        <div v-for="item in tableHead" class="table_head">
+        <div v-for="(item, i) in tableHead" class="table_head" :key="i">
           <span>{{ item }}</span>
         </div>
         <span class="more">{{ t('home_page_more') }}</span>
       </div>
       <div class="table_body_wrap">
-        <div v-for="item in tableData" class="table_head">
+        <div v-for="(item, i) in tableData" class="table_head" :key="i">
           <span class="ranking" v-if="item.ranking <= 3">
             <Imgt :src="`/img/home/ranking${item.ranking}.webp`" />
           </span>
@@ -107,14 +107,14 @@
     <!-- 收藏 -->
     <div class="game_detail collect">
       <div class="game_list">
-        <p class="game_type">
+        <div class="game_type">
         <div class="text">
           <span class="text_title">
             收藏推荐
           </span>
         </div>
         <span class="more">{{ t('home_page_more') }}</span>
-        </p>
+        </div>
         <n-carousel style="position: static;margin-left:0px" :slides-per-view="1" :loop="false" draggable show-arrow>
           <div v-for="i in 2" class="colect_wrap" :key="i">
             <div v-for="j in 16" :key="j" class="colect_wrap_item">
