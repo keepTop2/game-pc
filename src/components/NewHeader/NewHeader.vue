@@ -257,7 +257,7 @@ const menu = [
   },
   {
     icon: "txxlicon13",
-    name: "反馈",
+    name: "客服",
     url: settings.value.serviceTelegram,
     value: 666,
   },
