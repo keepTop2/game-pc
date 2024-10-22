@@ -184,27 +184,35 @@
         <div class="tran_box">
           <n-flex class="top_box" justify="space-between">
             <div class="topBox">
-              <n-flex>
+              <n-flex align="center">
                 <iconpark-icon icon-id="txxlicon01-ekipha8m" color="#fff" size="1.5rem"></iconpark-icon>
-                <span>携带钱包</span>
+                <span>{{ t('wallet_type_map_1') }}</span>
               </n-flex>
               <span class="mon_box">{{totalMoneyTxt}}</span>
             </div>
             <div class="topBox">
-              <n-flex >
+              <n-flex align="center">
                 <iconpark-icon icon-id="txxlicon01-ekipha8m" color="#fff" size="1.5rem"></iconpark-icon>
-                <span>保险柜钱包</span>
+                <span>{{ t('wallet_type_map_2') }}</span>
               </n-flex>
               <span class="mon_box">{{verifyNumberComma(String(bankMoney))}}</span>
             </div>
           </n-flex>
-
           <n-flex justify="space-between" :wrap="false" class="money_input">
             <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
                      :placeholder="t('addBank_page_pInput')" >
             </n-input>
             <n-flex align="center" justify="center" class="btn_ch button_color" @click="tranMoney = ''"> {{ t('重置') }} </n-flex>
           </n-flex>
+          <n-flex class="fast_box">
+            <n-flex align="center" justify="center" class="button" @click="allTranferMon(item.value)" v-for="(item, index) in fastMon" :key="index">
+              {{t(item.label)}}
+            </n-flex>
+          </n-flex>
+          <div class="tips_txt red">
+            {{ t('walletInfo_page_tranferTips') }}
+          </div>
+          <n-flex align="center" justify="center" class="sub_btn button button_color" @click="handleSubmit"> {{ t('确定存入') }} </n-flex>
         </div>
       </template>
     </ModalDialog>
@@ -243,6 +251,8 @@ const {
   bankMoney,
   countMonRate,
   tranMoney,
+  allTranferMon,
+  handleSubmit,
 } = useWalletInfo()
 const usdtBankList = ref([])
 
@@ -262,7 +272,6 @@ const baseObj = {
   address: '', // 银行卡号
   way: '1', // 1 银行卡，2 USTD
 }
-
 const form: any = ref( // 存款表单提交
   { ...baseObj }
 );
@@ -278,10 +287,7 @@ const mySecBankList = ref(myBankList);
 const showPwdModal = ref(false);
 const showSmModal = ref(false);
 const curPayWay = ref({ paymethod: '1' }); // 当前选择的提款方式
-// setTimeout(() => {
-//   console.log(mySecBankList.value, '------')
-//   console.log(myBankList.value, '=======')
-// }, 500)
+
 const wayArray = ref(
   [
     {
@@ -326,6 +332,13 @@ const bankListInfoRef = ref()
 const usdtListInfoRef = ref()
 const bankListInfoShow = ref(false)
 const usdtListInfoShow = ref(false)
+
+const fastMon = [
+  {label: '1/3', value: 0.3333},
+  {label: '1/2', value: 0.5},
+  {label: 'promo_page_all', value: 1},
+]
+
 
 const inputBlur = () => {
   form.value.amount = verifyNumberComma(String(form.value.amount))
@@ -415,14 +428,14 @@ const onSubmit = () => {
       // if (curPayWay.value.paymethod == '1') {
       //   form.value.address = mySecBankList.value.bank_card_info_list.find((item: any) => item.bank_id === form.value.bank)?.account_number; // 银行卡号
       // }
-      handleSubmit()
+      handleWdSubmit()
     } else {
       console.log(errors);
     }
   });
 }
 // 提款提交
-const handleSubmit = () => {
+const handleWdSubmit = () => {
   const req = NetPacket.req_apply_withdraw();
   req.money = removeComma(form.value.amount);
   req.bank_card_id = form.value.address; // 卡号
@@ -884,9 +897,28 @@ const railStyle = ({ focused, checked }: {
       }
     }
     .money_input {
-      margin-top: 30px;
+      margin: 30px 0;
       gap: 20px !important;
     }
+  }
+  .fast_box {
+    .button {
+      font-weight: 700;
+      width: 134px;
+      height: 40px;
+      border-radius: 8px;
+      background: #1F264D;
+    }
+  }
+  .tips_txt {
+    font-size: 14px;
+    font-weight: 500;
+    color: #E54A45;
+    margin: 16px 0 60px;
+  }
+  .sub_btn {
+    width: 330px;
+    margin: 0 auto;
   }
 
 }
