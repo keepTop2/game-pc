@@ -1,6 +1,6 @@
 <template>
   <CommonForm :title="t('walletInfo_page_code')" :submit-text="t('redeemCode_page_redeemCodeNow')"
-    :cancel="t('redeemCode_page_cancel')" :form-ref="'formRef'" :form="form" :show-form="showRedeemCode"
+    :form-ref="'formRef'" :form="form" :show-form="showRedeemCode"
     @on-close="onClose" @on-submit="onSubmit" @on-cancel="onCancel" @update-form-ref="updateFormRef" />
 </template>
 

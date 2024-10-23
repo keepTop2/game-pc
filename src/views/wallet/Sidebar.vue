@@ -30,6 +30,7 @@
 
     <!-- 头像设置 -->
     <avatarSettings v-model:visible="visibleSetting" />
+    <RedeemCode v-if="showRedeemCode" />
   </div>
 </template>
 <script lang="ts" setup name="sider">
@@ -44,6 +45,8 @@ import { User } from '@/store/user';
 import { Message } from '@/utils/discreteApi.ts';
 import avatarSettings from './components/avatarSettings.vue';
 import { verifyNumberComma } from '@/utils/others.ts';
+import { Wallet } from '@/store/wallet';
+import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 
 const { t } = useI18n();
 const page = Page(pinia);
@@ -54,72 +57,75 @@ const { info, kefuVisible, agentInfo } = storeToRefs(userInfo);
 const { VIPinfo, roleInfo } = storeToRefs(UserStore);
 const router = useRouter();
 const visibleSetting = ref(false);
+const wallet = Wallet(pinia);
+const showRedeemCodeModal = (v: boolean) => wallet.setShowRedeemCode(v);
+const { showRedeemCode } = storeToRefs(wallet);
 
 const state: any = reactive({
   sideList: [
     {
       icon: 'txxlicon01',
-      name: '钱包',
+      name: 'page_route_wallet',
       url: 'walletInfo',
     },
     {
       icon: 'txxlicon02',
-      name: 'deposit_page_deposit',
+      name: 'page_route_recharge',
       url: 'deposit',
     },
     {
       icon: 'txxlicon03',
-      name: 'proxy_page_withDraw',
+      name: 'page_route_withdraw',
       url: 'withdraw',
     },
     {
       icon: 'txxlicon04',
-      name: 'VIP',
+      name: 'page_route_VIP',
       url: 'levelInfo',
     },
     {
       icon: 'txxlicon05',
-      name: '代理',
+      name: 'page_route_proxy',
       url: 'proxyCooperation',
     },
     {
       icon: 'txxlicon06',
-      name: '支付',
+      name: 'page_route_payment',
       url: 'paymentManagement',
     },
     {
       icon: 'txxlicon07',
-      name: '活动',
+      name: 'page_route_activity',
       url: 'activity',
     },
     {
       icon: 'txxlicon08',
-      name: '优惠',
+      name: 'page_route_discount',
       url: 'myPromo',
     },
     {
       icon: 'txxlicon15',
-      name: '记录',
+      name: 'page_route_record',
       url: 'records',
     },
     {
       icon: 'txxlicon10',
-      name: '兑换码',
+      name: 'page_route_redemptionCode',
       url: 'redeemCode',
     },
     {
       icon: 'txxlicon11',
-      name: '邮件',
+      name: 'page_route_mail',
       url: 'myEmail',
     },
     {
       icon: 'txxlicon12',
-      name: '安全',
+      name: 'page_route_security',
       url: 'securitySettings',
     },
     {
       icon: 'txxlicon13',
-      name: '反馈',
+      name: 'page_route_feedback',
       url: settings.value.serviceTelegram,
     },
     // {
@@ -155,6 +161,7 @@ const state: any = reactive({
   ],
 });
 
+
 const itemClick = async (item: any, i: number) => {
 
   let str = item.url.substring(0, 4);
@@ -170,6 +177,10 @@ const itemClick = async (item: any, i: number) => {
       kefuVisible.value = true;
       return;
     }
+  }
+  if (item.url == "redeemCode") { // 兑换码
+    showRedeemCodeModal(true)
+    return
   }
   if (str === 'http' || str === 'www.') {
     handleOpenLink(item.url);

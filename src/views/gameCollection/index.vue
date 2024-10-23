@@ -8,7 +8,8 @@
                         style="cursor:pointer"></iconpark-icon>
                 </template>
             </n-input>
-            <n-button class="login_btn" :bordered="false" block @click="onClickSearch">搜索</n-button>
+            <n-button class="login_btn" :bordered="false" block @click="onClickSearch">{{ t('game_page_seach')
+                }}</n-button>
         </div>
 
         <div class="tab_box">
@@ -20,7 +21,7 @@
                             <iconpark-icon class="right"
                                 :icon-id="state.lableActive == item.id ? item.activeIcon : item.icon"
                                 size="1.2rem"></iconpark-icon>
-                            <span :class="state.lableActive == item.id && 'n-tabs-tab--active'">{{ item.name
+                            <span :class="state.lableActive == item.id && 'n-tabs-tab--active'">{{ t(item.name)
                                 }}</span>
                         </div>
                     </template>
@@ -39,9 +40,9 @@
                 <n-grid :x-gap="7" :y-gap="12" :cols="8">
                     <n-grid-item v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
                         <div class="game_box">
-
-                            <img :src="imgPrefix + v.gamePicturePC">
-                            <div>
+                            <n-image width="100%" :src="imgPrefix + v.gamePicturePC" fallback-src="/logo.png" />
+                            <!-- <img :src="imgPrefix + v.gamePicturePC"> -->
+                            <div class="game_name">
                                 <n-tooltip trigger="hover">
                                     <template #trigger>
                                         <span class="text_hidden">{{ unserialize(v.name, true) }}</span>
@@ -116,14 +117,14 @@ const props = defineProps({
         type: Array<any>,
         default: [
             {
-                name: '收藏',
+                name: 'game_page_fav',
                 icon: 'shoucang',
                 activeIcon: 'shoucangun',
                 id: -2,
                 key: 3
             },
             {
-                name: '最近',
+                name: 'game_page_recent',
                 icon: 'zuijin',
                 activeIcon: 'zuijinun',
                 id: -3,
@@ -338,9 +339,11 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
 watch(
-    () => state.kindId,
+    () => props.kindId,
     (a) => {
         if (a) {
+            console.log('1111111', a);
+            state.kindId = a
             resetData()
             queryData()
             // queryData()
@@ -467,20 +470,20 @@ watch(
         background-color: #222;
         cursor: pointer;
         line-height: 1;
-        border-radius: 8px;
+        border-radius: 15px;
 
-        >img {
+        >.game_img {
             width: 164px;
             height: 164px;
 
         }
 
-        >div {
+        >.game_name {
             width: 100%;
 
             display: flex;
             justify-content: space-between;
-            padding: 11px 8px;
+            padding: 5px 8px;
             position: absolute;
             bottom: 0;
             left: 0;

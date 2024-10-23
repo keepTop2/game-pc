@@ -9,15 +9,18 @@
           </i>
         </h4>
         <div class="login_form">
-
-          <div class="tab" v-if="state.formData?.tabList">
+          <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab"
+            v-if="state.formData?.tabList">
+            <n-tab-pane :name="i" :tab="t(tab.name)" v-for="(tab, i) in state.formData.tabList" :key="i"> </n-tab-pane>
+          </n-tabs>
+          <!-- <div class="tab" v-if="state.formData?.tabList">
             <span :class="state.formData.active == i ? 'active' : ''" v-for="(tab, i) in state.formData.tabList"
               :key="i" @click="changeTab(i)">{{ t(tab.name) }}</span>
-          </div>
+          </div> -->
           <n-form :model="state.formData?.formParams" :rules="state.formData?.rules"
-            :show-label="state.formData?.showLabel" ref="formRef">
+            :show-label="state.formData?.showLabel" label-placement="left" ref="formRef">
             <template v-for="item in state.formData?.list">
-              <n-form-item :path="item.name" :label="t(item.label)" v-if="item.show">
+              <n-form-item :path="item.name" :label="t(item.label)" v-if="item.show" label-placement="left">
 
                 <n-popselect v-if="item.isMobile" v-model:value="state.formData.formParams.codeValue"
                   :options="state.codeOptions" @update:value="valueChange" trigger="click">
@@ -308,17 +311,19 @@ defineExpose({
 @timestamp: `new Date().getTime()`;
 
 .change_card {
-  // width: 494px;
-  border-radius: 14px;
-  // border: solid 1.4px #322c59;
-  background-color: #231353;
+
+  border-radius: 16px;
+  border: 1px solid #26294C;
+  background: #14173A;
 
 
   .login_from_box {
     display: block;
+    width: 542px;
+    height: auto;
 
     >.login_form {
-      padding: 60px 40px 46px;
+      padding: 60px 40px 0x;
 
       >.tab {
         width: 100%;
@@ -337,16 +342,12 @@ defineExpose({
     margin: 0;
     width: 100%;
     position: relative;
-    height: 50px;
-    line-height: 50px;
-    font-size: 16px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
     color: #fff;
-    // border-radius: 14px;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
     text-align: center;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-image: linear-gradient(to bottom, #4c36b3 100%, #3a2786 28%, #3c279a 0%);
+    border-bottom: 2px solid #26294C;
 
     >i {
       position: absolute;
@@ -388,7 +389,8 @@ defineExpose({
   }
 
   .login_btn {
-    margin-top: 40px;
+    width: 330px;
+    margin: 40px auto;
   }
 }
 </style>

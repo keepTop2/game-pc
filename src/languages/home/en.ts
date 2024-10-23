@@ -69,15 +69,14 @@ export default {
     home_page_community: 'Community',
     home_page_customerService: 'Customer service',
     home_page_downloadApp: 'Download APP',
-    // 游戏部分
+    // 新游戏二级页部分
     home_page_all: 'All',
     home_page_more: 'More',
-    label_all: 'ALL',
-    label_hot: 'HOT',
-    label_recent: 'RECENT',
-    label_fav: 'FAVORITE',
-    success: 'success',
-    fail: 'fail',
+    game_page_seach: 'Search',
+    game_page_all: 'All',
+    game_page_hot: 'Hot',
+    game_page_recent: 'Recent',
+    game_page_fav: 'Favorites',
     // 登录弹窗
     home_page_accountLogin: 'Account login',
     home_page_loginSuccess: 'Login successful',

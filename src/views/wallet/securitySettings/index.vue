@@ -1,20 +1,21 @@
 <template>
     <div class="security_settings">
-        <n-flex vertical class="items" v-for="(items, i) in state.list " :key="i">
+        <div class="items" v-for="(items, i) in state.list " :key="i">
             <span>{{ t(items.text) }}</span>
-            <div v-if="items.btns">
-                <span>{{ info[items.value] }}</span>
+            <div>
+                <span v-if="items.btns">{{ info[items.value] }}</span>
                 <div v-if="items.btns.length > 0">
-                    <span class="bind_btn" v-for="(item, j) in items.btns " :id="items.text" :key="j"
+                    <span class="bind_btn login_btn" v-for="(item, j) in items.btns " :id="items.text" :key="j"
                         @click="itemClick(items)">
-                        <iconpark-icon :icon-id="item.icon" size="1rem"></iconpark-icon>
+
                         {{ t(item.text) }}</span>
                 </div>
             </div>
-            <div v-else style="padding: 0;">
+
+            <!-- <div v-else style="padding: 0;">
                 <n-select v-model:value="items.value" :options="state.currencyList" />
-            </div>
-        </n-flex>
+            </div> -->
+        </div>
         <PopForm ref="FormRef" @nextChange="nextChange" @changeTab="changePasswordChangeTab" @submitData="submitData">
         </PopForm>
     </div>
@@ -907,28 +908,44 @@ onUnmounted(() => {
 @timestamp: `new Date().getTime()`;
 
 .security_settings {
-    width: 500px;
-    margin: 0 auto;
-    font-size: 16px;
-    color: #8e82c2;
-    padding-bottom: 50px;
+    width: 1100px;
+    height: 694px;
+    border-radius: 16px;
+    border: 1px solid #26294C;
+    background: #14173A;
+    padding: 40px 0 0 40px;
 
     .items {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        width: 910px;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+
+        >span {
+            flex: 1;
+
+        }
 
         >div {
-            width: 500px;
-            height: 45px;
-            padding: 0 5px;
-            box-sizing: border-box;
+            flex: 6;
+            height: 40px;
+            // 
+            // box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 10px;
-            box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-            background-blend-mode: color-burn, overlay, normal;
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5) 200%), radial-gradient(circle at 50% 50%, #7e7e7e, #151515 100%), linear-gradient(to bottom, #27155c, #27155c);
-            background-color: #27155c;
+
+
+            >span {
+                height: 40px;
+                line-height: 40px;
+                padding-left: 20px;
+                flex: 1;
+                border-radius: 8px;
+                border: 1px solid #26294C;
+                background-color: #212443;
+            }
 
             >div {
                 display: flex;
@@ -936,17 +953,17 @@ onUnmounted(() => {
                 align-items: center;
 
                 .bind_btn {
-                    width: 84px;
-                    height: 38px;
+                    width: 120px;
+                    height: 40px;
+                    border-radius: 8px;
                     box-sizing: border-box;
                     display: flex;
-                    margin-left: 10px;
+                    margin-left: 20px;
                     justify-content: center;
                     align-items: center;
                     color: #fff;
                     cursor: pointer;
-                    background: url('/img/securitySettings/btnBg.webp?t=@{timestamp}') no-repeat;
-                    background-size: contain;
+
                 }
             }
 
