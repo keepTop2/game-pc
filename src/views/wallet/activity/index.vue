@@ -1,17 +1,30 @@
 <template>
   <div class="activity">
     <div class="tab">
-      <span :class="state.active == i ? 'active' : ''" v-for="(_game, g, i) in activityTitleList"
-            :key="i"
-            @click="changeTab(i)">{{ t(g) }}</span>
+      <span
+        :class="state.active == i ? 'active' : ''"
+        v-for="(_game, g, i) in activityTitleList"
+        :key="i"
+        @click="changeTab(i)"
+        >{{ t(g) }}</span
+      >
     </div>
     <div class="img_box">
-      <div v-for="item in homeActivityList" :key="item.id" @click="defineModel(item)">
+      <div
+        v-for="item in homeActivityList"
+        :key="item.id"
+        @click="defineModel(item)"
+      >
         <img :src="item.pic_link" alt="" />
         <p>
           <i>{{ item.name }}</i>
-          <span>活动详情
-            <iconpark-icon class="icon" icon-id="huodiconjinr" size=".7rem"></iconpark-icon>
+          <span
+            >活动详情
+            <iconpark-icon
+              class="icon"
+              icon-id="huodiconjinr"
+              size=".7rem"
+            ></iconpark-icon>
           </span>
         </p>
       </div>
@@ -24,10 +37,15 @@
     <!--      </n-card>-->
     <!--    </n-modal>-->
 
-
     <n-modal v-model:show="state.showModal">
-      <n-card class="avatar_set" @close="state.showModal = false" :bordered="false" size="huge"
-              role="dialog" aria-modal="true">
+      <n-card
+        class="avatar_set"
+        @close="state.showModal = false"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        aria-modal="true"
+      >
         <!--        <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />-->
         <!--        <FreeLoot v-model="state.showModal"/>-->
 
@@ -44,12 +62,15 @@
             </i>
           </h4>
 
-
           <div class="main_body">
             <div class="tab">
-            <span :class="state.freeLootActive == i ? 'active' : ''" v-for="(item, i) in state.freeLootTab"
-            :key="i"
-            @click="changeFreeLootTab(item, i)">{{ t(item.name) }}</span>
+              <span
+                :class="state.freeLootActive == i ? 'active' : ''"
+                v-for="(item, i) in state.freeLootTab"
+                :key="i"
+                @click="changeFreeLootTab(item, i)"
+                >{{ t(item.name) }}</span
+              >
             </div>
             <div class="freeComponent">
               <component :is="state.freeLootComponent"></component>
@@ -131,10 +152,10 @@ const state: any = reactive({
   freeLootTab: [
     { name: '免费夺宝', component: FreeLoot },
     { name: '夺宝排行榜', component: FreeLootRanking },
-    { name: '规则说明', component: FreeLootRule }
+    { name: '规则说明', component: FreeLootRule },
     // { name: '夺宝排行榜', component: 'freeLootRanking' },
     // { name: '规则说明', component: 'freeLootRule' }
-  ]
+  ],
 });
 // const popDetail = (item: any) => {
 //   state.detailImg = null;
@@ -194,20 +215,17 @@ const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
 };
 
-
 // 点击按钮弹窗
 const defineModel = (item: any) => {
   console.log(item.name, '--item--');
   state.showModal = true;
 };
 
-
 const changeFreeLootTab = (item: any, tabId: number) => {
   console.log(item, 'changeFreeLootTab');
   state.freeLootActive = tabId;
   state.freeLootComponent = item.component;
-}
-
+};
 
 onMounted(() => {
   // state.name = route.query.typeName
@@ -215,7 +233,10 @@ onMounted(() => {
   const req = NetPacket.req_activites();
   req.show = 0;
   Net.instance.sendRequest(req);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_activites,
+    handleActivetys,
+  );
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
@@ -270,12 +291,11 @@ onUnmounted(() => {
           font-size: 16px;
         }
       }
-      >.freeComponent {
+      > .freeComponent {
         height: 100%;
       }
     }
   }
-
 }
 
 .activity {
@@ -338,7 +358,7 @@ onUnmounted(() => {
           display: flex;
           align-items: center;
           background: linear-gradient(180deg, #f7dc82 0%, #ca8528 100%),
-          linear-gradient(180deg, #f7dc82 0%, #a76712 100%);
+            linear-gradient(180deg, #f7dc82 0%, #a76712 100%);
           box-shadow: 0.5px 0.5px 1px 0px #ffeab2 inset;
 
           > .icon {
