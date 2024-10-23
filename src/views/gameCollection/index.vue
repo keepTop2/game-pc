@@ -338,9 +338,11 @@ onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 })
 watch(
-    () => state.kindId,
+    () => props.kindId,
     (a) => {
         if (a) {
+            console.log('1111111', a);
+            state.kindId = a
             resetData()
             queryData()
             // queryData()

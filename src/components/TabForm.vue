@@ -1,6 +1,5 @@
 <template>
     <div class="login_form">
-
         <n-form ref="formRef" :loading="props.loading" :model="props.formParams" label-placement="left">
             <n-grid :cols="24" :x-gap="24">
                 <template v-for="(item, _i) in props.formParamsList" :key="_i">
@@ -17,7 +16,6 @@
                 {{ t('proxy_page_search') }}
             </n-button>
         </div>
-
     </div>
     <div class="table">
         <n-data-table striped :bordered="false" :single-line="false" :columns="props.columns" :data="props.data"
@@ -127,7 +125,7 @@ const seach = (v: any) => {
     >.seach_btn {
         display: flex;
         align-items: flex-end;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
 
         >button {
             width: 100px;
@@ -203,6 +201,10 @@ const seach = (v: any) => {
     }
 
     // 表格
+    :deep(.n-data-table) {
+        font-size: 18px;
+    }
+
     :deep(.n-data-table .n-data-table-tr:hover) {
         background-color: transparent;
         background: unset;

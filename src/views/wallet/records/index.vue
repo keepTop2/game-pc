@@ -475,7 +475,7 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 8,
+                span: 5,
                 type: 'select',
                 label: 'auditRecord_page_state',
                 path: 'status',
@@ -483,7 +483,7 @@ const titleArr: any = reactive([
                 options: rechargeOptionsStatus
             },
             {
-                span: 8,
+                span: 5,
                 type: 'select',
                 label: 'rechargeRecord_page_currency',
                 path: 'currency',
@@ -491,7 +491,7 @@ const titleArr: any = reactive([
                 options: optionsCurrency
             },
             {
-                span: 16,
+                span: 12,
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
@@ -569,7 +569,7 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 8,
+                span: 5,
                 type: 'select',
                 label: 'betRecord_page_platform',
                 path: 'platform_id',
@@ -577,7 +577,7 @@ const titleArr: any = reactive([
                 options: optionsPlat
             },
             {
-                span: 8,
+                span: 5,
                 type: 'select',
                 label: 'betRecord_page_game',
                 path: 'game_type',
@@ -585,7 +585,7 @@ const titleArr: any = reactive([
                 options: optionsGame
             },
             {
-                span: 16,
+                span: 12,
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',

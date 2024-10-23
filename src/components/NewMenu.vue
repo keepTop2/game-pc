@@ -15,7 +15,7 @@
           :class="venueActive == item.id && 'active_item'" @click="itemGameClick(item)">
           <!-- <Imgt :src="item.icon" /> -->
           <Imgt :src="`/img/menu/${item.id}.webp`" />
-          <span>{{ unserialize(item.name) }}</span>
+          <span>{{ unserialize(item.name, false) }}</span>
           <div :class="venueActive == item.id && 'active_item_bg'"></div>
         </div>
         <div class="menu_wrap_list_ban">
@@ -54,7 +54,7 @@
             <div :class="venueActive == item.id && 'active_1_item'" class="menu_1_item"
               v-for="(item, i) in homeGameData" :key="'b' + i" @click="itemGameClick(item)">
               <Imgt class="icon" :src="`/img/menu/${item.id}.webp`" />
-              <span class="name">{{ unserialize(item.name) }}</span>
+              <span class="name">{{ unserialize(item.name, false) }}</span>
               <Imgt class="more more1" :src="`/img/menu/menu_more.webp`" />
               <Imgt class="more more2" :src="`/img/menu/menu_more2.webp`" />
             </div>
@@ -71,11 +71,11 @@
             </div>
             <!-- 平台 -->
             <div class="sub_menu_scroll sub_menu_2_child">
-              <div class="sub_menu_2_item" v-for="i in 32" :key="i">
+              <div class="sub_menu_2_item" v-for="(v, i) in platformData" :key="i">
                 <div class="sub_menu_2_box">
                   <Imgt class="sub_menu_2_img" :src="`/img/menu/sub_menu_icon.webp`" />
                 </div>
-                <div class="sub_menu_2_name">JILI</div>
+                <div class="sub_menu_2_name">{{ unserialize(v.name, false) }}</div>
               </div>
             </div>
           </template>
@@ -126,15 +126,19 @@ const { homeGameData } = storeToRefs(Page(pinia));
 
 const router = useRouter();
 const { venueActive, lang } = storeToRefs(Page(pinia));
-const unserialize = (v: any) => {
+// 解析游戏名和平台名
+const unserialize = (v: any, isPlatform: boolean) => {
+
   let obj: any = {
-    en: "en-US",
-    zh: "zh-CN",
-    vn: "vi-VN",
-  };
-  // const data = JSON.parse(v)
-  return v[obj[lang.value]];
-};
+    en: 'en-US',
+    zh: 'zh-CN',
+    vn: 'vi-VN'
+  }
+  if (isPlatform) {
+    v = JSON.parse(v)
+  }
+  return v[obj[lang.value]]
+}
 const menuList = [
   { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: -1 },
   {
@@ -164,7 +168,11 @@ const itemClick = async (item: any) => {
     clickLoading.value = false
   }, 200)
 };
+const platformData = ref()
 const itemGameClick = async (item: any) => {
+  platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(item.id)))).three_platform
+  console.log(platformData.value);
+
   await Page(pinia).setVenueActive(item.id);
   router.push({
     path: "/gameDetail",
@@ -177,10 +185,13 @@ const itemGameClick = async (item: any) => {
     clickLoading.value = false
   }, 200)
 };
+
 onMounted(async () => {
   if (Local.get("venueActive")) {
     await Page(pinia).setVenueActive(Local.get("venueActive"));
+    platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(Local.get("venueActive"))))).three_platform
   }
+
 });
 
 

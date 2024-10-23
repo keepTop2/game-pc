@@ -118,10 +118,9 @@ onMounted(() => {
 watch(
     () => route.query.venue_id,
     (a) => {
-        if (a) {
+        if (![3, 4].includes(Number(a))) {
             kindId.value = Number(a)
             getHomeData()
-            // queryData()
         }
     }
 )
