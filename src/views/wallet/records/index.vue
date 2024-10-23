@@ -23,7 +23,8 @@ import { NetMsgType } from '@/netBase/NetMsgType';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { convertObjectToDateString } from '@/utils/dateTime';
 import { WashTypeMap, ProxyAccountTypeMap, PlatformValueMap, WalletTypeMap, AuditStatusMap } from "@/enums/walletEnum"
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 // 充值 提现
 const wayMap: any = ref({})
 const waysHandle = (rs: any) => {
@@ -808,6 +809,9 @@ const resultHandle = (rs: any) => { // 数据处理
 
 }
 onMounted(() => {
+    if (route.query.active) {
+        activeTab.value = Number(route.query.active)
+    }
     state.columns = titleArr[activeTab.value].columns
     state.formParamsList = titleArr[activeTab.value].formParamsList
     // 充值
