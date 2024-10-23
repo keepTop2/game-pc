@@ -174,18 +174,18 @@ const freeLootRankingData = reactive({
 
     .table {
       padding: 25px 20px 0;
-      :deep .n-data-table-thead > tr > th {
+      :deep(.n-data-table-thead > tr > th) {
         color: rgba(175, 186, 189, 1);
         border-bottom: rgba(38, 41, 76, 1);
         background-color: rgba(27, 31, 75, 1) !important;
         //border: 1px solid rgba(38, 41, 76, 1) !important;
       }
-      :deep .n-data-table .n-data-table-td{
+      :deep(.n-data-table .n-data-table-td){
         color: rgba(175, 186, 189, 1) !important;
         border-bottom: rgba(38, 41, 76, 1);
         background-color: rgba(18, 19, 54, 1) !important;
       }
-      :deep .n-data-table .n-data-table-tr.n-data-table-tr--striped .n-data-table-td{
+      :deep(.n-data-table .n-data-table-tr.n-data-table-tr--striped .n-data-table-td){
         background-color: rgba(13, 14, 46, 1) !important;
       }
 
