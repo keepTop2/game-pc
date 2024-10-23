@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, reactive, computed, onUnmounted, onMounted } from 'vue';
+import { ref, reactive, computed, onUnmounted, onMounted, h } from 'vue';
 import { useI18n } from "vue-i18n";
 import TabForm from '@/components/TabForm.vue'
 import { RechagreStatusMap, WithdrawStatusMap, CurrencyMap } from '@/enums/walletEnum';
@@ -22,9 +22,16 @@ import { Net } from '@/net/Net';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { convertObjectToDateString } from '@/utils/dateTime';
-import { WashTypeMap, ProxyAccountTypeMap, PlatformValueMap } from "@/enums/walletEnum"
+import { WashTypeMap, ProxyAccountTypeMap, PlatformValueMap, WalletTypeMap, AuditStatusMap } from "@/enums/walletEnum"
 
-// 提现
+// 充值 提现
+const wayMap: any = ref({})
+const waysHandle = (rs: any) => {
+    rs.rechargelist_by_paymenttype.forEach((item: any) => {
+        wayMap[item.paymenttype] = item.payname
+    })
+}
+const noNameList: any = ['SBO', 'CMD368', 'IM', 'VR', 'TCG', 'SABA', 'DG']
 const withdrawOptionsStatus = computed(() => { // 状态
     const options = Object.keys(WithdrawStatusMap()).map((key: string) => {
         return {
@@ -43,6 +50,7 @@ const rechargeOptionsStatus = computed(() => { // 状态
         }
     })
     options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
+    console.log(1211111111111, options)
     return options
 })
 const optionsCurrency = computed(() => { // 法币
@@ -136,70 +144,293 @@ const proxyRecordOptionsStatus = computed(() => { // 类型
     options.unshift({ value: 0, label: t('accountsRecord_page_allType') })
     return options
 })
-
 const recharTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('rechargeRecord_page_method'), key: 'way_id', align: 'center' },
-        { title: t('accountsRecord_page_hb'), key: 'currency', align: 'center' },
-        { title: t('rechargeRecord_page_amount'), key: 'pay_money', align: 'center' },
-        { title: t('auditRecord_page_state'), key: 'order_status', align: 'center' },
-        { title: t('auditRecord_page_startTime'), key: 'pay_time', align: 'center' },
-    ]
-})
+    return [
+        {
+            title: t('rechargeRecord_page_method'), key: 'way_id', align: 'center',
+            render(row: any) {
+                return h(
+                    'span',
+                    (row.bonus)
+                        ? t('deposit_page_discount')
+                        : (row.way_id && wayMap[row.way_id]) ? t(wayMap[row.way_id]) : row.way_id
+                );
+            }
+        },
+        {
+            title: t('accountsRecord_page_hb'), key: 'currency', align: 'center',
+            render() {
+                return h('span', CurrencyMap()[1]);
+            }
+        },
+        {
+            title: t('rechargeRecord_page_amount'), key: 'pay_money', align: 'center',
+            render(row: any) {
+                return h(
+                    'span',
+                    row.bonus && Number(row['bonus']) > 0
+                        ? Number(row['bonus']).toLocaleString()
+                        : Number(row.pay_money).toLocaleString()
+                );
+            }
+        },
+        {
+            title: t('auditRecord_page_state'), key: 'order_status', align: 'center',
+            render(row: any) {
+                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? 'yellow' : 'red';
+                return h('span', { style: `color: ${color}` }, RechagreStatusMap()[row.order_status]);
+            }
+        },
+        {
+            title: t('auditRecord_page_startTime'), key: 'pay_time', align: 'center',
+            render(row: any) {
+                return h('span', convertObjectToDateString(row.pay_time));
+            }
+        },
+    ];
+});
+
 const withdrawTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('withdrawRecord_page_wMethod'), key: 'way_id', align: 'center' },
-        { title: t('accountsRecord_page_hb'), key: 'currency', align: 'center' },
-        { title: t('withdrawRecord_page_wAmount'), key: 'pay_money', align: 'center' },
-        { title: t('auditRecord_page_state'), key: 'order_status', align: 'center' },
-        { title: t('auditRecord_page_startTime'), key: 'pay_time', align: 'center' },
-    ]
-})
+    return [
+        {
+            title: t('withdrawRecord_page_wMethod'), key: 'way_id', align: 'center',
+            render(row: any) {
+                return h('span', row.way_id == 2 ? 'USDT' : t('api_bankcard_0'));
+            }
+        },
+        {
+            title: t('accountsRecord_page_hb'), key: 'currency', align: 'center',
+            render(row: any) {
+                return h('span', row['way_id'] == 2 ? 'USDT' : t('accountsRecord_page_dong'));
+            }
+        },
+        {
+            title: t('withdrawRecord_page_wAmount'), key: 'pay_money', align: 'center',
+            render(row: any) {
+                return h('span', Number(row.pay_money).toLocaleString());
+            }
+        },
+        {
+            title: t('auditRecord_page_state'), key: 'order_status', align: 'center',
+            render(row: any) {
+                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? 'yellow' : 'red';
+                return h('div', { style: `color: ${color}` }, RechagreStatusMap()[row.order_status]);
+            }
+        },
+        {
+            title: t('auditRecord_page_startTime'), key: 'pay_time', align: 'center',
+            render(row: any) {
+                return h('span', convertObjectToDateString(row.pay_time));
+            }
+        },
+    ];
+});
+
 const betTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('betRecord_page_platform'), key: 'platform_id', align: 'center' },
-        { title: t('betRecord_page_game'), key: 'game_type', align: 'center' },
-        { title: t('betRecord_page_betAmount'), key: 'bet_total', align: 'center' },
-        { title: t('betRecord_page_winLose'), key: 'net_value', align: 'center' },
-        { title: t('betRecord_page_settlement'), key: 'balance_time', align: 'center' },
-    ]
-})
+    return [
+        {
+            title: t('betRecord_page_platform'), key: 'platform_id', align: 'center',
+            render(row: any) {
+                return h('span', row.game_type.split('_')[0]);
+            }
+        },
+        {
+            title: t('betRecord_page_game'), key: 'game_type', align: 'center',
+            render(row: any) {
+                let str = row.game_type.split('_');
+                let rs = '';
+                if (noNameList.includes(str[0]) && !str[1]) {
+                    rs = str[0];
+                } else {
+                    rs = row.platform_id + '_' + str[1];
+                    if (str[2]) {
+                        rs += '_' + str[2];
+                    }
+                    rs = t(rs);
+                }
+                return h('span', rs);
+            }
+        },
+        {
+            title: t('betRecord_page_betAmount'), key: 'bet_total', align: 'center',
+            render(row: any) {
+                return h('span', Math.abs(row.bet_total).toLocaleString());
+            }
+        },
+        {
+            title: t('betRecord_page_winLose'), key: 'net_value', align: 'center',
+            render(row: any) {
+                const color = Number(row.net_value) > 0 ? '#80FF44' : '#FF2424';
+                return h('span', { style: `color: ${color}` }, Number(row.net_value).toLocaleString());
+            }
+        },
+        {
+            title: t('betRecord_page_settlement'), key: 'balance_time', align: 'center',
+            render(row: any) {
+                return h('span', convertObjectToDateString(row.balance_time));
+            }
+        },
+    ];
+});
+
 const accountingChangeTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('accountsRecord_page_type'), key: 'b_type', align: 'center' },
-        { title: t('accountsRecord_page_hb'), key: 'currency', align: 'center' },
-        { title: t('accountsRecord_page_amount'), key: 'pay_money', align: 'center' },
-        { title: t('accountsRecord_page_content'), key: 'item', align: 'center' },
-        { title: t('accountsRecord_page_time'), key: 'create_time', align: 'center' },
-    ]
-})
+    return [
+        {
+            title: t('accountsRecord_page_type'), key: 'b_type', align: 'center',
+            render(row: any) {
+                let rs = '';
+                let val = row.b_type;
+                if (row['remark'] && t('bType' + row['remark']) && t('bType' + row['remark']) != ('bType' + row['remark'])) {
+                    rs = t('bType' + row['remark']);
+                } else {
+                    rs = t('bType' + (val > 100 ? 101 : val));
+                }
+                return h('span', rs);
+            }
+        },
+        {
+            title: t('accountsRecord_page_hb'), key: 'currency', align: 'center',
+            render(row: any) {
+                return h('span', row['way_id'] == 2 ? 'USDT' : t('accountsRecord_page_dong'));
+            }
+        },
+        {
+            title: t('accountsRecord_page_amount'), key: 'pay_money', align: 'center',
+            render(row: any) {
+                return h('span', (row.type == 2 ? '-' : '+') + Number(row.pay_money).toLocaleString());
+            }
+        },
+        {
+            title: t('accountsRecord_page_content'), key: 'item', align: 'center',
+            render(row: any) {
+                let rs = '';
+                let val = row.item;
+                if (val == 3) {
+                    rs = row['pay_money'] > 0 ? WalletTypeMap()['3_0'] : WalletTypeMap()['3_1'];
+                } else {
+                    rs = WalletTypeMap()[val];
+                }
+                return h('span', rs);
+            }
+        },
+        {
+            title: t('accountsRecord_page_time'), key: 'create_time', align: 'center',
+            render(row: any) {
+                return h('span', convertObjectToDateString(row.create_time));
+            }
+        },
+    ];
+});
+
 const auditTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('auditRecord_page_audit'), key: 'title', align: 'center' },
-        { title: t('auditRecord_page_auditMon'), key: 'amount', align: 'center' },
-        { title: t('auditRecord_page_auditProgress'), key: 'progess', align: 'center' },
-        { title: t('auditRecord_page_state'), key: 'type', align: 'center' },
-        { title: t('auditRecord_page_startTime'), key: 'create_time', align: 'center' },
-    ]
-})
+    return [
+        {
+            title: t('auditRecord_page_audit'), key: 'title', align: 'center',
+            render(row: any) {
+                return h('span', t(row.title));
+            }
+        },
+        {
+            title: t('auditRecord_page_auditMon'), key: 'amount', align: 'center',
+            render(row: any) {
+                return h('span', Number(row.amount).toLocaleString());
+            }
+        },
+        {
+            title: t('auditRecord_page_auditProgress'), key: 'progess', align: 'center',
+            render(row: any) {
+                return h('span', Number(row.amount).toLocaleString());
+            }
+        },
+        {
+            title: t('auditRecord_page_state'), key: 'type', align: 'center',
+            render(row: any) {
+                return h('span', AuditStatusMap()[row.type]);
+            }
+        },
+        {
+            title: t('auditRecord_page_startTime'), key: 'create_time', align: 'center',
+            render(row: any) {
+                return h('span', convertObjectToDateString(row.create_time));
+            }
+        },
+    ];
+});
+
 const waterRecordTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('washRecord_page_plat'), key: 'type' },
-        { title: t('rechargeRecord_page_currency'), key: 'currency' },
-        { title: t('washRecord_page_amount'), key: 'rebate' },
-        { title: t('washRecord_page_money'), key: 'bet_money' },
-        { title: t('washRecord_page_time'), key: 'create_time' },
-    ]
-})
+    return [
+        {
+            title: t('washRecord_page_plat'), key: 'type', align: 'center',
+            render(row: any) {
+                let rs = '';
+                let val = row.type;
+                rs = val == 9999 ? t('washRecord_page_currPlat') : PlatformValueMap[val];
+                return h('span', rs);
+            }
+        },
+        {
+            title: t('rechargeRecord_page_currency'), key: 'currency', align: 'center',
+            render(row: any) {
+                return h('span', row['way_id'] == 2 ? 'USDT' : t('accountsRecord_page_dong'));
+            }
+        },
+        {
+            title: t('washRecord_page_amount'), key: 'rebate', align: 'center',
+            render(row: any) {
+                return h('span', { style: 'color: #fac904' }, Number(row.rebate).toLocaleString());
+            }
+        },
+        {
+            title: t('washRecord_page_money'), key: 'bet_money', align: 'center',
+            render(row: any) {
+                return h('span', { style: 'color: #fac904' }, Number(row.bet_money).toLocaleString());
+            }
+        },
+        {
+            title: t('auditRecord_page_startTime'), key: 'create_time', align: 'center',
+            render(row: any) {
+                return h('span', convertObjectToDateString(row.create_time));
+            }
+        },
+    ];
+});
 const proxyRecordTableHeader = computed(() => {
-    return [ // 表头
-        { title: t('accountsRecord_page_type'), key: 'type' },
-        { title: t('accountsRecord_page_hb'), key: 'currency' },
-        { title: t('accountsRecord_page_amount'), key: 'pay_money' },
-        { title: t('accountsRecord_page_content'), key: 'item' },
-        { title: t('accountsRecord_page_time'), key: 'create_time' },
-    ]
-})
+    return [
+        {
+            title: t('accountsRecord_page_type'), key: 'type', align: 'center',
+            render: (row: any) =>
+                h('span', t(row.type === 1 ? 'bType4' : 'Transfer')) // 1-提现 2-转账
+        },
+        {
+            title: t('accountsRecord_page_hb'), key: 'currency', align: 'center',
+            render: (row: any) =>
+                h('span', row['way_id'] === 2 ? 'USDT' : t('accountsRecord_page_dong'))
+        },
+        {
+            title: t('accountsRecord_page_amount'), key: 'pay_money', align: 'center',
+            render: (row: any) =>
+                h('span', (row.type === 1 ? '+' : '-') + Number(row.pay_money).toLocaleString())
+        },
+        {
+            title: t('accountsRecord_page_content'), key: 'item', align: 'center',
+            render: (row: any) => {
+                let rs = '';
+                let val = row.item;
+                if (val === 3) {
+                    rs = row['pay_money'] > 0 ? WalletTypeMap()['3_0'] : WalletTypeMap()['3_1'];
+                } else {
+                    rs = WalletTypeMap()[val];
+                }
+                return h('span', rs);
+            }
+        },
+        {
+            title: t('accountsRecord_page_time'), key: 'create_time', align: 'center',
+            render: (row: any) =>
+                h('span', convertObjectToDateString(row.create_time))
+        },
+    ];
+});
 const loginRecordTableHeader = computed(() => {
     return [ // 表头
         { title: t('loginRecord_page_device'), key: 'title' },
@@ -234,8 +465,8 @@ const titleArr: any = reactive([
         id: 1,
         url: 'records',
         type: 'recharge',
-        netType: NetPacket.req_get_recharge_record_list,
         loading: false,
+        netType: NetPacket.req_get_recharge_record_list,
         formParams: {
             page: 1,
             status: 9,
@@ -329,6 +560,7 @@ const titleArr: any = reactive([
         url: 'betRecord',
         type: 'bet',
         loading: false,
+        netType: NetPacket.req_get_bet_record_list,
         formParams: {
             page: 1,
             platform_id: 0,
@@ -371,6 +603,7 @@ const titleArr: any = reactive([
         url: 'accountsRecord',
         type: 'accounting_change',
         loading: false,
+        netType: NetPacket.req_get_accounting_change_record_list,
         formParams: {
             page: 1,
             type: 0,
@@ -404,6 +637,7 @@ const titleArr: any = reactive([
         url: 'auditRecord',
         type: 'audit',
         loading: false,
+        netType: NetPacket.req_get_audit_record,
         formParams: {
             page: 1,
         },
@@ -429,6 +663,7 @@ const titleArr: any = reactive([
         url: 'waterRecord',
         type: 'vip_rebate',
         loading: false,
+        netType: NetPacket.req_get_vip_rebate,
         formParams: {
             page: 1,
             type: 0,
@@ -462,6 +697,7 @@ const titleArr: any = reactive([
         url: 'proxyRecord',
         type: 'agent_accounting_change',
         loading: false,
+        netType: NetPacket.req_get_agent_accounting_change,
         formParams: {
             page: 1,
             type: 0,
@@ -495,6 +731,7 @@ const titleArr: any = reactive([
         url: 'loginRecord',
         type: 'audit',
         loading: false,
+        netType: NetPacket.req_get_audit_record,
         formParams: {
             page: 1,
         },
@@ -531,24 +768,9 @@ const changeTab = (index: number) => {
     // router.push(item.url);
     // 
 }
-// const queryData = () => { // 查询
-//     console.log(state.formParams);
-
-// const query = titleArr[activeTab.value].netType()
-const queryData = (page?: any) => { // 查询
-    if (page) {
-        state.formParams.page = page
-    }
-    console.log('查询参数', state.formParams);
-    let type = ''
-    if (activeTab.value == 4 || activeTab.value == 7) {//稽核记录登录记录api
-        type = `req_get_${titleArr[activeTab.value].type}_record`
-    } else if (activeTab.value == 5 || activeTab.value == 6) {//洗码记录api、代理账变记录api
-        type = `req_get_${titleArr[activeTab.value].type}`
-    } else {
-        type = `req_get_${titleArr[activeTab.value].type}_record_list`
-    }
-    const query = (NetPacket as any)[type]()
+const queryData = () => { // 查询
+    console.log(state.formParams);
+    const query = titleArr[activeTab.value].netType()
     if (state.formParams.start_time) {
         Object.assign(query.start_time, state.formParams.start_time)
         Object.assign(query.end_time, state.formParams.end_time)
@@ -593,14 +815,17 @@ onMounted(() => {
         NetMsgType.msgType.msg_notify_get_recharge_record_list,
         resultHandle,
     );
-    // todo  行操作数据
-    // setTimeout(() => {
-    //     MessageEvent2.addMsgEvent(
-    //         NetMsgType.msgType.msg_notify_req_get_shop_info,
-    //         waysHandle,
-    //     );
-    //     getPays()
-    // }, 300)
+    const getPays = () => {
+        const query = NetPacket.req_get_shop_info()
+        Net.instance.sendRequest(query);
+    }
+    setTimeout(() => {
+        MessageEvent2.addMsgEvent(
+            NetMsgType.msgType.msg_notify_req_get_shop_info,
+            waysHandle,
+        );
+        getPays()
+    }, 300)
     // 提现
     MessageEvent2.addMsgEvent(
         NetMsgType.msgType.msg_notify_get_withdraw_record_list,
