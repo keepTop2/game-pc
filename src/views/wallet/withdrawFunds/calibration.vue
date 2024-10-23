@@ -692,7 +692,7 @@ watch(() => showModal.value, (n) => {
     // 绑定银行卡
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBank);
   } else {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   }
 })
 watch(() => props.myBankList, (n) => {
@@ -711,9 +711,9 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_modify_email, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bind_or_modify_withdraw_password, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bind_modify_email, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_bind_or_modify_withdraw_password, null);
 });
 
 defineExpose({
