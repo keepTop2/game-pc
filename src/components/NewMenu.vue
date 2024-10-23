@@ -5,7 +5,7 @@
       <!-- 主菜单 -->
       <div class="menu_wrap_list" @mouseenter="mouseenter" @mouseleave="mouseleave">
         <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item"
-          :class="venueActive == item.id && 'active_item'" @click="itemClick(item)">
+          :class="[venueActive == item.id && 'active_item', 'menu_wrap_item' + item.id]" @click="itemClick(item)">
           <Imgt :src="item.icon" />
           <span>{{ item.label }}</span>
           <div :class="venueActive == item.id && 'active_item_bg'"></div>
@@ -85,16 +85,19 @@
         <div class="sub_menu_0 sub_menu_scroll sub_menu_3">
           <template v-if="hoverStatus">
             <div class="sub_menu_3_item" v-for="index in 10" :key="index">
+
+              <!-- 操作 -->
               <div class="sub_menu_3_title">
                 <Imgt class="sub_menu_3_title_icon" :src="`/img/menu/sub_menu_icon.webp`" />
                 <div style="flex: 1;"></div>
                 <div class="sub_menu_3_btn">更多</div>
-                <div class="sub_menu_3_btn">&lt;</div>
+                <div class="sub_menu_3_btn" @click="prevPage">&lt;</div>
                 <div class="sub_menu_3_btn" @click="nextPage">&gt;</div>
               </div>
 
+              <!-- 游戏 -->
               <div class="sub_menu_3_list">
-                <TransitionGroup name="gamelist">
+                <TransitionGroup :name="aniName">
                   <div class="sub_menu_3_it" v-for="i in arr" :key="i">
                     <div class="sub_menu_3_it_img">
                       <Imgt style="width:100%;height:100%" :src="`/img/menu/sub_menu_icon.webp`" />
@@ -159,7 +162,7 @@ const itemClick = async (item: any) => {
   clickLoading.value = true
   setTimeout(() => {
     clickLoading.value = false
-  }, 1000)
+  }, 200)
 };
 const itemGameClick = async (item: any) => {
   await Page(pinia).setVenueActive(item.id);
@@ -172,7 +175,7 @@ const itemGameClick = async (item: any) => {
   clickLoading.value = true
   setTimeout(() => {
     clickLoading.value = false
-  }, 1000)
+  }, 200)
 };
 onMounted(async () => {
   if (Local.get("venueActive")) {
@@ -186,28 +189,42 @@ const hoverStatus = ref(false)
 const hovertimeout: any = ref(null)
 const clickLoading = ref(false) // 防止点击后被全局loading阻挡鼠标导致关闭
 const mouseleave = () => {
-  if (clickLoading.value) return
+  // if (clickLoading.value) return
   hovertimeout.value = setTimeout(() => {
     hoverStatus.value = false
   }, 300)
 }
 const mouseenter = () => {
-  if (clickLoading.value) return
+  // if (clickLoading.value) return
   if (hovertimeout.value) clearTimeout(hovertimeout.value)
   hoverStatus.value = true
 }
 
 // 游戏翻页
 const arr = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+const aniName = ref('gamelist')
 const nextPage = () => {
+  aniName.value = 'aniName'
   const cuts: any = []
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       const a: any = arr.value.shift()
       cuts.push(a)
     }, i * 50)
+
   }
-  setTimeout
+  setTimeout(() => {
+    arr.value.push(...cuts)
+  }, 500)
+}
+const prevPage = () => {
+  aniName.value = 'aniName2'
+  for (let i = 0; i < 5; i++) {
+    const a: any = arr.value.pop()
+    setTimeout(() => {
+      arr.value.unshift(a)
+    }, i * 50)
+  }
 }
 </script>
 
@@ -220,16 +237,36 @@ const nextPage = () => {
   transition: all 0.3s ease;
 }
 
-.gamelist-enter-from,
+.gamelist-enter-from {
+  opacity: 0;
+  transform: translateX(90px);
+}
+
 .gamelist-leave-to {
   opacity: 0;
-  transform: translateX(50px);
+  transform: translateX(-90px);
+}
+
+.gamelist2-move,
+.gamelist2-enter-active,
+.gamelist2-leave-active {
+  transition: all 0.3s ease;
+}
+
+.gamelist2-enter-from {
+  opacity: 0;
+  transform: translateX(-90px);
+}
+
+.gamelist2-leave-to {
+  opacity: 0;
+  transform: translateX(90px);
 }
 
 
 .menu_wrap_box {
   position: relative;
-  z-index: 99;
+  z-index: 1999;
   user-select: none;
 
   .menu_wrap_null {
@@ -274,11 +311,12 @@ const nextPage = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 1010px;
+    width: 1060px;
     height: 133px;
+    padding-right: 48px;
 
     :first-child {
-      margin: 0 28px;
+      margin: 0 14px;
     }
 
     .menu_wrap_item {
@@ -317,6 +355,15 @@ const nextPage = () => {
       }
     }
 
+    .menu_wrap_item-1 {
+      width: 100px;
+      margin-right: -4px;
+
+      img {
+        width: 100px;
+      }
+    }
+
     .active_item {
       z-index: 100;
 
@@ -332,7 +379,7 @@ const nextPage = () => {
       left: 0;
       top: 45px;
       z-index: 1;
-      width: 1010px;
+      width: 1030px;
       height: 68px;
       border-radius: 16px;
       background: url("/img/menu/ban.webp?t=@{timestamp}") no-repeat;
@@ -527,6 +574,7 @@ const nextPage = () => {
     .sub_menu_3 {
       width: 714px;
       padding: 0 20px 20px 20px;
+      overflow-x: hidden;
 
       .sub_menu_3_item {
         .sub_menu_3_title {
