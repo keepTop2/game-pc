@@ -270,7 +270,7 @@ watch(() => showBankListModal.value, (n) => {
     // 绑定银行卡
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_add_usdt_info, handleAddBankRef);
   } else {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_add_usdt_info, null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_add_usdt_info, null);
   }
 })
 watch(() => props.myBankList, (n) => {
@@ -288,7 +288,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_usdt, null)
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_set_default_usdt, null)
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, null);
 })
 

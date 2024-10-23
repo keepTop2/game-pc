@@ -15,7 +15,7 @@
           :class="venueActive == item.id && 'active_item'" @click="itemGameClick(item)">
           <!-- <Imgt :src="item.icon" /> -->
           <Imgt :src="`/img/menu/${item.id}.webp`" />
-          <span>{{ unserialize(item.name, false) }}</span>
+          <span>{{ item.name[langObj[lang]] }}</span>
           <div :class="venueActive == item.id && 'active_item_bg'"></div>
         </div>
         <div class="menu_wrap_list_ban">
@@ -170,6 +170,11 @@ const getImg = (name: any) => {
   return settings.value.imgPrefix + name
 }
 // 解析游戏名和平台名
+const langObj: any = {
+  en: 'en-US',
+  zh: 'zh-CN',
+  vn: 'vi-VN'
+}
 const unserialize = (v: any, isPlatform: boolean) => {
   if (!v) return ''
   let obj: any = {

@@ -5,7 +5,7 @@
                 <template v-for="(item, _i) in props.formParamsList" :key="_i">
                     <n-form-item-gi :span="item.span" :label="t(item.label)" :path="item.path">
                         <n-select v-if="item.type == 'select'" v-model:value="props.formParams[item.path]"
-                          :placeholder="item.placeholder" :options="item.options" />
+                          :placeholder="t(item.placeholder)" :options="item.options" />
                         <DateSelect v-if="item.type == 'daterange'" :fasters="item.fasters" @submit="changeDate" />
                     </n-form-item-gi>
                 </template>
@@ -128,7 +128,7 @@ const seach = (v: any) => {
         margin-bottom: 16px;
 
         >button {
-            width: 100px;
+            min-width: 100px;
             height: 40px;
 
         }

@@ -632,10 +632,10 @@ onMounted(() => {
 
 })
 onUnmounted(() => {
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_open_or_close_withdraw_password, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_can_withdraw, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_apply_withdraw, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_open_or_close_withdraw_password, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, null);
 })
 
 // defineExpose({

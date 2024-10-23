@@ -35,28 +35,28 @@ const { lang, homeGameData } = storeToRefs(Page(pinia));
 
 const kindList = [
     {
-        name: '全部',
+        name: 'game_page_all',
         icon: 'all',
         activeIcon: 'allun',
         id: -1,
         key: 0
     },
     {
-        name: '热门',
+        name: 'game_page_hot',
         icon: 'hot',
         activeIcon: 'hotun',
         id: 1, // 获取热门需将 is_lable 设置为1  其他为0,
         key: 1
     },
     {
-        name: '最近',
+        name: 'game_page_recent',
         icon: 'zuijin',
         activeIcon: 'zuijinun',
         id: -3,
         key: 2
     },
     {
-        name: '收藏',
+        name: 'game_page_fav',
         icon: 'shoucang',
         activeIcon: 'shoucangun',
         id: -2,

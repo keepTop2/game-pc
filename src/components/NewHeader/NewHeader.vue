@@ -66,7 +66,7 @@
               <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
                 @click="menuClick(item, i)">
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
-                <span>{{ item.name }}</span>
+                <span>{{ t(item.name) }}</span>
               </p>
             </div>
           </n-popover>
@@ -164,48 +164,48 @@ const state: any = reactive({
 const menu = [
   {
     icon: "txxlicon01",
-    name: "钱包",
+    name: "page_route_wallet",
     url: "/wallet/walletInfo",
   },
   {
     icon: "txxlicon02",
-    name: "充值",
+    name: "page_route_recharge",
     url: "/wallet/records",
   },
   {
     icon: "txxlicon03",
-    name: "提款",
+    name: "page_route_withdraw",
     url: "/wallet/withdraw",
   },
   {
     icon: "txxlicon04",
-    name: "VIP",
+    name: "page_route_VIP",
     url: "/wallet/levelInfo",
   },
   {
     icon: "txxlicon05",
-    name: "代理",
+    name: "page_route_proxy",
     url: "/wallet/proxyCooperation",
   },
   {
     icon: "txxlicon06",
-    name: "支付",
+    name: "page_route_payment",
     url: "/wallet/paymentManagement",
   },
 
   {
     icon: "txxlicon07",
-    name: "活动",
+    name: "page_route_activity",
     url: "/wallet/activity",
   },
   {
     icon: "txxlicon08",
-    name: "优惠",
+    name: "page_route_discount",
     url: "/wallet/myPromo",
   },
   {
     icon: "txxlicon15",
-    name: "记录",
+    name: "page_route_record",
     url: "/wallet/records",
   },
   // {
@@ -215,28 +215,33 @@ const menu = [
   // },
   {
     icon: 'txxlicon10',
-    name: '兑换码',
+    name: 'page_route_redemptionCode',
     url: 'redeemCode',
   },
   {
     icon: "txxlicon11",
-    name: "邮件",
+    name: "page_route_mail",
     url: "/wallet/myEmail",
   },
   {
     icon: "txxlicon12",
-    name: "安全",
+    name: "page_route_security",
     url: "/wallet/securitySettings",
   },
   {
-    icon: "txxlicon13",
-    name: "客服",
+    icon: 'txxlicon13',
+    name: 'page_route_feedback',
     url: settings.value.serviceTelegram,
-    value: 666,
   },
+  // {
+  //   icon: "txxlicon13",
+  //   name: "客服",
+  //   url: settings.value.serviceTelegram,
+  //   value: 666,
+  // },
   {
     icon: "txxlicon14",
-    name: "退出登录",
+    name: "home_page_logout",
     url: "444",
     value: 444,
   },
