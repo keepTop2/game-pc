@@ -356,13 +356,15 @@ const iconClick = (a: any) => {
 const changeTab = (tabId: number) => {
   state.active = tabId;
   if (state.active == 1) {
-
-    state.loginList.account.show = false
-    state.loginList.email.show = true
+    if(state.loginList){
+      state.loginList.account.show = false
+      state.loginList.email.show = true
+    }
   } else {
-    state.loginList.account.show = true
-    state.loginList.email.show = false
-
+    if(state.loginList){
+      state.loginList.account.show = true
+      state.loginList.email.show = false
+    }
   }
 
 };

@@ -5,9 +5,11 @@ export default {
   page_route_VIP: 'VIP',
   page_route_proxy: '代理',
   page_route_payment: '支付',
-  page_route_myWallet: '活动',
+  page_route_activity: '活动',
   page_route_discount: '优惠',
   page_route_record: '记录',
   page_route_redemptionCode: '兑换码',
   page_route_mail: '邮件',
+  page_route_security: '安全',
+  page_route_feedback: '反馈',
 }
