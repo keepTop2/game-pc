@@ -12,16 +12,11 @@
       </div>
       <div class="planListBox">
         <div class="planList">
-          <div class="planListItem" v-for="(item, index) in planList.data" :style="{background: `url(${item.img}) no-repeat`}" :key="index">
+          <div class="planListItem" v-for="(item, index) in planList.data"  @click="gameStart(item)" :style="{background: `url(${item.img}) no-repeat`}" :key="index">
             <span>{{item.name}}</span>
           </div>
-
-          <!--        <div class="bottom">-->
-          <!--          点击加载更多-->
-          <!--        </div>-->
-
         </div>
-        <n-button tertiary class="planButton">
+        <n-button @click="pushPlanListData" tertiary class="planButton">
           点击加载更多
         </n-button>
       </div>
@@ -33,9 +28,10 @@
 
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+// import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
 import { reactive } from 'vue';
+// import { useRoute, useRouter } from 'vue-router';
 // import Imgt from '@/components/Imgt.vue';
 
 const planList = reactive({
@@ -58,6 +54,21 @@ const planList = reactive({
 
   ]
 })
+
+const pushPlanListData = () => {
+  let data = [{name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},]
+  planList.data.push(...data)
+}
+
+
+const gameStart = (item: any) => {
+
+}
 
 
 </script>
@@ -96,6 +107,8 @@ const planList = reactive({
       }
     }
     >.planListBox {
+      height: 500px;
+      overflow-y: auto;
       padding: 20px 40px 0;
       >.planList {
         display: flex;
@@ -105,6 +118,7 @@ const planList = reactive({
         align-items: center;
 
         >.planListItem {
+          position: relative;
           display: flex;
           align-items: end;
           justify-content: center;
@@ -122,7 +136,20 @@ const planList = reactive({
             text-overflow: ellipsis; /* 显示省略号 */
           }
         }
-
+        >.planListItem:hover {
+          cursor: pointer;
+          &::after{
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-image: url("/img/wallet/gamePlan.webp");
+            background-repeat: no-repeat;
+            background-size: 70px;
+            background-position: center;
+            background-color: rgba(47, 19, 148, 0.7) !important;
+          }
+        }
       }
       >.planButton {
         width: 100%;
