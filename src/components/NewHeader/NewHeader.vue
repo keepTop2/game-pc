@@ -28,9 +28,13 @@
         <!-- <Imgt src="/img/header/search.webp" @click="search" v-if="!isSearch" /> -->
       </div>
       <!--       
-      邮件 -->
+      邮件收藏 -->
       <div class="email_wrap" v-if="hasLogin">
-        <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
+        <div class="email_main">
+          <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
+          <div class="email_dot"></div>
+        </div>
+
         <Imgt src="/img/header/collect.webp" @click="router.push('/gameCollection')" />
       </div>
 
@@ -189,6 +193,7 @@ const {
   roleInfo,
   kefuVisible,
   agentInfo,
+  myEmail,
 } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
@@ -946,6 +951,36 @@ onUnmounted(() => {
 
   > span {
     margin-left: 12px;
+  }
+}
+.email_main {
+  position: relative;
+  .email_dot {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: red;
+    animation: dot-info-animal 1.6s infinite ease-in-out;
+  }
+
+  @keyframes dot-info-animal {
+    0% {
+      opacity: 0.3;
+      transform: scale(0.9);
+    }
+
+    50% {
+      opacity: 0.7;
+      transform: scale(1.12);
+    }
+
+    100% {
+      opacity: 0.3;
+      transform: scale(0.9);
+    }
   }
 }
 </style>
