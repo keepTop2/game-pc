@@ -1,3 +1,15 @@
 export default {
-
+  page_route_wallet: 'Wallet',
+  page_route_recharge: 'Recharge',
+  page_route_withdraw: 'Withdraw',
+  page_route_VIP: 'VIP',
+  page_route_proxy: 'Proxy',
+  page_route_payment: 'Payment',
+  page_route_activity: 'Activity',
+  page_route_discount: 'Discount',
+  page_route_record: 'Record',
+  page_route_redemptionCode: 'Redemption Code',
+  page_route_mail: 'Mail',
+  page_route_security: 'Security',
+  page_route_feedback: 'Feedback',
 }
