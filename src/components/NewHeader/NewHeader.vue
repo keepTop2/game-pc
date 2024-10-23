@@ -7,7 +7,9 @@
       </div>
       <div class="welcome">
         <Imgt src="/img/header/tips.webp" @click="router.push('/')" />
-        <div class="title">欢迎来到PK GAME</div>
+        <div class="title">
+          <notice :textAnnouncement="textAnnouncement"></notice>
+        </div>
       </div>
 
       <div class="search" v-click-outside="onClickOutside">
@@ -160,6 +162,7 @@ import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
 import useClickOutSideHooks from "@/utils/vClickOutside";
+import notice from "./notice.vue";
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
@@ -174,7 +177,7 @@ const onClickOutside = () => {
 
 const { t } = useI18n();
 const page = Page(pinia);
-const { menuActive, settings, lang } = storeToRefs(page);
+const { menuActive, settings, lang, textAnnouncement } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
@@ -613,7 +616,7 @@ onUnmounted(() => {
         color: #9497a1;
         font-size: 20px;
         font-weight: 500;
-        margin-left: 50px;
+        margin-left: 20px;
         white-space: nowrap;
       }
     }
