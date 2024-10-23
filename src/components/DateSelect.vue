@@ -159,6 +159,8 @@ onMounted(() => {
 @timestamp: `new Date().getTime()`;
 
 .date_select {
+    flex-flow: unset !important;
+
     .active_item {
         height: 40px;
         background: url('/img/home/btnBG.webp?t=@{timestamp}') no-repeat;
@@ -168,7 +170,7 @@ onMounted(() => {
     }
 
     .date_select_box {
-        width: 246px;
+        width: 280px !important;
         height: 40px !important;
 
         :deep(.n-input) {
@@ -180,10 +182,12 @@ onMounted(() => {
             border-radius: 8px !important;
 
             .n-input__input-el {
-                min-height: 40px !important;
+                height: 40px !important;
+                line-height: 40px !important;
                 color: #AEAEB0;
             }
-            .n-input__border{
+
+            .n-input__border {
                 border: none;
             }
         }
