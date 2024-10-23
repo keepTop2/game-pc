@@ -755,7 +755,7 @@ const titleArr: any = reactive([
     },
 
 ])
-watch(locale, (newLocale: any) => {
+watch(locale, () => {
     // 触发表格重新渲染
     state.columns = [];
     setTimeout(() => {
