@@ -10,7 +10,7 @@
         <div class="title">欢迎来到PK GAME</div>
       </div>
 
-      <div class="search">
+      <div class="search" v-click-outside="onClickOutside">
         <n-input size="large" placeholder="搜索" :class="{ input_ac: isSearch }">
           <template #prefix>
             <iconpark-icon
@@ -159,10 +159,18 @@ import { Net, getLocale } from "@/net/Net";
 import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
+import useClickOutSideHooks from "@/utils/vClickOutside";
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
 const RegPop = defineAsyncComponent(() => import("@/components/RegPop.vue"));
+
+const { vClickOutside } = useClickOutSideHooks();
+
+const onClickOutside = () => {
+  console.log("点击了外部 DOM");
+  isSearch.value = false;
+};
 
 const { t } = useI18n();
 const page = Page(pinia);
