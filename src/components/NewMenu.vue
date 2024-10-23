@@ -71,9 +71,9 @@
             </div>
             <!-- 平台 -->
             <div class="sub_menu_scroll sub_menu_2_child">
-              <div class="sub_menu_2_item" v-for="(v, i) in platformData" :key="i">
+              <div class="sub_menu_2_item" v-for="(v, i) in platformData" :key="i" @click="clickPlat(v)">
                 <div class="sub_menu_2_box">
-                  <Imgt class="sub_menu_2_img" :src="`/img/menu/sub_menu_icon.webp`" />
+                  <Imgt class="sub_menu_2_img" :src="getImg(v.picture_pc)" />
                 </div>
                 <div class="sub_menu_2_name">{{ unserialize(v.name, false) }}</div>
               </div>
@@ -81,9 +81,39 @@
           </template>
         </div>
 
-        <!-- 游戏列表 -->
-        <div class="sub_menu_0 sub_menu_scroll sub_menu_3">
+        <!-- 所有游戏列表 -->
+        <div class="sub_menu_0 sub_menu_3">
+          <!-- 所有游戏 -->
           <template v-if="hoverStatus">
+            <div class="sub_menu_3_item" style="display: flex;flex-direction: column;height: 100%;">
+              <!-- 操作 -->
+              <div class="sub_menu_3_title">
+                <Imgt class="sub_menu_3_title_icon" :src="getImg(currPlat.picture_pc)" />
+                <div style="flex: 1;"></div>
+                <div class="sub_menu_3_btn">更多</div>
+                <div class="sub_menu_3_btn">&lt;</div>
+                <div class="sub_menu_3_btn">&gt;</div>
+              </div>
+
+              <!-- 列表 -->
+              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2">
+                <div class="sub_menu_3_it" v-for="(item, i) in games" :key="i">
+                  <div class="sub_menu_3_it_img">
+                    <Imgt style="width:100%;height:100%" :src="getImg(item.gamePicturePC)" />
+                  </div>
+                  <div class="sub_menu_3_it_name">{{ unserialize(item.name, true) }}</div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+
+
+        <!-- 一排一组游戏列表 -->
+        <div class="sub_menu_0 sub_menu_scroll sub_menu_3" v-if="hoverStatus && false">
+
+          <!-- 一排一组 -->
+          <template v-if="hoverStatus && false">
             <div class="sub_menu_3_item" v-for="index in 10" :key="index">
 
               <!-- 操作 -->
@@ -113,22 +143,35 @@
     </div>
   </div>
 
+  <Loading v-model:visible="isLoading"></Loading>
 </template>
 <script setup lang="ts" name="Header">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetPacket } from '@/netBase/NetPacket';
+import { NetMsgType } from '@/netBase/NetMsgType';
 import pinia from "@/store/index";
 import { Page } from "@/store/page";
 import { Local } from "@/utils/storage";
-const { homeGameData } = storeToRefs(Page(pinia));
+import { Net } from '@/net/Net';
+import Loading from '@/components/Loading.vue'
 
+const { homeGameData } = storeToRefs(Page(pinia));
+const isLoading = ref(false)
 
 const router = useRouter();
-const { venueActive, lang } = storeToRefs(Page(pinia));
+const { venueActive, lang, settings } = storeToRefs(Page(pinia));
+
+// 解析图片地址
+const getImg = (name: any) => {
+  if (!name) return ''
+  return settings.value.imgPrefix + name
+}
 // 解析游戏名和平台名
 const unserialize = (v: any, isPlatform: boolean) => {
-
+  if (!v) return ''
   let obj: any = {
     en: 'en-US',
     zh: 'zh-CN',
@@ -171,7 +214,6 @@ const itemClick = async (item: any) => {
 const platformData = ref()
 const itemGameClick = async (item: any) => {
   platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(item.id)))).three_platform
-  console.log(platformData.value);
 
   await Page(pinia).setVenueActive(item.id);
   router.push({
@@ -186,13 +228,38 @@ const itemGameClick = async (item: any) => {
   }, 200)
 };
 
+
+// 点击平台
+const currPlat: any = ref({})
+const clickPlat = (item: any) => {
+  currPlat.value = item
+  games.value = []
+  // isLoading.value = true
+  const query = NetPacket.req_get_games_in_platform()
+  query.agentId = item.id
+  query.is_lable = 0
+  query.kindId = 1
+  query.page = 1
+  query.pageSize = 9999
+  Net.instance.sendRequest(query);
+}
+// 游戏列表
+const games: any = ref([])
+const handleGames = (res: any) => {
+  isLoading.value = false
+  games.value = res.info || []
+}
+
 onMounted(async () => {
   if (Local.get("venueActive")) {
     await Page(pinia).setVenueActive(Local.get("venueActive"));
     platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(Local.get("venueActive"))))).three_platform
   }
-
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
 });
+onUnmounted(() => {
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
+})
 
 
 // 展开状态
@@ -583,7 +650,7 @@ const prevPage = () => {
     }
 
     .sub_menu_3 {
-      width: 714px;
+      width: 720px;
       padding: 0 20px 20px 20px;
       overflow-x: hidden;
 
@@ -625,9 +692,6 @@ const prevPage = () => {
           .sub_menu_3_it {
             margin-right: 26px;
             cursor: pointer;
-
-
-
             width: 90px;
 
             .sub_menu_3_it_img {
@@ -641,6 +705,18 @@ const prevPage = () => {
               text-align: center;
               font-size: 15px;
               margin: 13px 0;
+            }
+          }
+        }
+
+        .sub_menu_3_list2 {
+          flex-wrap: wrap;
+          flex: 1;
+          overflow-y: auto;
+
+          .sub_menu_3_it {
+            &:nth-child(6n) {
+              margin-right: 0;
             }
           }
         }
