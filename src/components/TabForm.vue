@@ -125,7 +125,7 @@ const seach = (v: any) => {
     >.seach_btn {
         display: flex;
         align-items: flex-end;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
 
         >button {
             width: 100px;

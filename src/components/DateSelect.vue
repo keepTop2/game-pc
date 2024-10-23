@@ -242,7 +242,7 @@ onMounted(() => {
     }
 
     .date_item {
-        width: 160px;
+        width: 100px;
         height: 36px;
         margin: 0;
         background: #14173A;
