@@ -66,8 +66,8 @@ const pushPlanListData = () => {
 }
 
 
-const gameStart = (item: any) => {
-
+const gameStart = () => {
+  window.open('https://www.baidu.com/')
 }
 
 
