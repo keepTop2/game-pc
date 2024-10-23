@@ -58,7 +58,7 @@
                     <div class="btn_zone flex w_full">
                         <n-flex align="center" justify="center" v-if="cancel" class="button cancel_btn weight_5 pointer" block
                             @click="emits('onCancel')">{{ cancel }}</n-flex>
-                        <n-flex align="center" justify="center" :class="!!cancel && 'fixed_bg'" class="button_color button submit_btn weight_5 pointer"
+                        <n-flex align="center" justify="center" :class="!!cancel && 'fixed_bg'" class="button_color button n-buttom submit_btn weight_5 pointer"
                             block @click="emits('onSubmit')">
                             {{ submitText }}
                         </n-flex>

@@ -3,7 +3,7 @@
         <Sidebar />
         <n-flex vertical class="main">
             <!-- 导航 -->
-            <navTab v-if="!['/wallet/walletInfo', '/wallet/levelInfo', '/wallet/activity'].includes(route.path)"
+            <navTab v-if="!['/wallet/walletInfo', '/wallet/levelInfo', '/wallet/activity', '/wallet/records'].includes(route.path)"
                 :title="t(`${route.meta.title}`)" />
             <!--            <div class="head">
                 <Imgt src="/img/home/back.webp" alt="" @click="router.go(-1)" />

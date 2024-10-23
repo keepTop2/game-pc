@@ -6,29 +6,22 @@
                 <template v-for="(item, _i) in props.formParamsList" :key="_i">
                     <n-form-item-gi :span="item.span" :label="t(item.label)" :path="item.path">
                         <n-select v-if="item.type == 'select'" v-model:value="props.formParams[item.path]"
-                            :placeholder="item.placeholder" :options="item.options" />
-                        <n-date-picker v-if="item.type == 'daterange'" :is-date-disabled="disabledDate"
-                            v-model:value="state.date" type="daterange" format="yyyy/MM/dd" :show-suffix="false"
-                            :on-confirm="chooseTime" />
-
+                          :placeholder="item.placeholder" :options="item.options" />
+                        <DateSelect v-if="item.type == 'daterange'" :fasters="item.fasters" @submit="changeDate" />
                     </n-form-item-gi>
-
                 </template>
-
-
             </n-grid>
         </n-form>
-
         <div class="seach_btn">
-            <n-button round type="primary" @click="seach">
-                搜索
+            <n-button round type="primary" @click="seach(1)">
+                {{ t('proxy_page_search') }}
             </n-button>
         </div>
 
     </div>
     <div class="table">
         <n-data-table striped :bordered="false" :single-line="false" :columns="props.columns" :data="props.data"
-            :pagination="state.pageData">
+          :pagination="state.pageData">
             <template #empty>
                 <div class="nodata">
                     <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
@@ -43,7 +36,7 @@
 import { ref, reactive } from "vue";
 import { useI18n } from 'vue-i18n';
 import { NButton } from "naive-ui";
-import { convertDateToObject } from "@/utils/dateTime";
+import DateSelect from "@/components/DateSelect.vue"
 const { t } = useI18n();
 const emit = defineEmits(['pageChange', 'sendSeach', 'nextChange']);
 const props = defineProps({
@@ -81,17 +74,22 @@ const state: any = reactive({
 
 
     },
+    loading: false,
 
 
 
 })
-const chooseTime = (date: any) => { // 手动选择时间
-    props.formParams.start_time = convertDateToObject(date[0])
-    props.formParams.end_time = convertDateToObject(date[1])
+const changeDate = (date: any) => { // 切换时间
+    Object.assign(props.formParams, date)
+    props.formParams.page = 1
+    state.loading = true
+    setTimeout(() => {
+        seach(1)
+    }, 500)
 }
-const seach = () => {
+const seach = (v: any) => {
 
-    emit('sendSeach');
+    emit('sendSeach', v);
 }
 
 const disabledDate = (d: any) => {
@@ -143,10 +141,16 @@ const disabledDate = (d: any) => {
     justify-content: space-between;
 
 
-    >.seach_btn>button {
-        width: 100px;
-        height: 40px;
+    >.seach_btn {
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 12px;
 
+        >button {
+            width: 100px;
+            height: 40px;
+
+        }
     }
 }
 </style>
