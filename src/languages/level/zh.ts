@@ -1,5 +1,12 @@
 export default {
   level_page_member: 'VIP等级',
+  level_page_vipPrivileges: 'VIP特权',
+  level_page_details: 'VIP详情',
+  level_page_sever: '加入PKBET 臻享特权服务',
+  level_page_next_level: '距离下一等级：',
+
+
+
   level_page_rule: '会员等级规则',
   level_page_needBet: '还需要下注',
   level_page_rebate: '洗码奖励:',

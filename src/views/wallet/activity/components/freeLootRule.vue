@@ -27,9 +27,6 @@
   padding-top: 20px;
   .intro {
     margin-bottom: 20px;
-    p {
-
-    }
     p:nth-of-type(1) {
       text-align: center;
       font-size: 16px;
