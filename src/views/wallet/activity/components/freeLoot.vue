@@ -13,7 +13,7 @@
       <div class="planListBox">
         <div class="planList">
           <div class="planListItem" v-for="(item, index) in planList.data"  @click="gameStart(item)" :style="{background: `url(/img/home/colect_4.png) no-repeat`}" :key="index">
-            <span>{{t(item.gameId || '')}}</span>
+            <span>{{t(item.gameId || 49)}}</span>
           </div>
         </div>
         <n-button @click="pushPlanListData" tertiary class="planButton">
