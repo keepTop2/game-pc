@@ -30,18 +30,15 @@
 <script setup lang="ts">
 // import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
-import { onMounted, onUnmounted, reactive } from 'vue';
-import { NetPacket } from '@/netBase/NetPacket.ts';
-import { Net } from '@/net/Net.ts';
-import { MessageEvent2 } from '@/net/MessageEvent2.ts';
-import { NetMsgType } from '@/netBase/NetMsgType.ts';
+import { onMounted, reactive } from 'vue';
+
 import { useI18n } from 'vue-i18n';
 // import { useRoute, useRouter } from 'vue-router';
 // import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n();
 const props = defineProps<{freeTreasureInfo: any}>()
 
-const planList = reactive({
+const planList: any = reactive({
   page:1,
   pageSize: 15,
   roundid: 0,
@@ -69,7 +66,6 @@ const gameStart = (item: any) => {
 
 
 onMounted(() => {
-  console.log(props.freeTreasureInfo.score, '---props---');
   if (props.freeTreasureInfo) {
     planList.data = [...props.freeTreasureInfo.gameIds]
     // Object.assign(planList.data, props.freeTreasureInfo.gameIds)
