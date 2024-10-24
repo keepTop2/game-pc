@@ -113,8 +113,8 @@ const gameStart = () => {
       >.planList {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 16px;
+        //justify-content: space-between;
+        gap: 21px;
         align-items: center;
 
         >.planListItem {
