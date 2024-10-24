@@ -121,6 +121,7 @@ const getMyBankList = () => {
   Net.instance.sendRequest(req);
 }
 const handleMyBankList = (res: any) => {
+  console.log('bank列表----')
   setTimeout(() => {
     loading.value = false
   }, 300)
@@ -224,7 +225,7 @@ const getMyUsdtList = () => {
   Net.instance.sendRequest(req);
 }
 const handleMyUsdtList = (res: any) => {
-  console.log('usdt------', res)
+  console.log('usdt地址列表------', res)
   setTimeout(() => {
     loading.value = false
   }, 300)
@@ -311,18 +312,15 @@ const handleDefaultUsdt = (res: any) => {
 // usdt ----- 结束
 
 onMounted(() => {
-  setTimeout(() => {
-    getMyBankList();
-    getMyUsdtList();
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, handleMyBankList);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, handleDelBankList);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, handleDefaultBank);
-    // usdt
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, handleMyUsdtList);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, handleDelUsdtList);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_usdt, handleDefaultUsdt);
-
-  }, 500)
+  getMyBankList();
+  getMyUsdtList();
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_bank_card_info_list, handleMyBankList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, handleDelBankList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, handleDefaultBank);
+  // usdt
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_usdt_info_list, handleMyUsdtList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_del_usdt_info, handleDelUsdtList);
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_usdt, handleDefaultUsdt);
 });
 onUnmounted(() => {
   // 取消监听

@@ -3,17 +3,21 @@
     <div class="record_page coop_table">
         <!-- Tabs -->
         <div class="tabs">
-            <span class="tabs_item" :class="{ 'active_tab': activeTab == index }" @click="changeTab(index)"
-                v-for="(item, index) in titleArr" :key="index">{{ t(item.title) }}</span>
+            <scroll-view direction="horizontal">
+                <span class="tabs_item" :class="{ 'active_tab': activeTab == index }" @click="changeTab(index)"
+                  v-for="(item, index) in titleArr" :key="index">{{ t(item.title) }}</span>
+            </scroll-view>
         </div>
         <TabForm :formParams="state.formParams" :form-params-list="state.formParamsList" :loading="state.loading"
-            :columns="state.columns" :data="state.data" @send-seach="queryData"></TabForm>
+          :columns="state.columns" :data="state.data" :pageData="state.pageData" @send-seach="(v: any) => sendSearch(v)"
+          @page-Change="(p: any) => queryData(p)">
+        </TabForm>
         <!-- <router-view></router-view> -->
     </div>
 </template>
 
 <script setup lang='ts'>
-import { ref, reactive, computed, onUnmounted, onMounted, h } from 'vue';
+import { ref, reactive, computed, onUnmounted, watch, onMounted, h } from 'vue';
 import { useI18n } from "vue-i18n";
 import TabForm from '@/components/TabForm.vue'
 import { RechagreStatusMap, WithdrawStatusMap, CurrencyMap } from '@/enums/walletEnum';
@@ -23,7 +27,8 @@ import { NetMsgType } from '@/netBase/NetMsgType';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { convertObjectToDateString } from '@/utils/dateTime';
 import { WashTypeMap, ProxyAccountTypeMap, PlatformValueMap, WalletTypeMap, AuditStatusMap } from "@/enums/walletEnum"
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 // 充值 提现
 const wayMap: any = ref({})
 const waysHandle = (rs: any) => {
@@ -50,7 +55,6 @@ const rechargeOptionsStatus = computed(() => { // 状态
         }
     })
     options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
-    console.log(1211111111111, options)
     return options
 })
 const optionsCurrency = computed(() => { // 法币
@@ -94,7 +98,6 @@ const optionsGame = computed(() => { // 游戏
         item.label = t(item.key)
         return item
     })))
-    console.error('游戏', options)
     options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
@@ -177,7 +180,7 @@ const recharTableHeader = computed(() => {
         {
             title: t('auditRecord_page_state'), key: 'order_status', align: 'center',
             render(row: any) {
-                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? 'yellow' : 'red';
+                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? '#FABB2D' : 'red';
                 return h('span', { style: `color: ${color}` }, RechagreStatusMap()[row.order_status]);
             }
         },
@@ -213,7 +216,7 @@ const withdrawTableHeader = computed(() => {
         {
             title: t('auditRecord_page_state'), key: 'order_status', align: 'center',
             render(row: any) {
-                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? 'yellow' : 'red';
+                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? '#FABB2D' : 'red';
                 return h('div', { style: `color: ${color}` }, RechagreStatusMap()[row.order_status]);
             }
         },
@@ -439,15 +442,15 @@ const loginRecordTableHeader = computed(() => {
         { title: t('loginRecord_page_way'), key: 'type' },
     ]
 })
-const { t } = useI18n()
+const { t, locale } = useI18n()
 interface FormParams {
     [key: string]: any; // 允许任意属性
 }
 const state = reactive({
     loading: false,
     pageData: {
-        itemCount: 1,
-        defaultPageSize: 20
+        pageCount: 0,
+        pageSize: 20
     },
     formParams: <FormParams>{
         page: 1,
@@ -475,27 +478,27 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 5,
+                span: 8,
                 type: 'select',
                 label: 'auditRecord_page_state',
                 path: 'status',
-                placeholder: '请选择状态',
+                placeholder: 'addBank_page_pChoose',
                 options: rechargeOptionsStatus
             },
             {
-                span: 5,
+                span: 8,
                 type: 'select',
                 label: 'rechargeRecord_page_currency',
                 path: 'currency',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
                 options: optionsCurrency
             },
             {
-                span: 12,
+                span: 16,
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -517,11 +520,11 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 8,
+                span: 7,
                 type: 'select',
                 label: 'auditRecord_page_state',
                 path: 'status',
-                placeholder: '请选择状态',
+                placeholder: 'addBank_page_pChoose',
                 options: withdrawOptionsStatus
             },
             {
@@ -529,7 +532,7 @@ const titleArr: any = reactive([
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -555,7 +558,7 @@ const titleArr: any = reactive([
         data: [],
     },
     {
-        title: t('mine_mybet'),
+        title: 'mine_mybet',
         id: 3,
         url: 'betRecord',
         type: 'bet',
@@ -569,27 +572,27 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 5,
+                span: 8,
                 type: 'select',
                 label: 'betRecord_page_platform',
                 path: 'platform_id',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
                 options: optionsPlat
             },
             {
-                span: 5,
+                span: 8,
                 type: 'select',
                 label: 'betRecord_page_game',
                 path: 'game_type',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
                 options: optionsGame
             },
             {
-                span: 12,
+                span: 16,
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -598,7 +601,7 @@ const titleArr: any = reactive([
         data: [],
     },
     {
-        title: t('mine_myaudit'),
+        title: 'mine_myaudit',
         id: 4,
         url: 'accountsRecord',
         type: 'accounting_change',
@@ -611,11 +614,11 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 8,
+                span: 10,
                 type: 'select',
                 label: 'accountsRecord_page_type',
                 path: 'type',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
                 options: optionsStatus
             },
             {
@@ -623,7 +626,7 @@ const titleArr: any = reactive([
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -632,7 +635,7 @@ const titleArr: any = reactive([
         data: [],
     },
     {
-        title: t('recharge_inspect_record'),
+        title: 'recharge_inspect_record',
         id: 5,
         url: 'auditRecord',
         type: 'audit',
@@ -649,7 +652,7 @@ const titleArr: any = reactive([
                 label: 'auditRecord_page_time',
                 fasters: ['1', '2', '3', '4'],
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -658,7 +661,7 @@ const titleArr: any = reactive([
         data: [],
     },
     {
-        title: t('home_page_waterRecord'),
+        title: 'home_page_waterRecord',
         id: 6,
         url: 'waterRecord',
         type: 'vip_rebate',
@@ -671,11 +674,11 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 8,
+                span: 10,
                 type: 'select',
                 label: 'accountsRecord_page_type',
                 path: 'type',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
                 options: waterRecordOptionsStatus
             },
             {
@@ -683,7 +686,7 @@ const titleArr: any = reactive([
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -692,7 +695,7 @@ const titleArr: any = reactive([
         data: [],
     },
     {
-        title: t('proxyRecord'),
+        title: 'proxyRecord',
         id: 7,
         url: 'proxyRecord',
         type: 'agent_accounting_change',
@@ -705,11 +708,11 @@ const titleArr: any = reactive([
         // 各类输入框集合
         formParamsList: [
             {
-                span: 8,
+                span: 10,
                 type: 'select',
                 label: 'accountsRecord_page_type',
                 path: 'type',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
                 options: proxyRecordOptionsStatus
             },
             {
@@ -717,7 +720,7 @@ const titleArr: any = reactive([
                 type: 'daterange',
                 label: 'auditRecord_page_time',
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -726,7 +729,7 @@ const titleArr: any = reactive([
         data: [],
     },
     {
-        title: t('home_page_loginRecord'),
+        title: 'home_page_loginRecord',
         id: 8,
         url: 'loginRecord',
         type: 'audit',
@@ -743,7 +746,7 @@ const titleArr: any = reactive([
                 label: 'Time',
                 fasters: ['1', '2', '3', '4'],
                 path: 'path',
-                placeholder: '请选择',
+                placeholder: 'addBank_page_pChoose',
             }
         ],
         // 表格表头
@@ -753,7 +756,13 @@ const titleArr: any = reactive([
     },
 
 ])
-
+watch(locale, () => {
+    // 触发表格重新渲染
+    state.columns = [];
+    setTimeout(() => {
+        state.columns = titleArr[activeTab.value].columns
+    }, 100);
+});
 const activeTab = ref(0)
 const changeTab = (index: number) => {
     activeTab.value = index
@@ -768,8 +777,12 @@ const changeTab = (index: number) => {
     // router.push(item.url);
     // 
 }
-const queryData = () => { // 查询
-    console.log(state.formParams);
+const sendSearch = (page?: any) => { // 查询
+    state.formParams.page = page || 1
+    queryData()
+}
+const queryData = (page?: any) => { // 查询
+    state.formParams.page = page || 1
     const query = titleArr[activeTab.value].netType()
     if (state.formParams.start_time) {
         Object.assign(query.start_time, state.formParams.start_time)
@@ -786,12 +799,38 @@ const resultHandle = (rs: any) => { // 数据处理
     setTimeout(() => {
         state.loading = false
     }, 300)
-    state.formParams.page = rs.total_page || 0
+    state.pageData.pageCount = rs.total_page || 0
     let type = `${titleArr[activeTab.value].type}_record_list`
+    let sortTimeKey = ''
+    // 回来的数据对象属性不同，做下处理
+    switch (activeTab.value) {
+        case 0://充值
+        case 1://提现
+            sortTimeKey = 'pay_time'
+            break;
+        case 2://投注记录
+            sortTimeKey = 'balance_time'
+            break;
+        case 3://账变记录
+        case 4://稽核记录
+        case 5://洗码记录
+        case 6://代理账变记录
+            type = 'record_list'
+            sortTimeKey = 'create_time'
+            break;
+
+        default:
+            break;
+    }
     // console.log('type11', type)
-    state.data = (rs[type] || []).sort((a: any, b: any) => {
-        return Date.parse(convertObjectToDateString(b.pay_time)) - Date.parse(convertObjectToDateString(a.pay_time))
-    })
+    if (sortTimeKey && rs[type]?.length > 0) {
+        try {
+            state.data = (rs[type] || []).sort((a: any, b: any) => {
+                return Date.parse(convertObjectToDateString(b[sortTimeKey])) - Date.parse(convertObjectToDateString(a[sortTimeKey]))
+            })
+        } catch (error) { console.log(error) }
+    }
+    console.log('state.data', state.data)
     if (type === 'accounting_change_record_list') {
         if (state.formParams?.type == 0) {
             allList.value = state.data
@@ -808,6 +847,9 @@ const resultHandle = (rs: any) => { // 数据处理
 
 }
 onMounted(() => {
+    if (route.query.active) {
+        activeTab.value = Number(route.query.active)
+    }
     state.columns = titleArr[activeTab.value].columns
     state.formParamsList = titleArr[activeTab.value].formParamsList
     // 充值
@@ -895,6 +937,11 @@ onUnmounted(() => {
         background: #0D0E2E;
         display: flex;
         align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        cursor: pointer;
 
         .tabs_item {
             // min-width: 106px;
@@ -903,14 +950,14 @@ onUnmounted(() => {
             height: 38px;
             box-sizing: border-box;
             font-size: 18px;
-            cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            margin-right: 10px;
         }
 
         .active_tab {
             color: #fff;
-            width: auto;
+            // width: auto;
             border-radius: 8px;
             background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
             box-shadow: 0.5px 0.5px 1px 0px #9B9EFF inset;

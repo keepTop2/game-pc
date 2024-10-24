@@ -25,8 +25,8 @@
                 <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
                 <div class="txt"> {{ t('level_page_rebate') }} <span>{{ levelDataAll.daily_rebate || 0 }}</span></div>
               </div>
-              <div class="m">返水记录</div>
-              <div class="r" @click.stop="getRebate">领取</div>
+              <div class="m" @click.stop="goRecords">{{ t('home_page_waterRecord') }}</div>
+              <div class="r" @click.stop="getRebate">{{ t('level_page_lq') }}</div>
             </div>
           </div>
         </scroll-view>
@@ -138,9 +138,10 @@ import { verifyNumberComma } from '@/utils/others.ts';
 import Imgt from '@/components/Imgt.vue';
 import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-// import router from '@/router';
 import Rules from './rules.vue';
 import ScrollView from "@/components/ScrollView.vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo } = storeToRefs(UserStore);
@@ -155,7 +156,14 @@ const levelDataAll: any = ref({
   total_bet_money: 0,
   vip_level_reward_config: [],
 });
-
+const goRecords = () => {
+  router.push({
+    path: '/wallet/records',
+    query: {
+      active: 5
+    },
+  })
+}
 // const scrollRef = ref<HTMLElement>()
 const loading = ref(false);
 const curTab = ref(1);
