@@ -79,7 +79,8 @@ const themeOverrides: GlobalThemeOverrides = {
     borderRadius: "8px",
   },
   Tabs: {
-    tabTextColorLine: "#fff",
+
+    tabTextColorLine: "#AEAEB0",
     tabTextColorActiveLine: "#fff",
     tabTextColorHoverLine: "#AEAEB0",
     tabBorderColor: "#212443",

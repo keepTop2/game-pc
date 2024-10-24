@@ -32,7 +32,7 @@
       <div class="email_wrap" v-if="hasLogin">
         <div class="email_main">
           <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
-          <div class="email_dot"></div>
+          <div class="email_dot" v-if="myEmail.hasNoRead"></div>
         </div>
 
         <Imgt src="/img/header/collect.webp" @click="router.push('/gameCollection')" />
@@ -94,7 +94,7 @@
                 @click="menuClick(item, i)"
               >
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
-                <span>{{ item.name }}</span>
+                <span>{{ t(item.name) }}</span>
               </p>
             </div>
           </n-popover>
@@ -138,6 +138,7 @@
       <!-- 头像设置 -->
       <avatarSettings v-model:visible="visibleSetting" />
     </div>
+    <RedeemCode v-if="showRedeemCode" />
   </header>
 </template>
 
@@ -167,6 +168,7 @@ import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
 import useClickOutSideHooks from "@/utils/vClickOutside";
 import notice from "./notice.vue";
+import RedeemCode from "@/views/wallet/components/RedeemCode.vue";
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
@@ -207,48 +209,48 @@ const state: any = reactive({
 const menu = [
   {
     icon: "txxlicon01",
-    name: "钱包",
+    name: "page_route_wallet",
     url: "/wallet/walletInfo",
   },
   {
     icon: "txxlicon02",
-    name: "充值",
+    name: "page_route_recharge",
     url: "/wallet/records",
   },
   {
     icon: "txxlicon03",
-    name: "提款",
+    name: "page_route_withdraw",
     url: "/wallet/withdraw",
   },
   {
     icon: "txxlicon04",
-    name: "VIP",
+    name: "page_route_VIP",
     url: "/wallet/levelInfo",
   },
   {
     icon: "txxlicon05",
-    name: "代理",
+    name: "page_route_proxy",
     url: "/wallet/proxyCooperation",
   },
   {
     icon: "txxlicon06",
-    name: "支付",
+    name: "page_route_payment",
     url: "/wallet/paymentManagement",
   },
 
   {
     icon: "txxlicon07",
-    name: "活动",
+    name: "page_route_activity",
     url: "/wallet/activity",
   },
   {
     icon: "txxlicon08",
-    name: "优惠",
+    name: "page_route_discount",
     url: "/wallet/myPromo",
   },
   {
     icon: "txxlicon15",
-    name: "记录",
+    name: "page_route_record",
     url: "/wallet/records",
   },
   // {
@@ -258,33 +260,38 @@ const menu = [
   // },
   {
     icon: "txxlicon10",
-    name: "兑换码",
-    url: "/wallet/redeemCode",
+    name: "page_route_redemptionCode",
+    url: "redeemCode",
   },
   {
     icon: "txxlicon11",
-    name: "邮件",
+    name: "page_route_mail",
     url: "/wallet/myEmail",
   },
   {
     icon: "txxlicon12",
-    name: "安全",
+    name: "page_route_security",
     url: "/wallet/securitySettings",
   },
   {
     icon: "txxlicon13",
-    name: "客服",
+    name: "page_route_feedback",
     url: settings.value.serviceTelegram,
-    value: 666,
   },
+  // {
+  //   icon: "txxlicon13",
+  //   name: "客服",
+  //   url: settings.value.serviceTelegram,
+  //   value: 666,
+  // },
   {
     icon: "txxlicon14",
-    name: "退出登录",
+    name: "home_page_logout",
     url: "444",
     value: 444,
   },
 ];
-const { search, isSearch } = useHeaderHooks();
+const { search, isSearch, showRedeemCodeModal, showRedeemCode } = useHeaderHooks();
 const valueChange = async (item: any) => {
   await page.setLang(item);
 };
@@ -329,6 +336,9 @@ const menuClick = async (item: any, j: number) => {
       },
       onNegativeClick: () => {},
     });
+  } else if (item.url == "redeemCode") {
+    // 兑换码
+    showRedeemCodeModal(true);
   } else if (item.value == 666) {
     if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
       return Message.error("用户被封禁");

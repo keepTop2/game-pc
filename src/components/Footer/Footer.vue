@@ -7,7 +7,7 @@
           <span>{{ key }}</span>
         </div>
         <template v-if="value.length">
-          <span v-for="(item, index) in value" :key="index" class="club_item">
+          <span v-for="(item, index) in value" :key="index" class="club_item" @click="goToPage(item)">
             <Imgt v-if="item?.icon" :src="item?.icon" />
             {{ item?.label }}
           </span>
@@ -104,7 +104,6 @@ const clubList: any = {
     { label: "跑得快", id: 5, path: "" },
     { label: "三公", id: 6, path: "" },
     { label: "鱼虾蟹", id: 7, path: "" },
-    ,
     { label: "港式五张", id: 8, path: "" },
   ],
   赌场: [
@@ -123,7 +122,7 @@ const clubList: any = {
     { label: "邀请好友", id: 4, path: "" },
   ],
   "支持/法律": [
-    { label: "帮助中心", id: 1, path: "" },
+    { label: "帮助中心", id: 1, path: "/help/account" },
     { label: "赌博意识", id: 2, path: "" },
     { label: "可验证公平性", id: 3, path: "" },
     { label: "常见问题", id: 4, path: "" },
@@ -145,6 +144,13 @@ const clubList: any = {
     { label: "Telephone", id: 3, icon: "/img/header/tel.webp", path: "" },
   ],
 };
+const goToPage = (item: any) => {
+  console.log('---', item)
+  const url = item.path
+  if (url) {
+    router.push(url)
+  }
+}
 </script>
 <style lang="less" scoped>
 .foot_wrap {

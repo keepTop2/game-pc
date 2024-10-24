@@ -315,7 +315,7 @@ watch(() => showBankListModal.value, (n) => {
     // 绑定银行卡
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, handleAddBankRef);
   } else {
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
   }
 })
 watch(() => props.myBankList, (n) => {
@@ -335,9 +335,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, null);
+  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_req_new_bank_card_info, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_req_set_default_bankcard, null)
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_set_default_bankcard, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_del_bank_card_info, null);
 })
 
