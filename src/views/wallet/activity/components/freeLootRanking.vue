@@ -3,7 +3,7 @@
     <div class="theFirst">
       <div class="info">
         <div class="avatar">
-          <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" />
+          <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp`" alt="/img/home/avatar.webp" />
         </div>
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
@@ -134,7 +134,7 @@ const pushTableData = () => {
 };
 
 const handleGoldTable = (res: any) => {
-  let data = res.info
+  let data = res.info.splice(1,res.info.length)
   if (data.length === 1) return freeLootRankingData.list = []
   if (freeLootRankingData.page !==1) return freeLootRankingData.list.push([...data.splice(1,data.length)])
   freeLootRankingData.list = data.splice(1,data.length)
