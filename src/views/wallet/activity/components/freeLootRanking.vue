@@ -3,11 +3,11 @@
     <div class="theFirst">
       <div class="info">
         <div class="avatar">
-          <Imgt :src="freeLootRankingData.avatar" />
+          <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'" />
         </div>
         <div class="accountNumber">
-          <p>账号：{{ freeLootRankingData.accountNumber }}</p>
-          <p>今日排名：{{ freeLootRankingData.ranking }}</p>
+          <p>账号：{{ info.full_name }}</p>
+          <p>今日排名：{{ props.freeTreasureInfo.rank || '--' }}</p>
         </div>
 
       </div>
@@ -15,7 +15,8 @@
         <p>试玩金币</p>
         <div class="goldNumber">
           <Imgt src="/img/wallet/gold.svg" />
-          <p>{{ freeLootRankingData.gold }}</p>
+<!--          <p>{{ freeLootRankingData.gold }}</p>-->
+          <p>{{ props.freeTreasureInfo.score || 0 }}</p>
         </div>
       </div>
     </div>
@@ -26,7 +27,7 @@
 
       <div class="table">
         <div class="goldTableSelect">
-          <n-select v-model:value="goldData" :options="goldOptions" />
+          <n-select @update:value="selectRoundid"  v-model:value="freeLootRankingData.roundid" :options="freeLootRankingData.roundidOptions" />
         </div>
         <n-data-table striped :bordered="false" virtual-scroll :max-height="500" :columns="freeLootRankingData.tableHeader"
                       :data="freeLootRankingData.list">
@@ -37,7 +38,7 @@
             </div>
           </template>
         </n-data-table>
-        <n-button @click="pushTableData" tertiary class="planButton">
+        <n-button v-if="freeLootRankingData.list.length >= 50" @click="pushTableData" tertiary class="planButton">
           点击加载更多
         </n-button>
       </div>
@@ -50,93 +51,39 @@
 
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
-import { reactive, ref, h } from 'vue';
-import Imgt from '@/components/Imgt.vue';
 
-const freeLootRankingData = reactive({
-  avatar: '/img/header/avatar.webp',
-  accountNumber: 'Kkktey09120',
-  ranking: '1000+',
-  gold: '991,000.00',
-  list: [
-    {
-      avatar: '1',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '2',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '3',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '4',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '5',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '6',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '7',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '8',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '9',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '10',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-  ],
+import { reactive, ref, h, onMounted, onUnmounted } from 'vue';
+import Imgt from '@/components/Imgt.vue';
+import { User } from '@/store/user.ts';
+import pinia from '@/store';
+import { storeToRefs } from 'pinia';
+import { NetPacket } from '@/netBase/NetPacket.ts';
+import { Net } from '@/net/Net.ts';
+import { MessageEvent2 } from '@/net/MessageEvent2.ts';
+import { NetMsgType } from '@/netBase/NetMsgType.ts';
+
+
+const { t } = useI18n();
+const userInfo = User(pinia);
+const { info } = storeToRefs(userInfo);
+
+const UserStore = User(pinia);
+const { roleInfo } = storeToRefs(UserStore);
+
+const props = defineProps<{freeTreasureInfo: any}>()
+
+const freeLootRankingData: any = reactive({
+  list: [],
+  roundid: 0,
+  roundidOptions: [],
+  page: 1,
+  pageSize: 50,
   tableHeader: [
     {
-      title: '排名', key: 'avatar',
+      title: '排名', key: 'rank',
       render(row: any) {
-        let hRender = h('span', { class: `rankingText`, innerHTML: row.avatar });
-        switch (row.avatar) {
+        let hRender = h('span', { class: `rankingText`, innerHTML: row.rank });
+        switch (row.rank) {
           case '1' :
             hRender = h(Imgt, { src: '/img/wallet/gameTop1.png', class: `rankingImg` });
             break;
@@ -147,74 +94,96 @@ const freeLootRankingData = reactive({
             hRender = h(Imgt, { src: '/img/wallet/gameTop3.png', class: `rankingImg` });
             break;
           default:
-            hRender = h('span', { class: `rankingText`, innerHTML: row.avatar });
+            hRender = h('span', { class: `rankingText`, innerHTML: row.rank });
         }
         return hRender;
       },
     },
     {
-      title: '头像', key: 'img',
+      title: '头像', key: 'head_icon',
       render(row: any) {
-        return h(Imgt, { src: row.img, class: `avatarImg avatarImg-${row.avatar}` });
+        // /img/head_icons/${roleInfo.head_photo}.webp
+        return h(Imgt, { src:`/img/head_icons/${row.head_icon}.webp`, class: `avatarImg avatarImg-${row.avatar}` });
       },
     },
-    { title: '昵称', key: 'name' },
+    { title: '昵称', key: 'username' },
     {
-      title: '试玩金币', key: 'gold',
+      title: '试玩金币', key: 'score',
       render(row: any) {
-        return h('span', { class: 'yellowText', innerHTML: `试玩金币：<i>${row.gold}</i>` });
+        return h('span', { class: 'yellowText', innerHTML: `试玩金币：<i>${row.score}</i>` });
       },
     },
     {
-      title: '本期奖励', key: 'award',
+      title: '本期奖励', key: 'reward',
       render(row: any) {
-        return h('span', { class: 'yellowText', innerHTML: `奖励：<i>${row.award}</i>` });
+        return h('span', { class: 'yellowText', innerHTML: `奖励：<i>${row.reward}</i>` });
       },
     },
   ],
 });
 
-const goldData = ref('20240101第1期');
-const goldOptions = ref([
-  {
-    label: '20240101第1期',
-    value: '20240101第1期',
-  },
-  {
-    label: '20240101第2期',
-    value: '20240101第2期',
-  },
-  {
-    label: '20240101第3期',
-    value: '20240101第3期',
-  },
-]);
-
+ const selectRoundid =  (val: number) => {
+   freeLootRankingData.page = 1
+   freeLootRankingData.roundid = val
+   freeTreasureHis()
+ }
 
 const pushTableData = () => {
-  let data = [{
-    avatar: '6',
-    img: '/img/head_icons/1003.webp',
-    name: '六字昵称星星',
-    gold: '100W',
-    award: '3,000',
-  },
-    {
-      avatar: '7',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    },
-    {
-      avatar: '8',
-      img: '/img/head_icons/1003.webp',
-      name: '六字昵称星星',
-      gold: '100W',
-      award: '3,000',
-    }];
-  freeLootRankingData.list.push(...data);
+  freeLootRankingData.page = freeLootRankingData.page++
+  freeTreasureHis()
 };
+
+const handleGoldTable = (res: any) => {
+  let data = res.info
+  if (data.length === 1) return freeLootRankingData.list = []
+  if (freeLootRankingData.page !==1) return freeLootRankingData.list.push([...data.splice(1,data.length)])
+  freeLootRankingData.list = data.splice(1,data.length)
+}
+
+
+// 30日
+function getLast30Days(): { value: number; label: string }[] {
+  const result: { value: number; label: string }[] = [];
+  const today = new Date();
+
+  for (let i = 0; i < 30; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以加1
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}${month}${day}`; // 格式化为 YYYYMMDD
+    result.push({ value: Number(formattedDate), label: `${formattedDate}期` });
+  }
+
+  return result;
+}
+
+
+const freeTreasureHis = () => {
+  const req = NetPacket.req_free_treasure_his();
+  req.page = freeLootRankingData.page;
+  req.pageSize = freeLootRankingData.pageSize;
+  req.roundid = freeLootRankingData.roundid;
+  Net.instance.sendRequest(req);
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_free_treasure_his,
+    handleGoldTable,
+  );
+}
+
+
+onMounted(() => {
+  freeLootRankingData.roundidOptions = [...getLast30Days()]  as any
+  freeLootRankingData.roundid = getLast30Days()[0].value
+  freeTreasureHis()
+
+});
+onUnmounted(() => {
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_his, null);
+});
 
 </script>
 
@@ -333,6 +302,10 @@ const pushTableData = () => {
 
       }
 
+      .n-data-table {
+        margin-bottom: 16px;
+      }
+
       :deep(.n-data-table-thead > tr > th) {
         text-align: center;
         color: rgba(175, 186, 189, 1);
@@ -365,7 +338,7 @@ const pushTableData = () => {
           //flex-wrap: nowrap;
           white-space: nowrap;
           i {
-            white-space: nowrap;
+            //white-space: nowrap;
             font-style: normal;
             color: rgba(250, 201, 4, 1);
           }
@@ -402,7 +375,7 @@ const pushTableData = () => {
         background-image: none;
         //background-color: rgba(51, 56, 107, 1);
         border: 1px solid rgba(51, 56, 107, 1);
-        margin: 16px 0 30px;
+        margin: 0 0 30px;
         color: rgba(51, 56, 107, 1);
         font-size: 12px;
       }
