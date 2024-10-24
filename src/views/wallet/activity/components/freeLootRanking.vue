@@ -136,8 +136,8 @@ const pushTableData = () => {
 const handleGoldTable = (res: any) => {
   let data = res.info.splice(1,res.info.length)
   if (data.length === 1) return freeLootRankingData.list = []
-  if (freeLootRankingData.page !==1) return freeLootRankingData.list.push([...data.splice(1,data.length)])
-  freeLootRankingData.list = data.splice(1,data.length)
+  if (freeLootRankingData.page !==1) return freeLootRankingData.list.push([...data])
+  freeLootRankingData.list = data
 }
 
 
