@@ -105,6 +105,7 @@
       <!-- 头像设置 -->
       <avatarSettings v-model:visible="visibleSetting" />
     </div>
+    <RedeemCode v-if="showRedeemCode" />
   </header>
 </template>
 
@@ -132,6 +133,7 @@ import { Net, getLocale } from "@/net/Net";
 import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
+import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
