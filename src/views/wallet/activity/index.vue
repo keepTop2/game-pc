@@ -36,7 +36,6 @@
     <!--        <FreeLoot/>-->
     <!--      </n-card>-->
     <!--    </n-modal>-->
-
     <n-modal v-model:show="state.showModal">
       <n-card
         class="avatar_set"
@@ -48,7 +47,6 @@
       >
         <!--        <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />-->
         <!--        <FreeLoot v-model="state.showModal"/>-->
-
         <div class="freeLoot main_setting">
           <h4 class="top_title">
             <span>{{ t('免费夺宝') }}</span>
