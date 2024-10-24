@@ -1,10 +1,6 @@
 <template>
-  <n-config-provider
-    style="width: 100%"
-    :locale="Language[lang].global"
-    :date-locale="Language[lang].date"
-    :theme-overrides="themeOverrides"
-  >
+  <n-config-provider style="width: 100%" :locale="Language[lang].global" :date-locale="Language[lang].date"
+    :theme-overrides="themeOverrides">
     <div class="app">
       <div class="main_container">
         <Header v-if="!['customer'].includes(route.name)" />
@@ -121,10 +117,7 @@ const handleRoleInfo = async (data: any) => {
   await getAgentLevel(data);
   await User(pinia).getRoleInfo(data);
 };
-// 角色VIP详情
-const handleVipInfo = async (data: any) => {
-  await User(pinia).getVIPInfo(data);
-};
+
 // 用户详情
 const handleUserInfo = async (data: any) => {
   await User(pinia).getInfo(data);
@@ -234,7 +227,7 @@ const resAllCollect = async (data: any) => {
 onMounted(async () => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_roleinfo_msg, handleRoleInfo);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_user_info, handleUserInfo);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_vip_info, handleVipInfo);
+
   // 回执监听
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_email_list, handleEmailInfo);
   // 前台充值金额变化

@@ -2,20 +2,15 @@
   <!-- 导航 -->
 
   <div class="vip_detail_header" v-if="isDetail">
-    <navTab :title="t(`VIP详情`)" />
+    <navTab :title="t('level_page_details')" />
     <Imgt class="return" src="/img/payment/return.webp" alt="" @click="goDetail()" />
   </div>
-  <navTab :title="t(`VIP特权`)" :secTitle="t('加入PKBET 臻享特权服务')" v-else />
-
+  <navTab :title="t('level_page_vipPrivileges')" :secTitle="t('level_page_sever')" v-else />
   <div class="level_content">
     <div class="level_info">
-      <!-- <div class="level_info_top">
-      </div> -->
+
       <div class="level_info_vip_all">
-        <!-- <n-scrollbar ref="scrollRef" content-class="level_info_vip_l" x-scrollable @wheel.prevent="handleScroll"
-          :size="2" x-placement="bottom"> -->
-        <!-- <n-carousel :slides-per-view="3" class="level_info_vip_l" :space-between="10" :loop="false" draggable
-          :show-arrow="false" :show-dots="false"> -->
+
         <scroll-view class="level_info_vip_l">
           <div class="level_info_vip_l_container">
             <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
@@ -30,8 +25,7 @@
             </div>
           </div>
         </scroll-view>
-        <!-- </n-carousel> -->
-        <!-- </n-scrollbar> -->
+
       </div>
       <Rules v-if="isDetail" />
       <n-spin :show="loading" v-else>
@@ -46,7 +40,8 @@
               :style="`width: ${vipProcss().rateStr}`"> </span></div>
           <div class="vip_detail">
             <div class="l">
-              <div class="t">距离下一等级：VIP{{ levelDataAll.current_vip_level + 1 }}</div>
+              <div class="t"> <span>{{ t('level_page_next_level') }}</span>VIP {{ levelDataAll.current_vip_level + 1 }}
+              </div>
               <div class="b">
                 <span>流水</span>
                 <span class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
@@ -54,18 +49,9 @@
                 <span>{{ t('level_page_needBet') }} {{ verifyNumberComma(String(countNeedBet())) }}</span>
               </div>
             </div>
-            <div class="button" @click="goDetail(1)">查看VIP详情</div>
+            <div class="button" @click="goDetail(1)">{{ t('level_page_details') }}</div>
           </div>
         </div>
-
-        <!-- <n-flex justify="space-between" align="center" class="level_info_jl">
-          <n-flex align="center" class="level_info_jl_l">
-            <span class="jl_amount"> <span> {{ t('level_page_rebate')
-                }} </span> {{ levelDataAll.daily_rebate || 0 }}
-            </span>
-            <span :class="`re_icon ${refreshFlag ? 'active' : ''}`" @click="refreshMon"> </span>
-          </n-flex>
-        </n-flex> -->
 
         <div class="level_list_sec">
           <n-flex class="level_info_txt" justify="space-between">
@@ -79,15 +65,37 @@
             <div class="list_item_l">
               <div class="title_big"> {{ t(item.title) }}</div>
               <!-- <div> {{ item.titleSec }}</div> -->
+              <!-- {{ levelSettings }} -->
             </div>
             <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
                 <!-- <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`"> -->
                 <div class="list_item_bg">
                   <div class="item_txt">
-                    <p>{{ t(item_1.name) }}</p>
-                    <p class="amount">100.000</p>
+                    <div>{{ t(item_1.name) }}</div>
+                    <!-- {{ item_1.icon }} -->
+                    <!-- <p class="amount">100.000</p> -->
+                    <div v-if="levelSettings" class="amount">
+                      <span v-if="item_1.icon === 'level_js'">
+                        {{ levelSettings.promotional_reward_status.money }}</span>
+                      <span v-else-if="item_1.icon === 'level_lj'">
+                        {{ levelSettings.gift_money_amount }} </span>
+                      <span v-else-if="item.key == 'chip'">
+                        <template v-if="hasLogin">
+
+                          {{ (Number(levelSettings.ratio.split(',')[index_1]) * 100) + '%' }}
+                        </template>
+                        <template v-else>
+                          {{ '--' }}
+                        </template>
+                      </span>
+                      <span v-else>
+
+                      </span>
+                    </div>
                   </div>
+
+
                   <div class="item_img">
                     <Imgt :src="`/img/level/${item_1.icon}.webp`" />
                   </div>
@@ -144,7 +152,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
-const { VIPinfo } = storeToRefs(UserStore);
+const { VIPinfo, hasLogin } = storeToRefs(UserStore);
 
 const { t } = useI18n();
 const ruleModal = ref(false);
@@ -156,6 +164,7 @@ const levelDataAll: any = ref({
   total_bet_money: 0,
   vip_level_reward_config: [],
 });
+let levelSettings = ref()
 const goRecords = () => {
   router.push({
     path: '/wallet/records',
@@ -245,9 +254,9 @@ const levelDyData = ref(
 // 获取等级数据
 const queryData = () => {
   loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 300);
+  // setTimeout(() => {
+  loading.value = true;
+  // }, 300);
   const query = NetPacket.req_vip_info();
   Net.instance.sendRequest(query);
 };
@@ -255,13 +264,15 @@ const queryData = () => {
 // 数据处理
 const resultHandle = (res: any) => {
   console.log('level-data--------', res, VIPinfo.value);
-  setTimeout(() => {
-    loading.value = false;
-  }, 300);
+
+  // setTimeout(() => {
+  loading.value = false;
+  // }, 300);
   // levelDataAll.value = res;
   if (Object.keys(VIPinfo.value).length > 0) {
     levelDataAll.value = levelDataAll.value
     curTab.value = levelDataAll.value.current_vip_level + 1;
+
   }
 };
 // money: 0, result: 2 // 1 成功，2 失败
@@ -297,10 +308,11 @@ const openModal = () => {
 const openLevelRule = () => {
   ruleModal.value = true;
 };
+let targetArr: any
 // 计算所需投注
 const countNeedBet = () => {
   if (levelDataAll.value.vip_level_reward_config.length) {
-    const targetArr = levelDataAll.value.vip_level_reward_config?.filter((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
+    levelSettings.value = targetArr = levelDataAll.value.vip_level_reward_config?.find((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
     const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
     // const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)];
     // const targetMon = targetArr.target_bet_money;
@@ -316,7 +328,7 @@ const vipProcss = () => {
 
   if (levelDataAll.value.vip_level_reward_config.length) {
     // levelDataAll.value.total_bet_money = 2654000;
-    const targetArr = levelDataAll.value.vip_level_reward_config?.filter((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
+    levelSettings.value = targetArr = levelDataAll.value.vip_level_reward_config?.find((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
     const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
     // const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)];
     // const targetMon = targetArr.target_bet_money;
@@ -375,7 +387,11 @@ const clickTab = (key: any) => {
   // });
 };
 
-
+// 角色VIP详情
+const handleVipInfo = async (data: any) => {
+  await User(pinia).getVIPInfo(data);
+  levelSettings.value = data.vip_level_reward_config.find((e: any) => e.level == data.current_vip_level)
+};
 
 const goDetail = (v?: number) => {
   if (v) {
@@ -398,6 +414,22 @@ const goDetail = (v?: number) => {
 //     deep: true,
 //   }
 // )
+// 设置 选中当前等级数据
+const setCurLevel = () => {
+  levelSettings.value = levelDataAll.value.vip_level_reward_config.find((item: any) => item.level === curTab.value)
+  console.log(levelSettings.value);
+
+}
+watch(
+  () => curTab.value,
+  (n) => {
+    if (n) {
+      console.log(n);
+
+      setCurLevel();
+    }
+  }
+);
 watch(
   () => VIPinfo.value,
   (n) => {
@@ -410,6 +442,7 @@ watch(
 onMounted(() => {
   openModal();
   isDetail.value = false;
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_vip_info, handleVipInfo);
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_claim_status, null);
@@ -787,7 +820,7 @@ onUnmounted(() => {
       left: 0;
       top: 0;
       background-color: rgba(0, 0, 0, 0.6);
-      z-index: 9999;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -834,16 +867,10 @@ onUnmounted(() => {
             padding: 0 15px;
 
             .item_txt {
-              p {
+              .amount {
+                color: #FAC905;
                 font-size: 14px;
                 font-weight: 700;
-                margin: 0;
-
-                &.amount {
-                  color: #FAC905;
-                  font-size: 14px;
-                  font-weight: 700;
-                }
               }
             }
 

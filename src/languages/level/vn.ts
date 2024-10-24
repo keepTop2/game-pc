@@ -1,5 +1,11 @@
 export default {
   level_page_member: 'Cấp VIP',
+  level_page_vipPrivileges: 'Đặc quyền VIP',
+  level_page_details: 'Chi tiết VIP',
+  level_page_sever: 'Tham gia PKBET để tận hưởng các dịch vụ đặc quyền',
+  level_page_next_level: 'Cấp độ tiếp theo:',
+
+
   level_page_rule: 'Quy tắc cấp thành viên',
   level_page_needBet: 'Cần cược:',
   level_page_rebate: 'Phần thưởng giảm giá:',
