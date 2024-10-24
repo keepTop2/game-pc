@@ -29,9 +29,9 @@
       <!-- 轮播图右侧 -->
       <div class="carousel_wrap_des">
         <div v-if="hasLogin" class="activity_wrap">
-          <div class="activity_name">{{ firstActivity.name }}</div>
+          <div class="activity_name">{{ firstActivity?.name }}</div>
           <div class="to_give">
-            {{ firstActivity.details }}
+            {{ firstActivity?.details }}
           </div>
           <div
             class="free_btn sign_up"
@@ -89,7 +89,7 @@ const router = useRouter();
 const bannerData: any = ref([]);
 
 const firstActivity = computed(() => {
-  return homeActivityList.value[0];
+  return homeActivityList.value && homeActivityList.value[0];
 });
 
 // 获取banner图
