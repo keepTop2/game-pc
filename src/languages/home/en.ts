@@ -25,7 +25,7 @@ export default {
     home_page_offlineContent: 'Your account was logged in from another device at {time}. If it was not done by you, your password may have been leaked. We recommend that you change your password.',
     home_page_offlineConfirm: 'Log in again',
     // 导航栏隐藏式侧边栏
-    home_page_myWallet: 'myWallet',
+    page_route_wallet: 'myWallet',
     home_page_rechargeRecord: 'Recharge record',
     home_page_withdrawRecord: 'Withdraw record',
     home_page_accountsRecord: 'Balance Change records',

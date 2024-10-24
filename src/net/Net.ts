@@ -16,7 +16,7 @@ import { User } from "@/store/user";
 import { getFastestUrl } from "@/utils/others";
 
 export const getLocale = async () => { // Page(pinia).$state.settings
-    const adminI18nRes = await fetch(Page(pinia).$state.settings.admin_i18n_add_url + new Date().getTime())
+    const adminI18nRes = await fetch(Page(pinia).$state.settings.admin_i18n_add_url + '?' + new Date().getTime())
     const adminI18n = await adminI18nRes.json()
 
     i18n.global.mergeLocaleMessage('zh', adminI18n.zh)
@@ -25,12 +25,11 @@ export const getLocale = async () => { // Page(pinia).$state.settings
     await Page(pinia).setAdminI18n(adminI18n)
 }
 export const getSetting = async () => {
-    const settingsRes = await fetch('/settings.json?' + new Date().getTime())
+    const settingsRes = await fetch('http://18.167.187.79/config_h5_develop.json?' + new Date().getTime())
     const settings = await settingsRes.json()
     await Page(pinia).setSettings(settings)
-    const homeGameDataRes = await fetch(settings.home_game_data + new Date().getTime())
+    const homeGameDataRes = await fetch(settings.third_game_manage + "?" + new Date().getTime())
     const homeGameData = await homeGameDataRes.json()
-    console.dir('000000', homeGameData);
 
     await Page(pinia).setHomePageGameData(homeGameData)
     await getLocale()
@@ -97,7 +96,6 @@ export class Net {
             // var ipPort = settings.server_testUrls[this.connect_index % settings.server_testUrls.length];
             // 已经有登录信息，则进入断线重连流程，如果没有就保持socket链接
             if (Local.get('user') && Local.get('user').user_id && Local.get('user').token) {
-
                 this.connect(
                     ipPort,
                     () => {

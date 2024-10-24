@@ -1,5 +1,10 @@
 export default {
   level_page_member: 'Member level',
+  level_page_vipPrivileges: 'VIP Privileges',
+  level_page_details: 'VIP Details',
+  level_page_sever: 'Join PKBET to enjoy privileged services',
+  level_page_next_level: 'Distance to next level:',
+
   level_page_rule: 'Member level rules',
   level_page_needBet: 'Remain wagering:',
   level_page_rebate: 'Rebate reward:',

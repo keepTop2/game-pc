@@ -26,7 +26,7 @@ export default {
     home_page_offlineConfirm: 'Đăng nhập lại',
 
     // 导航栏隐藏式侧边栏
-    home_page_myWallet: 'Ví của tôi',
+    page_route_wallet: 'Ví của tôi',
     home_page_rechargeRecord: 'Bản ghi nạp tiền',
     home_page_withdrawRecord: 'Hồ sơ rút tiền',
     home_page_accountsRecord: 'Hồ sơ thay đổi tài khoản',
