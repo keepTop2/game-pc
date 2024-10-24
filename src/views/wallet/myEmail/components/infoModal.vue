@@ -34,7 +34,10 @@
                 <span v-else class="is-receive">{{ t('received') }}</span>
               </div>
             </div>
-            <!-- <btn :width="374" :height="46" @click="isShow = false">{{ t('confirm') }}</btn> -->
+            <div class="btn_wrap">
+              <n-button @click="isShow = false">{{ t('confirm') }}</n-button>
+            </div>
+           
           </div>
         </div>
       </div>
@@ -98,13 +101,14 @@ const isShow = computed({
 @timestamp: `new Date().getTime()`;
 
 .change_card {
-  width: 494px;
+  width: 504px;
   border-radius: 14px;
   border: solid 1.4px #322c59;
   background-color: #231353;
 
   .login_from_box {
     display: block;
+    width: 504px;
 
     >.login_form {
       padding: 60px 40px 46px;
@@ -125,19 +129,18 @@ const isShow = computed({
     margin: 0;
     width: 100%;
     position: relative;
-    height: 50px;
-    line-height: 50px;
+    height: 60px;
+    line-height: 60px;
     font-size: 16px;
     color: #fff;
     // border-radius: 14px;
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
     text-align: center;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    background-image: linear-gradient(to bottom,
-        #4c36b3 100%,
-        #3a2786 28%,
-        #3c279a 0%);
+    background: #14173A;
+    border-bottom: 2px solid #26294C;
+
+
 
     >i {
       position: absolute;
@@ -182,12 +185,25 @@ const isShow = computed({
 .info_form {
   height: 100%;
   padding: 40px 60px;
+  background: #14173A;
 
   .form-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin-bottom: 20px;
   }
+  .btn_wrap{
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    .n-button{
+      width: 160px;
+      height: 40px;
+   
+      
+    }
 
   .item-title {
     min-height: 40px;
@@ -198,10 +214,9 @@ const isShow = computed({
     font-size: 16px;
     // margin: 72px 60px 52px;
     padding-left: 16px;
-    border-radius: 12px;
-    box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-    border: solid 1px #322c59;
-    background-color: #1d0e4a;
+    border-radius: 8px;
+    background: #212443;
+    border: 1px solid #26294C;
     word-break: break-all;
 
     .item-title-left {
@@ -216,10 +231,9 @@ const isShow = computed({
   width: 100%;
   margin-top: 10px;
   // margin: 52px 60px 0;
-  border-radius: 12px;
-  box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  border: solid 1px #322c59;
-  background-color: #1d0e4a;
+  border-radius: 8px;
+  background: #212443;
+  border: 1px solid #26294C;
 
   .content_wrap {
     min-height: 150px;
