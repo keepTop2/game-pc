@@ -1,5 +1,5 @@
 <template>
-  <ModalDialog v-model:visible="showBankListModal" title="选择USDT">
+  <ModalDialog v-model:visible="showBankListModal" :title="t('paymentManagement_page_titleU')">
     <template #content>
       <div class="vertical center t_md bank_sec_list">
         <n-flex justify="space-between" align="center" class="w_full" vertical>
@@ -63,7 +63,7 @@
               </n-input>
             </n-form-item>
             <n-form-item :label="t('paymentManagement_page_remark')" path="accountName">
-              <n-input size="large" v-model:value="form.desc" :placeholder="t('描述（选填）')">
+              <n-input size="large" v-model:value="form.desc" :placeholder="t('paymentManagement_page_tipR')">
               </n-input>
             </n-form-item>
             <div class="cz_btn with_sec_btn">
