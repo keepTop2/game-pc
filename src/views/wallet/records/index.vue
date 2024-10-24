@@ -9,7 +9,9 @@
             </scroll-view>
         </div>
         <TabForm :formParams="state.formParams" :form-params-list="state.formParamsList" :loading="state.loading"
-          :columns="state.columns" :data="state.data" @send-seach="queryData"></TabForm>
+          :columns="state.columns" :data="state.data" :pageData="state.pageData" @send-seach="(v: any) => sendSearch(v)"
+          @page-Change="(p: any) => queryData(p)">
+        </TabForm>
         <!-- <router-view></router-view> -->
     </div>
 </template>
@@ -52,7 +54,6 @@ const rechargeOptionsStatus = computed(() => { // 状态
         }
     })
     options.unshift({ value: 9, label: t('rechargeRecord_page_allState') })
-    console.log(1211111111111, options)
     return options
 })
 const optionsCurrency = computed(() => { // 法币
@@ -96,7 +97,6 @@ const optionsGame = computed(() => { // 游戏
         item.label = t(item.key)
         return item
     })))
-    console.error('游戏', options)
     options.unshift({ value: 0, label: t('promo_page_all') })
     return options
 })
@@ -179,7 +179,7 @@ const recharTableHeader = computed(() => {
         {
             title: t('auditRecord_page_state'), key: 'order_status', align: 'center',
             render(row: any) {
-                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? 'yellow' : 'red';
+                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? '#FABB2D' : 'red';
                 return h('span', { style: `color: ${color}` }, RechagreStatusMap()[row.order_status]);
             }
         },
@@ -215,7 +215,7 @@ const withdrawTableHeader = computed(() => {
         {
             title: t('auditRecord_page_state'), key: 'order_status', align: 'center',
             render(row: any) {
-                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? 'yellow' : 'red';
+                const color = row.order_status == '1' ? 'green' : row.order_status == '-1' ? '#FABB2D' : 'red';
                 return h('div', { style: `color: ${color}` }, RechagreStatusMap()[row.order_status]);
             }
         },
@@ -448,8 +448,8 @@ interface FormParams {
 const state = reactive({
     loading: false,
     pageData: {
-        itemCount: 1,
-        defaultPageSize: 20
+        pageCount: 0,
+        pageSize: 20
     },
     formParams: <FormParams>{
         page: 1,
@@ -776,8 +776,12 @@ const changeTab = (index: number) => {
     // router.push(item.url);
     // 
 }
-const queryData = () => { // 查询
-    console.log(state.formParams);
+const sendSearch = (page?: any) => { // 查询
+    state.formParams.page = page || 1
+    queryData()
+}
+const queryData = (page?: any) => { // 查询
+    state.formParams.page = page || 1
     const query = titleArr[activeTab.value].netType()
     if (state.formParams.start_time) {
         Object.assign(query.start_time, state.formParams.start_time)
@@ -794,12 +798,38 @@ const resultHandle = (rs: any) => { // 数据处理
     setTimeout(() => {
         state.loading = false
     }, 300)
-    state.formParams.page = rs.total_page || 0
+    state.pageData.pageCount = rs.total_page || 0
     let type = `${titleArr[activeTab.value].type}_record_list`
+    let sortTimeKey = ''
+    // 回来的数据对象属性不同，做下处理
+    switch (activeTab.value) {
+        case 0://充值
+        case 1://提现
+            sortTimeKey = 'pay_time'
+            break;
+        case 2://投注记录
+            sortTimeKey = 'balance_time'
+            break;
+        case 3://账变记录
+        case 4://稽核记录
+        case 5://洗码记录
+        case 6://代理账变记录
+            type = 'record_list'
+            sortTimeKey = 'create_time'
+            break;
+
+        default:
+            break;
+    }
     // console.log('type11', type)
-    state.data = (rs[type] || []).sort((a: any, b: any) => {
-        return Date.parse(convertObjectToDateString(b.pay_time)) - Date.parse(convertObjectToDateString(a.pay_time))
-    })
+    if (sortTimeKey && rs[type]?.length > 0) {
+        try {
+            state.data = (rs[type] || []).sort((a: any, b: any) => {
+                return Date.parse(convertObjectToDateString(b[sortTimeKey])) - Date.parse(convertObjectToDateString(a[sortTimeKey]))
+            })
+        } catch (error) { console.log(error) }
+    }
+    console.log('state.data', state.data)
     if (type === 'accounting_change_record_list') {
         if (state.formParams?.type == 0) {
             allList.value = state.data
