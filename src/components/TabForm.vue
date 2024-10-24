@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="table">
-        <n-data-table striped :bordered="false" :single-line="false" :columns="props.columns" :data="props.data"
+        <n-data-table striped :bordered="false" remote :single-line="false" :columns="props.columns" :data="props.data"
           :pagination="state.pageData">
             <template #empty>
                 <div class="nodata">
@@ -42,6 +42,9 @@ const props = defineProps({
     formParams: {
         type: Object as any,
     },
+    pageData: {
+        type: Object as any,
+    },
     formParamsList: {
         type: Array<any>,
     },
@@ -61,21 +64,15 @@ const props = defineProps({
     },
 })
 const formRef = ref();
-
 const state: any = reactive({
     pageData: {
-        itemCount: 1,
-        defaultPageSize: 20,
+        pageCount: props.pageData.pageCount || 0,
+        pageSize: props.pageData.pageSize || 20,
         onChange: (page: number) => {//切换第几页时
             emit('pageChange', page)
         }
-
-
     },
     loading: false,
-
-
-
 })
 const changeDate = (date: any) => { // 切换时间
     Object.assign(props.formParams, date)
@@ -137,78 +134,49 @@ const seach = (v: any) => {
 
 // 表格区域
 .table {
-    border-radius: 10px;
-    overflow: hidden;
-    font-weight: 400;
 
-    :deep(.n-flex) {
-        gap: unset !important;
+    :deep(.n-data-table-tr:nth-child(odd)) {
+        background-color: #121336;
+
+        &:hover {
+            background: #121336;
+
+            .n-data-table-td {
+                background-color: transparent;
+            }
+        }
     }
 
-    .tr {
-        font-size: 16px;
-        color: #AEAEB0;
-        min-height: 40px;
+    :deep(.n-data-table-tr--striped) {
+        background-color: #0D0E2E;
+
+        &:hover {
+            background: #0D0E2E;
+
+            .n-data-table-td {
+                background-color: transparent;
+            }
+        }
     }
 
-    .tr:nth-child(odd) {
-        background-color: #0D0E2E !important;
-    }
-
-    .tr:nth-child(even) {
-        background-color: #14173A !important;
-    }
-
-    .th {
-        min-height: 50px;
-        font-size: 18px;
-        color: #fff;
-    }
-
-    .tt {
-        height: 50px;
-        background: radial-gradient(87.04% 93.77% at 50% 13.97%, #4C36B3 0.17%, #3A2786 74.42%, #3C279A 100%) !important;
-    }
-
-    .td {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    :deep(.n-data-table-td) {
         user-select: all;
-        padding: 10px;
         // border: .1px solid gray;
-        box-shadow: inset 0 0 1px 0 gray;
-    }
-
-    .td_25 {
-        flex: 2.5;
-    }
-
-    .td_money {
-        color: #FABB2D;
-    }
-
-    .t_loading {
-        padding-top: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .tr.th {
-        background: #1B1F4B;
+        background-color: transparent !important;
+        // box-shadow: inset 0 0 1px 0 gray;
+        color: #AFBABD;
     }
 
     // 表格
+    :deep(.n-data-table-table) {
+        overflow: hidden;
+        border-radius: 14px;
+    }
+
     :deep(.n-data-table) {
         font-size: 18px;
     }
 
-    :deep(.n-data-table .n-data-table-tr:hover) {
-        background-color: transparent;
-        background: unset;
-    }
 
     // 分页区域
     :deep(.n-data-table__pagination) {
@@ -216,6 +184,9 @@ const seach = (v: any) => {
     }
 
     :deep(.n-pagination-item) {
+        width: 32px;
+        height: 32px;
+        box-sizing: border-box;
         font-size: 16px;
         background: #14173A;
         border: 1.4px solid #AEAEB0 !important;
@@ -223,13 +194,20 @@ const seach = (v: any) => {
         border-radius: 10px !important;
     }
 
+    :deep(.n-pagination-item--clickable) {
+        &:hover {
+            color: #fff !important;
+        }
+    }
+
     :deep(.n-pagination-item--button) {
         width: 32px;
         height: 32px;
+        box-sizing: border-box;
         color: #fff !important;
         font-weight: bold;
         background-color: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%) !important;
-        border: unset !important;
+        background: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%) !important;
 
         &:hover {
             color: #fff !important;
@@ -241,12 +219,14 @@ const seach = (v: any) => {
             color: #AEAEB0 !important;
             background-color: #14173A !important;
             border: 1.4px solid #AEAEB0 !important;
+            background: #14173A !important;
 
             &:hover {
                 color: #AEAEB0 !important;
             }
         }
     }
+
 
     :deep(.n-pagination-item--active) {
         margin-right: 5px;

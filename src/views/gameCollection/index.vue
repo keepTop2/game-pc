@@ -40,7 +40,8 @@
                 <n-grid :x-gap="7" :y-gap="12" :cols="8">
                     <n-grid-item v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
                         <div class="game_box">
-                            <n-image width="100%" :src="imgPrefix + v.gamePicturePC" fallback-src="/logo.png" />
+                            <n-image width="100%" :src="settings.backend_upload + v.gamePicturePC"
+                                fallback-src="/logo.png" />
                             <!-- <img :src="imgPrefix + v.gamePicturePC"> -->
                             <div class="game_name">
                                 <n-tooltip trigger="hover">
@@ -60,8 +61,6 @@
 
             </n-infinite-scroll>
         </div>
-
-
     </div>
     <Loading v-model:visible="isLoading"></Loading>
     <!-- <Games></Games> -->
@@ -82,10 +81,10 @@ import { User } from '@/store/user';
 import { Message } from '@/utils/discreteApi';
 import { Page } from '@/store/page';
 import Loading from '@/components/Loading.vue'
-// import Games from "@/components/Games.vue";
-const { lang } = storeToRefs(Page(pinia));
+
+const { lang, settings } = storeToRefs(Page(pinia));
 const { allCollected } = storeToRefs(User(pinia));
-const imgPrefix = 'http://18.167.175.195:8032/uploads/'
+
 const { t } = useI18n();
 const queryGame = ref("")
 const props = defineProps({
