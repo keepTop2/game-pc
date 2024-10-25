@@ -1,10 +1,6 @@
 <template>
-  <n-config-provider
-    style="width: 100%"
-    :locale="Language[lang].global"
-    :date-locale="Language[lang].date"
-    :theme-overrides="themeOverrides"
-  >
+  <n-config-provider style="width: 100%" :locale="Language[lang].global" :date-locale="Language[lang].date"
+    :theme-overrides="themeOverrides">
     <div class="app">
       <div class="main_container">
         <Header v-if="!['customer'].includes(route.name)" />
@@ -86,7 +82,7 @@ const themeOverrides: GlobalThemeOverrides = {
     tabBorderColor: "#212443",
   },
   Form: {
-    labelTextColor: "#AFB6BD",
+    labelTextColor: '#AFB6BD',
   },
   Button: {
     textColor: "#fff",
@@ -105,10 +101,10 @@ const themeOverrides: GlobalThemeOverrides = {
     placeholderColor: "#8e82c2",
   },
   DataTable: {
-    borderColor: "#26294C",
-    thTextColor: "#fff",
-    thColor: "#1B1F4B",
-    thPaddingMedium: "9px",
+    borderColor: '#26294C',
+    thTextColor: '#fff',
+    thColor: '#1B1F4B',
+    thPaddingMedium: '9px'
   },
   Dialog: {},
   Card: {},
@@ -229,8 +225,10 @@ const handleLoginFinish = async (data: any) => {
 };
 // 获取所有收藏的游戏id集合
 const resAllCollect = async (data: any) => {
+
   await User(pinia).getCollected(data.collected);
-};
+
+}
 onMounted(async () => {
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_roleinfo_msg, handleRoleInfo);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_user_info, handleUserInfo);

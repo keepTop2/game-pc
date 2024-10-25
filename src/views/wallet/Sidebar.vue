@@ -14,7 +14,7 @@
     <div class="top_wallet">
       <n-flex align="center" justify="space-between" @click="router.push(`/wallet/walletInfo`)">
         <div>
-          <div>{{ t('home_page_myWallet') }}</div>
+          <div>{{ t('page_route_wallet') }}</div>
           <div class="txt_m">{{ verifyNumberComma(String(roleInfo.money)) }}</div>
         </div>
         <span class="right_arrow"></span>

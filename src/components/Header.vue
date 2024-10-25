@@ -148,7 +148,7 @@ const NoticeDialog = defineAsyncComponent(() => import('@/components/NoticeDialo
 const menu = [
   {
     icon: 'qianbao1',
-    name: 'home_page_myWallet',
+    name: 'page_route_wallet',
     url: '/wallet/walletInfo',
   },
   {

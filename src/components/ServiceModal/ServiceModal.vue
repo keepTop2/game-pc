@@ -6,41 +6,23 @@
       <span>{{ t("chat_page_with_user", { user: state.userData.TUsername }) }}</span>
 
       <div class="forbidden">
-        <div
-          class="forbidden_btn"
-          @click="visibleForbidden = true"
-          v-if="
-            agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1
-          "
-        >
+        <div class="forbidden_btn" @click="visibleForbidden = true" v-if="
+          agentInfo.user_type && agentInfo.user_type == 1 && agentInfo.muteuser == 1
+        ">
           {{ t("chat_page_mute") }}
         </div>
         <n-switch v-if="false" v-model:value="active" />
-        <iconpark-icon
-          @click="isShow = false"
-          class="clo"
-          icon-id="tanctongyguanb"
-          color="#fff"
-          size="1.2rem"
-          style="margin-top: 6px"
-        ></iconpark-icon>
+        <iconpark-icon @click="isShow = false" class="clo" icon-id="tanctongyguanb" color="#fff" size="1.2rem"
+          style="margin-top: 6px"></iconpark-icon>
       </div>
     </h4>
     <div class="main_body">
       <!-- 左侧设置  v-if="agentInfo.user_type && agentInfo.user_type > 0" -->
       <div class="left_setting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
         <div class="set_item" @click="groupClick('all')">
-          <n-badge
-            :value="allUnReadNum"
-            :max="999999"
-            class="set_item"
-            :offset="[-14, 0]"
-          >
-            <iconpark-icon
-              icon-id="zuocweidy01"
-              :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
-              size="1.8rem"
-            ></iconpark-icon>
+          <n-badge :value="allUnReadNum" :max="999999" class="set_item" :offset="[-14, 0]">
+            <iconpark-icon icon-id="zuocweidy01" :color="state.groupType == 'all' ? '#fff' : '#8D84C5'"
+              size="1.8rem"></iconpark-icon>
             <!-- <Imgt :src="`/img/serviceModal/${item.img}`" alt=""> -->
             <!-- 全部对话 -->
             <span :style="{ color: state.groupType == 'all' ? '#fff' : '#8D84C5' }">{{
@@ -50,32 +32,18 @@
         </div>
         <!-- 分组 -->
         <div class="group_area">
-          <div
-            class="set_item"
-            v-for="item in groupList"
-            :key="item.id"
-            @click="groupClick(item)"
-          >
-            <iconpark-icon
-              icon-id="zuocweidy02"
-              :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
-              size="1.8rem"
-            ></iconpark-icon>
-            <span
-              :style="{
-                color: state.groupType.id == item.id ? '#fff' : '#8D84C5',
-              }"
-              >{{ item.name }}</span
-            >
+          <div class="set_item" v-for="item in groupList" :key="item.id" @click="groupClick(item)">
+            <iconpark-icon icon-id="zuocweidy02" :color="state.groupType.id == item.id ? '#fff' : '#8D84C5'"
+              size="1.8rem"></iconpark-icon>
+            <span :style="{
+              color: state.groupType.id == item.id ? '#fff' : '#8D84C5',
+            }">{{ item.name }}</span>
           </div>
         </div>
         <!-- 编辑 -->
         <div class="set_item" @click="groupClick('edit')">
-          <iconpark-icon
-            icon-id="zuocweidy03"
-            :color="state.groupType == 'edit' ? '#fff' : '#8D84C5'"
-            size="1.8rem"
-          ></iconpark-icon>
+          <iconpark-icon icon-id="zuocweidy03" :color="state.groupType == 'edit' ? '#fff' : '#8D84C5'"
+            size="1.8rem"></iconpark-icon>
           <span :style="{ color: state.groupType == 'edit' ? '#fff' : '#8D84C5' }">{{
             t("chat_page_edit")
           }}</span>
@@ -85,12 +53,8 @@
       <div class="left_menu">
         <div style="padding: 0 10px">
           <n-flex class="tabs">
-            <div
-              :class="['tab', { active_tab: tab.id == active_id }]"
-              v-for="tab in tab_list"
-              :key="tab.id"
-              @click="tabClick(tab)"
-            >
+            <div :class="['tab', { active_tab: tab.id == active_id }]" v-for="tab in tab_list" :key="tab.id"
+              @click="tabClick(tab)">
               {{ t(tab.label) }}
             </div>
           </n-flex>
@@ -105,81 +69,46 @@
             </template>
           </n-input>
           <!-- <n-input v-model:value="search" placeholder="查找聊天列表" v-if="agentInfo.user_type&&agentInfo.user_type>0" /> -->
-          <div
-            class="manage_group"
-            @click.stop="manageClick"
-            v-if="agentInfo.user_type && agentInfo.user_type > 0"
-          >
+          <div class="manage_group" @click.stop="manageClick" v-if="agentInfo.user_type && agentInfo.user_type > 0">
             {{ t("chat_page_group") }}
           </div>
         </div>
         <div class="list_wrap">
           <!-- 聊天列表 -->
           <div class="user_list" v-if="active_id == 1">
-            <div
-              :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
-              v-for="item in state.groupType == 'all' ? chatitemList : groupChatitemList"
-              :key="item.id"
-              @click="selectUser(item)"
-              :style="{
+            <div :class="['list_item', state.activeId == item.id ? 'item_active' : '']"
+              v-for="item in state.groupType == 'all' ? chatitemList : groupChatitemList" :key="item.id"
+              @click="selectUser(item)" :style="{
                 order:
                   item.deep == '0'
                     ? -1
                     : item.istop && item.istop == 1
-                    ? 1
-                    : item.unreadnums && item.enableflag != 1
-                    ? 2
-                    : 6,
-              }"
-            >
+                      ? 1
+                      : item.unreadnums && item.enableflag != 1
+                        ? 2
+                        : 6,
+              }">
               <div class="item_left">
                 <div class="avatar">
-                  <n-badge
-                    :value="item.unreadnums"
-                    :show="item.unreadnums > 0"
-                    :max="9999"
-                    class="set_item"
-                    :offset="[-14, 8]"
-                  >
-                    <Imgt
-                      :src="`/img/head_icons/${
-                        item.THeadPhoto ? item.THeadPhoto : '1002'
-                      }.webp`"
-                      alt=""
-                      class="img1"
-                    />
+                  <n-badge :value="item.unreadnums" :show="item.unreadnums > 0" :max="9999" class="set_item"
+                    :offset="[-14, 8]">
+                    <Imgt :src="`/img/head_icons/${item.THeadPhoto ? item.THeadPhoto : '1002'
+                      }.webp`" alt="" class="img1" />
                   </n-badge>
-                  <Imgt
-                    :src="`/img/serviceModal/vip${item.vip}.webp`"
-                    alt=""
-                    class="img2"
-                    v-if="item.vip"
-                  />
+                  <Imgt :src="`/img/serviceModal/vip${item.vip}.webp`" alt="" class="img2" v-if="item.vip" />
                 </div>
                 <span>{{ item.TUsername }}</span>
               </div>
-              <n-popover
-                trigger="hover"
-                placement="bottom-start"
-                :show-arrow="false"
-                :disabled="item.deep == '0'"
-              >
+              <n-popover trigger="hover" placement="bottom-start" :show-arrow="false" :disabled="item.deep == '0'">
                 <template #trigger>
-                  <div
-                    class="high_proxy"
-                    :style="{
-                      background: setColor(item),
-                    }"
-                  >
+                  <div class="high_proxy" :style="{
+                    background: setColor(item),
+                  }">
                     <span> {{ t(setLabel(item)) }}</span>
                   </div>
                 </template>
                 <div class="select_wrap">
-                  <div
-                    v-for="o in selectList.slice(0, 2)"
-                    :key="o.id"
-                    @click="itemSet(o, item)"
-                  >
+                  <div v-for="o in selectList.slice(0, 2)" :key="o.id" @click="itemSet(o, item)">
                     <template v-if="item.todeviceid">
                       <!-- 置顶 -->
                       <span v-if="o.id == 1">{{
@@ -191,17 +120,14 @@
                           item.enableflag == 1
                             ? t("chat_page_cancel_shield")
                             : t("chat_page_shield")
-                        }}</span
-                      >
+                        }}</span>
                     </template>
                   </div>
-                  <div
-                    v-if="
-                      agentInfo.user_type &&
-                      agentInfo.user_type > 0 &&
-                      state.groupType == 'all'
-                    "
-                  >
+                  <div v-if="
+                    agentInfo.user_type &&
+                    agentInfo.user_type > 0 &&
+                    state.groupType == 'all'
+                  ">
                     <n-popover trigger="hover" placement="right" :show-arrow="false">
                       <template #trigger>
                         <div class="high_proxy select_group">
@@ -209,11 +135,7 @@
                         </div>
                       </template>
                       <div class="select_wrap_two">
-                        <div
-                          v-for="o in groupList"
-                          :key="o.id"
-                          @click="itemAction(item, o)"
-                        >
+                        <div v-for="o in groupList" :key="o.id" @click="itemAction(item, o)">
                           <span v-if="item.chatgroupid == o.id">√</span>
                           {{ o.name }}
                         </div>
@@ -221,69 +143,39 @@
                     </n-popover>
                   </div>
                   <!-- 从分组移除 -->
-                  <div
-                    v-if="
-                      state.groupType != 'all' &&
-                      agentInfo.user_type &&
-                      agentInfo.user_type > 0
-                    "
-                    @click="itemSet({ id: 5 }, item)"
-                  >
+                  <div v-if="
+                    state.groupType != 'all' &&
+                    agentInfo.user_type &&
+                    agentInfo.user_type > 0
+                  " @click="itemSet({ id: 5 }, item)">
                     <span>{{ t("chat_page_group_remove") }}</span>
                   </div>
                 </div>
               </n-popover>
 
-              <Imgt
-                :src="`/img/serviceModal/mute.webp`"
-                alt=""
-                class="mute_img"
-                v-if="item.enableflag == 1"
-              />
+              <Imgt :src="`/img/serviceModal/mute.webp`" alt="" class="mute_img" v-if="item.enableflag == 1" />
             </div>
           </div>
           <!-- 好友列表 -->
           <div v-else>
             <div v-for="item in friendList" :key="item.title">
               <div style="margin: 16px 0px 5px 10px">{{ item.title }}</div>
-              <div
-                :class="['list_item', state.activeId == i.id ? 'item_active' : '']"
-                v-for="i in item.list"
-                :key="i.id"
-                @click="selectUser(i)"
-              >
+              <div :class="['list_item', state.activeId == i.id ? 'item_active' : '']" v-for="i in item.list"
+                :key="i.id" @click="selectUser(i)">
                 <div class="item_left">
                   <div class="avatar">
-                    <n-badge
-                      :show="false"
-                      :max="9999"
-                      class="set_item"
-                      :offset="[-14, 8]"
-                    >
-                      <Imgt
-                        :src="`/img/head_icons/${
-                          i.THeadPhoto ? i.THeadPhoto : '1002'
-                        }.webp`"
-                        alt=""
-                        class="img1"
-                      />
+                    <n-badge :show="false" :max="9999" class="set_item" :offset="[-14, 8]">
+                      <Imgt :src="`/img/head_icons/${i.THeadPhoto ? i.THeadPhoto : '1002'
+                        }.webp`" alt="" class="img1" />
                     </n-badge>
-                    <Imgt
-                      :src="`/img/serviceModal/vip${i.vip}.webp`"
-                      alt=""
-                      class="img2"
-                      v-if="i.vip"
-                    />
+                    <Imgt :src="`/img/serviceModal/vip${i.vip}.webp`" alt="" class="img2" v-if="i.vip" />
                   </div>
                   <span>{{ i.TUsername }}</span>
                 </div>
 
-                <div
-                  class="high_proxy"
-                  :style="{
-                    background: setColor(i),
-                  }"
-                >
+                <div class="high_proxy" :style="{
+                  background: setColor(i),
+                }">
                   {{ t(setLabel(i)) }}
                 </div>
               </div>
@@ -293,23 +185,12 @@
       </div>
       <!-- 右侧聊天区域 -->
       <div class="right_content">
-        <chatArea
-          :chatList="state.chatMessagesList"
-          :userData="state.userData"
-          :deepObj="deepObj"
-          :setColor="setColor"
-        >
+        <chatArea :chatList="state.chatMessagesList" :userData="state.userData" :deepObj="deepObj" :setColor="setColor">
         </chatArea>
         <!-- 快捷语选择 -->
         <div class="setting_wrap">
           <div class="short_wrap">
-            <n-carousel
-              :slides-per-view="5"
-              :space-between="10"
-              :loop="false"
-              draggable
-              :show-dots="false"
-            >
+            <n-carousel :slides-per-view="5" :space-between="10" :loop="false" draggable :show-dots="false">
               <div v-for="item in quickPhrasesCateList" :key="item.id">
                 <n-popover trigger="hover" placement="top" :show-arrow="false">
                   <template #trigger>
@@ -318,69 +199,36 @@
                     </div>
                   </template>
                   <div class="short_wrap_list">
-                    <span
-                      class="short_wrap_title"
-                      v-for="op in quickPhrasesList.filter(
-                        (ite: any) => ite.qhcid === item.id,
-                      )"
-                      @click="chooseQuick(op)"
-                      :key="op"
-                      :style="{
+                    <span class="short_wrap_title" v-for="op in quickPhrasesList.filter(
+                      (ite: any) => ite.qhcid === item.id,
+                    )" @click="chooseQuick(op)" :key="op" :style="{
                         order: op.istop == 1 ? 1 : 6,
-                      }"
-                      >{{ op.content }}</span
-                    >
+                      }">{{ op.content }}</span>
                   </div>
                 </n-popover>
               </div>
             </n-carousel>
           </div>
-          <div
-            class="setting"
-            @click="showSetting"
-            v-if="agentInfo.user_type && agentInfo.user_type > 0"
-          >
+          <div class="setting" @click="showSetting" v-if="agentInfo.user_type && agentInfo.user_type > 0">
             {{ t("chat_page_shortcut_set") }}
           </div>
         </div>
         <div class="send_message">
           <!-- <picker set="emojione" /> -->
           <div class="input_content">
-            <div
-              id="message-input"
-              ref="msgRef"
-              v-html="initMessage(testMsg)"
-              @paste="optimizePasteEvent"
-              contenteditable="true"
-              spellcheck="false"
-              autofocus
-              class="input_wrap"
-            ></div>
+            <div id="message-input" ref="msgRef" v-html="initMessage(testMsg)" @paste="optimizePasteEvent"
+              contenteditable="true" spellcheck="false" autofocus class="input_wrap"></div>
             <div class="send_icon">
-              <iconpark-icon
-                icon-id="ftsx04"
-                size="1.2rem"
-                class="pointer"
-                @click="sendMoney"
-                v-if="
-                  agentInfo.user_type &&
-                  agentInfo.user_type == 1 &&
-                  agentInfo.moneyauth == 1 &&
-                  false
-                "
-              />
-              <n-upload
-                @before-upload="beforeUpload"
-                accept=".jpg,.jpeg,.png,.gif"
-                :show-file-list="false"
-              >
+              <iconpark-icon icon-id="ftsx04" size="1.2rem" class="pointer" @click="sendMoney" v-if="
+                agentInfo.user_type &&
+                agentInfo.user_type == 1 &&
+                agentInfo.moneyauth == 1 &&
+                false
+              " />
+              <n-upload @before-upload="beforeUpload" accept=".jpg,.jpeg,.png,.gif" :show-file-list="false">
                 <iconpark-icon icon-id="kefuicontlb01" size="1.2rem" class="pointer" />
               </n-upload>
-              <n-upload
-                @before-upload="beforeUpload"
-                accept=".mp4,.avi,.mov,.wmv"
-                :show-file-list="false"
-              >
+              <n-upload @before-upload="beforeUpload" accept=".mp4,.avi,.mov,.wmv" :show-file-list="false">
                 <iconpark-icon icon-id="kefuicontlb02" size="1.2rem" class="pointer" />
               </n-upload>
               <n-popover trigger="hover" :show-arrow="false" placement="top-end">
@@ -400,28 +248,15 @@
       </div>
     </div>
     <!-- 快捷语设置 -->
-    <shortcutSettings
-      v-model:visible="visibleSetting"
-      @showCateSetting="showCateSetting"
-      @addModifyQuick="addModifyQuick"
-      :quickPhrasesCateList="quickPhrasesCateList"
-      :quickPhrasesList="quickPhrasesList"
-    />
+    <shortcutSettings v-model:visible="visibleSetting" @showCateSetting="showCateSetting"
+      @addModifyQuick="addModifyQuick" :quickPhrasesCateList="quickPhrasesCateList"
+      :quickPhrasesList="quickPhrasesList" />
     <!-- 快捷语--分类设置 -->
-    <categoryList
-      v-model:visible="visibleCateSetting"
-      @addModifyCateQuick="addModifyCateQuick"
-      :quickPhrasesCateList="quickPhrasesCateList"
-    />
+    <categoryList v-model:visible="visibleCateSetting" @addModifyCateQuick="addModifyCateQuick"
+      :quickPhrasesCateList="quickPhrasesCateList" />
 
-    <manageGroup
-      ref="groupRef"
-      v-model:visible="visibleGroup"
-      :deepObj="deepObj"
-      :stateData="state"
-      :itemList="chatitemList"
-      :agentInfo="agentInfo"
-    />
+    <manageGroup ref="groupRef" v-model:visible="visibleGroup" :deepObj="deepObj" :stateData="state"
+      :itemList="chatitemList" :agentInfo="agentInfo" />
     <!-- 转账弹窗 -->
     <sendMoneyModal v-model:visible="visibleTransfor" />
     <!-- 禁言弹窗 -->
@@ -544,8 +379,8 @@ const beforeUpload = async (data: any) => {
   const type = file.type.includes("image")
     ? "image"
     : file.type.includes("video")
-    ? "video"
-    : "";
+      ? "video"
+      : "";
 
   if (file && file.size > 1024 * 1024 * 2 && type == "image") {
     // 2MB限制
@@ -936,9 +771,8 @@ const getChatMsgPublic = (data: any, type?: any) => {
         msgtype: data.msgtype,
         date: decodeobj2.sendtime, // 时间
         role: decodeobj2.fromdeviceid == state.deviceID ? 1 : 2, //角色1 我方消息 2 对方消息
-        content: `您发送的${
-          data.msgtype == 3 ? "图片" : "视频"
-        }正在审核，请耐心等待，审核通过后显示在前台`, //消息
+        content: `您发送的${data.msgtype == 3 ? "图片" : "视频"
+          }正在审核，请耐心等待，审核通过后显示在前台`, //消息
         name: decodeobj2.fromdeviceid == state.deviceID ? "" : state.userData.TUsername,
       };
       state.chatMessagesList.unshift(messageObj);
@@ -1056,9 +890,8 @@ const onMessage: any = async (buffer: any) => {
     if (!decodeobj1.code) {
       var datatime = getDateFromat();
       if (state.messagetype != 1 && agentInfo.value.user_type != 1) {
-        testMsg.value = `您发送的${
-          state.messagetype == 3 ? "图片" : "视频"
-        }正在审核，请耐心等待，审核通过后显示在前台`;
+        testMsg.value = `您发送的${state.messagetype == 3 ? "图片" : "视频"
+          }正在审核，请耐心等待，审核通过后显示在前台`;
       }
       state.chatMessagesList.push({
         date: datatime,
@@ -1210,7 +1043,7 @@ async function getAgentLevel() {
 
 onMounted(async () => {
   await getAgentLevel();
-  IWebsocket.conectWebsocket();
+  IWebsocket.conectWebsocket(settings.value.chat_url);
   state.root = await protobuf.load("/connect.ext.proto");
   onOpen();
   IWebsocket.resgisterHandler(onMessage);
@@ -1255,7 +1088,7 @@ onUnmounted(() => {
     background-color: #14173a;
     border-bottom: 1px solid #26294c;
 
-    > .forbidden {
+    >.forbidden {
       position: absolute;
       top: 0px;
       right: 15px;
@@ -1364,11 +1197,9 @@ onUnmounted(() => {
   padding: 2px;
   border-radius: 14px;
   background: linear-gradient(0deg, #1d0e4a, #1d0e4a),
-    radial-gradient(
-      50% 50% at 50% 50%,
+    radial-gradient(50% 50% at 50% 50%,
       rgba(126, 126, 126, 0.1) 0%,
-      rgba(21, 21, 21, 0.1) 100%
-    ),
+      rgba(21, 21, 21, 0.1) 100%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.1) 100%);
 
   .tab {
