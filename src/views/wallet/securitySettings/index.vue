@@ -7,7 +7,6 @@
                 <div v-if="items.btns.length > 0">
                     <span class="bind_btn login_btn" v-for="(item, j) in items.btns " :id="items.text" :key="j"
                         @click="itemClick(items)">
-
                         {{ t(item.text) }}</span>
                 </div>
             </div>
@@ -39,6 +38,7 @@ import { Message } from '@/utils/discreteApi';
 import { Local } from '@/utils/storage';
 // import { useRoute } from "vue-router";
 import { IP } from '@/utils/others';
+
 const { t } = useI18n();
 // const route = useRoute();
 const PopForm = defineAsyncComponent(() => import('@/components/PopForm.vue'));

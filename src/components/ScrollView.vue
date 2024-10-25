@@ -154,7 +154,8 @@ const init = () => {
             }
         })
     }
-    bscroll.scrollToElement(props.el && props.el[0]);
+
+    props.el && bscroll.scrollToElement(props.el[0]);
 
 
 }
