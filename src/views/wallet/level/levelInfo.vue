@@ -12,9 +12,11 @@
       <div class="level_info_vip_all">
 
         <scroll-view class="level_info_vip_l">
+
           <div class="level_info_vip_l_container">
             <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
               :key="index" @click.stop="clickTab(item.key)">
+
               <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
               <div class="l">
                 <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
@@ -22,11 +24,16 @@
               </div>
               <div class="m" @click.stop="goRecords">{{ t('home_page_waterRecord') }}</div>
               <div class="r" @click.stop="getRebate">{{ t('level_page_lq') }}</div>
+              <div v-if="levelDataAll.current_vip_level != item.key" class="vip_top_disabled">
+                <span>{{ t('level_page_unlock') }}</span>
+              </div>
             </div>
+
           </div>
         </scroll-view>
 
       </div>
+
       <Rules v-if="isDetail" />
       <n-spin :show="loading" v-else>
         <div class="level_info_pross">
@@ -57,7 +64,7 @@
             <span> VIP{{ curTab }}特权</span>
             <span @click="openLevelRule"> {{ t('level_page_paiTitle') }} </span>
           </n-flex>
-          <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
+          <div v-if="levelDataAll.current_vip_level != curTab" class="vip_top_disabled">
             <span>{{ t('level_page_unlock') }}</span>
           </div>
 
@@ -173,7 +180,7 @@ const goRecords = () => {
 }
 // const scrollRef = ref<HTMLElement>()
 const loading = ref(false);
-const curTab = ref(1);
+const curTab = ref(0);
 const isDetail = ref(false);
 const levelListData = ref(
   [
@@ -259,15 +266,9 @@ const queryData = () => {
 // 数据处理
 const resultHandle = (res: any) => {
   console.log('level-data--------', res, VIPinfo.value);
-
-  // setTimeout(() => {
   loading.value = false;
-  // }, 300);
-  // levelDataAll.value = res;
   if (Object.keys(VIPinfo.value).length > 0) {
     levelDataAll.value = levelDataAll.value
-    curTab.value = levelDataAll.value.current_vip_level + 1;
-
   }
 };
 // money: 0, result: 2 // 1 成功，2 失败
@@ -545,6 +546,20 @@ onUnmounted(() => {
 
   }
 
+  .vip_top_disabled {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+
   .level_info_jl {
     height: 72px;
     background: url('/img/level/level_pro_bg.webp?t=@{timestamp}') center no-repeat;
@@ -779,19 +794,7 @@ onUnmounted(() => {
       }
     }
 
-    .vip_top_disabled {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
+
 
     .list_item {
       position: relative;
