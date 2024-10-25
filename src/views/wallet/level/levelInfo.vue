@@ -60,14 +60,15 @@
           <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
             <span>{{ t('level_page_unlock') }}</span>
           </div>
+
           <div class="list_item" v-for="(item, index) in levelDyData" :key="index">
             <div class="list_item_l" v-if="item.child[0].levelArr.includes(curTab + 1)">
               <div class="title_big"> {{ t(item.title) }}</div>
             </div>
             <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
-                <!-- {{ item_1.levelArr }} -->
-                <div class="list_item_bg" v-if="item_1.levelArr.includes(curTab + 1)">
+
+                <div class="list_item_bg">
                   <div class="item_txt">
                     <div>{{ t(item_1.name) }}</div>
 
@@ -161,7 +162,7 @@ const levelDataAll: any = ref({
   total_bet_money: 0,
   vip_level_reward_config: [],
 });
-let levelSettings = ref()
+
 const goRecords = () => {
   router.push({
     path: '/wallet/records',
@@ -251,9 +252,6 @@ const levelDyData = ref(
 // 获取等级数据
 const queryData = () => {
   loading.value = true;
-  // setTimeout(() => {
-  loading.value = true;
-  // }, 300);
   const query = NetPacket.req_vip_info();
   Net.instance.sendRequest(query);
 };
@@ -407,6 +405,7 @@ const state: any = reactive({
 })
 onMounted(() => {
   state.currentData = VIPinfo.value.vip_level_reward_config?.find((item: any) => item.level == (Number(VIPinfo.value.current_vip_level)))
+  curTab.value = state.currentData.level
   openModal();
   isDetail.value = false;
 
