@@ -105,7 +105,7 @@
                       :placeholder="t('deposit_page_enterMon')">
              </n-input>
            </n-form-item>
-           <n-flex justify="center" align="center" class="button button_color" @click="form.amount = ''">{{t('重置')}}</n-flex>
+           <n-flex justify="center" align="center" class="button button_color" @click="form.amount = ''">{{t('withdraw_page_reset')}}</n-flex>
          </n-flex>
           <div class="error_box">
             <n-flex v-if="['usdt'].includes(curDepositWay.payname?.toLowerCase())" justify="space-between"
