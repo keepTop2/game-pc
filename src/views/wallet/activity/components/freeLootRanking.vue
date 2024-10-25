@@ -66,7 +66,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
-import { reactive, ref, h, onMounted, onUnmounted } from 'vue';
+import { reactive, h, onMounted, onUnmounted } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 import { User } from '@/store/user.ts';
 import pinia from '@/store';

@@ -15,13 +15,13 @@
             class="planListItem"
             v-for="(item, index) in planList.data"
             @click="gameStart(item)"
-            :style="{ background: `url(/img/home/colect_${index % planList.data.length ||5}.png) no-repeat` }"
+            :style="{ background: `url(/img/home/colect_${index % 6 || 5}.png) no-repeat` }"
             :key="index"
           >
             <span>{{ t(item.gameId || 49) }}</span>
           </div>
         </div>
-        <n-button @click="pushPlanListData" v-if="planList.data.length>= 50" tertiary class="planButton">
+        <n-button @click="pushPlanListData" v-if="planList.loadMore" tertiary class="planButton">
           点击加载更多
         </n-button>
       </div>
@@ -49,27 +49,22 @@ const planList: any = reactive({
   page: 1,
   pageSize: 15,
   roundid: 0,
+  loadMore: false,
   data: [],
 });
 
 const pushPlanListData = () => {
 
+
+
+  if (planList.data.length >= 50) {
+    planList.data.push(...arrData.slice(planList.data.length, planList.data.length * 2))
+  }
+  planList.loadMore = !(planList.data.length === arrData.length)
 };
 
 const gameStart = (item: any) => {
   getGameUrl({agentId: 88888888,device_type: 0,gameId:item.roomId,kindId: 999  })
-  // agentId
-  //   :
-  //   88888888
-  // device_type
-  //   :
-  //   0
-  // gameId
-  //   :
-  //   "400"
-  // kindId
-  //   :
-  //   "999"
 };
 
 const getGameUrl = (item: any) =>{
@@ -92,9 +87,18 @@ const handleGameToUrl = (res: any) => {
   window.open(res.url)
 }
 
+let arrData = reactive(props.freeTreasureInfo.gameIds)
+
 onMounted(() => {
   if (props.freeTreasureInfo) {
-    planList.data = [...props.freeTreasureInfo.gameIds];
+    planList.loadMore = arrData.length > 50
+    // planList.data = [...props.freeTreasureInfo.gameIds];
+    planList.data = [...arrData];
+    if(arrData.length >50) {
+      planList.data = [...arrData.slice(0, 50)]
+    } else {
+      planList.data = [...arrData]
+    }
   }
 });
 
@@ -142,6 +146,7 @@ onUnmounted(() => {
       > .planList {
         display: flex;
         flex-wrap: wrap;
+        padding-bottom: 20px;
         //justify-content: space-between;
         gap: 21px;
         align-items: center;
@@ -184,7 +189,7 @@ onUnmounted(() => {
         width: 100%;
         background-image: none;
         border: 1px solid rgba(51, 56, 107, 1);
-        margin: 16px 0 30px;
+        margin: 0 0 30px;
         color: rgba(51, 56, 107, 1);
         font-size: 12px;
       }
