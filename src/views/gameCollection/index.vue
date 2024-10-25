@@ -226,9 +226,8 @@ const changeLableTab = (item: any) => {
     } else {
         state.is_lable = 0
     }
-
-    console.log(item);
-
+    resetData()
+    queryData()
 }
 const onLoad = async () => {
     if (params.isEnd) return

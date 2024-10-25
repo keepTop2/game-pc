@@ -248,7 +248,7 @@ const state: any = reactive({
         label: t('home_page_oldPassword'),
         slot: !0,
         leftIcon: "Group39362",
-        changeRightIcon: "Group39364",
+        changeRightIcon: "gerenyincangicon",
         show: false,
       },
       new_password: {
@@ -258,7 +258,7 @@ const state: any = reactive({
         label: t('home_page_newPassword'),
         slot: !0,
         leftIcon: "Group39362",
-        changeRightIcon: "Group39364",
+        changeRightIcon: "gerenyincangicon",
         show: false,
       },
       new_password_confirm: {
@@ -268,7 +268,7 @@ const state: any = reactive({
         label: t('home_page_newPassword'),
         slot: !0,
         leftIcon: "Group39362",
-        changeRightIcon: "Group39364",
+        changeRightIcon: "gerenyincangicon",
         show: false,
       },
       phoneCode: {
@@ -331,13 +331,13 @@ const onRegister = async () => {
   await User(pinia).setReg(true)
 };
 const iconClick = (a: any) => {
-  if (a.changeRightIcon == "Group39364") {
+  if (a.changeRightIcon == "gerenyincangicon") {
     a.type = "text"
-    a.changeRightIcon = "Group39365"
+    a.changeRightIcon = "gerenchakanicon"
     state.rememberPassword = false
   } else {
     a.type = "password"
-    a.changeRightIcon = "Group39364"
+    a.changeRightIcon = "gerenyincangicon"
     state.rememberPassword = true
   }
 };

@@ -38,7 +38,7 @@ export default {
     home_page_waterRecord: '洗码记录',
     home_page_paymentManagement: '支付',
     home_page_onlineService: '在线客服',
-
+    home_page_securitySettings: '安全中心',
     //导航栏
     home_page_recentGameHistory: '近期游戏记录',
     home_page_club: '俱乐部',

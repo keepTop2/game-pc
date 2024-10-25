@@ -11,11 +11,11 @@
 
       <div class="level_info_vip_all">
 
-        <scroll-view class="level_info_vip_l">
+        <scroll-view class="level_info_vip_l" :el="activeRef">
 
           <div class="level_info_vip_l_container">
             <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
-              :key="index" @click.stop="clickTab(item.key)">
+              :ref="curTab === item.key ? 'activeRef' : ''" :key="index" @click.stop="clickTab(item.key)">
 
               <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
               <div class="l">
@@ -158,6 +158,8 @@ const router = useRouter();
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo, hasLogin } = storeToRefs(UserStore);
+const activeRef = ref()
+console.log(activeRef);
 
 const { t } = useI18n();
 const ruleModal = ref(false);
