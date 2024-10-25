@@ -8,7 +8,7 @@
       <div class="welcome">
         <Imgt src="/img/header/tips.webp" @click="router.push('/')" />
         <div class="title">
-          <notice :textAnnouncement="textAnnouncement"></notice>
+          <Notice :announcementList="textAnnouncement"></Notice>
         </div>
       </div>
 
@@ -167,7 +167,7 @@ import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
 import useClickOutSideHooks from "@/utils/vClickOutside";
-import notice from "./notice.vue";
+import Notice from "./notice.vue";
 import RedeemCode from "@/views/wallet/components/RedeemCode.vue";
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));

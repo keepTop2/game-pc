@@ -1,7 +1,7 @@
 <template>
   <div class="notice-wrapper">
-    <div class="notice" :style="noticeStyle" v-if="textAnnouncement.length">
-      <span>{{ t(textAnnouncement[num]) }}</span>
+    <div class="notice" :style="noticeStyle" v-if="tList.length">
+      <span>{{ tList[num] }}</span>
     </div>
   </div>
 </template>
@@ -11,11 +11,15 @@ import { ref, reactive, onUnmounted, computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 const props = defineProps({
-  textAnnouncement: {
+  announcementList: {
     // 当前代理详情
     type: Array,
     default: () => [],
   },
+});
+const tList = computed(() => {
+  const list = props.announcementList.map((item) => t(item));
+  return list;
 });
 
 const noticeStyle = computed(() => {
@@ -24,13 +28,13 @@ const noticeStyle = computed(() => {
   };
 });
 const maxLength = computed(() => {
-  return props.textAnnouncement.length;
+  return props.announcementList.length;
 });
 
 let marqueetimer = null;
 const num = ref(0);
 const showMarquee = () => {
-  const max = props.textAnnouncement.length;
+  const max = props.announcementList.length;
   marqueetimer = setInterval(function () {
     num.value++;
     if (num.value > maxLength.value) {
