@@ -16,7 +16,8 @@
                 <n-select v-model:value="items.value" :options="state.currencyList" />
             </div> -->
         </div>
-        <PopForm ref="FormRef" @nextChange="nextChange" @changeTab="changePasswordChangeTab" @submitData="submitData">
+        <PopForm ref="FormRef" @nextChange="nextChange" @nextBind="nextBind" @changeTab="changePasswordChangeTab"
+            @submitData="submitData">
         </PopForm>
     </div>
 </template>
@@ -153,7 +154,7 @@ const state: any = reactive({
                         label: 'home_page_oldPassword',
                         slot: !0,
                         // leftIcon: "Group39362",
-                        changeRightIcon: "Group39364",
+                        changeRightIcon: "gerenyincangicon",
                         show: true,
                     },
                     new_password: {
@@ -163,7 +164,7 @@ const state: any = reactive({
                         label: 'home_page_newPassword',
                         slot: !0,
                         // leftIcon: "Group39362",
-                        changeRightIcon: "Group39364",
+                        changeRightIcon: "gerenyincangicon",
                         show: true,
                     },
                     new_password_confirm: {
@@ -173,7 +174,7 @@ const state: any = reactive({
                         label: 'home_page_newPassword',
                         slot: !0,
                         // leftIcon: "Group39362",
-                        changeRightIcon: "Group39364",
+                        changeRightIcon: "gerenyincangicon",
                         show: true,
                     },
                     phoneCode: {
@@ -344,7 +345,7 @@ const state: any = reactive({
                         label: 'home_page_oldPassword',
                         slot: !0,
                         // leftIcon: "Group39362",
-                        changeRightIcon: "Group39364",
+                        changeRightIcon: "gerenyincangicon",
                         show: false,
                     },
                     new_withdrawPwd: {
@@ -354,7 +355,7 @@ const state: any = reactive({
                         label: 'home_page_newPassword',
                         slot: !0,
                         // leftIcon: "Group39362",
-                        changeRightIcon: "Group39364",
+                        changeRightIcon: "gerenyincangicon",
                         show: true,
                     },
                     new_withdrawPwd_confirm: {
@@ -364,7 +365,7 @@ const state: any = reactive({
                         label: 'home_page_newPassword',
                         slot: !0,
                         // leftIcon: "Group39362",
-                        changeRightIcon: "Group39364",
+                        changeRightIcon: "gerenyincangicon",
                         show: true,
                     },
 
@@ -596,24 +597,242 @@ const itemClick = (item: any) => {
     }
     item.formData.rules = rules
 
-    if (item.type == 3) {
-        if (!info.value.mobile) {
-            let mobileIndex = item.formData.tabList.findIndex((e: any) => e.value == 1)
-            if (mobileIndex != -1) {
-                item.formData.tabList.splice(mobileIndex, 1)
-            }
-        }
-        if (!info.value.email) {
-            let emailIndex = item.formData.tabList.findIndex((e: any) => e.value == 2)
-            if (emailIndex != -1) {
-                item.formData.tabList.splice(emailIndex, 1)
-            }
-        }
-    }
+    // if (item.type == 3) {
+    //     if (!info.value.mobile) {
+    //         let mobileIndex = item.formData.tabList.findIndex((e: any) => e.value == 1)
+    //         if (mobileIndex != -1) {
+    //             item.formData.tabList.splice(mobileIndex, 1)
+    //         }
+    //     }
+    //     if (!info.value.email) {
+    //         let emailIndex = item.formData.tabList.findIndex((e: any) => e.value == 2)
+    //         if (emailIndex != -1) {
+    //             item.formData.tabList.splice(emailIndex, 1)
+    //         }
+    //     }
+    // }
     state.formData = item.formData
     FormRef.value.openDialog(item.formData, item.type)
 }
+const nextBind = (type: number) => {
+    FormRef.value.closeDialog()
+    let rules = {
+        mobile: [
+            {
+                key: 'phone',
+                required: !0,
+                trigger: "input",
+                validator: (_rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterPhoneNumber'))
+                    } else
+                        if (verifyMobile(state.formData.formParams.codeValue, value)) {
+                            state.formData.list.phoneCode.disabled = false
+                            return true
+                        } else {
+                            state.formData.list.phoneCode.disabled = true
+                            return new Error(t('home_page_phoneNumberFormatIncorrect'))
+                        }
 
+                },
+            },
+        ],
+        verify_code: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterVerificationCode'))
+                    } else
+                        if (verifyCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_verificationCodeFormatIncorrect'))
+                        }
+                },
+            },
+        ],
+        email: [
+            {
+                key: 'email',
+                required: !0,
+                trigger: "input",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterEmail'))
+                    } else
+                        if (verifyEmail(rule, state.formData.formParams.email)) {
+                            state.formData.list.emailCode.disabled = false
+                            return true
+                        } else {
+                            state.formData.list.emailCode.disabled = true
+                            return new Error(t('home_page_emailIncorrect'))
+                        }
+                },
+
+            },
+        ],
+        old_password: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterPassword'))
+                    } else
+                        if (verifyPassword(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_passwordFormatIncorrect'))
+                        }
+                },
+
+            },
+        ],
+        new_password: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterNewPassword'))
+                    } else
+                        if (verifyPassword(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_passwordFormatIncorrect'))
+                        }
+                },
+
+
+            },
+        ],
+        new_password_confirm: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (_rule: any, value: any) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterAgainNewPassword'))
+                    } else
+                        if (value != state.formData.formParams.new_password) {
+                            return new Error(t('home_page_passwordsInconsistent'))
+                        } else {
+                            return true
+                        }
+                },
+            },
+        ],
+        old_withdrawPwd: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterOldPassword'))
+                    } else
+                        if (verifyWithdrawPwd(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_passwordFormatIncorrect'))
+                        }
+                },
+
+
+            },
+        ],
+        new_withdrawPwd: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterAgainNewPassword'))
+                    } else
+                        if (verifyWithdrawPwd(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_passwordFormatIncorrect'))
+                        }
+                },
+
+            },
+        ],
+        new_withdrawPwd_confirm: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (_rule: any, value: any) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterAgainNewPassword'))
+                    }
+                    if (value != state.formData.formParams.new_withdrawPwd) {
+                        return new Error(t('home_page_passwordsInconsistent'))
+                    } else {
+                        return true
+                    }
+                },
+
+            },
+        ],
+        phoneCode: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterSmsCode'))
+                    } else
+                        if (verifyPhoneCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_smsCodeFormatIncorrect'))
+                        }
+                },
+
+
+
+            },
+        ],
+        emailCode: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterSmsCode'))
+                    } else
+                        if (verifyCaptcha(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_smsCodeFormatIncorrect'))
+                        }
+                },
+            },
+        ],
+        account: [
+            {
+                required: !0,
+                trigger: "blur",
+                validator: (rule: any, value: string) => {
+                    if (!value) {
+                        return new Error(t('home_page_enterAccount1'))
+                    } else
+                        if (verifyPassword(rule, value)) {
+                            return true
+                        } else {
+                            return new Error(t('home_page_accountFormatIncorrect'))
+                        }
+                },
+            },
+        ],
+
+    }
+    let findItem = state.list.find((e: any) => e.type == type)
+    findItem.formData.rules = rules
+    FormRef.value.openDialog(findItem.formData, type)
+}
 // 更改密码或验证验证码
 const changePassword = (params: any, type: number) => {
     let req = NetPacket.req_reset_account_password();

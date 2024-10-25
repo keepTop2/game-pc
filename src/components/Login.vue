@@ -180,7 +180,7 @@ const state: any = reactive({
       placeholder: 'home_page_enterPassword',
       slot: !0,
       leftIcon: "Group39362",
-      changeRightIcon: "Group39364",
+      changeRightIcon: "gerenyincangicon",
       show: !0,
     },
     captcha: {
@@ -340,14 +340,14 @@ const onLoginSubmit = () => {
   });
 };
 const iconClick = (a: any) => {
-  if (a.changeRightIcon == "Group39364") {
+  if (a.changeRightIcon == "gerenyincangicon") {
 
     a.type = "text"
-    a.changeRightIcon = "Group39365"
+    a.changeRightIcon = "gerenchakanicon"
     state.rememberPassword = false
   } else {
     a.type = "password"
-    a.changeRightIcon = "Group39364"
+    a.changeRightIcon = "gerenyincangicon"
     state.rememberPassword = true
   }
 };
@@ -356,12 +356,12 @@ const iconClick = (a: any) => {
 const changeTab = (tabId: number) => {
   state.active = tabId;
   if (state.active == 1) {
-    if(state.loginList){
+    if (state.loginList) {
       state.loginList.account.show = false
       state.loginList.email.show = true
     }
   } else {
-    if(state.loginList){
+    if (state.loginList) {
       state.loginList.account.show = true
       state.loginList.email.show = false
     }
