@@ -15,13 +15,13 @@
             class="planListItem"
             v-for="(item, index) in planList.data"
             @click="gameStart(item)"
-            :style="{ background: `url(/img/home/colect_4.png) no-repeat` }"
+            :style="{ background: `url(/img/home/colect_${index % planList.data.length ||5}.png) no-repeat` }"
             :key="index"
           >
             <span>{{ t(item.gameId || 49) }}</span>
           </div>
         </div>
-        <n-button @click="pushPlanListData" tertiary class="planButton">
+        <n-button @click="pushPlanListData" v-if="planList.data.length>= 50" tertiary class="planButton">
           点击加载更多
         </n-button>
       </div>
@@ -32,9 +32,14 @@
 <script setup lang="ts">
 // import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
-import { onMounted, reactive } from 'vue';
+import { onMounted, onUnmounted, reactive } from 'vue';
 
 import { useI18n } from 'vue-i18n';
+import { NetPacket } from '@/netBase/NetPacket.ts';
+import { Net } from '@/net/Net.ts';
+import { MessageEvent2 } from '@/net/MessageEvent2.ts';
+import { NetMsgType } from '@/netBase/NetMsgType.ts';
+import { Message } from '@/utils/discreteApi'
 // import { useRoute, useRouter } from 'vue-router';
 // import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n();
@@ -48,24 +53,53 @@ const planList: any = reactive({
 });
 
 const pushPlanListData = () => {
-  // let data = [{name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},]
-  // planList.data.push(...data)
+
 };
 
 const gameStart = (item: any) => {
-  window.open('https://www.baidu.com/');
+  getGameUrl({agentId: 88888888,device_type: 0,gameId:item.roomId,kindId: 999  })
+  // agentId
+  //   :
+  //   88888888
+  // device_type
+  //   :
+  //   0
+  // gameId
+  //   :
+  //   "400"
+  // kindId
+  //   :
+  //   "999"
 };
+
+const getGameUrl = (item: any) =>{
+  // req_3rd_game_login
+  const req = NetPacket.req_3rd_game_login();
+  req.agentId = item.agentId;
+  req.device_type = item.device_type;
+  req.gameId = item.gameId.toString();
+  req.kindId = item.kindId.toString();
+  req.lang = 1;
+  Net.instance.sendRequest(req);
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_3rd_game_login_result,
+    handleGameToUrl,
+  );
+}
+
+const handleGameToUrl = (res: any) => {
+  if (!res.url) return Message.success('打开失败，请刷新重试')
+  window.open(res.url)
+}
 
 onMounted(() => {
   if (props.freeTreasureInfo) {
     planList.data = [...props.freeTreasureInfo.gameIds];
-    // Object.assign(planList.data, props.freeTreasureInfo.gameIds)
   }
+});
+
+onUnmounted(() => {
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, null);
 });
 </script>
 
@@ -124,7 +158,7 @@ onMounted(() => {
             display: block;
             width: 73px;
             //line-height: 18;
-            //text-align: center;
+            text-align: center;
             font-size: 12px;
             white-space: nowrap; /* 保持文本在一行显示 */
             overflow: hidden; /* 隐藏溢出的文本 */

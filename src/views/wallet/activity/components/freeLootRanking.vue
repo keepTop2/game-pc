@@ -10,7 +10,7 @@
         </div>
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
-          <p>今日排名：{{ props.freeTreasureInfo.rank || '--' }}</p>
+          <p>今日排名：{{ props.freeTreasureInfo.rank === -1 ? '--' : props.freeTreasureInfo.rank === -1}}</p>
         </div>
       </div>
       <div class="gold">
