@@ -71,7 +71,11 @@
               >
             </div>
             <div class="freeComponent">
-              <component v-if="freeTreasureInfo" :is="state.freeLootComponent" :freeTreasureInfo="freeTreasureInfo"></component>
+              <component
+                v-if="freeTreasureInfo"
+                :is="state.freeLootComponent"
+                :freeTreasureInfo="freeTreasureInfo"
+              ></component>
             </div>
           </div>
         </div>
@@ -84,7 +88,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, markRaw, ref, defineAsyncComponent } from 'vue';
+import {
+  onMounted,
+  onUnmounted,
+  reactive,
+  markRaw,
+  ref,
+  defineAsyncComponent,
+} from 'vue';
 // import { useRoute } from "vue-router";
 import { useI18n } from 'vue-i18n';
 import { Page } from '@/store/page';
@@ -95,16 +106,20 @@ import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 
-
-
 // import FreeLoot from '@/views/wallet/activity/components/freeLoot.vue';
 // import FreeLootRanking from '@/views/wallet/activity/components/freeLootRanking.vue';
 // import FreeLootRule from '@/views/wallet/activity/components/freeLootRule.vue';
 // import Calendar from '@/components/Calendar.vue'
 
-const FreeLoot = defineAsyncComponent(() => import('@/views/wallet/activity/components/freeLoot.vue'))
-const FreeLootRanking = defineAsyncComponent(() => import('@/views/wallet/activity/components/freeLootRanking.vue'))
-const FreeLootRule = defineAsyncComponent(() => import('@/views/wallet/activity/components/freeLootRule.vue'))
+const FreeLoot = defineAsyncComponent(
+  () => import('@/views/wallet/activity/components/freeLoot.vue'),
+);
+const FreeLootRanking = defineAsyncComponent(
+  () => import('@/views/wallet/activity/components/freeLootRanking.vue'),
+);
+const FreeLootRule = defineAsyncComponent(
+  () => import('@/views/wallet/activity/components/freeLootRule.vue'),
+);
 
 const { activityTitleList, homeActivityList } = storeToRefs(Page(pinia));
 
@@ -217,13 +232,15 @@ const state: any = reactive({
 //   state.activeDate = data
 // }
 const handleActivetys = async (res: any) => {
-
   await Page(pinia).setActivityTitleList(res.promo);
 };
 
 // 点击按钮弹窗
 const defineModel = (item: any) => {
-  state.showModal = true;
+  // 免费夺宝活动弹窗显示
+  if (item.id === 10000) {
+    state.showModal = true;
+  }
 };
 
 const changeFreeLootTab = (item: any, tabId: number) => {
@@ -231,12 +248,10 @@ const changeFreeLootTab = (item: any, tabId: number) => {
   state.freeLootComponent = item.component;
 };
 
-
-
-const freeTreasureInfo = ref(null)
+const freeTreasureInfo = ref(null);
 const handleFreeTreasureInfo = (res: any) => {
-  freeTreasureInfo.value = res
-}
+  freeTreasureInfo.value = res;
+};
 
 onMounted(() => {
   // state.name = route.query.typeName
@@ -249,18 +264,20 @@ onMounted(() => {
     handleActivetys,
   );
 
-
   //msg reg free_treasure_info
   const req_free_treasure_info = NetPacket.req_free_treasure_info();
   // req = {}
   Net.instance.sendRequest(req_free_treasure_info);
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_free_treasure_info,
-    handleFreeTreasureInfo
+    handleFreeTreasureInfo,
   );
 });
 onUnmounted(() => {
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_info, null);
+  MessageEvent2.removeMsgEvent(
+    NetMsgType.msgType.msg_notify_free_treasure_info,
+    null,
+  );
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
 });
 </script>
