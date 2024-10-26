@@ -36,10 +36,9 @@
     <!--        <FreeLoot/>-->
     <!--      </n-card>-->
     <!--    </n-modal>-->
-    <n-modal v-model:show="state.showModal">
+    <n-modal v-model:show="pageStore.isFreeModalVisible">
       <n-card
         class="avatar_set"
-        @close="state.showModal = false"
         :bordered="false"
         size="huge"
         role="dialog"
@@ -52,7 +51,7 @@
             <span>{{ t('免费夺宝') }}</span>
             <i>
               <iconpark-icon
-                @click="state.showModal = false"
+                @click="pageStore.closeFreeModal"
                 icon-id="tanctongyguanb"
                 color="#fff"
                 size="1.2rem"
@@ -120,6 +119,9 @@ const FreeLootRanking = defineAsyncComponent(
 const FreeLootRule = defineAsyncComponent(
   () => import('@/views/wallet/activity/components/freeLootRule.vue'),
 );
+
+const pageStore = Page()
+
 
 const { activityTitleList, homeActivityList } = storeToRefs(Page(pinia));
 
@@ -240,6 +242,7 @@ const defineModel = (item: any) => {
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
     state.showModal = true;
+    pageStore.openFreeModal()
   }
 };
 
