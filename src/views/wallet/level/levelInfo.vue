@@ -11,10 +11,12 @@
 
       <div class="level_info_vip_all">
 
-        <scroll-view class="level_info_vip_l">
+        <scroll-view class="level_info_vip_l" :el="activeRef">
+
           <div class="level_info_vip_l_container">
             <div :class="`vip_item ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in levelListData"
-              :key="index" @click.stop="clickTab(item.key)">
+              :ref="curTab === item.key ? 'activeRef' : ''" :key="index" @click.stop="clickTab(item.key)">
+
               <Imgt :src="`/img/level/newicon/level_${item.key}.webp`" alt="vip" />
               <div class="l">
                 <Imgt :src="`/img/level/icon_rewards.webp`" alt="rewards" class="icon_rewards" />
@@ -22,25 +24,29 @@
               </div>
               <div class="m" @click.stop="goRecords">{{ t('home_page_waterRecord') }}</div>
               <div class="r" @click.stop="getRebate">{{ t('level_page_lq') }}</div>
+              <div v-if="levelDataAll.current_vip_level != item.key" class="vip_top_disabled">
+                <span>{{ t('level_page_unlock') }}</span>
+              </div>
             </div>
+
           </div>
         </scroll-view>
 
       </div>
+
       <Rules v-if="isDetail" />
       <n-spin :show="loading" v-else>
         <div class="level_info_pross">
           <n-flex class="level_info_vip" justify="space-between">
-            <!-- <div class="l_info_pro_l"> VIP{{ levelDataAll.current_vip_level || 0 }}</div>
-            <div class="l_info_pro_r"> VIP{{ Number(levelDataAll.current_vip_level) + 1 || 1 }} -->
+
             <div class="l_info_pro" :class="{ active: curTab === item.key }" v-for="(item, index) in levelListData"
               :key="index">{{ item.level }}</div>
           </n-flex>
           <div class="item_pro"> <span v-show="vipProcss().rate > 0" class="pro_inner"
               :style="`width: ${vipProcss().rateStr}`"> </span></div>
-          <div class="vip_detail">
+          <div class="vip_detail" v-if="VIPinfo.current_vip_level < 10">
             <div class="l">
-              <div class="t"> <span>{{ t('level_page_next_level') }}</span>VIP {{ levelDataAll.current_vip_level + 1 }}
+              <div class="t"> <span>{{ t('level_page_next_level') }}</span>VIP {{ VIPinfo.current_vip_level + 1 }}
               </div>
               <div class="b">
                 <span>流水</span>
@@ -58,32 +64,31 @@
             <span> VIP{{ curTab }}特权</span>
             <span @click="openLevelRule"> {{ t('level_page_paiTitle') }} </span>
           </n-flex>
-          <div v-if="levelDataAll.current_vip_level < curTab" class="vip_top_disabled">
+          <div v-if="levelDataAll.current_vip_level != curTab" class="vip_top_disabled">
             <span>{{ t('level_page_unlock') }}</span>
           </div>
+
           <div class="list_item" v-for="(item, index) in levelDyData" :key="index">
-            <div class="list_item_l">
+            <div class="list_item_l" v-if="item.child[0].levelArr.includes(curTab + 1)">
               <div class="title_big"> {{ t(item.title) }}</div>
-              <!-- <div> {{ item.titleSec }}</div> -->
-              <!-- {{ levelSettings }} -->
             </div>
             <n-flex class="list_item_r">
               <div class="list_item_r_item" v-for="(item_1, index_1) in item.child" :key="index + index_1">
-                <!-- <div :class="`list_item_bg ${item_1?.levelArr.includes(curTab) ? '' : 'not'}`"> -->
+
                 <div class="list_item_bg">
                   <div class="item_txt">
                     <div>{{ t(item_1.name) }}</div>
-                    <!-- {{ item_1.icon }} -->
-                    <!-- <p class="amount">100.000</p> -->
-                    <div v-if="levelSettings" class="amount">
+
+                    <div v-if="state.currentData" class="amount">
+
                       <span v-if="item_1.icon === 'level_js'">
-                        {{ levelSettings.promotional_reward_status.money }}</span>
+                        {{ state.currentData.promotional_reward_status.money }}</span>
                       <span v-else-if="item_1.icon === 'level_lj'">
-                        {{ levelSettings.gift_money_amount }} </span>
+                        {{ state.currentData.gift_money_amount }} </span>
                       <span v-else-if="item.key == 'chip'">
                         <template v-if="hasLogin">
 
-                          {{ (Number(levelSettings.ratio.split(',')[index_1]) * 100) + '%' }}
+                          {{ toFixedNumber(Number(state.currentData.ratio.split(',')[index_1]) * 100) + '%' }}
                         </template>
                         <template v-else>
                           {{ '--' }}
@@ -132,7 +137,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
@@ -142,7 +147,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import pinia from '@/store';
 import { User } from '@/store/user';
-import { verifyNumberComma } from '@/utils/others.ts';
+import { toFixedNumber, verifyNumberComma } from '@/utils/others.ts';
 import Imgt from '@/components/Imgt.vue';
 import navTab from '@/views/wallet/components/navTab.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
@@ -153,6 +158,8 @@ const router = useRouter();
 // 从 store 获取 vipinfo 数据
 const UserStore = User(pinia);
 const { VIPinfo, hasLogin } = storeToRefs(UserStore);
+const activeRef = ref()
+console.log(activeRef);
 
 const { t } = useI18n();
 const ruleModal = ref(false);
@@ -164,7 +171,7 @@ const levelDataAll: any = ref({
   total_bet_money: 0,
   vip_level_reward_config: [],
 });
-let levelSettings = ref()
+
 const goRecords = () => {
   router.push({
     path: '/wallet/records',
@@ -175,7 +182,7 @@ const goRecords = () => {
 }
 // const scrollRef = ref<HTMLElement>()
 const loading = ref(false);
-const curTab = ref(1);
+const curTab = ref(0);
 const isDetail = ref(false);
 const levelListData = ref(
   [
@@ -254,9 +261,6 @@ const levelDyData = ref(
 // 获取等级数据
 const queryData = () => {
   loading.value = true;
-  // setTimeout(() => {
-  loading.value = true;
-  // }, 300);
   const query = NetPacket.req_vip_info();
   Net.instance.sendRequest(query);
 };
@@ -264,15 +268,9 @@ const queryData = () => {
 // 数据处理
 const resultHandle = (res: any) => {
   console.log('level-data--------', res, VIPinfo.value);
-
-  // setTimeout(() => {
   loading.value = false;
-  // }, 300);
-  // levelDataAll.value = res;
   if (Object.keys(VIPinfo.value).length > 0) {
     levelDataAll.value = levelDataAll.value
-    curTab.value = levelDataAll.value.current_vip_level + 1;
-
   }
 };
 // money: 0, result: 2 // 1 成功，2 失败
@@ -308,19 +306,14 @@ const openModal = () => {
 const openLevelRule = () => {
   ruleModal.value = true;
 };
-let targetArr: any
+
 // 计算所需投注
 const countNeedBet = () => {
-  if (levelDataAll.value.vip_level_reward_config.length) {
-    levelSettings.value = targetArr = levelDataAll.value.vip_level_reward_config?.find((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
-    const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
-    // const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)];
-    // const targetMon = targetArr.target_bet_money;
-    return targetMon - Number(levelDataAll.value.total_bet_money) || 0;
-    // return targetMon || '-';
-  } else {
-    return '';
-  }
+
+  const targetArr = VIPinfo.value.vip_level_reward_config?.find((item: any) => item.level == (Number(VIPinfo.value.current_vip_level)))
+  const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
+  return targetMon - Number(VIPinfo.value.total_bet_money) || 0;
+
 
 };
 // 计算vip 等级进度
@@ -328,7 +321,7 @@ const vipProcss = () => {
 
   if (levelDataAll.value.vip_level_reward_config.length) {
     // levelDataAll.value.total_bet_money = 2654000;
-    levelSettings.value = targetArr = levelDataAll.value.vip_level_reward_config?.find((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
+    const targetArr = levelDataAll.value.vip_level_reward_config?.find((item: any) => item.level == (Number(levelDataAll.value.current_vip_level)))
     const targetMon = targetArr.length && (targetArr[0] as any).target_bet_money;
     // const targetArr = levelDataAll.value.vip_level_reward_config[Number(levelDataAll.value.current_vip_level)];
     // const targetMon = targetArr.target_bet_money;
@@ -369,29 +362,14 @@ const getRebate = () => {
 
 };
 const clickTab = (key: any) => {
+
   curTab.value = key;
-  // 添加点击滚动
-  // const winWidth = document.documentElement.clientWidth / 2; // 视窗宽度的一半
-  // const curBoxW = e.target.offsetWidth; // 当前容器宽度
-  // const curClientX = e.clientX;
-  // const targetBox: any = document.getElementById('scroll_box');
-  // let scrollLeft = -curBoxW; // 向右滚动
-  // // 需要向左滚动
-  // if (curClientX > winWidth - curBoxW / 2) {
-  //   scrollLeft = curBoxW;
-  // }
-  // targetBox.scrollBy({
-  //   top: 0,
-  //   left: scrollLeft, // 向右滚动的距离
-  //   behavior: 'smooth', // 平滑滚动
-  // });
+  state.currentData = VIPinfo.value.vip_level_reward_config?.find((item: any) => item.level == key)
+
+
 };
 
-// 角色VIP详情
-const handleVipInfo = async (data: any) => {
-  await User(pinia).getVIPInfo(data);
-  levelSettings.value = data.vip_level_reward_config.find((e: any) => e.level == data.current_vip_level)
-};
+
 
 const goDetail = (v?: number) => {
   if (v) {
@@ -401,35 +379,22 @@ const goDetail = (v?: number) => {
   }
 }
 
-// 已关闭窗口
-// watch(
-//   () => showModal.value,
-//   (n) => {
-//     if (!n) {
-//       // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_info, null);
-//       MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_claim_status, null);
-//     }
-//   },
-//   {
-//     deep: true,
-//   }
-// )
 // 设置 选中当前等级数据
 const setCurLevel = () => {
-  levelSettings.value = levelDataAll.value.vip_level_reward_config.find((item: any) => item.level === curTab.value)
-  console.log(levelSettings.value);
+
+
 
 }
-watch(
-  () => curTab.value,
-  (n) => {
-    if (n) {
-      console.log(n);
+// watch(
+//   () => curTab.value,
+//   (n) => {
+//     if (n) {
+//       console.log(n);
 
-      setCurLevel();
-    }
-  }
-);
+//       setCurLevel();
+//     }
+//   }
+// );
 watch(
   () => VIPinfo.value,
   (n) => {
@@ -438,11 +403,15 @@ watch(
     }
   },
 );
-
+const state: any = reactive({
+  currentData: null
+})
 onMounted(() => {
+  state.currentData = VIPinfo.value.vip_level_reward_config?.find((item: any) => item.level == (Number(VIPinfo.value.current_vip_level)))
+  curTab.value = state.currentData.level
   openModal();
   isDetail.value = false;
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_vip_info, handleVipInfo);
+
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_vip_claim_status, null);
@@ -577,6 +546,20 @@ onUnmounted(() => {
 
 
 
+  }
+
+  .vip_top_disabled {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
   }
 
   .level_info_jl {
@@ -813,19 +796,7 @@ onUnmounted(() => {
       }
     }
 
-    .vip_top_disabled {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
+
 
     .list_item {
       position: relative;

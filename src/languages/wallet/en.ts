@@ -189,6 +189,8 @@ export default {
   paymentManagement_page_tip1: 'Please enter the correct account number!',
   paymentManagement_page_tip2: 'Add successfully!',
   paymentManagement_page_tip3: 'The bank card has been bound',
+  paymentManagement_page_titleU: 'Choose USDT',
+  paymentManagement_page_tipR: 'Description (optional)',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Currency',
@@ -327,6 +329,15 @@ export default {
   withdraw_page_fail_tips5: "Insufficient central wallet balance",
   withdraw_page_fail_tips6: "There is an unfinished withdrawal record",
   withdraw_page_fail_wait: "Waiting for order to be completed",
+
+  withdraw_page_payWay: "Withdrawal method",
+  withdraw_page_ch_payWay: "Please select a withdrawal method",
+  withdraw_page_reset: "reset",
+  withdraw_page_mountFee: "The transaction amount includes transaction fees and taxes",
+  withdraw_page_rate: "exchange rate",
+  withdraw_page_openClose: "Open/close fund password",
+  withdraw_page_sureDeposit: "Confirm deposit",
+  withdraw_page_emPayPwd: "Fund password cannot be empty",
 
   // transfer
   transfer_page_from: 'From',

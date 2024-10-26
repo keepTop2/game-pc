@@ -8,7 +8,7 @@
       <div class="welcome">
         <Imgt src="/img/header/tips.webp" @click="router.push('/')" />
         <div class="title">
-          <notice :textAnnouncement="textAnnouncement"></notice>
+          <Notice :announcementList="textAnnouncement"></Notice>
         </div>
       </div>
 
@@ -94,7 +94,7 @@
                 @click="menuClick(item, i)"
               >
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
-                <span>{{ t(item.name) }}</span>
+                <span>333</span>
               </p>
             </div>
           </n-popover>
@@ -167,7 +167,7 @@ import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
 import useClickOutSideHooks from "@/utils/vClickOutside";
-import notice from "./notice.vue";
+import Notice from "./notice.vue";
 import RedeemCode from "@/views/wallet/components/RedeemCode.vue";
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
@@ -299,7 +299,7 @@ const avatarLoadError = (e: any) => {
   e.target.src = defaultAvatar;
 };
 const renderLabel: SelectRenderLabel = (option: any) => {
-  return h("div", {}, t(option.label));
+  return h("div", {}, t(option?.label));
 };
 // 主题色切换1
 const changeTheme = (value: any) => {

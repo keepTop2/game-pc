@@ -79,7 +79,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'securitySettings',
         name: 'securitySettings',
-        meta: { title: 'securitySettings' },
+        meta: { title: 'home_page_securitySettings' },
         component: () => import('@/views/wallet/securitySettings/index.vue'),
       },
       {
@@ -124,6 +124,12 @@ const routes: RouteRecordRaw[] = [
         name: 'levelInfo',
         meta: { title: 'VIP特权' },
         component: () => import('@/views/wallet/level/levelInfo.vue'),
+      },
+      {
+        path: 'feedback',
+        name: 'feedback',
+        meta: { title: '有奖反馈' },
+        component: () => import('@/views/wallet/feedback.vue'),
       },
       {
         path: 'levelRule',

@@ -189,6 +189,8 @@ export default {
   paymentManagement_page_tip1: '请输入正确的账号!',
   paymentManagement_page_tip2: '新增成功!',
   paymentManagement_page_tip3: '银行卡已被绑定',
+  paymentManagement_page_titleU: '选择USDT',
+  paymentManagement_page_tipR: '描述（选填）',
 
   // rechargeRecord
   rechargeRecord_page_currency: '货币',
@@ -327,6 +329,15 @@ export default {
   withdraw_page_fail_tips5: "中心钱包余额不足",
   withdraw_page_fail_tips6: "有未完成的提现记录",
   withdraw_page_fail_wait: "待订单完成",
+
+  withdraw_page_payWay: "提款方式",
+  withdraw_page_ch_payWay: "请选择提款方式",
+  withdraw_page_reset: "重置",
+  withdraw_page_mountFee: "交易金额包括交易手续费和税费",
+  withdraw_page_rate: "兑换汇率",
+  withdraw_page_openClose: "开启/关闭资金密码",
+  withdraw_page_sureDeposit: "确定存入",
+  withdraw_page_emPayPwd: "资金密码不能为空",
 
   // transfer
   transfer_page_from: '从',

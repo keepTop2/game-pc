@@ -189,6 +189,8 @@ export default {
   paymentManagement_page_tip1: 'Vui lòng nhập đúng số tài khoản!',
   paymentManagement_page_tip2: 'Thêm thành công!',
   paymentManagement_page_tip3: 'Thẻ ngân hàng đã bị ràng buộc',
+  paymentManagement_page_titleU: 'Chọn USDT',
+  paymentManagement_page_tipR: 'Mô tả (tùy chọn)',
 
   // rechargeRecord
   rechargeRecord_page_currency: 'Loại tiền tệ',
@@ -327,6 +329,15 @@ export default {
   withdraw_page_fail_tips5: "Số dư ví trung tâm không đủ",
   withdraw_page_fail_tips6: "Có hồ sơ rút tiền chưa hoàn thành",
   withdraw_page_fail_wait: "Đang chờ đơn hàng được hoàn thành",
+
+  withdraw_page_payWay: "Phương thức rút tiền",
+  withdraw_page_ch_payWay: "Vui lòng chọn phương thức rút tiền",
+  withdraw_page_reset: "cài lại",
+  withdraw_page_mountFee: "Số tiền giao dịch bao gồm phí giao dịch và thuế",
+  withdraw_page_rate: "tỷ giá hối đoái",
+  withdraw_page_openClose: "Mở/đóng mật khẩu quỹ",
+  withdraw_page_sureDeposit: "Xác nhận tiền gửi",
+  withdraw_page_emPayPwd: "Mật khẩu quỹ không được để trống",
 
   // transfer
   transfer_page_from: 'Từ',

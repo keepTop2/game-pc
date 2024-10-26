@@ -34,7 +34,7 @@ export type TRoleInfo = {
     signature?: string,
     withdraw_pwd?: string,
     withdraw_pwd_status?: number,
-    user_type?:number
+    user_type?: number
 };
 
 // VIP相关数据类型
@@ -51,7 +51,7 @@ export type TVIPLevelReward = {
 };
 
 export type TVIPInfo = {
-    current_vip_level?: number,
+    current_vip_level: number,
     daily_rebate?: number,
     last_month_vip_level?: number,
     mysterious_reward_status?: number,

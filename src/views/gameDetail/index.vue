@@ -4,7 +4,10 @@
         <div class="game_plat_list">
             <scroll-view>
                 <span class="game_plat" :class="{ game_active: agentId == v.id }" v-for="(v, i) in threeGameKinds"
-                    :key="i" @click="onClickTab(v)">{{ unserialize(v.name, false) }}</span>
+                    :key="i" @click="onClickTab(v)">
+                    <!-- <img :src="settings.backend_upload + v.picture_pc" alt="" /> -->
+                    {{ unserialize(v.name, false) }}
+                </span>
 
             </scroll-view>
         </div>
@@ -25,7 +28,7 @@ import { useRoute } from 'vue-router';
 
 import Games from '../gameCollection/index.vue';
 import ScrollView from "@/components/ScrollView.vue";
-
+const { settings } = storeToRefs(Page(pinia));
 // const { t } = useI18n();
 const route = useRoute()
 // const router = useRouter()
@@ -177,6 +180,15 @@ watch(
             margin-right: 10px;
             cursor: pointer;
             font-size: 32px;
+            position: relative;
+
+            >img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
         }
 
         :last-child {

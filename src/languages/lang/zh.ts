@@ -1990,7 +1990,7 @@ export default {
     "Title_Basic_recharge": "基础充值",
     "email_tip": "邮件已发送，请查收！",
     "phone_tip": "短信已发送，请查收！",
-    "message_center": "消息中心",
+    "message_center": "消息邮箱",
     "reward_email": "奖励邮箱",
     "all_read": "全部已读",
     "view_details": "查看详情",
