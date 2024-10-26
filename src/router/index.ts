@@ -33,6 +33,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/gameCollection/index.vue'),
   },
   {
+    path: '/help/:type',
+    name: 'helpCenter',
+    meta: { title: '帮助中心' },
+    component: () => import('@/views/help/index.vue'),
+  },
+  {
     path: '/club',
     name: 'club',
     meta: { title: 'home_page_club' },
@@ -73,7 +79,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'securitySettings',
         name: 'securitySettings',
-        meta: { title: 'securitySettings' },
+        meta: { title: 'home_page_securitySettings' },
         component: () => import('@/views/wallet/securitySettings/index.vue'),
       },
       {

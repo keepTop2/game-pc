@@ -1,3 +1,15 @@
 export default {
-
+  page_route_wallet: 'ví',
+  page_route_recharge: 'Nạp tiền',
+  page_route_withdraw: 'Rút tiền',
+  page_route_VIP: 'VIP',
+  page_route_proxy: 'proxy',
+  page_route_payment: 'Thanh toán',
+  page_route_myWallet: 'Hoạt động',
+  page_route_discount: 'Giảm giá',
+  page_route_record: 'bản ghi',
+  page_route_redemptionCode: 'Mã đổi quà',
+  page_route_mail: 'Thư',
+  page_route_security: 'bảo mật',
+  page_route_feedback: 'Phản hồi',
 }

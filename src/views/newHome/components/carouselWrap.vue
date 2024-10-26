@@ -29,10 +29,9 @@
       <!-- 轮播图右侧 -->
       <div class="carousel_wrap_des">
         <div v-if="hasLogin" class="activity_wrap">
-          <div class="activity_name">活动名称</div>
+          <div class="activity_name">{{ firstActivity?.name }}</div>
           <div class="to_give">
-            赠送
-            <span>300%</span>
+            {{ firstActivity?.details }}
           </div>
           <div
             class="free_btn sign_up"
@@ -77,17 +76,21 @@ import { storeToRefs } from "pinia";
 import { Page } from "@/store/page";
 import { useI18n } from "vue-i18n";
 import { User } from "@/store/user";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 const page = Page(pinia);
 import { useRouter } from "vue-router";
 // const isVisible = ref(0);
-const { textAnnouncement, adminI18n } = storeToRefs(page);
+const { textAnnouncement, adminI18n, homeActivityList } = storeToRefs(page);
 const userInfo = User(pinia);
 const { hasLogin, isReg } = storeToRefs(userInfo);
 const { t } = useI18n();
 const router = useRouter();
 
 const bannerData: any = ref([]);
+
+const firstActivity = computed(() => {
+  return homeActivityList.value && homeActivityList.value[0];
+});
 
 // 获取banner图
 function getBanner() {

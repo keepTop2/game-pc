@@ -7,23 +7,34 @@
       </div>
       <div class="welcome">
         <Imgt src="/img/header/tips.webp" @click="router.push('/')" />
-        <div class="title">欢迎来到PK GAME</div>
+        <div class="title">
+          <Notice :announcementList="textAnnouncement"></Notice>
+        </div>
       </div>
 
-      <div class="search">
+      <div class="search" v-click-outside="onClickOutside">
         <n-input size="large" placeholder="搜索" :class="{ input_ac: isSearch }">
           <template #prefix>
-            <iconpark-icon icon-id="gliconshous" size="1.2rem" @click="search" class="input_icon"
-              style="margin-left: 4px"></iconpark-icon>
+            <iconpark-icon
+              icon-id="gliconshous"
+              size="1.2rem"
+              @click="search"
+              class="input_icon"
+              style="margin-left: 4px"
+            ></iconpark-icon>
           </template>
         </n-input>
 
         <!-- <Imgt src="/img/header/search.webp" @click="search" v-if="!isSearch" /> -->
       </div>
       <!--       
-      邮件 -->
+      邮件收藏 -->
       <div class="email_wrap" v-if="hasLogin">
-        <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
+        <div class="email_main">
+          <Imgt src="/img/header/email.webp" @click="router.push('/wallet/myEmail')" />
+          <div class="email_dot" v-if="myEmail.hasNoRead"></div>
+        </div>
+
         <Imgt src="/img/header/collect.webp" @click="router.push('/gameCollection')" />
       </div>
 
@@ -35,7 +46,11 @@
       <!--       
       主题色切换 -->
       <div class="theme">
-        <Imgt v-if="theme == 'day'" src="/img/header/day.webp" @click="changeTheme('night')" />
+        <Imgt
+          v-if="theme == 'day'"
+          src="/img/header/day.webp"
+          @click="changeTheme('night')"
+        />
         <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')" />
       </div>
 
@@ -56,24 +71,42 @@
           <n-popover trigger="hover" display-directive="show" :show-arrow="false">
             <template #trigger>
               <span class="avatar_wrap" @click="visibleSetting = true">
-                <Imgt @error="avatarLoadError" :src="`/img/head_icons/${roleInfo.head_photo}.webp` ||
-                  '/img/home/avatar.webp'
-                  " class="avatar_logo" />
-                <iconpark-icon icon-id="Group39340" color="#8e82c2" size="1rem"></iconpark-icon>
+                <Imgt
+                  @error="avatarLoadError"
+                  :src="
+                    `/img/head_icons/${roleInfo.head_photo}.webp` ||
+                    '/img/home/avatar.webp'
+                  "
+                  class="avatar_logo"
+                />
+                <iconpark-icon
+                  icon-id="Group39340"
+                  color="#8e82c2"
+                  size="1rem"
+                ></iconpark-icon>
               </span>
             </template>
             <div class="menu_box">
-              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
-                @click="menuClick(item, i)">
+              <p
+                :class="menuActive == i ? 'active' : ''"
+                v-for="(item, i) in menu"
+                :key="i"
+                @click="menuClick(item, i)"
+              >
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
-                <span>{{ item.name }}</span>
+                <span>{{ t(item.name) }}</span>
               </p>
             </div>
           </n-popover>
         </div>
         <div class="country_box">
-          <n-popselect v-model:value="lang" :render-label="renderLabel" :options="settings.lang_list"
-            @update:value="valueChange" trigger="click">
+          <n-popselect
+            v-model:value="lang"
+            :render-label="renderLabel"
+            :options="settings.lang_list"
+            @update:value="valueChange"
+            trigger="click"
+          >
             <span>
               <Imgt :src="`/img/header/${lang}.webp`" alt="country" />
             </span>
@@ -133,15 +166,24 @@ import { Net, getLocale } from "@/net/Net";
 import Imgt from "@/components/Imgt.vue";
 import useHeaderHooks from "./useHooks";
 import { SelectRenderLabel } from "naive-ui";
-import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
+import useClickOutSideHooks from "@/utils/vClickOutside";
+import Notice from "./notice.vue";
+import RedeemCode from "@/views/wallet/components/RedeemCode.vue";
 
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
 const RegPop = defineAsyncComponent(() => import("@/components/RegPop.vue"));
 
+const { vClickOutside } = useClickOutSideHooks();
+
+const onClickOutside = () => {
+  console.log("点击了外部 DOM");
+  isSearch.value = false;
+};
+
 const { t } = useI18n();
 const page = Page(pinia);
-const { menuActive, settings, lang } = storeToRefs(page);
+const { menuActive, settings, lang, textAnnouncement } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
@@ -153,6 +195,7 @@ const {
   roleInfo,
   kefuVisible,
   agentInfo,
+  myEmail,
 } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
@@ -166,48 +209,48 @@ const state: any = reactive({
 const menu = [
   {
     icon: "txxlicon01",
-    name: "钱包",
+    name: "page_route_wallet",
     url: "/wallet/walletInfo",
   },
   {
     icon: "txxlicon02",
-    name: "充值",
+    name: "page_route_recharge",
     url: "/wallet/records",
   },
   {
     icon: "txxlicon03",
-    name: "提款",
+    name: "page_route_withdraw",
     url: "/wallet/withdraw",
   },
   {
     icon: "txxlicon04",
-    name: "VIP",
+    name: "page_route_VIP",
     url: "/wallet/levelInfo",
   },
   {
     icon: "txxlicon05",
-    name: "代理",
+    name: "page_route_proxy",
     url: "/wallet/proxyCooperation",
   },
   {
     icon: "txxlicon06",
-    name: "支付",
+    name: "page_route_payment",
     url: "/wallet/paymentManagement",
   },
 
   {
     icon: "txxlicon07",
-    name: "活动",
+    name: "page_route_activity",
     url: "/wallet/activity",
   },
   {
     icon: "txxlicon08",
-    name: "优惠",
+    name: "page_route_discount",
     url: "/wallet/myPromo",
   },
   {
     icon: "txxlicon15",
-    name: "记录",
+    name: "page_route_record",
     url: "/wallet/records",
   },
   // {
@@ -216,33 +259,38 @@ const menu = [
   //   url: '/wallet/myEmail',
   // },
   {
-    icon: 'txxlicon10',
-    name: '兑换码',
-    url: 'redeemCode',
+    icon: "txxlicon10",
+    name: "page_route_redemptionCode",
+    url: "redeemCode",
   },
   {
     icon: "txxlicon11",
-    name: "邮件",
+    name: "page_route_mail",
     url: "/wallet/myEmail",
   },
   {
     icon: "txxlicon12",
-    name: "安全",
+    name: "page_route_security",
     url: "/wallet/securitySettings",
   },
   {
     icon: "txxlicon13",
-    name: "客服",
+    name: "page_route_feedback",
     url: settings.value.serviceTelegram,
-    value: 666,
   },
+  // {
+  //   icon: "txxlicon13",
+  //   name: "客服",
+  //   url: settings.value.serviceTelegram,
+  //   value: 666,
+  // },
   {
     icon: "txxlicon14",
-    name: "退出登录",
+    name: "home_page_logout",
     url: "444",
     value: 444,
   },
-]
+];
 const { search, isSearch, showRedeemCodeModal, showRedeemCode } = useHeaderHooks();
 const valueChange = async (item: any) => {
   await page.setLang(item);
@@ -286,11 +334,11 @@ const menuClick = async (item: any, j: number) => {
         await User(pinia).setHasLogin(false);
         location.href = "/";
       },
-      onNegativeClick: () => { },
+      onNegativeClick: () => {},
     });
-
-  } else if (item.url == "redeemCode") { // 兑换码
-    showRedeemCodeModal(true)
+  } else if (item.url == "redeemCode") {
+    // 兑换码
+    showRedeemCodeModal(true);
   } else if (item.value == 666) {
     if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
       return Message.error("用户被封禁");
@@ -535,7 +583,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 100;
 
-  >div {
+  > div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -583,7 +631,7 @@ onUnmounted(() => {
         color: #9497a1;
         font-size: 20px;
         font-weight: 500;
-        margin-left: 50px;
+        margin-left: 20px;
         white-space: nowrap;
       }
     }
@@ -740,18 +788,18 @@ onUnmounted(() => {
     .user_box {
       text-align: end;
 
-      >span {
+      > span {
         margin-right: 10px;
       }
 
-      >.login_box {
+      > .login_box {
         display: flex;
         justify-content: space-around;
         width: 180px;
         margin-left: 40px;
         color: #fff;
 
-        >span {
+        > span {
           min-width: 62px;
           height: 32px;
           display: flex;
@@ -763,13 +811,15 @@ onUnmounted(() => {
           // border: solid 1px #5a47b2;
           // background-color: #402c95;
 
-          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url("/img/home/unactive1.webp?t=@{timestamp}") 0 30 0 30 fill /
+            0px 10px stretch stretch;
           // background-size: cover;
           cursor: pointer;
         }
 
         .active {
-          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px 10px stretch stretch;
+          border-image: url("/img/home/active1.webp?t=@{timestamp}") 0 30 0 30 fill / 0px
+            10px stretch stretch;
         }
       }
     }
@@ -799,7 +849,7 @@ onUnmounted(() => {
       }
     }
 
-    >p {
+    > p {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -809,7 +859,7 @@ onUnmounted(() => {
       border-radius: 10px;
       background: linear-gradient(to top, #5734b4 -3%, #9d79ff 79%, #5734b4 97%);
 
-      >span {
+      > span {
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -819,7 +869,7 @@ onUnmounted(() => {
         padding: 0 6px;
         color: #fff;
 
-        >img {
+        > img {
           width: 24px;
           height: 24px;
         }
@@ -842,10 +892,12 @@ onUnmounted(() => {
     &:hover {
       border-image-source: linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       border-image-slice: 1;
-      background-image: radial-gradient(circle at 50% 0%,
+      background-image: radial-gradient(
+          circle at 50% 0%,
           #1170ff,
           #1154ff 56%,
-          #6b11ff 90%),
+          #6b11ff 90%
+        ),
         linear-gradient(to bottom, #fff 0%, #8cacff 103%);
       background-origin: border-box;
       background-clip: content-box, border-box;
@@ -865,7 +917,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
 
-  >p {
+  > p {
     color: #fff;
     padding: 10px 10px;
     margin: 0;
@@ -874,7 +926,7 @@ onUnmounted(() => {
     align-items: center;
     cursor: pointer;
 
-    >span {
+    > span {
       margin-left: 8px;
       font-size: 16px;
     }
@@ -907,8 +959,38 @@ onUnmounted(() => {
   color: #8e82c2;
   cursor: pointer;
 
-  >span {
+  > span {
     margin-left: 12px;
+  }
+}
+.email_main {
+  position: relative;
+  .email_dot {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: red;
+    animation: dot-info-animal 1.6s infinite ease-in-out;
+  }
+
+  @keyframes dot-info-animal {
+    0% {
+      opacity: 0.3;
+      transform: scale(0.9);
+    }
+
+    50% {
+      opacity: 0.7;
+      transform: scale(1.12);
+    }
+
+    100% {
+      opacity: 0.3;
+      transform: scale(0.9);
+    }
   }
 }
 </style>

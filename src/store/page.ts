@@ -29,6 +29,7 @@ const languages: any = {
   vn: 'vn',
   'vi-VN': 'vn',
   en: 'en',
+  'en-US': 'en'
 };
 export const Page = defineStore('page', {
   state: (): PageState => ({
@@ -93,7 +94,7 @@ export const Page = defineStore('page', {
 
     async setHomePageGameData(data: any) {
       this.homeGameData = data.filter((e: any) => e.id != 0);
-      console.dir('33333', this.homeGameData);
+
     },
     async setSettings(value: any) {
       this.settings = value;

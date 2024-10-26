@@ -27,7 +27,7 @@ export default {
 
 
     // 导航栏隐藏式侧边栏
-    home_page_myWallet: '我的钱包',
+
     home_page_rechargeRecord: '充值记录',
     home_page_withdrawRecord: '取款记录',
     home_page_accountsRecord: '账变记录',
@@ -36,9 +36,7 @@ export default {
     home_page_auditRecord: '稽核记录',
     home_page_loginRecord: '登录记录',
     home_page_waterRecord: '洗码记录',
-    home_page_paymentManagement: '支付管理',
-    home_page_myPromo: '我的优惠',
-    home_page_myEmail: '我的邮箱',
+    home_page_paymentManagement: '支付',
     home_page_onlineService: '在线客服',
     home_page_securitySettings: '安全中心',
     //导航栏
@@ -72,15 +70,15 @@ export default {
     home_page_customerService: '客服',
     home_page_downloadApp: '下载APP',
 
-    // 游戏部分
+    // 新游戏二级页部分
     home_page_all: '全部',
     home_page_more: '更多',
-    label_all: '全部',
-    label_hot: '热门',
-    label_recent: '最近',
-    label_fav: '收藏',
-    success: '成功',
-    fail: '失败',
+    game_page_seach: '搜索',
+    game_page_all: '全部',
+    game_page_hot: '热门',
+    game_page_recent: '最近',
+    game_page_fav: '收藏',
+
 
     // 登录弹窗
     home_page_accountLogin: '账号登录',

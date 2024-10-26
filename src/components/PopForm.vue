@@ -9,15 +9,18 @@
           </i>
         </h4>
         <div class="login_form">
-          <n-tabs type="line" animated justify-content="space-evenly" @update:value="changeTab"
-            v-if="state.formData?.tabList">
+          <n-tabs type="line" v-model:value="state.tabActive" animated justify-content="space-evenly"
+            @update:value="changeTab" v-if="state.formData?.tabList">
             <n-tab-pane :name="i" :tab="t(tab.name)" v-for="(tab, i) in state.formData.tabList" :key="i"> </n-tab-pane>
           </n-tabs>
           <!-- <div class="tab" v-if="state.formData?.tabList">
             <span :class="state.formData.active == i ? 'active' : ''" v-for="(tab, i) in state.formData.tabList"
               :key="i" @click="changeTab(i)">{{ t(tab.name) }}</span>
           </div> -->
-          <n-form :model="state.formData?.formParams" :rules="state.formData?.rules"
+          <div v-if="state.notBind" class="bind">
+            您还未绑定，请绑定后再进行修改资金密码
+          </div>
+          <n-form v-else :model="state.formData?.formParams" :rules="state.formData?.rules"
             :show-label="state.formData?.showLabel" label-placement="left" ref="formRef">
             <template v-for="item in state.formData?.list">
               <n-form-item :path="item.name" :label="t(item.label)" v-if="item.show" label-placement="left">
@@ -72,11 +75,13 @@ import { Message } from "@/utils/discreteApi";
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const SmsCode = defineAsyncComponent(() => import('@/components/SmsCodeModal.vue'));
-const emit = defineEmits(['changeTab', 'submitData', 'nextChange']);
+const emit = defineEmits(['changeTab', 'submitData', 'nextChange', 'nextBind']);
 const SmsCodeRef = ref()
 const formRef = ref();
 const isShow = ref(false)
 const state: any = reactive({
+  tabActive: 0,
+  notBind: false,
   showModa: false,
   formData: null,
   formInitValue: null,
@@ -103,19 +108,32 @@ const valueChange = (item: any) => {
 }
 
 const iconClick = (a: any) => {
-  if (a.changeRightIcon == "Group39364") {
+  if (a.changeRightIcon == "gerenyincangicon") {
     a.type = "text"
-    a.changeRightIcon = "Group39365"
+    a.changeRightIcon = "gerenchakanicon"
 
   } else {
     a.type = "password"
-    a.changeRightIcon = "Group39364"
+    a.changeRightIcon = "gerenyincangicon"
 
   }
 };
 
 
 const changeTab = (tabId: number) => {
+  state.tabActive = tabId
+  if (state.type == 3) {
+    if (state.tabActive == 1 && !state.formData.formParams.mobile) {
+      state.notBind = true
+    } else if (state.tabActive == 2 && !state.formData.formParams.email) {
+      state.notBind = true
+    } else {
+      state.notBind = false
+    }
+
+  }
+
+
   resetInputHide()
   emit('changeTab', tabId);
 
@@ -124,17 +142,26 @@ const resetInputHide = () => {
   for (const key in state.formData.list) {
     state.formData.list[key].show = false
   }
+
 }
 
 const submitNext = () => {
+
   // 效验
   if (state.type == 3) {
-    if (state.formData.step == 1) {
-      formRef.value?.validate((errors: any) => {
-        if (!errors) {
-          emit('nextChange', state.formData.formParams);
-        }
-      });
+    if (state.formData.step == 1 && state.notBind) {
+      if (state.tabActive == 1) {
+        emit('nextBind', 5);
+      } else if (state.tabActive == 2) {
+        emit('nextBind', 4);
+      } else {
+        formRef.value?.validate((errors: any) => {
+          if (!errors) {
+            emit('nextChange', state.formData.formParams);
+          }
+        });
+      }
+
     } else if (state.formData.step == 2) {
       formRef.value?.validate((errors: any) => {
         if (!errors) {
@@ -263,6 +290,8 @@ const resetFormValue = () => { state.formData.formParams = state.formInitValue }
 // 关闭弹窗
 const closeDialog = () => {
   isShow.value = false
+  state.notBind = false
+
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_email_verification_code, null);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_mobile_sms_code, null);
   if (state.formData.list?.emailCode) {
@@ -280,14 +309,26 @@ const closeDialog = () => {
   }
 
   resetFormValue()
-  // state.formData = null
 
 };
 // 打开弹窗
 const openDialog = async (formData: any, type: number) => {
+
   state.formData = formData
   state.formInitValue = JSON.parse(JSON.stringify(formData.formParams))
   state.type = type
+
+  if (state.type == 3) {
+    if (state.tabActive == 1 && !state.formData.formParams.mobile) {
+      state.notBind = true
+    } else if (state.tabActive == 2 && !state.formData.formParams.email) {
+      state.notBind = true
+    } else {
+      state.notBind = false
+    }
+
+  }
+
   // 监听手机号验证码返回
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_get_mobile_sms_code,
@@ -391,6 +432,12 @@ defineExpose({
   .login_btn {
     width: 330px;
     margin: 40px auto;
+  }
+
+  .bind {
+    font-size: 16px;
+    text-align: center;
+    padding: 40px 0;
   }
 }
 </style>

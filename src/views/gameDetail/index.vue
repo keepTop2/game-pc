@@ -4,7 +4,10 @@
         <div class="game_plat_list">
             <scroll-view>
                 <span class="game_plat" :class="{ game_active: agentId == v.id }" v-for="(v, i) in threeGameKinds"
-                    :key="i" @click="onClickTab(v)">{{ unserialize(v.name, false) }}</span>
+                    :key="i" @click="onClickTab(v)">
+                    <!-- <img :src="settings.backend_upload + v.picture_pc" alt="" /> -->
+                    {{ unserialize(v.name, false) }}
+                </span>
 
             </scroll-view>
         </div>
@@ -25,7 +28,7 @@ import { useRoute } from 'vue-router';
 
 import Games from '../gameCollection/index.vue';
 import ScrollView from "@/components/ScrollView.vue";
-
+const { settings } = storeToRefs(Page(pinia));
 // const { t } = useI18n();
 const route = useRoute()
 // const router = useRouter()
@@ -35,28 +38,28 @@ const { lang, homeGameData } = storeToRefs(Page(pinia));
 
 const kindList = [
     {
-        name: '全部',
+        name: 'game_page_all',
         icon: 'all',
         activeIcon: 'allun',
         id: -1,
         key: 0
     },
     {
-        name: '热门',
+        name: 'game_page_hot',
         icon: 'hot',
         activeIcon: 'hotun',
         id: 1, // 获取热门需将 is_lable 设置为1  其他为0,
         key: 1
     },
     {
-        name: '最近',
+        name: 'game_page_recent',
         icon: 'zuijin',
         activeIcon: 'zuijinun',
         id: -3,
         key: 2
     },
     {
-        name: '收藏',
+        name: 'game_page_fav',
         icon: 'shoucang',
         activeIcon: 'shoucangun',
         id: -2,
@@ -177,6 +180,15 @@ watch(
             margin-right: 10px;
             cursor: pointer;
             font-size: 32px;
+            position: relative;
+
+            >img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
         }
 
         :last-child {
