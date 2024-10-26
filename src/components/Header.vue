@@ -18,11 +18,7 @@
   </n-modal>
 
   <!-- 一般公告 -->
-  <n-modal :show="isNotice" :mask-closable="false">
-    <div>
-      <NoticeDialog v-if="isNotice" />
-    </div>
-  </n-modal>
+  <NoticeDialog v-if="isNotice" />
   <!-- 客服弹窗 -->
   <n-modal :show="kefuVisible" :mask-closable="false">
     <div>

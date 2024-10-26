@@ -8584,6 +8584,7 @@ export module NetPacket {
 	}
 	export function notify_sign_in_list() {
 		let tb: any = {
+			is_open: 0,
 			sign_in_cfgs_0: [],
 			sign_status: [],
 			add_sign_in: 0,
@@ -8598,6 +8599,7 @@ export module NetPacket {
 				return NetMsgType.msgType["msg_notify_sign_in_list"];
 			},
 			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.is_open, buf);
 				EncodeUtils.uInt16ToByte(tb.sign_in_cfgs_0.length, buf);
 				for (let i = 0; i < tb.sign_in_cfgs_0.length; ++i) {
 					tb.sign_in_cfgs_0[i].encode(buf);
@@ -8617,6 +8619,8 @@ export module NetPacket {
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
+				tb.is_open = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				let sign_in_cfgs_0_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
 				for (let i = 0; i < sign_in_cfgs_0_len; ++i) {
@@ -11090,6 +11094,10 @@ export module NetPacket {
 			is_open: 0,
 			start_time: stime(),
 			end_time: stime(),
+			is_follow_fb: 0,
+			is_follow_fb_group: 0,
+			is_follow_tg_group: 0,
+			is_bind_card: 0,
 			amount: 0,
 			status: 0,
 			getMsgID: function () {
@@ -11099,6 +11107,10 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.is_open, buf);
 				tb.start_time.encode(buf);
 				tb.end_time.encode(buf);
+				EncodeUtils.int32ToByte(tb.is_follow_fb, buf);
+				EncodeUtils.int32ToByte(tb.is_follow_fb_group, buf);
+				EncodeUtils.int32ToByte(tb.is_follow_tg_group, buf);
+				EncodeUtils.int32ToByte(tb.is_bind_card, buf);
 				EncodeUtils.int64ToByte(tb.amount, buf);
 				EncodeUtils.int32ToByte(tb.status, buf);
 			},
@@ -11108,6 +11120,14 @@ export module NetPacket {
 				startIndex += 4;
 				startIndex += tb.start_time.decode(buf, startIndex);
 				startIndex += tb.end_time.decode(buf, startIndex);
+				tb.is_follow_fb = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.is_follow_fb_group = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.is_follow_tg_group = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.is_bind_card = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				tb.amount = EncodeUtils.ByteToint64(buf, startIndex);
 				startIndex += 8;
 				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
@@ -11156,6 +11176,46 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_newbees_prize"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_contact_customer_service() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_contact_customer_service"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_contact_customer_service"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_contact_customer_service() {
+		let tb: any = {
+			rlt: 0,
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_contact_customer_service"];
+			},
+			encode: function (buf: any) {
+				EncodeUtils.int32ToByte(tb.rlt, buf);
+			},
+			decode: function (buf: any, index: number) {
+				let startIndex = index;
+				tb.rlt = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_contact_customer_service"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -16078,6 +16138,7 @@ export module NetPacket {
 			ranking: 0,
 			prize: 0,
 			roundid: 0,
+			status: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_his_record"];
 			},
@@ -16088,6 +16149,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.ranking, buf);
 				EncodeUtils.int32ToByte(tb.prize, buf);
 				EncodeUtils.int32ToByte(tb.roundid, buf);
+				EncodeUtils.int32ToByte(tb.status, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -16103,6 +16165,8 @@ export module NetPacket {
 				tb.prize = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				tb.roundid = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
+				tb.status = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -16586,7 +16650,7 @@ export module NetPacket {
 			kindId: 0,
 			page: 0,
 			pageSize: 0,
-			is_lable: 0,
+			lableId: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_games_in_platform"];
 			},
@@ -16595,7 +16659,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.kindId, buf);
 				EncodeUtils.int32ToByte(tb.page, buf);
 				EncodeUtils.int32ToByte(tb.pageSize, buf);
-				EncodeUtils.int32ToByte(tb.is_lable, buf);
+				EncodeUtils.int32ToByte(tb.lableId, buf);
 			},
 			decode: function (buf: any, index: number) {
 				let startIndex = index;
@@ -16607,7 +16671,7 @@ export module NetPacket {
 				startIndex += 4;
 				tb.pageSize = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.is_lable = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.lableId = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},

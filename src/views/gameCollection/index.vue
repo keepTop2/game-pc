@@ -97,7 +97,7 @@ const props = defineProps({
     // 是否属于自定义标签 
     //为0时 则kindId取右侧tab的值  -1为全部  -2为收藏，-3为最近
     //为1时  则kindId 为场馆id或  火热 1
-    is_lable: {
+    lableId: {
         type: Number,
         default: 0
     },
@@ -138,12 +138,12 @@ const loading = ref(false)
 const isLoading = ref(false)
 const gameId = ref(null)
 // const agentId = ref<any>(-1)
-// const is_lable = ref(1)
+// const lableId = ref(1)
 // const kindId = ref(-2)
 // let lableActive = ref(-1)
 const state = reactive({
     agentId: -1,
-    is_lable: 1,
+    lableId: 1,
     kindId: -2,
     lableActive: -2
 })
@@ -215,7 +215,7 @@ const queryData = () => { // 查询
         const query = NetPacket.req_get_games_in_platform()
         query.agentId = state.agentId
         query.kindId = state.kindId
-        query.is_lable = state.is_lable
+        query.lableId = state.lableId
         query.page = params.page
         query.pageSize = params.pageSize
         Net.instance.sendRequest(query);
@@ -226,9 +226,9 @@ const changeLableTab = (item: any) => {
     state.kindId = item
     state.lableActive = item
     if (item == 1) {
-        state.is_lable = 1
+        state.lableId = 1
     } else {
-        state.is_lable = 0
+        state.lableId = 0
     }
     resetData()
     queryData()
@@ -320,16 +320,17 @@ const resetData = () => {
     result.total_page = 0
     result.list = []
 }
+
 onMounted(() => {
     kindList.value = props.kindList
     state.agentId = props.agentId
-    state.is_lable = props.is_lable
+    state.lableId = props.lableId
     state.kindId = props.kindId
     if (props.lableActive) {
         state.lableActive = Number(props.lableActive)
     }
-    // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
 
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_modify_collect, resCollect);
