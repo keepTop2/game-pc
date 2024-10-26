@@ -10,7 +10,8 @@
         </div>
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
-          <p>今日排名：{{ props.freeTreasureInfo.rank === -1 ? '--' : props.freeTreasureInfo.rank === -1}}</p>
+          <p>
+            今日排名：{{ props.freeTreasureInfo.rank === -1 ? '--' : props.freeTreasureInfo.rank === -1 }}</p>
         </div>
       </div>
       <div class="gold">
@@ -94,23 +95,24 @@ const freeLootRankingData: any = reactive({
   tableHeader: [
     {
       title: '排名',
+      width: 50,
       key: 'rank',
       render(row: any) {
         let hRender = h('span', { class: `rankingText`, innerHTML: row.rank });
         switch (row.rank) {
-          case '1':
+          case 1:
             hRender = h(Imgt, {
               src: '/img/wallet/gameTop1.png',
               class: `rankingImg`,
             });
             break;
-          case '2':
+          case 2:
             hRender = h(Imgt, {
               src: '/img/wallet/gameTop2.png',
               class: `rankingImg`,
             });
             break;
-          case '3':
+          case 3:
             hRender = h(Imgt, {
               src: '/img/wallet/gameTop3.png',
               class: `rankingImg`,
@@ -124,6 +126,7 @@ const freeLootRankingData: any = reactive({
     },
     {
       title: '头像',
+      // width: 50,
       key: 'head_icon',
       render(row: any) {
         // /img/head_icons/${roleInfo.head_photo}.webp
@@ -312,7 +315,6 @@ onUnmounted(() => {
 
     .table {
       padding: 25px 20px 0;
-
       .goldTableSelect {
         display: flex;
         justify-content: end;
@@ -320,11 +322,14 @@ onUnmounted(() => {
 
         .n-select {
           width: 200px;
+
           .n-data-table-base-table {
             background-color: transparent;
           }
+
           :deep(.n-base-selection) {
             border: 1px solid rgba(23, 27, 68, 1) !important;
+
             .n-base-selection__border,
             .n-base-selection__state-border,
             .n-base-selection-label {
@@ -334,8 +339,12 @@ onUnmounted(() => {
         }
       }
 
-      .n-data-table {
+      :deep(.n-data-table-table) {
+        background-color: rgba(27, 31, 75, 1);
         margin-bottom: 16px;
+        .n-data-table-thead {
+          background-color: rgba(27, 31, 75, 1);
+        }
       }
 
       :deep(.n-data-table-thead > tr > th) {
@@ -348,7 +357,7 @@ onUnmounted(() => {
 
       :deep(.n-data-table .n-data-table-td) {
         color: rgba(175, 186, 189, 1) !important;
-        border-bottom: rgba(38, 41, 76, 1);
+        border-bottom:1px solid rgba(38, 41, 76, 1);
         background-color: rgba(18, 19, 54, 1) !important;
         text-align: center;
         text-align: -webkit-center;
@@ -369,6 +378,7 @@ onUnmounted(() => {
           //display: flex;
           //flex-wrap: nowrap;
           white-space: nowrap;
+
           i {
             //white-space: nowrap;
             font-style: normal;
@@ -398,11 +408,7 @@ onUnmounted(() => {
         }
       }
 
-      :deep(
-          .n-data-table
-            .n-data-table-tr.n-data-table-tr--striped
-            .n-data-table-td
-        ) {
+      :deep(.n-data-table .n-data-table-tr.n-data-table-tr--striped.n-data-table-td ) {
         background-color: rgba(13, 14, 46, 1) !important;
       }
 

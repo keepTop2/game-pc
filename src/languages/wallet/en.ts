@@ -328,6 +328,17 @@ export default {
   withdraw_page_fail_tips6: "There is an unfinished withdrawal record",
   withdraw_page_fail_wait: "Waiting for order to be completed",
 
+  // 免费夺宝
+  free_loot: '免费夺宝',
+  free_loot_ranking: '夺宝排行榜',
+  free_loot_rule: '规则说明',
+  free_loot_rule_events: '活动简介',
+  free_loot_rule_events_text: '免费夺宝活动只在试玩场中进行，所有游戏均可开启试玩场，试玩场入口在活动内页中。运营团队将定期举办免费夺宝活动，根据排名给予相应奖励。',
+  free_loot_rule_ranking: '排行榜规则',
+  free_loot_rule_ranking_text: '玩家每日必须进行一次试玩游戏，产生账户资金变动方可上榜；榜单实时刷新，前X名有奖；',
+  free_loot_rule_flow: '获奖及领奖流程',
+  free_loot_rule_flow_text: '获奖通知：如果玩家获奖，系统会自动发送获奖邮件，请注意查收； 领奖要求：玩家收到获奖邮件后，需要联系客服完成领奖，奖励将以邮件形式发放。',
+
   // transfer
   transfer_page_from: 'From',
   transfer_page_to: 'To',
