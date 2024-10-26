@@ -314,6 +314,12 @@ const resetData = () => {
     result.total_page = 0
     result.list = []
 }
+// const handlePlatformKind = (res: any) => {
+//   resetData()
+//   gameKinds.value = res.kind
+//   result.list = res.info
+//   refreshing.value = false
+// }
 onMounted(() => {
     kindList.value = props.kindList
     state.agentId = props.agentId
@@ -322,7 +328,7 @@ onMounted(() => {
     if (props.lableActive) {
         state.lableActive = Number(props.lableActive)
     }
-    // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
+    // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatformKind);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
