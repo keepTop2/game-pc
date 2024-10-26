@@ -71,7 +71,7 @@
             <div class="menu_box">
               <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i" @click="menuClick(item, i)">
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
-                <span>333</span>
+                <span>{{ t(item.name) }}</span>
               </p>
             </div>
           </n-popover>

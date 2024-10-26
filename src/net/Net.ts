@@ -39,6 +39,7 @@ export const getSetting = async () => {
         
     });
 
+
     await Page(pinia).setSettings(settings)
     const homeGameDataRes = await fetch(settings.third_game_manage + "?" + new Date().getTime())
     const homeGameData = await homeGameDataRes.json()
