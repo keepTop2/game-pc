@@ -20,12 +20,19 @@
             draggable
             show-arrow
           >
-            <Imgt
+            <div class="tournm_wrap">
+              <div>21点扑克即开锦标赛</div>
+              <div class="tournm_main">
+                <div class="logo"></div>
+                <div class="tournm_info"></div>
+              </div>
+            </div>
+            <!-- <Imgt
               class="game_img"
               :src="`/img/home/kaisai.png`"
               v-for="i in 8"
               :key="i"
-            />
+            /> -->
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -398,5 +405,22 @@ onUnmounted(() => {
   height: 424px;
   object-fit: cover;
   border-radius: 16px;
+}
+.tournm_wrap {
+  width: 396px;
+  height: 215px;
+  background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
+  border: 1px solid #000000;
+  border-radius: 16px;
+}
+.tournm_main {
+  display: flex;
+  .logo {
+    width: 162px;
+    height: 132px;
+  }
+  .tournm_info {
+    flex: 1;
+  }
 }
 </style>
