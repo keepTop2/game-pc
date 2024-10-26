@@ -338,6 +338,7 @@ export default {
   withdraw_page_openClose: "开启/关闭资金密码",
   withdraw_page_sureDeposit: "确定存入",
   withdraw_page_emPayPwd: "资金密码不能为空",
+  
   // 免费夺宝
   free_loot: '免费夺宝',
   free_loot_ranking: '夺宝排行榜',
