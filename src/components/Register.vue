@@ -121,12 +121,12 @@ const onEmailRequest = () => {
 
 // 展示 / 隐藏密码数据
 const iconClick = (a: any) => {
-  if (a.changeRightIcon == "Group39364") {
+  if (a.changeRightIcon == "gerenyincangicon") {
     a.type = "text"
-    a.changeRightIcon = "Group39365"
+    a.changeRightIcon = "gerenchakanicon"
   } else {
     a.type = "password"
-    a.changeRightIcon = "Group39364"
+    a.changeRightIcon = "gerenyincangicon"
   }
 };
 
@@ -228,13 +228,13 @@ const state: any = reactive({
       name: 'password',
       type: 'password',
       placeholder: t('home_page_enterPassword'),
-      changeRightIcon: "Group39364",
+      changeRightIcon: "gerenyincangicon",
     },
     confirm: {
       name: 'confirm',
       type: 'password',
       placeholder: t('home_page_secPwd'),
-      changeRightIcon: "Group39364",
+      changeRightIcon: "gerenyincangicon",
     },
     // phone: {
     //   name: 'phone',

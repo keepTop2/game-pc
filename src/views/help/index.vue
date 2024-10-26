@@ -23,6 +23,11 @@
       <jingcaiTemp v-if="curType === 'jingcai'"/>
       <privacyTemp v-if="curType === 'privacy'"/>
       <ruleTemp v-if="curType === 'rule'"/>
+      <depositTemp v-if="curType === 'deposit'"/>
+      <withdrawTemp v-if="curType === 'withdraw'"/>
+      <merchantTemp v-if="curType === 'merchant'"/>
+      <policyRuleTemp v-if="curType === 'policyRule'"/>
+      <contactUsTemp v-if="curType === 'contactUs'"/>
     </div>
   </n-flex>
 </template>
@@ -36,6 +41,11 @@ const promoTemp = defineAsyncComponent(() => import('./temp/promo.vue'));
 const jingcaiTemp = defineAsyncComponent(() => import('./temp/jingcai.vue'));
 const privacyTemp = defineAsyncComponent(() => import('./temp/privacy.vue'));
 const ruleTemp = defineAsyncComponent(() => import('./temp/rule.vue'));
+const depositTemp = defineAsyncComponent(() => import('./temp/deposit.vue'));
+const withdrawTemp = defineAsyncComponent(() => import('./temp/withdraw.vue'));
+const merchantTemp = defineAsyncComponent(() => import('./temp/merchant.vue'));
+const policyRuleTemp = defineAsyncComponent(() => import('./temp/policyRule.vue'));
+const contactUsTemp = defineAsyncComponent(() => import('./temp/contactUs.vue'));
 
 const { t } = useI18n();
 const route = useRoute();
@@ -45,7 +55,7 @@ const curType = ref(route.params.type);
 const navArr = [
   {
     label: 'help_page_help', value: 'helpCenter', icon: 'txxlicon12',
-    children: [{label: 'help_page_open', value: 'account'},{label: 'help_page_deposit', value: 'deposit'},{label: 'help_page_promoRule', value: 'promo'},]
+    children: [{label: 'help_page_open', value: 'account'},{label: 'help_page_deposit', value: 'deposit'},{label: 'proxy_page_withDraw', value: 'withdraw'},{label: 'help_page_promoRule', value: 'promo'},]
   },
   {
     label: 'help_page_company', value: 'company', icon: 'txxlicon12',

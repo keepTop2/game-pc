@@ -14,11 +14,9 @@ import { onMounted, ref } from 'vue'
 import BScroll from '@better-scroll/core'
 import ObserveDOM from '@better-scroll/observe-dom'
 import { onBeforeUnmount } from 'vue';
-// import ObserveImage from '@better-scroll/observe-image'
+
 import Pullup from '@better-scroll/pull-up'
 
-import { useRoute } from 'vue-router';
-const route = useRoute();
 let wrapper: any = ref()
 BScroll.use(ObserveDOM)
 // BScroll.use(ObserveImage)
@@ -83,7 +81,9 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-
+    el: {
+        type: Array
+    }
 })
 
 
@@ -155,23 +155,16 @@ const init = () => {
         })
     }
 
+    props.el && bscroll.scrollToElement(props.el[0]);
+
 
 }
 onMounted(() => {
-
-    hasTabbar.value = ['activity', 'me', 'trans'].includes(String(route.name))
     setTimeout(() => {
         init()
     }, 20);
 
 })
-
-// watch(() => props.total, () => {
-
-//     setTimeout(() => {
-//         bscroll.refresh();
-//     }, 200);
-// })
 
 </script>
 

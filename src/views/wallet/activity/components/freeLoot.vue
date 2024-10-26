@@ -12,8 +12,8 @@
       </div>
       <div class="planListBox">
         <div class="planList">
-          <div class="planListItem" v-for="(item, index) in planList.data"  @click="gameStart(item)" :style="{background: `url(${item.img}) no-repeat`}" :key="index">
-            <span>{{item.name}}</span>
+          <div class="planListItem" v-for="(item, index) in planList.data"  @click="gameStart(item)" :style="{background: `url(/img/home/colect_4.png) no-repeat`}" :key="index">
+            <span>{{t(item.gameId || 49)}}</span>
           </div>
         </div>
         <n-button @click="pushPlanListData" tertiary class="planButton">
@@ -30,45 +30,48 @@
 <script setup lang="ts">
 // import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
+
+import { useI18n } from 'vue-i18n';
 // import { useRoute, useRouter } from 'vue-router';
 // import Imgt from '@/components/Imgt.vue';
+const { t } = useI18n();
+const props = defineProps<{freeTreasureInfo: any}>()
 
-const planList = reactive({
-  data: [
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-
-  ]
+const planList: any = reactive({
+  page:1,
+  pageSize: 15,
+  roundid: 0,
+  data: []
 })
 
 const pushPlanListData = () => {
-  let data = [{name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
-    {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},]
-  planList.data.push(...data)
+  // let data = [{name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},
+  //   {name: 'Qwefsdfsa12312312312', img: '/img/home/colect_4.png'},]
+  // planList.data.push(...data)
 }
 
 
-const gameStart = () => {
+const gameStart = (item: any) => {
   window.open('https://www.baidu.com/')
 }
+
+
+
+
+
+
+onMounted(() => {
+  if (props.freeTreasureInfo) {
+    planList.data = [...props.freeTreasureInfo.gameIds]
+    // Object.assign(planList.data, props.freeTreasureInfo.gameIds)
+  }
+
+});
 
 
 </script>

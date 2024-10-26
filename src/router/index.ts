@@ -79,7 +79,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'securitySettings',
         name: 'securitySettings',
-        meta: { title: 'securitySettings' },
+        meta: { title: 'home_page_securitySettings' },
         component: () => import('@/views/wallet/securitySettings/index.vue'),
       },
       {
