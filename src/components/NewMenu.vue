@@ -72,8 +72,8 @@
               <span>热门俱乐部</span>
               <div style="flex: 1;"></div>
               <div class="sub_menu_2_btn">更多</div>
-              <div class="sub_menu_2_btn" @click="prevPage">&lt;</div>
-              <div class="sub_menu_2_btn" @click="nextPage">&gt;</div>
+              <div class="sub_menu_2_btn">&lt;</div>
+              <div class="sub_menu_2_btn">&gt;</div>
             </div>
             <!-- 俱乐部列表 -->
             <div class="sub_menu_scroll sub_menu_2_child">
@@ -169,12 +169,12 @@
                 <div class="sub_menu_3_subtitle">俱乐部游戏</div>
                 <div style="flex: 1;"></div>
                 <div class="sub_menu_3_btn">更多</div>
-                <div class="sub_menu_3_btn">&lt;</div>
-                <div class="sub_menu_3_btn">&gt;</div>
+                <div class="sub_menu_3_btn" @click="prevScroll(scrollJL3.value)">&lt;</div>
+                <div class="sub_menu_3_btn" @click="nextScroll(scrollJL3.value)">&gt;</div>
               </div>
 
               <!-- 列表 -->
-              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2">
+              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2" ref="scrollJL3">
                 <div class="sub_menu_3_jl" v-for="i in 20" :key="i">
                   <div class="sub_menu_3_jl_icon">
                     <Imgt style="width: 100%;height: 100%;" :src="`/img/menu/ss.webp`" />
@@ -338,7 +338,7 @@ const { venueActive, lang, settings } = storeToRefs(Page(pinia));
 // 解析图片地址
 const getImg = (name: any) => {
   if (!name) return ''
-  return settings.value.imgPrefix + name
+  return settings.value.backend_upload + name
 }
 // 解析游戏名和平台名
 const langObj: any = {
@@ -380,12 +380,13 @@ const menuList = [
 const currType: any = ref({})
 const itemClick = async (item: any) => {
   currType.value = item
-  console.error('分类', item)
   await Page(pinia).setVenueActive(item.id);
   router.push(`${item.url}`);
-  mouseenter()
 
   clickLoading.value = true
+  if (venueActive.value == -1) { // 点击主页关闭下拉
+    hoverStatus.value = false
+  }
   setTimeout(() => {
     clickLoading.value = false
   }, 200)
@@ -405,7 +406,7 @@ const itemGameClick = async (item: any) => {
   clickLoading.value = true
   setTimeout(() => {
     clickLoading.value = false
-    clickPlat(platformData.value[0])
+    // clickPlat(platformData.value[0])
   }, 200)
 };
 
@@ -419,44 +420,59 @@ const isPlatIn = (types: any) => {
 const currPlat: any = ref({})
 const clickPlat = (item: any) => {
   console.error('平台', item)
+  currPlat.value = item
 
-
-  // 体育和真人展示入口
+  // 体育和真人展示入口 
   if (isPlatIn(currType.value)) {
     return
   }
 
-  currPlat.value = item
-  games.value = []
-  const query = NetPacket.req_get_games_in_platform()
-  query.agentId = item.id
-  query.is_lable = 0
-  query.kindId = 1
-  query.page = 1
-  query.pageSize = 9999
-  Net.instance.sendRequest(query);
+  // 点击的时候才监听
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
+  console.error('开始监听')
+
+  setTimeout(() => {
+
+    games.value = []
+    const query = NetPacket.req_get_games_in_platform()
+    query.agentId = item.id
+    query.is_lable = 0
+    query.kindId = 1
+    query.page = 1
+    query.pageSize = 9999
+    Net.instance.sendRequest(query);
+  }, 100)
 }
 // 游戏列表
 const games: any = ref([])
 const handleGames = (res: any) => {
+  console.error('----游戏列表', res)
   games.value = res.info || []
+
+  setTimeout(() => {
+    //  收到后就移除监听
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
+  }, 200)
+}
+
+// 主动触发分类选择
+const handleClick = (id: any) => {
+  const t: any = [...menuList, ...homeGameData.value].find((e: any) => (e.id == id))
+  if (t) {
+    platformData.value = t.three_platform
+    if ([-1, 99, 100].includes(t.id)) {
+      itemClick(t)
+    } else {
+      itemGameClick(t)
+    }
+  }
 }
 
 onMounted(async () => {
   if (Local.get("venueActive")) {
     await Page(pinia).setVenueActive(Local.get("venueActive"));
-    const t: any = [...menuList, homeGameData.value].find((e: any) => (e.id == Number(Local.get("venueActive"))))
-    if (t) {
-      platformData.value = t.three_platform
-      console.error('????', t)
-      if ([-1, 99, 100].includes(t.id)) {
-        itemClick(t)
-      } else {
-        itemGameClick(t)
-      }
-    }
+    handleClick(Number(Local.get("venueActive")))
   }
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
@@ -475,8 +491,24 @@ const mouseleave = () => {
 }
 const mouseenter = () => {
   // if (clickLoading.value) return
+  if (venueActive.value == -1) return // 悬停主页不下拉
   if (hovertimeout.value) clearTimeout(hovertimeout.value)
   hoverStatus.value = true
+
+  // 如果没有激活二级分类就触发下点击事件
+  if (!currPlat.value.id) {
+    handleClick(venueActive.value)
+  }
+}
+
+
+// 滚动
+const scrollJL3 = ref()
+const prevScroll = (dom: any) => {
+  console.error(dom)
+}
+const nextScroll = (dom: any) => {
+  console.error(dom)
 }
 
 // 游戏翻页
