@@ -12,14 +12,8 @@
             </span>
             <span class="more">{{ t("home_page_more") }}</span>
           </p>
-          <n-carousel
-            style="position: static"
-            :slides-per-view="3.5"
-            :space-between="10"
-            :loop="false"
-            draggable
-            show-arrow
-          >
+          <n-carousel style="position: static" :slides-per-view="3.5" :space-between="10" :loop="false" draggable
+            show-arrow>
             <div class="tournm_wrap">
               <div>21点扑克即开锦标赛</div>
               <div class="tournm_main">
@@ -36,18 +30,8 @@
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon
-                    class="left"
-                    icon-id="fangxiangicon04"
-                    size=".8rem"
-                    @click="prev"
-                  ></iconpark-icon>
-                  <iconpark-icon
-                    class="right"
-                    icon-id="fangxiangicon01"
-                    size=".8rem"
-                    @click="next"
-                  ></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -66,20 +50,10 @@
               t("home_page_more")
             }}</span>
           </p>
-          <n-carousel
-            style="position: static"
-            :slides-per-view="3"
-            :space-between="10"
-            :loop="false"
-            draggable
-            show-arrow
-          >
-            <div
-              v-for="item in homeActivityList"
-              :key="item.id"
-              class="re_men_item"
-              :style="{ 'background-image': `url(${item.pic_link})` }"
-            >
+          <n-carousel style="position: static" :slides-per-view="3" :space-between="10" :loop="false" draggable
+            show-arrow>
+            <div v-for="item in homeActivityList" :key="item.id" class="re_men_item"
+              :style="{ 'background-image': `url(${item.pic_link})` }">
               <div class="re_men_item_des">
                 <div class="item_name">{{ item.name }}</div>
                 <div class="item_info">{{ item.details }}</div>
@@ -106,18 +80,8 @@
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon
-                    class="left"
-                    icon-id="fangxiangicon04"
-                    size=".8rem"
-                    @click="prev"
-                  ></iconpark-icon>
-                  <iconpark-icon
-                    class="right"
-                    icon-id="fangxiangicon01"
-                    size=".8rem"
-                    @click="next"
-                  ></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -132,7 +96,7 @@
 </template>
 <script setup lang="ts" name="home">
 import { onMounted, onUnmounted } from "vue";
-import Imgt from "@/components/Imgt.vue";
+// import Imgt from "@/components/Imgt.vue";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetPacket } from "@/netBase/NetPacket";
@@ -197,6 +161,7 @@ onUnmounted(() => {
 
 :deep(.game_detail) {
   position: relative;
+
   .n-carousel__dots {
     display: none;
   }
@@ -210,7 +175,7 @@ onUnmounted(() => {
 
     box-sizing: border-box;
 
-    > p {
+    >p {
       display: flex;
       align-items: center;
     }
@@ -228,10 +193,10 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
 
-    > .text {
+    >.text {
       display: flex;
 
-      > b {
+      >b {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -264,7 +229,7 @@ onUnmounted(() => {
       }
     }
 
-    > .more {
+    >.more {
       width: 90px;
       height: 40px;
       display: flex;
@@ -293,25 +258,30 @@ onUnmounted(() => {
     height: 263px;
     background-size: 100% 100%;
     padding: 20px 30px;
+
     .item_name {
       font-size: 32px;
       color: #ffffff;
       font-weight: 600;
     }
+
     .item_info {
       font-size: 20px;
       color: #ffffff;
     }
+
     .item_time {
       font-size: 16px;
       color: #ffffff;
       margin-top: 20px;
     }
+
     .time_content {
       span {
         font-size: 20px;
         color: #ffffff;
       }
+
       .time_num {
         width: 26px;
         height: 44px;
@@ -322,13 +292,12 @@ onUnmounted(() => {
         color: #ffffff;
         border-radius: 3px;
         margin-right: 3px;
-        background: linear-gradient(
-          180deg,
-          rgba(29, 30, 37, 0.7) 0%,
-          rgba(20, 21, 27, 0.7) 100%
-        );
+        background: linear-gradient(180deg,
+            rgba(29, 30, 37, 0.7) 0%,
+            rgba(20, 21, 27, 0.7) 100%);
       }
     }
+
     .all_total {
       margin-top: 11px;
       width: 202px;
@@ -342,6 +311,7 @@ onUnmounted(() => {
       padding-left: 8px;
     }
   }
+
   // .game_img {
   //   width: 453px !important;
   //   height: 262px !important;
@@ -371,7 +341,7 @@ onUnmounted(() => {
     cursor: pointer;
     color: #8d81c1;
 
-    > .left,
+    >.left,
     .right {
       display: inline-block;
       width: 40px;
@@ -406,6 +376,7 @@ onUnmounted(() => {
   object-fit: cover;
   border-radius: 16px;
 }
+
 .tournm_wrap {
   width: 396px;
   height: 215px;
@@ -413,12 +384,15 @@ onUnmounted(() => {
   border: 1px solid #000000;
   border-radius: 16px;
 }
+
 .tournm_main {
   display: flex;
+
   .logo {
     width: 162px;
     height: 132px;
   }
+
   .tournm_info {
     flex: 1;
   }
