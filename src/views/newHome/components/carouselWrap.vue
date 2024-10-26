@@ -2,7 +2,7 @@
   <div>
     <div class="announcement">
       <div class="carousel_wrap">
-        <n-carousel :draggable="false" autoplay :loop="true">
+        <n-carousel draggable autoplay :loop="true">
           <div v-for="img in bannerData" :key="img">
             <Imgt class="carousel" :src="img" />
           </div>
@@ -122,12 +122,17 @@ onMounted(() => {
     object-fit: cover;
   }
 
-  height: 424px;
-
   .carousel_wrap {
     width: 941px;
-    height: 100%;
+    height: 424px;
+    border-radius: 16px;
+    overflow: hidden;
     margin-right: 15px;
+    img {
+      width: 941px;
+      height: 424px;
+      object-fit: cover;
+    }
   }
 
   > p {
@@ -150,7 +155,7 @@ onMounted(() => {
 
 .carousel_wrap_des {
   width: 444px;
-  height: 100%;
+  height: 424px;
   border-radius: 12px;
   background: url("/img/home/activity.webp?t=@{timestamp}") no-repeat;
   background-size: 100% 100%;

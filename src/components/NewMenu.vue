@@ -1,18 +1,28 @@
 <template>
   <div class="menu_wrap_box">
     <div class="menu_wrap_null"></div>
-    <div class="menu_wrap" :class="{ 'open_menu_wrap': hoverStatus }">
+    <div class="menu_wrap" :class="{ open_menu_wrap: hoverStatus }">
       <!-- 主菜单 -->
       <div class="menu_wrap_list" @mouseenter="mouseenter" @mouseleave="mouseleave">
-        <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item"
-          :class="venueActive == item.id && 'active_item'" @click="itemClick(item)">
+        <div
+          v-for="(item, i) in menuList"
+          :key="i"
+          class="menu_wrap_item"
+          :class="venueActive == item.id && 'active_item'"
+          @click="itemClick(item)"
+        >
           <Imgt :src="item.icon" />
           <span>{{ item.label }}</span>
           <div :class="venueActive == item.id && 'active_item_bg'"></div>
         </div>
 
-        <div v-for="(item, i) in homeGameData" :key="i" class="menu_wrap_item"
-          :class="venueActive == item.id && 'active_item'" @click="itemGameClick(item)">
+        <div
+          v-for="(item, i) in homeGameData"
+          :key="i"
+          class="menu_wrap_item"
+          :class="venueActive == item.id && 'active_item'"
+          @click="itemGameClick(item)"
+        >
           <!-- <Imgt :src="item.icon" /> -->
           <Imgt :src="`/img/menu/${item.id}.webp`" />
           <span>{{ item.name[langObj[lang]] }}</span>
@@ -32,27 +42,41 @@
           <Imgt src="/img/menu/menu_11.webp" />
           <span>VIP</span>
         </div>
-        <div>
+        <div @click="Message.error('暂未开发')">
           <Imgt src="/img/menu/menu_12.webp" />
           <span>商城</span>
         </div>
       </div>
 
       <!-- 下拉菜单 -->
-      <div class="sub_menu" :class="{ 'show_sub_menu': hoverStatus }" @mouseenter="mouseenter" @mouseleave="mouseleave">
-
+      <div
+        class="sub_menu"
+        :class="{ show_sub_menu: hoverStatus }"
+        @mouseenter="mouseenter"
+        @mouseleave="mouseleave"
+      >
         <!-- 一级分类 -->
         <div class="sub_menu_0 sub_menu_scroll sub_menu_1">
           <template v-if="hoverStatus">
-            <div :class="venueActive == item.id && 'active_1_item'" class="menu_1_item"
-              v-for="(item, i) in menuList.filter(item => item.id != -1)" :key="'a' + i" @click="itemClick(item)">
+            <div
+              :class="venueActive == item.id && 'active_1_item'"
+              class="menu_1_item"
+              v-for="(item, i) in menuList.filter((item) => item.id != -1)"
+              :key="'a' + i"
+              @click="itemClick(item)"
+            >
               <Imgt class="icon" :src="item.icon" />
               <span class="name">{{ item.label }}</span>
               <Imgt class="more more1" :src="`/img/menu/menu_more.webp`" />
               <Imgt class="more more2" :src="`/img/menu/menu_more2.webp`" />
             </div>
-            <div :class="venueActive == item.id && 'active_1_item'" class="menu_1_item"
-              v-for="(item, i) in homeGameData" :key="'b' + i" @click="itemGameClick(item)">
+            <div
+              :class="venueActive == item.id && 'active_1_item'"
+              class="menu_1_item"
+              v-for="(item, i) in homeGameData"
+              :key="'b' + i"
+              @click="itemGameClick(item)"
+            >
               <Imgt class="icon" :src="`/img/menu/${item.id}.webp`" />
               <span class="name">{{ unserialize(item.name, false) }}</span>
               <Imgt class="more more1" :src="`/img/menu/menu_more.webp`" />
@@ -86,8 +110,11 @@
           <template v-if="hoverStatus">
             <div class="sub_menu_3_item" v-for="index in 10" :key="index">
               <div class="sub_menu_3_title">
-                <Imgt class="sub_menu_3_title_icon" :src="`/img/menu/sub_menu_icon.webp`" />
-                <div style="flex: 1;"></div>
+                <Imgt
+                  class="sub_menu_3_title_icon"
+                  :src="`/img/menu/sub_menu_icon.webp`"
+                />
+                <div style="flex: 1"></div>
                 <div class="sub_menu_3_btn">更多</div>
                 <div class="sub_menu_3_btn">&lt;</div>
                 <div class="sub_menu_3_btn" @click="nextPage">&gt;</div>
@@ -97,7 +124,10 @@
                 <TransitionGroup name="gamelist">
                   <div class="sub_menu_3_it" v-for="i in arr" :key="i">
                     <div class="sub_menu_3_it_img">
-                      <Imgt style="width:100%;height:100%" :src="`/img/menu/sub_menu_icon.webp`" />
+                      <Imgt
+                        style="width: 100%; height: 100%"
+                        :src="`/img/menu/sub_menu_icon.webp`"
+                      />
                     </div>
                     <div class="sub_menu_3_it_name">埃及探秘宝典{{ i }}</div>
                   </div>
@@ -109,7 +139,6 @@
       </div>
     </div>
   </div>
-
 </template>
 <script setup lang="ts" name="Header">
 import { ref, onMounted } from "vue";
@@ -118,29 +147,28 @@ import { storeToRefs } from "pinia";
 import pinia from "@/store/index";
 import { Page } from "@/store/page";
 import { Local } from "@/utils/storage";
+import { Message } from "@/utils/discreteApi";
 const { homeGameData } = storeToRefs(Page(pinia));
-
 
 const router = useRouter();
 const { venueActive, lang } = storeToRefs(Page(pinia));
 // 解析游戏名和平台名
 const langObj: any = {
-  en: 'en-US',
-  zh: 'zh-CN',
-  vn: 'vi-VN'
-}
+  en: "en-US",
+  zh: "zh-CN",
+  vn: "vi-VN",
+};
 const unserialize = (v: any, isPlatform: boolean) => {
-
   let obj: any = {
-    en: 'en-US',
-    zh: 'zh-CN',
-    vn: 'vi-VN'
-  }
+    en: "en-US",
+    zh: "zh-CN",
+    vn: "vi-VN",
+  };
   if (isPlatform) {
-    v = JSON.parse(v)
+    v = JSON.parse(v);
   }
-  return v[obj[lang.value]]
-}
+  return v[obj[lang.value]];
+};
 const menuList = [
   { label: "首页", icon: "/img/menu/menu_1.webp", url: "/", id: -1 },
   {
@@ -163,16 +191,18 @@ const menuList = [
 const itemClick = async (item: any) => {
   await Page(pinia).setVenueActive(item.id);
   router.push(`${item.url}`);
-  mouseenter()
+  mouseenter();
 
-  clickLoading.value = true
+  clickLoading.value = true;
   setTimeout(() => {
-    clickLoading.value = false
-  }, 1000)
+    clickLoading.value = false;
+  }, 1000);
 };
-const platformData = ref()
+const platformData = ref();
 const itemGameClick = async (item: any) => {
-  platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(item.id)))).three_platform
+  platformData.value = homeGameData.value.find(
+    (e: any) => e.id == Number(item.id)
+  ).three_platform;
   console.log(platformData.value);
 
   await Page(pinia).setVenueActive(item.id);
@@ -182,49 +212,49 @@ const itemGameClick = async (item: any) => {
       venue_id: item.id,
     },
   });
-  clickLoading.value = true
+  clickLoading.value = true;
   setTimeout(() => {
-    clickLoading.value = false
-  }, 1000)
+    clickLoading.value = false;
+  }, 1000);
 };
 
 onMounted(async () => {
   if (Local.get("venueActive")) {
     await Page(pinia).setVenueActive(Local.get("venueActive"));
-    platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(Local.get("venueActive"))))).three_platform
+    platformData.value = homeGameData.value.find(
+      (e: any) => e.id == Number(Local.get("venueActive"))
+    ).three_platform;
   }
-
 });
 
-
 // 展开状态
-const hoverStatus = ref(false)
-const hovertimeout: any = ref(null)
-const clickLoading = ref(false) // 防止点击后被全局loading阻挡鼠标导致关闭
+const hoverStatus = ref(false);
+const hovertimeout: any = ref(null);
+const clickLoading = ref(false); // 防止点击后被全局loading阻挡鼠标导致关闭
 const mouseleave = () => {
-  if (clickLoading.value) return
+  if (clickLoading.value) return;
   hovertimeout.value = setTimeout(() => {
-    hoverStatus.value = false
-  }, 300)
-}
+    hoverStatus.value = false;
+  }, 300);
+};
 const mouseenter = () => {
-  if (clickLoading.value) return
-  if (hovertimeout.value) clearTimeout(hovertimeout.value)
-  hoverStatus.value = true
-}
+  if (clickLoading.value) return;
+  if (hovertimeout.value) clearTimeout(hovertimeout.value);
+  hoverStatus.value = true;
+};
 
 // 游戏翻页
-const arr = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+const arr = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 const nextPage = () => {
-  const cuts: any = []
+  const cuts: any = [];
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
-      const a: any = arr.value.shift()
-      cuts.push(a)
-    }, i * 50)
+      const a: any = arr.value.shift();
+      cuts.push(a);
+    }, i * 50);
   }
-  setTimeout
-}
+  setTimeout;
+};
 </script>
 
 <style lang="less" scoped>
@@ -241,7 +271,6 @@ const nextPage = () => {
   opacity: 0;
   transform: translateX(50px);
 }
-
 
 .menu_wrap_box {
   position: relative;
@@ -263,7 +292,7 @@ const nextPage = () => {
   top: 0;
   left: 0;
   height: 133px;
-  transition: all ease .3s;
+  transition: all ease 0.3s;
   transition-delay: 0s;
   background: url("/img/menu/menu_bg.webp?t=@{timestamp}") no-repeat;
   background-size: 100% 0;
@@ -271,16 +300,15 @@ const nextPage = () => {
 
   .sub_menu {
     width: 100%;
-    transition: all ease .3s;
+    transition: all ease 0.3s;
     height: 0;
     opacity: 0;
-
   }
 
   .show_sub_menu {
     height: 794px;
     opacity: 1;
-    transition: all ease .3s;
+    transition: all ease 0.3s;
   }
 
   .menu_wrap_list {
@@ -353,7 +381,7 @@ const nextPage = () => {
       border-radius: 16px;
       background: url("/img/menu/ban.webp?t=@{timestamp}") no-repeat;
       background-size: 100% 100%;
-      transition: all ease .3s;
+      transition: all ease 0.3s;
     }
   }
 
@@ -406,7 +434,6 @@ const nextPage = () => {
     }
 
     .sub_menu_scroll {
-
       &::-webkit-scrollbar {
         display: block;
         width: 6px;
@@ -419,7 +446,7 @@ const nextPage = () => {
       }
 
       &::-webkit-scrollbar-thumb {
-        background: #381B8B;
+        background: #381b8b;
         border-radius: 10px;
       }
     }
@@ -447,7 +474,7 @@ const nextPage = () => {
         }
 
         .name {
-          color: #9497A1;
+          color: #9497a1;
           font-size: 18px;
         }
 
@@ -466,7 +493,7 @@ const nextPage = () => {
       }
 
       .active_1_item {
-        background-image: linear-gradient(to right, #1C99FF, #9C1FFF);
+        background-image: linear-gradient(to right, #1c99ff, #9c1fff);
         border-radius: 8px;
 
         .name {
@@ -494,7 +521,7 @@ const nextPage = () => {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        color: rgba(255, 255, 255, 0.60);
+        color: rgba(255, 255, 255, 0.6);
         font-size: 18px;
 
         .sub_menu_2_icon {
@@ -564,7 +591,7 @@ const nextPage = () => {
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: 0.3px 0.3px 0.6px 0px #4B4A6E inset;
+            box-shadow: 0.3px 0.3px 0.6px 0px #4b4a6e inset;
             color: #fff;
             font-size: 13px;
             min-width: 24px;
@@ -582,8 +609,6 @@ const nextPage = () => {
           .sub_menu_3_it {
             margin-right: 26px;
             cursor: pointer;
-
-
 
             width: 90px;
 
