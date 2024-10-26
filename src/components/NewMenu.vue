@@ -71,7 +71,7 @@
               <Imgt class="sub_menu_2_icon" :src="`/img/menu/menu_hot.webp`" />
               <span>热门俱乐部</span>
               <div style="flex: 1;"></div>
-              <div class="sub_menu_2_btn">更多</div>
+              <div class="sub_menu_2_btn" @click="jump('club')">更多</div>
               <div class="sub_menu_2_btn" @click="prevScroll(scrollJL2)">&lt;</div>
               <div class="sub_menu_2_btn" @click="nextScroll(scrollJL2)">&gt;</div>
             </div>
@@ -102,7 +102,7 @@
               <Imgt class="sub_menu_2_icon" :src="`/img/menu/menu_hot.webp`" />
               <span>热门赛事</span>
               <div style="flex: 1;"></div>
-              <div class="sub_menu_2_btn">更多</div>
+              <div class="sub_menu_2_btn" @click="jump('ranking')">更多</div>
               <div class="sub_menu_2_btn" @click="prevScroll(scrollSS2)">&lt;</div>
               <div class="sub_menu_2_btn" @click="nextScroll(scrollSS2)">&gt;</div>
             </div>
@@ -169,7 +169,7 @@
                 <Imgt class="sub_menu_3_title_icon" :src="`/img/menu/game_icon.webp`" />
                 <div class="sub_menu_3_subtitle">俱乐部游戏</div>
                 <div style="flex: 1;"></div>
-                <div class="sub_menu_3_btn">更多</div>
+                <div class="sub_menu_3_btn" @click="jump('clubNext')">更多</div>
                 <div class="sub_menu_3_btn" @click="prevScroll(scrollJL3)">&lt;</div>
                 <div class="sub_menu_3_btn" @click="nextScroll(scrollJL3)">&gt;</div>
               </div>
@@ -332,8 +332,11 @@ import pinia from "@/store/index";
 import { Page } from "@/store/page";
 import { Local } from "@/utils/storage";
 import { Net } from '@/net/Net';
+import { User } from '@/store/user';
 
+const userInfo = User(pinia);
 const { homeGameData } = storeToRefs(Page(pinia));
+const { hasLogin } = storeToRefs(userInfo);
 
 const router = useRouter();
 const { venueActive, lang, settings } = storeToRefs(Page(pinia));
@@ -382,6 +385,10 @@ const menuList = [
 // 点击菜单
 const currType: any = ref({})
 const itemClick = async (item: any) => {
+  if (!hasLogin.value && item.id == 99) {
+    await User(pinia).setLogin(true)
+    return
+  }
   currType.value = item
   currPlat.value = {}
   await Page(pinia).setVenueActive(item.id);
@@ -394,6 +401,27 @@ const itemClick = async (item: any) => {
   setTimeout(() => {
     clickLoading.value = false
   }, 200)
+
+  // 俱乐部
+  if (item.id == 99) {
+    console.error('俱乐部')
+    MessageEvent2.addMsgEvent(
+      NetMsgType.msgType.msg_notify_get_club_list,
+      handleClubList
+    );
+    const req = NetPacket.req_get_club_list();
+    Net.instance.sendRequest(req);
+  }
+  // 赛程
+  if (item.id == 100) {
+    MessageEvent2.addMsgEvent(
+      NetMsgType.msgType.msg_notify_tournament_events_list,
+      handleGetList
+    );
+    const req = NetPacket.req_tournament_events_list();
+    req.page = 1;
+    Net.instance.sendRequest(req);
+  }
 };
 const platformData = ref()
 const itemGameClick = async (item: any) => {
@@ -414,6 +442,18 @@ const itemGameClick = async (item: any) => {
     // clickPlat(platformData.value[0])
   }, 200)
 };
+
+// 俱乐部
+const handleClubList = (res: any) => {
+  console.error('俱乐部数据-->', res.joined_club_list)
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_club_list, null);
+}
+
+// 赛程
+const handleGetList = (res: any) => {
+  console.error('赛程数据-->', res.tournm_list)
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_tournament_events_list, null);
+}
 
 
 // 判断分类是否是体育和真人(没有游戏列表，直接展示平台入口)
@@ -478,17 +518,19 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_tournament_events_list, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_club_list, null);
 })
 
 
 // 展开状态
-const hoverStatus = ref(true)
+const hoverStatus = ref(false)
 const hovertimeout: any = ref(null)
 const clickLoading = ref(false) // 防止点击后被全局loading阻挡鼠标导致关闭
 const mouseleave = () => {
   // if (clickLoading.value) return
   hovertimeout.value = setTimeout(() => {
-    // hoverStatus.value = false
+    hoverStatus.value = false
   }, 300)
 }
 const mouseenter = () => {
@@ -497,7 +539,11 @@ const mouseenter = () => {
   if (hovertimeout.value) clearTimeout(hovertimeout.value)
   hoverStatus.value = true
 
-  // 如果没有激活二级分类就触发下点击事件
+  // 如果没有激活二级分类就触发下点击事件(俱乐部)
+  if (hasLogin.value && !currType.value.id && 99 == venueActive.value) {
+    itemClick(menuList[1])
+    return
+  }
   // if (!currPlat.value.id) {
   //   handleClick(venueActive.value)
   // }
@@ -547,6 +593,14 @@ const prevPage = () => {
       arr.value.unshift(a)
     }, i * 50)
   }
+}
+
+
+// 跳转
+const jump = (name: any) => {
+  router.push({
+    path: '/' + name
+  })
 }
 </script>
 
