@@ -72,11 +72,11 @@
               <span>热门俱乐部</span>
               <div style="flex: 1;"></div>
               <div class="sub_menu_2_btn">更多</div>
-              <div class="sub_menu_2_btn">&lt;</div>
-              <div class="sub_menu_2_btn">&gt;</div>
+              <div class="sub_menu_2_btn" @click="prevScroll(scrollJL2)">&lt;</div>
+              <div class="sub_menu_2_btn" @click="nextScroll(scrollJL2)">&gt;</div>
             </div>
             <!-- 俱乐部列表 -->
-            <div class="sub_menu_scroll sub_menu_2_child">
+            <div class="sub_menu_scroll sub_menu_2_child" ref="scrollJL2">
               <div class="sub_menu_2_ss" :class="{ 'sub_menu_2_ssed': i == 2 }" v-for="i in 10" :key="i">
                 <div class="sub_menu_2_ss_icon">
                   <Imgt style="width: 100%;height: 100%;" :src="`/img/menu/ss.webp`" />
@@ -103,11 +103,11 @@
               <span>热门赛事</span>
               <div style="flex: 1;"></div>
               <div class="sub_menu_2_btn">更多</div>
-              <div class="sub_menu_2_btn" @click="prevPage">&lt;</div>
-              <div class="sub_menu_2_btn" @click="nextPage">&gt;</div>
+              <div class="sub_menu_2_btn" @click="prevScroll(scrollSS2)">&lt;</div>
+              <div class="sub_menu_2_btn" @click="nextScroll(scrollSS2)">&gt;</div>
             </div>
             <!-- 赛事列表 -->
-            <div class="sub_menu_scroll sub_menu_2_child">
+            <div class="sub_menu_scroll sub_menu_2_child" ref="scrollSS2">
               <div class="sub_menu_2_ss" :class="{ 'sub_menu_2_ssed': i == 2 }" v-for="i in 10" :key="i">
                 <div class="sub_menu_2_ss_icon">
                   <Imgt style="width: 100%;height: 100%;" :src="`/img/menu/ss.webp`" />
@@ -144,10 +144,11 @@
             <div class="sub_menu_scroll sub_menu_2_child">
               <div class="sub_menu_2_item" v-for="(v, i) in platformData" :key="i" @click="clickPlat(v)">
                 <div class="sub_menu_2_box">
-                  <Imgt class="sub_menu_2_img" :src="getImg(v.picture_pc)" />
+                  <img class="sub_menu_2_img" :src="getImg(v.picture_pc)" alt="img">
                 </div>
                 <div class="sub_menu_2_name">{{ unserialize(v.name, false) }}</div>
               </div>
+              <div class="sub_menu_2_item"></div>
             </div>
           </template>
         </div>
@@ -169,8 +170,8 @@
                 <div class="sub_menu_3_subtitle">俱乐部游戏</div>
                 <div style="flex: 1;"></div>
                 <div class="sub_menu_3_btn">更多</div>
-                <div class="sub_menu_3_btn" @click="prevScroll(scrollJL3.value)">&lt;</div>
-                <div class="sub_menu_3_btn" @click="nextScroll(scrollJL3.value)">&gt;</div>
+                <div class="sub_menu_3_btn" @click="prevScroll(scrollJL3)">&lt;</div>
+                <div class="sub_menu_3_btn" @click="nextScroll(scrollJL3)">&gt;</div>
               </div>
 
               <!-- 列表 -->
@@ -256,24 +257,25 @@
         </div>
 
         <!-- 所有游戏列表 -->
-        <div class="sub_menu_0 sub_menu_3" v-if="!isPlatIn(currType) && currType.id != 100 && currType.id != 99">
+        <div class="sub_menu_0 sub_menu_3"
+          v-if="!isPlatIn(currType) && currType.id != 100 && currType.id != 99 && currPlat.id">
           <!-- 所有游戏 -->
           <template v-if="hoverStatus">
             <div class="sub_menu_3_item" style="display: flex;flex-direction: column;height: 100%;">
               <!-- 操作 -->
               <div class="sub_menu_3_title">
-                <Imgt class="sub_menu_3_title_icon" :src="getImg(currPlat.picture_pc)" />
+                <img class="sub_menu_3_title_icon" :src="getImg(currPlat.picture_pc)" alt="img">
                 <div style="flex: 1;"></div>
                 <div class="sub_menu_3_btn">更多</div>
-                <div class="sub_menu_3_btn">&lt;</div>
-                <div class="sub_menu_3_btn">&gt;</div>
+                <div class="sub_menu_3_btn" @click="prevScroll(scrollAll3)">&lt;</div>
+                <div class="sub_menu_3_btn" @click="nextScroll(scrollAll3)">&gt;</div>
               </div>
 
               <!-- 列表 -->
-              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2">
+              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2" ref="scrollAll3">
                 <div class="sub_menu_3_it" v-for="(item, i) in games" :key="i">
                   <div class="sub_menu_3_it_img">
-                    <Imgt style="width:100%;height:100%" :src="getImg(item.gamePicturePC)" />
+                    <img style="width:100%;height:100%" :src="getImg(item.gamePicturePC)" alt="img">
                   </div>
                   <div class="sub_menu_3_it_name">{{ unserialize(item.name, true) }}</div>
                 </div>
@@ -284,15 +286,16 @@
 
 
         <!-- 一排一组游戏列表 -->
-        <div class="sub_menu_0 sub_menu_scroll sub_menu_3" v-if="hoverStatus && false">
+        <div class="sub_menu_0 sub_menu_scroll sub_menu_3"
+          v-if="!isPlatIn(currType) && currType.id != 100 && currType.id != 99 && !currPlat.id">
 
           <!-- 一排一组 -->
-          <template v-if="hoverStatus && false">
+          <template v-if="hoverStatus">
             <div class="sub_menu_3_item" v-for="index in 10" :key="index">
 
               <!-- 操作 -->
               <div class="sub_menu_3_title">
-                <Imgt class="sub_menu_3_title_icon" :src="`/img/menu/sub_menu_icon.webp`" />
+                <img class="sub_menu_3_title_icon" :src="`/img/menu/sub_menu_icon.webp`" alt="img">
                 <div style="flex: 1;"></div>
                 <div class="sub_menu_3_btn">更多</div>
                 <div class="sub_menu_3_btn" @click="prevPage">&lt;</div>
@@ -304,7 +307,7 @@
                 <TransitionGroup :name="aniName">
                   <div class="sub_menu_3_it" v-for="i in arr" :key="i">
                     <div class="sub_menu_3_it_img">
-                      <Imgt style="width:100%;height:100%" :src="`/img/menu/sub_menu_icon.webp`" />
+                      <img style="width:100%;height:100%" :src="`/img/menu/sub_menu_icon.webp`" alt="img">
                     </div>
                     <div class="sub_menu_3_it_name">埃及探秘宝典{{ i }}</div>
                   </div>
@@ -380,6 +383,7 @@ const menuList = [
 const currType: any = ref({})
 const itemClick = async (item: any) => {
   currType.value = item
+  currPlat.value = {}
   await Page(pinia).setVenueActive(item.id);
   router.push(`${item.url}`);
 
@@ -394,6 +398,7 @@ const itemClick = async (item: any) => {
 const platformData = ref()
 const itemGameClick = async (item: any) => {
   currType.value = item
+  currPlat.value = {}
   platformData.value = (homeGameData.value.find((e: any) => (e.id == Number(item.id)))).three_platform
 
   await Page(pinia).setVenueActive(item.id);
@@ -419,7 +424,6 @@ const isPlatIn = (types: any) => {
 // 点击平台
 const currPlat: any = ref({})
 const clickPlat = (item: any) => {
-  console.error('平台', item)
   currPlat.value = item
 
   // 体育和真人展示入口 
@@ -429,7 +433,6 @@ const clickPlat = (item: any) => {
 
   // 点击的时候才监听
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
-  console.error('开始监听')
 
   setTimeout(() => {
 
@@ -446,7 +449,6 @@ const clickPlat = (item: any) => {
 // 游戏列表
 const games: any = ref([])
 const handleGames = (res: any) => {
-  console.error('----游戏列表', res)
   games.value = res.info || []
 
   setTimeout(() => {
@@ -480,13 +482,13 @@ onUnmounted(() => {
 
 
 // 展开状态
-const hoverStatus = ref(false)
+const hoverStatus = ref(true)
 const hovertimeout: any = ref(null)
 const clickLoading = ref(false) // 防止点击后被全局loading阻挡鼠标导致关闭
 const mouseleave = () => {
   // if (clickLoading.value) return
   hovertimeout.value = setTimeout(() => {
-    hoverStatus.value = false
+    // hoverStatus.value = false
   }, 300)
 }
 const mouseenter = () => {
@@ -496,19 +498,28 @@ const mouseenter = () => {
   hoverStatus.value = true
 
   // 如果没有激活二级分类就触发下点击事件
-  if (!currPlat.value.id) {
-    handleClick(venueActive.value)
-  }
+  // if (!currPlat.value.id) {
+  //   handleClick(venueActive.value)
+  // }
 }
 
 
 // 滚动
-const scrollJL3 = ref()
+const scrollSS2 = ref() // 二级-赛事列表
+const scrollJL2 = ref() // 二级-俱乐部分类列表
+const scrollAll3 = ref() // 三级-所有游戏列表
+const scrollJL3 = ref() // 三级-俱乐部列表
 const prevScroll = (dom: any) => {
-  console.error(dom)
+  dom.scrollTo({
+    top: dom.scrollTop - dom.clientHeight,
+    behavior: 'smooth'
+  });
 }
 const nextScroll = (dom: any) => {
-  console.error(dom)
+  dom.scrollTo({
+    top: dom.scrollTop + dom.clientHeight,
+    behavior: 'smooth'
+  });
 }
 
 // 游戏翻页
@@ -610,7 +621,7 @@ const prevPage = () => {
   }
 
   .show_sub_menu {
-    height: 794px;
+    height: calc(100% - 133px); // 794px
     opacity: 1;
     transition: all ease .3s;
   }
@@ -728,7 +739,9 @@ const prevPage = () => {
 }
 
 .open_menu_wrap {
-  height: 927px;
+  // height: 927px;
+  height: 75vh;
+  min-height: 500px;
   background: url("/img/menu/menu_bg.webp?t=@{timestamp}") no-repeat;
   background-size: 100% calc(100% - 50px);
   background-position-y: 50px;

@@ -207,15 +207,19 @@ const onPlayGame = async (v: any) => {
     Net.instance.sendRequest(tb);
 }
 const queryData = () => { // 查询
-    loading.value = true
-    isLoading.value = true
-    const query = NetPacket.req_get_games_in_platform()
-    query.agentId = state.agentId
-    query.kindId = state.kindId
-    query.is_lable = state.is_lable
-    query.page = params.page
-    query.pageSize = params.pageSize
-    Net.instance.sendRequest(query);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
+
+    setTimeout(() => {
+        loading.value = true
+        isLoading.value = true
+        const query = NetPacket.req_get_games_in_platform()
+        query.agentId = state.agentId
+        query.kindId = state.kindId
+        query.is_lable = state.is_lable
+        query.page = params.page
+        query.pageSize = params.pageSize
+        Net.instance.sendRequest(query);
+    }, 0)
 }
 //切换右侧标签事件
 const changeLableTab = (item: any) => {
@@ -251,6 +255,8 @@ const handleGames = (res: any) => {
 
     result.total_page = res.total
     loading.value = false
+
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, null);
 }
 const handleQuery = (res: any) => {
     result.list = res.info
@@ -323,7 +329,7 @@ onMounted(() => {
         state.lableActive = Number(props.lableActive)
     }
     // MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatform);
-    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
+
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_modify_collect, resCollect);
