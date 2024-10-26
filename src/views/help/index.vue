@@ -28,6 +28,7 @@
       <merchantTemp v-if="curType === 'merchant'"/>
       <policyRuleTemp v-if="curType === 'policyRule'"/>
       <contactUsTemp v-if="curType === 'contactUs'"/>
+      <justTemp v-if="curType === 'just'"/>
     </div>
   </n-flex>
 </template>
@@ -46,6 +47,7 @@ const withdrawTemp = defineAsyncComponent(() => import('./temp/withdraw.vue'));
 const merchantTemp = defineAsyncComponent(() => import('./temp/merchant.vue'));
 const policyRuleTemp = defineAsyncComponent(() => import('./temp/policyRule.vue'));
 const contactUsTemp = defineAsyncComponent(() => import('./temp/contactUs.vue'));
+const justTemp = defineAsyncComponent(() => import('./temp/just.vue'));
 
 const { t } = useI18n();
 const route = useRoute();
@@ -59,7 +61,7 @@ const navArr = [
   },
   {
     label: 'help_page_company', value: 'company', icon: 'txxlicon12',
-    children: [{label: 'help_page_jingcai', value: 'jingcai'},{label: 'help_page_rule', value: 'rule'},{label: 'help_page_merchant', value: 'merchant'},{label: 'help_page_privacy', value: 'privacy'},]
+    children: [{label: 'help_page_jingcai', value: 'jingcai'},{label: 'help_page_termsRule', value: 'rule'},{label: 'help_page_merchant', value: 'merchant'},{label: 'help_page_privacy', value: 'privacy'},]
   },
   {
     label: 'help_page_fair', value: 'fair', icon: 'txxlicon12',
