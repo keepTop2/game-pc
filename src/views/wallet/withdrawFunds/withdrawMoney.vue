@@ -6,7 +6,7 @@
                 :myBankList="usdtBankList" />
 
   <div class="list_box bg_color">
-    <div class="txt_title">{{t('提款方式')}}</div>
+    <div class="txt_title">{{t('withdraw_page_payWay')}}</div>
     <n-flex class="body vertical center t_md">
       <!-- 列表选择 -->
       <n-flex justify="center" align="center"
@@ -80,18 +80,18 @@
               </template>
             </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('更换')}}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openBankListInfo">{{t('deposit_page_changeWay')}}</n-flex>
         </n-flex>
         <!-- usdt提款 -->
         <n-flex v-show="curPayWay.paymethod == '2'"  justify="space-between">
-          <n-form-item :label="t('选择USDT地址')" style="flex: 1;">
-            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('选择USDT地址')">
+          <n-form-item :label="t('pick_usdt')" style="flex: 1;">
+            <n-input disabled v-model:value="backItemInfo.bank_name" :placeholder="t('pick_usdt')">
               <template #suffix>
                 <iconpark-icon icon-id="fangxiangicon02" color="#fff" size="1.5rem"></iconpark-icon>
               </template>
             </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openUsdtListInfo">{{t('更换')}}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="openUsdtListInfo">{{t('deposit_page_changeWay')}}</n-flex>
         </n-flex>
 
         <n-flex justify="space-between">
@@ -102,7 +102,7 @@
               v-model:value="form.amount" :placeholder="t('walletInfo_page_withdrawalMon')">
             </n-input>
           </n-form-item>
-          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="form.amount = ''">{{t('重置')}}</n-flex>
+          <n-flex justify="center" align="center" class="button button_color mr_t_5" @click="form.amount = ''">{{t('withdraw_page_reset')}}</n-flex>
         </n-flex>
         <n-flex class="kjje_div">
           <a class="kj_item" v-for="(item, index) in chooseMoneyArr" @click="chooseFastMon(item.value)"
@@ -149,8 +149,8 @@
                 /*border: 1px solid rgba(38, 41, 76, 1)*/
               "
               >
-                交易金额包括交易手续费和税费
-                兑换汇率：₫1223=1USDT
+                {{ t('withdraw_page_mountFee') }}
+                {{ t('withdraw_page_rate') }}：₫1223=1USDT
               </div>
             </n-tooltip>
           </n-flex>
@@ -163,7 +163,7 @@
     </div>
 
     <!-- 资金密码弹窗 -->
-    <ModalDialog v-model:visible="showPwdModal" title="开启/关闭资金密码">
+    <ModalDialog v-model:visible="showPwdModal" :title="t('withdraw_page_openClose')">
       <template #content>
         <div class="pay_pwd_con">
           <n-form-item style="flex: 1;" :label="t('withdraw_page_payPwd')" :path="switchVisible ? 'password' : ''">
@@ -179,7 +179,7 @@
     </ModalDialog>
 
     <!-- 存入保险柜 -->
-    <ModalDialog v-model:visible="showTranModal" title="存入保险柜提现">
+    <ModalDialog v-model:visible="showTranModal" :itle="t('withdraw_alertTitle')">
       <template #content>
         <div class="tran_box">
           <n-flex class="top_box" justify="space-between">
@@ -192,7 +192,7 @@
             </div>
             <div class="topBox">
               <n-flex align="center">
-                <iconpark-icon icon-id="txxlicon01-ekipha8m" color="#fff" size="1.5rem"></iconpark-icon>
+                <iconpark-icon icon-id="txxlicon02-ekipha9e" color="#fff" size="1.5rem"></iconpark-icon>
                 <span>{{ t('wallet_type_map_2') }}</span>
               </n-flex>
               <span class="mon_box">{{verifyNumberComma(String(bankMoney))}}</span>
@@ -202,7 +202,7 @@
             <n-input @blur="inputBlur" @input="countMonRate" v-model:value="tranMoney"
                      :placeholder="t('addBank_page_pInput')" >
             </n-input>
-            <n-flex align="center" justify="center" class="btn_ch button_color" @click="tranMoney = ''"> {{ t('重置') }} </n-flex>
+            <n-flex align="center" justify="center" class="btn_ch button_color" @click="tranMoney = ''"> {{ t('withdraw_page_reset') }} </n-flex>
           </n-flex>
           <n-flex class="fast_box">
             <n-flex align="center" justify="center" class="button" @click="allTranferMon(item.value)" v-for="(item, index) in fastMon" :key="index">
@@ -212,7 +212,7 @@
           <div class="tips_txt red">
             {{ t('walletInfo_page_tranferTips') }}
           </div>
-          <n-flex align="center" justify="center" class="sub_btn button button_color" @click="handleSubmit"> {{ t('确定存入') }} </n-flex>
+          <n-flex align="center" justify="center" class="sub_btn button button_color" @click="handleSubmit"> {{ t('withdraw_page_sureDeposit') }} </n-flex>
         </div>
       </template>
     </ModalDialog>
@@ -410,7 +410,7 @@ const onSubmit = () => {
     return Message.error(t('withdraw_page_fail_tips6'))
   }
   if (!form.value.way) {
-    return Message.error(t('请选择提款方式'))
+    return Message.error(t('withdraw_page_ch_payWay'))
   }
   formRef.value?.validate((errors: any) => {
     if (!errors) {
@@ -478,7 +478,7 @@ const handleCloseSend = (type: any) => {
 };
 const sendChangeCole = (type=1) => {
   if (type == 2 && !closeForm.value.withdraw_password) {
-   return Message.error(t('资金密码不能为空'))
+   return Message.error(t('withdraw_page_emPayPwd'))
   }
   const req = NetPacket.req_open_or_close_withdraw_password();
   req.role_id = roleInfo.value.id;

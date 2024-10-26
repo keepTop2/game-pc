@@ -94,7 +94,7 @@
                 @click="menuClick(item, i)"
               >
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
-                <span>{{ t(item.name) }}</span>
+                <span>333</span>
               </p>
             </div>
           </n-popover>
@@ -299,7 +299,7 @@ const avatarLoadError = (e: any) => {
   e.target.src = defaultAvatar;
 };
 const renderLabel: SelectRenderLabel = (option: any) => {
-  return h("div", {}, t(option.label));
+  return h("div", {}, t(option?.label));
 };
 // 主题色切换1
 const changeTheme = (value: any) => {

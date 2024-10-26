@@ -27,6 +27,18 @@ export const getLocale = async () => { // Page(pinia).$state.settings
 export const getSetting = async () => {
     const settingsRes = await fetch('http://18.167.187.79/config_h5_develop.json?' + new Date().getTime())
     const settings = await settingsRes.json()
+ 
+    const lang_list_label:any = {
+        en:'home_page_en',
+        zh:'home_page_zh',
+        vn:'home_page_vi',
+    }
+    settings.lang_list.forEach((item:any) => {
+        item.label = lang_list_label[item.name]
+        item.value = item.name
+        
+    });
+
     await Page(pinia).setSettings(settings)
     const homeGameDataRes = await fetch(settings.third_game_manage + "?" + new Date().getTime())
     const homeGameData = await homeGameDataRes.json()

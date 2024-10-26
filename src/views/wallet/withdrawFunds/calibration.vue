@@ -268,21 +268,21 @@ const chooseBank = ref({ label: '', value: '' }); // 选择的银行卡
 const mySecBankList = ref(props.myBankList);
 const changeRightInfo: any = ref({
   pwd1: {
-    icon: 'Group39364',
+    icon: 'gerenyincangicon',
     type: 'password'
   },
   pwd2: {
-    icon: 'Group39364',
+    icon: 'gerenyincangicon',
     type: 'password'
   }
 })
 const iconClick = (type: any) => {
-  if (changeRightInfo.value[type].icon == "Group39364") {
+  if (changeRightInfo.value[type].icon == "gerenyincangicon") {
     changeRightInfo.value[type].type = "text"
-    changeRightInfo.value[type].icon = "Group39365"
+    changeRightInfo.value[type].icon = "gerenchakanicon"
   } else {
     changeRightInfo.value[type].type = "password"
-    changeRightInfo.value[type].icon = "Group39364"
+    changeRightInfo.value[type].icon = "gerenyincangicon"
   }
 }
 

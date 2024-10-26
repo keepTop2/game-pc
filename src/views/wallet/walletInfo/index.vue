@@ -8,7 +8,7 @@
 <!--  <WithdrawMoney v-if="withdrawMoneyShow" ref="withdrawMoneyRef" :myBankList="myBankList" />-->
 
   <!-- 导航 -->
-  <navTab :title="t('钱包')" :showIcon="true"
+  <navTab :title="t('page_route_wallet')" :showIcon="true"
           :refreshObj="{isRefreshFlag: refreshFlag, isEyeOpen: eyeOpen}"
           @refreshWallet="refreshWallet"
           @moneyShow="moneyShow"
@@ -19,9 +19,11 @@
         <n-flex justify="space-between" align="center" class="game_wallet_top">
           <div class="top_left">
             <div class="top_mon_box">
-              <div class="title"> {{ t('携带钱包') }} </div>
+              <div class="title"> {{ t('wallet_balance') }} </div>
               <n-flex align="center" class="top_mon_box_l">
-                <span class="icon"></span>
+                <span class="icon">
+                  <iconpark-icon icon-id="txxlicon01-ekipha8m" color="#fff" size="1.563rem"></iconpark-icon>
+                </span>
 <!--                <span class="m-txt"> {{ verifyNumberComma(String(gameMoney)) }} </span>-->
                 <span class="m-txt"> {{ totalMoneyTxt }} </span>
               </n-flex>
@@ -39,7 +41,9 @@
             <div class="top_mon_box">
               <div class="title"> {{ t('walletInfo_page_venue') }} </div>
               <n-flex align="center" class="top_mon_box_l">
-                <span class="icon icon_bxg"></span>
+                <span class="icon icon_bxg">
+                  <iconpark-icon icon-id="txxlicon02-ekipha9e" color="#fff" size="1.563rem"></iconpark-icon>
+                </span>
                 <span class="m-txt"> {{ verifyNumberComma(String(bankMoney)) }} </span>
               </n-flex>
               <n-flex class="top_mon_box_r">
