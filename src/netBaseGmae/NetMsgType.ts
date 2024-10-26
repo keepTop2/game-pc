@@ -379,6 +379,8 @@ export module NetMsgType {
         msg_notify_newbees_info: 4002,
         msg_req_newbees_prize: 4003,
         msg_notify_newbees_prize: 4004,
+        msg_req_contact_customer_service: 4005,
+        msg_notify_contact_customer_service: 4006,
         msg_req_game_giftcard_remainpoints: 4101,
         msg_notify_game_giftcard_remainpoints: 4102,
         msg_req_fllm_reward: 4201,
@@ -773,5 +775,4 @@ export module NetMsgType {
     type MsgType = typeof msgType1
 
     export const msgType: MsgType = msgType1
-
 }
