@@ -3,19 +3,21 @@
     <div class="theFirst">
       <div class="info">
         <div class="avatar">
-          <Imgt :src="`/img/head_icons/${roleInfo.head_photo}.webp`" alt="/img/home/avatar.webp" />
+          <Imgt
+            :src="`/img/head_icons/${roleInfo.head_photo}.webp`"
+            alt="/img/home/avatar.webp"
+          />
         </div>
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
-          <p>今日排名：{{ props.freeTreasureInfo.rank || '--' }}</p>
+          <p>今日排名：{{ props.freeTreasureInfo.rank === -1 ? '--' : props.freeTreasureInfo.rank === -1}}</p>
         </div>
-
       </div>
       <div class="gold">
         <p>试玩金币</p>
         <div class="goldNumber">
           <Imgt src="/img/wallet/gold.svg" />
-<!--          <p>{{ freeLootRankingData.gold }}</p>-->
+          <!--          <p>{{ freeLootRankingData.gold }}</p>-->
           <p>{{ props.freeTreasureInfo.score || 0 }}</p>
         </div>
       </div>
@@ -27,10 +29,20 @@
 
       <div class="table">
         <div class="goldTableSelect">
-          <n-select @update:value="selectRoundid"  v-model:value="freeLootRankingData.roundid" :options="freeLootRankingData.roundidOptions" />
+          <n-select
+            @update:value="selectRoundid"
+            v-model:value="freeLootRankingData.roundid"
+            :options="freeLootRankingData.roundidOptions"
+          />
         </div>
-        <n-data-table striped :bordered="false" virtual-scroll :max-height="500" :columns="freeLootRankingData.tableHeader"
-                      :data="freeLootRankingData.list">
+        <n-data-table
+          striped
+          :bordered="false"
+          virtual-scroll
+          :max-height="500"
+          :columns="freeLootRankingData.tableHeader"
+          :data="freeLootRankingData.list"
+        >
           <template #empty>
             <div class="nodata">
               <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
@@ -38,21 +50,23 @@
             </div>
           </template>
         </n-data-table>
-        <n-button v-if="freeLootRankingData.list.length >= 50" @click="pushTableData" tertiary class="planButton">
+        <n-button
+          v-if="freeLootRankingData.list.length >= 50"
+          @click="pushTableData"
+          tertiary
+          class="planButton"
+        >
           点击加载更多
         </n-button>
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
-
 import { useI18n } from 'vue-i18n';
 
-
-import { reactive, ref, h, onMounted, onUnmounted } from 'vue';
+import { reactive, h, onMounted, onUnmounted } from 'vue';
 import Imgt from '@/components/Imgt.vue';
 import { User } from '@/store/user.ts';
 import pinia from '@/store';
@@ -62,7 +76,6 @@ import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 
-
 const { t } = useI18n();
 const userInfo = User(pinia);
 const { info } = storeToRefs(userInfo);
@@ -70,7 +83,7 @@ const { info } = storeToRefs(userInfo);
 const UserStore = User(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
-const props = defineProps<{freeTreasureInfo: any}>()
+const props = defineProps<{ freeTreasureInfo: any }>();
 
 const freeLootRankingData: any = reactive({
   list: [],
@@ -80,18 +93,28 @@ const freeLootRankingData: any = reactive({
   pageSize: 50,
   tableHeader: [
     {
-      title: '排名', key: 'rank',
+      title: '排名',
+      key: 'rank',
       render(row: any) {
         let hRender = h('span', { class: `rankingText`, innerHTML: row.rank });
         switch (row.rank) {
-          case '1' :
-            hRender = h(Imgt, { src: '/img/wallet/gameTop1.png', class: `rankingImg` });
+          case '1':
+            hRender = h(Imgt, {
+              src: '/img/wallet/gameTop1.png',
+              class: `rankingImg`,
+            });
             break;
-          case '2' :
-            hRender = h(Imgt, { src: '/img/wallet/gameTop2.png', class: `rankingImg` });
+          case '2':
+            hRender = h(Imgt, {
+              src: '/img/wallet/gameTop2.png',
+              class: `rankingImg`,
+            });
             break;
-          case '3' :
-            hRender = h(Imgt, { src: '/img/wallet/gameTop3.png', class: `rankingImg` });
+          case '3':
+            hRender = h(Imgt, {
+              src: '/img/wallet/gameTop3.png',
+              class: `rankingImg`,
+            });
             break;
           default:
             hRender = h('span', { class: `rankingText`, innerHTML: row.rank });
@@ -100,46 +123,58 @@ const freeLootRankingData: any = reactive({
       },
     },
     {
-      title: '头像', key: 'head_icon',
+      title: '头像',
+      key: 'head_icon',
       render(row: any) {
         // /img/head_icons/${roleInfo.head_photo}.webp
-        return h(Imgt, { src:`/img/head_icons/${row.head_icon}.webp`, class: `avatarImg avatarImg-${row.avatar}` });
+        return h(Imgt, {
+          src: `/img/head_icons/${row.head_icon}.webp`,
+          class: `avatarImg avatarImg-${row.avatar}`,
+        });
       },
     },
     { title: '昵称', key: 'username' },
     {
-      title: '试玩金币', key: 'score',
+      title: '试玩金币',
+      key: 'score',
       render(row: any) {
-        return h('span', { class: 'yellowText', innerHTML: `试玩金币：<i>${row.score}</i>` });
+        return h('span', {
+          class: 'yellowText',
+          innerHTML: `试玩金币：<i>${row.score}</i>`,
+        });
       },
     },
     {
-      title: '本期奖励', key: 'reward',
+      title: '本期奖励',
+      key: 'reward',
       render(row: any) {
-        return h('span', { class: 'yellowText', innerHTML: `奖励：<i>${row.reward}</i>` });
+        return h('span', {
+          class: 'yellowText',
+          innerHTML: `奖励：<i>${row.reward}</i>`,
+        });
       },
     },
   ],
 });
 
- const selectRoundid =  (val: number) => {
-   freeLootRankingData.page = 1
-   freeLootRankingData.roundid = val
-   freeTreasureHis()
- }
+const selectRoundid = (val: number) => {
+  freeLootRankingData.page = 1;
+  freeLootRankingData.roundid = val;
+  freeTreasureHis();
+};
 
 const pushTableData = () => {
-  freeLootRankingData.page = freeLootRankingData.page++
-  freeTreasureHis()
+  freeLootRankingData.page = freeLootRankingData.page++;
+  freeTreasureHis();
 };
 
 const handleGoldTable = (res: any) => {
-  let data = res.info.splice(1,res.info.length)
-  if (data.length === 1) return freeLootRankingData.list = []
-  if (freeLootRankingData.page !==1) return freeLootRankingData.list.push([...data])
-  freeLootRankingData.list = data
-}
-
+  let data = res.info.splice(1, res.info.length);
+  if (data.length === 1) return (freeLootRankingData.list = []);
+  if (freeLootRankingData.page !== 1)
+    return freeLootRankingData.list.push([...data]);
+  freeLootRankingData.list = data;
+};
 
 // 30日
 function getLast30Days(): { value: number; label: string }[] {
@@ -161,7 +196,6 @@ function getLast30Days(): { value: number; label: string }[] {
   return result;
 }
 
-
 const freeTreasureHis = () => {
   const req = NetPacket.req_free_treasure_his();
   req.page = freeLootRankingData.page;
@@ -172,19 +206,19 @@ const freeTreasureHis = () => {
     NetMsgType.msgType.msg_notify_free_treasure_his,
     handleGoldTable,
   );
-}
-
+};
 
 onMounted(() => {
-  freeLootRankingData.roundidOptions = [...getLast30Days()]  as any
-  freeLootRankingData.roundid = getLast30Days()[0].value
-  freeTreasureHis()
-
+  freeLootRankingData.roundidOptions = [...getLast30Days()] as any;
+  freeLootRankingData.roundid = getLast30Days()[0].value;
+  freeTreasureHis();
 });
 onUnmounted(() => {
-  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_his, null);
+  MessageEvent2.removeMsgEvent(
+    NetMsgType.msgType.msg_notify_free_treasure_his,
+    null,
+  );
 });
-
 </script>
 
 <style scoped lang="less">
@@ -198,7 +232,7 @@ onUnmounted(() => {
     width: 100%;
     height: 96px;
     padding: 0 30px;
-    background: linear-gradient(94.51deg, #FA397E 0%, #FF852D 99.32%);
+    background: linear-gradient(94.51deg, #fa397e 0%, #ff852d 99.32%);
     border-radius: 12px;
 
     p {
@@ -257,8 +291,6 @@ onUnmounted(() => {
         }
       }
     }
-
-
   }
 
   .goldTab {
@@ -293,13 +325,13 @@ onUnmounted(() => {
           }
           :deep(.n-base-selection) {
             border: 1px solid rgba(23, 27, 68, 1) !important;
-            .n-base-selection__border, .n-base-selection__state-border, .n-base-selection-label {
+            .n-base-selection__border,
+            .n-base-selection__state-border,
+            .n-base-selection-label {
               border: none !important;
             }
           }
-
         }
-
       }
 
       .n-data-table {
@@ -366,7 +398,11 @@ onUnmounted(() => {
         }
       }
 
-      :deep(.n-data-table .n-data-table-tr.n-data-table-tr--striped .n-data-table-td) {
+      :deep(
+          .n-data-table
+            .n-data-table-tr.n-data-table-tr--striped
+            .n-data-table-td
+        ) {
         background-color: rgba(13, 14, 46, 1) !important;
       }
 

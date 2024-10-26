@@ -146,78 +146,29 @@ const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
 };
 
-// const state: any = reactive({
-//   // gameActive: 0,
-//   tabs: [
-//     {
-//       icon: "Group39096",
-//       name: "home_page_slot",
-//       color: "slot_machine",
-//       value: "",
-//     },
-//     {
-//       icon: "Group39095",
-//       name: "home_page_live",
-//       color: "live",
-//       value: "",
-//     },
+// 获取即将开赛数据
+function getEventList() {
+  const req = NetPacket.req_tournament_events_list();
+  req.page = 1;
+  Net.instance.sendRequest(req);
+}
 
-//     {
-//       icon: "Group39097",
-//       name: "home_page_eSports",
-//       color: "gaming",
-//       value: "",
-//     },
-//     {
-//       icon: "Group39098",
-//       name: "home_page_fishing",
-//       color: "fish",
-//       value: "",
-//     },
-//     {
-//       icon: "Group39099",
-//       name: "home_page_sportsGame",
-//       color: "sports",
-//       value: "",
-//     },
-//     {
-//       icon: "Group1556235309",
-//       name: "home_page_lotteryGame",
-//       color: "lottery",
-//       value: "",
-//     },
-//   ],
-// });
-// const platformItemClick = (item: any) => {
-//   console.log(item);
-//   router.push({
-//     path: "/gameMain/gameDetail",
-//     query: {
-//       id: 1,
-//       name: "首页跳转",
-//     },
-//   });
-// };
-// const allPlatForm = (item: any) => {
-//   console.log(item);
-//   router.push({
-//     path: "/gameMain/gamingPlatform",
-//     query: {
-//       id: 1,
-//       name: item.name,
-//     },
-//   });
-// };
-// const getGameList = (res: any) => {
-//   debugger
-//   console.log(res);
+const handleGetList = (rs: any) => {
+  console.log(44444444, rs);
+};
 
-// }
 onMounted(() => {
   const req = NetPacket.req_activites();
   req.show = 0;
   Net.instance.sendRequest(req);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
+
+  getEventList();
+
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_tournament_events_list,
+    handleGetList
+  );
 });
 onUnmounted(() => {
   // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_platform_gametype_list, null);

@@ -227,7 +227,6 @@ const defineModel = (item: any) => {
 };
 
 const changeFreeLootTab = (item: any, tabId: number) => {
-  console.log(item, 'changeFreeLootTab');
   state.freeLootActive = tabId;
   state.freeLootComponent = item.component;
 };

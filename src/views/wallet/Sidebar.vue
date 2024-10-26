@@ -1,29 +1,53 @@
 <template>
   <div class="sidebar">
     <div class="top_av">
-      <Imgt @click="showAvSetting" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'"
-        class="avatar" alt="" title="点击设置" />
+      <Imgt
+        @click="showAvSetting"
+        :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'"
+        class="avatar"
+        alt=""
+        title="点击设置"
+      />
       <n-flex justify="center" class="userName">
-        <span :title="info.full_name || info.real_name || roleInfo.nickname">{{ info.full_name || info.real_name ||
-          roleInfo.nickname
-          }}</span>
-        <span class="txt_vip"
-          :style="{ 'background-image': `url(/img/level/new/v${Number(VIPinfo.current_vip_level)}.webp)` }"></span>
+        <span :title="info.full_name || info.real_name || roleInfo.nickname">{{
+          info.full_name || info.real_name || roleInfo.nickname
+        }}</span>
+        <span
+          class="txt_vip"
+          :style="{
+            'background-image': `url(/img/level/new/v${Number(
+              VIPinfo.current_vip_level
+            )}.webp)`,
+          }"
+        ></span>
       </n-flex>
     </div>
     <div class="top_wallet">
-      <n-flex align="center" justify="space-between" @click="router.push(`/wallet/walletInfo`)">
+      <n-flex
+        align="center"
+        justify="space-between"
+        @click="router.push(`/wallet/walletInfo`)"
+      >
         <div>
-          <div>{{ t('page_route_wallet') }}</div>
+          <div>{{ t("page_route_wallet") }}</div>
           <div class="txt_m">{{ verifyNumberComma(String(roleInfo.money)) }}</div>
         </div>
         <span class="right_arrow"></span>
       </n-flex>
     </div>
     <n-flex class="nav_item bg_color">
-      <p class="pointer" :class="menuActive == i ? 'active' : ''" v-for="(list, i) in state.sideList" :key="i"
-        @click="itemClick(list, i)">
-        <iconpark-icon :icon-id="list.icon" :color="menuActive == i ? '#fff' : '#fff'" size="1.67rem"></iconpark-icon>
+      <p
+        class="pointer"
+        :class="menuActive == i ? 'active' : ''"
+        v-for="(list, i) in state.sideList"
+        :key="i"
+        @click="itemClick(list, i)"
+      >
+        <iconpark-icon
+          :icon-id="list.icon"
+          :color="menuActive == i ? '#fff' : '#fff'"
+          size="1.67rem"
+        ></iconpark-icon>
         <span>{{ t(list.name) }}</span>
       </p>
     </n-flex>
@@ -34,19 +58,19 @@
   </div>
 </template>
 <script lang="ts" setup name="sider">
-import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { Page } from '@/store/page';
-import { handleOpenLink } from '@/utils/others';
-import { useI18n } from 'vue-i18n';
-import { User } from '@/store/user';
-import { Message } from '@/utils/discreteApi.ts';
-import avatarSettings from './components/avatarSettings.vue';
-import { verifyNumberComma } from '@/utils/others.ts';
-import { Wallet } from '@/store/wallet';
-import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import pinia from "@/store/index";
+import { storeToRefs } from "pinia";
+import { Page } from "@/store/page";
+import { handleOpenLink } from "@/utils/others";
+import { useI18n } from "vue-i18n";
+import { User } from "@/store/user";
+import { Message } from "@/utils/discreteApi.ts";
+import avatarSettings from "./components/avatarSettings.vue";
+import { verifyNumberComma } from "@/utils/others.ts";
+import { Wallet } from "@/store/wallet";
+import RedeemCode from "@/views/wallet/components/RedeemCode.vue";
 
 const { t } = useI18n();
 const page = Page(pinia);
@@ -64,69 +88,69 @@ const { showRedeemCode } = storeToRefs(wallet);
 const state: any = reactive({
   sideList: [
     {
-      icon: 'txxlicon01',
-      name: 'page_route_wallet',
-      url: 'walletInfo',
+      icon: "txxlicon01",
+      name: "page_route_wallet",
+      url: "walletInfo",
     },
     {
-      icon: 'txxlicon02',
-      name: 'page_route_recharge',
-      url: 'deposit',
+      icon: "txxlicon02",
+      name: "page_route_recharge",
+      url: "deposit",
     },
     {
-      icon: 'txxlicon03',
-      name: 'page_route_withdraw',
-      url: 'withdraw',
+      icon: "txxlicon03",
+      name: "page_route_withdraw",
+      url: "withdraw",
     },
     {
-      icon: 'txxlicon04',
-      name: 'page_route_VIP',
-      url: 'levelInfo',
+      icon: "txxlicon04",
+      name: "page_route_VIP",
+      url: "levelInfo",
     },
     {
-      icon: 'txxlicon05',
-      name: 'page_route_proxy',
-      url: 'proxyCooperation',
+      icon: "txxlicon05",
+      name: "page_route_proxy",
+      url: "proxyCooperation",
     },
     {
-      icon: 'txxlicon06',
-      name: 'page_route_payment',
-      url: 'paymentManagement',
+      icon: "txxlicon06",
+      name: "page_route_payment",
+      url: "paymentManagement",
     },
     {
-      icon: 'txxlicon07',
-      name: 'page_route_activity',
-      url: 'activity',
+      icon: "txxlicon07",
+      name: "page_route_activity",
+      url: "activity",
     },
     {
-      icon: 'txxlicon08',
-      name: 'page_route_discount',
-      url: 'myPromo',
+      icon: "txxlicon08",
+      name: "page_route_discount",
+      url: "myPromo",
     },
     {
-      icon: 'txxlicon15',
-      name: 'page_route_record',
-      url: 'records',
+      icon: "txxlicon15",
+      name: "page_route_record",
+      url: "records",
     },
     {
-      icon: 'txxlicon10',
-      name: 'page_route_redemptionCode',
-      url: 'redeemCode',
+      icon: "txxlicon10",
+      name: "page_route_redemptionCode",
+      url: "redeemCode",
     },
     {
-      icon: 'txxlicon11',
-      name: 'page_route_mail',
-      url: 'myEmail',
+      icon: "txxlicon11",
+      name: "page_route_mail",
+      url: "myEmail",
     },
     {
-      icon: 'txxlicon12',
-      name: 'page_route_security',
-      url: 'securitySettings',
+      icon: "txxlicon12",
+      name: "page_route_security",
+      url: "securitySettings",
     },
     {
-      icon: 'txxlicon13',
-      name: 'page_route_feedback',
-      url: settings.value.serviceTelegram,
+      icon: "txxlicon13", // 有奖反馈
+      name: "有奖反馈",
+      url: "feedback",
     },
     // {
     //   icon: 'Group39341',
@@ -161,43 +185,40 @@ const state: any = reactive({
   ],
 });
 
-
 const itemClick = async (item: any, i: number) => {
-
   let str = item.url.substring(0, 4);
-  if (item.name == 'home_page_onlineService') {
+  if (item.name == "home_page_onlineService") {
     // 1 => '禁言中',
     //     2 => '封锁中',
     //     3 => '禁言IP',
     //     4 => '封锁IP',
     //     0 => '正常',
     if ([2, 4].includes(agentInfo.value.mutetype.type_id)) {
-      Message.error('用户被封禁');
+      Message.error("用户被封禁");
     } else {
       kefuVisible.value = true;
       return;
     }
   }
-  if (item.url == "redeemCode") { // 兑换码
-    showRedeemCodeModal(true)
-    return
+  if (item.url == "redeemCode") {
+    // 兑换码
+    showRedeemCodeModal(true);
+    return;
   }
-  if (str === 'http' || str === 'www.') {
+  if (str === "http" || str === "www.") {
     handleOpenLink(item.url);
   } else {
     await page.setMenuActive(i);
-    router.push((item.url));
+    router.push(item.url);
   }
-
 };
 // 打开头像设置
 const showAvSetting = () => {
   visibleSetting.value = true;
 };
-
 </script>
-<style lang='less' scoped>
-@timestamp: `new Date().getTime()`;
+<style lang="less" scoped>
+@timestamp: `new Date() .getTime() `;
 
 .sidebar {
   width: 280px;
@@ -211,7 +232,7 @@ const showAvSetting = () => {
     text-align: center;
     width: 280px;
     height: 176px;
-    background: url('/img/wallet/bg1.webp?t=@{timestamp}') center no-repeat;
+    background: url("/img/wallet/bg1.webp?t=@{timestamp}") center no-repeat;
     background-size: 100%;
 
     .avatar {
@@ -220,7 +241,7 @@ const showAvSetting = () => {
       width: 80px;
       height: 80px;
       border: 1px solid;
-      border-image-source: linear-gradient(180deg, #5567FF 0%, #9E1EFF 100%);
+      border-image-source: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
     }
 
     .userName {
@@ -247,7 +268,7 @@ const showAvSetting = () => {
         text-align: right;
         padding-right: 10px;
         color: rgba(172, 198, 255, 1);
-        font-style: italic
+        font-style: italic;
       }
     }
   }
@@ -258,7 +279,7 @@ const showAvSetting = () => {
     padding: 22px 20px;
     width: 280px;
     height: 106px;
-    background: url('/img/wallet/bg2.webp?t=@{timestamp}') center no-repeat;
+    background: url("/img/wallet/bg2.webp?t=@{timestamp}") center no-repeat;
     background-size: 100%;
 
     .txt_m {
@@ -273,7 +294,7 @@ const showAvSetting = () => {
     gap: 10px !important;
     padding: 20px;
 
-    >p {
+    > p {
       font-size: 14px;
       width: 72px;
       height: 72px;
@@ -283,7 +304,7 @@ const showAvSetting = () => {
       cursor: pointer;
       border: 1px solid #14173a;
 
-      >span {
+      > span {
         display: block;
         line-height: 14px;
       }
@@ -293,9 +314,8 @@ const showAvSetting = () => {
       border-radius: 12px;
       color: #fff;
       background: rgba(33, 36, 67, 1);
-      border-color: rgba(38, 41, 76, 1)
+      border-color: rgba(38, 41, 76, 1);
     }
   }
-
 }
 </style>

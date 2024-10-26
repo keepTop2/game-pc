@@ -126,6 +126,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/wallet/level/levelInfo.vue'),
       },
       {
+        path: 'feedback',
+        name: 'feedback',
+        meta: { title: '有奖反馈' },
+        component: () => import('@/views/wallet/feedback.vue'),
+      },
+      {
         path: 'levelRule',
         name: 'levelRule',
         meta: { title: 'levelRule' },
