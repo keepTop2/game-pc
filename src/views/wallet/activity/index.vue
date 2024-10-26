@@ -155,9 +155,9 @@ const state: any = reactive({
   freeLootActive: 0,
   freeLootComponent: markRaw(FreeLoot),
   freeLootTab: [
-    { name: '免费夺宝', component: markRaw(FreeLoot) },
-    { name: '夺宝排行榜', component: markRaw(FreeLootRanking) },
-    { name: '规则说明', component: markRaw(FreeLootRule) },
+    { name: t('free_loot'), component: markRaw(FreeLoot) },
+    { name: t('free_loot_ranking'), component: markRaw(FreeLootRanking) },
+    { name: t('free_loot_rule'), component: markRaw(FreeLootRule) },
     // { name: '夺宝排行榜', component: 'freeLootRanking' },
     // { name: '规则说明', component: 'freeLootRule' }
   ],
