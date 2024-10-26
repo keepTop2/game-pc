@@ -2,8 +2,7 @@
 <template>
     <div class="notice_dialog" :class="['notice_dialog_' + noticeList[currentIndex].type]">
         <!-- <Imgt class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X" /> -->
-        <div class="close close_icon abs center pointer t-sm">
-            <iconpark-icon @click="closeDialog" icon-id="tanctongyguanb" color="#fff" size="1rem"></iconpark-icon>
+        <div class="close close_icon abs center pointer t-sm"  @click="closeDialog">
         </div>
         <!-- 头部装饰 -->
         <div class="notice_title">
@@ -117,10 +116,12 @@ const closeDialog = () => { // 关闭弹窗
     flex-direction: column;
 
     .close_icon {
+        width: 40px;
+        height: 40px;
         position: absolute;
         font-size: 24px;
-        right: 20px;
-        top: 20px;
+        right: 5px;
+        top: 10px;
         cursor: pointer;
     }
 
@@ -142,7 +143,7 @@ const closeDialog = () => { // 关闭弹窗
         color: #fff;
         font-size: 16px;
         line-height: 22px;
-        margin: 30px 0;
+        margin: 50px 0 10px;
 
         .info_box {
             width: 100%;
