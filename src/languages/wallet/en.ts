@@ -280,6 +280,7 @@ export default {
   deposit_page_giftRatio: 'Gift Ratio',
   deposit_page_multiple: 'Turnover Multiple',
   deposit_page_minimum: 'Minimum participation amount',
+  deposit_page_maximum: 'Maximum participation amount',
   deposit_page_giftAmount: 'Gift amount',
   deposit_page_netWork: 'network',
   deposit_page_chooseNetWork: 'Select network',

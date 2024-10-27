@@ -280,6 +280,7 @@ export default {
   deposit_page_giftRatio: '赠送比列',
   deposit_page_multiple: '流水倍数',
   deposit_page_minimum: '最低参与金额',
+  deposit_page_maximum: '最高参与金额',
   deposit_page_giftAmount: '赠送金额',
   deposit_page_netWork: '网络',
   deposit_page_chooseNetWork: '选择网络',
