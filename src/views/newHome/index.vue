@@ -12,26 +12,59 @@
             </span>
             <span class="more">{{ t("home_page_more") }}</span>
           </p>
-          <n-carousel style="position: static" :slides-per-view="3.5" :space-between="10" :loop="false" draggable
-            show-arrow>
-            <div class="tournm_wrap">
-              <div>21点扑克即开锦标赛</div>
+          <n-carousel
+            style="position: static"
+            :slides-per-view="3.5"
+            :space-between="10"
+            :loop="false"
+            draggable
+            show-arrow
+          >
+            <div class="tournm_wrap" v-for="item in tournm_list" :key="item.room_id">
+              <div class="tournm_name">{{ item.tournm_name }}</div>
               <div class="tournm_main">
-                <div class="logo"></div>
-                <div class="tournm_info"></div>
+                <div class="logo">
+                  <img :src="uploadUrlInfo.pc_api_url + '/' + item.tournm_logo" alt="" />
+                </div>
+                <div class="tournm_info">
+                  <div class="player">
+                    <span class="player_l">{{ item.apply_count }} player</span>
+                    <span class="player_r">online</span>
+                  </div>
+                  <div class="player_time mt-27">
+                    <iconpark-icon
+                      class="left"
+                      icon-id="syiconshijian"
+                      size="1rem"
+                    ></iconpark-icon>
+                    <span>{{ getTime(item.begin_time) }}</span>
+                  </div>
+                  <div class="player_time mt-19" style="color: #ffffff">
+                    <iconpark-icon
+                      class="left"
+                      icon-id="syiconshijian"
+                      size="1rem"
+                    ></iconpark-icon>
+                    <span>{{ getTime(item.end_time) }}</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <!-- <Imgt
-              class="game_img"
-              :src="`/img/home/kaisai.png`"
-              v-for="i in 8"
-              :key="i"
-            /> -->
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="fangxiangicon04"
+                    size=".8rem"
+                    @click="prev"
+                  ></iconpark-icon>
+                  <iconpark-icon
+                    class="right"
+                    icon-id="fangxiangicon01"
+                    size=".8rem"
+                    @click="next"
+                  ></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -50,10 +83,20 @@
               t("home_page_more")
             }}</span>
           </p>
-          <n-carousel style="position: static" :slides-per-view="3" :space-between="10" :loop="false" draggable
-            show-arrow>
-            <div v-for="item in homeActivityList" :key="item.id" class="re_men_item"
-              :style="{ 'background-image': `url(${item.pic_link})` }">
+          <n-carousel
+            style="position: static"
+            :slides-per-view="3"
+            :space-between="10"
+            :loop="false"
+            draggable
+            show-arrow
+          >
+            <div
+              v-for="item in homeActivityList"
+              :key="item.id"
+              class="re_men_item"
+              :style="{ 'background-image': `url(${item.pic_link})` }"
+            >
               <div class="re_men_item_des">
                 <div class="item_name">{{ item.name }}</div>
                 <div class="item_info">{{ item.details }}</div>
@@ -80,8 +123,18 @@
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
-                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="fangxiangicon04"
+                    size=".8rem"
+                    @click="prev"
+                  ></iconpark-icon>
+                  <iconpark-icon
+                    class="right"
+                    icon-id="fangxiangicon01"
+                    size=".8rem"
+                    @click="next"
+                  ></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -95,7 +148,7 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 // import Imgt from "@/components/Imgt.vue";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { MessageEvent2 } from "@/net/MessageEvent2";
@@ -111,7 +164,9 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const { t } = useI18n();
 
-const { homeActivityList } = storeToRefs(Page(pinia));
+const tournm_list: any = ref([]);
+
+const { homeActivityList, uploadUrlInfo } = storeToRefs(Page(pinia));
 
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
@@ -124,15 +179,33 @@ function getEventList() {
   Net.instance.sendRequest(req);
 }
 
+// 时间处理
+const getTime = (itemTime: any) => {
+  return `${itemTime.month}-${itemTime.day} ${itemTime.hour}:${itemTime.second}:${itemTime.minute}`;
+};
+
+// 获取近期开赛赛事
 const handleGetList = (rs: any) => {
-  console.log(44444444, rs);
+  tournm_list.value = rs.tournm_list;
+  console.log(77777755, rs.tournm_list);
+};
+
+// 获取俱乐部logo上传url地址
+const handleUploadUrl = async (rs: any) => {
+  await Page(pinia).setUploadUrl(JSON.parse(rs.upload_url));
 };
 
 onMounted(() => {
   const req = NetPacket.req_activites();
+  const req1 = NetPacket.req_resource_upload_url();
   req.show = 0;
   Net.instance.sendRequest(req);
+  Net.instance.sendRequest(req1);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_resource_upload_url,
+    handleUploadUrl
+  );
 
   getEventList();
 
@@ -175,7 +248,7 @@ onUnmounted(() => {
 
     box-sizing: border-box;
 
-    >p {
+    > p {
       display: flex;
       align-items: center;
     }
@@ -193,10 +266,10 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
 
-    >.text {
+    > .text {
       display: flex;
 
-      >b {
+      > b {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -229,7 +302,7 @@ onUnmounted(() => {
       }
     }
 
-    >.more {
+    > .more {
       width: 90px;
       height: 40px;
       display: flex;
@@ -292,9 +365,11 @@ onUnmounted(() => {
         color: #ffffff;
         border-radius: 3px;
         margin-right: 3px;
-        background: linear-gradient(180deg,
-            rgba(29, 30, 37, 0.7) 0%,
-            rgba(20, 21, 27, 0.7) 100%);
+        background: linear-gradient(
+          180deg,
+          rgba(29, 30, 37, 0.7) 0%,
+          rgba(20, 21, 27, 0.7) 100%
+        );
       }
     }
 
@@ -341,7 +416,7 @@ onUnmounted(() => {
     cursor: pointer;
     color: #8d81c1;
 
-    >.left,
+    > .left,
     .right {
       display: inline-block;
       width: 40px;
@@ -383,11 +458,16 @@ onUnmounted(() => {
   background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
   border: 1px solid #000000;
   border-radius: 16px;
+  padding: 20px 25px;
+  .tournm_name {
+    font-size: 24px;
+    color: #ffffff;
+  }
 }
 
 .tournm_main {
   display: flex;
-
+  gap: 10px;
   .logo {
     width: 162px;
     height: 132px;
@@ -395,6 +475,43 @@ onUnmounted(() => {
 
   .tournm_info {
     flex: 1;
+    .player {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      .player_l {
+        color: #d8d8d8;
+        font-size: 16px;
+      }
+      .player_r {
+        color: #21fe6d;
+        font-size: 16px;
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background-color: #21fe6d;
+          left: -12px;
+          top: 10px;
+          border-radius: 50%;
+        }
+      }
+    }
+    .player_time {
+      gap: 8px;
+      display: flex;
+      align-items: center;
+      color: #f2c004;
+      font-size: 20px;
+    }
   }
+}
+.mt-27 {
+  margin-top: 27px;
+}
+.mt-19 {
+  margin-top: 19px;
 }
 </style>
