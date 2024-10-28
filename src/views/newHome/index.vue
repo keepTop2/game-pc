@@ -23,7 +23,9 @@
             <div class="tournm_wrap" v-for="item in tournm_list" :key="item.room_id">
               <div class="tournm_name">{{ item.tournm_name }}</div>
               <div class="tournm_main">
-                <div class="logo"></div>
+                <div class="logo">
+                  <img :src="uploadUrlInfo.pc_api_url + '/' + item.tournm_logo" alt="" />
+                </div>
                 <div class="tournm_info">
                   <div class="player">
                     <span class="player_l">{{ item.apply_count }} player</span>
@@ -48,12 +50,6 @@
                 </div>
               </div>
             </div>
-            <!-- <Imgt
-              class="game_img"
-              :src="`/img/home/kaisai.png`"
-              v-for="i in 8"
-              :key="i"
-            /> -->
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -170,7 +166,7 @@ const { t } = useI18n();
 
 const tournm_list: any = ref([]);
 
-const { homeActivityList } = storeToRefs(Page(pinia));
+const { homeActivityList, uploadUrlInfo } = storeToRefs(Page(pinia));
 
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
@@ -191,15 +187,25 @@ const getTime = (itemTime: any) => {
 // 获取近期开赛赛事
 const handleGetList = (rs: any) => {
   tournm_list.value = rs.tournm_list;
+  console.log(77777755, rs.tournm_list);
+};
+
+// 获取俱乐部logo上传url地址
+const handleUploadUrl = async (rs: any) => {
+  await Page(pinia).setUploadUrl(JSON.parse(rs.upload_url));
 };
 
 onMounted(() => {
   const req = NetPacket.req_activites();
-  const req1 = NetPacket.req_activites();
+  const req1 = NetPacket.req_resource_upload_url();
   req.show = 0;
   Net.instance.sendRequest(req);
   Net.instance.sendRequest(req1);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_resource_upload_url,
+    handleUploadUrl
+  );
 
   getEventList();
 

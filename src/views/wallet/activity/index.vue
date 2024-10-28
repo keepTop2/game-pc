@@ -5,16 +5,13 @@
         :class="state.active == i ? 'active' : ''"
         v-for="(_game, g, i) in activityTitleList"
         :key="i"
-        @click="changeTab(i)"
+        @click="changeTab(_game, i)"
         >{{ t(g) }}</span
       >
     </div>
+
     <div class="img_box">
-      <div
-        v-for="item in homeActivityList"
-        :key="item.id"
-        @click="defineModel(item)"
-      >
+      <div v-for="item in allactivityList" :key="item.id" @click="defineModel(item)">
         <img :src="item.pic_link" alt="" />
         <p>
           <i>{{ item.name }}</i>
@@ -49,7 +46,7 @@
         <!--        <FreeLoot v-model="state.showModal"/>-->
         <div class="freeLoot main_setting">
           <h4 class="top_title">
-            <span>{{ t('免费夺宝') }}</span>
+            <span>{{ t("免费夺宝") }}</span>
             <i>
               <iconpark-icon
                 @click="state.showModal = false"
@@ -71,7 +68,11 @@
               >
             </div>
             <div class="freeComponent">
-              <component v-if="freeTreasureInfo" :is="state.freeLootComponent" :freeTreasureInfo="freeTreasureInfo"></component>
+              <component
+                v-if="freeTreasureInfo"
+                :is="state.freeLootComponent"
+                :freeTreasureInfo="freeTreasureInfo"
+              ></component>
             </div>
           </div>
         </div>
@@ -84,141 +85,81 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, markRaw, ref, defineAsyncComponent } from 'vue';
+import {
+  onMounted,
+  onUnmounted,
+  reactive,
+  markRaw,
+  ref,
+  defineAsyncComponent,
+  computed,
+} from "vue";
 // import { useRoute } from "vue-router";
-import { useI18n } from 'vue-i18n';
-import { Page } from '@/store/page';
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { NetPacket } from '@/netBase/NetPacket';
-import { Net } from '@/net/Net';
-import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
-
-
+import { useI18n } from "vue-i18n";
+import { Page } from "@/store/page";
+import pinia from "@/store/index";
+import { storeToRefs } from "pinia";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
 
 // import FreeLoot from '@/views/wallet/activity/components/freeLoot.vue';
 // import FreeLootRanking from '@/views/wallet/activity/components/freeLootRanking.vue';
 // import FreeLootRule from '@/views/wallet/activity/components/freeLootRule.vue';
 // import Calendar from '@/components/Calendar.vue'
 
-const FreeLoot = defineAsyncComponent(() => import('@/views/wallet/activity/components/freeLoot.vue'))
-const FreeLootRanking = defineAsyncComponent(() => import('@/views/wallet/activity/components/freeLootRanking.vue'))
-const FreeLootRule = defineAsyncComponent(() => import('@/views/wallet/activity/components/freeLootRule.vue'))
+const FreeLoot = defineAsyncComponent(
+  () => import("@/views/wallet/activity/components/freeLoot.vue")
+);
+const FreeLootRanking = defineAsyncComponent(
+  () => import("@/views/wallet/activity/components/freeLootRanking.vue")
+);
+const FreeLootRule = defineAsyncComponent(
+  () => import("@/views/wallet/activity/components/freeLootRule.vue")
+);
 
-const { activityTitleList, homeActivityList } = storeToRefs(Page(pinia));
+const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();
 // const router = useRouter();
 // const route = useRoute();
-const changeTab = (tabId: number) => {
-  state.active = tabId;
-  if (state.active == 1) {
-    state.loginList.account.show = false;
-    state.loginList.email.show = true;
-  } else {
-    state.loginList.account.show = true;
-    state.loginList.email.show = false;
-  }
+const allactivityList: any = ref([]);
+const changeTab = (_game: any, i: any) => {
+  state.active = i;
+  allactivityList.value = _game;
 };
-// const activityDetail = (item: string) => {
-//   console.log(item);
-
-//   let str1 = item.split("_");
-//   let str2 = "";
-//   if (str1.length > 0) {
-//     str2 = str1[0] + "_pc_" + str1[1] + "_" + str1[2];
-//   }
-//   if (t(str2).indexOf("http") != -1) {
-//     return t(str2);
-//   } else {
-//     return "";
-//   }
-// };
 
 const state: any = reactive({
   active: 0,
-  name: 'home_page_all',
-  link: '',
+  name: "home_page_all",
+  link: "",
   showModal: false,
   detailImg: null,
   arr: [
     {
-      date: '2018/8/1',
-      className: 'mark1',
+      date: "2018/8/1",
+      className: "mark1",
     },
     {
-      date: '2018/8/13',
-      className: 'mark2',
+      date: "2018/8/13",
+      className: "mark2",
     },
   ],
   freeLootActive: 0,
   freeLootComponent: markRaw(FreeLoot),
   freeLootTab: [
-    { name: '免费夺宝', component: markRaw(FreeLoot) },
-    { name: '夺宝排行榜', component: markRaw(FreeLootRanking) },
-    { name: '规则说明', component: markRaw(FreeLootRule) },
+    { name: "免费夺宝", component: markRaw(FreeLoot) },
+    { name: "夺宝排行榜", component: markRaw(FreeLootRanking) },
+    { name: "规则说明", component: markRaw(FreeLootRule) },
     // { name: '夺宝排行榜', component: 'freeLootRanking' },
     // { name: '规则说明', component: 'freeLootRule' }
   ],
 });
-// const popDetail = (item: any) => {
-//   state.detailImg = null;
-//   state.showModal = true;
-//   state.detailImg = activityDetail(item.content);
-// };
-// const closeToast = (header: string, img: string, msg: string) => {
-//   state.toastText = {
-//     header: header,
-//     isShow: true,
-//     img: img,
-//     msg: msg
-//   }
-//   setTimeout(() => {
-//     state.toastText = {
-//       header: '',
-//       isShow: false, // toast 控制
-//       img: '', // toast 显示图片
-//       msg: '' // toast 提示语
-//     }
-//   }, 3000)
-// }
-// const signInEvent = async () => {
-//   if (state.activeDate.IsSignIn === 'true') {
-//     return closeToast('签到失败', '', '今日已签到')
-//   }
-//   let str = state.activeDate.date.split('-') // 点击的时间
-//   let today = new Date()
-//   let year = today.getFullYear() // 今天哪一年
-//   let tadayDate = today.getDate() // 今天几号
-//   let tadayMonth = today.getMonth() + 1 // 今天属于几月
-//   if (Number(str[0]) > year) {
-//     return closeToast('签到失败', '', '未到活动时间')
-//   } else if (Number(str[0]) < year && Number(str[1]) !== 12) {
-//     return closeToast('签到失败', '', '选择时间有误')
-//   } else if (Number(str[0]) < year && Number(str[1]) === 12) {
-//     // sign()
-//   } else {
-//     if (Number(str[1]) > tadayMonth || Number(str[2]) > tadayDate) {
-//       return closeToast('签到失败', '', '未到活动时间')
-//     } else {
-//     //   sign()
-//     }
-//   }
-// }
-// const clickToday = (data: any) => {
-//   if (!state.flag) {
-//     state.activeDate = data
-//     state.flag = true
-//     // console.log('跳到了本月今天', data) // 跳到了本月
-//   }
-// }
-// const clickDay = (data: any) => {
-//   state.activeDate = data
-// }
-const handleActivetys = async (res: any) => {
 
+const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
+  allactivityList.value = activityTitleList.value.home_page_all;
 };
 
 // 点击按钮弹窗
@@ -227,17 +168,15 @@ const defineModel = (item: any) => {
 };
 
 const changeFreeLootTab = (item: any, tabId: number) => {
-  console.log(item, 'changeFreeLootTab');
+  console.log(item, "changeFreeLootTab");
   state.freeLootActive = tabId;
   state.freeLootComponent = item.component;
 };
 
-
-
-const freeTreasureInfo = ref(null)
+const freeTreasureInfo = ref(null);
 const handleFreeTreasureInfo = (res: any) => {
-  freeTreasureInfo.value = res
-}
+  freeTreasureInfo.value = res;
+};
 
 onMounted(() => {
   // state.name = route.query.typeName
@@ -245,11 +184,7 @@ onMounted(() => {
   const req = NetPacket.req_activites();
   req.show = 0;
   Net.instance.sendRequest(req);
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_activites,
-    handleActivetys,
-  );
-
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
 
   //msg reg free_treasure_info
   const req_free_treasure_info = NetPacket.req_free_treasure_info();

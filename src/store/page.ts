@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Local } from '@/utils/storage';
 import { i18n } from '@/languages';
+import { dingZhiActivity } from '@/enums/activityEnum';
 /**
  * 页面信息
  * @methods setUserInfos 设置用户信息
@@ -22,6 +23,7 @@ interface PageState {
   unread: number;
   homeGameData: any;
   themeColor: string;
+  uploadUrlInfo: any;
 }
 const languages: any = {
   zh: 'zh',
@@ -29,7 +31,7 @@ const languages: any = {
   vn: 'vn',
   'vi-VN': 'vn',
   en: 'en',
-  'en-US': 'en'
+  'en-US': 'en',
 };
 export const Page = defineStore('page', {
   state: (): PageState => ({
@@ -49,6 +51,7 @@ export const Page = defineStore('page', {
     unread: 0,
     homeGameData: null,
     themeColor: 'dayMode', // 日间模式 dayMode， 夜间模式 nightMode
+    uploadUrlInfo: {},
   }),
   actions: {
     // 设置皮肤
@@ -94,13 +97,17 @@ export const Page = defineStore('page', {
 
     async setHomePageGameData(data: any) {
       this.homeGameData = data.filter((e: any) => e.id != 0);
-
     },
     async setSettings(value: any) {
       this.settings = value;
     },
     async setAdminI18n(value: any) {
       this.adminI18n = value;
+    },
+    // 俱乐部logo上传url地址
+    async setUploadUrl(value: any) {
+      console.log(55555588, value);
+      this.uploadUrlInfo = value;
     },
     async setLang(value: any) {
       this.bannerArr = null;
@@ -128,47 +135,44 @@ export const Page = defineStore('page', {
       this.textAnnouncement = textAnnouncement;
     },
     async setActivityTitleList(value: any) {
-      let list: Array<string> = [];
-
       let keys = Object.keys(this.adminI18n[this.lang]);
-      // 转化为数据
-      this.homeActivityList = value.filter((item: any) =>
-        keys.includes(item.name),
+      // 定制活动id
+      let dingzhiId = [10000, 9000, 9010, 10005, 9020];
+      let newList = value.filter(
+        (item: any) =>
+          keys.includes(item.pic_link) || dingzhiId.includes(item.id),
       );
-      this.homeActivityList = this.homeActivityList.map((item: any) => ({
-        name: this.adminI18n[this.lang][item.name],
-        pic_link: this.adminI18n[this.lang][item.pic_link],
-        details: this.adminI18n[this.lang][item.details],
-        content: this.adminI18n[this.lang][item.content],
-        rules: this.adminI18n[this.lang][item.rules],
-        total: item.total,
+      newList = newList.map((item: any) => ({
+        name:
+          dingZhiActivity[item.id]?.name ??
+          this.adminI18n[this.lang][item.name],
+        pic_link:
+          dingZhiActivity[item.id]?.pic_link ??
+          this.adminI18n[this.lang][item.pic_link],
+        details: this.adminI18n[this.lang][item.details] || '',
+        content: this.adminI18n[this.lang][item.content] || '',
+        rules: this.adminI18n[this.lang][item.rules] || '',
+        total: item.total || '',
         id: item.id,
+        tag: dingZhiActivity[item.id]?.tag ?? item.tag,
       }));
 
-      console.log(66666666, this.homeActivityList);
-
-      value.map((e: any) => {
-        if (i18n.global.t(e.pic_link).indexOf('http') != -1) {
-          list.push(e.tag);
-        }
-      });
-
-      if (list.length > 0) {
+      if (newList.length > 0) {
         let obj: any = {
-          home_page_all: value,
+          home_page_all: newList,
         };
-        let newList = Array.from(new Set(list));
-
         newList.map((e: any) => {
-          obj[e] = [];
-          value.map((j: any) => {
-            if (j.tag == e) {
-              obj[e].push(j);
-            }
-          });
-        });
+          obj[e.tag] = []
+          newList.map((j: any) => {
+              if (j.tag == e.tag) {
+
+                  obj[e.tag].push(j)
+              }
+          })
+      })
         this.activityList = value;
         this.activityTitleList = obj;
+        console.log(6666666677,this.activityTitleList)
       }
     },
 
