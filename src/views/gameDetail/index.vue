@@ -12,13 +12,14 @@
             </scroll-view>
         </div>
 
-        <Games :kindList="kindList" :agentId="agentId" :is_lable="is_lable" :kindId="kindId" :lableActive="lableActive">
+        <Games :kindList="state.kindList" :agentId="agentId" :lableId="lableId" :kindId="kindId"
+            :lableActive="lableActive">
         </Games>
     </div>
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -28,29 +29,24 @@ import { useRoute } from 'vue-router';
 
 import Games from '../gameCollection/index.vue';
 import ScrollView from "@/components/ScrollView.vue";
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
 const { settings } = storeToRefs(Page(pinia));
 // const { t } = useI18n();
 const route = useRoute()
 // const router = useRouter()
 const { lang, homeGameData } = storeToRefs(Page(pinia));
 
-
-
-const kindList = [
-    {
-        name: 'game_page_all',
-        icon: 'all',
-        activeIcon: 'allun',
-        id: -1,
-        key: 0
-    },
-    {
-        name: 'game_page_hot',
-        icon: 'hot',
-        activeIcon: 'hotun',
-        id: 1, // 获取热门需将 is_lable 设置为1  其他为0,
-        key: 1
-    },
+const first = {
+    name: 'game_page_all',
+    icon: 'all',
+    activeIcon: 'allun',
+    id: -1,
+    key: 0
+}
+const last = [
     {
         name: 'game_page_recent',
         icon: 'zuijin',
@@ -65,14 +61,28 @@ const kindList = [
         id: -2,
         key: 3
     },
-
 ]
+const state: any = reactive({
+    kindList: []
+})
+// const kindList = [
+
+//     {
+//         name: 'game_page_hot',
+//         icon: 'hot',
+//         activeIcon: 'hotun',
+//         id: 1, // 获取热门需将 lableId 设置为1  其他为0,
+//         key: 1
+//     },
+
+
+// ]
 
 
 // 游戏平台id  -1为查看全部的游戏
 let agentId = ref<any>(-1)
 // 是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
-let is_lable = ref(0)
+let lableId = ref(0)
 // 右侧标签id  // -1为查找当前平台所有的游戏 //也表示场馆id
 let kindId = ref(-1)
 // 右侧标签点击样式
@@ -94,6 +104,8 @@ const getHomeData = () => {
 
 const onClickTab = (v: any) => {
     agentId.value = v.id
+    state.kindList = []
+    getInitData(agentId.value, kindId.value)
 }
 
 
@@ -110,12 +122,29 @@ const unserialize = (v: any, isPlatform: boolean) => {
     }
     return v[obj[lang.value]]
 }
+const getInitData = (agentId: any, kindId: any) => {
+    const req = NetPacket.req_get_kind_in_platform();
+    req.agentId = agentId
+    req.kindId = kindId
+    Net.instance.sendRequest(req);
+}
+//  获取配置的标签
+const handlePlatformKind = (res: any) => {
 
+    if (res.label.length > 0) {
+        state.kindList = [first, ...res.label, ...last]
+    } else {
+        state.kindList = [first, ...last]
+    }
+
+
+}
 onMounted(() => {
     const { venue_id } = route.query
     kindId.value = Number(venue_id)
     getHomeData()
-
+    getInitData(agentId.value, kindId.value)
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatformKind);
 })
 
 watch(

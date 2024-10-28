@@ -24,6 +24,7 @@ interface PageState {
   homeGameData: any;
   themeColor: string;
   uploadUrlInfo: any;
+  isFreeModalVisible: boolean
 }
 const languages: any = {
   zh: 'zh',
@@ -52,6 +53,7 @@ export const Page = defineStore('page', {
     homeGameData: null,
     themeColor: 'dayMode', // 日间模式 dayMode， 夜间模式 nightMode
     uploadUrlInfo: {},
+    isFreeModalVisible: false, //免费夺宝活动弹窗
   }),
   actions: {
     // 设置皮肤
@@ -199,5 +201,11 @@ export const Page = defineStore('page', {
         });
       this.bankListInfo = [...data];
     },
+    openFreeModal() {
+      this.isFreeModalVisible = true;
+    },
+    closeFreeModal() {
+      this.isFreeModalVisible = false;
+    }
   },
 });

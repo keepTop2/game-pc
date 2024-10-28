@@ -3,7 +3,7 @@
     <div class="help_nav">
       <div class="nav_item" v-for="(item, index) in navArr" :key="index">
         <n-flex class="nav_top pointer" align="center">
-          <iconpark-icon :icon-id="item.icon" color="#fff" size="1.5rem"></iconpark-icon>
+          <iconpark-icon :icon-id="item.icon" color="#fff" size="1.042rem"></iconpark-icon>
           <span>{{t(item.label)}}</span>
         </n-flex>
         <div class="nav_list">
@@ -28,6 +28,7 @@
       <merchantTemp v-if="curType === 'merchant'"/>
       <policyRuleTemp v-if="curType === 'policyRule'"/>
       <contactUsTemp v-if="curType === 'contactUs'"/>
+      <justTemp v-if="curType === 'just'"/>
     </div>
   </n-flex>
 </template>
@@ -46,6 +47,7 @@ const withdrawTemp = defineAsyncComponent(() => import('./temp/withdraw.vue'));
 const merchantTemp = defineAsyncComponent(() => import('./temp/merchant.vue'));
 const policyRuleTemp = defineAsyncComponent(() => import('./temp/policyRule.vue'));
 const contactUsTemp = defineAsyncComponent(() => import('./temp/contactUs.vue'));
+const justTemp = defineAsyncComponent(() => import('./temp/just.vue'));
 
 const { t } = useI18n();
 const route = useRoute();
@@ -54,23 +56,23 @@ const curType = ref(route.params.type);
 
 const navArr = [
   {
-    label: 'help_page_help', value: 'helpCenter', icon: 'txxlicon12',
+    label: 'help_page_help', value: 'helpCenter', icon: 'grzxiconbzzx01',
     children: [{label: 'help_page_open', value: 'account'},{label: 'help_page_deposit', value: 'deposit'},{label: 'proxy_page_withDraw', value: 'withdraw'},{label: 'help_page_promoRule', value: 'promo'},]
   },
   {
-    label: 'help_page_company', value: 'company', icon: 'txxlicon12',
-    children: [{label: 'help_page_jingcai', value: 'jingcai'},{label: 'help_page_rule', value: 'rule'},{label: 'help_page_merchant', value: 'merchant'},{label: 'help_page_privacy', value: 'privacy'},]
+    label: 'help_page_company', value: 'company', icon: 'grzxiconbzzx02',
+    children: [{label: 'help_page_jingcai', value: 'jingcai'},{label: 'help_page_termsRule', value: 'rule'},{label: 'help_page_merchant', value: 'merchant'},{label: 'help_page_privacy', value: 'privacy'},]
   },
   {
-    label: 'help_page_fair', value: 'fair', icon: 'txxlicon12',
+    label: 'help_page_fair', value: 'fair', icon: 'grzxiconbzzx03',
     children: [{label: 'help_page_just', value: 'just'},]
   },
   {
-    label: 'help_page_policy', value: 'policy', icon: 'txxlicon12',
+    label: 'help_page_policy', value: 'policy', icon: 'grzxiconbzzx04',
     children: [{label: 'help_page_policy', value: 'policyRule'},]
   },
   {
-    label: 'help_page_contact', value: 'contact', icon: 'txxlicon12',
+    label: 'help_page_contact', value: 'contact', icon: 'grzxiconbzzx05',
     children: [{label: 'help_page_contact', value: 'contactUs'},]
   },
 ]

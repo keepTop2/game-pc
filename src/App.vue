@@ -125,6 +125,7 @@ const handleVipInfo = async (data: any) => {
 const handleUserInfo = async (data: any) => {
   await User(pinia).getInfo(data);
   await User(pinia).setHasLogin(true);
+  await User(pinia).setLogin(false);
 };
 //获取用户角色
 async function getAgentLevel(roleInfo: any) {

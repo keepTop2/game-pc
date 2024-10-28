@@ -33,10 +33,9 @@
     <!--        <FreeLoot/>-->
     <!--      </n-card>-->
     <!--    </n-modal>-->
-    <n-modal v-model:show="state.showModal">
+    <n-modal v-model:show="pageStore.isFreeModalVisible">
       <n-card
         class="avatar_set"
-        @close="state.showModal = false"
         :bordered="false"
         size="huge"
         role="dialog"
@@ -49,7 +48,7 @@
             <span>{{ t("免费夺宝") }}</span>
             <i>
               <iconpark-icon
-                @click="state.showModal = false"
+                @click="pageStore.closeFreeModal"
                 icon-id="tanctongyguanb"
                 color="#fff"
                 size="1.2rem"
@@ -92,7 +91,6 @@ import {
   markRaw,
   ref,
   defineAsyncComponent,
-  computed,
 } from "vue";
 // import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
@@ -118,6 +116,8 @@ const FreeLootRanking = defineAsyncComponent(
 const FreeLootRule = defineAsyncComponent(
   () => import("@/views/wallet/activity/components/freeLootRule.vue")
 );
+
+const pageStore = Page();
 
 const { activityTitleList } = storeToRefs(Page(pinia));
 
@@ -149,14 +149,13 @@ const state: any = reactive({
   freeLootActive: 0,
   freeLootComponent: markRaw(FreeLoot),
   freeLootTab: [
-    { name: "免费夺宝", component: markRaw(FreeLoot) },
-    { name: "夺宝排行榜", component: markRaw(FreeLootRanking) },
-    { name: "规则说明", component: markRaw(FreeLootRule) },
+    { name: t("free_loot"), component: markRaw(FreeLoot) },
+    { name: t("free_loot_ranking"), component: markRaw(FreeLootRanking) },
+    { name: t("free_loot_rule"), component: markRaw(FreeLootRule) },
     // { name: '夺宝排行榜', component: 'freeLootRanking' },
     // { name: '规则说明', component: 'freeLootRule' }
   ],
 });
-
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
   allactivityList.value = activityTitleList.value.home_page_all;
@@ -164,11 +163,14 @@ const handleActivetys = async (res: any) => {
 
 // 点击按钮弹窗
 const defineModel = (item: any) => {
-  state.showModal = true;
+  // 免费夺宝活动弹窗显示
+  if (item.id === 10000) {
+    state.showModal = true;
+    pageStore.openFreeModal();
+  }
 };
 
 const changeFreeLootTab = (item: any, tabId: number) => {
-  console.log(item, "changeFreeLootTab");
   state.freeLootActive = tabId;
   state.freeLootComponent = item.component;
 };

@@ -21,13 +21,17 @@ import { useI18n } from "vue-i18n";
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
+import { Page } from '@/store/page';
 const userInfo = User(pinia);
 const { regPopShow } = storeToRefs(userInfo);
 const { t } = useI18n();
+const pageStore = Page()
 const leave = async () => {
     await User(pinia).setRegPopShow(false)
 }
 const experience = async () => {
+    // 打开弹窗
+    pageStore.openFreeModal()
     await User(pinia).setRegPopShow(false)
 }
 </script>

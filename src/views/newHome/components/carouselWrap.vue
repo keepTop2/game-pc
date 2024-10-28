@@ -54,7 +54,7 @@
           <div class="btn_group">
             <!-- <n-button style="height: 40px; width: 140px">Sign Up</n-button> -->
             <div class="free_btn sign_up" @click="isReg = true">Sign Up</div>
-            <div class="free_btn">Free Game</div>
+            <div class="free_btn" @click="pageStore.openFreeModal">Free Game</div>
           </div>
           <div class="community_icon">
             <Imgt
@@ -78,6 +78,7 @@ import { useI18n } from "vue-i18n";
 import { User } from "@/store/user";
 import { ref, onMounted, computed } from "vue";
 const page = Page(pinia);
+const pageStore = Page()
 import { useRouter } from "vue-router";
 // const isVisible = ref(0);
 const { textAnnouncement, adminI18n, homeActivityList } = storeToRefs(page);

@@ -1,8 +1,9 @@
 <!-- 系统公告 -->
 <template>
     <div class="notice_dialog" :class="['notice_dialog_' + noticeList[currentIndex].type]">
-        <Imgt class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X" />
-
+        <!-- <Imgt class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X" /> -->
+        <div class="close close_icon abs center pointer t-sm" @click="closeDialog">
+        </div>
         <!-- 头部装饰 -->
         <div class="notice_title">
             <span class="title">{{ noticeTitle }}</span>
@@ -14,17 +15,20 @@
                 :show-dots="false" style="width: 100%;height: 200px;" effect="card" draggable>
                 <div class="info_box" v-for="(item, i) in noticeList" :key="i">
                     <div style="margin-bottom:20px" v-if="item.title">{{ t(item.title) }}</div>
-                    <div>{{ t(item.content) }}</div>
+                    <div class="notice_content">{{ t(item.content) }}</div>
                 </div>
             </n-carousel>
         </div>
 
         <!-- 按钮 -->
         <!-- <div class="notice_btn" @click="closeDialog">{{ t('home_page_confirm') }}</div> -->
-        <div class="notice_readed">
+        <!-- <div class="notice_readed">
             <n-checkbox v-model:checked="readed">
                 <span>{{ t('home_page_notice_donttip') }}</span>
             </n-checkbox>
+        </div> -->
+        <div class="btns">
+            <div class="btn n-button" @click="confirmHandler">{{ t('home_page_confirm') }}</div>
         </div>
 
         <ul class="custom-dots">
@@ -40,7 +44,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { useI18n } from "vue-i18n";
-import Imgt from '@/components/Imgt.vue';
+// import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 
@@ -66,6 +70,10 @@ const noticeTitle = computed(() => {
     return noticeTitleMap[noticeList.value[currentIndex.value].type] || t('home_page_notice_title')
 })
 
+const confirmHandler = () => {
+    readed.value = true
+    closeDialog()
+}
 
 const closeDialog = () => { // 关闭弹窗
     try {
@@ -100,32 +108,32 @@ const closeDialog = () => { // 关闭弹窗
     background-image: url('/img/home/notice_bg_0.png?t=@{timestamp}');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    width: 400px;
-    min-height: 500px;
-    padding: 0 40px 50px 40px;
+    width: 500px;
+    min-height: 400px;
+    padding: 20px 40px 50px 40px;
     display: flex;
     user-select: none;
     flex-direction: column;
 
     .close_icon {
-        width: 38px;
-        height: 38px;
+        width: 40px;
+        height: 40px;
         position: absolute;
-        top: -20px;
-        right: -40px;
+        font-size: 24px;
+        right: 5px;
+        top: 10px;
         cursor: pointer;
     }
 
     .notice_title {
-        height: 150px;
+        // height: 60px;
         position: relative;
 
         .title {
             color: #fff;
-            font-size: 34px;
+            font-size: 24px;
             font-weight: 900;
-            position: absolute;
-            top: 40px;
+            // top: 20px;
             left: 0;
         }
     }
@@ -135,13 +143,17 @@ const closeDialog = () => { // 关闭弹窗
         color: #fff;
         font-size: 16px;
         line-height: 22px;
-        margin: 20px 0;
+        margin: 50px 0 10px;
 
         .info_box {
             width: 100%;
             height: 100%;
             overflow-y: auto;
-            background-color: #231353;
+            // background-color: #231353;
+
+            .notice_content {
+                color: #AEAEB0;
+            }
         }
 
 
@@ -170,6 +182,24 @@ const closeDialog = () => { // 关闭弹窗
         span {
             color: #fff;
         }
+    }
+
+    .btns {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .btn {
+            width: 80%;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            color: #EBEFFF;
+            cursor: pointer;
+            margin-left: 0;
+        }
+
     }
 
 

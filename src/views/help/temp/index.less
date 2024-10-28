@@ -3,6 +3,30 @@
   font-size: 14px;
   font-weight: 400;
   color: #AFB6BD;
+  .help_nav {
+    font-weight: 400;
+    font-size: 20px;
+    color: #AFB6BD;
+    gap: 103px !important;
+    margin-bottom: 30px;
+    .help_nav_item {
+      position: relative;
+      &.active {
+        color: #B5A4FF;
+        &::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          min-width: 36px;
+          height: 7px;
+          left: 0;
+          bottom: -13px;
+          background: linear-gradient(180deg, #5A6CFF 0%, #7E1CFF 100%);
+          border-radius: 100px;
+        }
+      }
+    }
+  }
   .he_title {
     color: #fff;
     font-size: 16px;
@@ -28,6 +52,7 @@
     text-decoration: underline;
   }
   .he_txt_list {
+    word-break: break-all;
     line-height: 24px;
     &.he_txt_list_sec {
       margin-bottom: 10px;
@@ -36,4 +61,17 @@
   .he_title_sec {
     color: #fff;
   }
+  .he_box {
+    width: 889px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    padding: 12px 16px;
+    border: 1px dashed rgba(175, 182, 189, 1);
+    border-radius: 16px;
+    .he_box_title {
+      color: #fff;
+      margin-bottom: 4px;
+    }
+  }
+
 }

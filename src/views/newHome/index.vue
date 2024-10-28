@@ -234,6 +234,7 @@ onUnmounted(() => {
 
 :deep(.game_detail) {
   position: relative;
+
   .n-carousel__dots {
     display: none;
   }
@@ -330,25 +331,30 @@ onUnmounted(() => {
     height: 263px;
     background-size: 100% 100%;
     padding: 20px 30px;
+
     .item_name {
       font-size: 32px;
       color: #ffffff;
       font-weight: 600;
     }
+
     .item_info {
       font-size: 20px;
       color: #ffffff;
     }
+
     .item_time {
       font-size: 16px;
       color: #ffffff;
       margin-top: 20px;
     }
+
     .time_content {
       span {
         font-size: 20px;
         color: #ffffff;
       }
+
       .time_num {
         width: 26px;
         height: 44px;
@@ -366,6 +372,7 @@ onUnmounted(() => {
         );
       }
     }
+
     .all_total {
       margin-top: 11px;
       width: 202px;
@@ -379,6 +386,7 @@ onUnmounted(() => {
       padding-left: 8px;
     }
   }
+
   // .game_img {
   //   width: 453px !important;
   //   height: 262px !important;
@@ -443,6 +451,7 @@ onUnmounted(() => {
   object-fit: cover;
   border-radius: 16px;
 }
+
 .tournm_wrap {
   width: 396px;
   height: 215px;
@@ -455,6 +464,7 @@ onUnmounted(() => {
     color: #ffffff;
   }
 }
+
 .tournm_main {
   display: flex;
   gap: 10px;
@@ -462,6 +472,7 @@ onUnmounted(() => {
     width: 162px;
     height: 132px;
   }
+
   .tournm_info {
     flex: 1;
     .player {
