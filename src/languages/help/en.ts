@@ -57,6 +57,7 @@ export default {
   "help_page_deposit_txt_5": "3. Before depositing, please log in to your account—personal center—deposit—select the deposit method.",
   "help_page_deposit_txt_6": "Choose the recharge method—select the recharge promotion—choose the corresponding bank—fill in the recharge amount—click 'Recharge Now'—log in to your personal online banking as prompted—recharge completed.",
   "help_page_contactUs": "For any inquiries, complaints, suggestions, collaborations, etc., please contact us.",
+  help_page_contact7: '7×24 hours',
 
   "help_page_jc_responsibility": "Betting Responsibility",
   "help_page_jc_title_1": "This site is a legitimate website that provides professional sports betting, online entertainment, and online lottery services. However, we strongly advise all players to maintain an entertaining mindset when engaging in all games. We aim to provide a comfortable and healthy betting environment for all players through an exceptional user experience, disruptive betting products, and highly localized personalized services. We hope all players can adjust their mindset in a timely manner while playing games, and not let excessive indulgence in gaming affect their personal finances, careers, families, and other aspects of life. Therefore, we strongly recommend that you reassess your behavior, clarify and adjust your entertainment mindset, and reintegrate into normal life and work.",

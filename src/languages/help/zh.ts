@@ -57,6 +57,7 @@ export default {
   help_page_deposit_txt_5: '3. 存款前请先登录账号——个人中心——存款——选择存款方式。',
   help_page_deposit_txt_6: '选择充值方式——选择充值优惠——选择相应银行——填写充值金额——点击立即充值——按照页面提示登录个人网上银行——充值完成',
   help_page_contactUs: '任何咨询、投诉、建议、合作等等均可联系我们',
+  help_page_contact7: '7×24小时',
 
   help_page_jc_responsibility: '竞猜责任',
   help_page_jc_title_1: '本站是一个提供专业体育竞猜、在线网上娱乐城、在线彩票的正规网站。然则我们强烈建议所有玩家都保持一个娱乐的心态来面对所有游戏。\n' +

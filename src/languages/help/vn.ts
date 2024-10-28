@@ -57,6 +57,7 @@ export default {
   help_page_deposit_txt_5: "3. Trước khi gửi tiền, vui lòng đăng nhập tài khoản — Trung tâm cá nhân — Gửi tiền — Chọn phương thức gửi tiền.",
   help_page_deposit_txt_6: "Chọn phương thức nạp tiền — Chọn khuyến mãi nạp tiền — Chọn ngân hàng tương ứng — Nhập số tiền nạp — Nhấp vào nạp ngay — Đăng nhập vào ngân hàng trực tuyến theo hướng dẫn — Hoàn tất nạp tiền.",
   help_page_contactUs: "Mọi thắc mắc, khiếu nại, đề xuất, hợp tác, v.v. đều có thể liên hệ với chúng tôi.",
+  help_page_contact7: '7×24 giờ',
 
   help_page_jc_responsibility: "Trách nhiệm cá cược",
   help_page_jc_title_1: "Trang web này là một trang web hợp pháp cung cấp dịch vụ cá cược thể thao chuyên nghiệp, sòng bạc trực tuyến và xổ số trực tuyến. Tuy nhiên, chúng tôi mạnh mẽ khuyến nghị tất cả người chơi nên giữ một tâm lý giải trí khi tham gia tất cả các trò chơi.\n" +

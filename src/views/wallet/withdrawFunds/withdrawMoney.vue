@@ -21,7 +21,7 @@
         <n-flex align="center" justify="center" class="item_list_l">
           <div class="bank_icon">
             <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
-            <a class="wh_icon" @click="onCloseSm(item)"></a>
+            <a class="wh_icon" @click.stop="onCloseSm(item)"></a>
           </div>
           <div class="bank_txt">
             <div class="bank_name">

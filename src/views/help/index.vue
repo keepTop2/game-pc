@@ -116,6 +116,9 @@ watch(
         font-weight: 500;
         gap: 3px !important;
         margin-bottom: 24px;
+        span {
+          flex: 1;
+        }
       }
       .nav_list {
         padding-left: 23px;
