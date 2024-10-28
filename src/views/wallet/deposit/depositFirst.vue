@@ -66,18 +66,21 @@
             <n-select v-model:value="form.discount" :options="dcList" />
             <!-- 选择优惠后 -->
             <div v-if="form.discount" class="choose-yh">
-              <div>
+              <div v-if="curDiscount.limit > 0">
                 {{ curDiscount.ratio > 0 ?
                 t('deposit_page_upperLimit') : t('deposit_page_giftAmount')
                 }}
                 ：{{ verifyNumberComma(String(curDiscount.limit)) }}
               </div>
-              <div v-show="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio')
+              <div v-if="curDiscount.ratio > 0">{{ t('deposit_page_giftRatio')
                 }}：{{ curDiscount.ratio }}%
               </div>
-              <div>{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
+              <div v-if="curDiscount.limit > 0">{{ t('deposit_page_multiple') }}：{{ curDiscount.require }}X</div>
               <div>{{ t('deposit_page_minimum')
                 }}：{{ verifyNumberComma(String(curDiscount.threshold)) }}
+              </div>
+              <div v-if="curDiscount.limit === 0">
+                {{ t('deposit_page_maximum')}}：{{ verifyNumberComma(String(curDiscount.up_limit)) }}
               </div>
             </div>
           </n-form-item>
@@ -197,6 +200,7 @@ const baseDis = {
   ratio: 0,
   require: 0,
   threshold: 0,
+  up_limit: 0, // 最高参与金额
 };
 const curDiscount = ref({ ...baseDis }); // 优惠
 const usdtObj = ref({
@@ -334,6 +338,7 @@ const resetData = () => {
   mtdList.value = [{ ...baseMtdList }];
   dcList.value = [{ ...baseDcList }];
   form.value.discount = curDiscountData?.id; // 从我的优惠带过来已选择的优惠
+  console.log('discount----', form.value.discount)
 };
 // 获取充值信息
 const getShopInfo = () => {
@@ -374,7 +379,8 @@ const handleShopInfoRes = (rs: TShopInfo) => {
   });
   usdtRecharge.value = bankAll.concat(notBankArr);
   // 需要过滤 limit 为 0 的数据
-  discountList.value = rs.discount_list.filter((item) => item.limit);
+  // discountList.value = rs.discount_list.filter((item) => item.limit);
+  discountList.value = rs.discount_list;
   discountList.value.forEach((dc: any) => dcList.value.push({
     label: dc.name,
     value: dc.discount_ID,
@@ -572,8 +578,9 @@ watch(
 watch(
   () => form.value.discount,
   (n) => {
-    curDiscount.value = discountList.value.find((item: any) => item.discount_ID === n);
-    // console.log('-----', n, curDiscount.value)
+    curDiscount.value = discountList.value.find((item: any) => item.discount_ID === n) || {};
+    console.log('discountList=====', discountList.value)
+    console.log('-----', n, curDiscount.value)
     countArriveMon();
   },
 );
@@ -645,14 +652,17 @@ defineExpose({
     .yh-item {
       .choose-yh {
         font-size: 16px;
-        color: #8e82c2;
-        height: 178px;
-        padding: 17px;
-        background: url('/img/payment/yh_bg.webp?t=@{timestamp}') center no-repeat;
-        background-size: 100%;
+        padding: 20px;
+        background: rgba(38, 41, 76, .4);
+        border: 1px solid rgba(38, 41, 76, 1);
+        border-top: 0;
+        border-radius: 0 0 20px 20px;
 
         >div {
-          margin-bottom: 10px;
+          margin-bottom: 14px;
+          &:last-child {
+            margin-bottom: 0;
+          }
         }
       }
     }
