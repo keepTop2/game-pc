@@ -338,6 +338,16 @@ export default {
   withdraw_page_openClose: "Mở/đóng mật khẩu quỹ",
   withdraw_page_sureDeposit: "Xác nhận tiền gửi",
   withdraw_page_emPayPwd: "Mật khẩu quỹ không được để trống",
+  // 免费夺宝
+  free_loot: 'Săn tìm kho báu miễn phí',
+  free_loot_ranking: 'Bảng xếp hạng kho báu',
+  free_loot_rule: 'Mô tả quy tắc',
+  free_loot_rule_events: 'Giới thiệu hoạt động',
+  free_loot_rule_events_text: 'Sự kiện săn tìm kho báu miễn phí chỉ có trong khu vực thử nghiệm. Tất cả các trò chơi đều có thể mở khu vực thử nghiệm. Lối vào khu vực thử nghiệm có trên trang sự kiện. Đội ngũ vận hành sẽ thường xuyên tổ chức các hoạt động săn tìm kho báu miễn phí và trao phần thưởng tương ứng dựa trên thứ hạng.',
+  free_loot_rule_ranking: 'Quy tắc xếp hạng',
+  free_loot_rule_ranking_text: 'Người chơi phải dùng thử trò chơi mỗi ngày một lần và thực hiện các thay đổi đối với quỹ tài khoản của mình trước khi có thể được liệt kê trong danh sách; danh sách được làm mới theo thời gian thực và những người chơi X hàng đầu sẽ nhận được giải thưởng;',
+  free_loot_rule_flow: 'Quy trình trao giải và nhận giải thưởng',
+  free_loot_rule_flow_text: 'Thông báo giải thưởng: Nếu người chơi thắng, hệ thống sẽ tự động gửi email giải thưởng, vui lòng chú ý kiểm tra; Yêu cầu đổi thưởng: Sau khi nhận được email giải thưởng, người chơi cần liên hệ với bộ phận dịch vụ khách hàng để hoàn thành giải thưởng và giải thưởng sẽ được trao. được phát hành qua email.',
 
   // transfer
   transfer_page_from: 'Từ',
