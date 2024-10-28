@@ -382,6 +382,8 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_newbees_info);
 		MessageMap.addMsgMap(NetPacket.req_newbees_prize);
 		MessageMap.addMsgMap(NetPacket.notify_newbees_prize);
+		MessageMap.addMsgMap(NetPacket.req_contact_customer_service);
+		MessageMap.addMsgMap(NetPacket.notify_contact_customer_service);
 		MessageMap.addMsgMap(NetPacket.req_game_giftcard_remainpoints);
 		MessageMap.addMsgMap(NetPacket.notify_game_giftcard_remainpoints);
 		MessageMap.addMsgMap(NetPacket.req_fllm_reward);

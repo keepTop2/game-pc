@@ -179,7 +179,7 @@
     </ModalDialog>
 
     <!-- 存入保险柜 -->
-    <ModalDialog v-model:visible="showTranModal" :itle="t('withdraw_alertTitle')">
+    <ModalDialog v-model:visible="showTranModal" :title="t('withdraw_alertTitle')">
       <template #content>
         <div class="tran_box">
           <n-flex class="top_box" justify="space-between">

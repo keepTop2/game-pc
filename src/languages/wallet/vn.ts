@@ -280,6 +280,7 @@ export default {
   deposit_page_giftRatio: 'Tỷ lệ quà tặng',
   deposit_page_multiple: 'Số lần cược',
   deposit_page_minimum: 'Số tiền tham gia tối thiểu',
+  deposit_page_maximum: 'Số tiền tham gia tối đa',
   deposit_page_giftAmount: 'Số tiền quà tặng',
   deposit_page_netWork: 'mạng',
   deposit_page_chooseNetWork: 'Chọn mạng',

@@ -20,19 +20,36 @@
             draggable
             show-arrow
           >
-            <div class="tournm_wrap">
-              <div>21点扑克即开锦标赛</div>
+            <div class="tournm_wrap" v-for="item in tournm_list" :key="item.room_id">
+              <div class="tournm_name">{{ item.tournm_name }}</div>
               <div class="tournm_main">
-                <div class="logo"></div>
-                <div class="tournm_info"></div>
+                <div class="logo">
+                  <img :src="uploadUrlInfo.pc_api_url + '/' + item.tournm_logo" alt="" />
+                </div>
+                <div class="tournm_info">
+                  <div class="player">
+                    <span class="player_l">{{ item.apply_count }} player</span>
+                    <span class="player_r">online</span>
+                  </div>
+                  <div class="player_time mt-27">
+                    <iconpark-icon
+                      class="left"
+                      icon-id="syiconshijian"
+                      size="1rem"
+                    ></iconpark-icon>
+                    <span>{{ getTime(item.begin_time) }}</span>
+                  </div>
+                  <div class="player_time mt-19" style="color: #ffffff">
+                    <iconpark-icon
+                      class="left"
+                      icon-id="syiconshijian"
+                      size="1rem"
+                    ></iconpark-icon>
+                    <span>{{ getTime(item.end_time) }}</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <!-- <Imgt
-              class="game_img"
-              :src="`/img/home/kaisai.png`"
-              v-for="i in 8"
-              :key="i"
-            /> -->
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
@@ -131,8 +148,8 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-import { onMounted, onUnmounted } from "vue";
-import Imgt from "@/components/Imgt.vue";
+import { onMounted, onUnmounted, ref } from "vue";
+// import Imgt from "@/components/Imgt.vue";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetPacket } from "@/netBase/NetPacket";
@@ -147,7 +164,9 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const { t } = useI18n();
 
-const { homeActivityList } = storeToRefs(Page(pinia));
+const tournm_list: any = ref([]);
+
+const { homeActivityList, uploadUrlInfo } = storeToRefs(Page(pinia));
 
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
@@ -160,15 +179,33 @@ function getEventList() {
   Net.instance.sendRequest(req);
 }
 
+// 时间处理
+const getTime = (itemTime: any) => {
+  return `${itemTime.month}-${itemTime.day} ${itemTime.hour}:${itemTime.second}:${itemTime.minute}`;
+};
+
+// 获取近期开赛赛事
 const handleGetList = (rs: any) => {
-  console.log(44444444, rs);
+  tournm_list.value = rs.tournm_list;
+  console.log(77777755, rs.tournm_list);
+};
+
+// 获取俱乐部logo上传url地址
+const handleUploadUrl = async (rs: any) => {
+  await Page(pinia).setUploadUrl(JSON.parse(rs.upload_url));
 };
 
 onMounted(() => {
   const req = NetPacket.req_activites();
+  const req1 = NetPacket.req_resource_upload_url();
   req.show = 0;
   Net.instance.sendRequest(req);
+  Net.instance.sendRequest(req1);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_resource_upload_url,
+    handleUploadUrl
+  );
 
   getEventList();
 
@@ -197,6 +234,7 @@ onUnmounted(() => {
 
 :deep(.game_detail) {
   position: relative;
+
   .n-carousel__dots {
     display: none;
   }
@@ -293,25 +331,30 @@ onUnmounted(() => {
     height: 263px;
     background-size: 100% 100%;
     padding: 20px 30px;
+
     .item_name {
       font-size: 32px;
       color: #ffffff;
       font-weight: 600;
     }
+
     .item_info {
       font-size: 20px;
       color: #ffffff;
     }
+
     .item_time {
       font-size: 16px;
       color: #ffffff;
       margin-top: 20px;
     }
+
     .time_content {
       span {
         font-size: 20px;
         color: #ffffff;
       }
+
       .time_num {
         width: 26px;
         height: 44px;
@@ -329,6 +372,7 @@ onUnmounted(() => {
         );
       }
     }
+
     .all_total {
       margin-top: 11px;
       width: 202px;
@@ -342,6 +386,7 @@ onUnmounted(() => {
       padding-left: 8px;
     }
   }
+
   // .game_img {
   //   width: 453px !important;
   //   height: 262px !important;
@@ -406,21 +451,67 @@ onUnmounted(() => {
   object-fit: cover;
   border-radius: 16px;
 }
+
 .tournm_wrap {
   width: 396px;
   height: 215px;
   background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
   border: 1px solid #000000;
   border-radius: 16px;
+  padding: 20px 25px;
+  .tournm_name {
+    font-size: 24px;
+    color: #ffffff;
+  }
 }
+
 .tournm_main {
   display: flex;
+  gap: 10px;
   .logo {
     width: 162px;
     height: 132px;
   }
+
   .tournm_info {
     flex: 1;
+    .player {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      .player_l {
+        color: #d8d8d8;
+        font-size: 16px;
+      }
+      .player_r {
+        color: #21fe6d;
+        font-size: 16px;
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background-color: #21fe6d;
+          left: -12px;
+          top: 10px;
+          border-radius: 50%;
+        }
+      }
+    }
+    .player_time {
+      gap: 8px;
+      display: flex;
+      align-items: center;
+      color: #f2c004;
+      font-size: 20px;
+    }
   }
+}
+.mt-27 {
+  margin-top: 27px;
+}
+.mt-19 {
+  margin-top: 19px;
 }
 </style>

@@ -2,7 +2,7 @@
 <template>
     <div class="notice_dialog" :class="['notice_dialog_' + noticeList[currentIndex].type]">
         <!-- <Imgt class="close_icon" @click="closeDialog" src="/img/dialog/close.png" alt="X" /> -->
-        <div class="close close_icon abs center pointer t-sm"  @click="closeDialog">
+        <div class="close close_icon abs center pointer t-sm" @click="closeDialog">
         </div>
         <!-- 头部装饰 -->
         <div class="notice_title">
@@ -12,7 +12,7 @@
         <!-- 轮播 -->
         <div class="notice_body">
             <n-carousel ref="carouselRef" @update:current-index="(e: any) => currentIndex = e" centered-slides
-              :show-dots="false" style="width: 100%;height: 200px;" effect="card" draggable>
+                :show-dots="false" style="width: 100%;height: 200px;" effect="card" draggable>
                 <div class="info_box" v-for="(item, i) in noticeList" :key="i">
                     <div style="margin-bottom:20px" v-if="item.title">{{ t(item.title) }}</div>
                     <div class="notice_content">{{ t(item.content) }}</div>
@@ -33,7 +33,7 @@
 
         <ul class="custom-dots">
             <li v-for="index of noticeList.length" :key="index" :class="{ ['is-active']: currentIndex === index - 1 }"
-              @click="to(index - 1)" />
+                @click="to(index - 1)" />
         </ul>
     </div>
 </template>
@@ -44,7 +44,7 @@ import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { User } from '@/store/user';
 import { useI18n } from "vue-i18n";
-import Imgt from '@/components/Imgt.vue';
+// import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 

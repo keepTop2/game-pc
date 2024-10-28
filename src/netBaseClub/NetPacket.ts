@@ -7642,6 +7642,7 @@ export module NetPacket {
 			total_page: 0,
 			page_index: 0,
 			play_type: [],
+			is_tournament: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_room_list"];
 			},
@@ -7656,6 +7657,7 @@ export module NetPacket {
 				for (let i = 0; i < tb.play_type.length; ++i) {
 					EncodeUtils.int32ToByte(tb.play_type[i], buf);
 				}
+				EncodeUtils.int32ToByte(tb.is_tournament, buf);
 			},
 			decode: function (buf: never[], index: number) {
 				let startIndex = index;
@@ -7676,6 +7678,8 @@ export module NetPacket {
 					tb.play_type.push(EncodeUtils.ByteToint32(buf, startIndex));
 					startIndex += 4;
 				}
+				tb.is_tournament = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -13128,7 +13132,7 @@ export module NetPacket {
 		let tb: any = {
 			club_id: 0,
 			club_name: '',
-			club_logo: 0,
+			club_logo: '',
 			is_official: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_club_info_record"];
@@ -13136,7 +13140,7 @@ export module NetPacket {
 			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.club_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.club_name, buf);
-				EncodeUtils.int32ToByte(tb.club_logo, buf);
+				EncodeUtils.utf8StrtoBytes(tb.club_logo, buf);
 				EncodeUtils.int32ToByte(tb.is_official, buf);
 			},
 			decode: function (buf: never[], index: number) {
@@ -13146,8 +13150,9 @@ export module NetPacket {
 				let club_name_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.club_name = club_name_value[0];
 				startIndex += club_name_value[1];
-				tb.club_logo = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				let club_logo_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.club_logo = club_logo_value[0];
+				startIndex += club_logo_value[1];
 				tb.is_official = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
@@ -13401,14 +13406,14 @@ export module NetPacket {
 		let tb: any = {
 			club_name: '',
 			club_introduction: '',
-			club_logo: 0,
+			club_logo: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_create_club"];
 			},
 			encode: function (buf: number[]) {
 				EncodeUtils.utf8StrtoBytes(tb.club_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.club_introduction, buf);
-				EncodeUtils.int32ToByte(tb.club_logo, buf);
+				EncodeUtils.utf8StrtoBytes(tb.club_logo, buf);
 			},
 			decode: function (buf: never[], index: number) {
 				let startIndex = index;
@@ -13418,8 +13423,9 @@ export module NetPacket {
 				let club_introduction_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.club_introduction = club_introduction_value[0];
 				startIndex += club_introduction_value[1];
-				tb.club_logo = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				let club_logo_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.club_logo = club_logo_value[0];
+				startIndex += club_logo_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -13500,7 +13506,7 @@ export module NetPacket {
 			club_id: 0,
 			club_name: '',
 			club_intro: '',
-			club_logo: 0,
+			club_logo: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_modify_club_info"];
 			},
@@ -13508,7 +13514,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.club_id, buf);
 				EncodeUtils.utf8StrtoBytes(tb.club_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.club_intro, buf);
-				EncodeUtils.int32ToByte(tb.club_logo, buf);
+				EncodeUtils.utf8StrtoBytes(tb.club_logo, buf);
 			},
 			decode: function (buf: never[], index: number) {
 				let startIndex = index;
@@ -13520,8 +13526,9 @@ export module NetPacket {
 				let club_intro_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.club_intro = club_intro_value[0];
 				startIndex += club_intro_value[1];
-				tb.club_logo = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				let club_logo_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.club_logo = club_logo_value[0];
+				startIndex += club_logo_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {
@@ -13638,7 +13645,7 @@ export module NetPacket {
 	export function notify_get_club_info() {
 		let tb: any = {
 			club_id: 0,
-			club_logo: 0,
+			club_logo: '',
 			club_name: '',
 			club_introduction: '',
 			is_official: 0,
@@ -13652,7 +13659,7 @@ export module NetPacket {
 			},
 			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.club_id, buf);
-				EncodeUtils.int32ToByte(tb.club_logo, buf);
+				EncodeUtils.utf8StrtoBytes(tb.club_logo, buf);
 				EncodeUtils.utf8StrtoBytes(tb.club_name, buf);
 				EncodeUtils.utf8StrtoBytes(tb.club_introduction, buf);
 				EncodeUtils.int32ToByte(tb.is_official, buf);
@@ -13672,8 +13679,9 @@ export module NetPacket {
 				let startIndex = index;
 				tb.club_id = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.club_logo = EncodeUtils.ByteToint32(buf, startIndex);
-				startIndex += 4;
+				let club_logo_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.club_logo = club_logo_value[0];
+				startIndex += club_logo_value[1];
 				let club_name_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.club_name = club_name_value[0];
 				startIndex += club_name_value[1];
@@ -14899,7 +14907,7 @@ export module NetPacket {
 				let info_len = EncodeUtils.ByteToUint16(buf, startIndex);
 				startIndex += 2;
 				for (let i = 0; i < info_len; ++i) {
-					let tmp = member_turnover();
+					let tmp = member_info();
 					startIndex += tmp.decode(buf, startIndex);
 					tb.info.push(tmp);
 				}
@@ -15089,6 +15097,47 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_club_manage_game"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_resource_upload_url() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_resource_upload_url"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_resource_upload_url"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_resource_upload_url() {
+		let tb: any = {
+			upload_url: '',
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_resource_upload_url"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.utf8StrtoBytes(tb.upload_url, buf);
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				let upload_url_value = EncodeUtils.byteToString(buf, startIndex);
+				tb.upload_url = upload_url_value[0];
+				startIndex += upload_url_value[1];
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_resource_upload_url"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -15305,15 +15354,19 @@ export module NetPacket {
 	}
 	export function notify_tournament_events_share() {
 		let tb: any = {
+			room_id: 0,
 			result: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_tournament_events_share"];
 			},
 			encode: function (buf: number[]) {
+				EncodeUtils.int32ToByte(tb.room_id, buf);
 				EncodeUtils.int32ToByte(tb.result, buf);
 			},
 			decode: function (buf: never[], index: number) {
 				let startIndex = index;
+				tb.room_id = EncodeUtils.ByteToint32(buf, startIndex);
+				startIndex += 4;
 				tb.result = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
@@ -15704,6 +15757,53 @@ export module NetPacket {
 			},
 			build: function (buf: any) {
 				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_filter_tournament"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function req_tournament_events_gametype_list() {
+		let tb: any = {
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_req_tournament_events_gametype_list"];
+			},
+			encode: function (_buf: any) {
+			},
+			decode: function (_buf: any, index: number) {
+				let startIndex = index;
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_req_tournament_events_gametype_list"], buf);
+				return tb.encode(buf);
+			}
+		};
+		return tb;
+	}
+	export function notify_tournament_events_gametype_list() {
+		let tb: any = {
+			gametype_list: [],
+			getMsgID: function () {
+				return NetMsgType.msgType["msg_notify_tournament_events_gametype_list"];
+			},
+			encode: function (buf: number[]) {
+				EncodeUtils.uInt16ToByte(tb.gametype_list.length, buf);
+				for (let i = 0; i < tb.gametype_list.length; ++i) {
+					EncodeUtils.int32ToByte(tb.gametype_list[i], buf);
+				}
+			},
+			decode: function (buf: never[], index: number) {
+				let startIndex = index;
+				let gametype_list_len = EncodeUtils.ByteToUint16(buf, startIndex);
+				startIndex += 2;
+				for (let i = 0; i < gametype_list_len; ++i) {
+					tb.gametype_list.push(EncodeUtils.ByteToint32(buf, startIndex));
+					startIndex += 4;
+				}
+				return startIndex - index;
+			},
+			build: function (buf: any) {
+				EncodeUtils.uInt32ToByte(NetMsgType.msgType["msg_notify_tournament_events_gametype_list"], buf);
 				return tb.encode(buf);
 			}
 		};
@@ -16650,7 +16750,7 @@ export module NetPacket {
 			kindId: 0,
 			page: 0,
 			pageSize: 0,
-			lableId: 0,
+			is_lable: 0,
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_games_in_platform"];
 			},
@@ -16659,7 +16759,7 @@ export module NetPacket {
 				EncodeUtils.int32ToByte(tb.kindId, buf);
 				EncodeUtils.int32ToByte(tb.page, buf);
 				EncodeUtils.int32ToByte(tb.pageSize, buf);
-				EncodeUtils.int32ToByte(tb.lableId, buf);
+				EncodeUtils.int32ToByte(tb.is_lable, buf);
 			},
 			decode: function (buf: never[], index: number) {
 				let startIndex = index;
@@ -16671,7 +16771,7 @@ export module NetPacket {
 				startIndex += 4;
 				tb.pageSize = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
-				tb.lableId = EncodeUtils.ByteToint32(buf, startIndex);
+				tb.is_lable = EncodeUtils.ByteToint32(buf, startIndex);
 				startIndex += 4;
 				return startIndex - index;
 			},
@@ -16750,16 +16850,12 @@ export module NetPacket {
 		let tb: any = {
 			kindId: 0,
 			kind_name: '',
-			icon_after: '',
-			icon_before: '',
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_game_kind_info"];
 			},
 			encode: function (buf: number[]) {
 				EncodeUtils.int32ToByte(tb.kindId, buf);
 				EncodeUtils.utf8StrtoBytes(tb.kind_name, buf);
-				EncodeUtils.utf8StrtoBytes(tb.icon_after, buf);
-				EncodeUtils.utf8StrtoBytes(tb.icon_before, buf);
 			},
 			decode: function (buf: never[], index: number) {
 				let startIndex = index;
@@ -16768,12 +16864,6 @@ export module NetPacket {
 				let kind_name_value = EncodeUtils.byteToString(buf, startIndex);
 				tb.kind_name = kind_name_value[0];
 				startIndex += kind_name_value[1];
-				let icon_after_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.icon_after = icon_after_value[0];
-				startIndex += icon_after_value[1];
-				let icon_before_value = EncodeUtils.byteToString(buf, startIndex);
-				tb.icon_before = icon_before_value[0];
-				startIndex += icon_before_value[1];
 				return startIndex - index;
 			},
 			build: function (buf: any) {

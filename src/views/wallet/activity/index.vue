@@ -5,16 +5,13 @@
         :class="state.active == i ? 'active' : ''"
         v-for="(_game, g, i) in activityTitleList"
         :key="i"
-        @click="changeTab(i)"
+        @click="changeTab(_game, i)"
         >{{ t(g) }}</span
       >
     </div>
+
     <div class="img_box">
-      <div
-        v-for="item in homeActivityList"
-        :key="item.id"
-        @click="defineModel(item)"
-      >
+      <div v-for="item in allactivityList" :key="item.id" @click="defineModel(item)">
         <img :src="item.pic_link" alt="" />
         <p>
           <i>{{ item.name }}</i>
@@ -56,112 +53,39 @@ const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
 
-const pageStore = Page()
+const pageStore = Page();
 
-
-const { activityTitleList, homeActivityList } = storeToRefs(Page(pinia));
+const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();
 // const router = useRouter();
 // const route = useRoute();
-const changeTab = (tabId: number) => {
-  state.active = tabId;
-  if (state.active == 1) {
-    state.loginList.account.show = false;
-    state.loginList.email.show = true;
-  } else {
-    state.loginList.account.show = true;
-    state.loginList.email.show = false;
-  }
+const allactivityList: any = ref([]);
+const changeTab = (_game: any, i: any) => {
+  state.active = i;
+  allactivityList.value = _game;
 };
-// const activityDetail = (item: string) => {
-//   console.log(item);
-
-//   let str1 = item.split("_");
-//   let str2 = "";
-//   if (str1.length > 0) {
-//     str2 = str1[0] + "_pc_" + str1[1] + "_" + str1[2];
-//   }
-//   if (t(str2).indexOf("http") != -1) {
-//     return t(str2);
-//   } else {
-//     return "";
-//   }
-// };
 
 const state: any = reactive({
   active: 0,
-  name: 'home_page_all',
-  link: '',
+  name: "home_page_all",
+  link: "",
   showModal: false,
   detailImg: null,
   arr: [
     {
-      date: '2018/8/1',
-      className: 'mark1',
+      date: "2018/8/1",
+      className: "mark1",
     },
     {
-      date: '2018/8/13',
-      className: 'mark2',
+      date: "2018/8/13",
+      className: "mark2",
     },
   ],
 });
-// const popDetail = (item: any) => {
-//   state.detailImg = null;
-//   state.showModal = true;
-//   state.detailImg = activityDetail(item.content);
-// };
-// const closeToast = (header: string, img: string, msg: string) => {
-//   state.toastText = {
-//     header: header,
-//     isShow: true,
-//     img: img,
-//     msg: msg
-//   }
-//   setTimeout(() => {
-//     state.toastText = {
-//       header: '',
-//       isShow: false, // toast 控制
-//       img: '', // toast 显示图片
-//       msg: '' // toast 提示语
-//     }
-//   }, 3000)
-// }
-// const signInEvent = async () => {
-//   if (state.activeDate.IsSignIn === 'true') {
-//     return closeToast('签到失败', '', '今日已签到')
-//   }
-//   let str = state.activeDate.date.split('-') // 点击的时间
-//   let today = new Date()
-//   let year = today.getFullYear() // 今天哪一年
-//   let tadayDate = today.getDate() // 今天几号
-//   let tadayMonth = today.getMonth() + 1 // 今天属于几月
-//   if (Number(str[0]) > year) {
-//     return closeToast('签到失败', '', '未到活动时间')
-//   } else if (Number(str[0]) < year && Number(str[1]) !== 12) {
-//     return closeToast('签到失败', '', '选择时间有误')
-//   } else if (Number(str[0]) < year && Number(str[1]) === 12) {
-//     // sign()
-//   } else {
-//     if (Number(str[1]) > tadayMonth || Number(str[2]) > tadayDate) {
-//       return closeToast('签到失败', '', '未到活动时间')
-//     } else {
-//     //   sign()
-//     }
-//   }
-// }
-// const clickToday = (data: any) => {
-//   if (!state.flag) {
-//     state.activeDate = data
-//     state.flag = true
-//     // console.log('跳到了本月今天', data) // 跳到了本月
-//   }
-// }
-// const clickDay = (data: any) => {
-//   state.activeDate = data
-// }
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
+  allactivityList.value = activityTitleList.value.home_page_all;
 };
 
 
@@ -170,9 +94,9 @@ const defineModel = (item: any) => {
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
     state.showModal = true;
-    pageStore.openFreeModal()
+    pageStore.openFreeModal();
   }
-  userInfo.setFirstDeposit(true)
+};
 
 };
 
@@ -182,13 +106,11 @@ onMounted(() => {
   const req = NetPacket.req_activites();
   req.show = 0;
   Net.instance.sendRequest(req);
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_activites,
-    handleActivetys,
-  );
+  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
 
 });
 onUnmounted(() => {
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_info, null);
 
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
 });
