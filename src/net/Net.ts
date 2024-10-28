@@ -39,13 +39,13 @@ export const getSetting = async () => {
         item.value = item.name
     });
 
-    // const server_testUrls = [
-    //     [
-    //         "http://18.167.239.27:9301",
-    //         "ws://18.167.239.27:9301"
-    //     ]
-    // ]
-    // settings.server_testUrls = server_testUrls
+    const server_testUrls = [
+        [
+            "http://18.167.239.27:9301",
+            "ws://18.167.239.27:9301"
+        ]
+    ]
+    settings.server_testUrls = server_testUrls
 
 
     await Page(pinia).setSettings(settings)
