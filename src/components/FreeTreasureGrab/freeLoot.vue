@@ -32,7 +32,7 @@
 <script setup lang="ts">
 // import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
-import { onMounted, onUnmounted, reactive } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket.ts';
@@ -40,10 +40,14 @@ import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 import { Message } from '@/utils/discreteApi'
+import { Wallet } from '@/store/wallet.ts';
+import pinia from '@/store';
 // import { useRoute, useRouter } from 'vue-router';
 // import Imgt from '@/components/Imgt.vue';
 const { t } = useI18n();
-const props = defineProps<{ freeTreasureInfo: any }>();
+
+const WalletStore = Wallet(pinia)
+
 
 const planList: any = reactive({
   page: 1,
@@ -54,8 +58,6 @@ const planList: any = reactive({
 });
 
 const pushPlanListData = () => {
-
-
 
   if (planList.data.length >= 50) {
     planList.data.push(...arrData.slice(planList.data.length, planList.data.length * 2))
@@ -87,10 +89,20 @@ const handleGameToUrl = (res: any) => {
   window.open(res.url)
 }
 
-let arrData = reactive(props.freeTreasureInfo.gameIds)
+// let arrData = reactive(props.freeTreasureInfo.gameIds || [])
+let arrData = reactive([])
 
-onMounted(() => {
-  if (props.freeTreasureInfo) {
+
+
+
+const freeTreasureInfoData = ref()
+const handleFreeTreasureInfo = async (data: any) => {
+  await Wallet(pinia).setFreeTreasureInfoData(data)
+  // alert('??asdasda?')
+  freeTreasureInfoData.value = data
+  arrData = data.gameIds || []
+
+  if (data.gameIds) {
     planList.loadMore = arrData.length > 50
     // planList.data = [...props.freeTreasureInfo.gameIds];
     planList.data = [...arrData];
@@ -100,6 +112,34 @@ onMounted(() => {
       planList.data = [...arrData]
     }
   }
+
+};
+
+const reqFreeTreasureInfo = () => {
+  if(!WalletStore.freeTreasureInfoData.gameIds) {
+
+    const req_free_treasure_info = NetPacket.req_free_treasure_info();
+    Net.instance.sendRequest(req_free_treasure_info);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_info, handleFreeTreasureInfo);
+  } else {
+    handleFreeTreasureInfo(WalletStore.freeTreasureInfoData)
+  }
+}
+
+onMounted(() => {
+  // if (props.freeTreasureInfo) {
+  //   planList.loadMore = arrData.length > 50
+  //   // planList.data = [...props.freeTreasureInfo.gameIds];
+  //   planList.data = [...arrData];
+  //   if(arrData.length >50) {
+  //     planList.data = [...arrData.slice(0, 50)]
+  //   } else {
+  //     planList.data = [...arrData]
+  //   }
+  // }
+
+  // 免费夺宝
+  reqFreeTreasureInfo()
 });
 
 onUnmounted(() => {
@@ -112,6 +152,9 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   padding: 20px 0 30px;
+  p, span {
+    color: #ffffff;
+  }
   .banner {
     border-radius: 0;
     > img {

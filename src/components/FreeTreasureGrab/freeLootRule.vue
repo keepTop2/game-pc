@@ -26,6 +26,9 @@ const { t } = useI18n();
 <style scoped lang="less">
 .freeLootRule {
   padding-top: 20px;
+  p, span {
+    color: #ffffff;
+  }
   .intro {
     margin-bottom: 20px;
     p:nth-of-type(1) {

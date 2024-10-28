@@ -11,7 +11,7 @@
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
           <p>
-            今日排名：{{ props.freeTreasureInfo.rank === -1 ? '--' : props.freeTreasureInfo.rank === -1 }}</p>
+            今日排名：{{ WalletStore.freeTreasureInfoData.rank === -1 ? '--' : WalletStore.freeTreasureInfoData.rank === -1 }}</p>
         </div>
       </div>
       <div class="gold">
@@ -19,7 +19,8 @@
         <div class="goldNumber">
           <Imgt src="/img/wallet/gold.svg" />
           <!--          <p>{{ freeLootRankingData.gold }}</p>-->
-          <p>{{ props.freeTreasureInfo.score || 0 }}</p>
+          <p>{{ WalletStore.freeTreasureInfoData.score || 0 }}</p>
+
         </div>
       </div>
     </div>
@@ -76,15 +77,17 @@ import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
+import { Wallet } from '@/store/wallet.ts';
+
 
 const { t } = useI18n();
 const userInfo = User(pinia);
 const { info } = storeToRefs(userInfo);
 
 const UserStore = User(pinia);
+const WalletStore: any = Wallet(pinia);
 const { roleInfo } = storeToRefs(UserStore);
 
-const props = defineProps<{ freeTreasureInfo: any }>();
 
 const freeLootRankingData: any = reactive({
   list: [],
@@ -227,7 +230,9 @@ onUnmounted(() => {
 <style scoped lang="less">
 .freeLootRanking {
   padding-top: 20px;
-
+  p, span {
+    color: #ffffff;
+  }
   .theFirst {
     display: flex;
     justify-content: space-between;
