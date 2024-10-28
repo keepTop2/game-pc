@@ -181,3 +181,4 @@ export const EWallets: any = {
 export const CenterWallet: any = 'wallet_page_central';
 
 export const EAllWallets: any = { center: CenterWallet, ...EWallets };
+

@@ -72,6 +72,7 @@ export default {
 
     // 新游戏二级页部分
     home_page_all: '全部',
+    activities_category_100: '定制活动',
     home_page_more: '更多',
     game_page_seach: '搜索',
     game_page_all: '全部',

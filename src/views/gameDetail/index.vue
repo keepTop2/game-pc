@@ -136,6 +136,7 @@ const handlePlatformKind = (res: any) => {
     } else {
         state.kindList = [first, ...last]
     }
+    console.log(state.kindList);
 
 
 }

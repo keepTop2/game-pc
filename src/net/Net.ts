@@ -25,6 +25,8 @@ export const getLocale = async () => { // Page(pinia).$state.settings
     await Page(pinia).setAdminI18n(adminI18n)
 }
 export const getSetting = async () => {
+   // config_h5_jason.json   config_h5_develop.json
+
     const settingsRes = await fetch('http://18.167.187.79/config_h5_develop.json?' + new Date().getTime())
     const settings = await settingsRes.json()
 
@@ -36,8 +38,15 @@ export const getSetting = async () => {
     settings.lang_list.forEach((item: any) => {
         item.label = lang_list_label[item.name]
         item.value = item.name
-
     });
+
+    // const server_testUrls = [
+    //     [
+    //         "http://18.167.239.27:9301",
+    //         "ws://18.167.239.27:9301"
+    //     ]
+    // ]
+    // settings.server_testUrls = server_testUrls
 
 
     await Page(pinia).setSettings(settings)
