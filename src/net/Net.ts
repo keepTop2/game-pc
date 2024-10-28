@@ -29,7 +29,6 @@ export const getSetting = async () => {
 
     const settingsRes = await fetch('http://18.167.187.79/config_h5_develop.json?' + new Date().getTime())
     const settings = await settingsRes.json()
-    console.log(4444444,settings)
     const lang_list_label:any = {
         en:'home_page_en',
         zh:'home_page_zh',
@@ -38,7 +37,6 @@ export const getSetting = async () => {
     settings.lang_list.forEach((item:any) => {
         item.label = lang_list_label[item.name]
         item.value = item.name
-        
     });
 
     // const server_testUrls = [

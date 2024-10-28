@@ -190,7 +190,6 @@ const getTime = (itemTime: any) => {
 
 // 获取近期开赛赛事
 const handleGetList = (rs: any) => {
-  console.log(44444444, rs);
   tournm_list.value = rs.tournm_list;
 };
 

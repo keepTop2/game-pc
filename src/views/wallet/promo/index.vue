@@ -1,54 +1,55 @@
 <template>
   <n-flex vertical class="promo_info record_page">
-
     <n-flex align="center" class="tab_top">
-      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
-        :key="index" @click="clickTab(item.key)">
-        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount" dot />
+      <a
+        :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`"
+        v-for="(item, index) in tabArr"
+        :key="index"
+        @click="clickTab(item.key)"
+      >
+        <n-badge
+          v-show="item.hasCount && needShowCount.includes(item.key)"
+          :value="item.hasCount"
+          dot
+        />
         {{ t(item.title) }}
       </a>
     </n-flex>
     <n-spin :show="loading">
       <div class="promo_list">
-        <div :class="`list_item ${(item.volume || item.award) ? 'list_item_b' : ''}`"
-          v-for="(item, index) in listData.list" :key="index">
+        <div
+          :class="`list_item ${item.volume || item.award ? 'list_item_b' : ''}`"
+          v-for="(item, index) in listData.list"
+          :key="index"
+        >
+          <img src="/img/promo/icon3.webp" alt="" class="item_img" />
           <n-flex justify="space-between" class="item_top">
             <div class="item_l">
-              <!--              <span v-if="('1,2,3,4,5').includes(item.have_save)" class="item_name"> {{ t('promo_page_fuHuo') }} </span>-->
-              <span class="item_name"> {{ tabArr.find((item_1: any) => item_1.key == item.tag) ?
-                t(tabArr.find((item_1: any) => item_1.key == item.tag)?.title) : '-' }} </span>
-              <n-tooltip trigger="hover">
-                <template #trigger>
-                  <span class="item_title"> {{ item.name ? t(item.name) : '-' }} </span>
-                </template>
-                {{ t(item.name) }}
-              </n-tooltip>
-
+              <div>
+                <span>{{ t(item.name) }}</span>
+                <span class="details">{{ t(item.details) }}</span>
+              </div>
             </div>
             <div class="item_r">
-              <!--              <n-button v-if="('1,2,3,4,5').includes(item.have_save)" :disabled="('1,2').includes(item.have_save)"
-                :bordered="false" class="lq-btn" @click="applyBouns(item)">
-                {{ item.have_save === '1' ? t('promo_page_fuHuoNot') : t('promo_page_receive') }}
-              </n-button>-->
               <n-button :bordered="false" class="lq-btn" @click="applyBouns(item)">
-                {{ t('promo_page_apply') }}
+                {{ t("promo_page_apply") }}
               </n-button>
-              <!--              <n-button v-else :bordered="false" class="lq-btn" @click="applyBouns(item)"> {{ item.tag === '0' ?
-        t('promo_page_apply') : t('promo_page_receive') }} </n-button>-->
             </div>
           </n-flex>
           <div v-if="item.volume || item.award" class="item_bottom">
             <n-flex align="center" class="item_jd">
-              <span> {{ t('promo_page_pro') }}： </span>
-              <div class="item_pro"><span class="pro_inner" :style="`width: ${item.schedule}%`"> </span></div>
+              <span> {{ t("promo_page_pro") }}： </span>
+              <div class="item_pro">
+                <span class="pro_inner" :style="`width: ${item.schedule}%`"> </span>
+              </div>
             </n-flex>
             <n-flex justify="space-between">
               <div class="item_bottom_l">
-                <span> {{ t('promo_page_betAmount') }}： </span>
+                <span> {{ t("promo_page_betAmount") }}： </span>
                 <span> {{ item.volume }} </span>
               </div>
               <div class="item_bottom_r">
-                <span> {{ t('promo_page_prize') }}： </span>
+                <span> {{ t("promo_page_prize") }}： </span>
                 <span> {{ item.award }} </span>
               </div>
             </n-flex>
@@ -57,60 +58,94 @@
       </div>
       <div class="nodata" v-if="!listData.list.length && !loading">
         <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
-        <div>{{ t('home_page_nomore_data') }}</div>
+        <div>{{ t("home_page_nomore_data") }}</div>
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
-      :item-count="listData.total_page" v-show="listData.total_page" />
-
+    <n-pagination
+      :default-page-size="20"
+      class="pagination"
+      @update:page="pageChange"
+      v-model:page="params.page"
+      :item-count="listData.total_page"
+      v-show="listData.total_page"
+    />
   </n-flex>
-
 </template>
 
-<script setup lang='ts'>
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import { NetPacket } from '@/netBase/NetPacket';
-import { Net } from '@/net/Net';
-import { MessageEvent2 } from '@/net/MessageEvent2';
-import { NetMsgType } from '@/netBase/NetMsgType';
-import { useI18n } from 'vue-i18n';
-import { Message } from '@/utils/discreteApi';
-import { useRouter } from 'vue-router';
-import { Local } from '@/utils/storage';
-import Imgt from '@/components/Imgt.vue';
-
+<script setup lang="ts">
+import { onMounted, onUnmounted, reactive, ref } from "vue";
+import { NetPacket } from "@/netBase/NetPacket";
+import { Net } from "@/net/Net";
+import { MessageEvent2 } from "@/net/MessageEvent2";
+import { NetMsgType } from "@/netBase/NetMsgType";
+import { useI18n } from "vue-i18n";
+import { Message } from "@/utils/discreteApi";
+import { useRouter } from "vue-router";
+import { Local } from "@/utils/storage";
+import Imgt from "@/components/Imgt.vue";
+import pinia from "@/store/index";
+import { storeToRefs } from "pinia";
+import { Page } from "@/store/page";
 const router = useRouter();
+const page = Page(pinia);
 const { t } = useI18n();
 const loading = ref(false);
-const params: any = reactive({ // 参数
+const { adminI18n, lang } = storeToRefs(page);
+const params: any = reactive({
+  // 参数
   page: 1,
 });
-const curTab: any = ref('0');
+const curTab: any = ref("0");
 // tag: 所在标签, 0：无限制, 1:by专属, 2：体育, 3：真人, 4：老虎机, 5：俱乐部专属，6 系统优惠，如果有多个，用_连接
-const tabArr: any = ref(
-  [
-    { title: 'promo_page_all', key: '0' },
-    { title: 'promo_page_guDing', key: 'constant' }, // 固定赠送
-    { title: 'promo_page_depositZen', key: 'deposit' }, // 存款赠送
-    { title: 'promo_page_system', key: 'System' }, // 系统优惠
-    { title: 'promo_page_vipZen', key: 'VIP_related' }, // vip奖励
-  ],
-);
-// 应有未读提示标识的活动
-const needShowCount = ['System', 'VIP_related'];
-const listData: any = ref(
-  {
-    total_page: 0,
-    list: [
-      // { name: '俱乐部专属', content: '每日首存送10%彩金', schedule: '', volume: '', award: '' },
-      // { name: '真人视讯', content: '注册领彩金', schedule: '', volume: '', award: '' },
-      // { name: '真人视讯', content: '每日首存送10%彩金', schedule: '', volume: '', award: '' },
-      // { name: '系统优惠', content: '新人送999越南盾', schedule: '', volume: '', award: '' },
-      // { name: '真人视讯', content: '投注有好礼，最高送888', schedule: '70', volume: '8000', award: '90' },
-    ],
+const tabArr: any = ref([
+  { title: "promo_page_all", key: "0" },
+  { title: "promo_page_guDing", key: "constant" }, // 固定赠送
+  { title: "promo_page_depositZen", key: "deposit" }, // 存款赠送
+  { title: "promo_page_system", key: "System" }, // 系统优惠
+  { title: "promo_page_vipZen", key: "VIP_related" }, // vip奖励
+]);
+
+const styleObj = {
+  1: {
+    imageIcon: "img/promo/icon1.webp",
+    color:
+      "background: linear-gradient(93.52deg, #D1E1FE 2.39%, #A3B8E4 12.26%, #B8D0FC 47.41%, #EDF3FF 100.56%);",
   },
-);
+  2: {
+    imageIcon: "img/promo/icon2.webp",
+    color:
+      "background: linear-gradient(93.52deg, #B3D71D 2.39%, #598A11 12.26%, #7CAF0D 47.41%, #F2FDC7 100.56%);",
+  },
+  8001: {
+    imageIcon: "img/promo/icon3.webp",
+    color:
+      "background: linear-gradient(93.52deg, #FFE8D2 2.39%, #CC865F 12.26%, #D0A288 47.41%, #F7E8DB 100.56%);",
+  },
+  4: {
+    imageIcon: "img/promo/icon1.webp",
+    color:
+      "background: linear-gradient(93.52deg, #D8C9F1 2.39%, #A793D1 12.26%, #CBBCF4 47.61%, #EEE3FF 100.56%);",
+  },
+  5: {
+    imageIcon: "img/promo/icon5.webp",
+    color:
+      "linear-gradient(93.52deg, #ffeed2 2.39%, #cca35f 12.26%, #d0b588 47.41%, #f7ecdb 100.56%)",
+  },
+};
+
+// 应有未读提示标识的活动
+const needShowCount = ["System", "VIP_related"];
+const listData: any = ref({
+  total_page: 0,
+  list: [
+    // { name: '俱乐部专属', content: '每日首存送10%彩金', schedule: '', volume: '', award: '' },
+    // { name: '真人视讯', content: '注册领彩金', schedule: '', volume: '', award: '' },
+    // { name: '真人视讯', content: '每日首存送10%彩金', schedule: '', volume: '', award: '' },
+    // { name: '系统优惠', content: '新人送999越南盾', schedule: '', volume: '', award: '' },
+    // { name: '真人视讯', content: '投注有好礼，最高送888', schedule: '70', volume: '8000', award: '90' },
+  ],
+});
 const originListData: any = ref([]);
 
 const clickTab = (e: any) => {
@@ -119,8 +154,13 @@ const clickTab = (e: any) => {
 };
 // 过滤数据
 const filterData = () => {
-  listData.value.list = curTab.value === '0' ? [...originListData.value] : originListData.value.filter((item: any) => item.tag === curTab.value);
+  listData.value.list =
+    curTab.value === "0"
+      ? [...originListData.value]
+      : originListData.value.filter((item: any) => item.tag === curTab.value);
   listData.value.total_page = listData.value.list.length || 0;
+
+  console.log(66666633, listData.value);
 };
 // 切换页码
 const pageChange = (page: number) => {
@@ -139,7 +179,6 @@ const queryData = () => {
 };
 // 数据处理
 const resultHandle = (rs: any) => {
-
   setTimeout(() => {
     loading.value = false;
   }, 300);
@@ -152,23 +191,39 @@ const resultHandle = (rs: any) => {
       }
     });
   });
-  console.log('--tabArr', tabArr);
+  console.log("--tabArr", tabArr);
   // 添加未读标识--结束
+
   originListData.value = rs.promo || [];
+  const I18nData = adminI18n.value[lang.value];
+  originListData.value = originListData.value
+    .map((item: any) => ({
+      name: I18nData[item.name],
+      pic_link: I18nData[item.pic_link],
+      restrict: I18nData[item.restrict],
+      content: I18nData[item.content],
+      rules: I18nData[item.rules],
+      tag: I18nData[item.tag],
+      details: I18nData[item.details],
+      total: item.total,
+      id: item.id,
+    }))
+    .filter((i: any) => i.pic_link);
+  console.log(77777777, originListData.value);
   filterData();
-  console.log(listData.value.list.length, 'promo-data--------', listData.value.list);
+  console.log(listData.value.list.length, "promo-data--------", listData.value.list);
 };
 
 const applyBouns = (data: any) => {
   // 全部
-  if (['System', 'VIP_related'].includes(data.tag)) {
+  if (["System", "VIP_related"].includes(data.tag)) {
     loading.value = true;
     const query = NetPacket.req_get_email_attachments();
     query.email_id = data.details; // 这个 details 才是领取的 id
     Net.instance.sendRequest(query);
   } else {
-    Local.set('curDiscountData', data); // 当前选择的优惠，需要带到充值页面
-    router.push('/wallet/walletInfo?openDialogType=deposit');
+    Local.set("curDiscountData", data); // 当前选择的优惠，需要带到充值页面
+    router.push("/wallet/walletInfo?openDialogType=deposit");
   }
 };
 
@@ -176,12 +231,13 @@ const applyBounsHandle = (res: any) => {
   setTimeout(() => {
     loading.value = false;
   }, 300);
-  console.log('==领取优惠==', res);
-  if (res.email_id.includes('#') || res.email_id === '-0') {
-    Message.error(t('promo_page_applyFail'));
-  } else { // 成功
+  console.log("==领取优惠==", res);
+  if (res.email_id.includes("#") || res.email_id === "-0") {
+    Message.error(t("promo_page_applyFail"));
+  } else {
+    // 成功
     queryData(); // 刷新数据
-    Message.success(t('promo_page_applySuc'));
+    Message.success(t("promo_page_applySuc"));
   }
 };
 
@@ -197,40 +253,37 @@ onMounted(() => {
     // 回执监听
     MessageEvent2.addMsgEvent(
       NetMsgType.msgType.msg_notify_activites, // msg_activity_info
-      resultHandle,
+      resultHandle
     );
     MessageEvent2.addMsgEvent(
       NetMsgType.msgType.msg_notify_get_email_attachments,
-      applyBounsHandle,
+      applyBounsHandle
     );
   }, 500);
-
 });
-
 </script>
 
-<style lang='less' scoped>
-@import '@/assets/recordPage.less';
-@timestamp: `new Date().getTime()`;
+<style lang="less" scoped>
+@import "@/assets/recordPage.less";
+@timestamp: `new Date() .getTime() `;
 
 .promo_info {
   font-size: 16px;
   font-family: PingFangSC;
 
   .tab_top {
+    background: #0d0e2e;
+    height: 44px;
+    border-radius: 10px;
     gap: 8px 10px !important;
 
     .tab_item {
       position: relative;
-      height: 36px;
-      min-width: 75px;
+      height: 40px;
+      min-width: 100px;
       text-align: center;
-      line-height: 20px;
-      color: #8d81c1;
-      padding: 7px 21px;
-      border-radius: 10px;
-      border: solid 1.4px #5a47b2;
-      background-color: #372771;
+      line-height: 40px;
+      color: #afb6bd;
 
       :deep(.n-badge) {
         position: absolute;
@@ -239,12 +292,13 @@ onMounted(() => {
       }
 
       &.active {
-        height: 46px;
-        line-height: 30px;
+        height: 40px;
+        min-width: 100px;
+        line-height: 40px;
         border: 0;
         color: #ebefff;
-        border-image: url('/img/promo/tabBtn.webp?t=@{timestamp}') 0 30 0 30 fill / 0 20px stretch stretch !important;
-
+        border-radius: 8px;
+        background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
 
         :deep(.n-badge) {
           top: 2px;
@@ -273,15 +327,43 @@ onMounted(() => {
   }
 
   .promo_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
     .list_item {
-      margin: 20px 0;
-      padding: 27px 27px 27px 26px;
-      border-radius: 14px;
-      background: url('/img/promo/listBg.webp?t=@{timestamp}') center no-repeat;
-      background-size: cover;
+      width: 500px;
+      margin-bottom: 10px;
+      position: relative;
+      // padding: 27px 27px 27px 26px;
+      border-radius: 12px;
+      height: 88px;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(
+        93.52deg,
+        #ffe8d2 2.39%,
+        #cc865f 12.26%,
+        #d0a288 47.41%,
+        #f7e8db 100.56%
+      );
+
+      //background: url("/img/promo/listBg.webp?t=@{timestamp}") center no-repeat;
+      // background-size: cover;
 
       &.list_item_b {
-        background-image: url('/img/promo/listBg2.webp?t=@{timestamp}');
+        background-image: url("/img/promo/listBg2.webp?t=@{timestamp}");
+      }
+      .item_img {
+        position: absolute;
+        left: 30px;
+        height: 95px;
+        top: -8px;
+      }
+      .item_top {
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 24px;
       }
 
       .item_l {
@@ -290,22 +372,16 @@ onMounted(() => {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-
-        .item_name {
-          display: inline-block;
-          min-width: 126px;
-          padding: 0 8px;
-          height: 46px;
-          padding-top: 6px;
-          text-align: center;
-          background: url('/img/promo/nameBg.webp?t=@{timestamp}') no-repeat;
-          background-size: cover;
-          box-sizing: border-box
-        }
-
-        .item_title {
-          padding-left: 28px;
-          color: #8d81c1;
+        margin-left: 110px;
+        color: #973207;
+        font-size: 18px;
+        div {
+          display: flex;
+          flex-direction: column;
+          .details {
+            color: #8a7147;
+            font-size: 14px;
+          }
         }
       }
 
@@ -320,9 +396,10 @@ onMounted(() => {
           width: 90px;
           height: 31px;
           line-height: 31px;
-          background: url('/img/promo/applyBtn.webp?t=@{timestamp}') no-repeat;
+          background: url("/img/promo/applyBtn.webp?t=@{timestamp}") no-repeat;
           background-size: cover;
-          transition: .3s;
+
+          transition: 0.3s;
 
           ::v-deep(.n-button__content) {
             display: block;
@@ -343,7 +420,13 @@ onMounted(() => {
             border-radius: 7px;
             box-shadow: inset 0 0 4px 0 #000;
             background-blend-mode: color-burn, overlay, normal;
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), radial-gradient(circle at 50% 50%, #7e7e7e, #151515 100%), linear-gradient(to bottom, #27155c, #27155c);
+            background-image: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.5)
+              ),
+              radial-gradient(circle at 50% 50%, #7e7e7e, #151515 100%),
+              linear-gradient(to bottom, #27155c, #27155c);
 
             .pro_inner {
               display: inline-block;
@@ -357,7 +440,6 @@ onMounted(() => {
           }
         }
       }
-
     }
   }
 }
