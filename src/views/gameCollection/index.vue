@@ -63,7 +63,6 @@
         </div>
     </div>
     <Loading v-model:visible="isLoading"></Loading>
-    <!-- <Games></Games> -->
 
 </template>
 
@@ -223,13 +222,13 @@ const queryData = () => { // 查询
 }
 //切换右侧标签事件
 const changeLableTab = (item: any) => {
-    state.kindId = item
+    state.lableId = item
     state.lableActive = item
-    if (item == 1) {
-        state.lableId = 1
-    } else {
-        state.lableId = 0
-    }
+    // if (item == 1) {
+    //     state.lableId = 1
+    // } else {
+    //     state.lableId = 0
+    // }
     resetData()
     queryData()
 }
@@ -349,6 +348,18 @@ watch(
         if (a) {
             console.log('1111111', a);
             state.kindId = a
+            resetData()
+            queryData()
+            // queryData()
+        }
+    }
+)
+watch(
+    () => props.kindList,
+    (a) => {
+        if (a) {
+            kindList.value = a
+            state.lableActive = -1
             resetData()
             queryData()
             // queryData()
