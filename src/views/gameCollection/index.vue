@@ -21,8 +21,8 @@
                             <iconpark-icon class="right"
                                 :icon-id="state.lableActive == item.id ? item.activeIcon : item.icon"
                                 size="1.2rem"></iconpark-icon>
-                            <span :class="state.lableActive == item.id && 'n-tabs-tab--active'">{{ t(item.name)
-                                }}</span>
+<!--                            <span :class="state.lableActive == item.id && 'n-tabs-tab&#45;&#45;active'">{{ t(item.name) }}</span>-->
+                            <span :class="state.lableActive == item.id && 'n-tabs-tab--active'">{{ item.name }}</span>
                         </div>
                     </template>
                 </n-tab-pane>
@@ -93,7 +93,7 @@ const props = defineProps({
         type: Number,
         default: -1
     },
-    // 是否属于自定义标签 
+    // 是否属于自定义标签
     //为0时 则kindId取右侧tab的值  -1为全部  -2为收藏，-3为最近
     //为1时  则kindId 为场馆id或  火热 1
     lableId: {

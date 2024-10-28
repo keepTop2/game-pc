@@ -26,6 +26,39 @@
         </p>
       </div>
     </div>
+
+
+    <n-modal v-model:show="state.showModal">
+      <n-card
+        class="avatar_set"
+        @close="state.showModal = false"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        aria-modal="true"
+      >
+        <!--        <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />-->
+        <!--        <FreeLoot v-model="state.showModal"/>-->
+        <div class="freeLoot main_setting">
+          <h4 class="top_title">
+            <span>{{ t("免费夺宝") }}</span>
+            <i>
+              <iconpark-icon
+                @click="state.showModal = false"
+                icon-id="tanctongyguanb"
+                color="#fff"
+                size="1.2rem"
+              ></iconpark-icon>
+            </i>
+          </h4>
+
+          <div class="main_body">
+
+
+          </div>
+        </div>
+      </n-card>
+    </n-modal>
   </div>
   <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
@@ -37,6 +70,7 @@ import {
   onMounted,
   onUnmounted,
   reactive,
+  ref
 } from 'vue';
 // import { useRoute } from "vue-router";
 import { useI18n } from 'vue-i18n';
@@ -49,7 +83,7 @@ import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { User } from '@/store/user';
 
-const userInfo = User(pinia);
+// const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
 
@@ -97,9 +131,6 @@ const defineModel = (item: any) => {
     pageStore.openFreeModal();
   }
 };
-
-};
-
 
 onMounted(() => {
   // state.name = route.query.typeName

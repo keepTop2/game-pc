@@ -532,18 +532,6 @@ MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () =
 // });
 
 
-const freeTreasureInfo = ref(null);
-// const handleFreeTreasureInfo = async (res: any) => {
-//   console.log(res, '--res--!#!!#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!###################################@@@@@@@@@@@@@@@^^^^^^^^^^^^^^^^^^^^^^');
-//   freeTreasureInfo.value = res;
-// };
-
-// const reqFreeTreasureInfo = () => {
-//
-//   // const req_free_treasure_info = NetPacket.req_free_treasure_info();
-//   // Net.instance.sendRequest(req_free_treasure_info);
-//   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_info, handleFreeTreasureInfo);
-// }
 
 onMounted(async () => {
 
@@ -566,17 +554,13 @@ onMounted(async () => {
     onHander_system_notice
   );
 
-
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_sys_msg, onHandler_system_msg);
-
-
 
 });
 
 
 
 onUnmounted(() => {
-  // MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_info, null,);
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_check_version, null);
 });
 </script>
