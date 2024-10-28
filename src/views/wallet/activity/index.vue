@@ -83,7 +83,7 @@ import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { User } from '@/store/user';
 
-// const userInfo = User(pinia);
+const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
 
@@ -125,10 +125,16 @@ const handleActivetys = async (res: any) => {
 
 // 点击按钮弹窗
 const defineModel = (item: any) => {
+
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
     state.showModal = true;
     pageStore.openFreeModal();
+  }
+
+  // 首充X3
+  if (item.id === 8001) {
+    userInfo.setFirstDeposit(true)
   }
 };
 
