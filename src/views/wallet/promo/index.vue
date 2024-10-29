@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="nodata" v-if="!listData.list.length && !loading">
+      <div class="nodata" v-if="!filterData.length && !loading">
         <Imgt src="/img/wallet/nodata.webp" alt="nodata" />
         <div>{{ t('home_page_nomore_data') }}</div>
       </div>
@@ -255,6 +255,7 @@ onMounted(() => {
 .promo_info {
   font-size: 16px;
   font-family: PingFangSC;
+  min-height: 680px;
 
   .tab_top {
     background: #0d0e2e;
@@ -315,6 +316,7 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+   
     .list_item {
       width: 500px;
       margin-bottom: 10px;
