@@ -69,7 +69,8 @@
               </span>
             </template>
             <div class="menu_box">
-              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i" @click="menuClick(item, i)">
+              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
+                @click="menuClick(item, i)">
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
                 <span>{{ t(item.name) }}</span>
               </p>
@@ -450,6 +451,23 @@ const onHandler_system_msg = async (m: any) => {
 MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_loading_end, async () => {
   await User(pinia).setLoadingEnd(true);
 });
+
+// setTimeout(() => {
+//   Dialog.warning({
+//     showIcon: false,
+//     maskClosable: false,
+//     title: '异地登录提醒',
+//     content: '您的账号上次在2024-05-28 19:20:02于xx的一台xx设备登录，如非本人操作，则密码可能泄露，建议您修改密码',
+//     positiveText: '修改密码',
+//     negativeText: '关闭',
+//     onPositiveClick: () => {
+//       User(pinia).setLogin(true);
+//     },
+//     onNegativeClick: () => {
+//       location.href = "/";
+//     }
+//   })
+// }, 3000)
 
 // 重复登录
 MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () => {
