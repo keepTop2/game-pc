@@ -75,10 +75,7 @@ export default {
     activities_category_100: '定制活动',
     home_page_more: '更多',
     game_page_seach: '搜索',
-    game_page_all: '全部',
-    game_page_hot: '热门',
-    game_page_recent: '最近',
-    game_page_fav: '收藏',
+
 
 
     // 登录弹窗

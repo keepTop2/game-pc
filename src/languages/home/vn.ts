@@ -74,10 +74,7 @@ export default {
     home_page_all: 'tất cả',
     home_page_more: 'thêm',
     game_page_seach: 'Tìm kiếm',
-    game_page_all: 'tất cả',
-    game_page_hot: 'nóng',
-    game_page_recent: 'gần đây',
-    game_page_fav: 'Yêu thích',
+
     // 登录弹窗
     home_page_accountLogin: 'Đăng nhập tài khoản',
     home_page_loginSuccess: 'Đăng nhập thành công',
