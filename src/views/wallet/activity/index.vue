@@ -5,7 +5,7 @@
         :class="state.active == i ? 'active' : ''"
         v-for="(_game, g, i) in activityTitleList"
         :key="i"
-        @click="changeTab(_game, i)"
+        @click="changeTab(i, g)"
         >{{ t(g) }}</span
       >
     </div>
@@ -91,6 +91,7 @@ import {
   markRaw,
   ref,
   defineAsyncComponent,
+  computed,
 } from "vue";
 // import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
@@ -122,13 +123,15 @@ const pageStore = Page();
 const { activityTitleList } = storeToRefs(Page(pinia));
 
 const { t } = useI18n();
-// const router = useRouter();
-// const route = useRoute();
-const allactivityList: any = ref([]);
-const changeTab = (_game: any, i: any) => {
+const seleteType: any = ref("home_page_all");
+const changeTab = (i: any, g: any) => {
   state.active = i;
-  allactivityList.value = _game;
+  seleteType.value = g;
 };
+
+const allactivityList = computed(() => {
+  return activityTitleList.value && activityTitleList.value[seleteType.value];
+});
 
 const state: any = reactive({
   active: 0,
@@ -158,7 +161,6 @@ const state: any = reactive({
 });
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
-  allactivityList.value = activityTitleList.value.home_page_all;
 };
 
 // 点击按钮弹窗
