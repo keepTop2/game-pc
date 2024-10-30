@@ -40,26 +40,27 @@ const route = useRoute()
 const { lang, homeGameData } = storeToRefs(Page(pinia));
 
 const first = {
-    name: 'game_page_all',
-    icon: 'all',
-    activeIcon: 'allun',
-    id: -1,
-    key: 0
+    kind_name:
+        "{\"zh-CN\":\"全部\",\"vi-VN\":\"tất cả\",\"en-US\":\"All\"}",
+    kindId: -1,
+    key: 0,
+    icon_after: '/img/game/all_un.webp',
+    icon_before: '/img/game/all.webp'
 }
 const last = [
     {
-        name: 'game_page_recent',
-        icon: 'zuijin',
-        activeIcon: 'zuijinun',
-        id: -3,
-        key: 2
+        kind_name: "{\"zh-CN\":\"最近\",\"vi-VN\":\"gần đây\",\"en-US\":\"Recent\"}",
+        kindId: -3,
+        key: 2,
+        icon_after: '/img/game/zuijin.webp',
+        icon_before: '/img/game/zuijin_un.webp'
     },
     {
-        name: 'game_page_fav',
-        icon: 'shoucang',
-        activeIcon: 'shoucangun',
-        id: -2,
-        key: 3
+        kind_name: "{\"zh-CN\":\"收藏\",\"vi-VN\":\"Yêu thích\",\"en-US\":\"Favorites\"}",
+        kindId: -2,
+        key: 3,
+        icon_after: '/img/game/shoucang_un.webp',
+        icon_before: '/img/game/shoucang.webp'
     },
 ]
 const state: any = reactive({
@@ -136,6 +137,7 @@ const handlePlatformKind = (res: any) => {
     } else {
         state.kindList = [first, ...last]
     }
+    console.log(state.kindList);
 
 
 }

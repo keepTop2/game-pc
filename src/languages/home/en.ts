@@ -73,10 +73,7 @@ export default {
     home_page_all: 'All',
     home_page_more: 'More',
     game_page_seach: 'Search',
-    game_page_all: 'All',
-    game_page_hot: 'Hot',
-    game_page_recent: 'Recent',
-    game_page_fav: 'Favorites',
+
     // 登录弹窗
     home_page_accountLogin: 'Account login',
     home_page_loginSuccess: 'Login successful',
