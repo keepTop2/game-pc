@@ -22,8 +22,11 @@ export default {
     home_page_smsContent3: '从保险柜取出或前往充值',
     // 重复登录
     home_page_offlineNotification: '下线通知',
-    home_page_offlineContent: '您的账号于{time}在另一台设备登录，如非本人操作，则密码可能泄露，建议您修改密码',
+    home_page_offlineContent: '您的账号于{time}在另一台{device}设备登录，如非本人操作，则密码可能泄露，建议您修改密码',
     home_page_offlineConfirm: '重新登陆',
+    home_page_diffOfflineTitle: '异地登录提醒',
+    home_page_diffOfflineContent: '您的账号上次在{time}于 {ip} {device} 登录，如非本人操作，则密码可能泄露，建议您修改密码',
+    else: '其他',
 
 
     // 导航栏隐藏式侧边栏
