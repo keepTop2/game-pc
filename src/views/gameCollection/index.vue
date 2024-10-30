@@ -18,11 +18,14 @@
                 <n-tab-pane :name="item.id" v-for="(item, i) in kindList" :key="i">
                     <template #tab>
                         <div class="tab_div">
-                            <iconpark-icon class="right"
+                            <!-- <iconpark-icon class="right"
                                 :icon-id="state.lableActive == item.id ? item.activeIcon : item.icon"
-                                size="1.2rem"></iconpark-icon>
-<!--                            <span :class="state.lableActive == item.id && 'n-tabs-tab&#45;&#45;active'">{{ t(item.name) }}</span>-->
-                            <span :class="state.lableActive == item.id && 'n-tabs-tab--active'">{{ item.name }}</span>
+                                size="1.2rem"></iconpark-icon> -->
+                            <img :src="state.lableActive == item.kindId ? item.icon_after : item.icon_before" alt=""
+                                srcset="">
+                            <span :class="state.lableActive == item.kindId && 'n-tabs-tab--active'">{{
+                                unserialize(item.kind_name, true) }}
+                            </span>
                         </div>
                     </template>
                 </n-tab-pane>
@@ -115,18 +118,18 @@ const props = defineProps({
         type: Array<any>,
         default: [
             {
-                name: 'game_page_fav',
-                icon: 'shoucang',
-                activeIcon: 'shoucangun',
-                id: -2,
-                key: 3
+                kind_name: "{\"zh-CN\":\"最近\",\"vi-VN\":\"gần đây\",\"en-US\":\"Recent\"}",
+                kindId: -3,
+                key: 2,
+                icon_after: '/img/game/zuijin.webp',
+                icon_before: '/img/game/zuijin_un.webp'
             },
             {
-                name: 'game_page_recent',
-                icon: 'zuijin',
-                activeIcon: 'zuijinun',
-                id: -3,
-                key: 2
+                kind_name: "{\"zh-CN\":\"收藏\",\"vi-VN\":\"Yêu thích\",\"en-US\":\"Favorites\"}",
+                kindId: -2,
+                key: 3,
+                icon_after: '/img/game/shoucang_un.webp',
+                icon_before: '/img/game/shoucang.webp'
             },
         ]
     },
@@ -171,6 +174,7 @@ const unserialize = (v: any, isPlatform: boolean) => {
     if (isPlatform) {
         v = JSON.parse(v)
     }
+
     return v[obj[lang.value]]
 }
 // 搜索游戏
@@ -357,7 +361,7 @@ watch(
 watch(
     () => props.kindList,
     (a) => {
-        if (a) {
+        if (a.length > 0) {
             kindList.value = a
             state.lableActive = -1
             resetData()
@@ -455,6 +459,11 @@ watch(
         .tab_div {
             display: flex;
             align-items: center;
+
+            >img {
+                width: 24px;
+                height: 24px;
+            }
         }
 
         :deep(.n-tabs) {
