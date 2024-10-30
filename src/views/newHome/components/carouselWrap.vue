@@ -4,7 +4,7 @@
       <div class="carousel_wrap">
         <n-carousel draggable autoplay :loop="true">
           <div v-for="img in bannerData" :key="img">
-            <Imgt class="carousel" :src="img" />
+            <Imgt class="carousel" :src="img" @click="bannerClick(img)" />
           </div>
         </n-carousel>
         <p style="height: 40px">
@@ -101,6 +101,13 @@ function getBanner() {
       bannerData.value.push(zh[key]);
     }
   }
+}
+
+// 点击banner 图
+const bannerClick = (img:any)=>{
+
+  router.push('/wallet/activity')
+
 }
 
 onMounted(() => {
