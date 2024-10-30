@@ -514,6 +514,9 @@ export module MessageMapRegister
      	MessageMap.addMsgMap(NetPacket.req_club_manage_game);
      	MessageMap.addMsgMap(NetPacket.req_resource_upload_url);
      	MessageMap.addMsgMap(NetPacket.notify_resource_upload_url);
+     	MessageMap.addMsgMap(NetPacket.web_game_info);
+     	MessageMap.addMsgMap(NetPacket.req_search_game);
+     	MessageMap.addMsgMap(NetPacket.notify_search_game);
      	MessageMap.addMsgMap(NetPacket.tournament_info);
      	MessageMap.addMsgMap(NetPacket.tournament_rankings);
      	MessageMap.addMsgMap(NetPacket.tournament_blind);

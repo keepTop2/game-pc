@@ -179,13 +179,13 @@ const { homeActivityList, uploadUrlInfo, activityTitleList } = storeToRefs(
 
 // 获取热门优惠数据
 const activityList = computed(() => {
-  if (activityTitleList.value&&activityTitleList.value['home_page_all']) {
+  if (activityTitleList.value && activityTitleList.value['home_page_all']) {
     return activityTitleList.value['home_page_all'].slice(0, 3);
   }
 });
 
+// 热门优惠
 const handleActivetys = async (res: any) => {
-
   await Page(pinia).setActivityTitleList(res.promo);
 };
 
@@ -202,30 +202,30 @@ const getTime = (itemTime: any) => {
 };
 
 // 获取近期开赛赛事
-const handleGetList = (rs: any) => {
+const handleGetList = async (rs: any) => {
   tournm_list.value = rs.tournm_list;
   console.log(77777755, rs.tournm_list);
+  await Page(pinia).setTournmList(rs.tournm_list);
 };
 
 // 获取俱乐部logo上传url地址
-const handleUploadUrl = async (rs: any) => {
-  await Page(pinia).setUploadUrl(JSON.parse(rs.upload_url));
-};
+// const handleUploadUrl = async (rs: any) => {
+//   await Page(pinia).setUploadUrl(JSON.parse(rs.upload_url));
+// };
 
 onMounted(() => {
   const req = NetPacket.req_activites();
 
   req.show = 0;
   Net.instance.sendRequest(req);
-;
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_activites,
     handleActivetys,
   );
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_resource_upload_url,
-    handleUploadUrl,
-  );
+  // MessageEvent2.addMsgEvent(
+  //   NetMsgType.msgType.msg_notify_resource_upload_url,
+  //   handleUploadUrl,
+  // );
 
   getEventList();
 
