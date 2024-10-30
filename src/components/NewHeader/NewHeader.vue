@@ -69,7 +69,8 @@
               </span>
             </template>
             <div class="menu_box">
-              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i" @click="menuClick(item, i)">
+              <p :class="menuActive == i ? 'active' : ''" v-for="(item, i) in menu" :key="i"
+                @click="menuClick(item, i)">
                 <iconpark-icon :icon-id="item.icon" size="1.2rem"></iconpark-icon>
                 <span>{{ t(item.name) }}</span>
               </p>
@@ -477,6 +478,45 @@ MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_loading_end, async () =>
   await User(pinia).setLoadingEnd(true);
 });
 
+
+
+const getDeviceType = (device_id: any) => {
+  if (device_id == 1) return "WEB"
+  if (device_id == 2) return "Android"
+  if (device_id == 3) return "IOS"
+  return t('else')
+}
+// 异地登录提醒
+MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_diff_loc_login_notification, async (res: any) => {
+  // 您的账号上次在2024-05-28 19:20:02于xx的xx设备登录，如非本人操作，则密码可能泄露，建议您修改密码
+  Dialog.warning({
+    showIcon: false,
+    maskClosable: false,
+    title: t('home_page_diffOfflineTitle'),
+    content: t("home_page_diffOfflineContent", {
+      time: convertObjectToDateString(res.login_time),
+      device: res.device_id ? getDeviceType(res.device_id) : '',
+      ip: res.ip
+    }),
+    positiveText: t('home_page_modifyPassword'),
+    negativeText: t('proxy_page_close'),
+    onPositiveClick: () => {
+      router.push({
+        name: 'securitySettings'
+      });
+    },
+    onNegativeClick: () => {
+      // location.href = "/";
+    }
+  })
+});
+// 下线提醒
+let offlineDevice = '' // 下线设备
+let offlineTime = '' // 下线时间
+MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_offline_notification, async (res: any) => {
+  offlineDevice = getDeviceType(res.device_id)
+  offlineTime = convertObjectToDateString(res.login_time)
+});
 // 重复登录
 MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () => {
   Local.remove("user");
@@ -489,14 +529,19 @@ MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () =
     maskClosable: false,
     title: t("home_page_offlineNotification"),
     content: t("home_page_offlineContent", {
-      time: convertObjectToDateString(convertDateToObject(new Date())),
+      time: offlineTime || convertObjectToDateString(convertDateToObject(new Date())),
+      device: offlineDevice
     }),
     positiveText: t("home_page_offlineConfirm"),
     onPositiveClick: async () => {
       location.href = "/";
       await User(pinia).setLogin(true);
+      offlineDevice = ''
+      offlineTime = ''
     },
     onClose: async () => {
+      offlineDevice = ''
+      offlineTime = ''
       location.href = "/";
     },
   });

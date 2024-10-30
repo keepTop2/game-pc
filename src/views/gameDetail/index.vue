@@ -124,10 +124,15 @@ const unserialize = (v: any, isPlatform: boolean) => {
     return v[obj[lang.value]]
 }
 const getInitData = (agentId: any, kindId: any) => {
-    const req = NetPacket.req_get_kind_in_platform();
-    req.agentId = agentId
-    req.kindId = kindId
-    Net.instance.sendRequest(req);
+    if (agentId != -1) {
+        const req = NetPacket.req_get_kind_in_platform();
+        req.agentId = agentId
+        req.kindId = kindId
+        Net.instance.sendRequest(req);
+    } else {
+        state.kindList = [first, ...last]
+    }
+
 }
 //  获取配置的标签
 const handlePlatformKind = (res: any) => {
