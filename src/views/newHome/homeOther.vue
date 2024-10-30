@@ -353,7 +353,6 @@ if (infoData.value?.detail) {
 if (infoData.value?.rule) {
   infoData.value.rule = infoData.value?.rule.split('。')
 }
-console.log(66666666, infoData.value)
 }
 
 

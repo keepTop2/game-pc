@@ -4,23 +4,23 @@
     <div class="box_main">
       <div class="box_title">
         <span class="label">最新赛事排行</span>
-        <div class="more">
+        <div class="more" v-if="tournm_list.length>6">
           <span>展开</span>
           <iconpark-icon class="left" icon-id="fangxiangicon02" size=".8rem"></iconpark-icon>
         </div>
       </div>
-      <div class="match_list">
-        <div class="match_list_item" v-for="i in 6" :key="i" :style="{
+      <div class="match_list" v-if="tournm_list&&tournm_list.length">
+        <div class="match_list_item" v-for="i in tournm_list" :key="i" :style="{
           'background-image': `url(/img/game/bg_card${getRandomValue()}.webp)`,
         }">
           <Imgt src="/img/ranking/card_img.webp" />
           <div class="card_main">
-            <div class="card_main_title">德州比赛-多人奖金赛</div>
-            <div class="card_main_num">报名人数：62</div>
+            <div class="card_main_title">{{ i.tournm_name }}</div>
+            <div class="card_main_num">报名人数：{{ i.apply_count}}</div>
             <div class="card_main_time">
               <div class="card_main_time_l">
-                <span>开始时间:2024-07-01 12:30:00</span>
-                <span>开始时间:2024-07-01 12:30:00</span>
+                <span>开始时间:{{getTime(i.begin_time)}}</span>
+                <span>结束时间:{{getTime(i.end_time)}}</span>
               </div>
               <div>
                 <n-button style="height: 36px; width: 98px">报名</n-button>
@@ -62,6 +62,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import matchDes from "../newHome/components/matchDes.vue";
+import pinia from '@/store/index';
+import { storeToRefs } from 'pinia';
+import { Page } from '@/store/page';
+const { tournm_list } = storeToRefs(Page(pinia));
 const tab_id = ref(1);
 const tabList = [
   { label: "赛况", id: 1 },
@@ -80,6 +84,11 @@ const getRandomValue = () => {
 
   const intValue = Math.floor(randomNumber); // 向下取整
   return intValue + 1; // 返回1到3之间的整数
+};
+
+// 时间处理
+const getTime = (itemTime: any) => {
+  return `${itemTime.year}-${itemTime.month}-${itemTime.day} ${itemTime.hour}:${itemTime.second}:${itemTime.minute}`;
 };
 </script>
 
@@ -122,6 +131,7 @@ const getRandomValue = () => {
       display: flex;
       align-items: center;
       padding: 14px;
+      cursor: pointer;
 
       img {
         width: 112px;
