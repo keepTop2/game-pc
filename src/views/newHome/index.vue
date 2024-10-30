@@ -10,7 +10,7 @@
             <span class="text">
               <span>即将开赛</span>
             </span>
-            <span class="more">{{ t("home_page_more") }}</span>
+            <span class="more">{{ t('home_page_more') }}</span>
           </p>
           <n-carousel
             style="position: static"
@@ -20,11 +20,18 @@
             draggable
             show-arrow
           >
-            <div class="tournm_wrap" v-for="item in tournm_list" :key="item.room_id">
+            <div
+              class="tournm_wrap"
+              v-for="item in tournm_list"
+              :key="item.room_id"
+            >
               <div class="tournm_name">{{ item.tournm_name }}</div>
               <div class="tournm_main">
                 <div class="logo">
-                  <img :src="uploadUrlInfo.pc_api_url + '/' + item.tournm_logo" alt="" />
+                  <img
+                    :src="uploadUrlInfo.pc_api_url + '/' + item.tournm_logo"
+                    alt=""
+                  />
                 </div>
                 <div class="tournm_info">
                   <div class="player">
@@ -80,7 +87,7 @@
               <span>热门优惠</span>
             </span>
             <span class="more" @click="router.push('/wallet/activity')">{{
-              t("home_page_more")
+              t('home_page_more')
             }}</span>
           </p>
           <n-carousel
@@ -92,7 +99,7 @@
             show-arrow
           >
             <div
-              v-for="item in homeActivityList"
+              v-for="item in activityList"
               :key="item.id"
               class="re_men_item"
               :style="{ 'background-image': `url(${item.pic_link})` }"
@@ -148,27 +155,37 @@
   </div>
 </template>
 <script setup lang="ts" name="home">
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 // import Imgt from "@/components/Imgt.vue";
-import { NetMsgType } from "@/netBase/NetMsgType";
-import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetPacket } from "@/netBase/NetPacket";
-import { Net } from "@/net/Net";
-import homeOther from "./homeOther.vue";
-import pinia from "@/store/index";
-import { storeToRefs } from "pinia";
-import { Page } from "@/store/page";
-import { useI18n } from "vue-i18n";
-import carouselWrap from "./components/carouselWrap.vue";
-import { useRouter } from "vue-router";
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import homeOther from './homeOther.vue';
+import pinia from '@/store/index';
+import { storeToRefs } from 'pinia';
+import { Page } from '@/store/page';
+import { useI18n } from 'vue-i18n';
+import carouselWrap from './components/carouselWrap.vue';
+import { useRouter } from 'vue-router';
 const router = useRouter();
 const { t } = useI18n();
 
 const tournm_list: any = ref([]);
 
-const { homeActivityList, uploadUrlInfo } = storeToRefs(Page(pinia));
+const { homeActivityList, uploadUrlInfo, activityTitleList } = storeToRefs(
+  Page(pinia),
+);
+
+// 获取热门优惠数据
+const activityList = computed(() => {
+  if (activityTitleList.value&&activityTitleList.value['home_page_all']) {
+    return activityTitleList.value['home_page_all'].slice(0, 3);
+  }
+});
 
 const handleActivetys = async (res: any) => {
+
   await Page(pinia).setActivityTitleList(res.promo);
 };
 
@@ -197,21 +214,24 @@ const handleUploadUrl = async (rs: any) => {
 
 onMounted(() => {
   const req = NetPacket.req_activites();
-  const req1 = NetPacket.req_resource_upload_url();
+
   req.show = 0;
   Net.instance.sendRequest(req);
-  Net.instance.sendRequest(req1);
-  MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
+;
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_activites,
+    handleActivetys,
+  );
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_resource_upload_url,
-    handleUploadUrl
+    handleUploadUrl,
   );
 
   getEventList();
 
   MessageEvent2.addMsgEvent(
     NetMsgType.msgType.msg_notify_tournament_events_list,
-    handleGetList
+    handleGetList,
   );
 });
 onUnmounted(() => {
@@ -318,7 +338,7 @@ onUnmounted(() => {
 
       &:hover {
         color: #fff;
-        background: url("/img/dialog/click.webp?t=@{timestamp}") no-repeat;
+        background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -433,7 +453,7 @@ onUnmounted(() => {
     .left:hover,
     .right:hover {
       color: #fff;
-      background: url("/img/home/sbtnBG.webp?t=@{timestamp}") no-repeat;
+      background: url('/img/home/sbtnBG.webp?t=@{timestamp}') no-repeat;
       background-size: cover;
     }
   }
@@ -488,7 +508,7 @@ onUnmounted(() => {
         font-size: 16px;
         position: relative;
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           width: 8px;
           height: 8px;

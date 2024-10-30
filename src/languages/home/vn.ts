@@ -22,8 +22,11 @@ export default {
     home_page_smsContent3: 'Lấy nó ra khỏi két hoặc đi sạc lại',
     // 重复登录
     home_page_offlineNotification: 'Thông báo ngoại tuyến',
-    home_page_offlineContent: 'Tài khoản của bạn đã được đăng nhập trên một thiết bị khác vào lúc {time}. Nếu việc này không do chính bạn thực hiện, mật khẩu có thể bị rò rỉ',
+    home_page_offlineContent: 'Tài khoản của bạn đã được đăng nhập trên một thiết bị {device} khác vào lúc {time}. Nếu việc này không do chính bạn thực hiện, mật khẩu có thể bị rò rỉ',
     home_page_offlineConfirm: 'Đăng nhập lại',
+    home_page_diffOfflineTitle: 'Nhắc nhở đăng nhập từ xa',
+    home_page_diffOfflineContent: 'Tài khoản của bạn được đăng nhập lần cuối trên {ip} {device} vào lúc {time}. Nếu việc này không do chính bạn thực hiện, mật khẩu có thể bị rò rỉ.',
+    else: 'khác',
 
     // 导航栏隐藏式侧边栏
     page_route_wallet: 'Ví của tôi',
@@ -74,10 +77,7 @@ export default {
     home_page_all: 'tất cả',
     home_page_more: 'thêm',
     game_page_seach: 'Tìm kiếm',
-    game_page_all: 'tất cả',
-    game_page_hot: 'nóng',
-    game_page_recent: 'gần đây',
-    game_page_fav: 'Yêu thích',
+
     // 登录弹窗
     home_page_accountLogin: 'Đăng nhập tài khoản',
     home_page_loginSuccess: 'Đăng nhập thành công',
