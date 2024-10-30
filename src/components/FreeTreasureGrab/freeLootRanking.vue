@@ -11,7 +11,7 @@
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
           <p>
-            今日排名：{{ WalletStore.freeTreasureInfoData.rank === -1 ? '--' : WalletStore.freeTreasureInfoData.rank === -1 }}</p>
+            今日排名：{{ !WalletStore.freeTreasureInfoData.rank || WalletStore.freeTreasureInfoData.rank === -1 ? '--' : WalletStore.freeTreasureInfoData.rank === -1 }}</p>
         </div>
       </div>
       <div class="gold">
@@ -87,7 +87,6 @@ const { info } = storeToRefs(userInfo);
 const UserStore = User(pinia);
 const WalletStore: any = Wallet(pinia);
 const { roleInfo } = storeToRefs(UserStore);
-
 
 const freeLootRankingData: any = reactive({
   list: [],

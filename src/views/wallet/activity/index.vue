@@ -125,7 +125,6 @@ const handleActivetys = async (res: any) => {
 
 // 点击按钮弹窗
 const defineModel = (item: any) => {
-
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
     state.showModal = true;
