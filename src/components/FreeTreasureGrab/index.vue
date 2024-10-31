@@ -11,7 +11,7 @@
   >
     <div class="freeLoot main_setting">
       <h4 class="top_title">
-        <span>{{ t('免费夺宝') }}</span>
+        <span>{{ t('free_loot') }}</span>
         <i>
           <iconpark-icon
             @click="pageStore.closeFreeModal"
@@ -46,22 +46,14 @@
 
 <script setup lang="ts">
 import { Page } from '@/store/page.ts';
-import { Wallet } from '@/store/wallet.ts';
-import pinia from "@/store/index";
 
-
-
-
-import { defineAsyncComponent, markRaw, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { defineAsyncComponent, markRaw, onUnmounted, reactive } from 'vue';
 
 import { useI18n } from 'vue-i18n';
-import { NetPacket } from '@/netBase/NetPacket.ts';
-import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
 
 const pageStore = Page()
-const walletInfo = Wallet(pinia);
 const { t } = useI18n();
 const FreeLoot = defineAsyncComponent(() => import('@/components/FreeTreasureGrab/freeLoot.vue'),);
 
