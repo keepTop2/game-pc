@@ -72,6 +72,7 @@ import {
   onUnmounted,
   reactive,
   ref,
+  defineAsyncComponent,
   computed,
 } from "vue";
 // import { useRoute } from "vue-router";
@@ -88,9 +89,9 @@ import { User } from '@/store/user';
 const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
-// const SignIn = defineAsyncComponent(
-//   () => import("@/views/wallet/activity/components/signIn.vue")
-// );
+const SignIn = defineAsyncComponent(
+  () => import("@/views/wallet/activity/components/signIn.vue")
+);
 const pageStore = Page();
 
 const { activityTitleList } = storeToRefs(Page(pinia));
