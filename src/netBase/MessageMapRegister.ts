@@ -372,6 +372,8 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_first_recharge_reward);
 		MessageMap.addMsgMap(NetPacket.req_first_recharge_show);
 		MessageMap.addMsgMap(NetPacket.notify_first_recharge_show);
+		MessageMap.addMsgMap(NetPacket.req_first_recharge_status);
+		MessageMap.addMsgMap(NetPacket.notify_first_recharge_status);
 		MessageMap.addMsgMap(NetPacket.req_set_invitecode);
 		MessageMap.addMsgMap(NetPacket.req_refresh_money);
 		MessageMap.addMsgMap(NetPacket.req_win_100_share);
@@ -568,6 +570,9 @@ export module MessageMapRegister {
 		MessageMap.addMsgMap(NetPacket.notify_look_for_game_name);
 		MessageMap.addMsgMap(NetPacket.req_all_collected);
 		MessageMap.addMsgMap(NetPacket.notify_all_collected);
+		MessageMap.addMsgMap(NetPacket.req_get_games_by_kind);
+		MessageMap.addMsgMap(NetPacket.platform_info);
+		MessageMap.addMsgMap(NetPacket.notify_get_games_by_kind);
 		MessageMap.addMsgMap(NetPacket.prize_info);
 		MessageMap.addMsgMap(NetPacket.video_info);
 		MessageMap.addMsgMap(NetPacket.req_share_vote_info);

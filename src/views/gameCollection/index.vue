@@ -15,16 +15,16 @@
         <div class="tab_box">
 
             <n-tabs v-model:value="state.lableActive" @update:value="changeLableTab">
-                <n-tab-pane :name="item.id" v-for="(item, i) in kindList" :key="i">
+                <n-tab-pane :name="item.kindId" v-for="(item, i) in kindList" :key="i">
                     <template #tab>
                         <div class="tab_div">
-                            <!-- <iconpark-icon class="right"
-                                :icon-id="state.lableActive == item.id ? item.activeIcon : item.icon"
-                                size="1.2rem"></iconpark-icon> -->
+
                             <img :src="state.lableActive == item.kindId ? item.icon_after : item.icon_before" alt=""
                                 srcset="">
-                            <span :class="state.lableActive == item.kindId && 'n-tabs-tab--active'">{{
-                                unserialize(item.kind_name, true) }}
+                            <span :class="state.lableActive == item.kindId && 'n-tabs-tab--active'">
+
+                                {{
+                                    unserialize(item.kind_name, true) }}
                             </span>
                         </div>
                     </template>

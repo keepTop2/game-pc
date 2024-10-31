@@ -26,9 +26,14 @@
           { wh_chose_day: item.chooseDay },
           setClass(item)
         ]">
-          <span v-if="item.IsSignIn === 'true' && item.SignInType === '1'">补签</span>
+          <div class="day_yy" v-if="item.IsSignIn === 'true' && item.SignInType === '1'">补签</div>
           <img :src="imgUrl(item)" width="25" v-else-if="item.img" />
-          <span v-else>{{ item.id }}</span>
+          <div class="day_ss" v-else>
+            <div>{{ item.id }}</div>
+            <div class="qd_txt" v-if="item.otherMonth === 'nowMonth'">
+              {{ props.dayNum.TodayIsSignIn === 'true' ? t('已签到') : t('签到') }}
+            </div>
+          </div>
           <i v-if="item.gou"></i>
         </td>
         </th>
@@ -47,6 +52,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, watch } from "vue";
+import { useI18n } from 'vue-i18n';
 // import img1 from "/img/club/club_diaBtn_1.webp"; // 已签到图片
 const img1 = new URL('/logo.png', import.meta.url).href
 // import img2 from "@/assets/img/signin/3.png"; // 3天已打开宝箱
@@ -72,6 +78,8 @@ const props:any = defineProps({
   dayNum: Object,
 });
 const emit = defineEmits(["clickToday", "signInEvent", "choseDay"]);
+
+const { t } = useI18n();
 // 默认是周一开始
 // 当某月的天数
 const getDaysInOneMonth = (date: Date) => {
@@ -374,6 +382,7 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
       k.chooseDay = true;
     }
   }
+  console.log('当月日期--', arr)
   state.list = arr;
 };
 const state:any = reactive({
@@ -490,8 +499,8 @@ li {
 }
 
 .wh_top_changge {
-  display: flex;
-  // background: #130b35;
+  //display: flex;
+  display: none;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 
@@ -512,16 +521,16 @@ li {
 }
 
 .wh_content_all {
-  // font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
-  //   "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
   color: #574949;
   width: 100%;
   overflow: hidden;
-  padding-bottom: 5px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px 0 rgba(172, 177, 223, 0.3);
-  border: solid 1px #fff;
-  background-image: linear-gradient(to bottom, #edeef9 100%, #fff 80%);
+  border-radius: 10px;
+  //box-shadow: 0 4px 8px 0 rgba(172, 177, 223, 0.3);
+  background: #1B1F4B;
+  border: 1px solid #26294C;
+   * {
+     box-sizing: border-box;
+   }
 }
 
 .wh_content {
@@ -544,13 +553,17 @@ li {
 
 .wh_content_item,
 .wh_content_item_tag {
-  font-size: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
   width: 14.28%;
   text-align: center;
   position: relative;
+  //background: #1B1F4B;
 }
 
 .wh_content_item {
+  border: 1px solid #26294C;
   >.wh_isMark {
     margin: auto;
     border-radius: 2.6rem;
@@ -559,20 +572,20 @@ li {
   }
 
   .wh_other_dayhide {
-    color: #170d40;
+    color: #4E5355;
   }
 
   .wh_want_dayhide {
     color: #bfbfbf;
   }
 
-  .wh_isToday {
-    background: #b4afcf;
+  .wh_isToday, .wh_chose_day {
+    background: #F49A24;
+    .qd_txt {
+      color: #fff;
+    }
   }
 
-  .wh_chose_day {
-    background: #b4afcf;
-  }
 }
 
 th {
@@ -595,9 +608,9 @@ th {
 }
 
 .wh_top_tag {
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
+  //width: 20px;
+  height: 40px;
+  //line-height: 20px;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -605,14 +618,21 @@ th {
 }
 
 .wh_item_date {
-  height: 30px;
-  line-height: 30px;
-  margin: auto;
   display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  height: 40px;
+  line-height: 16px;
+  margin: auto;
   justify-content: center;
   align-items: center;
   position: relative;
+  background: #121336;
 
+  .qd_txt {
+    font-size: 12px;
+    color: #AFB6BD;
+  }
   i {
     display: inline-block;
     width: 10px;

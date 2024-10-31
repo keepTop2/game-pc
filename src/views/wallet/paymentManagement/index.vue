@@ -22,9 +22,9 @@
               {{ maskString(item.account_number) }}
             </div>
             <n-flex class="list_item_r">
-              <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
+              <n-flex v-if="index === 0" justify="center" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
               <template v-else>
-                <n-flex class="button_color set_box mr_color button" @click="doDefaultBank(item)">
+                <n-flex justify="center" class="button_color set_box mr_color button" @click="doDefaultBank(item)">
                   {{ t('paymentManagement_page_set_default') }}
                 </n-flex>
               </template>
@@ -52,7 +52,7 @@
                            size="0.7em"></iconpark-icon>
           </span>
           <div class="abs number">
-            <div class="txt_wl">{{t('网络')}}: {{netWorkArr.find((ite: any) => ite.value == item.usdt_type)?.label}}</div>
+            <div class="txt_wl">{{t('deposit_page_netWork')}}: {{netWorkArr.find((ite: any) => ite.value == item.usdt_type)?.label}}</div>
             <n-flex class="txt_bottom" justify="space-between" align="flex-end">
               <div class="bank_txt">
                 <div class="txt_1">
@@ -62,9 +62,9 @@
                 <div class="txt_bz">{{t('paymentManagement_page_remark')}}: {{ item.desc }}</div>
               </div>
               <n-flex class="list_item_r">
-                <n-flex v-if="index === 0" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
+                <n-flex v-if="index === 0" justify="center" class="set_box"> {{ t('paymentManagement_page_default_bank') }} </n-flex>
                 <template v-else>
-                  <n-flex class="button_color set_box mr_color button" @click="doDefaultUsdt(item)">
+                  <n-flex justify="center" class="button_color set_box mr_color button" @click="doDefaultUsdt(item)">
                     {{ t('paymentManagement_page_set_default') }}
                   </n-flex>
                 </template>

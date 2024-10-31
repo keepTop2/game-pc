@@ -63,6 +63,7 @@
   <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
+  <!-- <SignIn ref="signModal"/> -->
 </template>
 
 <script setup lang="ts">
@@ -87,11 +88,14 @@ import { User } from '@/store/user';
 const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
-
+// const SignIn = defineAsyncComponent(
+//   () => import("@/views/wallet/activity/components/signIn.vue")
+// );
 const pageStore = Page();
 
 const { activityTitleList } = storeToRefs(Page(pinia));
 
+const signModal = ref();
 const { t } = useI18n();
 const seleteType: any = ref("home_page_all");
 const changeTab = (i: any, g: any) => {
@@ -127,17 +131,25 @@ const handleActivetys = async (res: any) => {
 
 // 点击按钮弹窗
 const defineModel = (item: any) => {
+  console.log('----', item)
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
     state.showModal = true;
     pageStore.openFreeModal();
   }
-
+  if (item.id === 9020) {
+    openSignModal()
+  }
   // 首充X3
   if (item.id === 8001) {
     userInfo.setFirstDeposit(true)
   }
 };
+
+// 打开签到
+const openSignModal = () => {
+  signModal.value.onClose();
+}
 
 onMounted(() => {
   // state.name = route.query.typeName

@@ -1,5 +1,4 @@
 <template>
-<!--  <RedeemCode v-if="showRedeemCode" />-->
 
   <!--  提款校验-->
 <!--  <Calibration v-if="withdrawMoneyShow" ref="calibrationRef" :myBankList="myBankList" />-->
@@ -126,9 +125,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { ref, onMounted, onUnmounted } from 'vue';
 import useWalletInfo from './useWalletInfo';
-// import RedeemCode from '@/views/wallet/components/RedeemCode.vue';
 // import Calibration from '@/views/wallet/withdrawFunds/calibration.vue';
-
 
 import navTab from '../components/navTab.vue';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
@@ -139,17 +136,11 @@ import pinia from '@/store';
 import { Page } from '@/store/page';
 import { verifyNumberComma } from '@/utils/others.ts';
 
-// const formatter = (value: any) => {
-//   setTimeout(() => {
-//     tranMoney.value = value ? Number(value.toString().replace(/\D/g, '')) : ''
-//   }, 0)
-// };
 const { t } = useI18n();
 const route = useRoute();
 const depositFirModal = ref();
 
 // const withdrawMoneyShow = ref(true)
-
 // const goCalibration = () => {
 //   withdrawMoneyShow.value = true
 //   nextTick(() => {
