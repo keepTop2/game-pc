@@ -78,7 +78,6 @@ const navArr = [
 ]
 
 const goToPage = (item: any) => {
-  console.log('******', item)
   const url = item.value
   if (url) {
     router.push(`/help/${url}`)
@@ -98,7 +97,6 @@ watch(
 </script>
 
 <style lang='less' scoped>
-@timestamp: `new Date().getTime()`;
 .help_box {
   width: 1400px;
   margin: 10px auto 60px;
@@ -118,6 +116,9 @@ watch(
         font-weight: 500;
         gap: 3px !important;
         margin-bottom: 24px;
+        span {
+          flex: 1;
+        }
       }
       .nav_list {
         padding-left: 23px;

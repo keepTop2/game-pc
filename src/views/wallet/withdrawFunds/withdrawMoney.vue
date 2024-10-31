@@ -21,7 +21,7 @@
         <n-flex align="center" justify="center" class="item_list_l">
           <div class="bank_icon">
             <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
-            <a class="wh_icon" @click="onCloseSm(item)"></a>
+            <a class="wh_icon" @click.stop="onCloseSm(item)"></a>
           </div>
           <div class="bank_txt">
             <div class="bank_name">
@@ -386,12 +386,6 @@ const chooseMoneyArr = [
   { label: '100,000,000', value: 100000000 },
 ];
 
-// const openModal = () => {
-//   showSecModal.value = true;
-//   nextTick(() => {
-//     getBaseData();
-//   })
-// }
 const getBaseData = () => {
   form.value = { ...baseObj }
   initReq(); // 获取可提现金额
@@ -403,7 +397,7 @@ const onCloseSec = () => {
 }
 
 const onSubmit = () => {
-  mySecBankList.value.max_withdraw_money = 20000000
+  // mySecBankList.value.max_withdraw_money = 20000000
   console.log('-----form', form.value)
   // 有未审核提现记录
   if (isHasOrder.value) {
@@ -537,7 +531,6 @@ const backItemInfo = ref({
 })
 // 银行
 const getInfo = () => {
-  console.log('*******==', mySecBankList.value)
   let bankListItem = mySecBankList.value.bank_card_info_list[0]
   myBankName.value = mySecBankList.value.cardholder_name || ''
   console.log('===当前选择的提款银行信息--', bankListItem)
