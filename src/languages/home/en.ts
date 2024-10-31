@@ -22,8 +22,12 @@ export default {
     home_page_smsContent3: 'Take it out from the safe or go to recharge',
     // 重复登录
     home_page_offlineNotification: 'Offline Notification',
-    home_page_offlineContent: 'Your account was logged in from another device at {time}. If it was not done by you, your password may have been leaked. We recommend that you change your password.',
+    home_page_offlineContent: 'Your account was logged in from another {device} device at {time}. If it was not done by you, your password may have been leaked. We recommend that you change your password.',
     home_page_offlineConfirm: 'Log in again',
+    home_page_diffOfflineTitle: 'Remote login reminder',
+    home_page_diffOfflineContent: 'Your account was last logged in at {time} on {ip} {device}. If it is not your own operation, your password may be leaked. It is recommended that you change your password.',
+    else: 'Else',
+
     // 导航栏隐藏式侧边栏
     page_route_wallet: 'myWallet',
     home_page_rechargeRecord: 'Recharge record',

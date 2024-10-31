@@ -16,7 +16,7 @@
         <n-flex align="center" justify="center" class="item_list_l">
           <div class="bank_icon">
             <Imgt :src="`/img/payment/icon/icon_${item.payname}.webp`" />
-            <a class="wh_icon" @click="onCloseSm(item)"></a>
+            <a class="wh_icon" @click.stop="onCloseSm(item)"></a>
           </div>
           <div class="bank_txt">
             <div class="bank_name">
@@ -695,26 +695,27 @@ defineExpose({
   .deposit_shuom {
     .sm_txt {
       font-size: 24px;
-      width: 375px;
       min-height: 300px;
       max-height: 600px;
       margin: 0 auto;
       overflow-y: auto;
 
       .sm_content {
+        //padding: 40px 64px;
         img {
           width: 100%;
         }
       }
     }
     .bank_list_item {
+      padding: 20px;
       width: 100%;
       gap: initial !important;
 
       a {
         img {
-          width: 30px;
-          height: 30px;
+          width: 48px;
+          height: 48px;
         }
 
         &.active {
