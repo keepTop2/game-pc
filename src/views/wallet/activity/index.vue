@@ -63,7 +63,7 @@
   <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
-  <!-- <SignIn ref="signModal"/> -->
+  <SignIn ref="signModal"/>
 </template>
 
 <script setup lang="ts">
