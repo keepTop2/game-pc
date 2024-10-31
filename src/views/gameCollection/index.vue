@@ -320,7 +320,7 @@ const resetData = () => {
 }
 
 onMounted(() => {
-    kindList.value = props.kindList
+
     state.agentId = props.agentId
     state.lableId = props.lableId
     state.kindId = props.kindId
@@ -328,12 +328,16 @@ onMounted(() => {
         state.lableActive = Number(props.lableActive)
     }
 
+
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_modify_collect, resCollect);
+    if (props.kindList.length > 0) {
+        kindList.value = props.kindList
+        queryData()
+    }
 
-    queryData()
 })
 onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
@@ -344,14 +348,9 @@ onUnmounted(() => {
 watch(
     () => props.kindId,
     (a) => {
-        if (a) {
-            console.log('1111111', a);
-            state.kindId = a
-            console.log('kindId变了');
-
+        if (a.length > 0) {
             resetData()
             queryData()
-            // queryData()
         }
     }
 )
@@ -362,10 +361,8 @@ watch(
             kindList.value = a
             state.lableActive = -1
             state.lableId = 0
-            console.log('kindList变了');
             resetData()
             queryData()
-            // queryData()
         }
     }
 )
