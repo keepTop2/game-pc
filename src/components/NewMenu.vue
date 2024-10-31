@@ -434,14 +434,16 @@ const itemGameClick = async (item: any) => {
   platformData.value = homeGameData.value.find(
     (e: any) => e.id == Number(item.id)
   ).three_platform;
-
   await Page(pinia).setVenueActive(item.id);
-  router.push({
-    path: "/gameDetail",
-    query: {
-      venue_id: item.id,
-    },
-  });
+  if (![3, 4].includes(item.id)) {
+    router.push({
+      path: "/gameDetail",
+      query: {
+        venue_id: item.id,
+      },
+    });
+  }
+
   clickLoading.value = true;
   setTimeout(() => {
     clickLoading.value = false;
@@ -488,6 +490,8 @@ const clickPlat = (item: any) => {
   setTimeout(() => {
     games.value = [];
     const query = NetPacket.req_get_games_in_platform();
+    console.log('下拉请求=》》》》》》》》');
+
     query.agentId = item.id;
     query.is_lable = 0;
     query.kindId = 1;

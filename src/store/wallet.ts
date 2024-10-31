@@ -12,6 +12,7 @@ interface WalletState {
         from: string;
         to: string;
     };
+  freeTreasureInfoData: any
 }
 export const Wallet = defineStore({
     id: 'walletInfo',
@@ -23,9 +24,13 @@ export const Wallet = defineStore({
         showAddBank: false,
         showAddUsdt: false,
         showDialogTransfer: false,
-        showTransfer: { method: 'in', from: '', to: '' }
+        showTransfer: { method: 'in', from: '', to: '' },
+        freeTreasureInfoData: []
     }),
     actions: {
+      setFreeTreasureInfoData(v: any) {
+        this.freeTreasureInfoData = v
+      },
         setShowDeposit(v: boolean) {
             this.showDeposit = v;
         },

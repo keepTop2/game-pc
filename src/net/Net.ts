@@ -42,8 +42,8 @@ export const getSetting = async () => {
 
     // const server_testUrls = [
     //     [
-    //         "http://18.167.239.27:9301",
-    //         "ws://18.167.239.27:9301"
+    //         "http://18.167.187.79:9301",
+    //         "ws://18.167.187.79:9301"
     //     ]
     // ]
     // settings.server_testUrls = server_testUrls

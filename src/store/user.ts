@@ -12,6 +12,7 @@ interface UserState {
   regPopShow: boolean
   isForget: boolean;
   isNotice: boolean;
+  isFirstDeposit: boolean;
   noticeList: any;
   // isSilder: boolean,
   hasLogin: boolean;
@@ -22,7 +23,6 @@ interface UserState {
   myEmail: any; // 邮箱列表
   loadingEnd: boolean;
   wsOpen: boolean;
-  kefuVisible: boolean;
   agentInfo: any;
   allCollected: any
 }
@@ -34,6 +34,7 @@ export const User = defineStore('userInfo', {
     isReg: false,
     regPopShow: false,
     isForget: false,
+    isFirstDeposit: false,
     isNotice: false, // 公告开关
     noticeList: [], // 公告列表
     loadingEnd: false,
@@ -85,6 +86,9 @@ export const User = defineStore('userInfo', {
     },
     async setForget(value: boolean) {
       this.isForget = value;
+    },
+    async setFirstDeposit(value: boolean) {
+      this.isFirstDeposit = value;
     },
 
     async setNotice(value: boolean) {

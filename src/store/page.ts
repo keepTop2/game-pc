@@ -24,7 +24,8 @@ interface PageState {
   homeGameData: any;
   themeColor: string;
   uploadUrlInfo: any;
-  isFreeModalVisible: boolean
+  isFreeModalVisible: boolean;
+  tournm_list: any;
 }
 const languages: any = {
   zh: 'zh',
@@ -54,6 +55,7 @@ export const Page = defineStore('page', {
     themeColor: 'dayMode', // 日间模式 dayMode， 夜间模式 nightMode
     uploadUrlInfo: {},
     isFreeModalVisible: false, //免费夺宝活动弹窗
+    tournm_list: [], // 比赛赛事列表
   }),
   actions: {
     // 设置皮肤
@@ -108,8 +110,11 @@ export const Page = defineStore('page', {
     },
     // 俱乐部logo上传url地址
     async setUploadUrl(value: any) {
-      console.log(55555588, value);
       this.uploadUrlInfo = value;
+    },
+    // 比赛赛事列表
+    async setTournmList(value: any) {
+      this.tournm_list = value;
     },
     async setLang(value: any) {
       this.bannerArr = null;
@@ -164,17 +169,16 @@ export const Page = defineStore('page', {
           home_page_all: newList,
         };
         newList.map((e: any) => {
-          obj[e.tag] = []
+          obj[e.tag] = [];
           newList.map((j: any) => {
-              if (j.tag == e.tag) {
-
-                  obj[e.tag].push(j)
-              }
-          })
-      })
+            if (j.tag == e.tag) {
+              obj[e.tag].push(j);
+            }
+          });
+        });
         this.activityList = value;
         this.activityTitleList = obj;
-        console.log(6666666677,this.activityTitleList)
+        console.log(6666666677, this.activityTitleList);
       }
     },
 
@@ -206,6 +210,6 @@ export const Page = defineStore('page', {
     },
     closeFreeModal() {
       this.isFreeModalVisible = false;
-    }
+    },
   },
 });
