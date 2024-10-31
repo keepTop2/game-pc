@@ -214,6 +214,8 @@ const queryData = () => { // 查询
         loading.value = true
         isLoading.value = true
         const query = NetPacket.req_get_games_in_platform()
+        console.log('二级页请求=》》》》》');
+
         query.agentId = state.agentId
         query.kindId = state.kindId
         query.lableId = state.lableId
@@ -345,6 +347,7 @@ watch(
         if (a) {
             console.log('1111111', a);
             state.kindId = a
+            console.log('kindId变了');
 
             resetData()
             queryData()
@@ -359,6 +362,7 @@ watch(
             kindList.value = a
             state.lableActive = -1
             state.lableId = 0
+            console.log('kindList变了');
             resetData()
             queryData()
             // queryData()
@@ -370,6 +374,7 @@ watch(
     (a) => {
         if (a) {
             state.agentId = a
+            console.log('agentId变了');
             resetData()
             queryData()
             // queryData()
