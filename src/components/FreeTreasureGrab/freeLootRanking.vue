@@ -6,12 +6,13 @@
           <Imgt
             :src="`/img/head_icons/${roleInfo.head_photo}.webp`"
             alt="/img/home/avatar.webp"
+            v-if="roleInfo.head_photo"
           />
         </div>
         <div class="accountNumber">
           <p>账号：{{ info.full_name }}</p>
           <p>
-            今日排名：{{ !WalletStore.freeTreasureInfoData.rank || WalletStore.freeTreasureInfoData.rank === -1 ? '--' : WalletStore.freeTreasureInfoData.rank === -1 }}</p>
+            今日排名：{{ !WalletStore.freeTreasureInfoData.rank || WalletStore.freeTreasureInfoData.rank === -1 ? '--' : WalletStore.freeTreasureInfoData.rank }}</p>
         </div>
       </div>
       <div class="gold">
