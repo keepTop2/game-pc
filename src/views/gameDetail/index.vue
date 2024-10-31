@@ -52,8 +52,8 @@ const last = [
         kind_name: "{\"zh-CN\":\"最近\",\"vi-VN\":\"gần đây\",\"en-US\":\"Recent\"}",
         kindId: -3,
         key: 2,
-        icon_after: '/img/game/zuijin.webp',
-        icon_before: '/img/game/zuijin_un.webp'
+        icon_after: '/img/game/zuijin_un.webp',
+        icon_before: '/img/game/zuijin.webp'
     },
     {
         kind_name: "{\"zh-CN\":\"收藏\",\"vi-VN\":\"Yêu thích\",\"en-US\":\"Favorites\"}",

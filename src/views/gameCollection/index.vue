@@ -13,13 +13,11 @@
         </div>
 
         <div class="tab_box">
-
             <n-tabs v-model:value="state.lableActive" @update:value="changeLableTab">
                 <n-tab-pane :name="item.kindId" v-for="(item, i) in kindList" :key="i">
                     <template #tab>
                         <div class="tab_div">
-
-                            <img :src="state.lableActive == item.kindId ? item.icon_after : item.icon_before" alt=""
+                            <img :src="state.lableActive === item.kindId ? item.icon_after : item.icon_before" alt=""
                                 srcset="">
                             <span :class="state.lableActive == item.kindId && 'n-tabs-tab--active'">
 
@@ -121,8 +119,8 @@ const props = defineProps({
                 kind_name: "{\"zh-CN\":\"最近\",\"vi-VN\":\"gần đây\",\"en-US\":\"Recent\"}",
                 kindId: -3,
                 key: 2,
-                icon_after: '/img/game/zuijin.webp',
-                icon_before: '/img/game/zuijin_un.webp'
+                icon_after: '/img/game/zuijin_un.webp',
+                icon_before: '/img/game/zuijin.webp'
             },
             {
                 kind_name: "{\"zh-CN\":\"收藏\",\"vi-VN\":\"Yêu thích\",\"en-US\":\"Favorites\"}",
@@ -228,11 +226,6 @@ const queryData = () => { // 查询
 const changeLableTab = (item: any) => {
     state.lableId = item
     state.lableActive = item
-    // if (item == 1) {
-    //     state.lableId = 1
-    // } else {
-    //     state.lableId = 0
-    // }
     resetData()
     queryData()
 }
@@ -352,6 +345,7 @@ watch(
         if (a) {
             console.log('1111111', a);
             state.kindId = a
+
             resetData()
             queryData()
             // queryData()
@@ -364,6 +358,7 @@ watch(
         if (a.length > 0) {
             kindList.value = a
             state.lableActive = -1
+            state.lableId = 0
             resetData()
             queryData()
             // queryData()
