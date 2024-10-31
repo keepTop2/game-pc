@@ -342,6 +342,16 @@ export default {
   // 免费夺宝
   free_loot: 'Free Treasure Hunt',
   free_loot_ranking: 'Treasure Hunt Ranking',
+  free_loot_activity_time: 'Activity time',
+  free_loot_ranking_table_rankings: 'rankings',
+  free_loot_ranking_table_avatar: 'avatar',
+  free_loot_ranking_table_current_reward: 'Current Reward',
+  free_loot_ranking_table_current_reward_text: 'incentives',
+  free_loot_ranking_table_endearment: 'endearment',
+  free_loot_ranking_today: 'Rankings',
+  free_loot_ranking_username: 'username',
+  free_loot_ranking_trial_coin: 'Trial Coin',
+  free_loot_ranking_button_load_more: 'Load More',
   free_loot_rule: 'Rules',
   free_loot_rule_events: 'Activity Introduction',
   free_loot_rule_events_text: 'The free treasure hunt event is only held in the trial field. All games can open the trial field. The entrance to the trial field is on the event page. The operation team will regularly hold free treasure hunt events and give corresponding rewards based on the ranking.',
@@ -349,6 +359,18 @@ export default {
   free_loot_rule_ranking_text: 'Players must try the game once a day and make changes to their account funds to be included in the list; the list is updated in real time, and the top X players will receive prizes;',
   free_loot_rule_flow: 'Award and Prize Collection Process',
   free_loot_rule_flow_text: 'Winning notification: If the player wins, the system will automatically send a winning email, please check it; Prize collection requirements: After receiving the winning email, the player needs to contact customer service to complete the prize collection, and the reward will be issued by email.',
+
+
+  // 首冲x3
+  first_deposit_tips: 'Note: This must be completed within 15 days from the date of recharge.',
+  first_deposit_sign_in_1: 'Get it now',
+  first_deposit_sign_in_2: 'Follow us',
+  first_deposit_sign_in_3: 'Invite friends',
+  first_deposit_sign_in_4: '10 times turnover',
+  first_deposit_sign_in_5: '25 times turnover',
+  first_deposit_sign_in_6: '50 times turnover',
+  first_deposit_receive: 'receive',
+
 
   // transfer
   transfer_page_from: 'From',

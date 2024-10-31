@@ -342,6 +342,16 @@ export default {
   // 免费夺宝
   free_loot: 'Săn tìm kho báu miễn phí',
   free_loot_ranking: 'Bảng xếp hạng kho báu',
+  free_loot_activity_time: 'Thời gian hoạt động',
+  free_loot_ranking_table_rankings: 'Xếp hạng',
+  free_loot_ranking_table_avatar: 'hình đại diện',
+  free_loot_ranking_table_current_reward: 'Phần thưởng cho giai đoạn này',
+  free_loot_ranking_table_current_reward_text: 'phần thưởng',
+  free_loot_ranking_table_endearment: 'biệt danh',
+  free_loot_ranking_today: 'Bảng xếp hạng hôm nay',
+  free_loot_ranking_username: 'tài khoản',
+  free_loot_ranking_trial_coin: 'Tiền vàng dùng thử',
+  free_loot_ranking_button_load_more: 'tải thêm',
   free_loot_rule: 'Mô tả quy tắc',
   free_loot_rule_events: 'Giới thiệu hoạt động',
   free_loot_rule_events_text: 'Sự kiện săn tìm kho báu miễn phí chỉ có trong khu vực thử nghiệm. Tất cả các trò chơi đều có thể mở khu vực thử nghiệm. Lối vào khu vực thử nghiệm có trên trang sự kiện. Đội ngũ vận hành sẽ thường xuyên tổ chức các hoạt động săn tìm kho báu miễn phí và trao phần thưởng tương ứng dựa trên thứ hạng.',
@@ -349,6 +359,16 @@ export default {
   free_loot_rule_ranking_text: 'Người chơi phải dùng thử trò chơi mỗi ngày một lần và thực hiện các thay đổi đối với quỹ tài khoản của mình trước khi có thể được liệt kê trong danh sách; danh sách được làm mới theo thời gian thực và những người chơi X hàng đầu sẽ nhận được giải thưởng;',
   free_loot_rule_flow: 'Quy trình trao giải và nhận giải thưởng',
   free_loot_rule_flow_text: 'Thông báo giải thưởng: Nếu người chơi thắng, hệ thống sẽ tự động gửi email giải thưởng, vui lòng chú ý kiểm tra; Yêu cầu đổi thưởng: Sau khi nhận được email giải thưởng, người chơi cần liên hệ với bộ phận dịch vụ khách hàng để hoàn thành giải thưởng và giải thưởng sẽ được trao. được phát hành qua email.',
+
+  // 首冲x3
+  first_deposit_tips: 'Lưu ý: Hoàn thành trong vòng 15 ngày kể từ ngày nạp tiền',
+  first_deposit_sign_in_1: 'Nhận nó ngay bây giờ',
+  first_deposit_sign_in_2: 'Theo dõi chúng tôi',
+  first_deposit_sign_in_3: 'Mời bạn bè',
+  first_deposit_sign_in_4: 'Doanh thu gấp 10 lần',
+  first_deposit_sign_in_5: 'Doanh thu gấp 25 lần',
+  first_deposit_sign_in_6: 'Doanh thu gấp 50 lần',
+  first_deposit_receive: 'nhận được',
 
   // transfer
   transfer_page_from: 'Từ',
