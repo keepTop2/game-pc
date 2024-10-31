@@ -152,6 +152,9 @@ const openSignModal = () => {
 }
 
 onMounted(() => {
+  setTimeout(() => {
+    openSignModal()
+  }, 500)
   // state.name = route.query.typeName
   const req = NetPacket.req_activites();
   req.show = 0;
