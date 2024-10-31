@@ -19,7 +19,7 @@
           <div
             v-for="item in gameList"
             :key="item.gameId"
-            @click="onPlayGame(item)"
+            @click.stop="onPlayGame(item)"
             class="colect_wrap_item"
           >
             <div class="colect_wrap_item_des">
