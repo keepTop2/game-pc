@@ -69,10 +69,10 @@ const state: any = reactive({
 
 // 游戏平台id  -1为查看全部的游戏
 let agentId = ref<any>(-1)
-// 是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
+// 右侧标签id  是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
 let lableId = ref(0)
-// 右侧标签id  // -1为查找当前平台所有的游戏 //也表示场馆id
-let kindId = ref(-1)
+// 表示场馆id // -1为查找当前平台所有的游戏 
+let kindId = ref(1)
 // 右侧标签点击样式
 const lableActive = ref(-1)
 let threeGameKinds = ref<any[]>([])
