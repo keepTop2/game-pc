@@ -25,7 +25,7 @@
             </div>
           </div>
           <span class="more" @click="router.push('/recentAwards')">{{
-            t("home_page_more")
+            t('home_page_more')
           }}</span>
         </div>
         <n-carousel
@@ -76,7 +76,7 @@
             </span>
           </div>
           <span class="more" @click="router.push('/ranking')">{{
-            t("home_page_more")
+            t('home_page_more')
           }}</span>
         </div>
         <div class="match_wrap">
@@ -89,13 +89,13 @@
             show-arrow
           >
             <div
-              v-for="i in 10"
-              :key="i"
-              :class="['match_list', { active_match: match_id == i }]"
-              @click="matchClick(i)"
+              v-for="(i, index) in tournm_list"
+              :key="i.game_type"
+              :class="['match_list', { active_match: match_id == index + 1 }]"
+              @click="matchClick(i, index)"
             >
-              <span>德州扑克</span>
-              <span>年度锦标赛</span>
+              <span>{{ i.tournm_name }}</span>
+              <!-- <span>年度锦标赛</span> -->
             </div>
             <template #arrow="{ prev, next }">
               <div class="game_seach">
@@ -120,7 +120,7 @@
       </div>
     </div>
     <div class="to_match">
-      <matchDes></matchDes>
+      <matchDes :infoData="infoData"></matchDes>
       <n-button>前往</n-button>
     </div>
 
@@ -131,7 +131,7 @@
         <div v-for="(item, i) in tableHead" class="table_head" :key="i">
           <span>{{ item }}</span>
         </div>
-        <span class="more">{{ t("home_page_more") }}</span>
+        <span class="more">{{ t('home_page_more') }}</span>
       </div>
       <div class="table_body_wrap">
         <div v-for="(item, i) in tableData" class="table_head" :key="i">
@@ -156,7 +156,7 @@
           <div class="text">
             <span class="text_title"> 收藏推荐 </span>
           </div>
-          <span class="more">{{ t("home_page_more") }}</span>
+          <span class="more">{{ t('home_page_more') }}</span>
         </div>
         <n-carousel
           style="position: static; margin-left: 0px"
@@ -171,14 +171,20 @@
                 <Imgt :src="`/img/home/colect_${j}.png`" />
                 <div>
                   <span>黑帮风云</span>
-                  <iconpark-icon icon-id="iconyiwen" size=".8rem"></iconpark-icon>
+                  <iconpark-icon
+                    icon-id="iconyiwen"
+                    size=".8rem"
+                  ></iconpark-icon>
                 </div>
               </div>
               <div v-else class="colect_wrap_item_des">
                 <Imgt :src="`/img/home/colect_2.png`" />
                 <div>
                   <span>黑帮风云</span>
-                  <iconpark-icon icon-id="iconyiwen" size=".8rem"></iconpark-icon>
+                  <iconpark-icon
+                    icon-id="iconyiwen"
+                    size=".8rem"
+                  ></iconpark-icon>
                 </div>
               </div>
             </div>
@@ -214,96 +220,106 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import Imgt from "@/components/Imgt.vue";
-import matchDes from "./components/matchDes.vue";
+import { useI18n } from 'vue-i18n';
+import Imgt from '@/components/Imgt.vue';
+import matchDes from './components/matchDes.vue';
 const { t } = useI18n();
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref,onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import pinia from '@/store/index';
+import { storeToRefs } from 'pinia';
+import { Page } from '@/store/page';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { Net } from '@/net/Net';
+import { NetPacket } from '@/netBase/NetPacket';
 const tab_id = ref(1);
 const match_id = ref(1);
 const router = useRouter();
+const { tournm_list } = storeToRefs(Page(pinia));
+
+const infoData:any = ref({})  // 赛事简介数据
 const tabList = [
-  { label: "全部", icon: "jqdjiconun01", active_icon: "jqdjiconnn01", id: 1 },
-  { label: "棋牌", icon: "jqdjiconun02", active_icon: "jqdjiconnn02", id: 2 },
-  { label: "电子", icon: "jqdjiconun03", active_icon: "jqdjiconnn03", id: 3 },
-  { label: "真人", icon: "jqdjiconun04", active_icon: "jqdjiconnn04", id: 4 },
-  { label: "捕鱼", icon: "jqdjiconun05", active_icon: "jqdjiconnn05", id: 5 },
-  { label: "彩票", icon: "jqdjiconun06", active_icon: "jqdjiconnn06", id: 6 },
-  { label: "电竞", icon: "jqdjiconun07", active_icon: "jqdjiconnn07", id: 7 },
+  { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
+  { label: '棋牌', icon: 'jqdjiconun02', active_icon: 'jqdjiconnn02', id: 2 },
+  { label: '电子', icon: 'jqdjiconun03', active_icon: 'jqdjiconnn03', id: 3 },
+  { label: '真人', icon: 'jqdjiconun04', active_icon: 'jqdjiconnn04', id: 4 },
+  { label: '捕鱼', icon: 'jqdjiconun05', active_icon: 'jqdjiconnn05', id: 5 },
+  { label: '彩票', icon: 'jqdjiconun06', active_icon: 'jqdjiconnn06', id: 6 },
+  { label: '电竞', icon: 'jqdjiconun07', active_icon: 'jqdjiconnn07', id: 7 },
 ];
 
-const tableHead = ["名次", "参赛用户", "赛事积分", "赛事奖金"];
+const tableHead = ['名次', '参赛用户', '赛事积分', '赛事奖金'];
 const tableData = [
   {
     ranking: 1,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 2,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 3,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 4,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 5,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 6,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 7,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 8,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 9,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
   {
     ranking: 10,
-    user: "ABC***001",
-    icon: "/img/home/reward.webp",
-    score: "30000",
-    reward: "30,000 VND",
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
   },
 ];
 
@@ -315,9 +331,47 @@ const tabClick = (item: any) => {
   tab_id.value = item.id;
 };
 
-const matchClick = (i: any) => {
-  match_id.value = i;
+const matchClick = (i: any, index: any) => {
+  match_id.value = index + 1;
+  req_event_des(i)
 };
+
+
+// 获得比赛赛况信息
+
+const req_event_des = (item:any)=>{
+  const req = NetPacket.req_tournament_introduction();
+  req.room_id = item.room_id
+  Net.instance.sendRequest(req);
+}
+// 获得比赛赛况信息
+const handleIntroduction = (rs: any)=>{
+infoData.value = rs
+if (infoData.value?.detail) {
+  infoData.value.detail = infoData.value?.detail.split('，')
+}
+if (infoData.value?.rule) {
+  infoData.value.rule = infoData.value?.rule.split('。')
+}
+}
+
+
+
+onMounted(()=>{
+
+  setTimeout(() => {
+    if (tournm_list.value&&tournm_list.value.length) {
+      matchClick(tournm_list.value[0], 0)
+    }
+  }, 500);
+
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_tournament_introduction,
+    handleIntroduction,
+  );
+})
+
+
 </script>
 
 <style lang="less" scoped>
@@ -358,7 +412,7 @@ const matchClick = (i: any) => {
       position: relative;
 
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         bottom: -5px;
 
@@ -453,7 +507,8 @@ const matchClick = (i: any) => {
   }
 
   .match_list {
-    background: url("/img/home/match_arrow.webp?t=@{timestamp}") center no-repeat;
+    background: url('/img/home/match_arrow.webp?t=@{timestamp}') center
+      no-repeat;
     background-size: 100%;
     display: flex;
     height: 72px;
@@ -467,7 +522,8 @@ const matchClick = (i: any) => {
   }
 
   .active_match {
-    background: url("/img/home/match_arrow_ac.webp?t=@{timestamp}") center no-repeat;
+    background: url('/img/home/match_arrow_ac.webp?t=@{timestamp}') center
+      no-repeat;
     background-size: 100%;
   }
 
@@ -508,7 +564,7 @@ const matchClick = (i: any) => {
 
       &:hover {
         color: #fff;
-        background: url("/img/dialog/click.webp?t=@{timestamp}") no-repeat;
+        background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
         background-size: 100% 100%;
       }
     }
