@@ -83,19 +83,20 @@
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
           <n-carousel
             style="position: static; margin-left: 35px; width: 97.5%"
-            :slides-per-view="7.2"
+            :slides-per-view="7"
             :loop="false"
             draggable
             show-arrow
           >
             <div
-              v-for="(i, index) in tournm_list"
-              :key="i.game_type"
+              v-for="(i, index) in 7"
+              :key="i"
               :class="['match_list', { active_match: match_id == index + 1 }]"
               @click="matchClick(i, index)"
             >
-              <span>{{ i.tournm_name }}</span>
-              <!-- <span>年度锦标赛</span> -->
+              <!-- <span>{{ i.tournm_name }}</span> -->
+              <span>德州扑克</span>
+              <span>年度锦标赛</span>
             </div>
             <template #arrow="{ prev, next }">
               <div class="game_seach">
@@ -121,7 +122,7 @@
     </div>
     <div class="to_match">
       <matchDes :infoData="infoData"></matchDes>
-      <n-button>前往</n-button>
+      <n-button @click="Message.error('暂未开放')">前往</n-button>
     </div>
 
     <!-- 名次 -->
@@ -131,7 +132,7 @@
         <div v-for="(item, i) in tableHead" class="table_head" :key="i">
           <span>{{ item }}</span>
         </div>
-        <span class="more">{{ t('home_page_more') }}</span>
+        <!-- <span class="more">{{ t('home_page_more') }}</span> -->
       </div>
       <div class="table_body_wrap">
         <div v-for="(item, i) in tableData" class="table_head" :key="i">
@@ -150,72 +151,7 @@
     </div>
 
     <!-- 收藏 -->
-    <div class="game_detail collect">
-      <div class="game_list">
-        <div class="game_type">
-          <div class="text">
-            <span class="text_title"> 收藏推荐 </span>
-          </div>
-          <span class="more">{{ t('home_page_more') }}</span>
-        </div>
-        <n-carousel
-          style="position: static; margin-left: 0px"
-          :slides-per-view="1"
-          :loop="false"
-          draggable
-          show-arrow
-        >
-          <div v-for="i in 2" class="colect_wrap" :key="i">
-            <div v-for="j in 16" :key="j" class="colect_wrap_item">
-              <div v-if="j <= 5" class="colect_wrap_item_des">
-                <Imgt :src="`/img/home/colect_${j}.png`" />
-                <div>
-                  <span>黑帮风云</span>
-                  <iconpark-icon
-                    icon-id="iconyiwen"
-                    size=".8rem"
-                  ></iconpark-icon>
-                </div>
-              </div>
-              <div v-else class="colect_wrap_item_des">
-                <Imgt :src="`/img/home/colect_2.png`" />
-                <div>
-                  <span>黑帮风云</span>
-                  <iconpark-icon
-                    icon-id="iconyiwen"
-                    size=".8rem"
-                  ></iconpark-icon>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- <div v-for="i in 10" :key="i" :class="['match_list', { active_match: match_id == i }]"
-              @click="matchClick(i)">
-              <span>德州扑克</span>
-              <span>年度锦标赛</span>
-            </div> -->
-          <template #arrow="{ prev, next }">
-            <div class="game_seach">
-              <span>
-                <iconpark-icon
-                  class="left"
-                  icon-id="fangxiangicon04"
-                  size=".8rem"
-                  @click="prev"
-                ></iconpark-icon>
-                <iconpark-icon
-                  class="right"
-                  icon-id="fangxiangicon01"
-                  size=".8rem"
-                  @click="next"
-                ></iconpark-icon>
-              </span>
-            </div>
-          </template>
-        </n-carousel>
-      </div>
-    </div>
+  <gameCollect></gameCollect>
   </div>
 </template>
 
@@ -224,108 +160,28 @@ import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
 import matchDes from './components/matchDes.vue';
 const { t } = useI18n();
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import pinia from '@/store/index';
+
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
+import { Message } from '@/utils/discreteApi';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { Net } from '@/net/Net';
 import { NetPacket } from '@/netBase/NetPacket';
+import gameCollect from './components/gameCollect/index.vue'
+import { tableData, tabList } from './demoData.ts';
 const tab_id = ref(1);
 const match_id = ref(1);
 const router = useRouter();
 const { tournm_list } = storeToRefs(Page(pinia));
 
-const infoData:any = ref({})  // 赛事简介数据
-const tabList = [
-  { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
-  { label: '棋牌', icon: 'jqdjiconun02', active_icon: 'jqdjiconnn02', id: 2 },
-  { label: '电子', icon: 'jqdjiconun03', active_icon: 'jqdjiconnn03', id: 3 },
-  { label: '真人', icon: 'jqdjiconun04', active_icon: 'jqdjiconnn04', id: 4 },
-  { label: '捕鱼', icon: 'jqdjiconun05', active_icon: 'jqdjiconnn05', id: 5 },
-  { label: '彩票', icon: 'jqdjiconun06', active_icon: 'jqdjiconnn06', id: 6 },
-  { label: '电竞', icon: 'jqdjiconun07', active_icon: 'jqdjiconnn07', id: 7 },
-];
+
+const infoData: any = ref({}); // 赛事简介数据
 
 const tableHead = ['名次', '参赛用户', '赛事积分', '赛事奖金'];
-const tableData = [
-  {
-    ranking: 1,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 2,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 3,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 4,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 5,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 6,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 7,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 8,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 9,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-  {
-    ranking: 10,
-    user: 'ABC***001',
-    icon: '/img/home/reward.webp',
-    score: '30000',
-    reward: '30,000 VND',
-  },
-];
-
-// const remarkList = [
-// { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
-// ]
 
 const tabClick = (item: any) => {
   tab_id.value = item.id;
@@ -333,35 +189,46 @@ const tabClick = (item: any) => {
 
 const matchClick = (i: any, index: any) => {
   match_id.value = index + 1;
-  req_event_des(i)
+  req_event_des(i);
 };
 
-
 // 获得比赛赛况信息
 
-const req_event_des = (item:any)=>{
+const req_event_des = (item: any) => {
   const req = NetPacket.req_tournament_introduction();
-  req.room_id = item.room_id
+  const req1 = NetPacket.req_tournament_rankings();
+
+  req.room_id = item.room_id;
   Net.instance.sendRequest(req);
-}
+  Net.instance.sendRequest(req1);
+};
 // 获得比赛赛况信息
-const handleIntroduction = (rs: any)=>{
-infoData.value = rs
-if (infoData.value?.detail) {
-  infoData.value.detail = infoData.value?.detail.split('，')
-}
-if (infoData.value?.rule) {
-  infoData.value.rule = infoData.value?.rule.split('。')
-}
-}
+const handleIntroduction = (rs: any) => {
+  infoData.value = rs;
+  if (infoData.value?.detail) {
+    infoData.value.detail = infoData.value?.detail.split('，');
+  }
+  if (infoData.value?.rule) {
+    infoData.value.rule = infoData.value?.rule.split('。');
+  }
+};
 
+// 获得排名
+const handleRankings = (rs: any) => {
+  // console.log(44444444, rs);
+  // infoData.value = rs
+  // if (infoData.value?.detail) {
+  //   infoData.value.detail = infoData.value?.detail.split('，')
+  // }
+  // if (infoData.value?.rule) {
+  //   infoData.value.rule = infoData.value?.rule.split('。')
+  // }
+};
 
-
-onMounted(()=>{
-
+onMounted(() => {
   setTimeout(() => {
-    if (tournm_list.value&&tournm_list.value.length) {
-      matchClick(tournm_list.value[0], 0)
+    if (tournm_list.value && tournm_list.value.length) {
+      matchClick(tournm_list.value[0], 0);
     }
   }, 500);
 
@@ -369,9 +236,11 @@ onMounted(()=>{
     NetMsgType.msgType.msg_notify_tournament_introduction,
     handleIntroduction,
   );
-})
-
-
+  MessageEvent2.addMsgEvent(
+    NetMsgType.msgType.msg_notify_tournament_rankings,
+    handleRankings,
+  );
+});
 </script>
 
 <style lang="less" scoped>
@@ -613,32 +482,6 @@ onMounted(()=>{
         }
       }
     }
-  }
-}
-
-.colect_wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  background-color: #0b0b0b;
-  border-radius: 16px;
-  padding: 16px 30px;
-  margin-top: 15px;
-
-  .colect_wrap_item_des {
-    margin-bottom: 15px;
-
-    div {
-      display: flex;
-      justify-content: space-between;
-      color: #ffffff;
-    }
-  }
-}
-
-.collect {
-  .game_seach {
-    top: 0px;
   }
 }
 </style>
