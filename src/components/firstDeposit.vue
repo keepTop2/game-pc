@@ -14,7 +14,7 @@
       <Imgt class="firstDeposit_img stars_left" src="/img/home/firstDeposit_stars_left.webp" alt="X" />
     </div>
     <div class="content">
-      <p class="tips">注：从充值当日起15天内完成。</p>
+      <p class="tips">{{t('first_deposit_tips')}}</p>
       <div class="signIn">
         <div class="day" v-for="(item, index) in signIn_7.data" :key="index">
           <div class="now_get">
@@ -35,7 +35,7 @@
                   />
                 </div>
               </div>
-              <n-button :bordered="false" class="weal" @click="signInButton">领取</n-button>
+              <n-button :bordered="false" class="weal" @click="signInButton">{{t('first_deposit_receive')}}</n-button>
             </div>
           </div>
         </div>
@@ -58,7 +58,8 @@ import { User } from '@/store/user.ts';
 import pinia from '@/store';
 import Imgt from '@/components/Imgt.vue';
 import { reactive } from 'vue';
-
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const userInfo = User(pinia);
 
 const closeDialog = () => {
@@ -68,12 +69,12 @@ const closeDialog = () => {
 
 const signIn_7 = reactive({
   data: [
-    {name: '立即领取', percent: 5,  src: '/img/home/firstDeposit_1.webp'},
-    {name: '关注我们', percent: 10, src: '/img/home/firstDeposit_2.webp'},
-    {name: '邀请好友', percent: 15, src: '/img/home/firstDeposit_3.webp'},
-    {name: '10倍流水', percent: 30, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 100},
-    {name: '25倍流水', percent: 60, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 40},
-    {name: '50倍流水', percent: 80, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 0},
+    {name: t('first_deposit_sign_in_1'), percent: 5,  src: '/img/home/firstDeposit_1.webp'},
+    {name: t('first_deposit_sign_in_2'), percent: 10, src: '/img/home/firstDeposit_2.webp'},
+    {name: t('first_deposit_sign_in_3'), percent: 15, src: '/img/home/firstDeposit_3.webp'},
+    {name: t('first_deposit_sign_in_4'), percent: 30, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 100},
+    {name: t('first_deposit_sign_in_5'), percent: 60, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 40},
+    {name: t('first_deposit_sign_in_6'), percent: 80, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 0},
   ]
 })
 
