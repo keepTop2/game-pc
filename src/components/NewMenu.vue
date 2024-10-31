@@ -404,11 +404,10 @@ const itemClick = async (item: any) => {
   }
   setTimeout(() => {
     clickLoading.value = false;
-  }, 200);
+  }, 500);
 
   // 俱乐部
   if (item.id == 99) {
-    console.error("俱乐部");
     MessageEvent2.addMsgEvent(
       NetMsgType.msgType.msg_notify_get_club_list,
       handleClubList
@@ -445,10 +444,31 @@ const itemGameClick = async (item: any) => {
   }
 
   clickLoading.value = true;
+
+
   setTimeout(() => {
     clickLoading.value = false;
     // clickPlat(platformData.value[0])
-  }, 200);
+    console.error('----->')
+    if (!isPlatIn(currType.value)) { // 如果不是直接展示入口的就要去获取所有游戏分类来展示
+      MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_get_games_by_kind,
+        handleThirdList
+      );
+      const req = NetPacket.req_get_games_by_kind();
+      req.page = 1;
+      req.pageSize = 10
+      // req.inner_size = 10
+      req.kindId = currType.value.id
+      Net.instance.sendRequest(req);
+    }
+  }, 500);
+};
+
+// 三级菜单分类数据
+const handleThirdList = (res: any) => {
+  console.error("菜单数据-->", res);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_by_kind, null);
 };
 
 // 俱乐部
@@ -540,6 +560,7 @@ onUnmounted(() => {
     null
   );
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_club_list, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_by_kind, null);
 });
 
 // 展开状态
