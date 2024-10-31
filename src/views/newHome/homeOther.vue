@@ -10,16 +10,9 @@
               近期大奖
             </span>
             <div class="tab_wrap">
-              <div
-                v-for="item in tabList"
-                :key="item.id"
-                @click="tabClick(item)"
-                :class="{ tab_active: tab_id == item.id }"
-              >
-                <iconpark-icon
-                  :icon-id="tab_id == item.id ? item.active_icon : item.icon"
-                  size="1rem"
-                ></iconpark-icon>
+              <div v-for="item in tabList" :key="item.id" @click="tabClick(item)"
+                :class="{ tab_active: tab_id == item.id }">
+                <iconpark-icon :icon-id="tab_id == item.id ? item.active_icon : item.icon" size="1rem"></iconpark-icon>
                 <span>{{ item.label }}</span>
               </div>
             </div>
@@ -28,14 +21,8 @@
             t('home_page_more')
           }}</span>
         </div>
-        <n-carousel
-          style="position: static"
-          :slides-per-view="8"
-          :space-between="10"
-          :loop="false"
-          draggable
-          show-arrow
-        >
+        <n-carousel style="position: static" :slides-per-view="8" :space-between="10" :loop="false" draggable
+          show-arrow>
           <div v-for="i in 10" :key="i" class="da_jiang_list">
             <Imgt class="reward_img" :src="`/img/home/dajiang.png`" />
             <span class="text1">恭喜发财</span>
@@ -46,18 +33,8 @@
           <template #arrow="{ prev, next }">
             <div class="game_seach">
               <span>
-                <iconpark-icon
-                  class="left"
-                  icon-id="fangxiangicon04"
-                  size=".8rem"
-                  @click="prev"
-                ></iconpark-icon>
-                <iconpark-icon
-                  class="right"
-                  icon-id="fangxiangicon01"
-                  size=".8rem"
-                  @click="next"
-                ></iconpark-icon>
+                <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
               </span>
             </div>
           </template>
@@ -81,37 +58,18 @@
         </div>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
-          <n-carousel
-            style="position: static; margin-left: 35px; width: 97.5%"
-            :slides-per-view="7.2"
-            :loop="false"
-            draggable
-            show-arrow
-          >
-            <div
-              v-for="(i, index) in tournm_list"
-              :key="i.game_type"
-              :class="['match_list', { active_match: match_id == index + 1 }]"
-              @click="matchClick(i, index)"
-            >
+          <n-carousel style="position: static; margin-left: 35px; width: 97.5%" :slides-per-view="7.2" :loop="false"
+            draggable show-arrow>
+            <div v-for="(i, index) in tournm_list" :key="i.game_type"
+              :class="['match_list', { active_match: match_id == index + 1 }]" @click="matchClick(i, index)">
               <span>{{ i.tournm_name }}</span>
               <!-- <span>年度锦标赛</span> -->
             </div>
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon
-                    class="left"
-                    icon-id="fangxiangicon04"
-                    size=".8rem"
-                    @click="prev"
-                  ></iconpark-icon>
-                  <iconpark-icon
-                    class="right"
-                    icon-id="fangxiangicon01"
-                    size=".8rem"
-                    @click="next"
-                  ></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -156,35 +114,29 @@
           <div class="text">
             <span class="text_title"> 收藏推荐 </span>
           </div>
-          <span class="more">{{ t('home_page_more') }}</span>
+          <span class="more" @click="router.push({
+            path: '/gameDetail',
+            query: {
+              venue_id: 1,
+              agent_id: 9999
+            }
+          })">{{ t('home_page_more') }}</span>
         </div>
-        <n-carousel
-          style="position: static; margin-left: 0px"
-          :slides-per-view="1"
-          :loop="false"
-          draggable
-          show-arrow
-        >
+        <n-carousel style="position: static; margin-left: 0px" :slides-per-view="1" :loop="false" draggable show-arrow>
           <div v-for="i in 2" class="colect_wrap" :key="i">
             <div v-for="j in 16" :key="j" class="colect_wrap_item">
               <div v-if="j <= 5" class="colect_wrap_item_des">
                 <Imgt :src="`/img/home/colect_${j}.png`" />
                 <div>
                   <span>黑帮风云</span>
-                  <iconpark-icon
-                    icon-id="iconyiwen"
-                    size=".8rem"
-                  ></iconpark-icon>
+                  <iconpark-icon icon-id="iconyiwen" size=".8rem"></iconpark-icon>
                 </div>
               </div>
               <div v-else class="colect_wrap_item_des">
                 <Imgt :src="`/img/home/colect_2.png`" />
                 <div>
                   <span>黑帮风云</span>
-                  <iconpark-icon
-                    icon-id="iconyiwen"
-                    size=".8rem"
-                  ></iconpark-icon>
+                  <iconpark-icon icon-id="iconyiwen" size=".8rem"></iconpark-icon>
                 </div>
               </div>
             </div>
@@ -198,18 +150,8 @@
           <template #arrow="{ prev, next }">
             <div class="game_seach">
               <span>
-                <iconpark-icon
-                  class="left"
-                  icon-id="fangxiangicon04"
-                  size=".8rem"
-                  @click="prev"
-                ></iconpark-icon>
-                <iconpark-icon
-                  class="right"
-                  icon-id="fangxiangicon01"
-                  size=".8rem"
-                  @click="next"
-                ></iconpark-icon>
+                <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
               </span>
             </div>
           </template>
@@ -224,7 +166,7 @@ import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
 import matchDes from './components/matchDes.vue';
 const { t } = useI18n();
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
@@ -238,7 +180,7 @@ const match_id = ref(1);
 const router = useRouter();
 const { tournm_list } = storeToRefs(Page(pinia));
 
-const infoData:any = ref({})  // 赛事简介数据
+const infoData: any = ref({})  // 赛事简介数据
 const tabList = [
   { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
   { label: '棋牌', icon: 'jqdjiconun02', active_icon: 'jqdjiconnn02', id: 2 },
@@ -339,28 +281,28 @@ const matchClick = (i: any, index: any) => {
 
 // 获得比赛赛况信息
 
-const req_event_des = (item:any)=>{
+const req_event_des = (item: any) => {
   const req = NetPacket.req_tournament_introduction();
   req.room_id = item.room_id
   Net.instance.sendRequest(req);
 }
 // 获得比赛赛况信息
-const handleIntroduction = (rs: any)=>{
-infoData.value = rs
-if (infoData.value?.detail) {
-  infoData.value.detail = infoData.value?.detail.split('，')
-}
-if (infoData.value?.rule) {
-  infoData.value.rule = infoData.value?.rule.split('。')
-}
+const handleIntroduction = (rs: any) => {
+  infoData.value = rs
+  if (infoData.value?.detail) {
+    infoData.value.detail = infoData.value?.detail.split('，')
+  }
+  if (infoData.value?.rule) {
+    infoData.value.rule = infoData.value?.rule.split('。')
+  }
 }
 
 
 
-onMounted(()=>{
+onMounted(() => {
 
   setTimeout(() => {
-    if (tournm_list.value&&tournm_list.value.length) {
+    if (tournm_list.value && tournm_list.value.length) {
       matchClick(tournm_list.value[0], 0)
     }
   }, 500);
@@ -376,13 +318,16 @@ onMounted(()=>{
 
 <style lang="less" scoped>
 @timestamp: `new Date() .getTime() `;
+
 .game_detail {
   margin-top: 40px;
 }
+
 .da_jiang {
   .game_seach {
     top: 0px;
   }
+
   .game_type .text {
     display: flex;
     align-items: center;
@@ -507,8 +452,7 @@ onMounted(()=>{
   }
 
   .match_list {
-    background: url('/img/home/match_arrow.webp?t=@{timestamp}') center
-      no-repeat;
+    background: url('/img/home/match_arrow.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
     display: flex;
     height: 72px;
@@ -522,8 +466,7 @@ onMounted(()=>{
   }
 
   .active_match {
-    background: url('/img/home/match_arrow_ac.webp?t=@{timestamp}') center
-      no-repeat;
+    background: url('/img/home/match_arrow_ac.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
   }
 
