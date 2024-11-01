@@ -25,7 +25,6 @@
             <div class="information">
               <div>
                 <p class="percent">{{item.percent}}%</p>
-                <!--              <Imgt class="purse" src="/img/home/firstDeposit_purse.webp" alt="" />-->
                 <Imgt class="gift" :src="item.src" alt="" />
                 <div class="water_money" v-if="item.waterNum !== undefined">
                   <n-progress

@@ -41,7 +41,7 @@
         <!--        <FreeLoot v-model="state.showModal"/>-->
         <div class="freeLoot main_setting">
           <h4 class="top_title">
-            <span>{{ t("免费夺宝") }}</span>
+            <span>{{ '首充X3' }}</span>
             <i>
               <iconpark-icon
                 @click="state.showModal = false"
@@ -54,7 +54,7 @@
 
           <div class="main_body">
 
-
+            <FirstDepositThree/>
           </div>
         </div>
       </n-card>
@@ -85,6 +85,8 @@ import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
 import { User } from '@/store/user';
+import FirstDepositThree from '@/views/wallet/activity/components/firstDepositThree.vue';
+
 
 const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
@@ -134,7 +136,7 @@ const handleActivetys = async (res: any) => {
 const defineModel = (item: any) => {
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
-    state.showModal = true;
+    // state.showModal = true;
     pageStore.openFreeModal();
   }
   if (item.id === 9020) {
@@ -142,7 +144,8 @@ const defineModel = (item: any) => {
   }
   // 首充X3
   if (item.id === 8001) {
-    userInfo.setFirstDeposit(true)
+    state.showModal = true;
+    // userInfo.setFirstDeposit(true)
   }
 };
 
@@ -176,7 +179,7 @@ onUnmounted(() => {
   }
 
   .main_setting {
-    width: 852px;
+    min-width: 852px;
     border-radius: 14px;
     border: solid 1.4px #322c59;
     overflow: hidden;
