@@ -31,25 +31,30 @@
                   <div class="sign_pro">
                     <div class="sign_txt">已连续签到 7天</div>
                     <div class="item_pro">
-                      <span class="pro_inner" :style="`width: 20%`"> </span>
+                      <span class="pro_inner" v-show="countProcss().rate > 0" :style="`width: ${countProcss().rateStr}`"> </span>
                     </div>
                     <n-flex class="sign_amount" justify="space-between">
-                      <span>今日有效投注额 2,0000 元</span>
-                      <span>¥ 2,0000 元</span>
+                      <span>今日有效投注额 {{verifyNumberComma(String(signData.cur_bet))}} 元</span>
+                      <span>¥ {{ verifyNumberComma(String(nextLevelData.bet)) }} 元</span>
                     </n-flex>
                   </div>
                   <n-flex class="sign_b_txt" justify="space-between">
-                    <span> 当前可领取彩金：18.00元 </span>
-                    <span> 下级可领取彩金：38.00元 </span>
-                    <span> 最高可领取彩金：38.00元 </span>
+                    <span> 当前可领取彩金：{{verifyNumberComma(String(signData.day_money))}}元 </span>
+                    <span v-show="signData.day_money > 0"> 下级可领取彩金：{{ verifyNumberComma(String(nextLevelData.day)) }}元 </span>
+                    <span> 最高可领取彩金：{{ verifyNumberComma(String(awardArr[awardArr.length - 1].day)) }}元 </span>
                   </n-flex>
                 </div>
                 <div class="sign_btn_box">
                   <n-flex justify="center" class="btn_box">
-                    <a>立即投注</a>
-                    <a class="button_color">立即签到</a>
+                    <a @click="router.push(`/`)">立即投注</a>
+                    <a v-if="signData.day_status === 1" class="button_color" @click="getGiftMon">立即领取</a>
+                    <a v-if="signData.day_status === 0" class="button_color" @click="signInAction">立即签到</a>
+                    <a v-if="signData.day_status === 2" class="button_color">已签到</a>
                   </n-flex>
-                  <div class="tip_box">距今日有效投注额统计截止：14时27分42秒</div>
+                  <div class="tip_box">
+                    距今日有效投注额统计截止:
+                    <n-countdown ref="countdownRef" :duration="dateobj.totalTime" :active="activeRef" />
+                  </div>
                 </div>
               </div>
               <!-- 奖励 -->
@@ -64,9 +69,9 @@
                   <div class="sign_table_body">
                     <n-flex class="sign_table_tr" v-for="(item, index) in awardArr" :key="index">
                       <span class="sign_table_td">≥{{ item.bet }} </span>
-                      <span class="sign_table_td"> {{ item.oneA }} </span>
-                      <span class="sign_table_td"> {{ item.sevenA }} </span>
-                      <span class="sign_table_td"> {{ item.ebA }} </span>
+                      <span class="sign_table_td"> {{ verifyNumberComma(String(item.day)) }} </span>
+                      <span class="sign_table_td"> {{ verifyNumberComma(String(item.week)) }} </span>
+                      <span class="sign_table_td"> {{ verifyNumberComma(String(item.month)) }} </span>
                     </n-flex>
                   </div>
   
@@ -96,14 +101,28 @@
   </template>
   
   <script setup lang="ts">
-  import { reactive, ref } from 'vue';
+  import { onMounted, onUnmounted, reactive, ref } from 'vue';
   import { Message } from '@/utils/discreteApi.ts';
   import Calendar from '@/components/Calendar.vue'
   import Imgt from '@/components/Imgt.vue';
   import { useI18n } from 'vue-i18n';
-  
+  import { NetPacket } from '@/netBase/NetPacket.ts';
+  import { Net } from '@/net/Net.ts';
+  import { MessageEvent2 } from '@/net/MessageEvent2.ts';
+  import { NetMsgType } from '@/netBase/NetMsgType.ts';
+  import { verifyNumberComma } from '@/utils/others';
+  import { useRouter } from 'vue-router';
+  import type { CountdownInst } from 'naive-ui'
+
+  const router = useRouter();
   const { t } = useI18n();
   const showModal = ref(false);
+  const signData: any = ref({
+    cur_bet: 0, // 当前投注
+    day_money: 0, // 当前可领取彩金
+    day_status: 0, // 是否已签到, 0未签到，1 已签到，2 已领取签到彩金
+  }); // 签到配置信息
+  const nextLevelData = ref(); // 投注达到下一等级的数据
   const state: any = reactive({
     showModal: false,
     arr: [
@@ -126,18 +145,19 @@
     {label: '奖励', value: 'award'},
     {label: '说明', value: 'illustrate'},
   ]
-  const awardArr = ref(
+  const awardArr: any = ref(
     [
-      {bet: '2,000', oneA: '8', sevenA: '28', ebA: '108'},
-      {bet: '5,000', oneA: '18', sevenA: '58', ebA: '258'},
-      {bet: '10,000', oneA: '28', sevenA: '108', ebA: '488'},
-      {bet: '30,000', oneA: '78', sevenA: '288', ebA: '788'},
-      {bet: '50,000', oneA: '128', sevenA: '388', ebA: '1,188'},
-      {bet: '100,000', oneA: '238', sevenA: '588', ebA: '1,888'},
-      {bet: '300,000', oneA: '666', sevenA: '1,088', ebA: '3,888'},
-      {bet: '500,000', oneA: '1,088', sevenA: '1,688', ebA: '5,288'},
+      // {bet: '2000', day: '8', week: '28', month: '108'},
     ]
   )
+  // 倒计时相关
+  const activeRef = ref(true)
+  const countdownRef = ref<CountdownInst | null>()
+  const dateobj = ref({ // 用于倒计时
+    curTime: '2024-10-01 01:00:00',
+    endTime: '2024-10-01 23:59:59',
+    totalTime: 0, // 倒计时时间
+  })
   
   const onClose = () => {
     showModal.value = !showModal.value
@@ -145,6 +165,67 @@
   const clickTab = (e: any) => {
     curTab.value = e.value
   }
+
+  // 获取签到配置信息
+  const getSignInfo = () => {
+    const req = NetPacket.req_sign_in_config();
+    Net.instance.sendRequest(req);
+  }
+  const handleSignInfo = (res: any) => {
+    signData.value = res
+    console.log('-----99', signData.value)
+    countTimer(res);
+    awardArr.value = res.sign_in_cfgs_0.reverse(); // 反转
+    // 下一等级的数据
+    for (let i = 0; i < awardArr.value.length; i++) {
+      // console.log('&&&&&', awardArr.value[i].bet, res.cur_bet)
+      if (awardArr.value[i].bet > res.cur_bet) {
+        nextLevelData.value = awardArr.value[i];
+        break;
+      }
+    }
+  }
+  // 计算倒计时
+  const countTimer = (res: any) => {
+    dateobj.value.curTime = `${res.cur_time.year}-${res.cur_time.month}-${res.cur_time.day} ${res.cur_time.hour}:${res.cur_time.minute}:${res.cur_time.second}`;
+    dateobj.value.endTime = `${res.cur_time.year}-${res.cur_time.month}-${res.cur_time.day} 23:59:59`;
+    // 将日期字符串转换为 Date 对象
+    const startDate = new Date(dateobj.value.curTime.replace(/-/g, '/')); // 替换 - 为 / 以兼容某些浏览器
+    const endDate = new Date(dateobj.value.endTime.replace(/-/g, '/'));
+    // 计算时间差（毫秒）
+    const timeDifference = endDate.getTime() - startDate.getTime();
+    dateobj.value.totalTime = timeDifference;
+    console.log('####', dateobj.value, timeDifference)
+  }
+  // 签到
+  const signInAction = () => {
+
+  }
+  // 领取签到礼金, 回应 msg_notify_money_update2
+  const getGiftMon = () => {
+    const req = NetPacket.req_get_signin_extra_reward();
+    Net.instance.sendRequest(req);
+    setTimeout(() => {
+      getSignInfo();
+    }, 100)
+  }
+  // 计算等级进度
+  const countProcss = () => {
+    if (awardArr.value.length) {
+      const rate = (Number(signData.value.cur_bet) / nextLevelData.value.bet) * 100;
+      const obj = {
+        rate: rate,
+        rateStr: `${rate}%`,
+      };
+      return obj;
+    } else {
+      return {
+        rate: 0,
+        rateStr: `0%`,
+      };
+    }
+  };
+
   const signInEvent = async () => {
     if (state.activeDate.IsSignIn === 'true') {
       return Message.error('今日已签到')
@@ -176,9 +257,18 @@
     }
   }
   const clickDay = (data: any) => {
+    console.log('点击了日期---', data)
     state.activeDate = data
   }
-  
+
+  onMounted(() => {
+    getSignInfo();
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_sign_in_list, handleSignInfo);
+  })
+  onUnmounted(() => {
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_sign_in_list, null);
+  })
+
   defineExpose({
     onClose
   });
@@ -345,4 +435,3 @@
   
   }
   </style>
-  
