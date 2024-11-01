@@ -24,8 +24,8 @@
                 <div class="sign_top">
                   <Imgt src="/img/sign/sing_banner.webp" class="logo" />
                 </div>
-                 <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
-                    @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
+                 <Calendar class="calendar" :markDate="[]" :markDateMore="[]" @clickToday="clickToday" agoDayHide="1530115221"
+                    @signInEvent="signInEvent" @choseDay="clickDay" :data="signData" :sundayStart="false" :dayNum="state.dayNum">
                  </Calendar>
                 <div class="sign_b_box">
                   <div class="sign_pro">
@@ -35,7 +35,7 @@
                     </div>
                     <n-flex class="sign_amount" justify="space-between">
                       <span>今日有效投注额 {{verifyNumberComma(String(signData.cur_bet))}} 元</span>
-                      <span>¥ {{ verifyNumberComma(String(nextLevelData.bet)) }} 元</span>
+                      <span>{{ verifyNumberComma(String(nextLevelData.bet)) }} 元</span>
                     </n-flex>
                   </div>
                   <n-flex class="sign_b_txt" justify="space-between">
@@ -61,7 +61,7 @@
               <div v-show="curTab === 'award'">
                 <div class="sign_table">
                   <n-flex class="sign_table_header">
-                    <span class="sign_table_td"> {{t('每日有效投注额度')}} </span>
+                    <span class="sign_table_td"> {{t('每日有效投注额')}} </span>
                     <span class="sign_table_td"> {{t('单日奖励')}} </span>
                     <span class="sign_table_td"> {{t('7日奖励')}} </span>
                     <span class="sign_table_td"> {{t('28日奖励')}} </span>
@@ -122,19 +122,14 @@
     day_money: 0, // 当前可领取彩金
     day_status: 0, // 是否已签到, 0未签到，1 已签到，2 已领取签到彩金
   }); // 签到配置信息
-  const nextLevelData = ref(); // 投注达到下一等级的数据
+  const nextLevelData = ref(
+    {
+      bet: 0,
+      day: 0,
+    }
+  ); // 投注达到下一等级的数据
   const state: any = reactive({
     showModal: false,
-    arr: [
-      {
-        date: "2018/8/1",
-        className: "mark1",
-      },
-      {
-        date: "2018/8/13",
-        className: "mark2",
-      },
-    ],
     dayNum: {
       TodayIsSignIn: 'true', // 今天是否已签到
     }
@@ -197,10 +192,30 @@
     dateobj.value.totalTime = timeDifference;
     console.log('####', dateobj.value, timeDifference)
   }
-  // 签到
+  // 签到d动作
   const signInAction = () => {
-
+    const req = NetPacket.req_sign_in();
+    req.sign_date = {
+      ...signData.value.cur_time
+    }
+    Net.instance.sendRequest(req);
   }
+  const handleSignInAc = (res: any) => {
+    console.log('-----88', res)
+    const tips: any = {
+      0: 'paymentManagement_page_addBankSuc',
+      1: 'paymentManagement_page_addBankFail',
+      2: 'paymentManagement_page_addBankFail',
+      3: 'paymentManagement_page_acc_already',
+    }
+    if (res.result === 0) {
+      getSignInfo();
+      Message.success(t(tips[res.result]))
+    } else {
+      Message.error(t(tips[res.result]))
+    }
+  }
+
   // 领取签到礼金, 回应 msg_notify_money_update2
   const getGiftMon = () => {
     const req = NetPacket.req_get_signin_extra_reward();
@@ -264,9 +279,11 @@
   onMounted(() => {
     getSignInfo();
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_sign_in_list, handleSignInfo);
+    MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_sign_in, handleSignInAc);
   })
   onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_sign_in_list, null);
+    MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_sign_in, null);
   })
 
   defineExpose({
