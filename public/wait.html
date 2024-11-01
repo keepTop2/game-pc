@@ -18,10 +18,10 @@
         async function getConfig() {
             const settingsRes1 = await fetch('http://18.167.187.79/config_h5_develop.json?' + new Date().getTime())
             const settingsRes2 = await settingsRes1.json()
-            console.error(settingsRes2)
+            // console.error(settingsRes2)
             const settingsRes = await fetch(settingsRes2.chat_setting + '?' + new Date().getTime())
             const settings = await settingsRes.json()
-            console.error(settings)
+            // console.error('settings', settings.data.info_url)
             if (deviceId) {
                 // 获取角色
                 fetch(settings.data.info_url + `/api/user/info?device_id=${deviceId}`).then(response => {
@@ -31,7 +31,8 @@
                     return response.json(); // 将响应解析为 JSON
                 }).then(res => {
                     if (res.data) {
-                        let queryString = Object.keys({
+                        console.error('res', res)
+                        queryString = Object.keys({
                             ...res.data,
                         })
                             .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(res.data[key])}`)
@@ -46,15 +47,18 @@
                 jump('')
             }
 
+
+            function jump(query = '') {
+                if (isMobile()) {
+                    location.href = settings.data.h5_api_url + query
+                } else {
+                    location.href = settings.data.pc_api_url + query
+                }
+            }
+
         }
 
-        function jump(query = '') {
-            if (isMobile()) {
-                location.href = h5_api_url + query
-            } else {
-                location.href = pc_api_url + query
-            }
-        }
+
 
         function isMobile() {
             let flag = navigator.userAgent.match(
