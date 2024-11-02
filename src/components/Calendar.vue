@@ -84,6 +84,9 @@ const emit = defineEmits(["clickToday", "signInEvent", "choseDay"]);
 
 const { t } = useI18n();
 
+const returnVnTime = () => {
+  return new Date(new Date().toLocaleString('zh-CN', options))
+}
 // 判断未签到条件
 const returnNotSign = (item: any) => {
   return item?.beforeNow && !item.isSignIn
@@ -201,7 +204,7 @@ const getMonthListNoOther = (date: any) => {
   let num = getDaysInOneMonth(date);
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
-  let toDay = dateFormat(new Date());
+  let toDay = dateFormat(returnVnTime());
 
   for (let i = 0; i < num; i++) {
     let a:string|number = "";
@@ -343,7 +346,8 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   let [markDate, markDateMore] = forMatArgs();
   state.dateTop = `${date.getMonth() + 1}月签到日历`; // 标题
   let arr = getMonthList(state.myDate); // 获取当月时间
-  let today = new Date();
+  console.log('@@@@--', state.myDate, arr)
+  let today = returnVnTime();
   let year = today.getFullYear(); // 今天哪一年
   let tadayDate = today.getDate(); // 今天几号
   let tadayMonth = today.getMonth() + 1; // 今天属于几月
@@ -399,10 +403,12 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   console.log('当月日期数据--', arr)
   state.list = arr;
 };
+const options = { timeZone: 'Asia/Ho_Chi_Minh', hour12: false };
 const state:any = reactive({
   discountData: "",
   active: 0,
-  myDate: new Date(), // 得到今天的时间,
+  // myDate: new Date(), // 得到今天的时间,
+  myDate: new Date(new Date().toLocaleString('zh-CN', options)), // 得到今天的时间,
   list: [],
   historyChose: [],
   dateTop: "",
@@ -609,9 +615,15 @@ li {
   }
   .wh_signed {
     background: #E0BB89;
+    .qd_txt {
+      color: #fff;
+    }
   }
   .wh_re_sign {
     background: #AAABAA;
+    .qd_txt {
+      color: #fff;
+    }
   }
 
 }
@@ -708,7 +720,6 @@ th {
 }
 
 .btn {
-  border-radius: 5px;
   padding: 7px 5px;
   text-align: center;
   line-height: 1.3;
