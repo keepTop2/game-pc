@@ -1,0 +1,82 @@
+export const tableData = [
+  {
+    ranking: 1,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 2,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 3,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 4,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 5,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 6,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 7,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 8,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 9,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+  {
+    ranking: 10,
+    user: 'ABC***001',
+    icon: '/img/home/reward.webp',
+    score: '30000',
+    reward: '30,000 VND',
+  },
+];
+
+export const tabList = [
+  { label: '全部', icon: 'jqdjiconun01', active_icon: 'jqdjiconnn01', id: 1 },
+  { label: '棋牌', icon: 'jqdjiconun02', active_icon: 'jqdjiconnn02', id: 2 },
+  { label: '电子', icon: 'jqdjiconun03', active_icon: 'jqdjiconnn03', id: 3 },
+  { label: '真人', icon: 'jqdjiconun04', active_icon: 'jqdjiconnn04', id: 4 },
+  { label: '捕鱼', icon: 'jqdjiconun05', active_icon: 'jqdjiconnn05', id: 5 },
+  { label: '彩票', icon: 'jqdjiconun06', active_icon: 'jqdjiconnn06', id: 6 },
+  { label: '电竞', icon: 'jqdjiconun07', active_icon: 'jqdjiconnn07', id: 7 },
+];
