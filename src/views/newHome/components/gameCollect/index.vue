@@ -8,32 +8,15 @@
         </div>
         <span class="more">{{ t('home_page_more') }}</span>
       </div>
-      <n-carousel
-        style="position: static; margin-left: 0px"
-        :slides-per-view="1"
-        :loop="false"
-        draggable
-        show-arrow
-      >
+      <n-carousel style="position: static; margin-left: 0px" :slides-per-view="1" :loop="false" draggable show-arrow>
         <div v-for="i in page" class="colect_wrap" :key="i">
-          <div
-            v-for="item in gameList"
-            :key="item.gameId"
-            @click.stop="onPlayGame(item)"
-            class="colect_wrap_item"
-          >
+          <div v-for="item in gameList" :key="item.gameId" @click.stop="onPlayGame(item)" class="colect_wrap_item">
             <div class="colect_wrap_item_des">
               <Imgt :src="getImg(item.gamePicturePC)" />
               <div>
                 <span>{{ unserialize(item.name, true) }}</span>
-                <iconpark-icon
-                  v-if="Local.get('user')"
-                  :name="
-                    allCollected.includes(item.gameId) ? 'dianzanun' : 'dianzan'
-                  "
-                  size="1rem"
-                  @click.stop="reqCollect(item)"
-                ></iconpark-icon>
+                <iconpark-icon v-if="Local.get('user')" :name="allCollected.includes(item.gameId) ? 'dianzanun' : 'dianzan'
+                  " size="1rem" @click.stop="reqCollect(item)"></iconpark-icon>
               </div>
             </div>
           </div>
@@ -41,18 +24,8 @@
         <template #arrow="{}">
           <div class="game_seach">
             <span>
-              <iconpark-icon
-                class="left"
-                icon-id="fangxiangicon04"
-                size=".8rem"
-                @click="gamePrev"
-              ></iconpark-icon>
-              <iconpark-icon
-                class="right"
-                icon-id="fangxiangicon01"
-                size=".8rem"
-                @click="gameNext"
-              ></iconpark-icon>
+              <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="gamePrev"></iconpark-icon>
+              <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="gameNext"></iconpark-icon>
             </span>
           </div>
         </template>
@@ -67,7 +40,7 @@ import Imgt from '@/components/Imgt.vue';
 
 const { t } = useI18n();
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import pinia from '@/store/index';
 import { Local } from '@/utils/storage';
 import { storeToRefs } from 'pinia';
@@ -187,22 +160,22 @@ const onPlayGame = async (v: any) => {
 //  打开游戏
 let newTab = ref()
 const gameUrlResult = (message: any) => {
-    isLoading.value = false
-    if (message.code != 0) {
-        Message.error(message.msg)
-        return
-    }
-    if (newTab.value) {
-        newTab.value.close()
-    }
+  isLoading.value = false
+  if (message.code != 0) {
+    Message.error(message.msg)
+    return
+  }
+  if (newTab.value) {
+    newTab.value.close()
+  }
 
-    if (message.url.indexOf('<!doctype html>') != -1) {
-        newTab.value = window.open('', '_blank');
-        newTab.value.document.open();
-        newTab.value.document.write(message.url);
-    } else {
-        newTab.value = window.open(message.url, '_blank')
-    }
+  if (message.url.indexOf('<!doctype html>') != -1) {
+    newTab.value = window.open('', '_blank');
+    newTab.value.document.open();
+    newTab.value.document.write(message.url);
+  } else {
+    newTab.value = window.open(message.url, '_blank')
+  }
 }
 
 req_get_games();
@@ -224,6 +197,7 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @timestamp: `new Date() .getTime() `;
+
 .game_detail {
   margin-top: 40px;
 }
@@ -265,6 +239,7 @@ onMounted(() => {
       margin-top: -10px;
       padding: 0 3px;
     }
+
     img {
       width: 158px;
       height: 158px;

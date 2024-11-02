@@ -13,6 +13,7 @@ interface UserState {
   isForget: boolean;
   isNotice: boolean;
   isFirstDeposit: boolean;
+  kefuVisible: boolean;
   noticeList: any;
   // isSilder: boolean,
   hasLogin: boolean;
@@ -42,7 +43,9 @@ export const User = defineStore('userInfo', {
     info: {},
     loginInfo: null,
     kefuVisible: false,
-    VIPinfo: {},
+    VIPinfo: {
+      current_vip_level: 0
+    },
     agentInfo: {
       moneyauth: 0,   // 是否有转账权限
       muteuser: 0,    // 是否有禁言权限

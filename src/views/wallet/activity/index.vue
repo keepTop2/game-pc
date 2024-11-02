@@ -1,13 +1,8 @@
 <template>
   <div class="activity">
     <div class="tab">
-      <span
-        :class="state.active == i ? 'active' : ''"
-        v-for="(_game, g, i) in activityTitleList"
-        :key="i"
-        @click="changeTab(i, g)"
-        >{{ t(g) }}</span
-      >
+      <span :class="state.active == i ? 'active' : ''" v-for="(_game, g, i) in activityTitleList" :key="i"
+        @click="changeTab(i, g)">{{ t(g) }}</span>
     </div>
 
     <div class="img_box">
@@ -15,13 +10,8 @@
         <img :src="item.pic_link" alt="" />
         <p>
           <i>{{ item.name }}</i>
-          <span
-            >活动详情
-            <iconpark-icon
-              class="icon"
-              icon-id="huodiconjinr"
-              size=".7rem"
-            ></iconpark-icon>
+          <span>活动详情
+            <iconpark-icon class="icon" icon-id="huodiconjinr" size=".7rem"></iconpark-icon>
           </span>
         </p>
       </div>
@@ -29,32 +19,22 @@
 
 
     <n-modal v-model:show="state.showModal">
-      <n-card
-        class="avatar_set"
-        @close="state.showModal = false"
-        :bordered="false"
-        size="huge"
-        role="dialog"
-        aria-modal="true"
-      >
+      <n-card class="avatar_set" @close="state.showModal = false" :bordered="false" size="huge" role="dialog"
+        aria-modal="true">
         <!--        <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />-->
         <!--        <FreeLoot v-model="state.showModal"/>-->
         <div class="freeLoot main_setting">
           <h4 class="top_title">
             <span>{{ '首充X3' }}</span>
             <i>
-              <iconpark-icon
-                @click="state.showModal = false"
-                icon-id="tanctongyguanb"
-                color="#fff"
-                size="1.2rem"
-              ></iconpark-icon>
+              <iconpark-icon @click="state.showModal = false" icon-id="tanctongyguanb" color="#fff"
+                size="1.2rem"></iconpark-icon>
             </i>
           </h4>
 
           <div class="main_body">
 
-            <FirstDepositThree/>
+            <FirstDepositThree />
           </div>
         </div>
       </n-card>
@@ -63,7 +43,7 @@
   <!-- <Calendar class="calendar" :markDate="[]" :markDateMore="state.arr" @clickToday="clickToday" agoDayHide="1530115221"
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
-  <SignIn ref="signModal"/>
+  <SignIn ref="signModal" />
 </template>
 
 <script setup lang="ts">
@@ -84,11 +64,11 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
-import { User } from '@/store/user';
+// import { User } from '@/store/user';
 import FirstDepositThree from '@/views/wallet/activity/components/firstDepositThree.vue';
 
 
-const userInfo = User(pinia);
+// const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
 const SignIn = defineAsyncComponent(
@@ -198,7 +178,7 @@ onUnmounted(() => {
       border-bottom: 1px solid #26294c;
       background-color: #14173a;
 
-      > i {
+      >i {
         position: absolute;
         top: 5px;
         right: 15px;
@@ -209,18 +189,21 @@ onUnmounted(() => {
     .main_body {
       //min-height: 900px;
       padding: 40px 40px;
-      > .tab {
+
+      >.tab {
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 44px;
-        > span {
+
+        >span {
           display: block;
           width: 33%;
           font-size: 16px;
         }
       }
-      > .freeComponent {
+
+      >.freeComponent {
         height: 100%;
       }
     }
@@ -251,7 +234,7 @@ onUnmounted(() => {
     margin-top: 20px;
     justify-content: space-between;
 
-    > div {
+    >div {
       width: 500px;
       height: 202px;
       border-radius: 12px;
@@ -260,11 +243,11 @@ onUnmounted(() => {
       flex-direction: column;
       margin-bottom: 15px;
 
-      > img {
+      >img {
         height: 160px;
       }
 
-      > p {
+      >p {
         padding: 10px 16px;
         display: flex;
         justify-content: space-between;
@@ -272,12 +255,12 @@ onUnmounted(() => {
         font-size: 16px;
         align-items: center;
 
-        > i {
+        >i {
           font-style: normal;
           color: #afb6bd;
         }
 
-        > span {
+        >span {
           cursor: pointer;
           color: #fff;
           height: 26px;
@@ -290,7 +273,7 @@ onUnmounted(() => {
             linear-gradient(180deg, #f7dc82 0%, #a76712 100%);
           box-shadow: 0.5px 0.5px 1px 0px #ffeab2 inset;
 
-          > .icon {
+          >.icon {
             margin-left: 2px;
             cursor: pointer;
           }

@@ -1,33 +1,21 @@
 <template>
   <div class="sidebar">
     <div class="top_av">
-      <Imgt
-        @click="showAvSetting"
-        :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'"
-        class="avatar"
-        alt=""
-        title="点击设置"
-      />
+      <Imgt @click="showAvSetting" :src="`/img/head_icons/${roleInfo.head_photo}.webp` || '/img/home/avatar.webp'"
+        class="avatar" alt="" title="点击设置" />
       <n-flex justify="center" class="userName">
         <span :title="info.full_name || info.real_name || roleInfo.nickname">{{
           info.full_name || info.real_name || roleInfo.nickname
         }}</span>
-        <span
-          class="txt_vip"
-          :style="{
-            'background-image': `url(/img/level/new/v${Number(
-              VIPinfo.current_vip_level
-            )}.webp)`,
-          }"
-        ></span>
+        <span class="txt_vip" :style="{
+          'background-image': `url(/img/level/new/v${Number(
+            VIPinfo.current_vip_level
+          )}.webp)`,
+        }"></span>
       </n-flex>
     </div>
     <div class="top_wallet">
-      <n-flex
-        align="center"
-        justify="space-between"
-        @click="router.push(`/wallet/walletInfo`)"
-      >
+      <n-flex align="center" justify="space-between" @click="router.push(`/wallet/walletInfo`)">
         <div>
           <div>{{ t("page_route_wallet") }}</div>
           <div class="txt_m">{{ verifyNumberComma(String(roleInfo.money)) }}</div>
@@ -36,18 +24,9 @@
       </n-flex>
     </div>
     <n-flex class="nav_item bg_color">
-      <p
-        class="pointer"
-        :class="menuActive == i ? 'active' : ''"
-        v-for="(list, i) in state.sideList"
-        :key="i"
-        @click="itemClick(list, i)"
-      >
-        <iconpark-icon
-          :icon-id="list.icon"
-          :color="menuActive == i ? '#fff' : '#fff'"
-          size="1.67rem"
-        ></iconpark-icon>
+      <p class="pointer" :class="menuActive == i ? 'active' : ''" v-for="(list, i) in state.sideList" :key="i"
+        @click="itemClick(list, i)">
+        <iconpark-icon :icon-id="list.icon" :color="menuActive == i ? '#fff' : '#fff'" size="1.67rem"></iconpark-icon>
         <span>{{ t(list.name) }}</span>
       </p>
     </n-flex>
@@ -76,7 +55,7 @@ const { t } = useI18n();
 const page = Page(pinia);
 const userInfo = User(pinia);
 const UserStore = User(pinia);
-const { menuActive, settings } = storeToRefs(page);
+const { menuActive } = storeToRefs(page);
 const { info, kefuVisible, agentInfo } = storeToRefs(userInfo);
 const { VIPinfo, roleInfo } = storeToRefs(UserStore);
 const router = useRouter();
@@ -294,7 +273,7 @@ const showAvSetting = () => {
     gap: 10px !important;
     padding: 20px;
 
-    > p {
+    >p {
       font-size: 14px;
       width: 72px;
       height: 72px;
@@ -304,7 +283,7 @@ const showAvSetting = () => {
       cursor: pointer;
       border: 1px solid #14173a;
 
-      > span {
+      >span {
         display: block;
         line-height: 14px;
       }
