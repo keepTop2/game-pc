@@ -87,9 +87,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_init_connect"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -152,9 +152,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_heartbeat"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -170,9 +170,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_check_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -675,9 +675,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_create_role_result"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -903,9 +903,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_user_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1025,9 +1025,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_loading_end"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1155,9 +1155,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mobile_cancel"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -1290,9 +1290,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_customer_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -3525,9 +3525,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_update_auto"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -3655,9 +3655,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_custom_head_icon_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -3705,9 +3705,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_auto_trans"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -3938,9 +3938,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_bank_password"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -4185,9 +4185,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_transfer_confirm"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -4327,9 +4327,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_money_refresh"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -4403,9 +4403,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_card_info_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -4569,9 +4569,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bank_name_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5078,9 +5078,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_can_withdraw"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5324,9 +5324,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_shop_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5413,9 +5413,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pay_name_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5547,9 +5547,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_usdt_info_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5622,9 +5622,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_usdt_and_revenue_ratio"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5674,9 +5674,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_withdraw_count"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5845,9 +5845,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_agent_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -5952,9 +5952,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -6123,9 +6123,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -6271,9 +6271,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rank_with_robot_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -6590,9 +6590,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_day_task"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -7235,9 +7235,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_change_desk"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8319,9 +8319,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_return_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8407,9 +8407,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_return_money_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8448,9 +8448,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_return_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8488,9 +8488,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_invite_time_out"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8569,9 +8569,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_sign_in_config"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8717,9 +8717,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_whether_can_open_red_packet"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8757,9 +8757,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_open_red_packet"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8823,9 +8823,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bet_rebate"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -8887,9 +8887,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rebate_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9010,9 +9010,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bet_rebate_all_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9128,9 +9128,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_rebate_all_getreward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9236,9 +9236,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9332,9 +9332,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_gift_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9350,9 +9350,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_holiday_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9368,9 +9368,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_claim_mysterious_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9412,9 +9412,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_level"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9452,9 +9452,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_buy_vip"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9495,9 +9495,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_signin_extra_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9565,9 +9565,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_invite_time_out2"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9624,9 +9624,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_vip_daily_claim"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9741,9 +9741,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_svip_signup"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9781,9 +9781,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_svip_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9838,9 +9838,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_svip_getreawrd"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9882,9 +9882,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_red_point"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -9929,9 +9929,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_exp_room_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10028,9 +10028,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_agent_list2"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10112,9 +10112,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_christmas_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10158,9 +10158,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_christmas_countdown"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10176,9 +10176,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_christmas_hit"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10194,9 +10194,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_notify_christmas_hit"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10277,9 +10277,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_lucky_roulette_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10586,9 +10586,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_role_bag"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10772,9 +10772,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_first_recharge_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10911,9 +10911,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_first_recharge_show"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -10951,9 +10951,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_first_recharge_status"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11014,9 +11014,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_refresh_money"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11032,9 +11032,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_win_100_share"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11116,9 +11116,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_newbees_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11186,9 +11186,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_newbees_prize"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11226,9 +11226,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_contact_customer_service"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11310,9 +11310,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_fllm_reward"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11530,9 +11530,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11747,9 +11747,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_watering_competition"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11799,9 +11799,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_invite_friend"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11867,9 +11867,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_water_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -11978,9 +11978,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_get_fertilizer_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12211,9 +12211,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dragon_fortune_claim_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12251,9 +12251,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_daily_return_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -12309,9 +12309,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_daily_return_claim"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13398,9 +13398,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_agent_rebate"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -13598,9 +13598,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_club_list"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -14443,9 +14443,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_quick_start_game"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -15857,9 +15857,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_get_minigame_chat_record"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16017,9 +16017,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_my_recharge_discount"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16119,9 +16119,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_numbers_betting_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16603,9 +16603,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_numbers_betting_claim_bonus"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -16935,9 +16935,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_all_collected"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17154,9 +17154,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_share_vote_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17272,9 +17272,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_share_vote_reward_details"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17684,9 +17684,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_claim_share_vote_prize"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -17771,9 +17771,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_free_treasure_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18169,9 +18169,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_slots_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18394,9 +18394,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_slots_open_box"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18441,9 +18441,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jmp_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18571,9 +18571,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_milu_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18705,9 +18705,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_milu2_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18839,9 +18839,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -18953,9 +18953,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_free_spin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19016,9 +19016,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_jump_free_detail"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19064,9 +19064,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_captain_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19231,9 +19231,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_wucaishen_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19422,9 +19422,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mjhl_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19556,9 +19556,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_mjhl2_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -19998,9 +19998,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20046,9 +20046,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20094,9 +20094,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_bigsmall_trendchart"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20430,9 +20430,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20478,9 +20478,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20526,9 +20526,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_longhu_trendchart"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20803,9 +20803,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shuangdan_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -20851,9 +20851,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_shuangdan_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21142,9 +21142,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21523,9 +21523,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_rank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21571,9 +21571,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_history"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21634,9 +21634,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_dataosha_seed"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21903,9 +21903,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -21994,9 +21994,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_ready"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22149,9 +22149,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_pdk_pass_card"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22814,9 +22814,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_call"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22914,9 +22914,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_check"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -22963,9 +22963,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_fold"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23012,9 +23012,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_allin"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23060,9 +23060,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_add_insurance_time"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23364,9 +23364,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_show_desktop_cards"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23472,9 +23472,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_use_time_bank"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23520,9 +23520,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_video_record10"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},
@@ -23756,9 +23756,9 @@ export module NetPacket {
 			getMsgID: function () {
 				return NetMsgType.msgType["msg_req_tx_info"];
 			},
-			encode: function (buf: any) {
+			encode: function (_buf: any) {
 			},
-			decode: function (buf: any, index: number) {
+			decode: function (_buf: any, index: number) {
 				let startIndex = index;
 				return startIndex - index;
 			},

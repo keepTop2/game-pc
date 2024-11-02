@@ -2,7 +2,7 @@
   <div class="freeLoot">
     <div class="banner">
       <img src="/img/activity/image.webp" alt="" />
-      <span>{{t('free_loot_activity_time')}}}：2024.1.1 ~ 2024.6.30</span>
+      <span>{{t('free_loot_activity_time')}}：2024.1.1 ~ 2024.6.30</span>
     </div>
 
     <div class="plan">

@@ -33,7 +33,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
-const { settings } = storeToRefs(Page(pinia));
+// const { settings } = storeToRefs(Page(pinia));
 // const { t } = useI18n();
 const route = useRoute()
 // const router = useRouter()

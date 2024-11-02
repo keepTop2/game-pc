@@ -347,7 +347,7 @@ onUnmounted(() => {
 })
 watch(
     () => props.kindId,
-    (a) => {
+    (a: any) => {
         if (a.length > 0) {
             resetData()
             queryData()
