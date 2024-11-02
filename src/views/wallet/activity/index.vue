@@ -54,7 +54,7 @@
 
           <div class="main_body">
 
-            <FirstDepositThree/>
+            <FirstDepositThree typeInfo="defineModelInfo"/>
           </div>
         </div>
       </n-card>
@@ -114,7 +114,7 @@ const state: any = reactive({
   active: 0,
   name: "home_page_all",
   link: "",
-  showModal: false,
+  showModal: true,
   detailImg: null,
   arr: [
     {
@@ -132,9 +132,13 @@ const handleActivetys = async (res: any) => {
 };
 
 
+const defineModelInfo: any = ref(10000)
+
 // 点击按钮弹窗
 const defineModel = (item: any) => {
   // 免费夺宝活动弹窗显示
+  defineModelInfo.value = item.id
+
   if (item.id === 10000) {
     // state.showModal = true;
     pageStore.openFreeModal();
