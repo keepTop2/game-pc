@@ -52,8 +52,8 @@ const last = [
         kind_name: "{\"zh-CN\":\"最近\",\"vi-VN\":\"gần đây\",\"en-US\":\"Recent\"}",
         kindId: -3,
         key: 2,
-        icon_after: '/img/game/zuijin.webp',
-        icon_before: '/img/game/zuijin_un.webp'
+        icon_after: '/img/game/zuijin_un.webp',
+        icon_before: '/img/game/zuijin.webp'
     },
     {
         kind_name: "{\"zh-CN\":\"收藏\",\"vi-VN\":\"Yêu thích\",\"en-US\":\"Favorites\"}",
@@ -66,26 +66,13 @@ const last = [
 const state: any = reactive({
     kindList: []
 })
-// const kindList = [
-
-//     {
-//         name: 'game_page_hot',
-//         icon: 'hot',
-//         activeIcon: 'hotun',
-//         id: 1, // 获取热门需将 lableId 设置为1  其他为0,
-//         key: 1
-//     },
-
-
-// ]
-
 
 // 游戏平台id  -1为查看全部的游戏
 let agentId = ref<any>(-1)
-// 是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
+// 右侧标签id  是否属于场馆或者火热的游戏 为0时 则kindId 为场馆id或火热  为1时  则kindId取右侧tab的值
 let lableId = ref(0)
-// 右侧标签id  // -1为查找当前平台所有的游戏 //也表示场馆id
-let kindId = ref(-1)
+// 表示场馆id // -1为查找当前平台所有的游戏 
+let kindId = ref(1)
 // 右侧标签点击样式
 const lableActive = ref(-1)
 let threeGameKinds = ref<any[]>([])
@@ -142,13 +129,12 @@ const handlePlatformKind = (res: any) => {
     } else {
         state.kindList = [first, ...last]
     }
-    console.log(state.kindList);
-
 
 }
 onMounted(() => {
-    const { venue_id } = route.query
-    kindId.value = Number(venue_id)
+    const { venue_id, agent_id } = route.query
+    venue_id && (kindId.value = Number(venue_id))
+    agent_id && (agentId.value = Number(agent_id))
     getHomeData()
     getInitData(agentId.value, kindId.value)
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, handlePlatformKind);

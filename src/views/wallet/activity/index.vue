@@ -26,16 +26,12 @@
         </p>
       </div>
     </div>
-    <!--    <n-modal v-model:show="state.showModal">-->
-    <!--      <n-card :title="t('activity_page_detail')" closable class="avatar_set" @close="state.showModal = false" :bordered="false" size="huge"-->
-    <!--        role="dialog" aria-modal="true">-->
-    <!--&lt;!&ndash;        <Imgt v-if="state.detailImg" :src="t(state.detailImg)" />&ndash;&gt;-->
-    <!--        <FreeLoot/>-->
-    <!--      </n-card>-->
-    <!--    </n-modal>-->
-    <n-modal v-model:show="pageStore.isFreeModalVisible">
+
+
+    <n-modal v-model:show="state.showModal">
       <n-card
         class="avatar_set"
+        @close="state.showModal = false"
         :bordered="false"
         size="huge"
         role="dialog"
@@ -45,10 +41,10 @@
         <!--        <FreeLoot v-model="state.showModal"/>-->
         <div class="freeLoot main_setting">
           <h4 class="top_title">
-            <span>{{ t("免费夺宝") }}</span>
+            <span>{{ '首充X3' }}</span>
             <i>
               <iconpark-icon
-                @click="pageStore.closeFreeModal"
+                @click="state.showModal = false"
                 icon-id="tanctongyguanb"
                 color="#fff"
                 size="1.2rem"
@@ -57,22 +53,8 @@
           </h4>
 
           <div class="main_body">
-            <div class="tab">
-              <span
-                :class="state.freeLootActive == i ? 'active' : ''"
-                v-for="(item, i) in state.freeLootTab"
-                :key="i"
-                @click="changeFreeLootTab(item, i)"
-                >{{ t(item.name) }}</span
-              >
-            </div>
-            <div class="freeComponent">
-              <component
-                v-if="freeTreasureInfo"
-                :is="state.freeLootComponent"
-                :freeTreasureInfo="freeTreasureInfo"
-              ></component>
-            </div>
+
+            <FirstDepositThree/>
           </div>
         </div>
       </n-card>
@@ -89,39 +71,29 @@ import {
   onMounted,
   onUnmounted,
   reactive,
-  markRaw,
   ref,
   defineAsyncComponent,
   computed,
 } from "vue";
 // import { useRoute } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { Page } from "@/store/page";
-import pinia from "@/store/index";
-import { storeToRefs } from "pinia";
-import { NetPacket } from "@/netBase/NetPacket";
-import { Net } from "@/net/Net";
-import { MessageEvent2 } from "@/net/MessageEvent2";
-import { NetMsgType } from "@/netBase/NetMsgType";
+import { useI18n } from 'vue-i18n';
+import { Page } from '@/store/page';
+import pinia from '@/store/index';
+import { storeToRefs } from 'pinia';
+import { NetPacket } from '@/netBase/NetPacket';
+import { Net } from '@/net/Net';
+import { MessageEvent2 } from '@/net/MessageEvent2';
+import { NetMsgType } from '@/netBase/NetMsgType';
+import { User } from '@/store/user';
+import FirstDepositThree from '@/views/wallet/activity/components/firstDepositThree.vue';
 
-// import FreeLoot from '@/views/wallet/activity/components/freeLoot.vue';
-// import FreeLootRanking from '@/views/wallet/activity/components/freeLootRanking.vue';
-// import FreeLootRule from '@/views/wallet/activity/components/freeLootRule.vue';
+
+const userInfo = User(pinia);
 // import Calendar from '@/components/Calendar.vue'
 
-const FreeLoot = defineAsyncComponent(
-  () => import("@/views/wallet/activity/components/freeLoot.vue")
-);
-const FreeLootRanking = defineAsyncComponent(
-  () => import("@/views/wallet/activity/components/freeLootRanking.vue")
-);
-const FreeLootRule = defineAsyncComponent(
-  () => import("@/views/wallet/activity/components/freeLootRule.vue")
-);
 const SignIn = defineAsyncComponent(
   () => import("@/views/wallet/activity/components/signIn.vue")
 );
-
 const pageStore = Page();
 
 const { activityTitleList } = storeToRefs(Page(pinia));
@@ -154,42 +126,27 @@ const state: any = reactive({
       className: "mark2",
     },
   ],
-  freeLootActive: 0,
-  freeLootComponent: markRaw(FreeLoot),
-  freeLootTab: [
-    { name: t("free_loot"), component: markRaw(FreeLoot) },
-    { name: t("free_loot_ranking"), component: markRaw(FreeLootRanking) },
-    { name: t("free_loot_rule"), component: markRaw(FreeLootRule) },
-    // { name: '夺宝排行榜', component: 'freeLootRanking' },
-    // { name: '规则说明', component: 'freeLootRule' }
-  ],
 });
 const handleActivetys = async (res: any) => {
   await Page(pinia).setActivityTitleList(res.promo);
 };
 
+
 // 点击按钮弹窗
 const defineModel = (item: any) => {
-  console.log('----', item)
   // 免费夺宝活动弹窗显示
   if (item.id === 10000) {
-    state.showModal = true;
+    // state.showModal = true;
     pageStore.openFreeModal();
   }
   if (item.id === 9020) {
     openSignModal()
   }
-
-};
-
-const changeFreeLootTab = (item: any, tabId: number) => {
-  state.freeLootActive = tabId;
-  state.freeLootComponent = item.component;
-};
-
-const freeTreasureInfo = ref(null);
-const handleFreeTreasureInfo = (res: any) => {
-  freeTreasureInfo.value = res;
+  // 首充X3
+  if (item.id === 8001) {
+    state.showModal = true;
+    // userInfo.setFirstDeposit(true)
+  }
 };
 
 // 打开签到
@@ -198,24 +155,19 @@ const openSignModal = () => {
 }
 
 onMounted(() => {
+  setTimeout(() => {
+    openSignModal()
+  }, 500)
   // state.name = route.query.typeName
-  // 获取所有活动  activities_category_icon_
   const req = NetPacket.req_activites();
   req.show = 0;
   Net.instance.sendRequest(req);
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_activites, handleActivetys);
 
-  //msg reg free_treasure_info
-  const req_free_treasure_info = NetPacket.req_free_treasure_info();
-  // req = {}
-  Net.instance.sendRequest(req_free_treasure_info);
-  MessageEvent2.addMsgEvent(
-    NetMsgType.msgType.msg_notify_free_treasure_info,
-    handleFreeTreasureInfo
-  );
 });
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_free_treasure_info, null);
+
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_activites, null);
 });
 </script>
@@ -227,7 +179,7 @@ onUnmounted(() => {
   }
 
   .main_setting {
-    width: 852px;
+    min-width: 852px;
     border-radius: 14px;
     border: solid 1.4px #322c59;
     overflow: hidden;

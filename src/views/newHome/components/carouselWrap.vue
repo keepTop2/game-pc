@@ -54,7 +54,7 @@
           <div class="btn_group">
             <!-- <n-button style="height: 40px; width: 140px">Sign Up</n-button> -->
             <div class="free_btn sign_up" @click="isReg = true">Sign Up</div>
-            <div class="free_btn" @click="pageStore.openFreeModal">Free Game</div>
+            <div class="free_btn" @click="openFreeGmeModal">Free Game</div>
           </div>
           <div class="community_icon">
             <Imgt
@@ -92,6 +92,10 @@ const bannerData: any = ref([]);
 const firstActivity = computed(() => {
   return homeActivityList.value && homeActivityList.value[0];
 });
+
+const openFreeGmeModal = () => {
+  pageStore.openFreeModal()
+}
 
 // 获取banner图
 function getBanner() {

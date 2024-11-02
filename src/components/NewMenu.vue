@@ -4,25 +4,15 @@
     <div class="menu_wrap" :class="{ open_menu_wrap: hoverStatus }">
       <!-- 主菜单 -->
       <div class="menu_wrap_list" @mouseenter="mouseenter" @mouseleave="mouseleave">
-        <div
-          v-for="(item, i) in menuList"
-          :key="i"
-          class="menu_wrap_item"
-          :class="[venueActive == item.id && 'active_item', 'menu_wrap_item' + item.id]"
-          @click="itemClick(item)"
-        >
+        <div v-for="(item, i) in menuList" :key="i" class="menu_wrap_item"
+          :class="[venueActive == item.id && 'active_item', 'menu_wrap_item' + item.id]" @click="itemClick(item)">
           <Imgt :src="item.icon" />
           <span>{{ item.label }}</span>
           <div :class="venueActive == item.id && 'active_item_bg'"></div>
         </div>
 
-        <div
-          v-for="(item, i) in homeGameData"
-          :key="i"
-          class="menu_wrap_item"
-          :class="venueActive == item.id && 'active_item'"
-          @click="itemGameClick(item)"
-        >
+        <div v-for="(item, i) in homeGameData" :key="i" class="menu_wrap_item"
+          :class="venueActive == item.id && 'active_item'" @click="itemGameClick(item)">
           <!-- <Imgt :src="item.icon" /> -->
           <Imgt :src="`/img/menu/${item.id}.webp`" />
           <span>{{ item.name[langObj[lang]] }}</span>
@@ -49,34 +39,19 @@
       </div>
 
       <!-- 下拉菜单 -->
-      <div
-        class="sub_menu"
-        :class="{ show_sub_menu: hoverStatus }"
-        @mouseenter="mouseenter"
-        @mouseleave="mouseleave"
-      >
+      <div class="sub_menu" :class="{ show_sub_menu: hoverStatus }" @mouseenter="mouseenter" @mouseleave="mouseleave">
         <!-- 一级分类 -->
         <div class="sub_menu_0 sub_menu_scroll sub_menu_1">
           <template v-if="hoverStatus">
-            <div
-              :class="venueActive == item.id && 'active_1_item'"
-              class="menu_1_item"
-              v-for="(item, i) in menuList.filter((item) => item.id != -1)"
-              :key="'a' + i"
-              @click="itemClick(item)"
-            >
+            <div :class="venueActive == item.id && 'active_1_item'" class="menu_1_item"
+              v-for="(item, i) in menuList.filter((item) => item.id != -1)" :key="'a' + i" @click="itemClick(item)">
               <Imgt class="icon" :src="item.icon" />
               <span class="name">{{ item.label }}</span>
               <Imgt class="more more1" :src="`/img/menu/menu_more.webp`" />
               <Imgt class="more more2" :src="`/img/menu/menu_more2.webp`" />
             </div>
-            <div
-              :class="venueActive == item.id && 'active_1_item'"
-              class="menu_1_item"
-              v-for="(item, i) in homeGameData"
-              :key="'b' + i"
-              @click="itemGameClick(item)"
-            >
+            <div :class="venueActive == item.id && 'active_1_item'" class="menu_1_item"
+              v-for="(item, i) in homeGameData" :key="'b' + i" @click="itemGameClick(item)">
               <Imgt class="icon" :src="`/img/menu/${item.id}.webp`" />
               <span class="name">{{ unserialize(item.name, false) }}</span>
               <Imgt class="more more1" :src="`/img/menu/menu_more.webp`" />
@@ -101,12 +76,7 @@
             </div>
             <!-- 俱乐部列表 -->
             <div class="sub_menu_scroll sub_menu_2_child" ref="scrollJL2">
-              <div
-                class="sub_menu_2_ss"
-                :class="{ sub_menu_2_ssed: i == 2 }"
-                v-for="i in 10"
-                :key="i"
-              >
+              <div class="sub_menu_2_ss" :class="{ sub_menu_2_ssed: i == 2 }" v-for="i in 10" :key="i">
                 <div class="sub_menu_2_ss_icon">
                   <Imgt style="width: 100%; height: 100%" :src="`/img/menu/ss.webp`" />
                   <!-- 创建者 -->
@@ -139,12 +109,7 @@
             </div>
             <!-- 赛事列表 -->
             <div class="sub_menu_scroll sub_menu_2_child" ref="scrollSS2">
-              <div
-                class="sub_menu_2_ss"
-                :class="{ sub_menu_2_ssed: i == 2 }"
-                v-for="i in 10"
-                :key="i"
-              >
+              <div class="sub_menu_2_ss" :class="{ sub_menu_2_ssed: i == 2 }" v-for="i in 10" :key="i">
                 <div class="sub_menu_2_ss_icon">
                   <Imgt style="width: 100%; height: 100%" :src="`/img/menu/ss.webp`" />
                 </div>
@@ -178,12 +143,7 @@
             </div>
             <!-- 平台 -->
             <div class="sub_menu_scroll sub_menu_2_child">
-              <div
-                class="sub_menu_2_item"
-                v-for="(v, i) in platformData"
-                :key="i"
-                @click="clickPlat(v)"
-              >
+              <div class="sub_menu_2_item" v-for="(v, i) in platformData" :key="i" @click="clickPlat(v)">
                 <div class="sub_menu_2_box">
                   <img class="sub_menu_2_img" :src="getImg(v.picture_pc)" alt="img" />
                 </div>
@@ -200,10 +160,7 @@
         <div class="sub_menu_0 sub_menu_3" v-if="currType.id == 99">
           <!-- 所有游戏 -->
           <template v-if="hoverStatus">
-            <div
-              class="sub_menu_3_item"
-              style="display: flex; flex-direction: column; height: 100%"
-            >
+            <div class="sub_menu_3_item" style="display: flex; flex-direction: column; height: 100%">
               <!-- 操作 -->
               <div class="sub_menu_3_title">
                 <Imgt class="sub_menu_3_title_icon" :src="`/img/menu/game_icon.webp`" />
@@ -215,10 +172,7 @@
               </div>
 
               <!-- 列表 -->
-              <div
-                class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2"
-                ref="scrollJL3"
-              >
+              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2" ref="scrollJL3">
                 <div class="sub_menu_3_jl" v-for="i in 20" :key="i">
                   <div class="sub_menu_3_jl_icon">
                     <Imgt style="width: 100%; height: 100%" :src="`/img/menu/ss.webp`" />
@@ -227,24 +181,15 @@
                     <div class="sub_menu_3_jl_title">经典德州扑克-1860</div>
                     <div class="sub_menu_3_jl_infos">
                       <div class="sub_menu_3_jl_info">
-                        <iconpark-icon
-                          name="paihiconss01"
-                          class="sub_menu_3_jl_ticon"
-                        ></iconpark-icon>
+                        <iconpark-icon name="paihiconss01" class="sub_menu_3_jl_ticon"></iconpark-icon>
                         <div class="sub_menu_3_jl_text">3/8</div>
                       </div>
                       <div class="sub_menu_3_jl_info">
-                        <iconpark-icon
-                          name="txxlicon10"
-                          class="sub_menu_3_jl_ticon"
-                        ></iconpark-icon>
+                        <iconpark-icon name="txxlicon10" class="sub_menu_3_jl_ticon"></iconpark-icon>
                         <div class="sub_menu_3_jl_text">25$</div>
                       </div>
                       <div class="sub_menu_3_jl_info">
-                        <iconpark-icon
-                          name="txxlicon02"
-                          class="sub_menu_3_jl_ticon"
-                        ></iconpark-icon>
+                        <iconpark-icon name="txxlicon02" class="sub_menu_3_jl_ticon"></iconpark-icon>
                         <div class="sub_menu_3_jl_text">0.25/0.6</div>
                       </div>
                     </div>
@@ -301,42 +246,26 @@
         </div>
 
         <!-- 体育和真人的入口 -->
-        <div
-          v-if="isPlatIn(currType) && currType.id != 100 && currType.id != 99"
-          class="sub_menu_0 sub_menu_3"
-          style="padding: 0"
-        >
+        <div v-if="isPlatIn(currType) && currType.id != 100 && currType.id != 99" class="sub_menu_0 sub_menu_3"
+          style="padding: 0">
           <template v-if="hoverStatus">
             <div class="sub_menu_3_in">
-              <Imgt
-                style="width: 100%; height: 100%; object-fit: cover"
-                src="/img/menu/pi_bg.webp"
-              />
+              <Imgt style="width: 100%; height: 100%; object-fit: cover" src="/img/menu/pi_bg.webp" />
               <div class="sub_menu_3_inbtn">开始游戏</div>
             </div>
           </template>
         </div>
 
         <!-- 所有游戏列表 -->
-        <div
-          class="sub_menu_0 sub_menu_3"
-          v-if="
-            !isPlatIn(currType) && currType.id != 100 && currType.id != 99 && currPlat.id
-          "
-        >
+        <div class="sub_menu_0 sub_menu_3" v-if="
+          !isPlatIn(currType) && currType.id != 100 && currType.id != 99 && currPlat.id
+        ">
           <!-- 所有游戏 -->
           <template v-if="hoverStatus">
-            <div
-              class="sub_menu_3_item"
-              style="display: flex; flex-direction: column; height: 100%"
-            >
+            <div class="sub_menu_3_item" style="display: flex; flex-direction: column; height: 100%">
               <!-- 操作 -->
               <div class="sub_menu_3_title">
-                <img
-                  class="sub_menu_3_title_icon"
-                  :src="getImg(currPlat.picture_pc)"
-                  alt="img"
-                />
+                <img class="sub_menu_3_title_icon" :src="getImg(currPlat.picture_pc)" alt="img" />
                 <div style="flex: 1"></div>
                 <div class="sub_menu_3_btn">更多</div>
                 <div class="sub_menu_3_btn" @click="prevScroll(scrollAll3)">&lt;</div>
@@ -344,17 +273,10 @@
               </div>
 
               <!-- 列表 -->
-              <div
-                class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2"
-                ref="scrollAll3"
-              >
+              <div class="sub_menu_scroll sub_menu_3_list sub_menu_3_list2" ref="scrollAll3">
                 <div class="sub_menu_3_it" v-for="(item, i) in games" :key="i">
                   <div class="sub_menu_3_it_img">
-                    <img
-                      style="width: 100%; height: 100%"
-                      :src="getImg(item.gamePicturePC)"
-                      alt="img"
-                    />
+                    <img style="width: 100%; height: 100%" :src="getImg(item.gamePicturePC)" alt="img" />
                   </div>
                   <div class="sub_menu_3_it_name">{{ unserialize(item.name, true) }}</div>
                 </div>
@@ -364,22 +286,15 @@
         </div>
 
         <!-- 一排一组游戏列表 -->
-        <div
-          class="sub_menu_0 sub_menu_scroll sub_menu_3"
-          v-if="
-            !isPlatIn(currType) && currType.id != 100 && currType.id != 99 && !currPlat.id
-          "
-        >
+        <div class="sub_menu_0 sub_menu_scroll sub_menu_3" v-if="
+          !isPlatIn(currType) && currType.id != 100 && currType.id != 99 && !currPlat.id
+        ">
           <!-- 一排一组 -->
           <template v-if="hoverStatus">
             <div class="sub_menu_3_item" v-for="index in 10" :key="index">
               <!-- 操作 -->
               <div class="sub_menu_3_title">
-                <img
-                  class="sub_menu_3_title_icon"
-                  :src="`/img/menu/sub_menu_icon.webp`"
-                  alt="img"
-                />
+                <img class="sub_menu_3_title_icon" :src="`/img/menu/sub_menu_icon.webp`" alt="img" />
                 <div style="flex: 1"></div>
                 <div class="sub_menu_3_btn">更多</div>
                 <div class="sub_menu_3_btn" @click="prevPage">&lt;</div>
@@ -391,11 +306,7 @@
                 <TransitionGroup :name="aniName">
                   <div class="sub_menu_3_it" v-for="i in arr" :key="i">
                     <div class="sub_menu_3_it_img">
-                      <img
-                        style="width: 100%; height: 100%"
-                        :src="`/img/menu/sub_menu_icon.webp`"
-                        alt="img"
-                      />
+                      <img style="width: 100%; height: 100%" :src="`/img/menu/sub_menu_icon.webp`" alt="img" />
                     </div>
                     <div class="sub_menu_3_it_name">埃及探秘宝典{{ i }}</div>
                   </div>
@@ -420,6 +331,7 @@ import { Page } from "@/store/page";
 import { Local } from "@/utils/storage";
 import { Net } from "@/net/Net";
 import { User } from "@/store/user";
+import { Message } from "@/utils/discreteApi";
 
 const userInfo = User(pinia);
 const { homeGameData } = storeToRefs(Page(pinia));
@@ -472,6 +384,10 @@ const menuList = [
 // 点击菜单
 const currType: any = ref({});
 const itemClick = async (item: any) => {
+  // 临时逻辑-俱乐部和赛程 敬请期待
+  if (item.id == 99 || item.id == 100) {
+    return Message.warning('敬请期待！');
+  }
   if (!hasLogin.value && item.id == 99) {
     await User(pinia).setLogin(true);
     return;
@@ -488,11 +404,10 @@ const itemClick = async (item: any) => {
   }
   setTimeout(() => {
     clickLoading.value = false;
-  }, 200);
+  }, 500);
 
   // 俱乐部
   if (item.id == 99) {
-    console.error("俱乐部");
     MessageEvent2.addMsgEvent(
       NetMsgType.msgType.msg_notify_get_club_list,
       handleClubList
@@ -518,19 +433,42 @@ const itemGameClick = async (item: any) => {
   platformData.value = homeGameData.value.find(
     (e: any) => e.id == Number(item.id)
   ).three_platform;
-
   await Page(pinia).setVenueActive(item.id);
-  router.push({
-    path: "/gameDetail",
-    query: {
-      venue_id: item.id,
-    },
-  });
+  if (![3, 4].includes(item.id)) {
+    router.push({
+      path: "/gameDetail",
+      query: {
+        venue_id: item.id,
+      },
+    });
+  }
+
   clickLoading.value = true;
+
+
   setTimeout(() => {
     clickLoading.value = false;
     // clickPlat(platformData.value[0])
-  }, 200);
+    console.error('----->')
+    if (!isPlatIn(currType.value)) { // 如果不是直接展示入口的就要去获取所有游戏分类来展示
+      MessageEvent2.addMsgEvent(
+        NetMsgType.msgType.msg_notify_get_games_by_kind,
+        handleThirdList
+      );
+      const req = NetPacket.req_get_games_by_kind();
+      req.page = 1;
+      req.pageSize = 10
+      // req.inner_size = 10
+      req.kindId = currType.value.id
+      Net.instance.sendRequest(req);
+    }
+  }, 500);
+};
+
+// 三级菜单分类数据
+const handleThirdList = (res: any) => {
+  console.error("菜单数据-->", res);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_by_kind, null);
 };
 
 // 俱乐部
@@ -572,6 +510,8 @@ const clickPlat = (item: any) => {
   setTimeout(() => {
     games.value = [];
     const query = NetPacket.req_get_games_in_platform();
+    console.log('下拉请求=》》》》》》》》');
+
     query.agentId = item.id;
     query.is_lable = 0;
     query.kindId = 1;
@@ -620,6 +560,7 @@ onUnmounted(() => {
     null
   );
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_club_list, null);
+  MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_games_by_kind, null);
 });
 
 // 展开状态
@@ -1041,34 +982,26 @@ const jump = (name: any) => {
           align-items: center;
           justify-content: space-between;
           padding: 12px;
-          background: linear-gradient(
-            269deg,
-            rgba(162, 86, 238, 0.52) 1.3%,
-            #1b1c2a 77.11%
-          );
+          background: linear-gradient(269deg,
+              rgba(162, 86, 238, 0.52) 1.3%,
+              #1b1c2a 77.11%);
 
           &:nth-child(2n) {
-            background: linear-gradient(
-              269deg,
-              rgba(86, 151, 238, 0.52) 1.3%,
-              #1b1c2a 77.11%
-            );
+            background: linear-gradient(269deg,
+                rgba(86, 151, 238, 0.52) 1.3%,
+                #1b1c2a 77.11%);
           }
 
           &:nth-child(3n) {
-            background: linear-gradient(
-              269deg,
-              rgba(238, 122, 86, 0.52) 1.3%,
-              #1b1c2a 77.11%
-            );
+            background: linear-gradient(269deg,
+                rgba(238, 122, 86, 0.52) 1.3%,
+                #1b1c2a 77.11%);
           }
 
           &:nth-child(4n) {
-            background: linear-gradient(
-              269deg,
-              rgba(238, 168, 86, 0.52) 1.3%,
-              #1b1c2a 77.11%
-            );
+            background: linear-gradient(269deg,
+                rgba(238, 168, 86, 0.52) 1.3%,
+                #1b1c2a 77.11%);
           }
 
           .sub_menu_2_ss_icon {
@@ -1122,11 +1055,9 @@ const jump = (name: any) => {
 
         .sub_menu_2_ssed {
           background: linear-gradient(270deg, #1c99ff 0%, #9c1fff 100%),
-            linear-gradient(
-              269deg,
+            linear-gradient(269deg,
               rgba(162, 86, 238, 0.52) 1.3%,
-              rgba(0, 2, 35, 0) 77.11%
-            ) !important;
+              rgba(0, 2, 35, 0) 77.11%) !important;
 
           .sub_menu_2_ss_content {
             color: #fff;
@@ -1286,11 +1217,9 @@ const jump = (name: any) => {
             width: 326px;
             height: 110px;
             border-radius: 16px;
-            background: linear-gradient(
-              269deg,
-              rgba(162, 86, 238, 0.52) 1.3%,
-              #1b1c2a 77.11%
-            );
+            background: linear-gradient(269deg,
+                rgba(162, 86, 238, 0.52) 1.3%,
+                #1b1c2a 77.11%);
             margin-bottom: 8px;
             margin-right: 12px;
             overflow: hidden;
@@ -1301,27 +1230,21 @@ const jump = (name: any) => {
 
             &:nth-child(2n) {
               margin-right: 0;
-              background: linear-gradient(
-                269deg,
-                rgba(86, 151, 238, 0.52) 1.3%,
-                #1b1c2a 77.11%
-              );
+              background: linear-gradient(269deg,
+                  rgba(86, 151, 238, 0.52) 1.3%,
+                  #1b1c2a 77.11%);
             }
 
             &:nth-child(3n) {
-              background: linear-gradient(
-                269deg,
-                rgba(238, 122, 86, 0.52) 1.3%,
-                #1b1c2a 77.11%
-              );
+              background: linear-gradient(269deg,
+                  rgba(238, 122, 86, 0.52) 1.3%,
+                  #1b1c2a 77.11%);
             }
 
             &:nth-child(4n) {
-              background: linear-gradient(
-                269deg,
-                rgba(238, 168, 86, 0.52) 1.3%,
-                #1b1c2a 77.11%
-              );
+              background: linear-gradient(269deg,
+                  rgba(238, 168, 86, 0.52) 1.3%,
+                  #1b1c2a 77.11%);
             }
 
             .sub_menu_3_jl_icon {

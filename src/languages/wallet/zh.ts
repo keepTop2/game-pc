@@ -339,10 +339,20 @@ export default {
   withdraw_page_openClose: "开启/关闭资金密码",
   withdraw_page_sureDeposit: "确定存入",
   withdraw_page_emPayPwd: "资金密码不能为空",
-  
+
   // 免费夺宝
   free_loot: '免费夺宝',
+  free_loot_activity_time: '活动时间',
   free_loot_ranking: '夺宝排行榜',
+  free_loot_ranking_table_rankings: '排名',
+  free_loot_ranking_table_avatar: '头像',
+  free_loot_ranking_table_current_reward: '本期奖励',
+  free_loot_ranking_table_current_reward_text: '奖励',
+  free_loot_ranking_table_endearment: '昵称',
+  free_loot_ranking_today: '今日排名',
+  free_loot_ranking_username: '账号',
+  free_loot_ranking_trial_coin: '试玩金币',
+  free_loot_ranking_button_load_more: '点击加载更多',
   free_loot_rule: '规则说明',
   free_loot_rule_events: '活动简介',
   free_loot_rule_events_text: '免费夺宝活动只在试玩场中进行，所有游戏均可开启试玩场，试玩场入口在活动内页中。运营团队将定期举办免费夺宝活动，根据排名给予相应奖励。',
@@ -351,6 +361,16 @@ export default {
   free_loot_rule_flow: '获奖及领奖流程',
   free_loot_rule_flow_text: '获奖通知：如果玩家获奖，系统会自动发送获奖邮件，请注意查收； 领奖要求：玩家收到获奖邮件后，需要联系客服完成领奖，奖励将以邮件形式发放。',
 
+
+  // 首冲x3
+  first_deposit_tips: '注：从充值当日起15天内完成。',
+  first_deposit_sign_in_1: '立即领取',
+  first_deposit_sign_in_2: '关注我们',
+  first_deposit_sign_in_3: '邀请好友',
+  first_deposit_sign_in_4: '10倍流水',
+  first_deposit_sign_in_5: '25倍流水',
+  first_deposit_sign_in_6: '50倍流水',
+  first_deposit_receive: '领取',
 
   // transfer
   transfer_page_from: '从',

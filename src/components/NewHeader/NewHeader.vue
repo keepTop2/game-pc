@@ -22,7 +22,7 @@
 
         <!-- <Imgt src="/img/header/search.webp" @click="search" v-if="!isSearch" /> -->
       </div>
-      <!--       
+      <!--
       邮件收藏 -->
       <div class="email_wrap" v-if="hasLogin">
         <div class="email_main">
@@ -38,14 +38,14 @@
         <n-button @click="onRegisterOpen">Sign Up</n-button>
       </div>
 
-      <!--       
+      <!--
       主题色切换 -->
       <div class="theme">
         <Imgt v-if="theme == 'day'" src="/img/header/day.webp" @click="changeTheme('night')" />
         <Imgt v-else src="/img/header/night.webp" @click="changeTheme('day')" />
       </div>
 
-      <!--       
+      <!--
       账号信息 -->
       <div class="account" v-if="hasLogin">
         <div class="account_bit">
@@ -55,7 +55,7 @@
         <div>{{ verifyNumberComma(String(roleInfo.money)) }}</div>
       </div>
 
-      <!--       
+      <!--
       头像 语言 -->
       <div class="avatar">
         <div>
@@ -86,6 +86,25 @@
           </n-popselect>
         </div>
       </div>
+
+      <!--免费夺宝-->
+      <n-modal v-model:show="isFreeModalVisible">
+        <div>
+          <FreeTreasureGrab/>
+        </div>
+      </n-modal>
+
+      <n-modal :show="isFirstDeposit" :mask-closable="false">
+        <div>
+          <FirstDeposit v-if="isFirstDeposit" />
+        </div>
+      </n-modal>
+      <!--  优惠首存-->
+      <n-modal :show="isFirstDeposit" :mask-closable="false">
+        <div>
+          <FirstDeposit v-if="isFirstDeposit" />
+        </div>
+      </n-modal>
 
       <!-- 弹窗登录 -->
       <n-modal :show="isLogin" :mask-closable="false">
@@ -122,7 +141,7 @@
 </template>
 
 <script setup lang="ts" name="Header">
-import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive, h } from "vue";
+import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive, h, nextTick } from 'vue';
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { Local, needLoginApi } from "@/utils/storage";
@@ -149,10 +168,13 @@ import useClickOutSideHooks from "@/utils/vClickOutside";
 import Notice from "./notice.vue";
 import RedeemCode from "@/views/wallet/components/RedeemCode.vue";
 
+
 const Login = defineAsyncComponent(() => import("@/components/Login.vue"));
 const Register = defineAsyncComponent(() => import("@/components/Register.vue"));
 const RegPop = defineAsyncComponent(() => import("@/components/RegPop.vue"));
 const NoticeDialog = defineAsyncComponent(() => import('@/components/NoticeDialog.vue'));
+const FirstDeposit = defineAsyncComponent(() => import('@/components/firstDeposit.vue'));
+const FreeTreasureGrab = defineAsyncComponent(() => import('@/components/FreeTreasureGrab/index.vue'));
 
 const { vClickOutside } = useClickOutSideHooks();
 
@@ -163,7 +185,7 @@ const onClickOutside = () => {
 
 const { t } = useI18n();
 const page = Page(pinia);
-const { menuActive, settings, lang, textAnnouncement } = storeToRefs(page);
+const { menuActive, settings, lang, textAnnouncement, isFreeModalVisible } = storeToRefs(page);
 // import { Message } from "@/utils/discreteApi.ts";
 // import { Search } from '@vicons/ionicons5'
 const userInfo = User(pinia);
@@ -177,6 +199,8 @@ const {
   agentInfo,
   isNotice,
   myEmail,
+  isFirstDeposit,
+
 } = storeToRefs(userInfo);
 const router = useRouter();
 const route = useRoute();
@@ -369,6 +393,7 @@ if (paramsObj.user_level) {
 }
 
 const onHander_check_version = async (message: any) => {
+
   if (message.result != NetEnumDef.check_version_result.cvr_yes) {
     console.log("check version failed");
     return;
@@ -376,6 +401,7 @@ const onHander_check_version = async (message: any) => {
   needLoginApi();
 };
 const onHander_system_notice = async (message: any) => {
+
   if (message.notice_list?.length) {
     const dialogList: any = message.notice_list.filter((item: any) => item.position == 1);
 
@@ -550,7 +576,10 @@ MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_repeat_login, async () =
 //   }
 // });
 
+
+
 onMounted(async () => {
+
   let req_check_version_req = NetPacket.req_check_version();
   req_check_version_req.version = 1;
   Net.instance.sendRequest(req_check_version_req);
@@ -569,8 +598,12 @@ onMounted(async () => {
     NetMsgType.msgType.msg_notify_send_system_notice,
     onHander_system_notice
   );
+
   MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_sys_msg, onHandler_system_msg);
+
 });
+
+
 
 onUnmounted(() => {
   MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_check_version, null);

@@ -12,30 +12,34 @@
         </li>
       </div>
       <div class="wh_content div1">
-        <div class="wh_content_item" v-for="(tag, i) in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']" :key="i">
+        <div class="wh_content_item" v-for="(tag, i) in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" :key="i">
           <div class="wh_top_tag">{{ tag }}</div>
         </div>
       </div>
       <table class="wh_content">
         <th class="wh_content_item" v-for="(item, index) in state.list" :key="index" @click="clickDay(item, index)">
-        <td class="wh_item_date" v-bind:class="[
-          { wh_isMark: item.isMark },
-          { wh_other_dayhide: item.otherMonth !== 'nowMonth' },
-          { wh_want_dayhide: item.dayHide },
-          { wh_isToday: item.isToday },
-          { wh_chose_day: item.chooseDay },
-          setClass(item)
-        ]">
-          <div class="day_yy" v-if="item.IsSignIn === 'true' && item.SignInType === '1'">补签</div>
-          <img :src="imgUrl(item)" width="25" v-else-if="item.img" />
-          <div class="day_ss" v-else>
-            <div>{{ item.id }}</div>
-            <div class="qd_txt" v-if="item.otherMonth === 'nowMonth'">
-              {{ props.dayNum.TodayIsSignIn === 'true' ? t('已签到') : t('签到') }}
+          <span v-if="item.otherMonth === 'nowMonth'" class="icon_tips">
+             <iconpark-icon v-if="item?.beforeNow" icon-id="qiandaoiconyqdw02" size="1.042rem"></iconpark-icon>
+             <iconpark-icon v-else icon-id="qiandaoiconyqdw01" size="1.042rem"></iconpark-icon>
+          </span>
+          <td class="wh_item_date" v-bind:class="[
+            { wh_isMark: item.isMark },
+            { wh_other_dayhide: item.otherMonth !== 'nowMonth' },
+            { wh_want_dayhide: item.dayHide },
+            { wh_isToday: item.isToday },
+            { wh_chose_day: item.chooseDay },
+            setClass(item)
+          ]">
+            <div class="day_yy" v-if="item.IsSignIn === 'true' && item.SignInType === '1'">补签</div>
+            <img :src="imgUrl(item)" width="25" v-else-if="item.img" />
+            <div class="day_ss" v-else>
+              <div>{{ item.id }}</div>
+              <div class="qd_txt" v-if="item.otherMonth === 'nowMonth'">
+                {{ item?.beforeNow ? t('补签') : (props.dayNum.TodayIsSignIn === 'true' ? t('已签到') : t('签到')) }}
+              </div>
             </div>
-          </div>
-          <i v-if="item.gou"></i>
-        </td>
+            <i v-if="item.gou"></i>
+          </td>
         </th>
       </table>
       <!-- <div class="sign_text">您已经连续签到<b>{{ props.dayNum.ContinuousDays }}</b>天 -->
@@ -99,7 +103,7 @@ const getMonthweek = (date: { getFullYear: () => any; getMonth: () => number; })
       : dateFirstOne
     : dateFirstOne === 0
       ? 6
-      : dateFirstOne - 1;
+      : dateFirstOne;
 };
 /**
  * 获取当前日期上个月或者下个月
@@ -212,6 +216,7 @@ const getMonthListNoOther = (date: any) => {
       date: nowTime,
       isToday: toDay === nowTime,
       otherMonth: "nowMonth",
+      beforeNow: nowTime < toDay, // 是否今天之前的日期
     });
   }
   return arr;
@@ -279,7 +284,8 @@ const clickDay = (item: { otherMonth: string; dayHide: any; date: any; }, _index
     getList(state.myDate, item.date);
   }
   if (item.otherMonth !== "nowMonth") {
-    item.otherMonth === "preMonth" ? PreMonth(item.date) : NextMonth(item.date);
+    console.log('点击非本月日期---')
+    // item.otherMonth === "preMonth" ? PreMonth(item.date) : NextMonth(item.date);
   }
 };
 // const ChoseMonth = (date: string | number | Date, isChosedDay = true) => {
@@ -382,7 +388,7 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
       k.chooseDay = true;
     }
   }
-  console.log('当月日期--', arr)
+  console.log('当月日期数据--', arr)
   state.list = arr;
 };
 const state:any = reactive({
@@ -563,7 +569,14 @@ li {
 }
 
 .wh_content_item {
+  position: relative;
   border: 1px solid #26294C;
+  .icon_tips {
+    position: absolute;
+    z-index: 1;
+    right: 4px;
+    bottom: 0;
+  }
   >.wh_isMark {
     margin: auto;
     border-radius: 2.6rem;

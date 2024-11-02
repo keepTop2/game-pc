@@ -8,62 +8,34 @@
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
         const deviceId = params.get('device_id');
-        if (deviceId) {
-            localStorage.setItem('device_id', deviceId)
-            getConfig()
-        } else {
-            jump()
-        }
+
+        let queryString = ''
+
+        localStorage.setItem('device_id', deviceId)
+        getConfig();
+
+
         async function getConfig() {
-            const settingsRes = await fetch('/settings.json?' + new Date().getTime())
+            const settingsRes1 = await fetch('http://18.167.187.79/config_h5_develop.json?' + new Date().getTime())
+            const settingsRes2 = await settingsRes1.json()
+            const settingsRes = await fetch(settingsRes2.chat_setting + '?' + new Date().getTime())
             const settings = await settingsRes.json()
-            console.error(settings)
-            if (settings.customer_server) {
-                // 获取角色
-                fetch(settings.customer_server + `/api/user/info?device_id=${deviceId}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-                        return response.json(); // 将响应解析为 JSON
-                    })
-                    .then(res => {
-                        if (res.data) {
-                            let queryString = Object.keys({
-                                ...res.data,
-                            })
-                                .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(res.data[key])}`)
-                                .join('&');
-                            queryString += `&device_id=${deviceId}`
-                            jump('?' + queryString)
-                        } else {
-                            jump()
-                        }
-                    })
+            if (settings.data) {
+                queryString = Object.keys({
+                    ...settings.data,
+                })
+                    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(settings.data[key])}`)
+                    .join('&');
+                queryString += `&device_id=${deviceId}`
+                const pc_api_url = settings.data.pc_api_url
+                const h5_api_url = settings.data.h5_api_url
+                if (isMobile()) {
+                    location.href = h5_api_url + '?' + (queryString || '')
+                } else {
+                    location.href = pc_api_url + '?' + (queryString || '')
+                }
             }
-        }
 
-
-        async function jump(query) {
-            const settingsRes = await fetch('/settings.json?' + new Date().getTime())
-            const settings = await settingsRes.json()
-            if (!settings.customer_server) return
-            fetch(settings.customer_server + `/api/settings/site`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json(); // 将响应解析为 JSON
-                })
-                .then(res => {
-                    const pc_api_url = res?.data?.pc_api_url
-                    const h5_api_url = res?.data?.h5_api_url
-                    if (isMobile()) {
-                        location.href = h5_api_url + (query || '')
-                    } else {
-                        location.href = pc_api_url + (query || '')
-                    }
-                })
         }
 
         function isMobile() {

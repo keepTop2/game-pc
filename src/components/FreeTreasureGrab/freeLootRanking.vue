@@ -6,20 +6,22 @@
           <Imgt
             :src="`/img/head_icons/${roleInfo.head_photo}.webp`"
             alt="/img/home/avatar.webp"
+            v-if="roleInfo.head_photo"
           />
         </div>
         <div class="accountNumber">
-          <p>账号：{{ info.full_name }}</p>
+          <p>{{ t('free_loot_ranking_username') }}：{{ info.full_name }}</p>
           <p>
-            今日排名：{{ props.freeTreasureInfo.rank === -1 ? '--' : props.freeTreasureInfo.rank === -1 }}</p>
+            {{ t('free_loot_ranking_today') }}：{{ !WalletStore.freeTreasureInfoData.rank || WalletStore.freeTreasureInfoData.rank === -1 ? '--' : WalletStore.freeTreasureInfoData.rank }}</p>
         </div>
       </div>
       <div class="gold">
-        <p>试玩金币</p>
+        <p>{{ t('free_loot_ranking_trial_coin') }}</p>
         <div class="goldNumber">
           <Imgt src="/img/wallet/gold.svg" />
           <!--          <p>{{ freeLootRankingData.gold }}</p>-->
-          <p>{{ props.freeTreasureInfo.score || 0 }}</p>
+          <p>{{ WalletStore.freeTreasureInfoData.score || 0 }}</p>
+
         </div>
       </div>
     </div>
@@ -57,7 +59,7 @@
           tertiary
           class="planButton"
         >
-          点击加载更多
+          {{ t('free_loot_ranking_button_load_more') }}
         </n-button>
       </div>
     </div>
@@ -76,15 +78,16 @@ import { NetPacket } from '@/netBase/NetPacket.ts';
 import { Net } from '@/net/Net.ts';
 import { MessageEvent2 } from '@/net/MessageEvent2.ts';
 import { NetMsgType } from '@/netBase/NetMsgType.ts';
+import { Wallet } from '@/store/wallet.ts';
+
 
 const { t } = useI18n();
 const userInfo = User(pinia);
 const { info } = storeToRefs(userInfo);
 
 const UserStore = User(pinia);
+const WalletStore: any = Wallet(pinia);
 const { roleInfo } = storeToRefs(UserStore);
-
-const props = defineProps<{ freeTreasureInfo: any }>();
 
 const freeLootRankingData: any = reactive({
   list: [],
@@ -94,7 +97,7 @@ const freeLootRankingData: any = reactive({
   pageSize: 50,
   tableHeader: [
     {
-      title: '排名',
+      title: t('free_loot_ranking_table_rankings'),
       width: 50,
       key: 'rank',
       render(row: any) {
@@ -125,7 +128,7 @@ const freeLootRankingData: any = reactive({
       },
     },
     {
-      title: '头像',
+      title: t('free_loot_ranking_table_avatar'),
       // width: 50,
       key: 'head_icon',
       render(row: any) {
@@ -136,24 +139,24 @@ const freeLootRankingData: any = reactive({
         });
       },
     },
-    { title: '昵称', key: 'username' },
+    { title: t('free_loot_ranking_table_endearment'), key: 'username' },
     {
-      title: '试玩金币',
+      title: t('free_loot_ranking_trial_coin'),
       key: 'score',
       render(row: any) {
         return h('span', {
           class: 'yellowText',
-          innerHTML: `试玩金币：<i>${row.score}</i>`,
+          innerHTML: `${ t('free_loot_ranking_trial_coin')}：<i>${row.score}</i>`,
         });
       },
     },
     {
-      title: '本期奖励',
+      title: t('free_loot_ranking_table_current_reward'),
       key: 'reward',
       render(row: any) {
         return h('span', {
           class: 'yellowText',
-          innerHTML: `奖励：<i>${row.reward}</i>`,
+          innerHTML: `${t('free_loot_ranking_table_current_reward_text')}：<i>${row.reward}</i>`,
         });
       },
     },
@@ -227,7 +230,9 @@ onUnmounted(() => {
 <style scoped lang="less">
 .freeLootRanking {
   padding-top: 20px;
-
+  p, span {
+    color: #ffffff;
+  }
   .theFirst {
     display: flex;
     justify-content: space-between;

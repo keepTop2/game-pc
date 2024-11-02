@@ -10,16 +10,9 @@
               近期大奖
             </span>
             <div class="tab_wrap">
-              <div
-                v-for="item in tabList"
-                :key="item.id"
-                @click="tabClick(item)"
-                :class="{ tab_active: tab_id == item.id }"
-              >
-                <iconpark-icon
-                  :icon-id="tab_id == item.id ? item.active_icon : item.icon"
-                  size="1rem"
-                ></iconpark-icon>
+              <div v-for="item in tabList" :key="item.id" @click="tabClick(item)"
+                :class="{ tab_active: tab_id == item.id }">
+                <iconpark-icon :icon-id="tab_id == item.id ? item.active_icon : item.icon" size="1rem"></iconpark-icon>
                 <span>{{ item.label }}</span>
               </div>
             </div>
@@ -28,14 +21,8 @@
             t('home_page_more')
           }}</span>
         </div>
-        <n-carousel
-          style="position: static"
-          :slides-per-view="8"
-          :space-between="10"
-          :loop="false"
-          draggable
-          show-arrow
-        >
+        <n-carousel style="position: static" :slides-per-view="8" :space-between="10" :loop="false" draggable
+          show-arrow>
           <div v-for="i in 10" :key="i" class="da_jiang_list">
             <Imgt class="reward_img" :src="`/img/home/dajiang.png`" />
             <span class="text1">恭喜发财</span>
@@ -46,18 +33,8 @@
           <template #arrow="{ prev, next }">
             <div class="game_seach">
               <span>
-                <iconpark-icon
-                  class="left"
-                  icon-id="fangxiangicon04"
-                  size=".8rem"
-                  @click="prev"
-                ></iconpark-icon>
-                <iconpark-icon
-                  class="right"
-                  icon-id="fangxiangicon01"
-                  size=".8rem"
-                  @click="next"
-                ></iconpark-icon>
+                <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
               </span>
             </div>
           </template>
@@ -101,18 +78,8 @@
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon
-                    class="left"
-                    icon-id="fangxiangicon04"
-                    size=".8rem"
-                    @click="prev"
-                  ></iconpark-icon>
-                  <iconpark-icon
-                    class="right"
-                    icon-id="fangxiangicon01"
-                    size=".8rem"
-                    @click="next"
-                  ></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -245,13 +212,16 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @timestamp: `new Date() .getTime() `;
+
 .game_detail {
   margin-top: 40px;
 }
+
 .da_jiang {
   .game_seach {
     top: 0px;
   }
+
   .game_type .text {
     display: flex;
     align-items: center;
@@ -376,8 +346,7 @@ onMounted(() => {
   }
 
   .match_list {
-    background: url('/img/home/match_arrow.webp?t=@{timestamp}') center
-      no-repeat;
+    background: url('/img/home/match_arrow.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
     display: flex;
     height: 72px;
@@ -391,8 +360,7 @@ onMounted(() => {
   }
 
   .active_match {
-    background: url('/img/home/match_arrow_ac.webp?t=@{timestamp}') center
-      no-repeat;
+    background: url('/img/home/match_arrow_ac.webp?t=@{timestamp}') center no-repeat;
     background-size: 100%;
   }
 

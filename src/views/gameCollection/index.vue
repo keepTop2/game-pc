@@ -13,13 +13,11 @@
         </div>
 
         <div class="tab_box">
-
             <n-tabs v-model:value="state.lableActive" @update:value="changeLableTab">
                 <n-tab-pane :name="item.kindId" v-for="(item, i) in kindList" :key="i">
                     <template #tab>
                         <div class="tab_div">
-
-                            <img :src="state.lableActive == item.kindId ? item.icon_after : item.icon_before" alt=""
+                            <img :src="state.lableActive === item.kindId ? item.icon_after : item.icon_before" alt=""
                                 srcset="">
                             <span :class="state.lableActive == item.kindId && 'n-tabs-tab--active'">
 
@@ -96,7 +94,7 @@ const props = defineProps({
         type: Number,
         default: -1
     },
-    // 是否属于自定义标签 
+    // 是否属于自定义标签
     //为0时 则kindId取右侧tab的值  -1为全部  -2为收藏，-3为最近
     //为1时  则kindId 为场馆id或  火热 1
     lableId: {
@@ -121,8 +119,8 @@ const props = defineProps({
                 kind_name: "{\"zh-CN\":\"最近\",\"vi-VN\":\"gần đây\",\"en-US\":\"Recent\"}",
                 kindId: -3,
                 key: 2,
-                icon_after: '/img/game/zuijin.webp',
-                icon_before: '/img/game/zuijin_un.webp'
+                icon_after: '/img/game/zuijin_un.webp',
+                icon_before: '/img/game/zuijin.webp'
             },
             {
                 kind_name: "{\"zh-CN\":\"收藏\",\"vi-VN\":\"Yêu thích\",\"en-US\":\"Favorites\"}",
@@ -216,6 +214,8 @@ const queryData = () => { // 查询
         loading.value = true
         isLoading.value = true
         const query = NetPacket.req_get_games_in_platform()
+        console.log('二级页请求=》》》》》');
+
         query.agentId = state.agentId
         query.kindId = state.kindId
         query.lableId = state.lableId
@@ -228,11 +228,6 @@ const queryData = () => { // 查询
 const changeLableTab = (item: any) => {
     state.lableId = item
     state.lableActive = item
-    // if (item == 1) {
-    //     state.lableId = 1
-    // } else {
-    //     state.lableId = 0
-    // }
     resetData()
     queryData()
 }
@@ -325,7 +320,7 @@ const resetData = () => {
 }
 
 onMounted(() => {
-    kindList.value = props.kindList
+
     state.agentId = props.agentId
     state.lableId = props.lableId
     state.kindId = props.kindId
@@ -333,12 +328,16 @@ onMounted(() => {
         state.lableActive = Number(props.lableActive)
     }
 
+
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_get_games_in_platform, handleGames);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_look_for_game_name, handleQuery);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_3rd_game_login_result, gameUrlResult);
     MessageEvent2.addMsgEvent(NetMsgType.msgType.msg_notify_modify_collect, resCollect);
+    if (props.kindList.length > 0) {
+        kindList.value = props.kindList
+        queryData()
+    }
 
-    queryData()
 })
 onUnmounted(() => {
     MessageEvent2.removeMsgEvent(NetMsgType.msgType.msg_notify_get_kind_in_platform, null);
@@ -349,12 +348,9 @@ onUnmounted(() => {
 watch(
     () => props.kindId,
     (a) => {
-        if (a) {
-            console.log('1111111', a);
-            state.kindId = a
+        if (a.length > 0) {
             resetData()
             queryData()
-            // queryData()
         }
     }
 )
@@ -364,9 +360,9 @@ watch(
         if (a.length > 0) {
             kindList.value = a
             state.lableActive = -1
+            state.lableId = 0
             resetData()
             queryData()
-            // queryData()
         }
     }
 )
@@ -375,6 +371,7 @@ watch(
     (a) => {
         if (a) {
             state.agentId = a
+            console.log('agentId变了');
             resetData()
             queryData()
             // queryData()
