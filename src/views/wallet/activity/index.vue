@@ -44,6 +44,7 @@
       @signInEvent="signInEvent" @choseDay="clickDay" :data="state.dataList" :sundayStart="false" :dayNum="state.dayNum">
     </Calendar> -->
   <SignIn ref="signModal" />
+  <Guess />
 </template>
 
 <script setup lang="ts">
@@ -64,6 +65,7 @@ import { NetPacket } from '@/netBase/NetPacket';
 import { Net } from '@/net/Net';
 import { MessageEvent2 } from '@/net/MessageEvent2';
 import { NetMsgType } from '@/netBase/NetMsgType';
+import Guess from "./guess/index.vue"
 // import { User } from '@/store/user';
 import FirstDepositThree from '@/views/wallet/activity/components/firstDepositThree.vue';
 
