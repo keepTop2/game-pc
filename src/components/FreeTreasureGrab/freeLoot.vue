@@ -2,7 +2,7 @@
   <div class="freeLoot">
     <div class="banner">
       <img src="/img/activity/image.webp" alt="" />
-      <span>{{t('free_loot_activity_time')}}：2024.1.1 ~ 2024.6.30</span>
+      <span>{{ t('free_loot_activity_time') }}：2024.1.1 ~ 2024.6.30</span>
     </div>
 
     <div class="plan">
@@ -11,13 +11,8 @@
       </div>
       <div class="planListBox">
         <div class="planList">
-          <div
-            class="planListItem"
-            v-for="(item, index) in planList.data"
-            @click="gameStart(item)"
-            :style="{ background: `url(/img/home/colect_${index % 6 || 5}.png) no-repeat` }"
-            :key="index"
-          >
+          <div class="planListItem" v-for="(item, index) in planList.data" @click="gameStart(item)"
+            :style="{ background: `url(/img/home/colect_${index % 6 || 5}.png) no-repeat` }" :key="index">
             <span>{{ t(item.gameId || 49) }}</span>
           </div>
         </div>
@@ -32,7 +27,7 @@
 <script setup lang="ts">
 // import { useI18n } from 'vue-i18n';
 import Imgt from '@/components/Imgt.vue';
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 
 import { useI18n } from 'vue-i18n';
 import { NetPacket } from '@/netBase/NetPacket.ts';
@@ -66,10 +61,10 @@ const pushPlanListData = () => {
 };
 
 const gameStart = (item: any) => {
-  getGameUrl({agentId: 88888888,device_type: 0,gameId:item.roomId,kindId: 999  })
+  getGameUrl({ agentId: 88888888, device_type: 0, gameId: item.roomId, kindId: 999 })
 };
 
-const getGameUrl = (item: any) =>{
+const getGameUrl = (item: any) => {
   // req_3rd_game_login
   const req = NetPacket.req_3rd_game_login();
   req.agentId = item.agentId;
@@ -106,7 +101,7 @@ const handleFreeTreasureInfo = async (data: any) => {
     planList.loadMore = arrData.length > 50
     // planList.data = [...props.freeTreasureInfo.gameIds];
     planList.data = [...arrData];
-    if(arrData.length >50) {
+    if (arrData.length > 50) {
       planList.data = [...arrData.slice(0, 50)]
     } else {
       planList.data = [...arrData]
@@ -116,7 +111,7 @@ const handleFreeTreasureInfo = async (data: any) => {
 };
 
 const reqFreeTreasureInfo = () => {
-  if(!WalletStore.freeTreasureInfoData.gameIds) {
+  if (!WalletStore.freeTreasureInfoData.gameIds) {
 
     const req_free_treasure_info = NetPacket.req_free_treasure_info();
     Net.instance.sendRequest(req_free_treasure_info);
@@ -152,41 +147,51 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   padding: 20px 0 30px;
-  p, span {
+
+  p,
+  span {
     color: #ffffff;
   }
+
   .banner {
     border-radius: 0;
-    > img {
+
+    >img {
       width: 100%;
       height: 150px;
       border-radius: 6px;
       margin-bottom: 12px;
     }
-    > span {
+
+    >span {
       font-size: 14px;
     }
   }
+
   .plan {
     border: 1px solid rgba(38, 41, 76, 1);
     background-color: rgba(23, 27, 68, 1);
     //min-height: calc(100% - 230px);
     margin-top: 14px;
     border-radius: 12px;
-    > .header {
+
+    >.header {
       display: flex;
       justify-content: center;
-      > img {
+
+      >img {
         width: 214px;
         height: 32px;
         margin-top: -6px;
       }
     }
-    > .planListBox {
+
+    >.planListBox {
       height: 500px;
       overflow-y: auto;
       padding: 20px 40px 0;
-      > .planList {
+
+      >.planList {
         display: flex;
         flex-wrap: wrap;
         padding-bottom: 20px;
@@ -194,7 +199,7 @@ onUnmounted(() => {
         gap: 21px;
         align-items: center;
 
-        > .planListItem {
+        >.planListItem {
           position: relative;
           display: flex;
           align-items: end;
@@ -202,19 +207,25 @@ onUnmounted(() => {
           width: 120px;
           height: 120px;
           background-size: contain !important;
+
           span {
             display: block;
             width: 73px;
             //line-height: 18;
             text-align: center;
             font-size: 12px;
-            white-space: nowrap; /* 保持文本在一行显示 */
-            overflow: hidden; /* 隐藏溢出的文本 */
-            text-overflow: ellipsis; /* 显示省略号 */
+            white-space: nowrap;
+            /* 保持文本在一行显示 */
+            overflow: hidden;
+            /* 隐藏溢出的文本 */
+            text-overflow: ellipsis;
+            /* 显示省略号 */
           }
         }
-        > .planListItem:hover {
+
+        >.planListItem:hover {
           cursor: pointer;
+
           &::after {
             content: '';
             width: 100%;
@@ -228,7 +239,8 @@ onUnmounted(() => {
           }
         }
       }
-      > .planButton {
+
+      >.planButton {
         width: 100%;
         background-image: none;
         border: 1px solid rgba(51, 56, 107, 1);

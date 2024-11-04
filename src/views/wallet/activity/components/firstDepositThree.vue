@@ -28,23 +28,19 @@
       <div class="content-list">
         <div class="day" v-for="(item, index) in signIn_7.data" :key="index">
           <div class="now_get">
-            <p>{{item.name}}</p>
+            <p>{{ item.name }}</p>
             <Imgt class="question" src="/img/home/question_icon.webp" alt="" />
           </div>
           <div class="day_content">
             <div class="information">
               <div>
-                <p class="percent">{{item.percent}}%</p>
+                <p class="percent">{{ item.percent }}%</p>
                 <Imgt class="gift" :src="item.src" alt="" />
                 <div class="water_money" v-if="item.waterNum !== undefined">
-                  <n-progress
-                    type="circle"
-                    :percentage="item.waterNum"
-                    color="rgba(53, 208, 60, 1)"
-                  />
+                  <n-progress type="circle" :percentage="item.waterNum" color="rgba(53, 208, 60, 1)" />
                 </div>
               </div>
-<!--              <n-button :bordered="false" class="weal" @click="signInButton">{{t('first_deposit_receive')}}</n-button>-->
+              <!--              <n-button :bordered="false" class="weal" @click="signInButton">{{t('first_deposit_receive')}}</n-button>-->
               <n-button :bordered="false" class="weal" @click="signInButton">
                 <img src="/img/home/lock.webp" alt="">
               </n-button>
@@ -65,11 +61,11 @@
     </div>
 
     <!-- 底部按钮 -->
-   <div class="footer">
-     <n-button :bordered="false" class="bottom-btn" @click="signInButton">
-       立即参与
-     </n-button>
-   </div>
+    <div class="footer">
+      <n-button :bordered="false" class="bottom-btn" @click="signInButton">
+        立即参与
+      </n-button>
+    </div>
   </div>
 </template>
 
@@ -83,53 +79,53 @@ const { t } = useI18n()
 const firstAmount = ref('0.00')
 
 // 活动内容数组
-const activityList = [
-  {
-    rate: '5%',
-    title: '立即领取',
-    locked: true,
-    progress: 0
-  },
-  {
-    rate: '10%',
-    title: '关注我们',
-    locked: true,
-    progress: 0
-  },
-  {
-    rate: '15%',
-    title: '邀请好友',
-    locked: true,
-    progress: 0
-  },
-  {
-    rate: '30%',
-    title: '10倍流水',
-    locked: true,
-    progress: 100
-  },
-  {
-    rate: '60%',
-    title: '25倍流水',
-    locked: true,
-    progress: 60
-  },
-  {
-    rate: '80%',
-    title: '50倍流水',
-    locked: true,
-    progress: 8
-  }
-]
+// const activityList = [
+//   {
+//     rate: '5%',
+//     title: '立即领取',
+//     locked: true,
+//     progress: 0
+//   },
+//   {
+//     rate: '10%',
+//     title: '关注我们',
+//     locked: true,
+//     progress: 0
+//   },
+//   {
+//     rate: '15%',
+//     title: '邀请好友',
+//     locked: true,
+//     progress: 0
+//   },
+//   {
+//     rate: '30%',
+//     title: '10倍流水',
+//     locked: true,
+//     progress: 100
+//   },
+//   {
+//     rate: '60%',
+//     title: '25倍流水',
+//     locked: true,
+//     progress: 60
+//   },
+//   {
+//     rate: '80%',
+//     title: '50倍流水',
+//     locked: true,
+//     progress: 8
+//   }
+// ]
 
 const signIn_7 = reactive({
   data: [
-    {name: t('first_deposit_sign_in_1'), percent: 5,  src: '/img/home/firstDeposit_1.webp'},
-    {name: t('first_deposit_sign_in_2'), percent: 10, src: '/img/home/firstDeposit_2.webp'},
-    {name: t('first_deposit_sign_in_3'), percent: 15, src: '/img/home/firstDeposit_3.webp'},
-    {name: t('first_deposit_sign_in_4'), percent: 30, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 100},
-    {name: t('first_deposit_sign_in_5'), percent: 60, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 40},
-    {name: t('first_deposit_sign_in_6'), percent: 80, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 0},
+    { name: t('first_deposit_sign_in_1'), percent: 5, src: '/img/home/firstDeposit_1.webp' },
+    { name: t('first_deposit_sign_in_2'), percent: 10, src: '/img/home/firstDeposit_2.webp' },
+    { name: t('first_deposit_sign_in_3'), percent: 15, src: '/img/home/firstDeposit_3.webp' },
+    { name: t('first_deposit_sign_in_4'), percent: 30, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 100 },
+    { name: t('first_deposit_sign_in_5'), percent: 60, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 40 },
+    { name: t('first_deposit_sign_in_6'), percent: 80, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 0 },
   ]
 })
 
@@ -252,6 +248,7 @@ const signInButton = () => {
       display: flex;
       gap: 20px;
       padding: 0 12px;
+
       .day {
         width: 192px;
         height: 150px;
@@ -259,6 +256,7 @@ const signInButton = () => {
         top: 546px;
         border-radius: 16px;
         background: linear-gradient(180deg, #FFFFFF 0%, #C8C4D8 100%);
+
         .now_get {
           display: flex;
           justify-content: center;
@@ -266,31 +264,37 @@ const signInButton = () => {
           width: 100%;
           height: 32px;
           padding: 0 6px;
+
           //cursor: pointer;
           p {
             margin: 0 6px 0 0;
 
           }
+
           background: linear-gradient(91.03deg, #FFA451 0.29%, #FF6B18 99.39%);
+
           .question {
             width: 14px;
             height: 14px;
             flex-grow: 0;
           }
         }
+
         .day_content {
           display: flex;
           height: calc(100% - 32px);
           align-items: center;
           flex-direction: column;
+
           .information {
             width: 100%;
             height: 100%;
             padding: 0 10px 10px;
-            background-image:url('/img/home/firstDeposit_purse.webp');
+            background-image: url('/img/home/firstDeposit_purse.webp');
             background-repeat: no-repeat;
             background-position: center 0;
             background-size: 96px 96px;
+
             >div {
               position: relative;
               display: flex;
@@ -298,6 +302,7 @@ const signInButton = () => {
               align-items: center;
               padding: 35px 0 0 0;
               justify-content: space-between;
+
               .percent {
                 width: 46px;
                 height: 22px;
@@ -309,18 +314,22 @@ const signInButton = () => {
                 border: 1px solid rgba(255, 111, 29, 1);
 
               }
+
               .gift {
                 width: 36px;
                 height: 43px;
                 z-index: 2;
               }
+
               .water_money {
                 position: absolute;
                 top: 5px;
                 right: -3px;
+
                 :deep(.n-progress) {
                   width: 44px;
                   height: 44px;
+
                   .n-progress-text {
                     display: flex;
                     align-items: center;
@@ -330,7 +339,7 @@ const signInButton = () => {
                     font-weight: 700;
                     color: #ffffff;
                     width: 36px;
-                    height:36px;
+                    height: 36px;
                     border-radius: 100%;
                     background: radial-gradient(121.98% 100% at 50% 0%, #3EF345 0%, #22B627 68.01%, #3EF345 97%);
 
@@ -370,7 +379,7 @@ const signInButton = () => {
 
     .rules-list {
       .rule-item {
-        color: rgba(255,255,255,0.8);
+        color: rgba(255, 255, 255, 0.8);
         font-size: 14px;
         line-height: 1.5;
         margin-bottom: 10px;
@@ -382,6 +391,7 @@ const signInButton = () => {
     width: 372px;
     height: 46px;
     margin: 30px auto 0;
+
     .bottom-btn {
       width: 372px;
       height: 46px;

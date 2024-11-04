@@ -90,7 +90,7 @@
       <!--免费夺宝-->
       <n-modal v-model:show="isFreeModalVisible">
         <div>
-          <FreeTreasureGrab/>
+          <FreeTreasureGrab />
         </div>
       </n-modal>
 
@@ -141,7 +141,7 @@
 </template>
 
 <script setup lang="ts" name="Header">
-import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive, h, nextTick } from 'vue';
+import { onUnmounted, onMounted, ref, defineAsyncComponent, reactive, h } from 'vue';
 import { MessageEvent2 } from "@/net/MessageEvent2";
 import { NetMsgType } from "@/netBase/NetMsgType";
 import { Local, needLoginApi } from "@/utils/storage";

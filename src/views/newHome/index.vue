@@ -12,19 +12,9 @@
             </span>
             <span class="more" @click="Message.error('暂未开放')">{{ t('home_page_more') }}</span>
           </p>
-          <n-carousel
-            style="position: static"
-            :slides-per-view="3.5"
-            :space-between="10"
-            :loop="false"
-            draggable
-            show-arrow
-          >
-            <div
-              class="tournm_wrap"
-              v-for="item in 3"
-              :key="item"
-              >
+          <n-carousel style="position: static" :slides-per-view="3.5" :space-between="10" :loop="false" draggable
+            show-arrow>
+            <div class="tournm_wrap" v-for="item in 3" :key="item">
               <img src="/img/home/kaisai.png" alt="">
               <!-- <div class="tournm_name">{{ item.tournm_name }}</div>
               <div class="tournm_main">
@@ -61,18 +51,8 @@
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon
-                    class="left"
-                    icon-id="fangxiangicon04"
-                    size=".8rem"
-                    @click="prev"
-                  ></iconpark-icon>
-                  <iconpark-icon
-                    class="right"
-                    icon-id="fangxiangicon01"
-                    size=".8rem"
-                    @click="next"
-                  ></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -91,20 +71,10 @@
               t('home_page_more')
             }}</span>
           </p>
-          <n-carousel
-            style="position: static"
-            :slides-per-view="3"
-            :space-between="10"
-            :loop="false"
-            draggable
-            show-arrow
-          >
-            <div
-              v-for="item in activityList"
-              :key="item.id"
-              class="re_men_item"
-              :style="{ 'background-image': `url(${item.pic_link})` }"
-            >
+          <n-carousel style="position: static" :slides-per-view="3" :space-between="10" :loop="false" draggable
+            show-arrow>
+            <div v-for="item in activityList" :key="item.id" class="re_men_item"
+              :style="{ 'background-image': `url(${item.pic_link})` }">
               <div class="re_men_item_des">
                 <div class="item_name">{{ item.name }}</div>
                 <div class="item_info">{{ item.details }}</div>
@@ -131,18 +101,8 @@
             <template #arrow="{ prev, next }">
               <div class="game_seach">
                 <span>
-                  <iconpark-icon
-                    class="left"
-                    icon-id="fangxiangicon04"
-                    size=".8rem"
-                    @click="prev"
-                  ></iconpark-icon>
-                  <iconpark-icon
-                    class="right"
-                    icon-id="fangxiangicon01"
-                    size=".8rem"
-                    @click="next"
-                  ></iconpark-icon>
+                  <iconpark-icon class="left" icon-id="fangxiangicon04" size=".8rem" @click="prev"></iconpark-icon>
+                  <iconpark-icon class="right" icon-id="fangxiangicon01" size=".8rem" @click="next"></iconpark-icon>
                 </span>
               </div>
             </template>
@@ -173,8 +133,8 @@ const router = useRouter();
 const { t } = useI18n();
 import { Message } from '@/utils/discreteApi';
 const tournm_list: any = ref([]);
-
-const { homeActivityList, uploadUrlInfo, activityTitleList } = storeToRefs(
+// uploadUrlInfo, homeActivityList,
+const { activityTitleList } = storeToRefs(
   Page(pinia),
 );
 
@@ -198,9 +158,9 @@ function getEventList() {
 }
 
 // 时间处理
-const getTime = (itemTime: any) => {
-  return `${itemTime.month}-${itemTime.day} ${itemTime.hour}:${itemTime.second}:${itemTime.minute}`;
-};
+// const getTime = (itemTime: any) => {
+//   return `${itemTime.month}-${itemTime.day} ${itemTime.hour}:${itemTime.second}:${itemTime.minute}`;
+// };
 
 // 获取近期开赛赛事
 const handleGetList = async (rs: any) => {
@@ -268,7 +228,7 @@ onUnmounted(() => {
 
     box-sizing: border-box;
 
-    > p {
+    >p {
       display: flex;
       align-items: center;
     }
@@ -286,10 +246,10 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
 
-    > .text {
+    >.text {
       display: flex;
 
-      > b {
+      >b {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -322,7 +282,7 @@ onUnmounted(() => {
       }
     }
 
-    > .more {
+    >.more {
       width: 90px;
       height: 40px;
       display: flex;
@@ -385,11 +345,9 @@ onUnmounted(() => {
         color: #ffffff;
         border-radius: 3px;
         margin-right: 3px;
-        background: linear-gradient(
-          180deg,
-          rgba(29, 30, 37, 0.7) 0%,
-          rgba(20, 21, 27, 0.7) 100%
-        );
+        background: linear-gradient(180deg,
+            rgba(29, 30, 37, 0.7) 0%,
+            rgba(20, 21, 27, 0.7) 100%);
       }
     }
 
@@ -436,7 +394,7 @@ onUnmounted(() => {
     cursor: pointer;
     color: #8d81c1;
 
-    > .left,
+    >.left,
     .right {
       display: inline-block;
       width: 40px;
@@ -478,12 +436,14 @@ onUnmounted(() => {
   // background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
   border: 1px solid #000000;
   border-radius: 16px;
+
   // padding: 20px 25px;
   .tournm_name {
     font-size: 24px;
     color: #ffffff;
   }
-  img{
+
+  img {
     width: 396px;
     height: 215px;
   }
@@ -492,6 +452,7 @@ onUnmounted(() => {
 .tournm_main {
   display: flex;
   gap: 10px;
+
   .logo {
     width: 162px;
     height: 132px;
@@ -499,18 +460,22 @@ onUnmounted(() => {
 
   .tournm_info {
     flex: 1;
+
     .player {
       display: flex;
       justify-content: space-between;
       gap: 12px;
+
       .player_l {
         color: #d8d8d8;
         font-size: 16px;
       }
+
       .player_r {
         color: #21fe6d;
         font-size: 16px;
         position: relative;
+
         &::before {
           content: '';
           position: absolute;
@@ -523,6 +488,7 @@ onUnmounted(() => {
         }
       }
     }
+
     .player_time {
       gap: 8px;
       display: flex;
@@ -532,9 +498,11 @@ onUnmounted(() => {
     }
   }
 }
+
 .mt-27 {
   margin-top: 27px;
 }
+
 .mt-19 {
   margin-top: 19px;
 }
