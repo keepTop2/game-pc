@@ -362,3 +362,8 @@ export function sortAndGroupByLetter(arr: any, prop: string) {
 export const removeComma = (val: any) => {
     return val ? Number(val.replaceAll(",", "")) : 0;
 }
+// 今天的越南时间
+export const returnDoTime = () => {
+  const options = { timeZone: 'Asia/Ho_Chi_Minh', hour12: false };
+  return new Date(new Date().toLocaleString('zh-CN', options))
+}

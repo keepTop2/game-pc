@@ -380,4 +380,11 @@ export default {
   transfer_page_inputAmount: '请输入转账金额',
   transfer_page_allMoney: '全部金额',
   transfer_page_notEnough: '余额不足',
+
+  activity_page_signSuc: '签到成功',
+  activity_page_errorP: '参数错误',
+  activity_page_signIned: '已签到',
+  activity_page_notEnoughBet: '下注未达到签到要求',
+  activity_page_errorIp: 'IP或设备已签到',
+  activity_page_conSignIn: '已连续签到 {num}天',
 }

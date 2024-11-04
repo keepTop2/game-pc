@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from "vue";
 import { useI18n } from 'vue-i18n';
+import { returnDoTime } from '@/utils/others.ts';
 // import img1 from "/img/club/club_diaBtn_1.webp"; // 已签到图片
 // const img1 = new URL('/logo.png', import.meta.url).href
 // import img2 from "@/assets/img/signin/3.png"; // 3天已打开宝箱
@@ -84,9 +85,6 @@ const emit = defineEmits(["clickToday", "signInEvent", "choseDay"]);
 
 const { t } = useI18n();
 
-const returnVnTime = () => {
-  return new Date(new Date().toLocaleString('zh-CN', options))
-}
 // 判断未签到条件
 const returnNotSign = (item: any) => {
   return item?.beforeNow && !item.isSignIn
@@ -204,7 +202,7 @@ const getMonthListNoOther = (date: any) => {
   let num = getDaysInOneMonth(date);
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
-  let toDay = dateFormat(returnVnTime());
+  let toDay = dateFormat(returnDoTime());
 
   for (let i = 0; i < num; i++) {
     let a:string|number = "";
@@ -346,12 +344,12 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   let [markDate, markDateMore] = forMatArgs();
   state.dateTop = `${date.getMonth() + 1}月签到日历`; // 标题
   let arr = getMonthList(state.myDate); // 获取当月时间
-  console.log('@@@@--', state.myDate, arr)
-  let today = returnVnTime();
+  // console.log('@@@@--', state.myDate, arr)
+  let today = returnDoTime();
   let year = today.getFullYear(); // 今天哪一年
   let tadayDate = today.getDate(); // 今天几号
   let tadayMonth = today.getMonth() + 1; // 今天属于几月
-  console.log('&&&&&&--', props.data)
+  // console.log('&&&&&&--', props.data)
   for (let i = 0; i < arr.length; i++) {
     let markClassName = ""; // 增加类名
     let k = arr[i];
@@ -403,12 +401,11 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   console.log('当月日期数据--', arr)
   state.list = arr;
 };
-const options = { timeZone: 'Asia/Ho_Chi_Minh', hour12: false };
 const state:any = reactive({
   discountData: "",
   active: 0,
   // myDate: new Date(), // 得到今天的时间,
-  myDate: new Date(new Date().toLocaleString('zh-CN', options)), // 得到今天的时间,
+  myDate: returnDoTime(), // 得到今天的时间,
   list: [],
   historyChose: [],
   dateTop: "",

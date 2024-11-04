@@ -50,11 +50,11 @@
                   <Imgt src="/img/sign/sing_banner.webp" class="logo" />
                 </div>
                  <Calendar class="calendar" :markDate="[]" :markDateMore="[]" agoDayHide="1530115221"
-                    @signInEvent="signInEvent" @choseDay="clickDay" :data="signData" :sundayStart="false" :dayNum="{}">
+                           @choseDay="clickDay" :data="signData" :sundayStart="false" :dayNum="{}">
                  </Calendar>
                 <div class="sign_b_box">
                   <div class="sign_pro">
-                    <div class="sign_txt">已连续签到 7天</div>
+                    <div class="sign_txt">{{ t('activity_page_conSignIn', {num: contineDays}) }}</div>
                     <div class="item_pro">
                       <span class="pro_inner" v-show="countProcss().rate > 0" :style="`width: ${countProcss().rateStr}`"> </span>
                     </div>
@@ -66,14 +66,14 @@
                   <n-flex class="sign_b_txt" justify="space-between">
                     <span> 当前可领取彩金：{{verifyNumberComma(String(signData.day_money))}} </span>
                     <span v-show="signData.day_money > 0"> 下级可领取彩金：{{ verifyNumberComma(String(nextLevelData.day)) }} </span>
-                    <span> 最高可领取彩金：{{ verifyNumberComma(String(awardArr[awardArr.length - 1].day)) }} </span>
+                    <span> 最高可领取彩金：{{ verifyNumberComma(String(awardArr[awardArr.length - 1]?.day)) }} </span>
                   </n-flex>
                 </div>
                 <div class="sign_btn_box">
                   <n-flex justify="center" class="btn_box">
                     <a @click="goToBet">立即投注</a>
                     <a v-if="signData.day_status === 1" class="button_color" @click="getGiftMon">立即领取</a>
-                    <a v-if="signData.day_status === 0" class="button_color" @click="signInAction">立即签到</a>
+                    <a v-if="signData.day_status === 0" class="button_color" @click="clickDay({isToday: true, isSignIn: !!signData.day_status})">立即签到</a>
                     <a v-if="signData.day_status === 2" class="button_color">已签到</a>
                   </n-flex>
                   <div class="tip_box">
@@ -135,7 +135,8 @@
   import { Net } from '@/net/Net.ts';
   import { MessageEvent2 } from '@/net/MessageEvent2.ts';
   import { NetMsgType } from '@/netBase/NetMsgType.ts';
-  import { verifyNumberComma } from '@/utils/others';
+  import { verifyNumberComma, returnDoTime } from '@/utils/others';
+  import { convertDateToObject } from "@/utils/dateTime";
   import { useRouter } from 'vue-router';
   import type { CountdownInst } from 'naive-ui'
   import ModalDialog from '@/components/ModalDialog.vue';
@@ -145,13 +146,17 @@
   const showModal = ref(false);
   const showTipModal = ref(false);
   const isSingInSuc = ref(false); // 是否签到成功
+  const isResign = ref(false); // 是否 是补签
+  const contineDays = ref(0); // 连续签到天数
   const tipsTxt = ref();
   const btnTxt = ref('确定');
 
   const signData: any = ref({
+    add_sign_in: 1000, // 补签需要消耗的有效投注
     cur_bet: 0, // 当前投注
     day_money: 0, // 当前可领取彩金
     day_status: 0, // 是否已签到, 0未签到，1 已签到，2 已领取签到彩金
+    sign_status: [],
   }); // 签到配置信息
   const nextLevelData = ref(
     {
@@ -201,6 +206,7 @@
     signData.value = res
     console.log('-----99', signData.value)
     countTimer(res);
+    contineDays.value = countSignInDays(signData.value.sign_status);
     awardArr.value = res.sign_in_cfgs_0.reverse(); // 反转
     // 下一等级的数据
     for (let i = 0; i < awardArr.value.length; i++) {
@@ -210,6 +216,26 @@
         break;
       }
     }
+  }
+  // 计算连续签到天数
+  const countSignInDays = (arr: any) => {
+    // 对数组进行排序
+    arr.sort((a: any, b: any) => a - b);
+    let maxCount = 0;
+    let currentCount = 1;
+    for (let i = 1; i < arr.length; i++) {
+      // 判断当前元素和前一个元素是否连续
+      if (arr[i] === arr[i - 1] + 1) {
+        currentCount++;
+      } else {
+        // 如果不连续，更新最大连续计数
+        maxCount = Math.max(maxCount, currentCount);
+        currentCount = 1; // 重置当前计数
+      }
+    }
+    // 最后一次更新最大连续计数
+    maxCount = Math.max(maxCount, currentCount);
+    return maxCount > 1 ? maxCount : 0; // 如果有连续数字，返回数量；否则返回0
   }
   // 计算倒计时
   const countTimer = (res: any) => {
@@ -235,13 +261,18 @@
   const handleSignInAc = (res: any) => {
     console.log('-----88', res)
     const tips: any = {
-      0: 'paymentManagement_page_addBankSuc',
-      1: 'paymentManagement_page_addBankFail',
-      2: 'paymentManagement_page_addBankFail',
-      3: 'paymentManagement_page_acc_already',
+      0: 'activity_page_signSuc',
+      1: 'activity_page_errorP',
+      2: 'activity_page_signIned',
+      3: 'activity_page_notEnoughBet',
+      4: 'activity_page_errorIp',
     }
     if (res.result === 0) {
-      signInSuccess();
+      if (isResign.value) {
+        reSignInSuc();
+      } else {
+        signInSuccess();
+      }
       getSignInfo();
       Message.success(t(tips[res.result]))
     } else {
@@ -274,56 +305,52 @@
     }
   };
 
-  const signInEvent = async () => {
-    console.log('签到事件-----')
-    if (state.activeDate.IsSignIn === 'true') {
-      return Message.error('今日已签到')
-    }
-    let str = state.activeDate.date.split('-') // 点击的时间
-    let today = new Date()
-    let year = today.getFullYear() // 今天哪一年
-    let tadayDate = today.getDate() // 今天几号
-    let tadayMonth = today.getMonth() + 1 // 今天属于几月
-    if (Number(str[0]) > year) {
-      return Message.error('未到活动时间')
-    } else if (Number(str[0]) < year && Number(str[1]) !== 12) {
-      return Message.error('选择时间有误')
-    } else if (Number(str[0]) < year && Number(str[1]) === 12) {
-      // sign()
-    } else {
-      if (Number(str[1]) > tadayMonth || Number(str[2]) > tadayDate) {
-        return Message.error('未到活动时间')
-      } else {
-        //   sign()
-      }
-    }
-  }
-
   // 签到成功 --- 可签到状态，签到成功弹窗提示
   const signInSuccess = () => {
     const curBet = signData.value.cur_bet;
-
     showTipModal.value = true;
     isSingInSuc.value = true;
     tipsTxt.value = ` <div>今日累计有效投注额：${verifyNumberComma(String(curBet))}</div>
                           <div>可领取彩金：${verifyNumberComma(String(signData.value.day_money))}</div>
                           <div>最高可领取彩金：${verifyNumberComma(String(awardArr.value[awardArr.value.length - 1].day))}</div>`
   }
+  // 补签成功
+  const reSignInSuc = () => {
+    const curBet = signData.value.cur_bet;
+    const usedBet = signData.value.used_bet;
+    // 可补签状态，补签成功弹窗提示
+    console.log('补签成功----')
+    showTipModal.value = true;
+    btnTxt.value = '确定';
+    tipsTxt.value = ` <div>消耗有效投注额：${verifyNumberComma(String(signData.value.add_sign_in))}</div>
+                          <div>剩余有效投注额：${verifyNumberComma(String(curBet - usedBet))}</div>
+                          <div>补签完成，彩金 ${verifyNumberComma(String(signData.value.day_money))} 已派发</div>`;
+  }
+
   const clickDay = (data: any) => {
     console.log('点击了日期---', data)
     state.activeDate = data
-
+    // 签到参数
+    const curTime = convertDateToObject(returnDoTime())
+    signData.value.cur_time = {
+      ...signData.value.cur_time,
+      day: data?.id,
+      hour: curTime.hour,
+      minute: curTime.minute,
+      second: curTime.second
+    }
     const needBet = awardArr.value[0].bet;
     const curBet = signData.value.cur_bet;
     const usedBet = signData.value.used_bet;
     // 当日签到 --- 点击的日期是今天
     if (data.isToday) {
+      isResign.value = false
       // 未达到有效投注
       if (curBet < needBet) {
         console.log('未达到有效投注' )
         showTipModal.value = true;
         btnTxt.value = '确定';
-        tipsTxt.value = ` <div>今日剩余有效投注额：${verifyNumberComma(String(curBet))}</div>
+        tipsTxt.value = ` <div>今日剩余有效投注额：${verifyNumberComma(String(curBet - usedBet))}</div>
                           <div>有效投注额还需完成：${verifyNumberComma(String(needBet - curBet))}</div>
                           <div>签到失败，还需完成对应的有效投注额，才可签到成功</div>`
       } else { // 达到条件，触发签到
@@ -335,28 +362,25 @@
     }
     // 补签 --- 点击今天之前的日期，没有签到过，点击补签
     if (data?.beforeNow && !data?.isSignIn) {
+      isResign.value = true
+      console.log('补签!!!!', data)
       // 未完成今日签到，点击补签提示
       if (!signData.value.day_status) {
         showTipModal.value = true;
         btnTxt.value = '知道了';
-        tipsTxt.value = `<div>要先完成今日签到才能补签哦！</div> `
+        tipsTxt.value = `<div>要先完成今日签到才能补签哦！</div> `;
+        return;
       }
       // 未达到补签有效投注额，点击补签提示
-      if (curBet < needBet) {
+      if (curBet - usedBet < signData.value.add_sign_in) {
         showTipModal.value = true;
         btnTxt.value = '继续投注';
-        tipsTxt.value = ` <div>今日剩余有效投注额：${verifyNumberComma(String(curBet))}</div>
+        tipsTxt.value = ` <div>今日剩余有效投注额：${verifyNumberComma(String(curBet - usedBet))}</div>
                           <div>有效投注额还需完成：${verifyNumberComma(String(needBet - curBet))}</div>
-                          <div>补签失败，还需完成对应的有效投注额，才可补签成功</div>`
+                          <div>补签失败，还需完成对应的有效投注额，才可补签成功</div>`;
+        return;
       }
-      // 可补签状态，补签成功弹窗提示
-      if (curBet > needBet) {
-        showTipModal.value = true;
-        btnTxt.value = '确定';
-        tipsTxt.value = ` <div>消耗有效投注额：${verifyNumberComma(String(usedBet))}</div>
-                          <div>剩余有效投注额：${verifyNumberComma(String(curBet - usedBet))}</div>
-                          <div>补签完成，彩金 ${verifyNumberComma(String(signData.value.day_money))} 已派发</div>`
-      }
+      signInAction();
     }
 
   }
@@ -543,6 +567,14 @@
     text-align: center;
     .cont_txt {
       min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      :deep(div) {
+        flex: none;
+        width: 100%;
+      }
     }
     .cont_btn {
       margin: 30px 0 8px;
