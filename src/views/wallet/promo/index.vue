@@ -1,30 +1,18 @@
 <template>
   <n-flex vertical class="promo_info record_page">
     <n-flex align="center" class="tab_top">
-      <a
-        :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`"
-        v-for="(item, index) in tabArr"
-        :key="index"
-        @click="clickTab(item.key)"
-      >
-        <n-badge
-          v-show="item.hasCount && needShowCount.includes(item.key)"
-          :value="item.hasCount"
-          dot
-        />
+      <a :class="`tab_item tab_item_${item.key} ${curTab === item.key ? 'active' : ''}`" v-for="(item, index) in tabArr"
+        :key="index" @click="clickTab(item.key)">
+        <n-badge v-show="item.hasCount && needShowCount.includes(item.key)" :value="item.hasCount" dot />
         {{ t(item.title) }}
       </a>
     </n-flex>
     <n-spin :show="loading">
       <div class="promo_list">
-        <div
-          :class="`list_item ${item.volume || item.award ? 'list_item_b' : ''}`"
-          v-for="(item, index) in filterData"
+        <div :class="`list_item ${item.volume || item.award ? 'list_item_b' : ''}`" v-for="(item, index) in filterData"
           :style="{
-            background:item.bgColor
-          }"
-          :key="index"
-        >
+            background: item.bgColor
+          }" :key="index">
           <img :src="item.imageIcon" alt="" class="item_img" />
           <n-flex justify="space-between" class="item_top">
             <div class="item_l">
@@ -34,11 +22,7 @@
               </div>
             </div>
             <div class="item_r">
-              <n-button
-                :bordered="false"
-                class="lq-btn"
-                @click="applyBouns(item)"
-              >
+              <n-button :bordered="false" class="lq-btn" @click="applyBouns(item)">
                 {{ t('promo_page_apply') }}
               </n-button>
             </div>
@@ -70,14 +54,8 @@
       </div>
     </n-spin>
     <!-- 分页 -->
-    <n-pagination
-      :default-page-size="20"
-      class="pagination"
-      @update:page="pageChange"
-      v-model:page="params.page"
-      :item-count="listData.total_page"
-      v-show="listData.total_page"
-    />
+    <n-pagination :default-page-size="20" class="pagination" @update:page="pageChange" v-model:page="params.page"
+      :item-count="listData.total_page" v-show="listData.total_page" />
   </n-flex>
 </template>
 
@@ -92,14 +70,14 @@ import { Message } from '@/utils/discreteApi';
 import { useRouter } from 'vue-router';
 import { Local } from '@/utils/storage';
 import Imgt from '@/components/Imgt.vue';
-import pinia from '@/store/index';
-import { storeToRefs } from 'pinia';
-import { Page } from '@/store/page';
+// import pinia from '@/store/index';
+// import { storeToRefs } from 'pinia';
+// import { Page } from '@/store/page';
 const router = useRouter();
-const page = Page(pinia);
+// const page = Page(pinia);
 const { t } = useI18n();
 const loading = ref(false);
-const { adminI18n, lang } = storeToRefs(page);
+// const { adminI18n, lang } = storeToRefs(page);
 const params: any = reactive({
   // 参数
   page: 1,
@@ -316,7 +294,7 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-   
+
     .list_item {
       width: 500px;
       margin-bottom: 10px;
@@ -339,12 +317,14 @@ onMounted(() => {
       &.list_item_b {
         background-image: url('/img/promo/listBg2.webp?t=@{timestamp}');
       }
+
       .item_img {
         position: absolute;
         left: 30px;
         height: 95px;
         top: -8px;
       }
+
       .item_top {
         width: 100%;
         justify-content: space-between;
@@ -361,9 +341,11 @@ onMounted(() => {
         margin-left: 110px;
         color: #973207;
         font-size: 18px;
+
         div {
           display: flex;
           flex-direction: column;
+
           .details {
             color: #8a7147;
             font-size: 14px;
@@ -406,11 +388,9 @@ onMounted(() => {
             border-radius: 7px;
             box-shadow: inset 0 0 4px 0 #000;
             background-blend-mode: color-burn, overlay, normal;
-            background-image: linear-gradient(
-                to bottom,
+            background-image: linear-gradient(to bottom,
                 rgba(0, 0, 0, 0.1),
-                rgba(0, 0, 0, 0.5)
-              ),
+                rgba(0, 0, 0, 0.5)),
               radial-gradient(circle at 50% 50%, #7e7e7e, #151515 100%),
               linear-gradient(to bottom, #27155c, #27155c);
 
@@ -421,11 +401,9 @@ onMounted(() => {
               left: 3px;
               top: 2.5px;
               border-radius: 7px;
-              background-image: linear-gradient(
-                to right,
-                #fa7800,
-                #fbcb38 100%
-              );
+              background-image: linear-gradient(to right,
+                  #fa7800,
+                  #fbcb38 100%);
             }
           }
         }

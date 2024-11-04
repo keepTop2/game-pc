@@ -178,7 +178,7 @@ export const Page = defineStore('page', {
         });
         this.activityList = value;
         this.activityTitleList = obj;
-        console.log(6666666677, this.activityTitleList);
+     
       }
     },
 

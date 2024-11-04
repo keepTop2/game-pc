@@ -380,11 +380,11 @@ const goDetail = (v?: number) => {
 }
 
 // 设置 选中当前等级数据
-const setCurLevel = () => {
+// const setCurLevel = () => {
 
 
 
-}
+// }
 // watch(
 //   () => curTab.value,
 //   (n) => {

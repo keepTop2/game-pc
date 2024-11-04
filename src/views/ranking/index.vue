@@ -4,23 +4,46 @@
     <div class="box_main">
       <div class="box_title">
         <span class="label">最新赛事排行</span>
-        <div class="more" v-if="tournm_list.length>6">
+        <div class="more" v-if="tournm_list.length > 6">
           <span>展开</span>
-          <iconpark-icon class="left" icon-id="fangxiangicon02" size=".8rem"></iconpark-icon>
+          <iconpark-icon
+            class="left"
+            icon-id="fangxiangicon02"
+            size=".8rem"
+          ></iconpark-icon>
         </div>
       </div>
-      <div class="match_list" v-if="tournm_list&&tournm_list.length">
-        <div class="match_list_item" v-for="i in tournm_list" :key="i" :style="{
-          'background-image': `url(/img/game/bg_card${getRandomValue()}.webp)`,
-        }">
+      <div class="match_list" v-if="tournm_list && tournm_list.length">
+        <div
+          class="match_list_item"
+          v-for="i in tournm_list"
+          :key="i"
+          :style="{
+            'background-image': `url(/img/game/bg_card${getRandomValue()}.webp)`,
+          }"
+        >
           <Imgt src="/img/ranking/card_img.webp" />
           <div class="card_main">
             <div class="card_main_title">{{ i.tournm_name }}</div>
-            <div class="card_main_num">报名人数：{{ i.apply_count}}</div>
+            <div class="card_main_num">报名人数：{{ i.apply_count }}</div>
             <div class="card_main_time">
               <div class="card_main_time_l">
-                <span>开始时间:{{getTime(i.begin_time)}}</span>
-                <span>结束时间:{{getTime(i.end_time)}}</span>
+                <span>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="paihiconss02"
+                    size=".8rem"
+                  ></iconpark-icon>
+                  开始时间:{{ getTime(i.begin_time) }}</span
+                >
+                <span>
+                  <iconpark-icon
+                    class="left"
+                    icon-id="paihiconss02"
+                    size=".8rem"
+                  ></iconpark-icon>
+                  结束时间:{{ getTime(i.end_time) }}</span
+                >
               </div>
               <div>
                 <n-button style="height: 36px; width: 98px">报名</n-button>
@@ -37,8 +60,12 @@
       </div>
       <div class="box_list">
         <div class="tab_wrap">
-          <div v-for="item in tabList" :key="item.id" @click="tabClick(item)"
-            :class="{ tab_active: tab_id == item.id }">
+          <div
+            v-for="item in tabList"
+            :key="item.id"
+            @click="tabClick(item)"
+            :class="{ tab_active: tab_id == item.id }"
+          >
             <span>{{ item.label }}</span>
           </div>
         </div>
@@ -60,19 +87,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import matchDes from "../newHome/components/matchDes.vue";
+import { ref } from 'vue';
+import matchDes from '../newHome/components/matchDes.vue';
 import pinia from '@/store/index';
 import { storeToRefs } from 'pinia';
 import { Page } from '@/store/page';
 const { tournm_list } = storeToRefs(Page(pinia));
 const tab_id = ref(1);
 const tabList = [
-  { label: "赛况", id: 1 },
-  { label: "奖金", id: 2 },
-  { label: "牌桌", id: 3 },
-  { label: "排行榜", id: 4 },
-  { label: "盲注", id: 5 },
+  { label: '赛况', id: 1 },
+  { label: '奖金', id: 2 },
+  { label: '牌桌', id: 3 },
+  { label: '排行榜', id: 4 },
+  { label: '盲注', id: 5 },
 ];
 
 const tabClick = (item: any) => {
@@ -156,13 +183,18 @@ const getTime = (itemTime: any) => {
 
         .card_main_time {
           display: flex;
-          gap: 25px;
+          gap: 20px;
 
           .card_main_time_l {
             display: flex;
             flex-direction: column;
+            align-items: center;
             font-size: 12px;
             color: #afb6bd;
+            span{
+              display: flex;
+              align-items: center;
+            }
           }
         }
       }
@@ -176,9 +208,11 @@ const getTime = (itemTime: any) => {
     padding: 24px 20px;
     box-sizing: border-box;
     justify-content: center;
-    background: linear-gradient(180deg,
+    background: linear-gradient(
+        180deg,
         rgba(13, 15, 48, 0.288) 0%,
-        rgba(17, 20, 60, 0.6) 100%),
+        rgba(17, 20, 60, 0.6) 100%
+      ),
       linear-gradient(0deg, rgba(20, 23, 58, 0.69), rgba(20, 23, 58, 0.69));
 
     .des_img {
@@ -206,7 +240,7 @@ const getTime = (itemTime: any) => {
 
   &:hover {
     color: #fff;
-    background: url("/img/dialog/click.webp?t=@{timestamp}") no-repeat;
+    background: url('/img/dialog/click.webp?t=@{timestamp}') no-repeat;
     background-size: 100% 100%;
   }
 }
@@ -236,7 +270,7 @@ const getTime = (itemTime: any) => {
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: -15px;
 
@@ -255,7 +289,7 @@ const getTime = (itemTime: any) => {
 }
 
 .bonus_item {
-  background: url("/img/ranking/bonus_bg.webp?t=@{timestamp}") no-repeat;
+  background: url('/img/ranking/bonus_bg.webp?t=@{timestamp}') no-repeat;
   background-size: 100% 100%;
   width: 260px;
   height: 152px;

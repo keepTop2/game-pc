@@ -10,7 +10,7 @@
             <span class="text">
               <span>即将开赛</span>
             </span>
-            <span class="more">{{ t('home_page_more') }}</span>
+            <span class="more" @click="Message.error('暂未开放')">{{ t('home_page_more') }}</span>
           </p>
           <n-carousel
             style="position: static"
@@ -22,10 +22,11 @@
           >
             <div
               class="tournm_wrap"
-              v-for="item in tournm_list"
-              :key="item.room_id"
-            >
-              <div class="tournm_name">{{ item.tournm_name }}</div>
+              v-for="item in 3"
+              :key="item"
+              >
+              <img src="/img/home/kaisai.png" alt="">
+              <!-- <div class="tournm_name">{{ item.tournm_name }}</div>
               <div class="tournm_main">
                 <div class="logo">
                   <img
@@ -55,7 +56,7 @@
                     <span>{{ getTime(item.end_time) }}</span>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <template #arrow="{ prev, next }">
               <div class="game_seach">
@@ -170,7 +171,7 @@ import carouselWrap from './components/carouselWrap.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const { t } = useI18n();
-
+import { Message } from '@/utils/discreteApi';
 const tournm_list: any = ref([]);
 
 const { homeActivityList, uploadUrlInfo, activityTitleList } = storeToRefs(
@@ -204,7 +205,6 @@ const getTime = (itemTime: any) => {
 // 获取近期开赛赛事
 const handleGetList = async (rs: any) => {
   tournm_list.value = rs.tournm_list;
-  console.log(77777755, rs.tournm_list);
   await Page(pinia).setTournmList(rs.tournm_list);
 };
 
@@ -475,13 +475,17 @@ onUnmounted(() => {
 .tournm_wrap {
   width: 396px;
   height: 215px;
-  background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
+  // background: linear-gradient(180deg, #0a0b22 0%, #000000 100%);
   border: 1px solid #000000;
   border-radius: 16px;
-  padding: 20px 25px;
+  // padding: 20px 25px;
   .tournm_name {
     font-size: 24px;
     color: #ffffff;
+  }
+  img{
+    width: 396px;
+    height: 215px;
   }
 }
 

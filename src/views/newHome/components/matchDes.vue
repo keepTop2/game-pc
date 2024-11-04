@@ -44,12 +44,21 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  infoData: {
-    type: Object,
-    default: () => ({}),
-  },
-});
+// defineProps({
+//   infoData: {
+//     type: Object,
+//     default: () => ({}),
+//   },
+// });
+
+const infoData = {
+  introduction:'欢迎参加本年度最激动人心的德州扑克锦标赛！无论您是经验丰富的扑克高手，还是刚刚入门的新手，这场比赛都将为您提供一个展示技巧和策略的绝佳平台。',
+  detail:['日期：2024年7月20日','时间：下午2:00开始','报名费：₱5,000'],
+  rule:['比赛采用德州扑克无限注规则','每位参赛者将获得相同数量的筹码。','比赛将持续到最后一名选手被淘汰，冠军     将获得丰厚奖金和奖杯'],
+  applyway:'请访问我们的网站或亲临俱乐部前台报名。名额有限，先到先得！准备好迎接挑战了吗？快来展示您的扑克技巧，赢取丰厚奖品吧！'
+}
+
+
 </script>
 
 <style lang="less" scoped>
