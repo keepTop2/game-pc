@@ -19,8 +19,8 @@
       <table class="wh_content">
         <th class="wh_content_item" v-for="(item, index) in state.list" :key="index" @click="clickDay(item, index)">
           <span v-if="item.otherMonth === 'nowMonth'" class="icon_tips">
-             <iconpark-icon v-if="item?.beforeNow" icon-id="qiandaoiconyqdw02" size="1.042rem"></iconpark-icon>
-             <iconpark-icon v-else icon-id="qiandaoiconyqdw01" size="1.042rem"></iconpark-icon>
+             <iconpark-icon v-if="returnNotSign(item)" icon-id="qiandaoiconyqdw02" size="1.042rem"></iconpark-icon>
+             <iconpark-icon v-if="item.isSignIn" icon-id="qiandaoiconyqdw01" size="1.042rem"></iconpark-icon>
           </span>
           <td class="wh_item_date" v-bind:class="[
             { wh_isMark: item.isMark },
@@ -28,17 +28,16 @@
             { wh_want_dayhide: item.dayHide },
             { wh_isToday: item.isToday },
             { wh_chose_day: item.chooseDay },
+            { wh_signed: item.isSignIn },
+            { wh_re_sign: returnNotSign(item) },
             setClass(item)
           ]">
-            <div class="day_yy" v-if="item.IsSignIn === 'true' && item.SignInType === '1'">补签</div>
-            <img :src="imgUrl(item)" width="25" v-else-if="item.img" />
-            <div class="day_ss" v-else>
+            <div class="day_ss">
               <div>{{ item.id }}</div>
               <div class="qd_txt" v-if="item.otherMonth === 'nowMonth'">
-                {{ item?.beforeNow ? t('补签') : (props.dayNum.TodayIsSignIn === 'true' ? t('已签到') : t('签到')) }}
+                {{ item?.beforeNow ? t('补签') : (item.isSignIn ? t('已签到') : t('签到')) }}
               </div>
             </div>
-            <i v-if="item.gou"></i>
           </td>
         </th>
       </table>
@@ -58,7 +57,7 @@
 import { onMounted, reactive, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 // import img1 from "/img/club/club_diaBtn_1.webp"; // 已签到图片
-const img1 = new URL('/logo.png', import.meta.url).href
+// const img1 = new URL('/logo.png', import.meta.url).href
 // import img2 from "@/assets/img/signin/3.png"; // 3天已打开宝箱
 // import img3 from "@/assets/img/signin/31.png"; // 3天未打开宝箱
 // import img10 from "@/assets/img/signin/32.png"; // 3天当天打开宝箱
@@ -78,12 +77,20 @@ const props:any = defineProps({
   sundayStart: Boolean,
   agoDayHide: String,
   futureDayHide: String,
-  data: Array,
+  data: Object,
   dayNum: Object,
 });
 const emit = defineEmits(["clickToday", "signInEvent", "choseDay"]);
 
 const { t } = useI18n();
+
+const returnVnTime = () => {
+  return new Date(new Date().toLocaleString('zh-CN', options))
+}
+// 判断未签到条件
+const returnNotSign = (item: any) => {
+  return item?.beforeNow && !item.isSignIn
+}
 // 默认是周一开始
 // 当某月的天数
 const getDaysInOneMonth = (date: Date) => {
@@ -154,6 +161,7 @@ const getLeftArr = (date: any) => {
       date: dateFormat(nowTime),
       isToday: false,
       otherMonth: "preMonth",
+      isSignIn: false,
     });
   }
   return arr;
@@ -172,6 +180,7 @@ const getRightArr = (date: any) => {
       date: dateFormat(nowTime),
       isToday: false,
       otherMonth: "nextMonth",
+      isSignIn: false,
     });
   }
   return arr;
@@ -195,7 +204,7 @@ const getMonthListNoOther = (date: any) => {
   let num = getDaysInOneMonth(date);
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
-  let toDay = dateFormat(new Date());
+  let toDay = dateFormat(returnVnTime());
 
   for (let i = 0; i < num; i++) {
     let a:string|number = "";
@@ -217,6 +226,7 @@ const getMonthListNoOther = (date: any) => {
       isToday: toDay === nowTime,
       otherMonth: "nowMonth",
       beforeNow: nowTime < toDay, // 是否今天之前的日期
+      isSignIn: props.data.sign_status.includes(i + 1), // 当前日期是否签到
     });
   }
   return arr;
@@ -229,42 +239,43 @@ const getMonthList = (date: Date) => {
     ...getRightArr(date),
   ];
 };
-const imgUrl = (item: { isToday: any; MonthContinuousDays: string; IsCliamedReward: string; WeekContinuousDay: string | number; futureDate: any; gou: boolean; }) => {
-  let img: any;
-  if (item.isToday) {
-    // 如果是今天
-    item.MonthContinuousDays === "30"
-      ? item.IsCliamedReward === "true"
-        ? (img = state.imgs.now[item.MonthContinuousDays])
-        : (img = state.imgs.future[item.MonthContinuousDays])
-      : item.IsCliamedReward === "true"
-        ? (img = state.imgs.now[item.WeekContinuousDay] || img1)
-        : (img = state.imgs.future[item.WeekContinuousDay] || img1);
-  } else {
-    // 如果不是当天
-    if (item.futureDate) {
-      // 如果是未来时间
-      item.MonthContinuousDays === "30"
-        ? (img = state.imgs.future[item.MonthContinuousDays])
-        : (img = state.imgs.future[item.WeekContinuousDay] || img1);
-    } else {
-      // 如果是过去时间
-      if (item.IsCliamedReward === "false") {
-        // 如果未领取
-        item.MonthContinuousDays === "30"
-          ? (img = state.imgs.formerly[item.MonthContinuousDays])
-          : (img = state.imgs.formerly[item.WeekContinuousDay] || img1);
-      } else {
-        // 如果领取了
-        item.MonthContinuousDays === "30"
-          ? (img = state.imgs.now[item.MonthContinuousDays])
-          : (img = state.imgs.now[item.WeekContinuousDay] || img1);
-      }
-    }
-  }
-  img === img1 && (item.gou = true);
-  return img;
-};
+// const imgUrl = (item: { isToday: any; MonthContinuousDays: string; IsCliamedReward: string; WeekContinuousDay: string | number; futureDate: any; gou: boolean; }) => {
+//   let img: any;
+//   if (item.isToday) {
+//     // 如果是今天
+//     item.MonthContinuousDays === "30"
+//       ? item.IsCliamedReward === "true"
+//         ? (img = state.imgs.now[item.MonthContinuousDays])
+//         : (img = state.imgs.future[item.MonthContinuousDays])
+//       : item.IsCliamedReward === "true"
+//         ? (img = state.imgs.now[item.WeekContinuousDay] || img1)
+//         : (img = state.imgs.future[item.WeekContinuousDay] || img1);
+//   } else {
+//     // 如果不是当天
+//     if (item.futureDate) {
+//       // 如果是未来时间
+//       item.MonthContinuousDays === "30"
+//         ? (img = state.imgs.future[item.MonthContinuousDays])
+//         : (img = state.imgs.future[item.WeekContinuousDay] || img1);
+//     } else {
+//       // 如果是过去时间
+//       if (item.IsCliamedReward === "false") {
+//         // 如果未领取
+//         item.MonthContinuousDays === "30"
+//           ? (img = state.imgs.formerly[item.MonthContinuousDays])
+//           : (img = state.imgs.formerly[item.WeekContinuousDay] || img1);
+//       } else {
+//         // 如果领取了
+//         item.MonthContinuousDays === "30"
+//           ? (img = state.imgs.now[item.MonthContinuousDays])
+//           : (img = state.imgs.now[item.WeekContinuousDay] || img1);
+//       }
+//     }
+//   }
+//   img === img1 && (item.gou = true);
+//   return img;
+// };
+
 // const setSignIn = (e: string) => {
 //   e !== "true" && emit("signInEvent", true);
 // };
@@ -335,11 +346,12 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   let [markDate, markDateMore] = forMatArgs();
   state.dateTop = `${date.getMonth() + 1}月签到日历`; // 标题
   let arr = getMonthList(state.myDate); // 获取当月时间
-  let today = new Date();
+  console.log('@@@@--', state.myDate, arr)
+  let today = returnVnTime();
   let year = today.getFullYear(); // 今天哪一年
   let tadayDate = today.getDate(); // 今天几号
   let tadayMonth = today.getMonth() + 1; // 今天属于几月
-
+  console.log('&&&&&&--', props.data)
   for (let i = 0; i < arr.length; i++) {
     let markClassName = ""; // 增加类名
     let k = arr[i];
@@ -391,10 +403,12 @@ const getList = (date: Date, chooseDay?: any, _isChosedDay = true) => {
   console.log('当月日期数据--', arr)
   state.list = arr;
 };
+const options = { timeZone: 'Asia/Ho_Chi_Minh', hour12: false };
 const state:any = reactive({
   discountData: "",
   active: 0,
-  myDate: new Date(), // 得到今天的时间,
+  // myDate: new Date(), // 得到今天的时间,
+  myDate: new Date(new Date().toLocaleString('zh-CN', options)), // 得到今天的时间,
   list: [],
   historyChose: [],
   dateTop: "",
@@ -569,6 +583,7 @@ li {
 }
 
 .wh_content_item {
+  cursor: pointer;
   position: relative;
   border: 1px solid #26294C;
   .icon_tips {
@@ -594,6 +609,18 @@ li {
 
   .wh_isToday, .wh_chose_day {
     background: #F49A24;
+    .qd_txt {
+      color: #fff;
+    }
+  }
+  .wh_signed {
+    background: #E0BB89;
+    .qd_txt {
+      color: #fff;
+    }
+  }
+  .wh_re_sign {
+    background: #AAABAA;
     .qd_txt {
       color: #fff;
     }
@@ -646,16 +673,16 @@ th {
     font-size: 12px;
     color: #AFB6BD;
   }
-  i {
-    display: inline-block;
-    width: 10px;
-    height: 15px;
-    background-image: url("../assets/img/signin/gou.png");
-    background-size: contain;
-    position: absolute;
-    bottom: 0;
-    right: -5px;
-  }
+  //i {
+  //  display: inline-block;
+  //  width: 10px;
+  //  height: 15px;
+  //  background-image: url("../assets/img/signin/gou.png");
+  //  background-size: contain;
+  //  position: absolute;
+  //  bottom: 0;
+  //  right: -5px;
+  //}
 }
 
 .wh_jiantou1 {
@@ -693,7 +720,6 @@ th {
 }
 
 .btn {
-  border-radius: 5px;
   padding: 7px 5px;
   text-align: center;
   line-height: 1.3;

@@ -58,19 +58,10 @@
         </div>
         <div class="match_wrap">
           <Imgt class="match_img" :src="`/img/home/new_match.webp`" />
-          <n-carousel
-            style="position: static; margin-left: 35px; width: 97.5%"
-            :slides-per-view="7"
-            :loop="false"
-            draggable
-            show-arrow
-          >
-            <div
-              v-for="(i, index) in 7"
-              :key="i"
-              :class="['match_list', { active_match: match_id == index + 1 }]"
-              @click="matchClick(i, index)"
-            >
+          <n-carousel style="position: static; margin-left: 35px; width: 97.5%" :slides-per-view="7" :loop="false"
+            draggable show-arrow>
+            <div v-for="(i, index) in 7" :key="i" :class="['match_list', { active_match: match_id == index + 1 }]"
+              @click="matchClick(i, index)">
               <!-- <span>{{ i.tournm_name }}</span> -->
               <span>德州扑克</span>
               <span>年度锦标赛</span>
@@ -118,7 +109,7 @@
     </div>
 
     <!-- 收藏 -->
-  <gameCollect></gameCollect>
+    <gameCollect></gameCollect>
   </div>
 </template>
 
@@ -182,7 +173,7 @@ const handleIntroduction = (rs: any) => {
 
 // 获得排名
 const handleRankings = (rs: any) => {
-  // console.log(44444444, rs);
+  console.log(44444444, rs);
   // infoData.value = rs
   // if (infoData.value?.detail) {
   //   infoData.value.detail = infoData.value?.detail.split('，')

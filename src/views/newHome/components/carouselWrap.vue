@@ -9,20 +9,9 @@
         </n-carousel>
         <p style="height: 40px">
           <iconpark-icon icon-id="Group39360" size="1rem"></iconpark-icon>
-          <n-carousel
-            :show-dots="false"
-            autoplay
-            draggable
-            direction="vertical"
-            v-if="textAnnouncement"
-          >
-            <span
-              v-for="(v, i) in textAnnouncement"
-              :key="i"
-              style="height: 40px"
-              class="carousel_span"
-              >{{ t(v) }}</span
-            >
+          <n-carousel :show-dots="false" autoplay draggable direction="vertical" v-if="textAnnouncement">
+            <span v-for="(v, i) in textAnnouncement" :key="i" style="height: 40px" class="carousel_span">{{ t(v)
+              }}</span>
           </n-carousel>
         </p>
       </div>
@@ -33,11 +22,7 @@
           <div class="to_give">
             {{ firstActivity?.details }}
           </div>
-          <div
-            class="free_btn sign_up"
-            style="width: 154px"
-            @click="router.push('/wallet/records')"
-          >
+          <div class="free_btn sign_up" style="width: 154px" @click="router.push('/wallet/records')">
             存款开始游戏
           </div>
         </div>
@@ -57,12 +42,7 @@
             <div class="free_btn" @click="openFreeGmeModal">Free Game</div>
           </div>
           <div class="community_icon">
-            <Imgt
-              v-for="i in 5"
-              :key="i"
-              class="icon1"
-              :src="`/img/home/community_icon${i}.webp`"
-            />
+            <Imgt v-for="i in 5" :key="i" class="icon1" :src="`/img/home/community_icon${i}.webp`" />
           </div>
         </div>
       </div>
@@ -108,8 +88,8 @@ function getBanner() {
 }
 
 // 点击banner 图
-const bannerClick = (img:any)=>{
-
+const bannerClick = (img: any) => {
+  console.error(img)
   router.push('/wallet/activity')
 
 }
@@ -125,6 +105,7 @@ onMounted(() => {
 .announcement {
   position: relative;
   display: flex;
+
   &:deep(.n-carousel__dot) {
     width: 64px !important;
     border-radius: 100px !important;
@@ -140,6 +121,7 @@ onMounted(() => {
     border-radius: 16px;
     overflow: hidden;
     margin-right: 15px;
+
     img {
       width: 941px;
       height: 424px;
@@ -147,7 +129,7 @@ onMounted(() => {
     }
   }
 
-  > p {
+  >p {
     position: absolute;
     bottom: 0px;
     left: 0;
@@ -174,6 +156,7 @@ onMounted(() => {
   position: relative;
   padding-top: 80px;
   padding-left: 30px;
+
   .carousel_man {
     height: 246px;
     position: absolute;
@@ -181,36 +164,40 @@ onMounted(() => {
     bottom: 0;
     z-index: 1;
   }
+
   .bonus_des {
     .to_register {
       font-size: 30px;
       font-weight: 600;
       color: #ffffff;
+
       span {
         color: #faca46;
       }
     }
   }
+
   .bonus_num {
-    background-image: -webkit-linear-gradient(
-      180deg,
-      #ffffff 44.07%,
-      #999999 62.34%,
-      #ffffff 76.33%
-    );
+    background-image: -webkit-linear-gradient(180deg,
+        #ffffff 44.07%,
+        #999999 62.34%,
+        #ffffff 76.33%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+
     span {
       &:nth-child(1) {
         font-size: 40px;
       }
+
       &:nth-child(2) {
         font-size: 30px;
       }
     }
   }
 }
+
 .free_btn {
   width: 140px;
   height: 40px;
@@ -224,6 +211,7 @@ onMounted(() => {
   z-index: 100;
   cursor: pointer;
 }
+
 .sign_up {
   border: none;
   background: linear-gradient(180deg, #5567ff 0%, #9e1eff 100%);
@@ -234,15 +222,18 @@ onMounted(() => {
   display: flex;
   gap: 12px;
 }
+
 .community_icon {
   display: flex;
   margin-top: 24px;
   gap: 15px;
   cursor: pointer;
+
   img {
     height: 40px;
   }
 }
+
 .activity_wrap {
   display: flex;
   flex-direction: column;
@@ -252,19 +243,19 @@ onMounted(() => {
     font-size: 30px;
     color: #fff;
   }
+
   .to_give {
     margin-top: 12px;
     margin-bottom: 60px;
-    background-image: -webkit-linear-gradient(
-      180deg,
-      #ffffff 44.07%,
-      #999999 62.34%,
-      #ffffff 76.33%
-    );
+    background-image: -webkit-linear-gradient(180deg,
+        #ffffff 44.07%,
+        #999999 62.34%,
+        #ffffff 76.33%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     font-size: 30px;
+
     span {
       font-size: 40px;
     }
