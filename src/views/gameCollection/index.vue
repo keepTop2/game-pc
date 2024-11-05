@@ -41,7 +41,7 @@
                 <n-grid :x-gap="7" :y-gap="12" :cols="8">
                     <n-grid-item v-for="(v, i) in result.list" :key="i" @click="onPlayGame(v)">
                         <div class="game_box">
-                            <n-image width="100%" :src="settings.backend_upload + v.gamePicturePC"
+                            <n-image width="100%" preview-disabled :src="settings.backend_upload + v.gamePicturePC"
                                 fallback-src="/logo.png" />
                             <!-- <img :src="imgPrefix + v.gamePicturePC"> -->
                             <div class="game_name">
@@ -538,8 +538,7 @@ watch(
             .fav {
                 position: absolute;
                 top: 10px;
-                right: 15px;
-            }
+                right: 15px;     }
         }
     }
 }
