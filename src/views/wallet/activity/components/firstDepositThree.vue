@@ -224,7 +224,7 @@ const textTips = computed(() => {
 const table = reactive({
   columns: [
     { title: '名字', key: 'name' },
-    { title: '奖励', key: 'rewards' },
+    { title: 'activity_page_award', key: 'rewards' },
     { title: '最高', key: 'highest',
       render(row: any) {
         return h('span', {
@@ -248,7 +248,7 @@ const table = reactive({
   first_hundred_percent: {
     columns: [
       { title: '名字', key: 'name' },
-      { title: '奖励', key: 'rewards' },
+      { title: 'activity_page_award', key: 'rewards' },
       { title: '最高', key: 'highest',
         render(row: any) {
           return h('span', {
@@ -321,7 +321,7 @@ const signInButton = () => {
   console.log('signInButton');
   Dialog.warning({
     showIcon: false,
-    title: '温馨提示',
+    title: t('activity_page_tip'),
     content: '关注Telegram和Facebook官方号，可获得丰厚奖励， 快去联系客服领取吧！',
     positiveText: t('home_page_confirm'),
     negativeText: t('home_page_cancel'),
