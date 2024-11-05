@@ -35,7 +35,7 @@
             <div class="day_ss">
               <div>{{ item.id }}</div>
               <div class="qd_txt" v-if="item.otherMonth === 'nowMonth'">
-                {{ item?.beforeNow ? t('补签') : (item.isSignIn ? t('已签到') : t('签到')) }}
+                {{ returnNotSign(item) ? t('补签') : (item.isSignIn ? t('已签到') : t('签到')) }}
               </div>
             </div>
           </td>
