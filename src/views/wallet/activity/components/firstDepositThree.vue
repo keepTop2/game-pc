@@ -17,7 +17,7 @@
               <span style="margin-right: 4px;">首存奖金: </span>
               <span class="amount">{{ firstAmount }}</span>
             </div>
-<!--            <div class="tip">{{textTips}}</div>-->
+            <!--            <div class="tip">{{textTips}}</div>-->
             <div class="amount-info">
               <span style="margin-right: 4px;">昨日返点: </span>
               <span class="amount">{{ firstAmount }}</span>
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-<!--    代理活动-操作规则-->
+    <!--    代理活动-操作规则-->
     <div class="operating-rule">
       <div class="title">Quy tắc hoạt động</div>
       <div class="content">
@@ -82,22 +82,16 @@
 
 
 
-<!--  活动Table  -->
+    <!--  活动Table  -->
     <div class="table">
-      <n-data-table
-        :bordered="false"
-        :single-line="false"
-        :max-height="500"
-        :columns="table.columns"
-        :data="table.data"
-        border
-      >
-<!--        <template #empty>-->
-<!--          <div class="nodata">-->
-<!--            <Imgt src="/img/wallet/nodata.webp" alt="nodata" />-->
-<!--            <div>{{ t('home_page_nomore_data') }}</div>-->
-<!--          </div>-->
-<!--        </template>-->
+      <n-data-table :bordered="false" :single-line="false" :max-height="500" :columns="table.columns" :data="table.data"
+        border>
+        <!--        <template #empty>-->
+        <!--          <div class="nodata">-->
+        <!--            <Imgt src="/img/wallet/nodata.webp" alt="nodata" />-->
+        <!--            <div>{{ t('home_page_nomore_data') }}</div>-->
+        <!--          </div>-->
+        <!--        </template>-->
       </n-data-table>
     </div>
 
@@ -124,20 +118,20 @@
 
 
 <script setup lang="ts">
-import { computed, h, reactive, ref } from 'vue';
+import { h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n'
 import Imgt from '@/components/Imgt.vue';
 import { Dialog } from '@/utils/discreteApi.ts';
-import { Local } from '@/utils/storage.ts';
-import { User } from '@/store/user.ts';
-import pinia from '@/store';
+// import { Local } from '@/utils/storage.ts';
+// import { User } from '@/store/user.ts';
+// import pinia from '@/store';
 
 const { t } = useI18n()
 const firstAmount = ref('0.00')
 
-const props = defineProps<{
-  defineModelInfo: number
-}>()
+// const props = defineProps<{
+//   defineModelInfo: number
+// }>()
 
 // 活动内容数组
 // const activityList = [
@@ -212,9 +206,9 @@ const rulesList = [
 
 
 // 提示文字
-const textTips = computed(() => {
-  return '领取奖金立即来到账，可立即前往获得！'
-})
+// const textTips = computed(() => {
+//   return '领取奖金立即来到账，可立即前往获得！'
+// })
 
 
 
@@ -225,14 +219,16 @@ const table = reactive({
   columns: [
     { title: '名字', key: 'name' },
     { title: 'activity_page_award', key: 'rewards' },
-    { title: '最高', key: 'highest',
+    {
+      title: '最高', key: 'highest',
       render(row: any) {
         return h('span', {
           class: 'yellowText',
-          style: {color:'#FAC904'},
+          style: { color: '#FAC904' },
           innerHTML: `${row.highest}`,
         });
-      },},
+      },
+    },
     { title: '打赌', key: 'bet' },
   ],
   data: [
@@ -249,14 +245,16 @@ const table = reactive({
     columns: [
       { title: '名字', key: 'name' },
       { title: 'activity_page_award', key: 'rewards' },
-      { title: '最高', key: 'highest',
+      {
+        title: '最高', key: 'highest',
         render(row: any) {
           return h('span', {
             class: 'yellowText',
-            style: {color:'#FAC904'},
+            style: { color: '#FAC904' },
             innerHTML: `${row.highest}`,
           });
-        },},
+        },
+      },
       { title: '打赌', key: 'bet' },
     ],
     data: [
@@ -275,10 +273,10 @@ const table = reactive({
     columns: [
       { title: '', key: 'name' },
       { title: 'NỔ HŨ', key: 'rewards' },
-      { title: 'GAME BÀI', key: 'one'},
-      { title: 'THỂ THAO', key: 'two'},
-      { title: 'LIVE CASINO', key: 'three'},
-      { title: 'XỔ SỐ', key: 'four'},
+      { title: 'GAME BÀI', key: 'one' },
+      { title: 'THỂ THAO', key: 'two' },
+      { title: 'LIVE CASINO', key: 'three' },
+      { title: 'XỔ SỐ', key: 'four' },
     ],
     data: [
       {
@@ -298,10 +296,10 @@ const table = reactive({
     columns: [
       { title: 'vip', key: 'name' },
       { title: 'NỔ HŨ', key: 'rewards' },
-      { title: 'GAME BÀI', key: 'one'},
-      { title: 'THỂ THAO', key: 'two'},
-      { title: 'LIVE CASINO', key: 'three'},
-      { title: 'XỔ SỐ', key: 'four'},
+      { title: 'GAME BÀI', key: 'one' },
+      { title: 'THỂ THAO', key: 'two' },
+      { title: 'LIVE CASINO', key: 'three' },
+      { title: 'XỔ SỐ', key: 'four' },
     ],
     data: [
       {
@@ -367,6 +365,7 @@ const signInButton = () => {
       .amount-info {
         display: flex;
         align-items: center;
+
         .avatar {
           width: 40px;
           height: 40px;
@@ -383,6 +382,7 @@ const signInButton = () => {
 
         .info {
           flex: 1;
+
           .amount-info {
             color: #fff;
             font-size: 14px;
@@ -392,6 +392,7 @@ const signInButton = () => {
               color: #FAC904;
             }
           }
+
           .tip {
             color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
@@ -404,6 +405,7 @@ const signInButton = () => {
       .amount-options {
         display: flex;
         align-items: center;
+
         .get-details {
           color: #FFF;
           font-size: 16px;
@@ -414,10 +416,12 @@ const signInButton = () => {
           margin-right: 24px;
 
         }
+
         .recommend-btn {
           margin-right: 16px;
           background: #394EFF !important;
         }
+
         .start-btn {
           width: 100px;
           height: 40px;
@@ -570,25 +574,29 @@ const signInButton = () => {
 
   .operating-rule {
     margin: 20px 0;
+
     .title {
       text-align: center;
       color: #fff;
       font-size: 18px;
       margin-bottom: 15px;
     }
+
     .content {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       .item:last-child {
         margin: 0;
       }
+
       .item {
         //width: 210px;
         //height: 84px;
         margin-right: 13px;
         text-align: center;
-        padding:26px 10px;
+        padding: 26px 10px;
         border-radius: 10px;
         background: #1B1F4B;
       }
@@ -597,12 +605,14 @@ const signInButton = () => {
 
   .insurance {
     margin: 20px 0;
+
     .title {
       text-align: center;
       color: #fff;
       font-size: 18px;
       margin-bottom: 15px;
     }
+
     .content {
       display: flex;
       align-items: center;
@@ -610,9 +620,11 @@ const signInButton = () => {
       height: 40px;
       background: #1B1F4B;
       border-radius: 8px;
+
       p:nth-of-type(1) {
         border-right: 1px solid #26294c;
       }
+
       p {
         flex: 1;
         margin: 0;
@@ -624,17 +636,21 @@ const signInButton = () => {
 
   .table {
     padding: 25px 20px 0;
+
     :deep(.n-data-table-table) {
       background-color: rgba(27, 31, 75, 1);
+
       .n-data-table-thead {
         background-color: rgba(27, 31, 75, 1);
       }
     }
 
     // table的线
-    :deep(.n-data-table:not(.n-data-table--single-line) .n-data-table-th), :deep(.n-data-table:not(.n-data-table--single-line) .n-data-table-td) {
+    :deep(.n-data-table:not(.n-data-table--single-line) .n-data-table-th),
+    :deep(.n-data-table:not(.n-data-table--single-line) .n-data-table-td) {
       border-right: 1px solid #26294c !important;
     }
+
     // thead
     :deep(.n-data-table-thead > tr > th) {
       text-align: center;
@@ -642,10 +658,11 @@ const signInButton = () => {
       border-bottom: rgba(38, 41, 76, 1);
       background: #1B1F4B;
     }
+
     // tbody
     :deep(.n-data-table-base-table-body .n-scrollbar-container tbody td) {
       color: rgba(175, 186, 189, 1) !important;
-      border-bottom:1px solid #121336;
+      border-bottom: 1px solid #121336;
       background: #121336;
       text-align: center;
       text-align: -webkit-center;
@@ -656,6 +673,7 @@ const signInButton = () => {
     .yellowText {
       color: #FAC904 !important;
     }
+
     //
     //:deep(.n-data-table .n-data-table-tr.n-data-table-tr--striped.n-data-table-td ) {
     //  background-color: rgba(13, 14, 46, 1) !important;
