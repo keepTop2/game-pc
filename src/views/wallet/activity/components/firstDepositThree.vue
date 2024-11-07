@@ -51,7 +51,7 @@
                 </div>
               </div>
               <!--              <n-button :bordered="false" class="weal" @click="signInButton">{{t('first_deposit_receive')}}</n-button>-->
-              <n-button :bordered="false" class="weal" @click="signInButton">
+              <n-button :bordered="false" class="weal" @click="signInButton(item.id)">
                 <img src="/img/home/lock.webp" alt="">
               </n-button>
             </div>
@@ -175,12 +175,12 @@ const firstAmount = ref('0.00')
 
 const signIn_7 = reactive({
   data: [
-    { name: t('first_deposit_sign_in_1'), percent: 5, src: '/img/home/firstDeposit_1.webp' },
-    { name: t('first_deposit_sign_in_2'), percent: 10, src: '/img/home/firstDeposit_2.webp' },
-    { name: t('first_deposit_sign_in_3'), percent: 15, src: '/img/home/firstDeposit_3.webp' },
-    { name: t('first_deposit_sign_in_4'), percent: 30, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 100 },
-    { name: t('first_deposit_sign_in_5'), percent: 60, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 40 },
-    { name: t('first_deposit_sign_in_6'), percent: 80, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 0 },
+    { id: '1', name: t('first_deposit_sign_in_1'), percent: 5, src: '/img/home/firstDeposit_1.webp' },
+    { id: '2', name: t('first_deposit_sign_in_2'), percent: 10, src: '/img/home/firstDeposit_2.webp' },
+    { id: '3', name: t('first_deposit_sign_in_3'), percent: 15, src: '/img/home/firstDeposit_3.webp' },
+    { id: '4', name: t('first_deposit_sign_in_4'), percent: 30, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 100 },
+    { id: '5', name: t('first_deposit_sign_in_5'), percent: 60, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 40 },
+    { id: '6', name: t('first_deposit_sign_in_6'), percent: 80, src: '/img/home/firstDeposit_last.webp', water: true, waterNum: 0 },
   ]
 })
 
@@ -315,14 +315,32 @@ const table = reactive({
   },
 })
 
-const signInButton = () => {
-  console.log('signInButton');
+const signInButton = (id: string) => {
+  let content = ''
+  if(id==='1'){
+    content = '立即获得奖励，快去领取吧！'
+  }
+  if(id==='2'){
+    content = '关注Telegram和Facebook官方号，可获得丰厚奖励， 快去联系客服领取吧！'
+  }
+  if(id==='3'){
+    content = '邀请一位好友并完成首充，即可获得丰厚奖励！'
+  }
+  if(id==='4'){
+    content = '流水达到充值金额的10倍，就可额外获得 充值金额的30%， 快去游戏吧！'
+  }
+  if(id==='5'){
+    content = '流水达到充值金额的25倍，就可额外获得 充值金额60%， 快去游戏吧！'
+  }
+  if(id==='6'){
+    content = '流水达到充值金额的50倍，就可额外获得 充值金额的80%， 快去游戏吧！'
+  }
   Dialog.warning({
     showIcon: false,
     title: t('activity_page_tip'),
-    content: '关注Telegram和Facebook官方号，可获得丰厚奖励， 快去联系客服领取吧！',
-    positiveText: t('home_page_confirm'),
-    negativeText: t('home_page_cancel'),
+    content,
+    positiveText: t('activity_page_knowed'),
+    // negativeText: t('home_page_cancel'),
     onPositiveClick: async () => {
 
     },
