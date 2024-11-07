@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class="amount-options">
-          <p class="get-details">领取详情</p>
-          <n-button class="start-btn recommend-btn" :bordered="false" @click="signInButton">前往推荐</n-button>
+          <!-- <p class="get-details">领取详情</p>  -->
+          <!-- <n-button class="start-btn recommend-btn" :bordered="false" @click="signInButton">前往推荐</n-button>   -->
           <n-button class="start-btn" :bordered="false" @click="signInButton">开启奖金</n-button>
         </div>
       </div>
