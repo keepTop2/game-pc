@@ -37,7 +37,7 @@
       <div class="title">Activity content</div>
       <div class="content-list">
         <div class="day" v-for="(item, index) in signIn_7.data" :key="index">
-          <div class="now_get">
+          <div class="now_get" @click="signInButton(item.id)">
             <p>{{ item.name }}</p>
             <Imgt class="question" src="/img/home/question_icon.webp" alt="" />
           </div>
@@ -486,8 +486,7 @@ const signInButton = (id: string) => {
           width: 100%;
           height: 32px;
           padding: 0 6px;
-
-          //cursor: pointer;
+          cursor: pointer;
           p {
             margin: 0 6px 0 0;
 
