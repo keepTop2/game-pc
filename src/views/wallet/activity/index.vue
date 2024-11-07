@@ -96,7 +96,7 @@ const state: any = reactive({
   active: 0,
   name: "home_page_all",
   link: "",
-  showModal: true,
+  showModal: false,
   detailImg: null,
   arr: [
     {
